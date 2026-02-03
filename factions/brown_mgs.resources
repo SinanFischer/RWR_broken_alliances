@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<weapon key='pkm.weapon' />
+	<weapon key='rpk74m.weapon' />
+	<weapon key='pecheneg_bullpup.weapon' />
+	<weapon key='mg_resource.weapon' />
+</resources>
