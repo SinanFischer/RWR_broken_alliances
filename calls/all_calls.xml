@@ -22,6 +22,4 @@
 	<call file="minig_drop.call" />
 	<call file="mg_drop.call" />
 	<call file="mines.call" />
-	<call file="bomb.call" />
-	<call file="artillery2.call" />
 </calls>

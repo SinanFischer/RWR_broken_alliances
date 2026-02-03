@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<call 	name="minefield drop (1x8)" key="mines.call"
-	initiation_comment1="Requesting minefield support."
-	acknowledge_comment="Copy, wait six."
-	launch_comment="Mine field dropping on location">
+<call name="AP minefield drop (1x12)" key="mines.call"
+      initiation_comment1="Requesting anti-personnel minefield."
+      acknowledge_comment="Copy, wait six."
+      launch_comment="AP mines dropping on location">
 
-    <round instances="6"
+    <round instances="12"
            instance_class="grenade"
-		   instance_key="at_mine.projectile" 
-           instance_spread="10 10 10" 
+           instance_key="ap_mine.projectile" 
+           instance_spread="12 12 12" 
            common_spread="0 0 0" 
-           launch_time="15.0"
-           spawn_time="9.0">
+           launch_time="3.0"
+           spawn_time="8.0"
+           vertical_offset_at_spawn="40.0">
 
         <effect class="launch" ref="ShadowAirplaneFlyby" shadow="1" />
         <sound class="launch" fileref="plane_flyby.wav" />
-		<sound class="spawn" fileref="woosh1.wav" volume="0.2" />
+        <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <hud_icon filename="hud_at_mine.png" />
+    <hud_icon filename="hud_claymore.png" />
     <capacity value="0" source="rank" source_value="0.0" />
-    <capacity value="100" source="rank" source_value="0.62" />
-    <inventory encumbrance="0.0" price="130.0" />
+    <capacity value="100" source="rank" source_value="0.0" />
+    <inventory encumbrance="0.0" price="200.0" />
 
 </call>
