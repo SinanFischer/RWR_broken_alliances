@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<reward_config>
+	<reward class="enemy_shot" 					base="+0.0062"				type="xp" />
+	<reward class="enemy_killed_in_explosion" 	base="+0.0025"				type="xp" />
+	<reward class="enemy_stabbed" 				base="+0.0058"				type="xp" />
+	<reward class="enemy_kill_combo" 			base="+0.0005" 		   		type="xp" />
+
+	<reward class="enemy_shot" 					base="20" 				type="rp" />
+	<reward class="enemy_killed_in_explosion"	base="10"				type="rp" />
+	<reward class="enemy_stabbed" 				base="20" 				type="rp" />
+	<reward class="enemy_kill_combo" 			base="1"				type="rp" />
+	
+	<reward class="self_killed" 				base="-0.0010"			type="xp" />
+
+	<reward class="fellow_killed_in_explosion" 		base="-0.0008"		type="xp" />
+	<reward class="fellow_killed_in_explosion" 		base="-50" 			type="rp" />
+
+	<reward class="fellow_unwound" 				base="+0.007"			type="xp" />
+	<reward class="fellow_unwound" 				base="+42"				type="rp" />  
+
+	<reward class="staying_alive" 				base="32" 				type="rp" />
+
+	<reward class="base_capture" 				base="300" 				type="rp" />
+	<reward class="base_capture" 				base="+0.0088" 			type="xp" />
+
+	<reward class="side_base_capture" 			base="250" 				type="rp" />
+	<reward class="side_base_capture" 			base="+0.012" 			type="xp" />
+
+	<reward class="spotting" 					base="20"				type="rp" />
+	<reward class="promotion" 					base="150" 				type="rp" />
+
+	<reward class="enemy_player_shot" 			base="42" 				type="rp" />
+	<reward class="enemy_player_stabbed" 			base="67" 			type="rp" />
+	<reward class="enemy_player_killed_in_explosion" 	base="18" 		type="rp" />
+
+	<reward class="repair" 				base="+0.0070" 	bonus="0.0010" 	type="xp" />
+	<reward class="repair_coop" 				base="+0.0010" 	bonus="0.0010" 	type="xp" />  
+	<reward class="repair_coop" 				base="+1" 	bonus="1.0" 	type="rp" />  
+
+</reward_config>

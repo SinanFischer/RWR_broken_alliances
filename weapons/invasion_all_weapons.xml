@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapons>
+	<weapon file="all_weapons.xml" />
+  <weapon file="tank2_cannon.weapon" />
+  <weapon file="tank2_mg.weapon" />
+  <weapon file="tank2_missile_launcher.weapon" />
+</weapons>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<call name="spawn armory" key="armory.call"
+      initiation_comment1="Requesting field armory deployment"
+      acknowledge_comment="Confirmed, field armory enroute"
+      launch_comment="Armory dropping now">
+
+    <round instances="1"
+           instance_class="vehicle"
+           instance_key="mobile_armory.vehicle" 
+           instance_spread="0 0 0" 
+           common_spread="0 0 0" 
+           launch_time="18.0"
+           spawn_time="20.0"
+           horizontal_offset_at_spawn="0.0"
+           vertical_offset_at_spawn="50.0"
+           initial_speed_to_target="0.0">
+        <effect class="launch" ref="ShadowAirplaneFlyby" shadow="1" />
+        <sound class="launch" fileref="plane_flyby.wav" />
+    </round>
+
+    <hud_icon filename="hud_paratroopers1.png" />
+    <capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="100" source="rank" source_value="0.82" />
+    <inventory encumbrance="0.0" price="510.0" />
+
+</call>

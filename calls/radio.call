@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<call name="drop Rader tower" key="radio.call"
+      initiation_comment1="Requesting Kinetic strike! (Caution! ALL COMNET will be shut down!)"
+      acknowledge_comment="Confirmed. Hypervelocity Rod Bundles is now online."
+      launch_comment="ETA 5 SIERRA.... May the gods be with you, Colonel.">
+
+    <round instances="5"
+           instance_class="grenade"
+           instance_key="railway_artillery_shell.projectile" 
+           instance_spread="0 0 0" 
+           common_spread="0 0 0" 
+           launch_time="3.0"
+           spawn_time="5.0">
+     <sound class="launch" fileref="railway_barrage_distant.wav" volume="5.1" />   	
+    </round>
+
+    <round instances="1"
+           instance_class="vehicle"
+           instance_key="radar_towera.vehicle" 
+          instance_spread="0 0 0" 
+           common_spread="0 0 0" 
+           launch_time="3.01"
+           spawn_time="5.01"
+           horizontal_offset_at_spawn="0.0"
+           vertical_offset_at_spawn="0.0"
+           initial_speed_to_target="0.0">
+    </round>
+
+    <round instances="4000"
+           instance_class="grenade"
+           instance_key="flame.projectile" 
+           instance_spread="100 0 100" 
+           common_spread="0 0 0" 
+           launch_time="3.03"
+           spawn_time="5.03">
+    </round>
+
+    <round instances="5"
+           instance_class="grenade"
+           instance_key="railway_artillery_shell.projectile" 
+           instance_spread="0 0 0" 
+           common_spread="0 0 0" 
+           launch_time="10.0"
+           spawn_time="12.0">
+     <sound class="launch" fileref="railway_barrage_distant.wav" volume="5.1" />   	
+    </round>
+
+    <round instances="3"
+           instance_class="vehicle"
+           instance_key="radar_towera.vehicle" 
+          instance_spread="0 0 0" 
+           common_spread="0 0 0" 
+           launch_time="10.01"
+           spawn_time="12.01"
+           horizontal_offset_at_spawn="0.0"
+           vertical_offset_at_spawn="0.0"
+           initial_speed_to_target="0.0">
+    </round>
+
+    <round instances="5000"
+           instance_class="grenade"
+           instance_key="flame.projectile" 
+           instance_spread="120 0 120" 
+           common_spread="0 0 0" 
+           launch_time="10.03"
+           spawn_time="12.03">
+    </round>
+
+
+    <hud_icon filename="satellite.png" />
+    <capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="100" source="rank" source_value="2.0" />
+    <inventory encumbrance="0.0" price="1200.0" />
+
+</call>

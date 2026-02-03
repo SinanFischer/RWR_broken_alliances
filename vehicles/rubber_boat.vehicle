@@ -1,0 +1,44 @@
+<vehicle name="Rubber boat" key="rubber_boat.vehicle" map_view_atlas_index="4">
+	<tag name="vehicle" />
+	<tire_set offset="0.85 0.0 1.55" radius="0.4" />
+	<tire_set offset="0.85 0.0 -1.55" radius="0.4" />
+
+	<control max_speed="50.0" acceleration="10.0" max_reverse_speed="5.0" max_rotation="1.628" max_water_depth="0.3" can_steer_in_water="1" can_steer_on_ground="0" gears="1" />
+
+	<physics max_health="0.75" mass="1.0" extent="1.87 0.0 3.41" offset="0 0.2 0" collision_model_pos="0 0.5 0" collision_model_extent="3.2 1.0 4.3" visual_offset="0 0.7 -1.2" /> 
+
+	<turret offset="0 1.5 1.8" weapon_key="deployable_mg.weapon" weapon_offset="0.0 -0.0 0.0" weapon_recoil="0.02" physics_recoil="0.0"  max_rotation_step="0.00015" rotation="0" rotation_range="1.37" />
+
+	<visual class="chassis" mesh_filename="rubber_boat.mesh" texture_filename="rubber_boat.png" />
+	<visual class="chassis" key="broken" mesh_filename="rubber_boat_broken.mesh" texture_filename="rubber_boat_broken.png" />
+
+	<character_slot type="driver" position="0.6 0.5 -1.5" rotation="-0.785" exit_rotation="1.57" hiding="0" animation_id="47" />
+
+  <character_slot type="gunner" attached_on_turret="0" seat_position="0.0 -1.5 -0.9" enter_position="0 0 1.5" rotation="0" exit_rotation="-1.57" hiding="0" animation_key="tank mg still">
+	<turret index="0" />
+	</character_slot>
+
+	<character_slot type="passenger" position="-0.47 0.5 -1.5" rotation="-1.57" exit_rotation="-1.57" hiding="0" animation_id="48" />
+
+	<character_slot type="passenger" position="0.425 0.55 0" rotation="1.0" exit_rotation="1.57" hiding="0" animation_id="48" />
+	<character_slot type="passenger" position="-0.425 0.55 0" rotation="-1.0" exit_rotation="-1.57" hiding="0" animation_id="48" />
+
+	<!-- sound handling -->
+	<rev_sound filename="jeep2_rev0.wav" low_pitch="0.8" high_pitch="1.0" low_rev="0.0" high_rev="0.15" volume="0.6" />
+	<rev_sound filename="jeep2_rev3.wav" low_pitch="0.6" high_pitch="1.7" low_rev="0.08" high_rev="1.0" volume="0.6" />
+	<sound key="ignition" filename="jeep2_ignition.wav" />
+	<sound key="hit" filename="rubber_boat_hit1.wav" /> 
+  <sound key="hit" filename="rubber_boat_hit2.wav" />  
+  <sound key="hit" filename="rubber_boat_hit3.wav" />  
+  
+
+	<event key="receive_damage_xp_reward">
+		<trigger class="receive_damage" />
+		<result class="reward" xp="0.0010" />
+	</event>
+  
+	<event key="spot_rp_reward">
+		<trigger class="spot" />
+		<result class="reward" rp="10.0" />
+	</event>
+</vehicle>

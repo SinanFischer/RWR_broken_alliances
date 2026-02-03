@@ -1,0 +1,24 @@
+<vehicles>
+	<!-- if you add something here, remember to add it in common.resources too! -->
+
+<vehicle filename="special_crate_base.vehicle" key="special_crate6.vehicle">
+	<event>
+		<trigger class="destroy" />		
+		<result class="spawn" instance_class="weapon" instance_key="desert_eagle_gold.weapon" min_amount="1" max_amount="1" offset="0 1.0 0" position_spread="0 0" direction_spread="0.04 0.2" /> 
+	</event>
+</vehicle>
+
+<vehicle filename="special_crate_base.vehicle" key="special_crate7.vehicle">
+	<event>
+		<trigger class="destroy" />		
+		<result class="spawn" instance_class="weapon" instance_key="musket.weapon" min_amount="1" max_amount="1" offset="0 1.0 0" position_spread="0 0" direction_spread="0.04 0.2" /> 
+	</event>
+</vehicle>
+
+<!-- placeholders -->
+
+<vehicle filename="special_crate_base.vehicle" key="special_crate8.vehicle" />
+<vehicle filename="special_crate_base.vehicle" key="special_crate9.vehicle" />
+<vehicle filename="special_crate_base.vehicle" key="special_crate10.vehicle" />
+
+</vehicles>

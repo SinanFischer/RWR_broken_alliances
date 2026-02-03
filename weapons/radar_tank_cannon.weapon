@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon key="radar_tank_cannon.weapon">
+    <specification retrigger_time="0.3" 
+    accuracy_factor="0.90" 
+    sustained_fire_grow_step="0.8" 
+    sustained_fire_diminish_rate="0.8" 
+    magazine_size="-1" 
+    can_shoot_standing="0" 
+    can_shoot_crouching="0" 
+    suppressed="0" 
+    name="D40mm-Flak" 
+    class="0" 
+    projectile_speed="100.0" 
+    slot="2" 
+    barrel_offset="2.2" 
+    projectiles_per_shot="2" />
+    <model mesh_filename="vulcan_radar_cannon.mesh" texture_filename="vulcan_radar_turret.png" />
+    <hud_icon filename="hud_tank_mg.png" />
+    <commonness value="0.0" />
+    <projectile file="radar_tank_hmg.projectile" />
+
+    <effect class="muzzle" ref="BiggerMuzzle" />
+
+    <sound class="operation" key="fire" fileref="radar_tank_shot.wav" />
+
+</weapon>

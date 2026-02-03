@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<projectiles>
+	<projectile file="stun_grenade.projectile" />
+	<projectile file="hand_grenade.projectile" />
+
+	<!-- rather awkward place for this definition, but for now, that's the way it is -->
+	<!-- projectile itself defines its slot, 0 being actual throwables that can also equipped, thrown, bought and found -->
+	<!-- mortar shell is in slot 2 -->
+	<projectile file="mortar_shell.projectile" />
+
+	<projectile file="impact_grenade.projectile" />
+	<projectile file="c4.projectile" />
+
+	<projectile file="heavy_mortar_shell.projectile" />
+	<projectile file="heavy_artillery_shell.projectile" />
+	<projectile file="railway_artillery_shell.projectile" />
+	<projectile file="railway_artillery_shell_dummy.projectile" />
+
+
+	<projectile file="artillery_shell.projectile" />
+	<projectile file="bomb1.projectile" />
+
+<!--
+	<projectile file="at_mine.projectile" />
+-->
+
+	<projectile file="flare.projectile" />
+	<projectile file="claymore_blast.projectile" />   
+	<projectile file="claymore.projectile" />   
+ 
+
+        <projectile file="naval_mine.projectile" />  
+ 	<projectile file="flare_checkpoint.projectile" />
+  <projectile file="debri_stun.projectile" />
+  <projectile file="debri_stun_medium.projectile" />  
+  <projectile file="debri_stun_big.projectile" />
+  <projectile file="debri_destroy_big.projectile" />  
+  <projectile file="debri_destroy_small.projectile" />    
+
+  <projectile file="tracer_missile.projectile" />
+  <projectile file="wiesel_flare.projectile" />
+
+  <projectile file="banana_car_flare.projectile" />
+  <projectile file="aav7_flare.projectile" />
+  <projectile file="banana_peel.projectile" />
+  <projectile file="javelin_ap_sub.projectile" />
+  <projectile file="dooms_hammer.projectile" />
+  <projectile file="guntruck_flare.projectile" />
+  <projectile file="vulcan_acav_flare.projectile" />
+  <projectile file="30mm.projectile" />
+  <projectile file="30mm_blast.projectile" />
+  <projectile file="a10_warthog_shadow.projectile" />
+  <projectile file="dragons_breath.projectile" />
+  <projectile file="hornet.projectile" />
+  <projectile file="shuriken.projectile" />
+  <projectile file="icecream.projectile" />
+
+  <projectile file="emp_blast.projectile" />
+
+  <projectile file="zjx19_flare.projectile" />
+
+  <projectile file="tracer_dart_blast.projectile" />
+  <projectile file="acid_explosion_stun.projectile" />
+  <projectile file="blood_explosion_stun.projectile" />
+  <projectile file="kunai.projectile" />
+  <projectile file="balloon.projectile" />
+  <projectile file="stim.projectile"/>
+  <projectile file="stim_open.projectile"/>
+  <projectile file="noxe.projectile" />
+  <projectile file="squad_equipment_kit.projectile" />
+  <projectile file="cluster_bomb.projectile" />
+  <projectile file="cluster_bomb_sub.projectile" />
+  <projectile file="cluster_bomb_sub_blast.projectile" />
+  <projectile file="chicken.projectile" />
+  <projectile file="m528_flare.projectile" />
+  <projectile file="noxe_flare.projectile" />
+  <projectile file="flamer_tank_flare.projectile" />
+  <projectile file="sev90_flare.projectile" />
+  <projectile file="m528_apj_sub.projectile" />
+  <projectile file="gunship_25mm.projectile" />
+  <projectile file="gunship_25mm_blast.projectile" />
+  <projectile file="gunship_40mm.projectile" />
+  <projectile file="gunship_40mm_blast.projectile" />
+  <projectile file="gunship_105mm.projectile" />
+  <projectile file="gunship_105mm_blast.projectile" />
+
+
+
+<!-- 1.96 emoticons -->  
+
+  <projectile file="emoticon_heart.projectile" /> 
+  <projectile file="emoticon_smiley_green.projectile" /> 
+  <projectile file="emoticon_angry_green.projectile" /> 
+  <projectile file="emoticon_thanks_green.projectile" /> 
+  <projectile file="emoticon_facepalm_green.projectile" /> 
+  <projectile file="emoticon_thumbup_green.projectile" /> 
+  <projectile file="emoticon_sorry_green.projectile" /> 
+  <projectile file="emoticon_help_green.projectile" /> 
+  <projectile file="emoticon_wtf_green.projectile" /> 
+  <projectile file="emoticon_beer_green.projectile" />   
+  <projectile file="emoticon_smiley_gray.projectile" /> 
+  <projectile file="emoticon_angry_gray.projectile" /> 
+  <projectile file="emoticon_thanks_gray.projectile" /> 
+  <projectile file="emoticon_facepalm_gray.projectile" /> 
+  <projectile file="emoticon_thumbup_gray.projectile" /> 
+  <projectile file="emoticon_sorry_gray.projectile" /> 
+  <projectile file="emoticon_help_gray.projectile" /> 
+  <projectile file="emoticon_wtf_gray.projectile" /> 
+  <projectile file="emoticon_beer_gray.projectile" />     
+  <projectile file="emoticon_smiley_brown.projectile" /> 
+  <projectile file="emoticon_angry_brown.projectile" /> 
+  <projectile file="emoticon_thanks_brown.projectile" /> 
+  <projectile file="emoticon_facepalm_brown.projectile" /> 
+  <projectile file="emoticon_thumbup_brown.projectile" /> 
+  <projectile file="emoticon_sorry_brown.projectile" /> 
+  <projectile file="emoticon_help_brown.projectile" /> 
+  <projectile file="emoticon_wtf_brown.projectile" /> 
+  <projectile file="emoticon_beer_brown.projectile" />   
+  
+
+</projectiles>

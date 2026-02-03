@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon file="base_secondary_sidearm.weapon" key="p90.weapon" time_to_live_out_in_the_open="20.0">
+    <tag name="cqb" />
+    <specification retrigger_time="0.070" 
+    accuracy_factor="0.991" 
+    sustained_fire_grow_step="0.58" 
+    sustained_fire_diminish_rate="2.5" 
+    magazine_size="60" 
+    can_shoot_standing="1" 
+    suppressed="0" 
+    name="P90" 
+    class="0" 
+    slot="1"
+	sight_range_modifier="1.1"
+    projectile_speed="96.0" />
+    <animation key="recoil" ref="12" />
+    <animation key="recoil" ref="13" />
+    <animation key="recoil" ref="14" />
+    <animation state_key="reload" animation_key="reloading, p90" />
+    <sound key="fire" fileref="p90_shot.wav" pitch_variety="0.05" volume="0.5" />
+    <sound key="magazine_out" fileref="rifle_clip_out.wav" />
+    <sound key="magazine_in" fileref="rifle_clip_in.wav" />
+    <sound key="cycle" fileref="rifle_chamber.wav" />
+    <sound class="impact" fileref="rifle_drop.wav" />
+    <model filename="p90.xml" />
+
+    <hud_icon filename="hud_p90.png" />
+    <commonness value="0.0" can_respawn_with="1" in_stock="1" />
+    <inventory encumbrance="2.0" price="400.0" />
+	
+	<capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="1" source="rank" source_value="1.4" />
+
+    <projectile file="bullet.projectile">
+        <result class="hit" kill_probability="0.52" 
+        kill_decay_start_time="0.3" 
+        kill_decay_end_time="0.51" />
+    </projectile>
+	
+    <stance state_key="running" accuracy="0.69" />
+    <stance state_key="walking" accuracy="0.715" />
+    <stance state_key="crouch_moving" accuracy="0.76" />
+    <stance state_key="prone_moving" accuracy="0.5" />
+
+    <stance state_key="standing" accuracy="0.77" />
+    <stance state_key="crouching" accuracy="0.82" />
+    <stance state_key="prone" accuracy="0.95" />
+</weapon>

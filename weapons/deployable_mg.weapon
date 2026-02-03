@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon key="deployable_mg.weapon">
+    <specification retrigger_time="0.122" 
+    accuracy_factor="0.92" 
+    sustained_fire_grow_step="0.8" 
+    sustained_fire_diminish_rate="0.8" 
+    sight_range_modifier="1.15" 
+    magazine_size="-1" 
+    can_shoot_standing="0" 
+    can_shoot_crouching="0" 
+    suppressed="0" 
+    name="MG" 
+    class="0" 
+    projectile_speed="105.0" 
+    slot="2" 
+    barrel_offset="1.0" 
+    projectiles_per_shot="1" 
+    sight_height_offset="2.0" />
+	
+	<capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="1" source="rank" source_value="0.08" />
+
+    <model mesh_filename="deployable_mg.mesh" texture_filename="deployable_mg.png" />
+    <hud_icon filename="hud_deployable_mg.png" />
+    <commonness value="0.0" can_respawn_with="0" />
+    <inventory encumbrance="5.0" price="35.0" />    
+  
+    <projectile file="bullet.projectile">
+        <result class="hit" kill_probability="0.5" kill_decay_start_time="0.41" kill_decay_end_time="0.71" />
+    </projectile>
+
+    <effect class="muzzle" ref="BigMuzzle" />
+
+    <sound class="operation" key="fire" fileref="mounted_mg_shot.wav" volume="0.7" />
+    
+<!-- mid plate -->    
+    <shield offset="-0.1 -0.3 0" extent="0.2 0.3 0.3" />
+<!-- front-L plate -->    
+    <shield offset="0.1 0 0.25" extent="0.2 0.3 0.3" /> 
+<!-- front-R plate -->    
+    <shield offset="0.1 0 -0.25" extent="0.2 0.3 0.3" />        
+
+</weapon>

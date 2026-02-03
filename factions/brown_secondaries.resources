@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<weapon key='rpg-7.weapon' />
+  	<weapon key='pb.weapon' /> 
+	<weapon key='qcw-05.weapon' />
+  	<weapon key='p90.weapon' />
+	<weapon key='kriss_vector.weapon' />
+	<weapon key='aek_919k.weapon' />   
+          <weapon key='sawnoff.weapon' />   
+          <weapon key='mgl_flasher.weapon' />   
+	<weapon key='mp7.weapon' />   
+	<weapon key='wrench.weapon' />   
+
+
+
+</resources>

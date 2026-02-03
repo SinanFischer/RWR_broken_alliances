@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<call name="tow drop" key="tow_drop.call"
+      initiation_comment1="I need a TOW emplacement"
+      acknowledge_comment="Confirmed, TOW enroute"
+	  acknowledge_time="1.4"
+      launch_comment="TOW emplacement dropping now">
+
+    <round instances="1"
+           instance_class="weapon"
+           instance_key="tow_resource.weapon" 
+           instance_spread="0.5 0.5 0.5" 
+           common_spread="0 0 0" 
+           launch_time="3.0"
+           spawn_time="5.0">
+		   
+	   <effect class="launch" ref="ShadowAirplaneFlyby" shadow="1" />
+	   <sound class="launch" fileref="plane_flyby.wav" />
+	   <sound class="spawn" fileref="woosh1.wav" volume="0.07" />
+    </round>
+
+    <hud_icon filename="hud_tow2.png" />
+    <capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="100" source="rank" source_value="0.475" />
+    <inventory encumbrance="0.0" price="82.0" />
+
+</call>

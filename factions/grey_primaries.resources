@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<weapon key='g36.weapon' />
+	<weapon key='imi_negev.weapon' />
+	<weapon key='mg4.weapon' />
+	<weapon key='psg90.weapon' />
+	<weapon key='hk416.weapon' />
+	<weapon key='caws.weapon' />
+	<weapon key='scarssr.weapon' />
+	<weapon key='steyr_aug.weapon' />
+	<weapon key='apr.weapon' />   
+	<weapon key='g28.weapon' />
+
+	<weapon key="flamethrower.weapon" />
+
+	<weapon key='spas-12.weapon' />
+
+	<weapon key='famasg1.weapon' />
+
+</resources>

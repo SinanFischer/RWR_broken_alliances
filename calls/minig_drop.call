@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<call name="minigun emplacement drop" key="minig_drop.call"
+      initiation_comment1="I need a minigun emplacement"
+      acknowledge_comment="Confirmed, minigun enroute"
+      launch_comment="minigun emplacement dropping now">
+
+    <round instances="1"
+           instance_class="weapon"
+           instance_key="minig_resource.weapon" 
+           instance_spread="0.5 0.5 0.5" 
+           common_spread="0 0 0" 
+           launch_time="1.0"
+           spawn_time="5.0">
+		   
+	   <effect class="launch" ref="ShadowAirplaneFlyby" shadow="1" />
+	   <sound class="launch" fileref="plane_flyby.wav" />
+	   <sound class="spawn" fileref="woosh1.wav" volume="0.07" />
+    </round>
+
+    <hud_icon filename="hud_deployable_mg.png" />
+    <capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="100" source="rank" source_value="1.28" />
+    <inventory encumbrance="0.0" price="97.0" />
+
+</call>

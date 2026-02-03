@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon key="tow.weapon">
+    <specification retrigger_time="5.1" 
+    accuracy_factor="0.82" 
+    sustained_fire_grow_step="0.8" 
+    sustained_fire_diminish_rate="0.8" 
+    sight_range_modifier="1.5" 
+    magazine_size="-1" 
+    can_shoot_standing="0" 
+    can_shoot_crouching="0" 
+    suppressed="0" 
+    name="Tank cannon" 
+    class="0" 
+    projectile_speed="55.0" 
+    slot="2" 
+    barrel_offset="1.7" 
+    projectiles_per_shot="1"
+    sight_height_offset="2.0" />
+    
+    <model mesh_filename="tow_cannon.mesh" 
+    texture_filename="tow.png" />
+    <hud_icon filename="hud_tow.png" />
+    <commonness value="0.0" />
+    <projectile file="tow.projectile" />
+
+    <effect class="muzzle" ref="BiggerMuzzle" />
+    <effect class="muzzle" ref="CannonSmokeBig" /> 
+    <effect class="muzzle" ref="CannonSmokeBigSphere" />     
+
+    <sound class="operation" key="fire" fileref="tow_shot.wav" />
+
+</weapon>

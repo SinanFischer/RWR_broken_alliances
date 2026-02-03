@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<call name="20 paratroopers" key="paratroopers4.call"
+	initiation_comment1="Reinforcements"
+	initiation_comment2="airbone company"
+	acknowledge_comment="Roger, reinforcements enroute"
+	launch_comment="ETA 8 Sierra. good luck, soldiers.">
+
+    <round instances="10"
+           instance_class="soldier"
+	   instance_key="default"
+           instance_spread="15 15 15" 
+           common_spread="0 0 0" 
+           launch_time="8.0"
+           spawn_time="11.0">
+
+        <effect class="launch" ref="ShadowAirplaneFlyby" shadow="1" />
+        <sound class="launch" fileref="plane_flyby.wav" />
+		
+    </round>
+
+    <round instances="5"
+           instance_class="soldier"
+	   instance_key="default"
+           instance_spread="10 15 10" 
+           common_spread="0 0 2" 
+           launch_time="10.0"
+           spawn_time="12.0">
+    </round>
+
+    <round instances="5"
+           instance_class="soldier"
+	   instance_key="medic"
+           instance_spread="10 15 10" 
+           common_spread="2 0 0" 
+           launch_time="13.0"
+           spawn_time="14.0">
+
+        <effect class="launch" ref="ShadowAirplaneFlyby" shadow="1" />
+        <sound class="launch" fileref="plane_flyby.wav" />
+
+    </round>
+
+    <round instances="2"
+           instance_class="soldier"
+	   instance_key="specialforces"
+           instance_spread="8 5 8" 
+           common_spread="0 0 0" 
+           launch_time="16.5"
+           spawn_time="17.5">
+
+</round>
+
+    <round instances="1"
+           instance_class="soldier"
+	   instance_key="miniboss"
+           instance_spread="8 5 8" 
+           common_spread="0 0 0" 
+           launch_time="17.6"
+           spawn_time="18.6">
+
+</round>
+
+    <round instances="2"
+           instance_class="soldier"
+	   instance_key="eod"
+           instance_spread="10 5 10" 
+           common_spread="0 0 0" 
+           launch_time="17.7"
+           spawn_time="18.7">
+
+</round>
+
+    <hud_icon filename="hud_paratroopers3.png" />
+    <capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="100" source="rank" source_value="1.0" />
+    <inventory encumbrance="0.0" price="400.0" />
+
+</call>

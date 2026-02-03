@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<carry_items>
+    <carry_item key="sf_suit.carry_item" name="Vest, type IV" slot="1" transform_on_consume="vest3_2" time_to_live_out_in_the_open="300.0">
+        <hud_icon filename="hud_vest.png" />
+        <capacity value="0" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1.0" />
+        <inventory encumbrance="3" price="76" />
+
+        <model mesh_filename="vest_black.xml" />
+
+        <commonness value="0.02" in_stock="0" can_respawn_with="1" />
+
+	<!-- death or wound or stun -> no effect -->
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="stun" />
+<!--        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="stun" />   -->
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="speed" value="+0.04" /> 
+         <modifier class="hit_success_probability" value="-0.08" />        
+      	<modifier class="night_detectability" value="-0.25" />
+    </carry_item>
+
+    <carry_item key="vest3_2" name="Vest, type IV, 80%" slot="1" transform_on_consume="vest3_3" time_to_live_out_in_the_open="280.0">
+        <hud_icon filename="hud_vest.png" />
+        <capacity value="0" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="0.1" />
+        <inventory encumbrance="3" price="34" />
+
+        <model mesh_filename="vest_black.xml" />
+
+        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+
+	<!-- death or wound -> stun only -->
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="stun" />
+<!--        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="stun" />  -->
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="speed" value="+0.04" /> 
+         <modifier class="hit_success_probability" value="-0.08" />        
+      	<modifier class="night_detectability" value="-0.25" />
+    </carry_item>
+
+    <carry_item key="vest3_3" name="Vest, type IV, 70%" slot="1" transform_on_consume="vest3_4" time_to_live_out_in_the_open="260.0">
+        <hud_icon filename="hud_vest_hole1.png" />
+        <capacity value="0" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="0.1" />
+        <inventory encumbrance="3" price="27" />
+
+        <model mesh_filename="vest_black.xml" />
+
+        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+
+	<!-- death or wound -> stun only -->
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="stun" />
+<!--        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="stun" />  -->
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="speed" value="+0.04" /> 
+         <modifier class="hit_success_probability" value="-0.08" />        
+      	<modifier class="night_detectability" value="-0.25" />
+
+    </carry_item>
+
+    <carry_item key="vest3_4" name="Vest, type IV, 60%" slot="1" transform_on_consume="vest3_5" time_to_live_out_in_the_open="240.0">
+        <hud_icon filename="hud_vest_hole1.png" />
+        <capacity value="0" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="0.1" />
+        <inventory encumbrance="3" price="27" />
+
+        <model mesh_filename="vest_black.xml" />
+
+        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+
+	<!-- death or wound -> stun only -->
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="stun" />
+<!--        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="stun" />  -->
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="speed" value="+0.04" /> 
+         <modifier class="hit_success_probability" value="-0.08" />        
+      	<modifier class="night_detectability" value="-0.25" />
+
+    </carry_item>
+
+
+    <carry_item key="vest3_5" name="Vest, type IV, 50%" slot="1" transform_on_consume="vest3_6" time_to_live_out_in_the_open="220.0">
+        <hud_icon filename="hud_vest_hole1.png" />
+        <capacity value="0" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="0.1" />
+        <inventory encumbrance="3" price="27" />
+
+        <model mesh_filename="vest_black.xml" />
+
+        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+
+	<!-- death or wound -> stun only -->
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="stun" />
+<!--        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="stun" />  -->
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="speed" value="+0.04" /> 
+         <modifier class="hit_success_probability" value="-0.08" />        
+      	<modifier class="night_detectability" value="-0.25" />
+
+    </carry_item>
+	
+    <carry_item key="vest3_6" name="Vest, type IV, 40%" slot="1" transform_on_consume="vest3_7" time_to_live_out_in_the_open="200.0">
+        <hud_icon filename="hud_vest_hole1.png" />
+        <capacity value="0" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="0.1" />
+        <inventory encumbrance="3" price="21" />
+
+        <model mesh_filename="vest_black.xml" />
+
+        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+
+	<!-- death or wound -> stun only -->
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="stun" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="stun" />
+	<!-- melee_hit goes right through, and doesn't consume -->
+        <modifier class="speed" value="+0.04" /> 
+         <modifier class="hit_success_probability" value="-0.08" />        
+      	<modifier class="night_detectability" value="-0.25" />
+
+    </carry_item>
+
+
+    <carry_item key="vest3_7" name="Vest, type IV, 30%" slot="1" transform_on_consume="vest3_8" time_to_live_out_in_the_open="160.0">
+        <hud_icon filename="hud_vest_hole1.png" />
+        <capacity value="0" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="0.1" />
+        <inventory encumbrance="3" price="18" />
+
+        <model mesh_filename="vest_black.xml" />
+
+        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+
+	<!-- death or wound -> stun only -->
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="stun" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="stun" />
+	<!-- melee_hit goes right through, and doesn't consume -->
+        <modifier class="speed" value="+0.04" /> 
+         <modifier class="hit_success_probability" value="-0.08" />        
+      	<modifier class="night_detectability" value="-0.25" />
+
+    </carry_item>
+	
+    <carry_item key="vest3_8" name="Vest, type IV, 20%" slot="1" time_to_live_out_in_the_open="100.0">
+        <hud_icon filename="hud_vest_hole2.png" />
+        <capacity value="0" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="0.1" />
+        <inventory encumbrance="3" price="13" />
+
+        <model mesh_filename="vest_black.xml" />
+
+        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+
+	<!-- death or wound -> stun only -->
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="wound" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="wound" />
+	<!-- melee_hit goes right through, and doesn't consume -->
+
+        <modifier class="speed" value="+0.04" /> 
+         <modifier class="hit_success_probability" value="-0.08" />        
+      	<modifier class="night_detectability" value="-0.25" />
+
+
+    </carry_item>    
+</carry_items>

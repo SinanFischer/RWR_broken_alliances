@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon file="base_primary.weapon" key="sv98.weapon">
+    <tag name="sniper" />
+    <specification 
+  retrigger_time="1.48" 
+  accuracy_factor="1.0" 
+  sustained_fire_grow_step="2.5" 
+  sustained_fire_diminish_rate="1.0" 
+  magazine_size="10" 
+  can_shoot_standing="1" 
+  suppressed="0" 
+  name="SV-98" 
+  class="2" 
+  reload_one_at_a_time="0" 
+  sight_range_modifier="2.0" 
+  projectile_speed="185.0"
+  barrel_offset="0.5" 
+  projectiles_per_shot="1" /> <!--270-->
+
+    <animation key="recoil" ref="27" />
+    <animation key="cycle" ref="30" />
+    <animation key="reload" ref="35" />
+    <sound key="fire" fileref="r700.wav" volume="1.8" />
+    <sound key="cycle" fileref="sniper_cycle.wav" />
+    <sound key="magazine_out" fileref="sniper_clip_out.wav" />
+    <sound key="magazine_in" fileref="sniper_clip_in.wav" />
+    <sound key="cycle_out" fileref="sniper_cycle_out.wav" />
+    <sound key="cycle_in" fileref="sniper_cycle_in.wav" />
+    <sound class="impact" fileref="rifle_drop.wav" />
+    <model filename="sv98.xml" />
+
+    <hud_icon filename="hud_svdm.png" />
+    <commonness value="0.01" />
+    <inventory encumbrance="12.0" price="40.0" />
+
+    <projectiles_per_shot value="1" />
+    <weak_hand_hold offset="0.3" />
+    <projectile file="bullet.projectile">
+        <result class="hit" kill_probability="0.95" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
+    </projectile>
+
+    <stance state_key="running" accuracy="0.1" />
+    <stance state_key="walking" accuracy="0.4" />
+    <stance state_key="crouch_moving" accuracy="0.5" />
+    <stance state_key="prone_moving" accuracy="0.6" />
+
+    <stance state_key="standing" accuracy="0.95" />
+    <stance state_key="crouching" accuracy="0.95" />
+    <stance state_key="prone" accuracy="1.0" />
+
+    <modifier class="speed" value="-0.035" />
+</weapon>

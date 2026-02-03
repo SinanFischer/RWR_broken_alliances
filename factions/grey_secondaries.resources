@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<weapon key='m2_carlgustav.weapon' />
+	<weapon key='glock17.weapon' />
+	<weapon key='scorpion-evo.weapon' />
+	<weapon key='p90.weapon' />
+	<weapon key='kriss_vector.weapon' />
+	<weapon key='steyr_tmp.weapon' />  
+          <weapon key='sawnoff.weapon' />    
+          <weapon key='mgl_flasher.weapon' />  
+	<weapon key='mp7.weapon' />   
+	<weapon key='wrench.weapon' />   
+
+
+
+</resources>

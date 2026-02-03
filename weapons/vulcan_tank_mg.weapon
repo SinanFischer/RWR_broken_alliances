@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon key="vulcan_tank_mg.weapon">
+    <specification 
+    retrigger_time="0.04" 
+    accuracy_factor="1.0" 
+    sustained_fire_grow_step="0.17" 
+    sustained_fire_diminish_rate="1.1" 
+    spread_range="0.35"
+    sight_range_modifier="1.0" 
+    magazine_size="-1" 
+    can_shoot_standing="0" 
+    can_shoot_crouching="0" 
+    suppressed="0" 
+    name="Minigun" 
+    class="0" 
+    projectile_speed="105.0" 
+    slot="2" 
+    barrel_offset="1.0" 
+    projectiles_per_shot="1" />
+    
+        <model filename="" />
+
+    <hud_icon filename="hud_minigun.png" />
+    <commonness value="0.0" can_respawn_with="0" />
+    <inventory encumbrance="11.0" price="40.0" />    
+  
+    <projectile file="bullet.projectile">
+        <result class="hit" kill_probability="0.6" kill_decay_start_time="0.35" kill_decay_end_time="0.75" />
+    </projectile>
+
+    <effect class="muzzle" ref="BigMuzzle" />
+
+    <sound class="operation" key="fire" fileref="minigun_shot.wav" pitch_variety="0.05" />
+
+</weapon>

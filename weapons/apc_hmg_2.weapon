@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon key="apc_hmg_2.weapon">
+    <specification retrigger_time="0.412" 
+    accuracy_factor="0.58" 
+    sustained_fire_grow_step="1.8" 
+    sustained_fire_diminish_rate="1.1" 
+    magazine_size="-1" 
+    can_shoot_standing="0" 
+    can_shoot_crouching="0" 
+    suppressed="0" 
+    name="APC HMG" 
+    class="0" 
+    projectile_speed="81.0" 
+    slot="2" 
+    barrel_offset="1.6" 
+    projectiles_per_shot="1" />
+    <model mesh_filename="apc_cannon_2.mesh" texture_filename="apc_turret_2.png" />
+    <hud_icon filename="hud_apc.png" />
+    <commonness value="0.0" />
+    <projectile file="apc_hmg_2.projectile" />
+
+    <effect class="muzzle" ref="BigMuzzle" />
+
+    <sound class="operation" key="fire" fileref="apc_shot_2.wav" />
+
+</weapon>

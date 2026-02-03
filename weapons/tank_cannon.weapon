@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon key="tank_cannon.weapon">
+    <specification retrigger_time="4.0" 
+    accuracy_factor="0.7" 
+    sustained_fire_grow_step="0.7" 
+    sustained_fire_diminish_rate="0.95" 
+    magazine_size="-1" 
+    can_shoot_standing="0" 
+    can_shoot_crouching="0" 
+    suppressed="0" 
+    name="Tank cannon" 
+    class="0" 
+    projectile_speed="107.0" 
+    slot="2" 
+    barrel_offset="2.0" 
+    projectiles_per_shot="1" />
+    <model mesh_filename="tank_cannon.mesh" texture_filename="tank.png" />
+    <hud_icon filename="hud_tank_cannon.png" />
+    <commonness value="0.0" />
+    <projectile file="tank_cannon.projectile" />
+
+    <effect class="muzzle" ref="BiggerMuzzle" />
+    <effect class="muzzle" ref="CannonSmokeBig" /> 
+    <effect class="muzzle" ref="CannonSmokeBigSphere" />       
+
+    <sound class="operation" key="fire" fileref="tank_shot.wav" />
+
+</weapon>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<projectile class="grenade" name="you're dead" slot="2" key="railway_artillery_shell_dummy.projectile" >
+    <result class="blast" radius="50.0" damage="30.0" push="3.0" decal="1" character_state="death"/>
+    <trigger class="impact" />
+    <rotation class="motion" />
+    <model mesh_filename="mortar_shell.xml" />
+    <commonness value="0.0" />
+
+	<!-- THIS SHELL IS ONLY USED TO DEFEAT BODY ARMOUR-->
+
+    <effect class="result" key="static_object" copy="terrain" />
+    <effect class="result" key="vehicle" copy="terrain" />
+    <effect class="result" key="character" copy="terrain" />
+
+</projectile>

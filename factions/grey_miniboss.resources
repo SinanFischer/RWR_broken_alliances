@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<weapon key='hk416.weapon' />
+	<weapon key='smaw.weapon' />
+	<weapon key='m202_flash.weapon' />    
+</resources>

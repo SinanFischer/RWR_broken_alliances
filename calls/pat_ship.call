@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<call name="spawn patrol boat" key="pat_ship.call"
+      initiation_comment1="Requesting patrol boat drop"
+      acknowledge_comment="Confirmed, boat enroute"
+      launch_comment="Airdropping boat now">
+
+    <round instances="1"
+           instance_class="vehicle"
+           instance_key="patrol_ship.vehicle" 
+           instance_spread="0 0 0" 
+           common_spread="0 0 0" 
+           launch_time="18.0"
+           spawn_time="10.0"
+           horizontal_offset_at_spawn="0.0"
+           vertical_offset_at_spawn="40.0"
+           initial_speed_to_target="0.0">
+        <effect class="launch" ref="ShadowAirplaneFlyby" shadow="1" />
+        <sound class="launch" fileref="plane_flyby.wav" />
+    </round>
+
+    <hud_icon filename="hud_patrol_ship_mortar.png" />
+    <capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="100" source="rank" source_value="0.67" />
+    <inventory encumbrance="0.0" price="710.0" />
+
+</call>

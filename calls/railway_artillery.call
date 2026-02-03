@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<call name="Railway Artillery" key="railway_artillery.call"
+      initiation_comment1="Fire mission"
+      initiation_comment2="fire railway artillery."
+      acknowledge_comment="Roger, wait eight."
+      acknowledge_time="1.0"
+      launch_comment="Round on the way.">
+    
+    <round instances="1"
+           instance_class="grenade"
+           instance_key="railway_artillery_shell.projectile" 
+           instance_spread="0 0 0" 
+           common_spread="0 0 0" 
+           launch_time="8.0"
+           spawn_time="14.0">
+     <sound class="launch" fileref="railway_barrage_distant.wav" volume="3.1" />   
+	   <sound class="spawn" fileref="railway_shell_whistle.wav" volume="1.4" />
+    </round>
+
+    <hud_icon filename="hud_artillery_railway.png" />
+    <capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="100" source="rank" source_value="2.0" />
+    <inventory encumbrance="0.0" price="800.0" />
+
+</call>

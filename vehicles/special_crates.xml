@@ -1,0 +1,39 @@
+<vehicles>
+	<!-- if you add something here, remember to add it in common.resources too! -->
+
+<vehicle filename="special_crate_base.vehicle" key="special_crate1.vehicle">
+	<event>
+		<trigger class="destroy" />		
+		<result class="spawn" instance_class="weapon" instance_key="benelli_m4.weapon" min_amount="1" max_amount="1" offset="0 1.0 0" position_spread="0 0" direction_spread="0.04 0.2" /> 
+	</event>
+</vehicle>
+
+<vehicle filename="special_crate_base.vehicle" key="special_crate2.vehicle">
+	<event>
+		<trigger class="destroy" />		
+		<result class="spawn" instance_class="weapon" instance_key="p90.weapon" min_amount="1" max_amount="1" offset="0 1.0 0" position_spread="0 0" direction_spread="0.04 0.2" /> 
+	</event>
+</vehicle>
+
+<vehicle filename="special_crate_base.vehicle" key="special_crate3.vehicle">
+	<event>
+		<trigger class="destroy" />		
+		<result class="spawn" instance_class="weapon" instance_key="aks74u.weapon" min_amount="1" max_amount="1" offset="0 1.0 0" position_spread="0 0" direction_spread="0.04 0.2" /> 
+	</event>
+</vehicle>
+
+<vehicle filename="special_crate_base.vehicle" key="special_crate4.vehicle">
+	<event>
+		<trigger class="destroy" />		
+		<result class="spawn" instance_class="weapon" instance_key="stoner_lmg.weapon" min_amount="1" max_amount="1" offset="0 1.0 0" position_spread="0 0" direction_spread="0.04 0.2" /> 
+	</event>
+</vehicle>
+
+<vehicle filename="special_crate_base.vehicle" key="special_crate5.vehicle">
+	<event>
+		<trigger class="destroy" />		
+		<result class="spawn" instance_class="weapon" instance_key="xm25.weapon" min_amount="1" max_amount="1" offset="0 1.0 0" position_spread="0 0" direction_spread="0.04 0.2" /> 
+	</event>
+</vehicle>
+
+</vehicles>

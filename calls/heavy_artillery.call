@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<call name="Heavy Field Gun Barrage" key="heavy_artillery.call"
+      initiation_comment1="Fire mission"
+      initiation_comment2="fire heavy artillery."
+      acknowledge_comment="Roger, wait five."
+      acknowledge_time="1.0"
+      launch_comment="Rounds on the way.">
+    
+    <round instances="1"
+           instance_class="grenade"
+           instance_key="heavy_artillery_shell.projectile" 
+           instance_spread="13 5 15" 
+           common_spread="10 0 10" 
+           launch_time="6.0"
+           spawn_time="11.0">
+     <sound class="launch" fileref="heavy_gun_barrage_distant.wav" volume="2.4" />
+	   <sound class="spawn" fileref="shell_whistle_01.wav" volume="1.2" />
+    </round>
+
+    <round instances="1"
+           instance_class="grenade"
+           instance_key="heavy_artillery_shell.projectile" 
+           instance_spread="10 10 10" 
+           common_spread="10 0 10" 
+           launch_time="6.3"
+           spawn_time="12.0">
+	   <sound class="spawn" fileref="shell_whistle_02.wav" volume="1.2" />
+    </round>
+
+    <round instances="1"
+           instance_class="grenade"
+           instance_key="heavy_artillery_shell.projectile" 
+           instance_spread="11 10 12" 
+           common_spread="10 0 10" 
+           launch_time="6.6"
+           spawn_time="13.0">
+	   <sound class="spawn" fileref="shell_whistle_01.wav" volume="1.2" />
+    </round>
+
+    <round instances="1"
+           instance_class="grenade"
+           instance_key="heavy_artillery_shell.projectile" 
+           instance_spread="12 15 12" 
+           common_spread="10 0 10" 
+           launch_time="6.9"
+           spawn_time="14.0">
+	   <sound class="spawn" fileref="shell_whistle_01.wav" volume="1.2" />
+    </round>
+
+    <hud_icon filename="hud_artillery_heavy.png" />
+    <capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="100" source="rank" source_value="0.5" />
+    <inventory encumbrance="0.0" price="400.0" />
+
+</call>
