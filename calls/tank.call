@@ -21,6 +21,6 @@
     <hud_icon filename="hud_tank.png" />
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="100" source="rank" source_value="1.0" />
-    <inventory encumbrance="0.0" price="500.0" />
+    <inventory encumbrance="0.0" price="1000.0" />
 
 </call>
