@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon key="tank_mg.weapon">
     <specification slot="2" 
-    retrigger_time="0.13" 
+    retrigger_time="0.085" 
     accuracy_factor="0.57" 
     sustained_fire_grow_step="0.8" 
     sustained_fire_diminish_rate="0.8" 
