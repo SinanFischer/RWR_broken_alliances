@@ -80,8 +80,8 @@
 		</item_class_existence_config>
 
 		<attribute_config class="rp">
-			<attribute weight="0.3" min="1600.0" max="2000.0" />
-			<attribute weight="0.7" min="1600.0" max="2000.0" />
+			<attribute weight="0.3" min="200.0" max="800.0" />
+			<attribute weight="0.7" min="100.0" max="600.0" />
 		</attribute_config>
 
 		<attribute_config class="xp">
@@ -100,7 +100,7 @@
 		<models file="green_default.models" />
 
 		<resources file="common.resources" />
-		<resources file="green_mgs.resources" />
+		<resources file="common_mgs.resources" />
 		<resources file="green_secondaries.resources" />
 		<resources file="green_default.resources" />
 

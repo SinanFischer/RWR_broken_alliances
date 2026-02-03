@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- ehem. Green -->
+	<weapon key='m249.weapon' />
+	<weapon key='m240.weapon' />
+	<weapon key='stoner_lmg.weapon' />
+	<weapon key='ares_shrike.weapon' />
+	<weapon key='mk48.weapon' />
+	<!-- ehem. Brown -->
+	<weapon key='pkm.weapon' />
+	<weapon key='rpk74m.weapon' />
+	<weapon key='pecheneg_bullpup.weapon' />
+	<weapon key='mg_resource.weapon' />
+	<!-- ehem. Grey -->
+	<weapon key='imi_negev.weapon' />
+	<weapon key='mg4.weapon' />
+	<weapon key='mg42.weapon' />
+	<weapon key='qbb95.weapon' />
+</resources>
