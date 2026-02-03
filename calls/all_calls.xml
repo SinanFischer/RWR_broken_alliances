@@ -15,7 +15,6 @@
 	<call file="paratroopers4.call" />
 	<call file="cover_drop.call" />
 	<call file="apc.call" />
-	<call file="buggy.call" />
 	<call file="tank_1.call" />
 	<call file="tank_2.call" />
 	<call file="tow_drop.call" />

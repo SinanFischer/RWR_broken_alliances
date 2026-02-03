@@ -203,7 +203,6 @@
 	<call key="humvee.call" />
 	<call key="tank.call" />
 	<call key="apc.call" />
-	<call key="buggy.call" />
 	<call key="tank_1.call" />
 	<call key="tank_2.call" />
 	<call key="mg_drop.call" />
