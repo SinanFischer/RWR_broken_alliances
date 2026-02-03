@@ -93,7 +93,7 @@
 	<!-- -------------- -->
 	<!-- support group (MGs) -->
 	<!-- -------------- -->
-	<soldier name="support" spawn_score="0.15">
+	<soldier name="support" spawn_score="0.27">
 		<character filename="default_male.character" />
 		<ai filename="default.ai" />
 		<models file="brown_default_basic.models" />

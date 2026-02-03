@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <call 	name="Specialist Squad" key="paratroopers3.call"
 	initiation_comment1="Reinforcements"
-	initiation_comment2="Requesting Special Forces team"
+	initiation_comment2="Requesting Special Forces squad (3)"
 	acknowledge_comment="Roger, Special Forces enroute"
 	launch_comment="Alpha team arriving on location">
 
-    <round instances="5"
+    <round instances="3"
            instance_class="soldier"
 	   instance_key="specialforces"
            instance_spread="10 15 10" 
@@ -20,6 +20,6 @@
     <hud_icon filename="hud_paratroopers3.png" />
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="100" source="rank" source_value="0.9" />
-    <inventory encumbrance="0.0" price="700.0" />
+    <inventory encumbrance="0.0" price="380.0" />
 
 </call>
