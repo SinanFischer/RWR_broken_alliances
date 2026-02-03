@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<call name="drop RWR1a1 tank" key="tank.call"
-           initiation_comment1="Requesting tank drop"
+<call name="Tank Drop (RWR1a1)" key="tank.call"
+           initiation_comment1="Requesting RWR1a1 Tank Drop"
            acknowledge_comment="Confirmed, tank enroute"
            launch_comment="Tank on its way down">
 

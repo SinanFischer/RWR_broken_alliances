@@ -8,10 +8,20 @@
 	<call file="heavy_mortar.call" />
 	<call file="heavy_artillery.call" />	
 	<call file="railway_artillery.call" />	
-	<call file="radio.call" />
 	<call file="tactical_strike.call" />
 	<call file="vulcan_tank.call" />
 	<call file="humvee.call" />
 	<call file="tank.call" />
 	<call file="paratroopers4.call" />
+	<call file="cover_drop.call" />
+	<call file="apc.call" />
+	<call file="buggy.call" />
+	<call file="tank_1.call" />
+	<call file="tank_2.call" />
+	<call file="tow_drop.call" />
+	<call file="minig_drop.call" />
+	<call file="mg_drop.call" />
+	<call file="mines.call" />
+	<call file="bomb.call" />
+	<call file="artillery2.call" />
 </calls>

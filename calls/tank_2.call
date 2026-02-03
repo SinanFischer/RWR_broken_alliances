@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<call name="drop TroX-80 tank" key="tank_2.call"
-           initiation_comment1="Requesting tank drop"
+<call name="Tank Drop (TroX-80)" key="tank_2.call"
+           initiation_comment1="Requesting TroX-80 Tank Drop"
            acknowledge_comment="Confirmed, tank enroute"
            launch_comment="Tank on its way down">
 
@@ -21,6 +21,6 @@
     <hud_icon filename="hud_tank.png" />
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="100" source="rank" source_value="1.0" />
-    <inventory encumbrance="0.0" price="500.0" />
+    <inventory encumbrance="0.0" price="900.0" />
 
 </call>
