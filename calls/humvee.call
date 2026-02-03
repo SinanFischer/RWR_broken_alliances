@@ -6,7 +6,7 @@
 
     <round instances="1"
            instance_class="vehicle"
-           instance_key="humvee_gl.vehicle" 
+           instance_key="humvee.vehicle" 
            instance_spread="2 0 2" 
            common_spread="0 0 0" 
            launch_time="10.0"
