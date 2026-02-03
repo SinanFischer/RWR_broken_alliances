@@ -60,9 +60,9 @@
 			/>
 		<preset text="Realism" help="Help:Veteran" id="veteran"
 			friendly_capacity="2.30"
-			friendly_accuracy="0.94"
-			enemy_capacity="2.10"
-			enemy_accuracy="0.94"
+			friendly_accuracy="0.90"
+			enemy_capacity="2.30"
+			enemy_accuracy="0.88"
 			xp_multiplier="0.6"
 			rp_multiplier="1.0"
 			player_damage_modifier="0.0"
