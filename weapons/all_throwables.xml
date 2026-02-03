@@ -20,9 +20,8 @@
 	<projectile file="artillery_shell.projectile" />
 	<projectile file="bomb1.projectile" />
 
-<!--
 	<projectile file="at_mine.projectile" />
--->
+	<projectile file="ap_mine.projectile" />
 
 	<projectile file="flare.projectile" />
 	<projectile file="claymore_blast.projectile" />   

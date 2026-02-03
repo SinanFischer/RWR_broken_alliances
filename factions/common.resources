@@ -208,7 +208,6 @@
 	<call key="tank_2.call" />
 	<call key="mg_drop.call" />
 	<call key="mines.call" />
-	<call key="bomb.call" />
 	<call key="artillery2.call" />
   
 </resources>
