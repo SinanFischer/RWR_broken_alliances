@@ -13,7 +13,7 @@
   name="Barrett M107" 
   class="0" 
   reload_one_at_a_time="0" 
-  sight_range_modifier="1.65" 
+  sight_range_modifier="1.95" 
   projectile_speed="180.0" 
   barrel_offset="0.4" 
   projectiles_per_shot="1" />

@@ -12,7 +12,7 @@
   name="SV-98" 
   class="2" 
   reload_one_at_a_time="0" 
-  sight_range_modifier="2.0" 
+  sight_range_modifier="2.3" 
   projectile_speed="185.0"
   barrel_offset="0.5" 
   projectiles_per_shot="1" /> <!--270-->
