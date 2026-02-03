@@ -91,6 +91,33 @@
 	</soldier>
 	
 	<!-- -------------- -->
+	<!-- support group (MGs) -->
+	<!-- -------------- -->
+	<soldier name="support" spawn_score="0.15">
+		<character filename="default_male.character" />
+		<ai filename="default.ai" />
+		<models file="green_default_basic.models" />
+		<models file="green_default.models" />
+
+		<resources file="common.resources" />
+		<resources file="green_mgs.resources" />
+		<resources file="green_secondaries.resources" />
+		<resources file="green_default.resources" />
+
+		<item_class_existence_config>
+			<item_class_existence class="weapon" slot="1" probability="1.0" />
+		</item_class_existence_config>
+
+		<attribute_config class="xp">
+			<attribute weight="1.0" min="0.2" max="1.0" />
+		</attribute_config>
+		
+		<attribute_config class="rp">
+			<attribute weight="1.0" min="200.0" max="600.0" />
+		</attribute_config>
+	</soldier>
+
+	<!-- -------------- -->
 	<!-- Specialforces group -->
 	<!-- -------------- -->
 	<soldier name="specialforces" spawn_score="0.02">
