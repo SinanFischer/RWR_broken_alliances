@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources clear_weapons="1" clear_projectiles="1">
-	<!-- Deckungstruppe: Basis-Primaries + Shotgun (Chance Schild+Shotgun), Slot 1 = Sandsack ODER Schild. Nur AT- und Cluster-Granaten. -->
+<resources clear_weapons="1" clear_projectiles="1" clear_grenades="1">
+	<!-- Deckungstruppe: Gewehre + MG. Slot 1 = Sandsäcke. Nur AT- und Cluster-Granaten. -->
 	<weapon key='ak47.weapon' />
 	<weapon key='aks74u.weapon' />
 	<weapon key='sg552.weapon' />
-	<weapon key='saiga12k.weapon' />
-	<weapon key='cover_resource.weapon' />
-	<weapon key='riot_shield.weapon' />
+	<weapon key='pkm.weapon' />
+	<weapon key='rpk74m.weapon' />
 	<carry_item key='vest1.carry_item' />
 	<projectile key="at_grenade.projectile" />
 	<projectile key="cluster_grenade.projectile" />

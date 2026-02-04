@@ -3,7 +3,9 @@
 <ai filename="default.ai">
   <parameter class="deploy_recheck_time" value="2.5" />
   <parameter class="minimum_distance_to_consider_deploying_cover" value="8.0" />
+  <parameter class="using_cover_min_time" value="6.0" />
+  <parameter class="using_cover_max_time" value="50.0" />
   <parameter class="max_objects_per_sqm_to_consider_deployment" value="0.05" />
   <parameter class="deployment_max_position_pick_attempts" value="4" />
-  <parameter class="willingness_to_charge" value="1" />
+  <parameter class="willingness_to_charge" value="0.1" />
 </ai>

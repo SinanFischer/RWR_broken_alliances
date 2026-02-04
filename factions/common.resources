@@ -197,12 +197,14 @@
 	<call key="heavy_mortar.call" />
 	<call key="artillery1.call" />
 	<call key="heavy_artillery.call" />
-	<call key="railway_artillery.call" />
+	<!-- <call key="railway_artillery.call" /> -->
 
 	<call key="paratroopers1.call" />
+	<call key="cover_troop_drop.call" />
 	<call key="paratroopers2.call" />
 	<call key="paratroopers3.call" />
 	<call key="paratroopers4.call" />
+
 
 	<call key="humvee.call" />
 	<call key="vulcan_tank.call" />
@@ -213,7 +215,6 @@
 	<!-- <call key="artillery2.call" /> -->
   
 	<call key="mg_drop.call" />
-	<!-- <call key="mg5_drop.call" /> -->
 	<call key="mines.call" />
   	<call key="cover_drop.call" />
 

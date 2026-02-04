@@ -301,6 +301,7 @@
 
 		<resources file="common.resources" />
 		<resources file="brown_cover_troop.resources" />
+		<resources file="brown_cover_troop_secondaries.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
