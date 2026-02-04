@@ -208,6 +208,7 @@
 	<!-- <call key="artillery2.call" /> -->
   
 	<call key="mg_drop.call" />
+	<!-- <call key="mg5_drop.call" /> -->
 	<call key="mines.call" />
   	<call key="cover_drop.call" />
 
