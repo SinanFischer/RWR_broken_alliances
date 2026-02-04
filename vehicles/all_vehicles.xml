@@ -127,12 +127,18 @@
   <vehicle file="buggy_alt.vehicle" />
   <vehicle file="atv_armory_alt.vehicle" />	
   <vehicle file="vfs_at.vehicle" />
+  <vehicle file="vfs_spawn.vehicle" />
+  <vehicle file="vfs_para.vehicle" />
+  <vehicle file="vfs_sport.vehicle" />
+  <vehicle file="vfs_base.vehicle" />
+  <vehicle file="willys_mb_spawn.vehicle" />
+  <vehicle file="willys_mb_para.vehicle" />
+  <vehicle file="willys_mb.vehicle" />
 	
 <!-- 1.94 -->
 
   <vehicle file="missile_launcher.vehicle" />	
-  <vehicle file="lijia_pumpkin.vehicle" />	
-  <vehicle file="evil_pumpkin_spawner.vehicle" />
+  <!-- Pumpkin vehicles removed: require pumpkin_bats particle not in TC -->
 
 <!-- 1.96 -->
 

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vehicle file="vehicle_base.vehicle" name="JACKAL battle jeep" key="willys_mb.vehicle" map_view_atlas_index="46" minimum_fill_requirement="0.67" max_character_collision_speed_on_normal="6.0" ai_driver_turns_to_target="1" ai_use_throwables="0">
+	<tag name="metal_thin" />
+	<tag name="jeep" />
+	<tag name="light_vehicle" />
+	<tire_set offset="0.82 0.0 1.28" radius="0.47" />
+	<tire_set offset="0.82 0.0 -1.28" radius="0.47" />
+	<control max_speed="32.0" acceleration="18" max_reverse_speed="15.0" min_health_to_steer="0.12" max_rotation="0.9" max_water_depth="1.0" steer_smoothening="0.7" />
+	<modifier class="blast_range" value="0.5" />
+	<modifier class="blast_damage" value="-0.5" />
+	<physics max_health="2.4" mass="2.5" extent="1.8 0.0 3.8" offset="0 0.0 0" top_offset="0 4 0" collision_model_pos="0 0.5 -0.2" collision_model_extent="2.0 1.6 4.4" visual_offset="0 0.16 0" preserve_motion_on_impact_factor="1.0" gravity="-100" friction_offset="0.0" drag_offset="0" destroy_on_top_hit="1" destroy_on_top_hit_time="1.0" top_hit_tracking_time="0.6"/>
+	<turret offset="-0.02 1.96 -0.7" weapon_key="technical_mg.weapon" weapon_offset="0.0 0.2 0.0" weapon_recoil="0.03" physics_recoil="0.02" max_rotation_step="0.0006" rotation_range="4.0" />
+	<turret offset="-0.02 1.96 -0.7" weapon_key="technical_mg.weapon" weapon_offset="0.0 0.2 0.0" weapon_recoil="0.03" physics_recoil="0.02" max_rotation_step="0.0006" rotation_range="4.0" />
+	<visual class="chassis" mesh_filename="willys_mb_chassis.mesh" texture_filename="willys_mb.png" />
+	<visual class="chassis" key="broken" mesh_filename="willys_mb_chassis_damage.mesh" texture_filename="willys_mb_damage.png" />
+	<visual class="tire" mesh_filename="willys_mb_wheel.mesh" texture_filename="willys_mb.png" />
+	<visual class="turret" key="broken" mesh_filename="willys_mb_mg_damage.mesh" texture_filename="willys_mb_damage.png" />
+	<visual class="turret" turret_index="0" mesh_filename="40mm.mesh" texture_filename="40mm.png" />
+	<visual class="turret" turret_index="1" mesh_filename="40mm.mesh" texture_filename="40mm.png" />
+	<character_slot type="driver" position="0.405 0.4 -0.68" rotation="0" exit_rotation="1.57" hiding="0" animation_id="36" marker_offset="0 0.35 0.2"/>
+	<character_slot type="gunner" attached_on_turret="0" enter_position="0 0.5 -2.5" seat_position="0 -1.35 -0.7" rotation="0" exit_rotation="3.14" hiding="0" animation_key="jeep mg still" marker_offset="0 1.0 0">
+		<turret index="0" />
+		<turret index="1" />
+	</character_slot>
+	<character_slot type="passenger" position="-0.40 0.4 -0.7" rotation="-1.57" exit_rotation="-1.57" hiding="0" animation_id="37" marker_offset="0 0.35 0.2" />
+	<rev_sound filename="jackal_battle_jeep.wav" low_pitch="1" high_pitch="1" low_rev="0.1" high_rev="1.2" />
+	<sound key="slide" filename="slide_noise.wav" />
+	<sound key="squeal" filename="tire_squeal.wav" />
+	<sound key="ignition" filename="jeep2_ignition.wav" />
+	<sound key="horn" filename="horn_jeep.wav" />
+	<sound key="hit" filename="car_hit1.wav" />
+	<sound key="hit" filename="car_hit2.wav" />
+	<sound key="hit" filename="car_hit3.wav" />
+	<sound key="destroy" filename="vehicle_explosion_1.wav" />
+	<sound key="cleanup" filename="vehicle_explosion_1.wav" />
+	<effect event_key="slide" type="splat_map" surface_tag="road" size="2.0" atlas_index="5" layer="0" />
+	<effect event_key="slide_hard" type="splat_map" surface_tag="road" size="2.0" atlas_index="5" layer="0" />
+	<effect event_key="slide" type="splat_map" surface_tag="dirt" size="1.0" atlas_index="2" layer="1" />
+	<effect event_key="slide" type="particle" key="terrain" surface_tag="dirt" ref="Burst" use_surface_color="1" />
+	<effect event_key="health" value="0.6" ref="SmallSmokeVehicle" offset="0.32 1.44 1.5" />
+	<effect event_key="health" value="0.12" ref="SmallSmokeVehicle" offset="0.32 1.44 1.5" />
+	<effect event_key="health" value="0.12" ref="BrokenSparkle" post_processing="0" offset="0.32 0.96 1.55" />
+	<effect event_key="destroyed" ref="SmallSmokeVehicle" offset="0.32 1.44 1.45" />
+	<effect event_key="destroyed" ref="SmallFireRepeat" offset="0.32 0.96 1.45" />
+	<effect event_key="destroy" key="other" ref="woosh" post_processing="0" shadow="0" />
+	<effect event_key="cleanup" key="other" ref="woosh" post_processing="0" shadow="0" />
+	<event key="receive_damage_xp_reward">
+		<trigger class="receive_damage" />
+		<result class="reward" xp="0.0015" />
+	</event>
+	<event key="spot_rp_reward">
+		<trigger class="spot" />
+		<result class="reward" rp="10.0" />
+	</event>
+	<event>
+		<trigger class="destroy" />
+		<result class="spawn" instance_class="visual_item" instance_key="burning_piece_jeep1.visual_item" min_amount="1" max_amount="3" offset="0 1.6 0" position_spread="1.5 1.5" direction_spread="0.15 0.3" />
+	</event>
+	<event>
+		<trigger class="destroy" />
+		<result class="spawn" instance_class="visual_item" instance_key="burning_piece_jeep2.visual_item" min_amount="0" max_amount="1" offset="0 1.6 0" position_spread="1.5 1.5" direction_spread="0.1 0.3" />
+	</event>
+	<event>
+		<trigger class="cleanup" />
+		<result class="spawn" instance_class="visual_item" instance_key="burning_piece_cleanup.visual_item" min_amount="20" max_amount="30" offset="0 2.0 0" position_spread="1.5 1.5" direction_spread="0.1 0.1" />
+	</event>
+	<event>
+		<trigger class="cleanup" />
+		<result class="spawn" instance_class="projectile" instance_key="debri_stun" min_amount="1" max_amount="1" offset="0 3.0 0" position_spread="0.0 0.0" direction_spread="0.0 0.0" />
+	</event>
+</vehicle>

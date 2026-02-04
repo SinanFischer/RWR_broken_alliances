@@ -42,6 +42,9 @@
 
   <projectile file="tracer_missile.projectile" />
   <projectile file="wiesel_flare.projectile" />
+  <projectile file="vfs_flare.projectile" />
+  <projectile file="willys_mb_flare.projectile" />
+  <projectile file="dogbone.projectile" />
 
   <projectile file="banana_car_flare.projectile" />
   <projectile file="aav7_flare.projectile" />

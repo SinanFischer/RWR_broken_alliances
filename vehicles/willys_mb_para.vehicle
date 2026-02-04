@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vehicle file="vehicle_base.vehicle" name="JACKAL battle jeep" key="willys_mb_para.vehicle" respawn_time="0" map_view_atlas_index="46" minimum_fill_requirement="0.5" max_character_collision_speed_on_normal="8.0" time_to_live="4.0">
+	<tag name="metal_thin" />
+	<tag name="jeep" />
+	<tag name="light_vehicle" />
+	<tire_set offset="0.82 0.0 1.28" radius="0.47" />
+	<tire_set offset="0.82 0.0 -1.28" radius="0.47" />
+	<control max_limiter_speed="8.0" max_speed="22.0" acceleration="6.5" min_health_to_steer="0.67" max_reverse_speed="7.0" max_rotation="0.7" max_water_depth="1.0" can_steer_in_water="0" steer_smoothening="0.8"/>
+	<modifier class="blast_range" value="0.5" />
+	<modifier class="blast_damage" value="-0.5" />
+	<physics max_health="0.0" mass="2.5" extent="1.8 0.0 3.8" offset="0 0.0 0" top_offset="0 0.1 0" collision_model_pos="0 0.5 -0.2" collision_model_extent="0 0 0" visual_offset="0 0.16 0" preserve_motion_on_impact_factor="1.0" gravity="-10" />
+	<turret offset="-0.02 1.96 -0.7" weapon_key="technical_mg.weapon" weapon_offset="0.0 0.2 0.0" weapon_recoil="0.03" physics_recoil="0.02" max_rotation_step="0.0006" rotation_range="4.0" />
+	<visual class="chassis" mesh_filename="willys_mb_chassis.mesh" texture_filename="willys_mb.png" />
+	<visual class="chassis" key="broken" mesh_filename="willys_mb_chassis_damage.mesh" texture_filename="willys_mb_damage.png" />
+	<visual class="tire" mesh_filename="willys_mb_wheel.mesh" texture_filename="willys_mb.png" />
+	<visual class="turret" turret_index="0" mesh_filename="40mm.mesh" texture_filename="40mm.png" />
+	<rev_sound filename="jeep2_rev0.wav" low_pitch="0.8" high_pitch="1.0" low_rev="0.0" high_rev="0.3" volume="0.8" />
+	<rev_sound filename="jeep2_rev2.wav" low_pitch="0.6" high_pitch="1.0" low_rev="0.1" high_rev="0.7" volume="0.65" />
+	<rev_sound filename="jeep2_rev3.wav" low_pitch="0.8" high_pitch="1.0" low_rev="0.5" high_rev="1.0" volume="0.8" />
+	<sound key="slide" filename="slide_noise.wav" />
+	<sound key="squeal" filename="tire_squeal.wav" />
+	<sound key="ignition" filename="jeep2_ignition.wav" />
+	<sound key="horn" filename="horn_jeep.wav" />
+	<sound key="hit" filename="car_hit1.wav" />
+	<sound key="hit" filename="car_hit2.wav" />
+	<sound key="hit" filename="car_hit3.wav" />
+	<sound key="destroy" filename="vehicle_explosion_1.wav" />
+	<sound key="cleanup" filename="vehicle_explosion_1.wav" />
+	<event>
+		<trigger class="destroy" />
+		<result class="spawn" instance_class="vehicle" instance_key="willys_mb.vehicle" min_amount="1" max_amount="1" offset="0 0 0" position_spread="0 0" direction_spread="0 -1" />
+	</event>
+</vehicle>

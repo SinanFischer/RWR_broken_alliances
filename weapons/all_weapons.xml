@@ -211,13 +211,15 @@
   <weapon file="tank_cannon_alt.weapon" />
   <weapon file="tank_cannon_1_alt.weapon" />
   <weapon file="tank_cannon_2_alt.weapon" />
-  <weapon file="vfs_at.weapon" />  
-  <weapon file="vfs_mg.weapon" />   
+  <weapon file="vfs_at.weapon" />
+  <weapon file="vfs_mg.weapon" />
+  <weapon file="vfs_buggy_mg.weapon" />
+  <weapon file="vfs_shield.weapon" />
   
 <!-- 1.94 -->
 
 	<weapon file="missile_launcher.weapon" />  
-	<weapon file="lijia_pumpkin.weapon" />
+	<!-- lijia_pumpkin.weapon removed: pumpkin vehicle/particle not in TC -->
 
 	
 </weapons>
