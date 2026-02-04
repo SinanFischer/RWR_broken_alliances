@@ -300,7 +300,7 @@
 	<!-- -------------- -->
 	<soldier name="grenadier" spawn_score="0.04" squad_size_xp_cap="0.0">
 		<character filename="default_male.character" />
-		<ai filename="default.ai" />
+		<ai filename="grenadier.ai" />
 		<models file="green_default_basic.models" />
 		<models file="green_default.models" />
 
