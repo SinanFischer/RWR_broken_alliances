@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <models>
 	<!-- -------------------------- -->
-	<model filename="us_army_1_bak_camo.xml">
-			<requirement class="carry_item" slot="1" key="vest3.carry_item"/>
-		          <requirement class="rank" range="0 100" />
-		</model>
-		<model filename="us_army_1_bak_camo.xml">
-			<requirement class="carry_item" slot="1" key="vest4_1"/>
-		          <requirement class="rank" range="0 100" />
-		</model>
-		<model filename="us_army_1_bak_camo.xml">
-			<requirement class="carry_item" slot="1" key="vest4_2"/>
-		          <requirement class="rank" range="0 100" />
-		</model>
-		<model filename="us_army_1_bak_camo.xml">
-			<requirement class="carry_item" slot="1" key="vest4.carry_item"/>
-		          <requirement class="rank" range="0 100" />
-		</model>
-	<model filename="us_army_1_bak_camo.xml">
-			<requirement class="carry_item" slot="1" key="vest3_2"/>
-		          <requirement class="rank" range="0 100" />
-		</model>
-	<model filename="us_army_1_bak_camo.xml">
-			<requirement class="carry_item" slot="1" key="vest3_3"/>
-		          <requirement class="rank" range="0 100" />
-		</model>
-	<model filename="us_army_1_bak_camo.xml">
-			<requirement class="carry_item" slot="1" key="vest3_4"/>
-		          <requirement class="rank" range="0 100" />
-		</model>
-	<model filename="us_army_1_bak_camo.xml">
-			<requirement class="carry_item" slot="1" key="vest3_5"/>
-		          <requirement class="rank" range="0 100" />
-		</model>
+	<model filename="soldier_a1_vest.xml">
+		<requirement class="carry_item" slot="1" key="vest3.carry_item"/>
+		<requirement class="rank" range="0 100" />
+	</model>
+	<model filename="soldier_a1_vest.xml">
+		<requirement class="carry_item" slot="1" key="vest4_1"/>
+		<requirement class="rank" range="0 100" />
+	</model>
+	<model filename="soldier_a1_vest.xml">
+		<requirement class="carry_item" slot="1" key="vest4_2"/>
+		<requirement class="rank" range="0 100" />
+	</model>
+	<model filename="soldier_a1_vest.xml">
+		<requirement class="carry_item" slot="1" key="vest4.carry_item"/>
+		<requirement class="rank" range="0 100" />
+	</model>
+	<model filename="soldier_a1_vest.xml">
+		<requirement class="carry_item" slot="1" key="vest3_2"/>
+		<requirement class="rank" range="0 100" />
+	</model>
+	<model filename="soldier_a1_vest.xml">
+		<requirement class="carry_item" slot="1" key="vest3_3"/>
+		<requirement class="rank" range="0 100" />
+	</model>
+	<model filename="soldier_a1_vest.xml">
+		<requirement class="carry_item" slot="1" key="vest3_4"/>
+		<requirement class="rank" range="0 100" />
+	</model>
+	<model filename="soldier_a1_vest.xml">
+		<requirement class="carry_item" slot="1" key="vest3_5"/>
+		<requirement class="rank" range="0 100" />
+	</model>
 
 	<!-- -------------------------- -->
 	<model filename="soldier_camouflage_suit.xml">
@@ -105,6 +105,9 @@
 	<!-- high rank -->
 	<!-- -------------------------- -->
 	<model filename="soldier_5stars_green.xml">
+		<requirement class="rank" range="100 10000" />
+	</model>
+	<model filename="soldier_fm_green.xml">
 		<requirement class="rank" range="100 10000" />
 	</model>
 </models>

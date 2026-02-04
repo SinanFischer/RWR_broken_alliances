@@ -271,8 +271,7 @@
 	<soldier name="mortar_operator" spawn_score="0.012" squad_size_xp_cap="0.0" firstnames_file="names/mortar_operator_firstname.txt">
 		<character filename="default_male.character" />
 		<ai filename="default.ai" />
-		<models file="brown_default_basic.models" />
-		<models file="brown_default.models" />
+		<models file="brown_mortar_operator.models" />
 
 		<resources file="common.resources" />
 		<resources file="brown_mortar_operator.resources" />
@@ -296,8 +295,7 @@
 	<soldier name="cover_troop" spawn_score="0.06" squad_size_xp_cap="0.0" firstnames_file="names/cover_troop_firstname.txt">
 		<character filename="default_male.character" />
 		<ai filename="cover_troop.ai" />
-		<models file="brown_default_basic.models" />
-		<models file="brown_default.models" />
+		<models file="brown_cover_troop.models" />
 
 		<resources file="common.resources" />
 		<resources file="brown_cover_troop.resources" />
