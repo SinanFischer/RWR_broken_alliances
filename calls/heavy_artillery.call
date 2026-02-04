@@ -47,6 +47,16 @@
 	   <sound class="spawn" fileref="shell_whistle_01.wav" volume="1.2" />
     </round>
 
+    <round instances="1"
+           instance_class="grenade"
+           instance_key="heavy_artillery_shell.projectile" 
+           instance_spread="11 12 11" 
+           common_spread="10 0 10" 
+           launch_time="7.2"
+           spawn_time="15.0">
+	   <sound class="spawn" fileref="shell_whistle_02.wav" volume="1.2" />
+    </round>
+
     <hud_icon filename="hud_artillery_heavy.png" />
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="100" source="rank" source_value="0.5" />

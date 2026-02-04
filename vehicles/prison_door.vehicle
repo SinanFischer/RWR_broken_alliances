@@ -1,4 +1,4 @@
-<vehicle name="Prison door" key="prison_door.vehicle" respawn_time="3600" existence="one_per_faction" protectors="5" soldier_capacity_offset="5" map_view_atlas_index="17" should_be_destroyed="1"  allow_ai_to_use="0" reserves_spawn_point="1">
+<vehicle name="Prison door" key="prison_door.vehicle" respawn_time="3600" existence="one_per_faction" protectors="5" soldier_capacity_offset="10" map_view_atlas_index="17" should_be_destroyed="1"  allow_ai_to_use="0" reserves_spawn_point="1">
 	<tag name="target" />
 
 <tire_set offset="0.5 0.0 0.5" radius="0.65" />

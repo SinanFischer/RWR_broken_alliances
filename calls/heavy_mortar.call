@@ -65,8 +65,48 @@
 	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
     </round>
 
+    <round instances="1"
+           instance_class="grenade"
+           instance_key="heavy_mortar_shell.projectile" 
+           instance_spread="10 7 12" 
+           common_spread="10 0 10" 
+           launch_time="10.0"
+           spawn_time="11.2">
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+    </round>
+
+    <round instances="1"
+           instance_class="grenade"
+           instance_key="heavy_mortar_shell.projectile" 
+           instance_spread="12 8 10" 
+           common_spread="10 0 10" 
+           launch_time="10.5"
+           spawn_time="11.8">
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+    </round>
+
+    <round instances="1"
+           instance_class="grenade"
+           instance_key="heavy_mortar_shell.projectile" 
+           instance_spread="10 7 10" 
+           common_spread="10 0 10" 
+           launch_time="11.0"
+           spawn_time="12.4">
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+    </round>
+
+    <round instances="1"
+           instance_class="grenade"
+           instance_key="heavy_mortar_shell.projectile" 
+           instance_spread="12 8 12" 
+           common_spread="10 0 10" 
+           launch_time="11.5"
+           spawn_time="13.0">
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+    </round>
+
     <hud_icon filename="hud_mortar_heavy.png" />
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="100" source="rank" source_value="0.4" />
-    <inventory encumbrance="0.0" price="350.0" />
+    <inventory encumbrance="0.0" price="300.0" />
 </call>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Support (MG): aggressiver aus Deckung schießen – längere Feuerstöße, länger in Deckung bleiben. -->
+<ai filename="default.ai">
+  <parameter class="fire_open_min_time" value="20.0" />
+  <parameter class="fighting_time_fire_not_open" value="3.5" />
+  <parameter class="using_cover_min_time" value="5.0" />
+  <parameter class="using_cover_max_time" value="22.0" />
+  <parameter class="recheck_cover_over_shootability_time" value="5.0" />
+  <parameter class="burst_time" value="0.9" />
+  <parameter class="burst_time_variance" value="0.5" />
+  <parameter class="longer_burst_time" value="7.0" />
+  <parameter class="longer_burst_time_variance" value="2.5" />
+  <parameter class="leaving_cover_separation" value="5.0" />
+</ai>

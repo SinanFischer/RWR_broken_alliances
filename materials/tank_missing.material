@@ -1,0 +1,55 @@
+// Material-Namen aus Tank-Meshes (Blender-Export: material.001, tank_tracks, tank_wheels).
+// Ohne diese Definitionen: "Material does not exist" im Log.
+material material.001
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            ambient 0.8 0.8 0.8 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 12.5
+            texture_unit
+            {
+                texture tank2.png
+            }
+        }
+    }
+}
+
+material tank_tracks
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            ambient 0.8 0.8 0.8 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.2 0.2 0.2 1.0 12.5
+            texture_unit
+            {
+                texture tank2_track.png
+            }
+        }
+    }
+}
+
+material tank_wheels
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            ambient 0.8 0.8 0.8 1.0
+            diffuse 0.7 0.7 0.7 1.0
+            specular 0.3 0.3 0.3 1.0 12.5
+            texture_unit
+            {
+                texture tank2_wheel.png
+            }
+        }
+    }
+}

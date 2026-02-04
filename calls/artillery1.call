@@ -6,7 +6,7 @@
       acknowledge_time="1.0"
       launch_comment="Rounds on the way.">
      
-    <round instances="16"
+    <round instances="20"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="15 15 15" 
@@ -18,7 +18,7 @@
 	   <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="15 15 15" 

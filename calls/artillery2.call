@@ -6,7 +6,7 @@
       acknowledge_time="1.0"
       launch_comment="Rounds on the way.">
     
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="20 20 20" 
@@ -18,7 +18,7 @@
 	   <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="20 20 20" 
@@ -30,7 +30,7 @@
 	   <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="20 20 20" 
@@ -42,7 +42,7 @@
      <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="20 20 20" 
@@ -54,7 +54,7 @@
      <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="20 20 20" 
@@ -66,7 +66,7 @@
      <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="20 20 20" 
@@ -78,7 +78,7 @@
      <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="20 20 20" 
@@ -90,7 +90,7 @@
      <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="20 20 20" 
@@ -102,7 +102,7 @@
      <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="20 20 20" 
@@ -114,7 +114,7 @@
      <sound class="spawn" fileref="woosh1.wav" volume="0.2" />
     </round>
 
-    <round instances="16"
+    <round instances="17"
            instance_class="grenade"
            instance_key="artillery_shell.projectile" 
            instance_spread="20 20 20" 

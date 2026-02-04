@@ -6,7 +6,10 @@
 	<weapon key='steyr_aug.weapon' />
 	<weapon key='imi_negev.weapon' />
 	<weapon key='mg4.weapon' />
-	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' enabled="0" />
+	<carry_item key='vest2.carry_item' />
+	<carry_item key='vest3.carry_item' />
+	<carry_item key='vest4.carry_item' />
 	<projectile key="at_grenade.projectile" />
 	<projectile key="cluster_grenade.projectile" />
 </resources>
