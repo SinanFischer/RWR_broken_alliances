@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources clear_weapons="1">
+	<!-- Grenadier: reines Explosions-Chaos, nur Milkor MGL als Primary; Sekundär = Faction-Secondaries -->
+	<weapon key='milkor_mgl.weapon' />
+	<!-- Westen (Wearables Slot 1) -->
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest2.carry_item' />
+</resources>
