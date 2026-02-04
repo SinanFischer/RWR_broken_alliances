@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectile class="grenade" name="Tank cannon" slot="1" pulldown_in_air="2.0" key="tank_cannon.projectile">
     <tag name="rocket"/>
-    <result class="blast" radius="16.0" damage="10.0" push="3.0" decal="1" />
+    <result class="blast" radius="8.0" damage="10.0" push="3.0" decal="1" />
     <trigger class="impact" />
     <rotation class="motion" />
     <model mesh_filename="mortar_shell.xml" />
@@ -22,9 +22,9 @@
     <effect class="result" key="terrain" ref="Shine" lighting="0" />
     <effect class="result" key="terrain" ref="Godray" lighting="0" />
     <effect class="result" key="terrain" ref="ShadowSmoke" shadow="1" />
-    <effect class="result" type="splat_map" surface_tag="" size="5.0" atlas_index="0" layer="1" />
-    <effect class="result" type="splat_map" surface_tag="" size="6.5" atlas_index="4" layer="0" />
-    <effect class="result" type="splat_map" surface_tag="" size="7.5" atlas_index="0" layer="2" additive="0" /> <!-- remove top snow everywhere -->
+    <effect class="result" type="splat_map" surface_tag="" size="7.0" atlas_index="0" layer="1" />
+    <effect class="result" type="splat_map" surface_tag="" size="8.5" atlas_index="4" layer="0" />
+    <effect class="result" type="splat_map" surface_tag="" size="10.0" atlas_index="0" layer="2" additive="0" /> <!-- remove top snow everywhere -->
 
     <effect class="result" key="other" ref="SmokeTop" post_processing="1" />
     <effect class="result" key="other" ref="Smoke" post_processing="1" />
