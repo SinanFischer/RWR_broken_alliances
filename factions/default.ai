@@ -105,7 +105,7 @@
   <parameter class="minimum_squad_size_to_send_to_side_base_attack commander_ai" value="6" />
   <parameter class="side_base_attack_probability commander_ai" value="0.1" />
 
-  <parameter class="willingness_to_charge" value="0.085" />
+  <parameter class="willingness_to_charge" value="0.0" />
   <parameter class="stab_range" value="3.5" />
   
   <parameter class="reaction_time_after_choosing_target" value="-1.0" />

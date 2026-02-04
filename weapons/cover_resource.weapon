@@ -2,6 +2,7 @@
 <weapon file="base_secondary.weapon" key="cover_resource.weapon" radius="0.25" time_to_live_out_in_the_open="90.0" drop_count_factor_on_death="1.0">
     <tag name="engineer" />
     <specification magazine_size="1" 
+    retrigger_time="0.5"
     can_shoot_standing="0" 
     can_shoot_crouching="1" 
     carry_in_two_hands="1" 
@@ -36,6 +37,8 @@
     <capacity value="2" source="rank" source_value="0.28" />
 	<capacity value="3" source="rank" source_value="1.2" />
 	<capacity value="4" source="rank" source_value="2.0" />
+	<capacity value="5" source="rank" source_value="2.5" />
+	<capacity value="6" source="rank" source_value="3.0" />
 
     <hud_icon filename="hud_hesco_barrier.png" />
     <commonness value="0.041" can_respawn_with="0" />
