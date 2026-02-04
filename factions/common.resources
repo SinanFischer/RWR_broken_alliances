@@ -194,8 +194,8 @@
 	<vehicle key="vulcan_tank.vehicle" />
 	<vehicle key="buggy.vehicle" />
 
-	<call key="heavy_mortar.call" />
 	<call key="artillery1.call" />
+	<call key="heavy_mortar.call" />
 	<call key="heavy_artillery.call" />
 	<!-- <call key="railway_artillery.call" /> -->
 
