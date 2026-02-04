@@ -79,8 +79,6 @@
   <vehicle file="vulcan_tank.vehicle" /> 
   <vehicle file="technical.vehicle" />    
   <vehicle file="m113_tank_mortar.vehicle" />
-  <vehicle file="wiesel_tow.vehicle" />
-  <vehicle file="wiesel_spawn.vehicle" />   
   <vehicle file="banana_car.vehicle" />
   <vehicle file="banana_car_spawn.vehicle" />  
   <vehicle file="banana_peel_spawner.vehicle" />
@@ -96,7 +94,6 @@
 <!--  <vehicle file="icecream.vehicle" /> -->
 <!--  <vehicle file="medivan.vehicle" /> -->
 
-  <vehicle file="wiesel_mk20.vehicle" />    
   <vehicle file="noxe.vehicle"/>
   <vehicle file="noxe_spawn.vehicle"/>       
   <vehicle file="legion.vehicle"/>

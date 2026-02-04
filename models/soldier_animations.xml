@@ -20184,7 +20184,7 @@
             <position x="5.500000" y="0.500000" z="0.500000" />
         </frame>
     </animation>
-    <animation loop="0" end="0.000000" speed="1.000000" comment="wiesel mg still">
+    <animation loop="0" end="0.000000" speed="1.000000" comment="mg still (unused)">
         <frame time="0.000000">
             <position x="1.553612" y="55.665001" z="1.570316" />
             <position x="1.461781" y="48.712612" z="0.760448" />

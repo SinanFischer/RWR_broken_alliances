@@ -41,7 +41,6 @@
   <projectile file="debri_destroy_small.projectile" />    
 
   <projectile file="tracer_missile.projectile" />
-  <projectile file="wiesel_flare.projectile" />
   <projectile file="vfs_flare.projectile" />
   <projectile file="willys_mb_flare.projectile" />
   <projectile file="dogbone.projectile" />
