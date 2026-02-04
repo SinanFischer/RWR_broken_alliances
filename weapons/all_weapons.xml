@@ -166,6 +166,8 @@
   <weapon file="chute_small.weapon" />
   <weapon file="chute_medium.weapon" />
   <weapon file="chute_large.weapon" />
+  <weapon file="coastal_gun.weapon" />
+  <weapon file="coastal_gun_resource.weapon" />
   <weapon file="dartgun.weapon" />
   <weapon file="fal_bayonet.weapon" />
   <weapon file="golden_knife.weapon" />

@@ -41,7 +41,8 @@
 	<weapon key='mortar_resource.weapon' /> 
 	<weapon key='tow_resource.weapon' />  
 	<weapon key='gl_resource.weapon' /> 
-	<weapon key='humvee_gl.weapon' />    
+	<weapon key='humvee_gl.weapon' />
+	<weapon key='coastal_gun_resource.weapon' />    
 
 	<carry_item key='vest1.carry_item' enabled="1" />
 
@@ -54,6 +55,9 @@
 	<projectile key="shuriken.projectile" enabled="0" />
 	<projectile key="kunai.projectile" enabled="0" />
 	<projectile key="icecream.projectile" enabled="0" />
+	<projectile key="at_grenade.projectile" enabled="1" />
+	<projectile key="healnade.projectile" enabled="1" />
+	<projectile key="cluster_grenade.projectile" enabled="1" />
     <projectile key="acid_bomb.projectile" enabled="0" />
 	<carry_item key="lottery.carry_item" enabled="0" />
 
@@ -77,6 +81,7 @@
 	<vehicle key="atv_base.vehicle" />
 	<vehicle key="atv_armory.vehicle" />  
 
+	<vehicle key="coastal_gun.vehicle" />
 	<vehicle key="tow.vehicle" />	
 	<vehicle key="cover1.vehicle" />
 	<vehicle key="deployable_mg.vehicle" />  

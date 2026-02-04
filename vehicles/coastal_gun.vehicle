@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vehicle name="Coastal Gun" key="coastal_gun.vehicle" map_view_atlas_index="52" respawn_time="360" soldier_capacity_offset="5" protectors="4" usable_for_cover="0" >
+	<tag name="target" />
+	<tag name="defensive_at" />    
+
+	<tire_set offset="1.0 0.0 1.0" radius="0.65" />
+	<tire_set offset="1.0 0.0 -1.0" radius="0.65" />
+	
+	<control max_speed="20.0" acceleration="6.7" max_reverse_speed="6.0" max_rotation="0.8" max_water_depth="1.9" />
+	
+	<modifier class="blast_damage" value="-0.7" />
+
+	<physics max_health="20.0" mass="10000.0" extent="2.0 0.0 2.0" offset="0 0.0 0" top_offset="0 5 0" collision_model_pos="0 0.2 0" collision_model_extent="1.0 0.4 1.8" visual_offset="0 0 0" /> 
+	
+	<turret offset="0 0.0 0.0" weapon_key="coastal_gun.weapon" weapon_offset="0.0 1.4 0.0" weapon_recoil="0.3"  max_rotation_step="0.00002" rotation="0" />
+	
+	<visual class="chassis" mesh_filename="coastal_gun_base.mesh" texture_filename="coastal_gun.png" />
+	<visual class="chassis" key="broken" mesh_filename="coastal_gun_base.mesh" texture_filename="coastal_gun_damage.png" />
+	<visual class="turret" turret_index="0" mesh_filename="coastal_gun_turret.mesh" texture_filename="coastal_gun.png" />
+	<visual class="turret" key="broken" turret_index="0" mesh_filename="coastal_gun_damage.mesh" texture_filename="coastal_gun_damage.png" />
+	
+	<character_slot type="gunner" attached_on_turret="0" hiding="0">
+		<state class="entering" animation_key="crouching forwards short, no weapon" position="0 0 0" rotation="-1.57" />
+		<state class="leaving" animation_key="crouching forwards short, no weapon" position="0 0 0" rotation="1.57" />
+		<state class="idle" animation_key="hold, coastal gun" position="1.15 0 -0.1" rotation="-1.57" />
+	</character_slot>
+	
+	<!-- sound handling -->
+	<rev_sound filename="truck_rev0.wav" low_pitch="0.95" high_pitch="1.05" low_rev="0.0" high_rev="0.2" volume="1.0" />
+	<rev_sound filename="truck_rev3.wav" low_pitch="0.7" high_pitch="1.0" low_rev="0.05" high_rev="0.7" volume="1.0" />
+	<rev_sound filename="truck_rev4.wav" low_pitch="0.8" high_pitch="1.0" low_rev="0.4" high_rev="1.0" volume="1.0" />
+	
+	<sound key="slide" filename="slide_noise.wav" />
+	<sound key="squeal" filename="tire_squeal.wav" />
+	<sound key="ignition" filename="truck_ignition.wav" />
+	<sound key="hit" filename="car_hit1.wav" />
+	<sound key="hit" filename="car_hit2.wav" />
+	<sound key="hit" filename="car_hit3.wav" />
+
+	<sound key="turret_rotation" filename="turret_crank_turning_looped.wav" volume="0.1" />
+	
+	<event key="destroy_xp_reward">
+		<trigger class="destroy" />
+		<result class="reward" xp="0.0020" />
+	</event>
+	<event key="destroy_rp_reward">
+		<trigger class="destroy" />
+		<result class="reward" rp="200" />
+	</event>
+	<event key="spot_rp_reward">
+		<trigger class="spot" />
+		<result class="reward" rp="50.0" />
+	</event>
+	
+	<event>
+		<trigger class="destroy" />		
+		<result class="spawn" instance_class="visual_item" instance_key="burning_piece_truck1.visual_item" min_amount="1" max_amount="2" offset="0 2.0 0" position_spread="1.5 1.5" direction_spread="0.1 0.2" /> 
+	</event>
+	<event>
+		<trigger class="destroy" />		
+		<result class="spawn" instance_class="visual_item" instance_key="burning_piece_jeep2.visual_item" min_amount="1" max_amount="1" offset="0 2.0 0" position_spread="1.5 1.5" direction_spread="0.05 0.2" /> 
+	</event>
+	
+</vehicle>

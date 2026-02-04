@@ -1,0 +1,34 @@
+
+material FlashShine_healnade {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture flash_shine.png
+			}
+		}
+	}
+}
+
+material FlashBeam_healnade {
+    	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture flash_godray.png
+			}
+		}
+	}
+}

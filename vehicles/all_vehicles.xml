@@ -39,6 +39,7 @@
   <vehicle file="deployable_gl_2.vehicle" />
   <vehicle file="mortar.vehicle" />
   <vehicle file="mortar_2.vehicle" />
+  <vehicle file="coastal_gun.vehicle" />
   <vehicle file="tow.vehicle" />	
   <vehicle file="tow_2.vehicle" />    	
   <vehicle file="hornet.vehicle" />
