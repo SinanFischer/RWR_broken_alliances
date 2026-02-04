@@ -1,0 +1,18 @@
+// Material für coastal_gun_damage.mesh (SubEntity erwartet "coastal_gun_damage_new_default")
+material coastal_gun_damage_new_default
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            ambient 0.8 0.8 0.8 1.0
+            diffuse 0.64 0.64 0.64 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            texture_unit
+            {
+                texture coastal_gun_damage.png
+            }
+        }
+    }
+}

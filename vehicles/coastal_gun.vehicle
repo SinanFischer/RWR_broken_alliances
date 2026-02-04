@@ -37,7 +37,7 @@
 	<sound key="hit" filename="car_hit2.wav" />
 	<sound key="hit" filename="car_hit3.wav" />
 
-	<sound key="turret_rotation" filename="turret_crank_turning_looped.wav" volume="0.1" />
+	<!-- turret_rotation: turret_crank_turning_looped.wav nicht im Mod/Basis – weggelassen, Turret dreht still -->
 	
 	<event key="destroy_xp_reward">
 		<trigger class="destroy" />
