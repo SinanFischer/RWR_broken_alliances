@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources clear_weapons="1" clear_projectiles="1">
+	<!-- Deckungstruppe: Basis-Primaries + Shotgun (Chance Schild+Shotgun), Slot 1 = Sandsack ODER Schild. Nur AT- und Cluster-Granaten. -->
+	<weapon key='g36.weapon' />
+	<weapon key='hk416.weapon' />
+	<weapon key='steyr_aug.weapon' />
+	<weapon key='caws.weapon' />
+	<weapon key='spas-12.weapon' />
+	<weapon key='cover_resource.weapon' />
+	<weapon key='riot_shield.weapon' />
+	<carry_item key='vest1.carry_item' />
+	<projectile key="at_grenade.projectile" />
+	<projectile key="cluster_grenade.projectile" />
+</resources>

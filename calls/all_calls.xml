@@ -20,6 +20,6 @@
 	<call file="tow_drop.call" />
 	<call file="minig_drop.call" />
 	<call file="mg_drop.call" />
-	<!-- <call file="mg5_drop.call" /> -->
+	<call file="mg5_drop.call" />
 	<call file="mines.call" />
 </calls>

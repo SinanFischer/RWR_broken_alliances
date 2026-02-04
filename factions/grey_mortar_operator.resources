@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources clear_weapons="1" clear_projectiles="1">
+	<!-- Mortar Operator: wenig Waffen – Granatwerfer, MP, ein Basis-Sturmgewehr; Slot 1 = Mörser Deploy. -->
+	<weapon key='m79.weapon' />
+	<weapon key='mp7.weapon' />
+	<weapon key='hk416.weapon' />
+	<weapon key='mortar_resource.weapon' />
+	<carry_item key='vest1.carry_item' />
+	<!-- Nur Cluster- und AT-Granaten (nach clear_projectiles nur diese) -->
+	<projectile key="at_grenade.projectile" />
+	<projectile key="cluster_grenade.projectile" />
+</resources>

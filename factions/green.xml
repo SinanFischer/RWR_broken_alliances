@@ -296,6 +296,57 @@
 	</soldier>
 
 	<!-- -------------- -->
+	<!-- Mortar Operator (Mörser Deploy im Slot 1, selten) -->
+	<!-- -------------- -->
+	<soldier name="mortar_operator" spawn_score="0.012" squad_size_xp_cap="0.0">
+		<character filename="default_male.character" />
+		<ai filename="default.ai" />
+		<models file="green_default_basic.models" />
+		<models file="green_default.models" />
+
+		<resources file="common.resources" />
+		<resources file="green_mortar_operator.resources" />
+
+		<item_class_existence_config>
+			<item_class_existence class="weapon" slot="1" probability="1.0" />
+			<item_class_existence class="carry_item" slot="1" probability="0.3" />
+		</item_class_existence_config>
+
+		<attribute_config class="xp">
+			<attribute weight="1.0" min="0.2" max="1.2" />
+		</attribute_config>
+		<attribute_config class="rp">
+			<attribute weight="1.0" min="150.0" max="500.0" />
+		</attribute_config>
+	</soldier>
+
+	<!-- -------------- -->
+	<!-- Deckungstruppe (Pioniere: Sandsack ODER Schild im Slot 1, geben Deckung) -->
+	<!-- -------------- -->
+	<soldier name="cover_troop" spawn_score="0.06" squad_size_xp_cap="0.0">
+		<character filename="default_male.character" />
+		<ai filename="cover_troop.ai" />
+		<models file="green_default_basic.models" />
+		<models file="green_default.models" />
+
+		<resources file="common.resources" />
+		<resources file="green_cover_troop.resources" />
+
+		<item_class_existence_config>
+			<item_class_existence class="weapon" slot="1" probability="1.0" />
+			<item_class_existence class="carry_item" slot="1" probability="0" />
+			<item_class_existence class="carry_item" slot="0" probability="0.02" />
+		</item_class_existence_config>
+
+		<attribute_config class="xp">
+			<attribute weight="1.0" min="0.15" max="1.0" />
+		</attribute_config>
+		<attribute_config class="rp">
+			<attribute weight="1.0" min="180.0" max="550.0" />
+		</attribute_config>
+	</soldier>
+
+	<!-- -------------- -->
 	<!-- Grenadier (Explosions-Chaos, Milkor MGL) -->
 	<!-- -------------- -->
 	<soldier name="grenadier" spawn_score="0.04" squad_size_xp_cap="0.0">

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<call name="MG squad (5)" key="mg5_drop.call"
-      initiation_comment1="I need machine gunners"
-      initiation_comment2="Requesting 5 machine gunner squad"
-      acknowledge_comment="Roger, 5 MG gunners enroute"
-      launch_comment="MG squad arriving on location">
+<call name="Deckungstruppe (5)" key="mg5_drop.call"
+      initiation_comment1="I need cover troops"
+      initiation_comment2="Requesting 5 cover squad"
+      acknowledge_comment="Roger, 5 cover troops enroute"
+      launch_comment="Cover squad arriving on location">
 
     <round instances="5"
            instance_class="soldier"
-           instance_key="support"
+           instance_key="cover_troop"
            instance_spread="10 15 10"
            common_spread="0 0 0"
            launch_time="5.0"
@@ -20,6 +20,6 @@
     <hud_icon filename="hud_paratroopers3.png" />
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="100" source="rank" source_value="1.0" />
-    <inventory encumbrance="0.0" price="500.0" />
+    <inventory encumbrance="0.0" price="300.0" />
 
 </call>
