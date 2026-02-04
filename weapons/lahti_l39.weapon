@@ -13,8 +13,8 @@
   name="Lahti L-39" 
   class="2" 
   reload_one_at_a_time="0" 
-  sight_range_modifier="2.1" 
-  projectile_speed="190.0" 
+  sight_range_modifier="2.2" 
+  projectile_speed="250.0" 
   barrel_offset="0.65" 
   projectiles_per_shot="1" />
   
@@ -55,10 +55,10 @@
     <stance state_key="walking" accuracy="0.5" />
     <stance state_key="crouch_moving" accuracy="0.1" />
     <stance state_key="standing" accuracy="0.7" />
-    <stance state_key="crouching" accuracy="0.9" />
-    <stance state_key="prone" accuracy="1.0" /> 
+    <stance state_key="crouching" accuracy="0.95" />
+    <stance state_key="prone" accuracy="1.11" /> 
     <stance state_key="prone_moving" accuracy="0.1" />
-    <stance state_key="over_wall" accuracy="0.85" />
+    <stance state_key="over_wall" accuracy="0.92" />
     
     <modifier class="speed" value="-0.17" />
 </weapon>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectile class="grenade" name="Tank cannon" slot="1" pulldown_in_air="2.0" key="tank_cannon.projectile">
     <tag name="rocket"/>
-    <result class="blast" radius="4.0" damage="1.1" decal="1" />
+    <result class="blast" radius="16.0" damage="10.0" push="3.0" decal="1" />
     <trigger class="impact" />
     <rotation class="motion" />
     <model mesh_filename="mortar_shell.xml" />
