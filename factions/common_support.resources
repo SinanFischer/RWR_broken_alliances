@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Nur für Support (MG): Gun-Truck-Flare mit geringer Spawn-Chance (commonness in guntruck_flare.projectile) -->
+	<projectile key="guntruck_flare.projectile" enabled="1" />
+</resources>
