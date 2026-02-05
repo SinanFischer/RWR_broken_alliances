@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- EOD Light: Javelin für Slot 1 (70 % Chance über item_class_existence) -->
+	<weapon key="javelin.weapon" />
+	<!-- Zusätzliche bessere Primaries (kommen zum Faction-Pool dazu) -->
+	<weapon key="honey_badger.weapon" />
+	<weapon key="f2000.weapon" />
+	<weapon key="vss_vintorez.weapon" />
+</resources>

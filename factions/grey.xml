@@ -302,6 +302,33 @@
 	</soldier>
 
 	<!-- -------------- -->
+	<!-- EOD Light (keine Stürmer, schnell auf Fahrzeuge, 70 % Javelin, Cluster/Hand/AT-Granate) -->
+	<!-- -------------- -->
+	<soldier name="eod_light" spawn_score="0.04" squad_size_xp_cap="0.0">
+		<character filename="default_male.character" />
+		<ai filename="eod_light.ai" />
+		<models file="grey_default_basic.models" />
+		<models file="grey_default.models" />
+
+		<resources file="common.resources" />
+		<resources file="grey_primaries.resources" />
+		<resources file="common_eod_light.resources" />
+		<resources file="grey_eod_light.resources" />
+
+		<item_class_existence_config>
+			<item_class_existence class="weapon" slot="1" probability="0.7" />
+			<item_class_existence class="projectile" slot="0" probability="1.0" />
+		</item_class_existence_config>
+
+		<attribute_config class="xp">
+			<attribute weight="1.0" min="0.2" max="1.2" />
+		</attribute_config>
+		<attribute_config class="rp">
+			<attribute weight="1.0" min="200.0" max="600.0" />
+		</attribute_config>
+	</soldier>
+
+	<!-- -------------- -->
 	<!-- Mortar Operator (Mörser Deploy im Slot 1, selten) -->
 	<!-- -------------- -->
 	<soldier name="mortar_operator" spawn_score="0.012" squad_size_xp_cap="0.0" firstnames_file="names/mortar_operator_firstname.txt">

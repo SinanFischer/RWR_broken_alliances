@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ai>
+  <!-- Overrides gegenüber default.ai – alle übrigen Werte kommen von default.ai -->
+  <parameter class="vehicle_target_aim_time" value="0.75" />
+  <parameter class="guard_range_from_leader_margin" value="0.75" />
+  <parameter class="fighting_against_vehicle_separation" value="12.5" />
+  <parameter class="day_reaction_time_to_fight_min" value="0.45" />
+  <parameter class="day_reaction_time_to_fight_max" value="0.7" />
+  <parameter class="night_reaction_time_to_fight_min" value="0.45" />
+  <parameter class="night_reaction_time_to_fight_max" value="1.0" />
+  <parameter class="willingness_to_guard" value="0.0" />
+  <parameter class="willingness_to_charge" value="0.0" />
+</ai>
