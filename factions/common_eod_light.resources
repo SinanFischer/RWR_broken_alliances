@@ -2,15 +2,14 @@
 <resources clear_weapons="1">
 	<!-- EOD Light: eigener Waffen-Pool (kein common/faction-Pool), nur diese Waffen -->
 	<weapon key="medikit.weapon" />
-	<!-- Slot 1 (Zweitwaffen): Javelin, Granatwerfer-Kit, MG-Kit, MGL Flasher, abgesägte Schrotflinte, MP7, Kriss Vector, P90 -->
+	<!-- Slot 1 (Zweitwaffen): Panzerabwehr priorisiert – Javelin, M72 LAW, RPG-7, SMAW + 2 Support-Optionen -->
 	<weapon key="javelin.weapon" />
+	<weapon key="m72_law.weapon" />
+	<weapon key="rpg-7.weapon" />
+	<weapon key="smaw.weapon" />
 	<weapon key="gl_resource.weapon" />
 	<weapon key="mg_resource.weapon" />
 	<weapon key="mgl_flasher.weapon" />
-	<weapon key="sawnoff.weapon" />
-	<weapon key="mp7.weapon" />
-	<weapon key="kriss_vector.weapon" />
-	<weapon key="p90.weapon" />
 	<!-- Slot 0 (Primaries) – Basis + Brown: Dragunov, RPK, PKM, AUG, SG552, APR, Pecheneg, SV98, Saiga -->
 	<weapon key="honey_badger.weapon" />
 	<weapon key="f2000.weapon" />

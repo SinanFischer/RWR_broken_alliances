@@ -314,7 +314,8 @@
 		<resources file="grey_eod_light.resources" />
 
 		<item_class_existence_config>
-			<item_class_existence class="weapon" slot="1" probability="0.7" />
+			<!-- Immer Zweitwaffe (Slot 1), Pool ist AT-lastig → ~67 % Panzerabwehr -->
+			<item_class_existence class="weapon" slot="1" probability="1.0" />
 			<item_class_existence class="projectile" slot="0" probability="1.0" />
 			<!-- Weste Stufe 1–4 oder keine (85 % Weste, 15 % ohne) -->
 			<item_class_existence class="carry_item" slot="1" probability="0.85" />
