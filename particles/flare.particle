@@ -101,6 +101,8 @@ particle_system FlareFlash
 	}
 }
 
+particle_system FlareSparkleBlue
+{
 	quota	500
 	material	FlareSparkle
 	particle_width	0.2
@@ -139,9 +141,6 @@ particle_system FlareFlash
 	{
 		rate	-0.8
 	}
-
-
-
 
 	affector ColourFader
 	{

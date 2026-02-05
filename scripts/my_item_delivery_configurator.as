@@ -80,7 +80,11 @@ class MyItemDeliveryConfigurator : ItemDeliveryConfiguratorInvasion {
 		list.push_back(Resource("qbs-09.weapon", "weapon"));
 		list.push_back(Resource("rpg-7.weapon", "weapon"));
 		list.push_back(Resource("pb.weapon", "weapon")); 
-		list.push_back(Resource("aek_919k.weapon", "weapon"));     
+		list.push_back(Resource("aek_919k.weapon", "weapon"));
+
+		// squad equipment kits (from Project Apocalypse)
+		list.push_back(Resource("squad_equipment_kit.weapon", "weapon"));
+		list.push_back(Resource("squad_equipment_kit_navy.weapon", "weapon"));     
 
 		return list;
 	}

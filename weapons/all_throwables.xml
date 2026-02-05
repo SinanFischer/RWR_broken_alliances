@@ -51,6 +51,7 @@
   <projectile file="javelin_ap_sub.projectile" />
   <projectile file="dooms_hammer.projectile" />
   <projectile file="guntruck_flare.projectile" />
+  <projectile file="wiesel_flare.projectile" />
   <projectile file="vulcan_acav_flare.projectile" />
   <projectile file="30mm.projectile" />
   <projectile file="30mm_blast.projectile" />
@@ -73,6 +74,7 @@
   <projectile file="stim_open.projectile"/>
   <projectile file="noxe.projectile" />
   <projectile file="squad_equipment_kit.projectile" />
+  <projectile file="squad_equipment_kit_navy.projectile" />
   <projectile file="cluster_bomb.projectile" />
   <projectile file="cluster_bomb_sub.projectile" />
   <projectile file="cluster_bomb_sub_blast.projectile" />

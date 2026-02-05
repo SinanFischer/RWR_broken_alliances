@@ -148,7 +148,12 @@
   <vehicle file="lailv-002.vehicle" />
   <vehicle file="lailv-002_spawn.vehicle" />
   <vehicle file="mmls-528.vehicle" />
-  <vehicle file="mmls-528_spawn.vehicle" />  
+  <vehicle file="mmls-528_spawn.vehicle" />
  	<vehicle file="radar_towera.vehicle" />
+
+  <!-- Wiesel (Project Apocalypse) -->
+  <vehicle file="wiesel_tow.vehicle" />
+  <vehicle file="wiesel_spawn.vehicle" />
+  <vehicle file="wiesel_mk20.vehicle" />
 
 </vehicles>

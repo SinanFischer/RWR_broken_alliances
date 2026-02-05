@@ -2,6 +2,8 @@
 <resources clear_weapons="1" clear_vehicles="1" clear_calls="1">
 	<!-- always load common first; it's the one that clears the initial weapon resources -->
 	<weapon key='medikit.weapon' />
+	<weapon key='squad_equipment_kit.weapon' />
+	<weapon key='squad_equipment_kit_navy.weapon' />
 	<weapon key='riot_shield.weapon' />
 	<weapon key='cover_resource.weapon' />
 	<weapon key='mg_resource.weapon' />
@@ -60,6 +62,7 @@
 	<projectile key="cluster_grenade.projectile" enabled="1" />
 	<projectile key="willys_mb_flare.projectile" enabled="1" />
 	<projectile key="vfs_flare.projectile" enabled="1" />
+	<projectile key="wiesel_flare.projectile" enabled="1" />
     <projectile key="acid_bomb.projectile" enabled="0" />
 	<carry_item key="lottery.carry_item" enabled="0" />
 
@@ -200,6 +203,11 @@
 
 	<vehicle key="vulcan_tank.vehicle" />
 	<vehicle key="buggy.vehicle" />
+
+	<!-- Wiesel (Project Apocalypse) -->
+	<vehicle key="wiesel_tow.vehicle" />
+	<vehicle key="wiesel_spawn.vehicle" />
+	<vehicle key="wiesel_mk20.vehicle" />
 
 	<call key="artillery1.call" />
 	<call key="heavy_mortar.call" />

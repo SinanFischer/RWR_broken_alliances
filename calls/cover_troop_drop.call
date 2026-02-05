@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<call name="EOD Light Reinforcements" key="cover_troop_drop.call"
+<call name="Wiesel Drop" key="cover_troop_drop.call"
 	initiation_comment1="Reinforcements"
-	initiation_comment2="10 EOD Light"
-      acknowledge_comment="Roger, reinforcements enroute"
-      launch_comment="ETA 8 Sierra">
+	initiation_comment2="Wiesel TOW"
+	acknowledge_comment="Roger, Wiesel enroute"
+	launch_comment="ETA 8 Sierra">
 
-    <round instances="10"
-           instance_class="soldier"
-           instance_key="eod_light"
-           instance_spread="10 15 10"
+    <round instances="1"
+           instance_class="vehicle"
+           instance_key="wiesel_tow.vehicle"
+           instance_spread="2 0 2"
            common_spread="0 0 0"
            launch_time="5.0"
-           spawn_time="8.0">
+           spawn_time="8.0"
+           horizontal_offset_at_spawn="0.0"
+           vertical_offset_at_spawn="50.0"
+           initial_speed_to_target="0.0">
 
         <effect class="launch" ref="ShadowAirplaneFlyby" shadow="1" />
         <sound class="launch" fileref="plane_flyby.wav" />

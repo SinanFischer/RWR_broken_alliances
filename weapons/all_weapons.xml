@@ -40,6 +40,8 @@
 	<weapon file="dragunov_svd.weapon" />
 
 	<weapon file="medikit.weapon" />
+	<weapon file="squad_equipment_kit.weapon" />
+	<weapon file="squad_equipment_kit_navy.weapon" />
 
 	<weapon file="tow.weapon" />
 	<weapon file="vss_vintorez.weapon" />
@@ -216,10 +218,14 @@
   
 <!-- 1.94 -->
 
-	<weapon file="missile_launcher.weapon" />  
+	<weapon file="missile_launcher.weapon" />
 	<!-- lijia_pumpkin.weapon removed: pumpkin vehicle/particle not in TC -->
 
-	
+	<!-- Wiesel (Project Apocalypse) -->
+	<weapon file="wiesel_mg3.weapon" />
+	<weapon file="wiesel_tow.weapon" />
+	<weapon file="wiesel_mk20.weapon" />
+
 </weapons>
 
 

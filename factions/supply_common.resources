@@ -2,6 +2,8 @@
 <resources clear_weapons="1" clear_vehicles="1" clear_calls="1">
 	<!-- always load common first; it's the one that clears the initial weapon resources -->
 	<weapon key='medikit.weapon' />
+	<weapon key='squad_equipment_kit.weapon' />
+	<weapon key='squad_equipment_kit_navy.weapon' />
 	<weapon key='binoculars.weapon' />  
 	<weapon key='wrench_small.weapon' enabled="1" /> 
 	<weapon key='wrench.weapon' enabled="1" />  
@@ -22,6 +24,7 @@
 	<projectile key="vfs_flare.projectile" enabled="1" />
 	<projectile key="guntruck_flare.projectile" enabled="1" />
 	<projectile key="willys_mb_flare.projectile" enabled="1" />
+	<projectile key="wiesel_flare.projectile" enabled="1" />
 	<projectile key="dogbone.projectile" enabled="1" />
 	<projectile key="at_mine.projectile" enabled="1" />  
 
