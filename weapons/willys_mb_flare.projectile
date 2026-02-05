@@ -6,8 +6,8 @@
     <model mesh_filename="flare_stick.mesh" texture_filename="flare_stick_ivy.png" />
     <hud_icon filename="hud_jackal.png" />
     <throwable curve_height="3.0" near_far_distance="5.0" speed_estimation_near="9.0" speed_estimation_far="17.0" max_speed="9.0" randomness="0.07" />
-    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.06" can_respawn_with="0" in_stock="1" />
     <capacity value="1" source="rank" source_value="0.0" />
     <capacity value="2" source="rank" source_value="0.25" />
-    <inventory encumbrance="2.0" price="220" />
+    <inventory encumbrance="2.0" price="70" />
 </projectile>

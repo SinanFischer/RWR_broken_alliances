@@ -58,6 +58,8 @@
 	<projectile key="at_grenade.projectile" enabled="1" />
 	<projectile key="healnade.projectile" enabled="1" />
 	<projectile key="cluster_grenade.projectile" enabled="1" />
+	<projectile key="willys_mb_flare.projectile" enabled="1" />
+	<projectile key="vfs_flare.projectile" enabled="1" />
     <projectile key="acid_bomb.projectile" enabled="0" />
 	<carry_item key="lottery.carry_item" enabled="0" />
 

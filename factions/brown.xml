@@ -76,6 +76,8 @@
 			<item_class_existence class="carry_item" slot="1" probability="0.02" />
 			<!-- backpack -->
 			<item_class_existence class="carry_item" slot="0" probability="0.03" />
+			<!-- throwable slot: geringe Chance auf Jackal/VFS-Flare -->
+			<item_class_existence class="projectile" slot="0" probability="0.14" />
 		</item_class_existence_config>
 
 		<attribute_config class="rp">
