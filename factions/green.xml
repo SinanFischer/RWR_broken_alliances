@@ -302,7 +302,7 @@
 	<!-- -------------- -->
 	<!-- EOD Light (keine Stürmer, schnell auf Fahrzeuge, 70 % Javelin, Cluster/Hand/AT-Granate) -->
 	<!-- -------------- -->
-	<soldier name="eod_light" spawn_score="0.032" squad_size_xp_cap="0.0">
+	<soldier name="eod_light" spawn_score="0.048" squad_size_xp_cap="0.0">
 		<character filename="default_male.character" />
 		<ai filename="eod_light.ai" />
 		<models file="green_eod_light.models" />

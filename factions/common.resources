@@ -216,9 +216,10 @@
 	<call key="humvee.call" />
 	<call key="vulcan_tank.call" />
 	<call key="apc.call" />
+	<!-- Tank pro Fraktion nur in grey_default / green_default / brown_default -->
 	<!-- <call key="tank.call" /> -->
-	<call key="tank_1.call" />
-	<call key="tank_2.call" />
+	<!-- <call key="tank_1.call" /> -->
+	<!-- <call key="tank_2.call" /> -->
 	<!-- <call key="artillery2.call" /> -->
   
 	<call key="mg_drop.call" />
