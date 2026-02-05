@@ -2,6 +2,11 @@
 <resources clear_weapons="1">
 	<!-- Grenadier: reines Explosions-Chaos, nur Milkor MGL als Primary; Sekundär = Faction-Secondaries -->
 	<weapon key='milkor_mgl.weapon' />
+	<!-- Wurf-Slot 0: Wiesel-Flare oder Granaten (z. B. Hand/AT/Impact) -->
+	<projectile key="wiesel_flare.projectile" />
+	<projectile key="hand_grenade.projectile" />
+	<projectile key="at_grenade.projectile" />
+	<projectile key="impact_grenade.projectile" />
 	<!-- Westen (Wearables Slot 1) -->
 	<carry_item key='vest1.carry_item' />
 	<carry_item key='vest2.carry_item' />

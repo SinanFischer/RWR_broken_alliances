@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <call 	name="Specialist Squad" key="paratroopers3.call"
 	initiation_comment1="Reinforcements"
-	initiation_comment2="Requesting Special Forces squad (3)"
+	initiation_comment2="Requesting Special Forces squad"
 	acknowledge_comment="Roger, Special Forces enroute"
 	launch_comment="Alpha team arriving on location">
 

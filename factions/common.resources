@@ -215,7 +215,7 @@
 	<!-- <call key="railway_artillery.call" /> -->
 
 	<call key="paratroopers1.call" />
-	<call key="cover_troop_drop.call" />
+	<!-- <call key="cover_troop_drop.call" /> -->  <!-- Wiesel Drop auskommentiert -->
 	<call key="paratroopers2.call" />
 	<call key="paratroopers3.call" />
 	<call key="paratroopers4.call" />

@@ -45,6 +45,8 @@
 	<weapon key="scorpion-evo.weapon" />
 	<weapon key="famasg1.weapon" />
 	<weapon key="caws.weapon" />
+	<!-- Wurf-Slot 0: Mit Chance Wiesel-Flare (Wiesel-Drop) -->
+	<projectile key="wiesel_flare.projectile" />
 	<!-- Alle Westen (1–4) + Möglichkeit auf keine (über probability in item_class_existence) -->
 	<carry_item key="vest1.carry_item" />
 	<carry_item key="vest2.carry_item" />

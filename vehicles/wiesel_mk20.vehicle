@@ -19,7 +19,7 @@
 	max_limiter_speed="6.0"/>
 
 	<physics
-	max_health="8.0"
+	max_health="6.0"
 	mass="120.0"
 	broken_mass="5"
 	remove_collision_threshold="0.2"
