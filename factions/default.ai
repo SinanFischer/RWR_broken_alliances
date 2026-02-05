@@ -2,8 +2,10 @@
 <ai>
   <parameter class="vehicle_stuck_short_time" value="18.0" />
   <parameter class="in_trenches_fade_off_timer" value="4.0" />
-  <parameter class="accuracy_penalty_wear_off_rate" value="0.333" /> 
-  <parameter class="check_vehicles_interval" value="2.0" />
+  <parameter class="accuracy_penalty_wear_off_rate" value="0.333" />
+  <!-- Öfter prüfen = KI steigt eher in Fahrzeuge ein (Vanilla: 2.0 / 10.0) -->
+  <parameter class="check_vehicles_interval" value="0.8" />
+  <parameter class="check_vehicles_while_fire_open_interval" value="4.0" />
   <parameter class="team_member_monitor_enemies_time" value="1.35" />
   <parameter class="monitor_enemies_time" value="0.8" />
   <parameter class="check_supplies_time" value="5.0" />

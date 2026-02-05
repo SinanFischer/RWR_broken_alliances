@@ -10,7 +10,7 @@
 	<!-- one weapon per turret so that only one soldier controls the turret orientation -->
 	<!-- similarly, a controllable turret can only exist if it has a weapon -->
 	<!-- turrets may have sub-turrets, which may have more weapons, in the future -->
-	<turret offset="0 3.0 0.0" weapon_key="vulcan_tank_mg.weapon" weapon_offset="0.0 +0.3 1.8" weapon_recoil="0.0" physics_recoil="0.0" max_rotation_step="0.0001" />
+	<turret offset="0 3.0 0.0" weapon_key="vulcan_tank_mg.weapon" weapon_offset="0.0 +0.3 1.8" weapon_recoil="0.0" physics_recoil="0.0" max_rotation_step="0.00008" />
 
 
 	<visual class="chassis" mesh_filename="vulcan_body.mesh" texture_filename="vulcan.png" max_tilt="0.06" />

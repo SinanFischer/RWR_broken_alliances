@@ -11,15 +11,15 @@
 	<call file="tactical_strike.call" />
 	<call file="vulcan_tank.call" />
 	<call file="humvee.call" />
+	<call file="wiesel_drop.call" />
+	<call file="apc.call" />
 	<call file="tank.call" />
 	<call file="paratroopers4.call" />
 	<call file="cover_drop.call" />
-	<call file="apc.call" />
 	<call file="tank_1.call" />
 	<call file="tank_2.call" />
 	<call file="tow_drop.call" />
 	<call file="minig_drop.call" />
 	<call file="mg_drop.call" />
-	<call file="cover_troop_drop.call" />
 	<call file="mines.call" />
 </calls>
