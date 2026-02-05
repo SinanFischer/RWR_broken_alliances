@@ -302,21 +302,20 @@
 	<!-- -------------- -->
 	<!-- EOD Light (keine Stürmer, schnell auf Fahrzeuge, 70 % Javelin, Cluster/Hand/AT-Granate) -->
 	<!-- -------------- -->
-	<soldier name="eod_light" spawn_score="0.04" squad_size_xp_cap="0.0">
+	<soldier name="eod_light" spawn_score="0.032" squad_size_xp_cap="0.0">
 		<character filename="default_male.character" />
 		<ai filename="eod_light.ai" />
 		<models file="green_eod_light.models" />
 
 		<resources file="common.resources" />
-		<resources file="green_primaries.resources" />
 		<resources file="common_eod_light.resources" />
 		<resources file="green_eod_light.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="0.7" />
 			<item_class_existence class="projectile" slot="0" probability="1.0" />
-			<!-- Immer Weste Stufe 1–4 -->
-			<item_class_existence class="carry_item" slot="1" probability="1.0" />
+			<!-- Weste Stufe 1–4 oder keine (85 % Weste, 15 % ohne) -->
+			<item_class_existence class="carry_item" slot="1" probability="0.85" />
 		</item_class_existence_config>
 
 		<attribute_config class="xp">

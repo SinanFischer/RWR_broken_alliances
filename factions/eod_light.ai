@@ -9,5 +9,5 @@
   <parameter class="night_reaction_time_to_fight_min" value="0.45" />
   <parameter class="night_reaction_time_to_fight_max" value="1.0" />
   <parameter class="willingness_to_guard" value="0.0" />
-  <parameter class="willingness_to_charge" value="0.0" />
+  <parameter class="willingness_to_charge" value="0.14" />
 </ai>

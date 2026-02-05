@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<!-- EOD Light: Javelin für Slot 1 (70 % Chance über item_class_existence) -->
+<resources clear_weapons="1">
+	<!-- EOD Light: eigener Waffen-Pool (kein common/faction-Pool), nur diese Waffen -->
+	<weapon key="medikit.weapon" />
+	<!-- Slot 1 (Zweitwaffen): Javelin, Granatwerfer-Kit, MG-Kit, MGL Flasher, abgesägte Schrotflinte -->
 	<weapon key="javelin.weapon" />
-	<!-- Zusätzliche bessere Primaries (kommen zum Faction-Pool dazu) -->
+	<weapon key="gl_resource.weapon" />
+	<weapon key="mg_resource.weapon" />
+	<weapon key="mgl_flasher.weapon" />
+	<weapon key="sawnoff.weapon" />
 	<weapon key="honey_badger.weapon" />
 	<weapon key="f2000.weapon" />
 	<weapon key="vss_vintorez.weapon" />
-	<!-- Weste Stufe 1–4: immer eine davon (item_class_existence slot 1 = 1.0) -->
+	<weapon key="stoner_lmg.weapon" />
+	<weapon key="mg42.weapon" />
+	<weapon key="scarssr.weapon" />
+	<!-- Alle Westen (1–4) + Möglichkeit auf keine (über probability in item_class_existence) -->
 	<carry_item key="vest1.carry_item" />
 	<carry_item key="vest2.carry_item" />
 	<carry_item key="vest3.carry_item" />
+	<carry_item key="vest4.carry_item" />
 </resources>
