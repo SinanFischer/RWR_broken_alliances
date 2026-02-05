@@ -6,4 +6,8 @@
 	<weapon key="honey_badger.weapon" />
 	<weapon key="f2000.weapon" />
 	<weapon key="vss_vintorez.weapon" />
+	<!-- Weste Stufe 1–4: immer eine davon (item_class_existence slot 1 = 1.0) -->
+	<carry_item key="vest1.carry_item" />
+	<carry_item key="vest2.carry_item" />
+	<carry_item key="vest3.carry_item" />
 </resources>

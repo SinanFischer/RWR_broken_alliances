@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <call name="machinegun emplacement drop" key="mg_drop.call"
-      initiation_comment1="I need an MG emplacement"
+      initiation_comment1="I need MG emplacements"
       acknowledge_comment="Confirmed, MG enroute"
       launch_comment="MG emplacement dropping now">
 
-    <round instances="1"
+    <round instances="2"
            instance_class="weapon"
            instance_key="mg_resource.weapon" 
            instance_spread="0.5 0.5 0.5" 
@@ -20,6 +20,6 @@
     <hud_icon filename="hud_deployable_mg.png" />
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="100" source="rank" source_value="0.12" />
-    <inventory encumbrance="0.0" price="100.0" />
+    <inventory encumbrance="0.0" price="124.0" />
 
 </call>

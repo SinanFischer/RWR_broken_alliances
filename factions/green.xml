@@ -305,8 +305,7 @@
 	<soldier name="eod_light" spawn_score="0.04" squad_size_xp_cap="0.0">
 		<character filename="default_male.character" />
 		<ai filename="eod_light.ai" />
-		<models file="green_default_basic.models" />
-		<models file="green_default.models" />
+		<models file="green_eod_light.models" />
 
 		<resources file="common.resources" />
 		<resources file="green_primaries.resources" />
@@ -316,6 +315,8 @@
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="0.7" />
 			<item_class_existence class="projectile" slot="0" probability="1.0" />
+			<!-- Immer Weste Stufe 1–4 -->
+			<item_class_existence class="carry_item" slot="1" probability="1.0" />
 		</item_class_existence_config>
 
 		<attribute_config class="xp">

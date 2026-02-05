@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<models>
+	<!-- EOD Light: Riotgear-Skin (aus Project Apocalypse, ein Look für alle Fraktionen – keine grüne Variante vorhanden) -->
+	<model filename="soldier_riotgear.xml" />
+</models>
