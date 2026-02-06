@@ -11,8 +11,8 @@
   suppressed="0" 
   name="G36" 
   class="0" 
-  sight_range_modifier="1.1"
-  projectile_speed="97.0" 
+  sight_range_modifier="1.2"
+  projectile_speed="105.0" 
   barrel_offset="0.2" />
 
     <animation key="recoil" ref="12" />
@@ -35,7 +35,7 @@
 
     <weak_hand_hold offset="0.0" />
     <projectile file="bullet.projectile">
-        <result class="hit"  kill_probability="0.48" kill_decay_start_time="0.29" kill_decay_end_time="0.69" />
+        <result class="hit"  kill_probability="0.52" kill_decay_start_time="0.29" kill_decay_end_time="0.69" />
     </projectile>
 	
 	<stance state_key="running" accuracy="0.5" />
@@ -43,8 +43,8 @@
     <stance state_key="crouch_moving" accuracy="0.61" />
     <stance state_key="prone_moving" accuracy="0.58" />
 
-    <stance state_key="standing" accuracy="0.82" />
-    <stance state_key="crouching" accuracy="0.84" />
+	<stance state_key="standing" accuracy="0.88" />
+    <stance state_key="crouching" accuracy="0.91" />
     <stance state_key="prone" accuracy="0.98" />
 	
     <modifier class="speed" value="-0.014" />

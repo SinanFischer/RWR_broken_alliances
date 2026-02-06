@@ -12,7 +12,7 @@
   suppressed="0" 
   name="MG4" 
   class="0" 
-  projectile_speed="95.0" /> <!--280-->
+  projectile_speed="102.0" /> <!--280-->
 
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />
@@ -36,7 +36,7 @@
 
     <weak_hand_hold offset="0.4" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.5" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
+        <result class="hit" kill_probability="0.52" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
     </projectile>
 
    <stance state_key="running" accuracy="0.2" />
