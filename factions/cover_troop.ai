@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Deckungstruppe: nur Abweichungen zu default.ai (öfter Deckung platzieren). -->
 <ai filename="default.ai">
   <parameter class="deploy_recheck_time" value="2.5" />
   <parameter class="minimum_distance_to_consider_deploying_cover" value="8.0" />
@@ -8,5 +7,4 @@
   <parameter class="max_objects_per_sqm_to_consider_deployment" value="0.05" />
   <parameter class="deployment_max_position_pick_attempts" value="4" />
   <parameter class="willingness_to_charge" value="0.1" />
-  <parameter class="minimum_distance_to_consider_deploying_cover" value="12.0" />
 </ai>
