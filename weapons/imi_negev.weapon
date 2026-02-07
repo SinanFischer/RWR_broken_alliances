@@ -2,11 +2,11 @@
 <weapon file="base_primary.weapon" key="imi_negev.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="machine gun" />
     <specification 
-  retrigger_time="0.074" 
+  retrigger_time="0.064" 
   accuracy_factor="0.88" 
-  sustained_fire_grow_step="0.174" 
+  sustained_fire_grow_step="0.26" 
   sustained_fire_diminish_rate="0.59" 
-  magazine_size="130" 
+  magazine_size="160" 
   can_shoot_standing="0" 
   can_shoot_crouching="0" 
   suppressed="0" 
