@@ -2,12 +2,19 @@
 #include "my_stage_configurator.as"
 #include "my_item_delivery_configurator.as"
 #include "my_vehicle_delivery_configurator.as"
+#include "trackers/bullet_flyby_effect.as"
 
 // --------------------------------------------
 class MyGameMode : GameModeCampaign {
 	// --------------------------------------------
 	MyGameMode(UserSettings@ settings) {
 		super(settings);
+	}
+
+	// --------------------------------------------
+	void postBeginMatch() {
+		GameModeCampaign::postBeginMatch();
+		addTracker(BulletFlybyEffect(this));
 	}
 
 	// --------------------------------------------
