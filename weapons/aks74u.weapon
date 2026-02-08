@@ -3,9 +3,9 @@
     <tag name="assault" />
     <specification 
    retrigger_time="0.072" 
-   accuracy_factor="0.96" 
+   accuracy_factor="0.90" 
 sustained_fire_grow_step="0.26" 
-  sustained_fire_diminish_rate="1.18"
+  sustained_fire_diminish_rate="1.9"
     magazine_size="30" 
     can_shoot_standing="1" 
     suppressed="0" 
@@ -33,7 +33,7 @@ sustained_fire_grow_step="0.26"
     <capacity value="1" source="rank" source_value="0.2" />
 
     <projectile file="bullet.projectile">
-        <result class="hit"  kill_probability="0.64" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
+        <result class="hit"  kill_probability="0.62" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
     </projectile>
 	
     <stance state_key="running" accuracy="0.5" />
@@ -41,9 +41,11 @@ sustained_fire_grow_step="0.26"
     <stance state_key="crouch_moving" accuracy="0.7" />
     <stance state_key="prone_moving" accuracy="0.65" />
 
-    <stance state_key="standing" accuracy="0.83" />
-    <stance state_key="crouching" accuracy="0.88" />
-    <stance state_key="prone" accuracy="1.0" />
+
+	<stance state_key="standing" accuracy="0.84" />
+    <stance state_key="crouching" accuracy="0.89" />
+    <stance state_key="prone" accuracy="0.92" />
+	
     
     <modifier class="speed" value="-0.02" />
 </weapon>
