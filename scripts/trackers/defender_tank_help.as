@@ -1,4 +1,4 @@
-// Panzer-Spawn bei 3 Basen in Folge: Wenn die Verteidiger-Fraktion (faction 0) drei
+// Panzer-Spawn bei 2 Basen in Folge: Wenn die Verteidiger-Fraktion (faction 0) zwei
 // aufeinanderfolgende Basen verliert, spawnt ein Panzer an deren Hauptbasis – immer
 // für die Fraktion, die gerade verloren hat (damit die Verteidiger unterstützt werden).
 
@@ -10,16 +10,16 @@
 class DefenderTankHelp : Tracker {
 	protected Metagame@ m_metagame;
 
-	// Anzahl Verluste in Folge, um Panzer-Spawn auszulösen
-	protected const uint CONSECUTIVE_LOSSES_TRIGGER = 3;
+	// Anzahl Verluste in Folge, um Panzer-Spawn auszulösen (AngelScript: kein const für Klasseneigenschaften)
+	protected uint CONSECUTIVE_LOSSES_TRIGGER = 2;
 	// Cooldown in Sekunden (10 Min) – verhindert Spam bei schnellem Base-Rush
-	protected const float COOLDOWN_SECONDS = 600.0f;
+	protected float COOLDOWN_SECONDS = 600.0f;
 
 	protected uint m_consecutiveLosses = 0;
 	protected float m_cooldownTimer = 0.0f;
 
 	// Verteidiger-Fraktion (Spieler/Alliierte in Campaign)
-	protected const int DEFENDER_FACTION_ID = 0;
+	protected int DEFENDER_FACTION_ID = 0;
 
 	// Fahrzeug-Key: tank_2.vehicle = Hauptkampfpanzer der Mod
 	protected string m_tankKey = "tank_2.vehicle";
@@ -83,7 +83,27 @@ class DefenderTankHelp : Tracker {
 			"' instance_class='vehicle' instance_key='" + m_tankKey + "' />";
 		m_metagame.getComms().send(cmd);
 
+		// Commander-Meldung: eigener Key (languages/*/defender_tank_mod.character)
+		sendFactionMessageKey(m_metagame, DEFENDER_FACTION_ID, "Defender tank reinforcement", dictionary(), 2.0);
+
 		_log("DefenderTankHelp: Panzer gespawnt für Fraktion " + DEFENDER_FACTION_ID + " an " + pos.toString(), 1);
+	}
+
+	protected void handleChatEvent(const XmlElement@ event) {
+		Tracker::handleChatEvent(event);
+
+		string message = event.getStringAttribute("message");
+		if (!startsWith(message, "/")) return;
+
+		string sender = event.getStringAttribute("player_name");
+		int senderId = event.getIntAttribute("player_id");
+		if (!m_metagame.getAdminManager().isAdmin(sender, senderId)) return;
+
+		// Test-Command: Panzer-Spawn simulieren (Admin only)
+		if (checkCommand(message, "test_defender_tank")) {
+			spawnTankForDefenders();
+			m_cooldownTimer = 0.0f;  // Cooldown für Test zurücksetzen
+		}
 	}
 
 	bool hasEnded() const { return false; }

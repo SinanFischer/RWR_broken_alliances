@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<character filename="default_base.character">
+	<!-- Tank reinforcement after 2 consecutive base losses -->
+	<comment key="Defender tank reinforcement" text="Attention! Tank reinforcement arrived at main base – use it!" />
+</character>
