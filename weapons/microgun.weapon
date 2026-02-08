@@ -38,7 +38,7 @@
 
     <hud_icon filename="hud_microgun.png" />
     <commonness value="0.0001" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0"  price="800.0" />
+    <inventory encumbrance="10.0"  price="580.0" />
 
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="2.0" />

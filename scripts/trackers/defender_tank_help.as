@@ -45,6 +45,11 @@ class DefenderTankHelp : Tracker {
 	}
 
 	protected void handleBaseOwnerChangeEvent(const XmlElement@ event) {
+		// Engine sendet previous_owner_id und owner_id (neuer Besitzer)
+		if (!event.hasAttribute("previous_owner_id")) {
+			_log("DefenderTankHelp: base_owner_change_event ohne previous_owner_id – Event wird ignoriert", 1);
+			return;
+		}
 		int previousOwnerId = event.getIntAttribute("previous_owner_id");
 		int newOwnerId = event.getIntAttribute("owner_id");
 
@@ -56,6 +61,7 @@ class DefenderTankHelp : Tracker {
 
 		// Base ging an andere Fraktion – Verteidiger haben verloren
 		m_consecutiveLosses++;
+		_log("DefenderTankHelp: Basis verloren (0 -> " + newOwnerId + "), Verluste in Folge=" + m_consecutiveLosses + " (Trigger=" + CONSECUTIVE_LOSSES_TRIGGER + ")", 1);
 
 		if (m_consecutiveLosses < CONSECUTIVE_LOSSES_TRIGGER) {
 			return;
@@ -63,6 +69,7 @@ class DefenderTankHelp : Tracker {
 
 		// Cooldown prüfen
 		if (m_cooldownTimer > 0.0f) {
+			_log("DefenderTankHelp: Trigger erreicht, aber Cooldown aktiv (" + uint(m_cooldownTimer) + "s verbleibend) – kein Panzer-Spawn", 1);
 			return;
 		}
 
@@ -87,6 +94,7 @@ class DefenderTankHelp : Tracker {
 
 		string position = base.getStringAttribute("position");
 		if (position == "") {
+			_log("DefenderTankHelp: Basis hat kein position-Attribut – kein Panzer-Spawn", 1);
 			return;
 		}
 
