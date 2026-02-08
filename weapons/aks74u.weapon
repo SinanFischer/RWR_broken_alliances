@@ -33,7 +33,7 @@ sustained_fire_grow_step="0.26"
     <capacity value="1" source="rank" source_value="0.2" />
 
     <projectile file="bullet.projectile">
-        <result class="hit"  kill_probability="0.50" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
+        <result class="hit"  kill_probability="0.64" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
     </projectile>
 	
     <stance state_key="running" accuracy="0.5" />
