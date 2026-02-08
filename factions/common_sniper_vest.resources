@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sniper: immer Tarnanzug (camouflage_suit) = Ghillie/Camo-Look pro Fraktion (soldier_b1_camouflage_suit / soldier_camouflage_suit / soldier_c1_camouflage_suit). -->
+<resources>
+	<carry_item key='camouflage_suit.carry_item' />
+</resources>

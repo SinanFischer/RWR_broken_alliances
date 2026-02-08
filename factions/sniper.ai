@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sniper-AI: nur Sicht-Parameter (erhöhte Reichweite). Rest = default.ai. -->
+<ai>
+  <parameter class="max_sight_range_with_muzzle" value="120.0" />
+  <parameter class="leader_sight_range" value="100.0" />
+  <parameter class="team_member_sight_range" value="90.0" />
+  <parameter class="prefer_roofs_probability" value="0.95" />
+</ai>

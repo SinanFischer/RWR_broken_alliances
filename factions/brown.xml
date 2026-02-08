@@ -57,7 +57,7 @@
 	<!-- -------------- -->
 	<!-- default group -->
 	<!-- -------------- -->
-	<soldier name="default" spawn_score="0.833">
+	<soldier name="default" spawn_score="0.783">
 		<character filename="default_male.character" />
 		<ai filename="default.ai" />
 
@@ -110,6 +110,38 @@
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="0" />
 			<item_class_existence class="carry_item" slot="1" probability="0.8" />
+			<item_class_existence class="carry_item" slot="0" probability="0.03" />
+			<item_class_existence class="projectile" slot="0" probability="0.45" />
+		</item_class_existence_config>
+
+		<attribute_config class="rp">
+			<attribute weight="0.3" min="200.0" max="800.0" />
+			<attribute weight="0.7" min="100.0" max="600.0" />
+		</attribute_config>
+		<attribute_config class="xp">
+			<attribute weight="1.0" min="0.0" max="1.0" />
+		</attribute_config>
+	</soldier>
+
+	<!-- -------------- -->
+	<!-- sniper group (nur Sniper/DMR, 5 % Spawn; erhöhte Sichtweite) -->
+	<!-- -------------- -->
+	<soldier name="sniper" spawn_score="0.05">
+		<character filename="default_male.character" />
+		<ai filename="sniper.ai" />
+
+		<models file="brown_default_basic.models" />
+		<models file="brown_default.models" />
+
+		<resources file="common_sniper_base.resources" />
+		<resources file="common_sniper_vest.resources" />
+		<resources file="common_sniper_weapons.resources" />
+		<resources file="brown_sniper.resources" />
+		<resources file="brown_default.resources" />
+
+		<item_class_existence_config>
+			<item_class_existence class="weapon" slot="1" probability="0.4" />
+			<item_class_existence class="carry_item" slot="1" probability="1.0" />
 			<item_class_existence class="carry_item" slot="0" probability="0.03" />
 			<item_class_existence class="projectile" slot="0" probability="0.45" />
 		</item_class_existence_config>
