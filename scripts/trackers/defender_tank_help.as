@@ -21,8 +21,18 @@ class DefenderTankHelp : Tracker {
 	// Verteidiger-Fraktion (Spieler/Alliierte in Campaign)
 	protected int DEFENDER_FACTION_ID = 0;
 
-	// Fahrzeug-Key: tank_2.vehicle = Hauptkampfpanzer der Mod
-	protected string m_tankKey = "tank_2.vehicle";
+	// Fraktionsspezifische Panzer (green_default→tank, grey_default→tank_1, brown_default→tank_2)
+	protected string getTankKeyForDefenderFaction() {
+		const array<FactionConfig@>@ configs = m_metagame.getFactionConfigs();
+		if (configs is null || configs.size() <= uint(DEFENDER_FACTION_ID)) {
+			return "tank.vehicle";  // Fallback: RWR1a1
+		}
+		string factionFile = configs[DEFENDER_FACTION_ID].m_file;
+		if (factionFile == "green.xml") return "tank.vehicle";   // RWR1a1 (US)
+		if (factionFile == "grey.xml")  return "tank_1.vehicle"; // Leopold II (EU)
+		if (factionFile == "brown.xml") return "tank_2.vehicle"; // TroX-80 (Russian)
+		return "tank.vehicle";  // Fallback
+	}
 
 	DefenderTankHelp(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -78,15 +88,16 @@ class DefenderTankHelp : Tracker {
 		Vector3 pos = stringToVector3(position);
 		pos.m_values[1] += 5.0f;
 
+		string tankKey = getTankKeyForDefenderFaction();
 		string cmd = "<command class='create_instance' faction_id='" + DEFENDER_FACTION_ID +
 			"' position='" + pos.toString() +
-			"' instance_class='vehicle' instance_key='" + m_tankKey + "' />";
+			"' instance_class='vehicle' instance_key='" + tankKey + "' />";
 		m_metagame.getComms().send(cmd);
 
 		// Commander-Meldung: eigener Key (languages/*/defender_tank_mod.character)
 		sendFactionMessageKey(m_metagame, DEFENDER_FACTION_ID, "Defender tank reinforcement", dictionary(), 2.0);
 
-		_log("DefenderTankHelp: Panzer gespawnt für Fraktion " + DEFENDER_FACTION_ID + " an " + pos.toString(), 1);
+		_log("DefenderTankHelp: Panzer (" + tankKey + ") gespawnt für Fraktion " + DEFENDER_FACTION_ID + " an " + pos.toString(), 1);
 	}
 
 	protected void handleChatEvent(const XmlElement@ event) {
