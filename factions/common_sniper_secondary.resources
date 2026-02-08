@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sniper-Zweitwaffe: immer eine SMG/PDW. -->
+<resources>
+	<weapon key='mp5sd.weapon' />
+	<weapon key='mini_uzi.weapon' />
+	<weapon key='p90.weapon' />
+	<weapon key='aks74u.weapon' />
+	<weapon key='mp7.weapon' />
+	<weapon key='kriss_vector.weapon' />
+	<weapon key='scorpion-evo.weapon' />
+	<weapon key='steyr_tmp.weapon' />
+	<weapon key='qcw-05.weapon' />
+</resources>

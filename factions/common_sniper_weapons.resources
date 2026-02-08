@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Nur echte Sniper für alle Fraktionen (keine DMRs). -->
+<!-- Sniper + DMR für alle Fraktionen. -->
 <resources>
+	<weapon key='vss_vintorez.weapon' />
 	<weapon key='barrett_m107.weapon' />
 	<weapon key='lahti_l39.weapon' />
 	<weapon key='apr.weapon' />
+	<weapon key='scarssr.weapon' />
 </resources>
