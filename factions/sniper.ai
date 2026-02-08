@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Sniper-AI: nur Sicht-Parameter (erhöhte Reichweite). Rest = default.ai. -->
 <ai>
-  <parameter class="max_sight_range_with_muzzle" value="120.0" />
- 
+  <parameter class="max_sight_range_with_muzzle" value="80.0" />
+   <parameter class="force_as_leader" value="1" />
   <parameter class="prefer_roofs_probability" value="0.95" />
+    <parameter class="squad_cover_provider_range" value="20.0" />
+  <parameter class="squad_cover_provider_offset_factor" value="-0.9" />
+    <parameter class="shooting_accuracy_ratio_requirement" value="0.88" />  
 </ai>
