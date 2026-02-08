@@ -22,16 +22,22 @@ class DefenderTankHelp : Tracker {
 	protected int DEFENDER_FACTION_ID = 0;
 
 	// Fraktionsspezifische Panzer (green_default→tank, grey_default→tank_1, brown_default→tank_2)
+	// Metagame hat kein getFactionConfigs() – nutze getFactionInfo() aus query_helpers (file- oder name-Attribut)
 	protected string getTankKeyForDefenderFaction() {
-		const array<FactionConfig@>@ configs = m_metagame.getFactionConfigs();
-		if (configs is null || configs.size() <= uint(DEFENDER_FACTION_ID)) {
-			return "tank.vehicle";  // Fallback: RWR1a1
+		const XmlElement@ faction = getFactionInfo(m_metagame, DEFENDER_FACTION_ID);
+		if (faction is null) return "tank.vehicle";
+
+		string factionFile = faction.getStringAttribute("file");
+		if (factionFile != "") {
+			if (factionFile == "green.xml") return "tank.vehicle";
+			if (factionFile == "grey.xml")  return "tank_1.vehicle";
+			if (factionFile == "brown.xml") return "tank_2.vehicle";
 		}
-		string factionFile = configs[DEFENDER_FACTION_ID].m_file;
-		if (factionFile == "green.xml") return "tank.vehicle";   // RWR1a1 (US)
-		if (factionFile == "grey.xml")  return "tank_1.vehicle"; // Leopold II (EU)
-		if (factionFile == "brown.xml") return "tank_2.vehicle"; // TroX-80 (Russian)
-		return "tank.vehicle";  // Fallback
+		// Fallback: name-Attribut (z.B. Greenbelts, Graycollars, Brownpants)
+		string name = faction.getStringAttribute("name").toLowerCase();
+		if (name.findFirst("grey") >= 0 || name.findFirst("gray") >= 0) return "tank_1.vehicle";
+		if (name.findFirst("brown") >= 0) return "tank_2.vehicle";
+		return "tank.vehicle";  // green oder unbekannt
 	}
 
 	DefenderTankHelp(Metagame@ metagame) {

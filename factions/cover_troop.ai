@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ai filename="default.ai">
   <parameter class="deploy_recheck_time" value="2.5" />
-  <parameter class="minimum_distance_to_consider_deploying_cover" value="8.0" />
+  <parameter class="minimum_distance_to_consider_deploying_cover" value="12.0" />
   <parameter class="using_cover_min_time" value="6.0" />
   <parameter class="using_cover_max_time" value="50.0" />
   <parameter class="max_objects_per_sqm_to_consider_deployment" value="0.05" />

@@ -19,8 +19,8 @@
   <parameter class="grenade_monitor_range" value="15.0" />
   <!-- Angepasst an erhöhte Basis-Sichtweite (Standard war 40/35/30) -->
   <parameter class="max_sight_range_with_muzzle" value="80.0" />
-  <parameter class="leader_sight_range" value="75.0" />
-  <parameter class="team_member_sight_range" value="65.0" />
+  <parameter class="leader_sight_range" value="35.0" />
+  <parameter class="team_member_sight_range" value="35.0" />
   <parameter class="strike_frequency_time" value="90.0" /> 
   <parameter class="global_separation_radius_factor" value="1.5" />
   <parameter class="prefer_roofs_probability" value="0.2" />

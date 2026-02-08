@@ -21,4 +21,6 @@
   <parameter class="check_reinforcement_need_time" value="60.0" />
   <parameter class="call_reinforcements_max_distance" value="600.0" />
   <parameter class="willingness_to_charge" value="1.0" />
+      <parameter class="leader_sight_range" value="55.0" />
+  <parameter class="team_member_sight_range" value="55.0" />
 </ai>
