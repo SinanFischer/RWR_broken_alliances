@@ -5,7 +5,7 @@
   <parameter class="fighting_time_fire_not_open" value="3.5" />
   <parameter class="using_cover_min_time" value="5.0" />
   <parameter class="using_cover_max_time" value="22.0" />
-  <parameter class="recheck_cover_over_shootability_time" value="5.0" />
+  <parameter class="recheck_cover_over_shootability_time" value="1.2" />
   <parameter class="burst_time" value="0.9" />
   <parameter class="burst_time_variance" value="0.5" />
   <parameter class="longer_burst_time" value="7.0" />

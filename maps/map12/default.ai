@@ -11,10 +11,10 @@
   <parameter class="team_check_time" value="3.0" />
   <parameter class="check_alert_time" value="1.5" />
   <parameter class="check_reinforcement_need_time" value="30.0" />
-  <parameter class="choose_enemy_time" value="1.0" />
+  <parameter class="choose_enemy_time" value="0.65" />
   <parameter class="check_need_help_time" value="1.0" />
   <parameter class="fighting_time_fire_not_open" value="2.0" />
-  <parameter class="cover_status_recheck_time" value="1.5" />
+  <parameter class="cover_status_recheck_time" value="0.75" />
   <parameter class="deploy_recheck_time" value="5.0" />
   <parameter class="monitor_enemies_to_stab_while_peace" value="2.0" />
   <parameter class="crouching_near_leader_rejoin_range" value="12.0" />
@@ -75,7 +75,7 @@
   <parameter class="night_reaction_time_to_fight_max" value="1.1" />
   <parameter class="willingness_to_guard" value="0.5" />
   <parameter class="minimum_distance_to_consider_deploying_cover" value="18.0" />
-  <parameter class="recheck_cover_over_shootability_time" value="3.0" />
+  <parameter class="recheck_cover_over_shootability_time" value="1.2" />
   <parameter class="max_objects_per_sqm_to_consider_deployment" value="0.08" />
   <parameter class="shielding_min_distance_to_move" value="4.0" />
   <parameter class="shielding_max_distance_to_move" value="7.0" />
