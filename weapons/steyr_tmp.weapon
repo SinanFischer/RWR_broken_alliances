@@ -3,7 +3,7 @@
     <tag name="stealth" />
     <specification 
   retrigger_time="0.09" 
-  accuracy_factor="0.86" 
+  accuracy_factor="0.88" 
   sustained_fire_grow_step="0.3" 
   sustained_fire_diminish_rate="1.0" 
     spread_range="0.26"

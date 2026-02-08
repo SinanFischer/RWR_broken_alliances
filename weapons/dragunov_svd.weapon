@@ -2,7 +2,8 @@
 <weapon file="base_primary.weapon" key="dragunov_svd.weapon" time_to_live_out_in_the_open="20.0">
     <specification 
 	retrigger_time="0.72" 
-	accuracy_factor="0.97" 
+	accuracy_factor="0.88" 
+	spread_range="0.35"
 	sustained_fire_grow_step="2.8" 
 	sustained_fire_diminish_rate="0.74" 
 	magazine_size="16" 
@@ -12,7 +13,7 @@
 	class="4" 
 	burst_shots="1"
 	reload_one_at_a_time="0" 
-	sight_range_modifier="2.15" 
+	sight_range_modifier="2.0" 
 	projectile_speed="175.0" 
 	barrel_offset="0.5" 
 	projectiles_per_shot="1" />
@@ -43,18 +44,18 @@
     <projectile file="bullet.projectile">
         <result 
 		class="hit" 
-		kill_probability="0.96" 
+		kill_probability="0.82" 
 		kill_decay_start_time="0.2" 
 		kill_decay_end_time="1.5" />
     </projectile>
 
     <stance state_key="running" accuracy="0.1" />
-    <stance state_key="walking" accuracy="0.77" />
-    <stance state_key="crouch_moving" accuracy="0.75" />
-    <stance state_key="prone_moving" accuracy="0.85" />
+    <stance state_key="walking" accuracy="0.65" />
+    <stance state_key="crouch_moving" accuracy="0.68" />
+    <stance state_key="prone_moving" accuracy="0.75" />
 
-    <stance state_key="standing" accuracy="0.85" />
-    <stance state_key="crouching" accuracy="0.98" />
-    <stance state_key="prone" accuracy="1.0" />
+    <stance state_key="standing" accuracy="0.78" />
+    <stance state_key="crouching" accuracy="0.88" />
+    <stance state_key="prone" accuracy="0.95" />
     <modifier class="speed" value="-0.028" />    
 </weapon>

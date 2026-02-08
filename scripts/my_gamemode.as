@@ -3,6 +3,7 @@
 #include "my_item_delivery_configurator.as"
 #include "my_vehicle_delivery_configurator.as"
 #include "trackers/bullet_flyby_effect.as"
+#include "trackers/defender_tank_help.as"
 
 // --------------------------------------------
 class MyGameMode : GameModeCampaign {
@@ -15,6 +16,7 @@ class MyGameMode : GameModeCampaign {
 	void postBeginMatch() {
 		GameModeCampaign::postBeginMatch();
 		addTracker(BulletFlybyEffect(this));
+		addTracker(DefenderTankHelp(this));
 	}
 
 	// --------------------------------------------
