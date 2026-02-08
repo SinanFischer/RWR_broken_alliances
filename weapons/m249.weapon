@@ -2,11 +2,11 @@
 <weapon file="base_primary.weapon" key="m249.weapon">
     <tag name="machine gun" />
     <specification 
-  retrigger_time="0.065" 
-  accuracy_factor="0.85" 
-  sustained_fire_grow_step="0.20" 
+  retrigger_time="0.075" 
+  accuracy_factor="0.82" 
+  sustained_fire_grow_step="0.11" 
   sustained_fire_diminish_rate="0.85" 
-  magazine_size="100" 
+  magazine_size="80" 
   can_shoot_standing="0" 
   can_shoot_crouching="0" 
   suppressed="0" 

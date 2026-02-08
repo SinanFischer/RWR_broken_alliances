@@ -2,11 +2,11 @@
 <weapon file="base_primary_rare.weapon" key="pecheneg_bullpup.weapon">
     <tag name="machine gun" />
     <specification 
-    retrigger_time="0.098" 
+    retrigger_time="0.11" 
     accuracy_factor="0.82" 
     sustained_fire_grow_step="0.7" 
     sustained_fire_diminish_rate="1.4" 
-    magazine_size="180" 
+    magazine_size="150" 
     can_shoot_standing="0" 
     can_shoot_crouching="0" 
     suppressed="0" 
@@ -40,7 +40,7 @@
 	
     <weak_hand_hold offset="0.4" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.66" kill_decay_start_time="0.42" kill_decay_end_time="0.90" />
+        <result class="hit" kill_probability="0.73" kill_decay_start_time="0.42" kill_decay_end_time="0.90" />
     </projectile>
     <modifier class="speed" value="-0.08" />    
 </weapon>

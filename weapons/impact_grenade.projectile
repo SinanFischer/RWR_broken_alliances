@@ -9,16 +9,16 @@
     <model mesh_filename="impact_grenade.xml" />
     <hud_icon filename="hud_impact_grenade.png" />
 
-    <throwable curve_height="5.0" near_far_distance="5.0" speed_estimation_near="9.0" speed_estimation_far="17.0" max_speed="14.0" randomness="0.06" tweak_factor="1.1" />
+    <throwable curve_height="5.5" near_far_distance="5.0" speed_estimation_near="10.0" speed_estimation_far="20.0" max_speed="17.0" randomness="0.06" tweak_factor="1.1" />
 
     <!-- projectile slot 0 is used for hand grenade items currently -->
     <!-- bound to change -->
     <commonness value="0.5" />
-    <capacity value="0" source="rank" source_value="0.0" />
-    <capacity value="2" source="rank" source_value="0.05" />
-    <capacity value="3" source="rank" source_value="0.2" />
-    <capacity value="4" source="rank" source_value="0.4" />
-    <inventory encumbrance="4.0" price="2.0" />
+    <capacity value="2" source="rank" source_value="0.0" />
+    <capacity value="4" source="rank" source_value="0.1" />
+    <capacity value="5" source="rank" source_value="0.25" />
+    <capacity value="6" source="rank" source_value="0.4" />
+    <inventory encumbrance="1.0" price="2.0" />
 
     <sound class="result" key="other" fileref="explosion1.wav" />
     <sound class="result" key="other" fileref="explosion2.wav" />  
