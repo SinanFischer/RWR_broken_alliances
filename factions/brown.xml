@@ -57,7 +57,7 @@
 	<!-- -------------- -->
 	<!-- default group -->
 	<!-- -------------- -->
-	<soldier name="default" spawn_score="1.0">
+	<soldier name="default" spawn_score="0.833">
 		<character filename="default_male.character" />
 		<ai filename="default.ai" />
 
@@ -90,6 +90,37 @@
 			<attribute weight="1.0" min="0.0" max="1.0" />
 		</attribute_config>
 
+	</soldier>
+
+	<!-- -------------- -->
+	<!-- shotgun group (nur Shotguns, ~jeder 6. Default-Soldat; Weste 20 % keine, 55 % Weste 1, 25 % Weste 2) -->
+	<!-- -------------- -->
+	<soldier name="shotgun" spawn_score="0.167">
+		<character filename="default_male.character" />
+		<ai filename="shotgun.ai" />
+
+		<models file="brown_default_basic.models" />
+		<models file="brown_default.models" />
+
+		<resources file="common_shotgun_base.resources" />
+		<resources file="common_shotgun_vest.resources" />
+		<resources file="brown_shotgun.resources" />
+		<resources file="brown_default.resources" />
+
+		<item_class_existence_config>
+			<item_class_existence class="weapon" slot="1" probability="0" />
+			<item_class_existence class="carry_item" slot="1" probability="0.8" />
+			<item_class_existence class="carry_item" slot="0" probability="0.03" />
+			<item_class_existence class="projectile" slot="0" probability="0.45" />
+		</item_class_existence_config>
+
+		<attribute_config class="rp">
+			<attribute weight="0.3" min="200.0" max="800.0" />
+			<attribute weight="0.7" min="100.0" max="600.0" />
+		</attribute_config>
+		<attribute_config class="xp">
+			<attribute weight="1.0" min="0.0" max="1.0" />
+		</attribute_config>
 	</soldier>
 	
 	<!-- -------------- -->

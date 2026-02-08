@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<weapon key='saiga12k.weapon' />
+	<weapon key='qbs-09.weapon' />
+</resources>

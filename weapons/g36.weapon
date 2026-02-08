@@ -2,8 +2,8 @@
 <weapon file="base_primary.weapon" key="g36.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="assault" />
     <specification 
-  retrigger_time="0.088" 
-  accuracy_factor="0.99" 
+  retrigger_time="0.075" 
+  accuracy_factor="0.94" 
   sustained_fire_grow_step="0.28" 
   sustained_fire_diminish_rate="1.8" 
   magazine_size="35" 

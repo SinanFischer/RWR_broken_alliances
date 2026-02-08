@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shotgun-Soldat: 80 % Weste (55 % Weste 1, 25 % Weste 2). Kein weight-Attribut → Mehrfachnennung für Verhältnis 55:25 (11:5). -->
+<resources>
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest1.carry_item' />
+	<carry_item key='vest2.carry_item' />
+	<carry_item key='vest2.carry_item' />
+	<carry_item key='vest2.carry_item' />
+	<carry_item key='vest2.carry_item' />
+	<carry_item key='vest2.carry_item' />
+</resources>

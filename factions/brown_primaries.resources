@@ -6,14 +6,10 @@
 	<weapon key='dragunov_svd.weapon' />
 	<weapon key='sv98.weapon' />
 	<weapon key='aks74u.weapon' />
-	<weapon key='saiga12k.weapon' />
 	<weapon key='flamethrower.weapon' />
 	<weapon key='scarssr.weapon' />
 	<weapon key='steyr_aug.weapon' />
-	<weapon key='apr.weapon' />   
-
-      
-	<weapon key='qbs-09.weapon' />
+	<weapon key='apr.weapon' />
 
 	<weapon key='sg552.weapon' />
 
