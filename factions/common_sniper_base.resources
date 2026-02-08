@@ -125,4 +125,5 @@
 	<call key="mg_drop.call" />
 	<call key="mines.call" />
 	<call key="cover_drop.call" />
+	<call key="sniper_drop.call" />
 </resources>

@@ -725,6 +725,7 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 			CallMarkerConfig("tank.call", "call_marker_drop", 12, 0.5),
 			CallMarkerConfig("tank_alt.call", "call_marker_drop", 12, 0.5),
 			CallMarkerConfig("cover_drop.call", "call_marker_drop", 13, 0.5),
+			CallMarkerConfig("sniper_drop.call", "call_marker_drop", 15, 0.5),
             //CallMarkerConfig("a10_gun_run.call", "call_marker", 4, 0.5) //handled in a10_gun_run.as
             CallMarkerConfig("gunship_run.call", "call_marker", 4, 0.5, 58),
 			CallMarkerConfig("gunship_run2.call", "call_marker", 4, 0.5, 58),

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<weapon key='dragunov_svd.weapon' />
 	<weapon key='sv98.weapon' />
 </resources>

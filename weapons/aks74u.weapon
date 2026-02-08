@@ -2,9 +2,9 @@
 <weapon file="base_primary.weapon" key="aks74u.weapon">
     <tag name="assault" />
     <specification 
-   retrigger_time="0.072" 
-   accuracy_factor="0.88" 
-sustained_fire_grow_step="0.27" 
+   retrigger_time="0.062" 
+   accuracy_factor="0.86" 
+sustained_fire_grow_step="0.35" 
   sustained_fire_diminish_rate="1.9"
     magazine_size="30" 
     can_shoot_standing="1" 
@@ -43,8 +43,8 @@ sustained_fire_grow_step="0.27"
 
 
 	<stance state_key="standing" accuracy="0.84" />
-    <stance state_key="crouching" accuracy="0.89" />
-    <stance state_key="prone" accuracy="0.90" />
+    <stance state_key="crouching" accuracy="0.87" />
+    <stance state_key="prone" accuracy="0.88" />
 	
     
     <modifier class="speed" value="-0.02" />
