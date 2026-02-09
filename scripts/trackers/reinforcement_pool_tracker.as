@@ -1,15 +1,20 @@
 // Reinforcement-Pool-Tracker: Pro Fraktion begrenzter Nachschub (z. B. 1000).
-// Jeder Tod eines Soldaten verringert den Pool; bei 0 wird das Spawnen eingestellt.
-// Pro eroberte Basis: Bonus-Nachschub über 5 Min (Side 30, Starke Base 50). Bei Besitzwechsel startet der Counter neu.
+// Jeder Tod verringert den Pool; bei 0 wird Spawn deaktiviert.
+// Eroberungs-Bonus: pro Basis über 5 Min 25/50/100 (leicht/mittel/groß). Verteidiger-Bonus: jede Minute +2/+4/+6 pro gehaltener Basis.
 #include "tracker.as"
 #include "log.as"
 #include "query_helpers.as"
 
 const int REINFORCEMENT_POOL_INITIAL = 1000;  // Nachschub pro Fraktion
-const int BASE_BONUS_DEFAULT = 30;            // Fallback: leichte/Side-Basis
-const int BASE_BONUS_MEDIUM = 40;             // mittlere Schwierigkeit
-const int BASE_BONUS_STRONG = 50;             // schwere/Haupt-Basis
-const float BASE_FILL_TIME = 300.0f;          // Sekunden bis Counter voll (5 Min)
+const int BASE_BONUS_DEFAULT = 25;            // leichte/Side-Basis (Eroberungs-Bonus über 5 Min)
+const int BASE_BONUS_MEDIUM = 50;             // mittlere Basis
+const int BASE_BONUS_STRONG = 100;            // große/Haupt-Basis
+const float BASE_FILL_TIME = 300.0f;         // Sekunden bis Counter voll (5 Min)
+const float BASE_UPDATE_INTERVAL = 1.0f;      // Basis-Bonus-Loop nur alle N Sekunden (weniger getBases-Queries)
+const float DEFENDER_BONUS_INTERVAL = 60.0f;  // jede Minute Verteidiger-Bonus pro gehaltener Basis
+const int DEFENDER_BONUS_SIDE = 2;            // leichte/Side-Basis: +2 Nachschub/Min
+const int DEFENDER_BONUS_MEDIUM = 4;          // mittlere Basis: +4/Min
+const int DEFENDER_BONUS_STRONG = 6;          // große Basis: +6/Min
 
 class ReinforcementPoolTracker : Tracker {
 	protected Metagame@ m_metagame;
@@ -17,9 +22,12 @@ class ReinforcementPoolTracker : Tracker {
 	protected dictionary m_spawnDisabled;
 	protected dictionary m_announcedThresholds;
 	protected dictionary m_baseGranted;       // pro Basis: bereits gewährter Bonus (wird bei Besitzerwechsel zurückgesetzt)
-	protected dictionary m_deaths;          // pro Fraktion: Anzahl gefallener Soldaten (für /nachschub "tot")
+	protected dictionary m_baseBonusCache;    // baseId -> Bonus (30/40/50), vermeidet wiederholte String-Checks
+	protected dictionary m_deaths;            // pro Fraktion: Anzahl gefallener Soldaten (für /nachschub "tot")
 	protected bool m_initialAnnounceDone = false;
 	protected float m_timeAccum = 0.0f;
+	protected float m_baseUpdateAccum = 0.0f; // Throttle: getBases nur alle BASE_UPDATE_INTERVAL Sekunden
+	protected float m_defenderAccum = 0.0f;  // Verteidiger-Bonus: alle 60 s +2/+4/+6 pro gehaltener Basis
 	// Schwellen für Commander-Meldungen: 800, 600, 500, 300, 100, 10
 	protected array<int> m_thresholds;
 
@@ -39,7 +47,7 @@ class ReinforcementPoolTracker : Tracker {
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
 
-	// Bonus nach Schwierigkeit/Wichtigkeit der Basis (Key lowercase). Höchste zuerst prüfen, Fallback 30.
+	// Bonus nach Schwierigkeit (Key lowercase). Ergebnis pro baseId cachen – Basis-Key ändert sich nicht.
 	int getBaseBonus(const XmlElement@ base) {
 		if (base is null) return BASE_BONUS_DEFAULT;
 		string key = base.getStringAttribute("key").toLowerCase();
@@ -55,6 +63,21 @@ class ReinforcementPoolTracker : Tracker {
 			return BASE_BONUS_MEDIUM;
 		}
 		return BASE_BONUS_DEFAULT;
+	}
+
+	int getBaseBonusCached(int baseId, const XmlElement@ base) {
+		string ckey = "bonus_" + baseId;
+		if (m_baseBonusCache.exists(ckey)) return int(m_baseBonusCache[ckey]);
+		int bonus = getBaseBonus(base);
+		m_baseBonusCache[ckey] = bonus;
+		return bonus;
+	}
+
+	// Verteidiger-Bonus: pro gehaltener Basis jede Minute (Side/Medium/Strong = Konstanten).
+	int getDefenderBonusPerMinute(int bonusCategory) {
+		if (bonusCategory == BASE_BONUS_STRONG) return DEFENDER_BONUS_STRONG;
+		if (bonusCategory == BASE_BONUS_MEDIUM) return DEFENDER_BONUS_MEDIUM;
+		return DEFENDER_BONUS_SIDE;
 	}
 
 	string baseGrantedKey(int baseId) { return "b" + baseId; }
@@ -83,19 +106,28 @@ class ReinforcementPoolTracker : Tracker {
 			return;
 		}
 
-		// Pro eroberte Basis: Über 5 Min füllt sich der Bonus; Anteil (hold_time/5min) * Bonus wird dem Pool gutgeschrieben.
+		// Basis-Bonus: getBases nur alle BASE_UPDATE_INTERVAL Sekunden aufrufen (teure Query).
+		m_baseUpdateAccum += time;
+		m_defenderAccum += time;
+		if (m_baseUpdateAccum < BASE_UPDATE_INTERVAL) return;
+		float delta = m_baseUpdateAccum;
+		if (delta > BASE_UPDATE_INTERVAL * 2.0f) delta = BASE_UPDATE_INTERVAL * 2.0f; // Catch-up begrenzen
+		m_baseUpdateAccum = 0.0f;
+
 		bool poolChanged = false;
 		array<const XmlElement@>@ bases = getBases(m_metagame);
+
+		// 1) Eroberungs-Bonus: über 5 Min füllt sich pro Basis (25/50/100)
 		for (uint i = 0; i < bases.size(); ++i) {
 			const XmlElement@ base = bases[i];
 			int baseId = base.getIntAttribute("id");
 			int ownerId = base.getIntAttribute("owner_id");
-			if (ownerId < 0) continue;  // Neutral o. ä. ignorieren
-			int bonusMax = getBaseBonus(base);
+			if (ownerId < 0) continue;
+			int bonusMax = getBaseBonusCached(baseId, base);
 			float granted = getBaseGranted(baseId);
 			if (granted >= float(bonusMax)) continue;
 			float rate = float(bonusMax) / BASE_FILL_TIME;
-			float add = rate * time;
+			float add = rate * delta;
 			if (granted + add > float(bonusMax)) add = float(bonusMax) - granted;
 			setBaseGranted(baseId, granted + add);
 			int addInt = int(add);
@@ -104,6 +136,25 @@ class ReinforcementPoolTracker : Tracker {
 				setPoolForFaction(ownerId, pool + addInt);
 				poolChanged = true;
 				_log("ReinforcementPool: Base " + baseId + " +" + addInt + " -> Faction " + ownerId + " Pool " + (pool + addInt), 1);
+			}
+		}
+
+		// 2) Verteidiger-Bonus: jede Minute +2/+4/+6 Nachschub pro gehaltener Basis (DEFENDER_BONUS_*)
+		if (m_defenderAccum >= DEFENDER_BONUS_INTERVAL) {
+			m_defenderAccum = 0.0f;
+			for (uint i = 0; i < bases.size(); ++i) {
+				const XmlElement@ base = bases[i];
+				int baseId = base.getIntAttribute("id");
+				int ownerId = base.getIntAttribute("owner_id");
+				if (ownerId < 0) continue;
+				int bonusCat = getBaseBonusCached(baseId, base);
+				int defenderAdd = getDefenderBonusPerMinute(bonusCat);
+				if (defenderAdd > 0) {
+					int pool = getPoolForFaction(ownerId);
+					setPoolForFaction(ownerId, pool + defenderAdd);
+					poolChanged = true;
+					_log("ReinforcementPool: Verteidiger-Bonus Base " + baseId + " +" + defenderAdd + " -> Faction " + ownerId, 1);
+				}
 			}
 		}
 		if (poolChanged) updateScoreDisplay();
