@@ -1,17 +1,23 @@
 // Reinforcement-Pool-Tracker: Pro Fraktion begrenzter Nachschub (z. B. 1000).
-// Jeder Tod eines Soldaten verringert den Pool seiner Fraktion; bei 0 wird das Spawnen eingestellt.
-// Commander meldet Schwellen; optional: update_score_display (UI oben, wenn die Engine es anzeigt).
+// Jeder Tod eines Soldaten verringert den Pool; bei 0 wird das Spawnen eingestellt.
+// Pro eroberte Basis: Bonus-Nachschub über 5 Min (Side 30, Starke Base 50). Bei Besitzwechsel startet der Counter neu.
 #include "tracker.as"
 #include "log.as"
 #include "query_helpers.as"
 
 const int REINFORCEMENT_POOL_INITIAL = 1000;  // Nachschub pro Fraktion
+const int BASE_BONUS_DEFAULT = 30;            // Fallback: leichte/Side-Basis
+const int BASE_BONUS_MEDIUM = 40;             // mittlere Schwierigkeit
+const int BASE_BONUS_STRONG = 50;             // schwere/Haupt-Basis
+const float BASE_FILL_TIME = 300.0f;          // Sekunden bis Counter voll (5 Min)
 
 class ReinforcementPoolTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected dictionary m_pool;
 	protected dictionary m_spawnDisabled;
 	protected dictionary m_announcedThresholds;
+	protected dictionary m_baseGranted;       // pro Basis: bereits gewährter Bonus (wird bei Besitzerwechsel zurückgesetzt)
+	protected dictionary m_deaths;          // pro Fraktion: Anzahl gefallener Soldaten (für /nachschub "tot")
 	protected bool m_initialAnnounceDone = false;
 	protected float m_timeAccum = 0.0f;
 	// Schwellen für Commander-Meldungen: 800, 600, 500, 300, 100, 10
@@ -21,6 +27,7 @@ class ReinforcementPoolTracker : Tracker {
 		@m_metagame = @metagame;
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='chat_event' enabled='1' />");
+		m_metagame.getComms().send("<command class='set_metagame_event' name='base_owner_change_event' enabled='1' />");
 		m_thresholds.insertLast(800);
 		m_thresholds.insertLast(600);
 		m_thresholds.insertLast(500);
@@ -31,6 +38,36 @@ class ReinforcementPoolTracker : Tracker {
 
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
+
+	// Bonus nach Schwierigkeit/Wichtigkeit der Basis (Key lowercase). Höchste zuerst prüfen, Fallback 30.
+	int getBaseBonus(const XmlElement@ base) {
+		if (base is null) return BASE_BONUS_DEFAULT;
+		string key = base.getStringAttribute("key").toLowerCase();
+		// Schwer/Hauptziel: höchster Bonus
+		if (key.findFirst("hq") >= 0 || key.findFirst("main") >= 0 || key.findFirst("capital") >= 0 ||
+		    key.findFirst("headquarters") >= 0 || key.findFirst("zentrum") >= 0 || key.findFirst("haupt") >= 0) {
+			return BASE_BONUS_STRONG;
+		}
+		// Mittel: Stützpunkt, Outpost, Forward, Festung etc.
+		if (key.findFirst("stützpunkt") >= 0 || key.findFirst("stutzpunkt") >= 0 || key.findFirst("outpost") >= 0 ||
+		    key.findFirst("forward") >= 0 || key.findFirst("festung") >= 0 || key.findFirst("fort") >= 0 ||
+		    key.findFirst("base") >= 0 || key.findFirst("stütz") >= 0) {
+			return BASE_BONUS_MEDIUM;
+		}
+		return BASE_BONUS_DEFAULT;
+	}
+
+	string baseGrantedKey(int baseId) { return "b" + baseId; }
+
+	float getBaseGranted(int baseId) {
+		string key = baseGrantedKey(baseId);
+		if (!m_baseGranted.exists(key)) return 0.0f;
+		return float(m_baseGranted[key]);
+	}
+
+	void setBaseGranted(int baseId, float value) {
+		m_baseGranted[baseGrantedKey(baseId)] = value;
+	}
 
 	void update(float time) {
 		if (!m_initialAnnounceDone) {
@@ -45,6 +82,31 @@ class ReinforcementPoolTracker : Tracker {
 			updateScoreDisplay();
 			return;
 		}
+
+		// Pro eroberte Basis: Über 5 Min füllt sich der Bonus; Anteil (hold_time/5min) * Bonus wird dem Pool gutgeschrieben.
+		bool poolChanged = false;
+		array<const XmlElement@>@ bases = getBases(m_metagame);
+		for (uint i = 0; i < bases.size(); ++i) {
+			const XmlElement@ base = bases[i];
+			int baseId = base.getIntAttribute("id");
+			int ownerId = base.getIntAttribute("owner_id");
+			if (ownerId < 0) continue;  // Neutral o. ä. ignorieren
+			int bonusMax = getBaseBonus(base);
+			float granted = getBaseGranted(baseId);
+			if (granted >= float(bonusMax)) continue;
+			float rate = float(bonusMax) / BASE_FILL_TIME;
+			float add = rate * time;
+			if (granted + add > float(bonusMax)) add = float(bonusMax) - granted;
+			setBaseGranted(baseId, granted + add);
+			int addInt = int(add);
+			if (addInt > 0) {
+				int pool = getPoolForFaction(ownerId);
+				setPoolForFaction(ownerId, pool + addInt);
+				poolChanged = true;
+				_log("ReinforcementPool: Base " + baseId + " +" + addInt + " -> Faction " + ownerId + " Pool " + (pool + addInt), 1);
+			}
+		}
+		if (poolChanged) updateScoreDisplay();
 	}
 
 	// Feste Farben pro Slot, damit die Engine sie zuverlässig anzeigt. Slot 0 = Grün (meist eigene Fraktion), 1 = Rot, 2 = Orange.
@@ -79,6 +141,18 @@ class ReinforcementPoolTracker : Tracker {
 			m_pool[key] = REINFORCEMENT_POOL_INITIAL;
 		}
 		return int(m_pool[key]);
+	}
+
+	int getDeathsForFaction(int factionId) {
+		string key = factionKey(factionId);
+		if (!m_deaths.exists(key)) return 0;
+		return int(m_deaths[key]);
+	}
+
+	void addDeathForFaction(int factionId) {
+		string key = factionKey(factionId);
+		int v = getDeathsForFaction(factionId);
+		m_deaths[key] = v + 1;
 	}
 
 	void setPoolForFaction(int factionId, int value) {
@@ -117,6 +191,13 @@ class ReinforcementPoolTracker : Tracker {
 		}
 	}
 
+	// Bei Besitzerwechsel: Counter für diese Basis auf 0 – neuer Besitzer bekommt über 5 Min den vollen Bonus.
+	protected void handleBaseOwnerChangeEvent(const XmlElement@ event) {
+		int baseId = event.getIntAttribute("base_id");
+		setBaseGranted(baseId, 0.0f);
+		_log("ReinforcementPool: Base " + baseId + " Besitzerwechsel – Counter zurückgesetzt.", 1);
+	}
+
 	protected void handleCharacterKillEvent(const XmlElement@ event) {
 		const XmlElement@ target = event.getFirstElementByTagName("target");
 		if (target is null) return;
@@ -125,6 +206,7 @@ class ReinforcementPoolTracker : Tracker {
 		int pool = getPoolForFaction(factionId);
 		if (pool <= 0) return;  // bereits aufgebraucht, nichts tun
 
+		addDeathForFaction(factionId);
 		pool--;
 		setPoolForFaction(factionId, pool);
 		_log("ReinforcementPool: Faction " + factionId + " -> " + pool + " verbleibend", 1);
@@ -153,7 +235,7 @@ class ReinforcementPoolTracker : Tracker {
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			int pool = getPoolForFaction(factionId);
-			int dead = REINFORCEMENT_POOL_INITIAL - pool;
+			int dead = getDeathsForFaction(factionId);
 			array<const XmlElement@>@ chars = getCharacters(m_metagame, factionId);
 			int alive = int(chars.size());
 			if (i > 0) line += " | ";
