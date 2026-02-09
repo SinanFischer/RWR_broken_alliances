@@ -34,7 +34,7 @@
     <commonness value="0.0" />
 
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.62" kill_decay_start_time="0.23" kill_decay_end_time="0.35" />
+        <result class="hit" kill_probability="0.45" kill_decay_start_time="0.2" kill_decay_end_time="1.2" />
     </projectile>
     <modifier class="speed" value="-0.0" />
 </weapon>

@@ -33,7 +33,7 @@
     <capacity value="1" source="rank" source_value="0.5" />    
 
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.62" kill_decay_start_time="0.26" kill_decay_end_time="0.4" />
+        <result class="hit" kill_probability="0.48" kill_decay_start_time="0.2" kill_decay_end_time="1.2" />
     </projectile>
     <modifier class="speed" value="-0.0" />
 </weapon>
