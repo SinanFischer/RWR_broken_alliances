@@ -19,6 +19,19 @@ const float DEFENDER_BONUS_INTERVAL = 180.0f; // alle 3 Min Verteidiger-Bonus pr
 const int DEFENDER_BONUS_SIDE = 2;            // leichte/Side-Basis: +2 Nachschub pro Intervall
 const int DEFENDER_BONUS_MEDIUM = 4;          // mittlere Basis: +4 pro Intervall
 const int DEFENDER_BONUS_STRONG = 6;          // große Basis: +6 pro Intervall
+const float FOLLOWUP_MESSAGE_DELAY = 4.0f;   // Sekunden bis Anschluss-Meldung nach Base lost/captured
+
+// Verzögerte Commander-Anschlussmeldung (4 s nach Hauptmeldung)
+class PendingFollowUp {
+	float m_delay;
+	int m_factionId;
+	string m_text;
+	PendingFollowUp(float delay, int factionId, const string &in text) {
+		m_delay = delay;
+		m_factionId = factionId;
+		m_text = text;
+	}
+}
 
 class ReinforcementPoolTracker : Tracker {
 	protected Metagame@ m_metagame;
@@ -35,6 +48,7 @@ class ReinforcementPoolTracker : Tracker {
 	protected float m_defenderAccum = 0.0f;  // Verteidiger-Bonus: alle 60 s +2/+4/+6 pro gehaltener Basis
 	// Schwellen für Commander-Meldungen: 800, 600, 500, 300, 100, 10
 	protected array<int> m_thresholds;
+	protected array<PendingFollowUp@> m_pendingFollowUps;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -121,6 +135,16 @@ class ReinforcementPoolTracker : Tracker {
 	}
 
 	void update(float time) {
+		// Verzögerte Anschluss-Meldungen (4 s nach Base lost/captured)
+		for (int i = int(m_pendingFollowUps.length()) - 1; i >= 0; --i) {
+			PendingFollowUp@ p = m_pendingFollowUps[i];
+			p.m_delay -= time;
+			if (p.m_delay <= 0.0f) {
+				sendFactionMessage(m_metagame, p.m_factionId, p.m_text, 0.9);
+				m_pendingFollowUps.removeAt(i);
+			}
+		}
+
 		if (!m_initialAnnounceDone) {
 			m_timeAccum += time;
 			if (m_timeAccum < 3.0f) return;
@@ -128,7 +152,7 @@ class ReinforcementPoolTracker : Tracker {
 			array<const XmlElement@>@ factions = getFactions(m_metagame);
 			for (uint i = 0; i < factions.size(); ++i) {
 				int factionId = int(i);
-				sendFactionMessage(m_metagame, factionId, "Nachschub: " + getInitialPoolValue() + " verbleibend.", 0.95);
+				sendFactionMessage(m_metagame, factionId, "Reinforcements: " + getInitialPoolValue() + " remaining.", 0.95);
 			}
 			updateScoreDisplay();
 			return;
@@ -258,12 +282,12 @@ class ReinforcementPoolTracker : Tracker {
 
 	void announceThreshold(int factionId, int pool) {
 		if (pool == 0) {
-			sendFactionMessage(m_metagame, factionId, "Nachschub aufgebraucht. Keine Verstärkung mehr.", 1.0);
+			sendFactionMessage(m_metagame, factionId, "Reinforcements depleted. No more reinforcements.", 1.0);
 			return;
 		}
 		for (uint i = 0; i < m_thresholds.size(); ++i) {
 			if (int(m_thresholds[i]) == pool && !hasAnnouncedThreshold(factionId, pool)) {
-				sendFactionMessage(m_metagame, factionId, "Nachschub: " + pool + " verbleibend.", 0.95);
+				sendFactionMessage(m_metagame, factionId, "Reinforcements: " + pool + " remaining.", 0.95);
 				setAnnouncedThreshold(factionId, pool);
 				break;
 			}
@@ -271,10 +295,50 @@ class ReinforcementPoolTracker : Tracker {
 	}
 
 	// Bei Besitzerwechsel: Counter für diese Basis auf 0 – neuer Besitzer bekommt über 5 Min den vollen Bonus.
+	// Zusätzlich: Verlierer-Fraktion verliert die Hälfte des Basis-Bonus; Commander-Meldungen für Verlierer und Eroberer.
 	protected void handleBaseOwnerChangeEvent(const XmlElement@ event) {
 		int baseId = event.getIntAttribute("base_id");
+		int newOwnerId = event.getIntAttribute("owner_id");
+		int previousOwnerId = event.getIntAttribute("previous_owner_id");
+
 		setBaseGranted(baseId, 0.0f);
 		_log("ReinforcementPool: Base " + baseId + " Besitzerwechsel – Counter zurückgesetzt.", 1);
+
+		array<const XmlElement@>@ bases = getBases(m_metagame);
+		const XmlElement@ base = getBase(bases, baseId);
+		int bonus = getBaseBonusCached(baseId, base);
+
+		// Verlierer bestrafen + Commander-Meldung: Nachschub um die Hälfte des Eroberungs-Bonus verringern.
+		if (previousOwnerId >= 0) {
+			int penalty = bonus / 2;
+			if (penalty > 0) {
+				int pool = getPoolForFaction(previousOwnerId);
+				int newPool = pool - penalty;
+				if (newPool < 0) newPool = 0;
+				setPoolForFaction(previousOwnerId, newPool);
+				updateScoreDisplay();
+				announceThreshold(previousOwnerId, newPool);
+				sendFactionMessage(m_metagame, previousOwnerId, "Base lost. -" + penalty + " reinforcements (" + newPool + " remaining).", 0.95);
+				// Anschluss-Meldung 4 s später (Varianten: Stellung halten, Nachschub nicht weiter verlieren)
+				array<string> loseVariants = {
+					"Hold the line so we don't lose more reinforcements.",
+					"Dig in. Every position we hold saves our reinforcements.",
+					"Stand fast. We need to hold or we'll bleed reinforcements."
+				};
+				string followLose = loseVariants[rand(0, int(loseVariants.length()) - 1)];
+				m_pendingFollowUps.insertLast(PendingFollowUp(FOLLOWUP_MESSAGE_DELAY, previousOwnerId, followLose));
+				_log("ReinforcementPool: Basis " + baseId + " verloren – Faction " + previousOwnerId + " -" + penalty + " Nachschub (verbleibend " + newPool + ").", 0);
+				if (newPool <= 0 && !isSpawnDisabled(previousOwnerId)) {
+					disableSpawnForFaction(previousOwnerId);
+					setSpawnDisabled(previousOwnerId);
+				}
+			}
+		}
+
+		// Eroberer: Commander-Meldung, was gewonnen wird (voller Bonus über 5 Min).
+		if (newOwnerId >= 0 && bonus > 0) {
+			sendFactionMessage(m_metagame, newOwnerId, "Base captured. +" + bonus + " reinforcements over the next 5 min.", 0.95);
+		}
 	}
 
 	protected void handleCharacterKillEvent(const XmlElement@ event) {
@@ -310,7 +374,7 @@ class ReinforcementPoolTracker : Tracker {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions.size() == 0) return;
 
-		string line = "Nachschub | ";
+		string line = "Reinforcements | ";
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			int pool = getPoolForFaction(factionId);
@@ -318,7 +382,7 @@ class ReinforcementPoolTracker : Tracker {
 			array<const XmlElement@>@ chars = getCharacters(m_metagame, factionId);
 			int alive = int(chars.size());
 			if (i > 0) line += " | ";
-			line += "F" + factionId + ": " + pool + " verbl., " + dead + " tot, " + alive + " lebend";
+			line += "F" + factionId + ": " + pool + " left, " + dead + " dead, " + alive + " alive";
 		}
 		XmlElement cmd("command");
 		cmd.setStringAttribute("class", "chat");
