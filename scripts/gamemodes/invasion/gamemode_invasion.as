@@ -62,6 +62,7 @@
 #include "xmas_trap.as"
 #include "trackers/bullet_flyby_effect.as"
 #include "trackers/defender_tank_help.as"
+#include "trackers/reinforcement_pool_tracker.as"
 
 // --------------------------------------------
 class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
@@ -381,6 +382,7 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		addTracker(XmasTrap(this));
 		addTracker(BulletFlybyEffect(this));
 		addTracker(DefenderTankHelp(this));
+		addTracker(ReinforcementPoolTracker(this));
 	}
 
 	// --------------------------------------------

@@ -5,7 +5,8 @@
   show_in_campaigns="1"
   show_in_quick_match_mods="1"
   image="campaign_preview.png"
-  campaign_entry_script="start_campaign.as">
+  campaign_entry_script="start_campaign.as"
+  quick_match_entry_script="start_quick_match.as">
 
 	<campaign_options 
 		faction="1" 
