@@ -5,17 +5,20 @@
 #include "log.as"
 #include "query_helpers.as"
 
-const int REINFORCEMENT_POOL_INITIAL = 1000;   // Fallback wenn max_soldiers nicht verfügbar
+const int REINFORCEMENT_POOL_INITIAL = 1000;   // Fallback wenn keine Faction-Kapazität
 const int REINFORCEMENT_POOL_MULTIPLIER = 2;   // Nachschub = max_soldiers * MULTIPLIER
+// Engine liefert soldier_capacity pro Fraktion; Summe ≈ max_soldiers * dieses Faktors (Variance/Modell).
+// Rückrechnung: max_soldiers = sum_capacity / RATIO → Pool = (sum_capacity / RATIO) * 2.
+const float CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO = 1.28f;
 const int BASE_BONUS_DEFAULT = 25;            // leichte/Side-Basis (Eroberungs-Bonus über 5 Min)
 const int BASE_BONUS_MEDIUM = 50;             // mittlere Basis
 const int BASE_BONUS_STRONG = 100;            // große/Haupt-Basis
 const float BASE_FILL_TIME = 300.0f;         // Sekunden bis Counter voll (5 Min)
 const float BASE_UPDATE_INTERVAL = 1.0f;      // Basis-Bonus-Loop nur alle N Sekunden (weniger getBases-Queries)
-const float DEFENDER_BONUS_INTERVAL = 60.0f;  // jede Minute Verteidiger-Bonus pro gehaltener Basis
-const int DEFENDER_BONUS_SIDE = 2;            // leichte/Side-Basis: +2 Nachschub/Min
-const int DEFENDER_BONUS_MEDIUM = 4;          // mittlere Basis: +4/Min
-const int DEFENDER_BONUS_STRONG = 6;          // große Basis: +6/Min
+const float DEFENDER_BONUS_INTERVAL = 180.0f; // alle 3 Min Verteidiger-Bonus pro gehaltener Basis
+const int DEFENDER_BONUS_SIDE = 2;            // leichte/Side-Basis: +2 Nachschub pro Intervall
+const int DEFENDER_BONUS_MEDIUM = 4;          // mittlere Basis: +4 pro Intervall
+const int DEFENDER_BONUS_STRONG = 6;          // große Basis: +6 pro Intervall
 
 class ReinforcementPoolTracker : Tracker {
 	protected Metagame@ m_metagame;
@@ -82,21 +85,26 @@ class ReinforcementPoolTracker : Tracker {
 		return DEFENDER_BONUS_SIDE;
 	}
 
-	// Initialer Pool: soldier_capacity aus Factions-Query (entspricht der eingestellten Max-Soldaten) * 2.
-	// Die General-Query liefert max_soldiers nicht; die Factions-Query liefert soldier_capacity pro Fraktion.
+	// Initialer Pool = max_soldiers * 2. max_soldiers kommt nicht aus der General-Query;
+	// die Engine liefert soldier_capacity pro Fraktion, Summe ≈ max_soldiers * CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO.
+	// Daher: max_soldiers = sum(soldier_capacity) / RATIO → Pool = sum * 2 / RATIO (z.B. 284*2/1.28 ≈ 444 bei 222 max).
 	int getInitialPoolValue() {
 		if (m_initialPoolValue >= 0) return m_initialPoolValue;
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions !is null && factions.size() > 0) {
-			int capacity = factions[0].getIntAttribute("soldier_capacity");
-			if (capacity > 0) {
-				m_initialPoolValue = capacity * REINFORCEMENT_POOL_MULTIPLIER;
-				_log("ReinforcementPool: soldier_capacity=" + capacity + " -> initial pool " + m_initialPoolValue, 0);
+			int sumCapacity = 0;
+			for (uint i = 0; i < factions.size(); ++i)
+				sumCapacity += factions[i].getIntAttribute("soldier_capacity");
+			if (sumCapacity > 0) {
+				float maxSoldiers = float(sumCapacity) / CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO;
+				m_initialPoolValue = int(maxSoldiers * float(REINFORCEMENT_POOL_MULTIPLIER));
+				if (m_initialPoolValue < 1) m_initialPoolValue = 1;
+				_log("ReinforcementPool: sum_capacity=" + sumCapacity + " -> max_soldiers~" + int(maxSoldiers) + " -> pool " + m_initialPoolValue, 0);
 				return m_initialPoolValue;
 			}
 		}
 		m_initialPoolValue = REINFORCEMENT_POOL_INITIAL;
-		_log("ReinforcementPool: soldier_capacity nicht gefunden, Fallback " + m_initialPoolValue, 0);
+		_log("ReinforcementPool: keine Kapazität aus Factions, Fallback " + m_initialPoolValue, 0);
 		return m_initialPoolValue;
 	}
 
@@ -159,7 +167,7 @@ class ReinforcementPoolTracker : Tracker {
 			}
 		}
 
-		// 2) Verteidiger-Bonus: jede Minute +2/+4/+6 Nachschub pro gehaltener Basis (DEFENDER_BONUS_*)
+		// 2) Verteidiger-Bonus: alle 3 Min +2/+4/+6 Nachschub pro gehaltener Basis (DEFENDER_BONUS_*)
 		if (m_defenderAccum >= DEFENDER_BONUS_INTERVAL) {
 			m_defenderAccum = 0.0f;
 			for (uint i = 0; i < bases.size(); ++i) {
