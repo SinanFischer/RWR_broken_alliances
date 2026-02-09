@@ -89,6 +89,10 @@
 		</attribute_config>
 
 	</soldier>
+
+	<soldier name="default_ai" spawn_score="1.0" copy_from="default">
+		<ai filename="default_soldiers.ai" />
+	</soldier>
 	
 	<!-- -------------- -->
 	<!-- miniboss group -->
