@@ -5,7 +5,8 @@
 #include "log.as"
 #include "query_helpers.as"
 
-const int REINFORCEMENT_POOL_INITIAL = 1000;  // Nachschub pro Fraktion
+const int REINFORCEMENT_POOL_INITIAL = 1000;   // Fallback wenn max_soldiers nicht verfügbar
+const int REINFORCEMENT_POOL_MULTIPLIER = 2;   // Nachschub = max_soldiers * MULTIPLIER
 const int BASE_BONUS_DEFAULT = 25;            // leichte/Side-Basis (Eroberungs-Bonus über 5 Min)
 const int BASE_BONUS_MEDIUM = 50;             // mittlere Basis
 const int BASE_BONUS_STRONG = 100;            // große/Haupt-Basis
@@ -24,6 +25,7 @@ class ReinforcementPoolTracker : Tracker {
 	protected dictionary m_baseGranted;       // pro Basis: bereits gewährter Bonus (wird bei Besitzerwechsel zurückgesetzt)
 	protected dictionary m_baseBonusCache;    // baseId -> Bonus (30/40/50), vermeidet wiederholte String-Checks
 	protected dictionary m_deaths;            // pro Fraktion: Anzahl gefallener Soldaten (für /nachschub "tot")
+	protected int m_initialPoolValue = -1;   // einmalig aus getGeneralInfo(max_soldiers)*2 gelesen
 	protected bool m_initialAnnounceDone = false;
 	protected float m_timeAccum = 0.0f;
 	protected float m_baseUpdateAccum = 0.0f; // Throttle: getBases nur alle BASE_UPDATE_INTERVAL Sekunden
@@ -80,6 +82,21 @@ class ReinforcementPoolTracker : Tracker {
 		return DEFENDER_BONUS_SIDE;
 	}
 
+	// Initialer Pool pro Fraktion: max_soldiers aus General-Query * 2, sonst REINFORCEMENT_POOL_INITIAL.
+	int getInitialPoolValue() {
+		if (m_initialPoolValue >= 0) return m_initialPoolValue;
+		const XmlElement@ general = getGeneralInfo(m_metagame);
+		if (general !is null) {
+			int maxSoldiers = general.getIntAttribute("max_soldiers");
+			if (maxSoldiers > 0) {
+				m_initialPoolValue = maxSoldiers * REINFORCEMENT_POOL_MULTIPLIER;
+				return m_initialPoolValue;
+			}
+		}
+		m_initialPoolValue = REINFORCEMENT_POOL_INITIAL;
+		return m_initialPoolValue;
+	}
+
 	string baseGrantedKey(int baseId) { return "b" + baseId; }
 
 	float getBaseGranted(int baseId) {
@@ -100,7 +117,7 @@ class ReinforcementPoolTracker : Tracker {
 			array<const XmlElement@>@ factions = getFactions(m_metagame);
 			for (uint i = 0; i < factions.size(); ++i) {
 				int factionId = int(i);
-				sendFactionMessage(m_metagame, factionId, "Nachschub: " + REINFORCEMENT_POOL_INITIAL + " verbleibend.", 0.95);
+				sendFactionMessage(m_metagame, factionId, "Nachschub: " + getInitialPoolValue() + " verbleibend.", 0.95);
 			}
 			updateScoreDisplay();
 			return;
@@ -189,7 +206,7 @@ class ReinforcementPoolTracker : Tracker {
 	int getPoolForFaction(int factionId) {
 		string key = factionKey(factionId);
 		if (!m_pool.exists(key)) {
-			m_pool[key] = REINFORCEMENT_POOL_INITIAL;
+			m_pool[key] = getInitialPoolValue();
 		}
 		return int(m_pool[key]);
 	}
