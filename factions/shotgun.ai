@@ -47,9 +47,9 @@
   <parameter class="fighting_against_vehicle_separation" value="40" />
   <parameter class="fighting_against_vehicle_move_radius" value="50.0" />
   <parameter class="day_reaction_time_to_fight_min" value="0.5" />
-  <parameter class="day_reaction_time_to_fight_max" value="0.7" />
-  <parameter class="night_reaction_time_to_fight_min" value="1.1" />
-  <parameter class="night_reaction_time_to_fight_max" value="1.5" />
+  <parameter class="day_reaction_time_to_fight_max" value="1.2" />
+  <parameter class="night_reaction_time_to_fight_min" value="1.5" />
+  <parameter class="night_reaction_time_to_fight_max" value="2.1" />
   <parameter class="willingness_to_guard" value="0.4" />
   <parameter class="minimum_distance_to_consider_deploying_cover" value="0.0" />
   <parameter class="max_objects_per_sqm_to_consider_deployment" value="0.08" />

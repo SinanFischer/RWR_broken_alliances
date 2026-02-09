@@ -24,10 +24,13 @@
   <parameter class="crouching_near_leader_rejoin_range" value="14.0" />
   <parameter class="grenade_monitor_range" value="12.0" />
   <!-- Erhöhte Basis-Sichtweite: mehr sehen ohne Waffen-Multiplier (Standard war 42/40/40) GUT = 52g -->
-  <parameter class="max_sight_range_with_muzzle" value="85.0" />
-  <parameter class="leader_sight_range" value="75.0" />
-  <parameter class="team_member_sight_range" value="65.0" />
-  <parameter class="strike_frequency_time" value="8.0" /> 
+  <!-- <parameter class="max_sight_range_with_muzzle" value="75.0" />
+  <parameter class="leader_sight_range" value="67.0" />
+  <parameter class="team_member_sight_range" value="67.0" /> -->
+  <parameter class="max_sight_range_with_muzzle" value="50.0" />
+  <parameter class="leader_sight_range" value="40.0" />
+  <parameter class="team_member_sight_range" value="40.0" />
+  <parameter class="strike_frequency_time" value="6.0" /> 
   <parameter class="global_separation_radius_factor" value="2.0" />
   <parameter class="prefer_roofs_probability" value="0.5" />
   <parameter class="max_leader_authority_willing_to_join_another_squad" value="0.3" />
@@ -76,7 +79,7 @@
   <parameter class="max_active_shields_per_fellows" value="0.20" /> 
   <parameter class="fighting_against_vehicle_separation" value="20" />
   <parameter class="fighting_against_vehicle_move_radius" value="42.0" />
-  <parameter class="day_reaction_time_to_fight_min" value="1.2" />
+  <parameter class="day_reaction_time_to_fight_min" value="1.0" />
   <parameter class="day_reaction_time_to_fight_max" value="1.5" />
   <parameter class="night_reaction_time_to_fight_min" value="1.2" />
   <parameter class="night_reaction_time_to_fight_max" value="1.8" />
