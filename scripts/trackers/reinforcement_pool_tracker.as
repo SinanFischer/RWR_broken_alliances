@@ -136,7 +136,7 @@ class ReinforcementPoolTracker : Tracker {
 
 	void update(float time) {
 		// Verzögerte Anschluss-Meldungen (4 s nach Base lost/captured)
-		for (int i = int(m_pendingFollowUps.length()) - 1; i >= 0; --i) {
+		for (int i = int(m_pendingFollowUps.size()) - 1; i >= 0; --i) {
 			PendingFollowUp@ p = m_pendingFollowUps[i];
 			p.m_delay -= time;
 			if (p.m_delay <= 0.0f) {
@@ -307,6 +307,9 @@ class ReinforcementPoolTracker : Tracker {
 		array<const XmlElement@>@ bases = getBases(m_metagame);
 		const XmlElement@ base = getBase(bases, baseId);
 		int bonus = getBaseBonusCached(baseId, base);
+		string baseName = base !is null ? base.getStringAttribute("name") : "";
+		if (baseName.length() == 0 && base !is null) baseName = base.getStringAttribute("key");
+		if (baseName.length() == 0) baseName = "sector";
 
 		// Verlierer bestrafen + Commander-Meldung: Nachschub um die Hälfte des Eroberungs-Bonus verringern.
 		if (previousOwnerId >= 0) {
@@ -319,13 +322,12 @@ class ReinforcementPoolTracker : Tracker {
 				updateScoreDisplay();
 				announceThreshold(previousOwnerId, newPool);
 				sendFactionMessage(m_metagame, previousOwnerId, "Base lost. -" + penalty + " reinforcements (" + newPool + " remaining).", 0.95);
-				// Anschluss-Meldung 4 s später (Varianten: Stellung halten, Nachschub nicht weiter verlieren)
-				array<string> loseVariants = {
-					"Hold the line so we don't lose more reinforcements.",
-					"Dig in. Every position we hold saves our reinforcements.",
-					"Stand fast. We need to hold or we'll bleed reinforcements."
-				};
-				string followLose = loseVariants[rand(0, int(loseVariants.length()) - 1)];
+				// Anschluss-Meldung 4 s später: vollständige Sätze mit Basisname
+				array<string> loseVariants;
+				loseVariants.insertLast("We have lost " + baseName + ". Hold the line so we don't lose more reinforcements.");
+				loseVariants.insertLast("Base " + baseName + " has fallen. Dig in – every position we hold saves our reinforcements.");
+				loseVariants.insertLast("We lost " + baseName + ". Stand fast so we don't bleed more reinforcements.");
+				string followLose = loseVariants[rand(0, int(loseVariants.size()) - 1)];
 				m_pendingFollowUps.insertLast(PendingFollowUp(FOLLOWUP_MESSAGE_DELAY, previousOwnerId, followLose));
 				_log("ReinforcementPool: Basis " + baseId + " verloren – Faction " + previousOwnerId + " -" + penalty + " Nachschub (verbleibend " + newPool + ").", 0);
 				if (newPool <= 0 && !isSpawnDisabled(previousOwnerId)) {
@@ -335,9 +337,16 @@ class ReinforcementPoolTracker : Tracker {
 			}
 		}
 
-		// Eroberer: Commander-Meldung, was gewonnen wird (voller Bonus über 5 Min).
+		// Eroberer: Commander-Meldung, was gewonnen wird (voller Bonus über 5 Min) + Anschluss 4 s später (vollständige Sätze mit Basisname + Truppen).
 		if (newOwnerId >= 0 && bonus > 0) {
 			sendFactionMessage(m_metagame, newOwnerId, "Base captured. +" + bonus + " reinforcements over the next 5 min.", 0.95);
+			array<string> captureVariants;
+			captureVariants.insertLast("We have captured " + baseName + ". " + bonus + " reinforcements will join us over the next 5 minutes.");
+			captureVariants.insertLast("Base " + baseName + " is ours. " + bonus + " troops will support our position.");
+			captureVariants.insertLast("We took " + baseName + ". " + bonus + " reinforcements are on the way to join us.");
+			captureVariants.insertLast("Sector " + baseName + " secured. " + bonus + " troops will be deployed to hold it.");
+			string followCap = captureVariants[rand(0, int(captureVariants.size()) - 1)];
+			m_pendingFollowUps.insertLast(PendingFollowUp(FOLLOWUP_MESSAGE_DELAY, newOwnerId, followCap));
 		}
 	}
 
