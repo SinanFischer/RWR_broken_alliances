@@ -32,7 +32,7 @@
 
     <hud_icon filename="hud_m16a4_scope.png" />
     <commonness value="0.22" />
-    <inventory encumbrance="3.0" price="16.0" />
+    <inventory encumbrance="4.0" price="16.0" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
@@ -48,5 +48,5 @@
     <stance state_key="crouching" accuracy="0.908" />
     <stance state_key="prone" accuracy="0.968" />
     
-    <modifier class="speed" value="-0.015" />
+    <modifier class="speed" value="-0.05" />
 </weapon>

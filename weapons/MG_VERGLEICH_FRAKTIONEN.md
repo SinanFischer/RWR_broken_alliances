@@ -15,11 +15,12 @@ Jede Fraktion hat **1 Leicht-MG** (5.56/5.45) und **1 Schwer-MG** (7.62). EU hat
 | **magazine_size**  | 100            | **130**            | 60                 |
 | **kill_probability** | **0.52**    | 0.58               | 0.56               |
 | **projectile_speed** | 93            | 92                 | 100                |
-| **encumbrance**    | 10             | 11                 | **9**              |
-| **speed modifier** | -0.04          | -0.04              | -0.05              |
+| **encumbrance**    | **9**          | 10                 | **5**              |
+| **speed modifier** | **-0.11**     | -0.12              | **-0.06**          |
 | **prone accuracy** | 0.95           | 0.95               | 0.92               |
 
-**Gefühl:** MG4 feuert **deutlich schneller** (800 vs. 652/600 rpm); Kill-Wahrscheinlichkeit leicht reduziert (0.52) zur Balance → weniger „One-Tap“, mehr Garben nötig. M249 kompensiert mit **mehr Magazin** (130), RPK-74M ist **leichter** (enc 9) und hat kürzere Garben (60 Schuss).
+**Gefühl:** MG4 feuert **deutlich schneller** (800 vs. 652/600 rpm); Kill-Wahrscheinlichkeit leicht reduziert (0.52) zur Balance. M249 kompensiert mit **mehr Magazin** (130), ist aber am schwersten (enc 10, -12 % Lauf). RPK-74M **am leichtesten** (enc 5, -6 % Lauf) und damit am mobilsten, bei kürzeren Garben (60 Schuss).
+
 
 ---
 
@@ -34,11 +35,11 @@ Jede Fraktion hat **1 Leicht-MG** (5.56/5.45) und **1 Schwer-MG** (7.62). EU hat
 | **magazine_size**  | –          | 90            | 100                    |
 | **kill_probability** | –        | **0.89**      | 0.82                   |
 | **projectile_speed** | –        | 108           | 108                    |
-| **encumbrance**    | –          | 24            | 23                     |
-| **speed modifier** | –          | -0.11         | -0.11                  |
+| **encumbrance**    | –          | **13**        | **9**                   |
+| **speed modifier** | –          | **-0.16**     | **-0.11**               |
 | **prone accuracy** | –          | 1.0           | 1.0                    |
 
-**Gefühl:** M240 und PKP sind **gleichauf** (Kadenz, Gewicht, Stances). M240 hat etwas **mehr Kill-Wahrscheinlichkeit** (0.89 vs. 0.82), PKP etwas **größeres Magazin** (100 vs. 90). EU hat im Mod kein eigenes 7.62-MG.
+**Gefühl:** M240 ist **deutlich schwerer** (enc 13, **-16 % Lauf**) und bremst stark; PKP leichter (enc 9, -11 % Lauf) und mobiler. M240 hat **mehr Kill-Wahrscheinlichkeit** (0.89 vs. 0.82), PKP größeres Magazin (100 vs. 90). EU hat im Mod kein eigenes 7.62-MG.
 
 ---
 

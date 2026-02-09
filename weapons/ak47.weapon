@@ -30,7 +30,7 @@
 
     <hud_icon filename="hud_ak74m.png" />
     <commonness value="0.22" />
-    <inventory encumbrance="4.0" price="15.0" />
+    <inventory encumbrance="3.0" price="15.0" />
 
     <projectile file="bullet.projectile">
         <result class="hit" kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
@@ -45,5 +45,5 @@
     <stance state_key="crouching" accuracy="0.82" />
     <stance state_key="prone" accuracy="0.90" />
 
-    <modifier class="speed" value="-0.015" />
+    <modifier class="speed" value="-0.035" />
 </weapon>

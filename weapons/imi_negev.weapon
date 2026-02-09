@@ -31,7 +31,7 @@
 
     <hud_icon filename="hud_imi_negev.png" />
     <commonness value="0.028" />
-    <inventory encumbrance="9.0" price="60.0" />
+    <inventory encumbrance="8.0" price="60.0" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.32" />
@@ -50,5 +50,5 @@
     <stance state_key="crouching" accuracy="0.86" />
     <stance state_key="prone" accuracy="0.94" />
 
-    <modifier class="speed" value="-0.05" /> 
+    <modifier class="speed" value="-0.095" /> 
 </weapon>
