@@ -2,8 +2,8 @@
 <weapon file="base_primary.weapon" key="ak47.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="assault" />
     <specification 
-  retrigger_time="0.115" 
-  accuracy_factor="0.93" 
+  retrigger_time="0.127" 
+  accuracy_factor="0.898" 
   sustained_fire_grow_step="0.30" 
   sustained_fire_diminish_rate="1.05" 
   magazine_size="30" 
@@ -35,13 +35,13 @@
 	    <result class="hit" kill_probability="0.95" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
     </projectile>
 	
-	<stance state_key="running" accuracy="0.55" />
-    <stance state_key="walking" accuracy="0.61" />
-    <stance state_key="crouch_moving" accuracy="0.65" />
-    <stance state_key="prone_moving" accuracy="0.54" />
+	<stance state_key="running" accuracy="0.518" />
+    <stance state_key="walking" accuracy="0.578" />
+    <stance state_key="crouch_moving" accuracy="0.618" />
+    <stance state_key="prone_moving" accuracy="0.508" />
 
-	<stance state_key="standing" accuracy="0.88" />
-    <stance state_key="crouching" accuracy="0.95" />
-    <stance state_key="prone" accuracy="0.96" />
+	<stance state_key="standing" accuracy="0.848" />
+    <stance state_key="crouching" accuracy="0.918" />
+    <stance state_key="prone" accuracy="0.928" />
     <modifier class="speed" value="-0.018" />
 </weapon>

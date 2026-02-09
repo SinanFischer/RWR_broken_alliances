@@ -2,8 +2,8 @@
 <weapon file="base_secondary_sidearm.weapon" key="mp7.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="assault" />
     <specification 
-  retrigger_time="0.079" 
-  accuracy_factor="0.94" 
+  retrigger_time="0.091" 
+  accuracy_factor="0.908" 
   sustained_fire_grow_step="0.50" 
   sustained_fire_diminish_rate="1.8" 
   spread_range="0.16"
@@ -51,13 +51,13 @@
     
     <modifier class="speed" value="+0.0" />
     
-    <stance state_key="running" accuracy="0.2" />
-    <stance state_key="walking" accuracy="0.675" />
-    <stance state_key="crouch_moving" accuracy="0.75" />
-    <stance state_key="standing" accuracy="0.85" />
-    <stance state_key="crouching" accuracy="0.9" />
-    <stance state_key="prone" accuracy="1.0" /> 
-    <stance state_key="prone_moving" accuracy="0.3" />
-    <stance state_key="over_wall" accuracy="0.9" />    
+    <stance state_key="running" accuracy="0.168" />
+    <stance state_key="walking" accuracy="0.643" />
+    <stance state_key="crouch_moving" accuracy="0.718" />
+    <stance state_key="standing" accuracy="0.818" />
+    <stance state_key="crouching" accuracy="0.868" />
+    <stance state_key="prone" accuracy="0.968" /> 
+    <stance state_key="prone_moving" accuracy="0.268" />
+    <stance state_key="over_wall" accuracy="0.868" />    
     
 </weapon>

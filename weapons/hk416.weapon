@@ -2,8 +2,8 @@
 <weapon file="base_primary.weapon" key="hk416.weapon">
     <tag name="assault" />
     <specification 
-  retrigger_time="0.0705" 
-  accuracy_factor="0.94" 
+  retrigger_time="0.0825" 
+  accuracy_factor="0.908" 
   sustained_fire_grow_step="0.295" 
   sustained_fire_diminish_rate="1.4" 
   magazine_size="30" 
@@ -41,14 +41,14 @@
         <result class="hit"  kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
     </projectile>
     
-    <stance state_key="running" accuracy="0.5" />
-    <stance state_key="walking" accuracy="0.7" />
-    <stance state_key="crouch_moving" accuracy="0.7" />
-    <stance state_key="prone_moving" accuracy="0.65" />
+    <stance state_key="running" accuracy="0.468" />
+    <stance state_key="walking" accuracy="0.668" />
+    <stance state_key="crouch_moving" accuracy="0.668" />
+    <stance state_key="prone_moving" accuracy="0.618" />
 
-    <stance state_key="standing" accuracy="0.8" />
-    <stance state_key="crouching" accuracy="0.85" />
-    <stance state_key="prone" accuracy="0.965" />
+    <stance state_key="standing" accuracy="0.768" />
+    <stance state_key="crouching" accuracy="0.818" />
+    <stance state_key="prone" accuracy="0.933" />
     
     <modifier class="speed" value="-0.02" />
 </weapon>

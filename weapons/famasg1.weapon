@@ -2,9 +2,9 @@
 <weapon file="base_primary.weapon" key="famasg1.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="assault" />
     <specification 
-  retrigger_time="0.08"
+  retrigger_time="0.092"
   last_burst_retrigger_time="0.25" 
-  accuracy_factor="1.0" 
+  accuracy_factor="0.968" 
   sustained_fire_grow_step="0.28" 
   sustained_fire_diminish_rate="1.6" 
   magazine_size="27" 
@@ -38,14 +38,14 @@
         <result class="hit"  kill_probability="0.65" kill_decay_start_time="0.37" kill_decay_end_time="0.65" />
     </projectile>
 	
-    <stance state_key="running" accuracy="0.61" />
-    <stance state_key="walking" accuracy="0.765" />
-    <stance state_key="crouch_moving" accuracy="0.76" />
-    <stance state_key="prone_moving" accuracy="0.5" />
+    <stance state_key="running" accuracy="0.578" />
+    <stance state_key="walking" accuracy="0.733" />
+    <stance state_key="crouch_moving" accuracy="0.728" />
+    <stance state_key="prone_moving" accuracy="0.468" />
 
-    <stance state_key="standing" accuracy="0.82" />
-    <stance state_key="crouching" accuracy="0.93" />
-    <stance state_key="prone" accuracy="0.97" />
+    <stance state_key="standing" accuracy="0.788" />
+    <stance state_key="crouching" accuracy="0.898" />
+    <stance state_key="prone" accuracy="0.938" />
 	
     <modifier class="speed" value="-0.02" />
 </weapon>
