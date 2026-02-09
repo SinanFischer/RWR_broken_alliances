@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="aks74u.weapon">
     <tag name="assault" />
+    <!-- 5.45x39 Kurz; weniger Reichweite/Wirkung, mobil -->
     <specification 
-   retrigger_time="0.074" 
-   accuracy_factor="0.828" 
-sustained_fire_grow_step="0.35" 
-  sustained_fire_diminish_rate="1.9"
-    magazine_size="30" 
-    can_shoot_standing="1" 
-    suppressed="0" 
-    name="AKS-74U" 
-    class="0" 
-	sight_range_modifier="1.05"
-    projectile_speed="125.0" 
-    barrel_offset="0.5" />
+  retrigger_time="0.088" 
+  accuracy_factor="0.84" 
+  sustained_fire_grow_step="0.22" 
+  sustained_fire_diminish_rate="1.1" 
+  magazine_size="30" 
+  can_shoot_standing="1" 
+  suppressed="0" 
+  name="AKS-74U" 
+  class="0" 
+  sight_range_modifier="1.05"
+  projectile_speed="98.0" 
+  barrel_offset="0.5" />
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />
     <animation key="recoil" ref="14" />
@@ -27,25 +28,22 @@ sustained_fire_grow_step="0.35"
 
     <hud_icon filename="hud_aks74u.png" />
     <commonness value="0.046" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="4.0" price="40.0" />
+    <inventory encumbrance="3.0" price="40.0" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.2" />
 
     <projectile file="bullet.projectile">
-        <result class="hit"  kill_probability="0.36" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
+        <result class="hit" kill_probability="0.58" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
-	
-    <stance state_key="running" accuracy="0.468" />
-    <stance state_key="walking" accuracy="0.668" />
-    <stance state_key="crouch_moving" accuracy="0.668" />
-    <stance state_key="prone_moving" accuracy="0.618" />
 
+    <stance state_key="running" accuracy="0.50" />
+    <stance state_key="walking" accuracy="0.62" />
+    <stance state_key="crouch_moving" accuracy="0.64" />
+    <stance state_key="prone_moving" accuracy="0.58" />
 
-	<stance state_key="standing" accuracy="0.808" />
-    <stance state_key="crouching" accuracy="0.838" />
-    <stance state_key="prone" accuracy="0.848" />
-	
-    
-    <modifier class="speed" value="-0.02" />
+    <stance state_key="standing" accuracy="0.72" />
+    <stance state_key="crouching" accuracy="0.80" />
+    <stance state_key="prone" accuracy="0.88" />
+
 </weapon>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="m16a4.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="assault" />
+    <!-- 5.56mm US-Standard; Balance EU/RU -->
     <specification 
-  retrigger_time="0.127" 
-  accuracy_factor="0.968" 
-  sustained_fire_grow_step="0.35" 
-  sustained_fire_diminish_rate="1.2" 
+  retrigger_time="0.105" 
+  accuracy_factor="0.90" 
+  sustained_fire_grow_step="0.20" 
+  sustained_fire_diminish_rate="1.12" 
   magazine_size="30" 
   can_shoot_standing="1" 
   suppressed="0" 
@@ -35,7 +36,7 @@
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit"  kill_probability="0.65" kill_decay_start_time="0.35" kill_decay_end_time="0.73" />
+        <result class="hit" kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
     
     <stance state_key="running" accuracy="0.448" />
