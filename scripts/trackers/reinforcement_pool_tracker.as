@@ -20,6 +20,7 @@ class ReinforcementPoolTracker : Tracker {
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
+		m_metagame.getComms().send("<command class='set_metagame_event' name='chat_event' enabled='1' />");
 		m_thresholds.insertLast(800);
 		m_thresholds.insertLast(600);
 		m_thresholds.insertLast(500);
@@ -46,21 +47,26 @@ class ReinforcementPoolTracker : Tracker {
 		}
 	}
 
-	// Nutzt das gleiche UI wie Minimodes (Score-Anzeige oben). Nur die Zahl pro Fraktion, in Fraktionsfarbe.
+	// Feste Farben pro Slot, damit die Engine sie zuverlässig anzeigt. Slot 0 = Grün (meist eigene Fraktion), 1 = Rot, 2 = Orange.
+	// Format: "R G B" 0.0–1.0 (wie in Faction-XML).
+	string getScoreDisplayColor(int factionId) {
+		if (factionId == 0) return "0.0 0.85 0.2";   // Grün – typisch eigene Fraktion
+		if (factionId == 1) return "0.9 0.2 0.2";   // Rot
+		if (factionId == 2) return "0.9 0.55 0.1";  // Orange
+		return "0.85 0.85 0.85";                     // Grau für weitere
+	}
+
+	// Nutzt das gleiche UI wie Minimodes (Score-Anzeige oben). Nur die Zahl pro Fraktion, feste Farbe pro Slot.
 	void updateScoreDisplay() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			int pool = getPoolForFaction(factionId);
-			const XmlElement@ faction = factions[i];
-			string colorStr = faction.getStringAttribute("color");
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
 			cmd.setIntAttribute("id", factionId);
 			cmd.setStringAttribute("text", "" + pool);
-			if (colorStr != "") {
-				cmd.setStringAttribute("color", colorStr);
-			}
+			cmd.setStringAttribute("color", getScoreDisplayColor(factionId));
 			m_metagame.getComms().send(cmd);
 		}
 	}
@@ -132,6 +138,31 @@ class ReinforcementPoolTracker : Tracker {
 			disableSpawnForFaction(factionId);
 			setSpawnDisabled(factionId);
 		}
+	}
+
+	// Chat-Command /nachschub oder /pool: Ausgabe pro Fraktion = Verbleibend (Nachschub), Tote, Lebende (aktuelle Charakteranzahl).
+	protected void handleChatEvent(const XmlElement@ event) {
+		string message = event.getStringAttribute("message");
+		if (!startsWith(message, "/")) return;
+		if (!checkCommand(message, "nachschub") && !checkCommand(message, "pool")) return;
+
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions.size() == 0) return;
+
+		string line = "Nachschub | ";
+		for (uint i = 0; i < factions.size(); ++i) {
+			int factionId = int(i);
+			int pool = getPoolForFaction(factionId);
+			int dead = REINFORCEMENT_POOL_INITIAL - pool;
+			array<const XmlElement@>@ chars = getCharacters(m_metagame, factionId);
+			int alive = int(chars.size());
+			if (i > 0) line += " | ";
+			line += "F" + factionId + ": " + pool + " verbl., " + dead + " tot, " + alive + " lebend";
+		}
+		XmlElement cmd("command");
+		cmd.setStringAttribute("class", "chat");
+		cmd.setStringAttribute("text", line);
+		m_metagame.getComms().send(cmd);
 	}
 
 	// Setzt capacity_multiplier der betroffenen Fraktion auf 0; andere Fraktionen unverändert lassen.
