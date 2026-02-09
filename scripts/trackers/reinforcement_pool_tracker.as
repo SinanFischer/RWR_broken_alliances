@@ -25,7 +25,7 @@ class ReinforcementPoolTracker : Tracker {
 	protected dictionary m_baseGranted;       // pro Basis: bereits gewährter Bonus (wird bei Besitzerwechsel zurückgesetzt)
 	protected dictionary m_baseBonusCache;    // baseId -> Bonus (30/40/50), vermeidet wiederholte String-Checks
 	protected dictionary m_deaths;            // pro Fraktion: Anzahl gefallener Soldaten (für /nachschub "tot")
-	protected int m_initialPoolValue = -1;   // einmalig aus getGeneralInfo(max_soldiers)*2 gelesen
+	protected int m_initialPoolValue = -1;   // einmalig aus Factions-Query (soldier_capacity)*2 gelesen
 	protected bool m_initialAnnounceDone = false;
 	protected float m_timeAccum = 0.0f;
 	protected float m_baseUpdateAccum = 0.0f; // Throttle: getBases nur alle BASE_UPDATE_INTERVAL Sekunden
@@ -82,18 +82,21 @@ class ReinforcementPoolTracker : Tracker {
 		return DEFENDER_BONUS_SIDE;
 	}
 
-	// Initialer Pool pro Fraktion: max_soldiers aus General-Query * 2, sonst REINFORCEMENT_POOL_INITIAL.
+	// Initialer Pool: soldier_capacity aus Factions-Query (entspricht der eingestellten Max-Soldaten) * 2.
+	// Die General-Query liefert max_soldiers nicht; die Factions-Query liefert soldier_capacity pro Fraktion.
 	int getInitialPoolValue() {
 		if (m_initialPoolValue >= 0) return m_initialPoolValue;
-		const XmlElement@ general = getGeneralInfo(m_metagame);
-		if (general !is null) {
-			int maxSoldiers = general.getIntAttribute("max_soldiers");
-			if (maxSoldiers > 0) {
-				m_initialPoolValue = maxSoldiers * REINFORCEMENT_POOL_MULTIPLIER;
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions !is null && factions.size() > 0) {
+			int capacity = factions[0].getIntAttribute("soldier_capacity");
+			if (capacity > 0) {
+				m_initialPoolValue = capacity * REINFORCEMENT_POOL_MULTIPLIER;
+				_log("ReinforcementPool: soldier_capacity=" + capacity + " -> initial pool " + m_initialPoolValue, 0);
 				return m_initialPoolValue;
 			}
 		}
 		m_initialPoolValue = REINFORCEMENT_POOL_INITIAL;
+		_log("ReinforcementPool: soldier_capacity nicht gefunden, Fallback " + m_initialPoolValue, 0);
 		return m_initialPoolValue;
 	}
 
