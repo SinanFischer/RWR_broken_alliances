@@ -1,25 +1,28 @@
-// Reinforcement-Pool-Tracker: Pro Fraktion begrenzter Nachschub (z. B. 1000).
-// Jeder Tod verringert den Pool; bei 0 wird Spawn deaktiviert.
-// Eroberungs-Bonus: pro Basis über 5 Min 25/50/100 (leicht/mittel/groß). Verteidiger-Bonus: jede Minute +2/+4/+6 pro gehaltener Basis.
+// Reinforcement-Pool-Tracker: Nachschub begrenzt pro Fraktion; bei 0 kein Spawn mehr.
+// Eroberungs-Bonus: sofort voll (25/50/100) – kein 5-Min-Puffer mehr (kein „antellig bei schneller Rückeroberung“).
+// Verteidiger-Bonus: alle 3 Min +2/+4/+6 pro gehaltener Basis. Verlust: Hälfte des Basis-Bonus abgezogen.
 #include "tracker.as"
 #include "log.as"
 #include "query_helpers.as"
 
-const int REINFORCEMENT_POOL_INITIAL = 1000;   // Fallback wenn keine Faction-Kapazität
-const int REINFORCEMENT_POOL_MULTIPLIER = 2;   // Nachschub = max_soldiers * MULTIPLIER
-// Engine liefert soldier_capacity pro Fraktion; Summe ≈ max_soldiers * dieses Faktors (Variance/Modell).
-// Rückrechnung: max_soldiers = sum_capacity / RATIO → Pool = (sum_capacity / RATIO) * 2.
+const int REINFORCEMENT_POOL_INITIAL = 1000;
+const int REINFORCEMENT_POOL_MULTIPLIER = 2;
 const float CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO = 1.28f;
-const int BASE_BONUS_DEFAULT = 25;            // leichte/Side-Basis (Eroberungs-Bonus über 5 Min)
-const int BASE_BONUS_MEDIUM = 50;             // mittlere Basis
-const int BASE_BONUS_STRONG = 100;            // große/Haupt-Basis
-const float BASE_FILL_TIME = 300.0f;         // Sekunden bis Counter voll (5 Min)
-const float BASE_UPDATE_INTERVAL = 1.0f;      // Basis-Bonus-Loop nur alle N Sekunden (weniger getBases-Queries)
-const float DEFENDER_BONUS_INTERVAL = 180.0f; // alle 3 Min Verteidiger-Bonus pro gehaltener Basis
-const int DEFENDER_BONUS_SIDE = 2;            // leichte/Side-Basis: +2 Nachschub pro Intervall
-const int DEFENDER_BONUS_MEDIUM = 4;          // mittlere Basis: +4 pro Intervall
-const int DEFENDER_BONUS_STRONG = 6;          // große Basis: +6 pro Intervall
-const float FOLLOWUP_MESSAGE_DELAY = 4.0f;   // Sekunden bis Anschluss-Meldung nach Base lost/captured
+const int BASE_BONUS_DEFAULT = 25;
+const int BASE_BONUS_MEDIUM = 50;
+const int BASE_BONUS_STRONG = 100;
+const float BASE_UPDATE_INTERVAL = 1.0f;
+const float DEFENDER_BONUS_INTERVAL = 180.0f;
+const int DEFENDER_BONUS_SIDE = 2;
+const int DEFENDER_BONUS_MEDIUM = 4;
+const int DEFENDER_BONUS_STRONG = 6;
+const float FOLLOWUP_MESSAGE_DELAY = 4.0f;
+// Fahrzeug-Verlust: Angreifer (Besitzer) verliert Nachschub – Ausgleich wenn Panzer/APC alles niedermähen.
+const int VEHICLE_PENALTY_TANK_BIG = 10;   // tank_1, tank_2: 5–15, hier Mittelwert 10 (Variante: rand(5,15))
+const int VEHICLE_PENALTY_TANK = 7;        // tank (ohne _1/_2)
+const int VEHICLE_PENALTY_VULCAN = 5;
+const int VEHICLE_PENALTY_APC = 4;
+const int VEHICLE_PENALTY_WIESEL = 3;
 
 // Verzögerte Commander-Anschlussmeldung (4 s nach Hauptmeldung)
 class PendingFollowUp {
@@ -38,15 +41,14 @@ class ReinforcementPoolTracker : Tracker {
 	protected dictionary m_pool;
 	protected dictionary m_spawnDisabled;
 	protected dictionary m_announcedThresholds;
-	protected dictionary m_baseGranted;       // pro Basis: bereits gewährter Bonus (wird bei Besitzerwechsel zurückgesetzt)
-	protected dictionary m_baseBonusCache;    // baseId -> Bonus (30/40/50), vermeidet wiederholte String-Checks
-	protected dictionary m_deaths;            // pro Fraktion: Anzahl gefallener Soldaten (für /nachschub "tot")
-	protected int m_initialPoolValue = -1;   // einmalig aus Factions-Query (soldier_capacity)*2 gelesen
+	protected dictionary m_baseGranted;   // pro Basis: bereits gewährter Bonus (bei Eroberung sofort voll)
+	protected dictionary m_baseBonusCache;
+	protected dictionary m_deaths;
+	protected int m_initialPoolValue = -1;
 	protected bool m_initialAnnounceDone = false;
 	protected float m_timeAccum = 0.0f;
-	protected float m_baseUpdateAccum = 0.0f; // Throttle: getBases nur alle BASE_UPDATE_INTERVAL Sekunden
-	protected float m_defenderAccum = 0.0f;  // Verteidiger-Bonus: alle 60 s +2/+4/+6 pro gehaltener Basis
-	// Schwellen für Commander-Meldungen: 800, 600, 500, 300, 100, 10
+	protected float m_baseUpdateAccum = 0.0f;
+	protected float m_defenderAccum = 0.0f;
 	protected array<int> m_thresholds;
 	protected array<PendingFollowUp@> m_pendingFollowUps;
 
@@ -55,6 +57,7 @@ class ReinforcementPoolTracker : Tracker {
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='chat_event' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='base_owner_change_event' enabled='1' />");
+		m_metagame.getComms().send("<command class='set_metagame_event' name='vehicle_destroyed_event' enabled='1' />");
 		m_thresholds.insertLast(800);
 		m_thresholds.insertLast(600);
 		m_thresholds.insertLast(500);
@@ -97,6 +100,21 @@ class ReinforcementPoolTracker : Tracker {
 		if (bonusCategory == BASE_BONUS_STRONG) return DEFENDER_BONUS_STRONG;
 		if (bonusCategory == BASE_BONUS_MEDIUM) return DEFENDER_BONUS_MEDIUM;
 		return DEFENDER_BONUS_SIDE;
+	}
+
+	// Nachschub-Penalty wenn Fahrzeug zerstört wird (Besitzer = Angreifer verliert). Key z. B. "vulcan_tank.vehicle".
+	int getVehicleDestroyPenalty(const string &in vehicleKey) {
+		if (vehicleKey.length() == 0) return 0;
+		string key = vehicleKey.toLowerCase();
+		// Reihenfolge wichtig: spezifische Keys zuerst
+		if (key.findFirst("tank_1") >= 0 || key.findFirst("tank_2") >= 0)
+			return rand(5, 15);
+		if (key.findFirst("vulcan") >= 0) return VEHICLE_PENALTY_VULCAN;
+		if (key.findFirst("apc") >= 0) return VEHICLE_PENALTY_APC;
+		if (key.findFirst("wiesel") >= 0) return VEHICLE_PENALTY_WIESEL;
+		// Basis-Panzer "tank.vehicle" (nicht tank_1/tank_2/vulcan_tank)
+		if (key.findFirst("tank.vehicle") >= 0) return VEHICLE_PENALTY_TANK;
+		return 0;
 	}
 
 	// Initialer Pool = max_soldiers * 2. max_soldiers kommt nicht aus der General-Query;
@@ -158,40 +176,16 @@ class ReinforcementPoolTracker : Tracker {
 			return;
 		}
 
-		// Basis-Bonus: getBases nur alle BASE_UPDATE_INTERVAL Sekunden aufrufen (teure Query).
+		// Nur Verteidiger-Bonus (Eroberungs-Bonus wird beim Eroberungs-Event sofort voll gutgeschrieben, kein 5-Min-Puffer).
 		m_baseUpdateAccum += time;
 		m_defenderAccum += time;
 		if (m_baseUpdateAccum < BASE_UPDATE_INTERVAL) return;
-		float delta = m_baseUpdateAccum;
-		if (delta > BASE_UPDATE_INTERVAL * 2.0f) delta = BASE_UPDATE_INTERVAL * 2.0f; // Catch-up begrenzen
 		m_baseUpdateAccum = 0.0f;
 
 		bool poolChanged = false;
 		array<const XmlElement@>@ bases = getBases(m_metagame);
 
-		// 1) Eroberungs-Bonus: über 5 Min füllt sich pro Basis (25/50/100)
-		for (uint i = 0; i < bases.size(); ++i) {
-			const XmlElement@ base = bases[i];
-			int baseId = base.getIntAttribute("id");
-			int ownerId = base.getIntAttribute("owner_id");
-			if (ownerId < 0) continue;
-			int bonusMax = getBaseBonusCached(baseId, base);
-			float granted = getBaseGranted(baseId);
-			if (granted >= float(bonusMax)) continue;
-			float rate = float(bonusMax) / BASE_FILL_TIME;
-			float add = rate * delta;
-			if (granted + add > float(bonusMax)) add = float(bonusMax) - granted;
-			setBaseGranted(baseId, granted + add);
-			int addInt = int(add);
-			if (addInt > 0) {
-				int pool = getPoolForFaction(ownerId);
-				setPoolForFaction(ownerId, pool + addInt);
-				poolChanged = true;
-				_log("ReinforcementPool: Base " + baseId + " +" + addInt + " -> Faction " + ownerId + " Pool " + (pool + addInt), 1);
-			}
-		}
-
-		// 2) Verteidiger-Bonus: alle 3 Min +2/+4/+6 Nachschub pro gehaltener Basis (DEFENDER_BONUS_*)
+		// Verteidiger-Bonus: alle 3 Min +2/+4/+6 Nachschub pro gehaltener Basis
 		if (m_defenderAccum >= DEFENDER_BONUS_INTERVAL) {
 			m_defenderAccum = 0.0f;
 			for (uint i = 0; i < bases.size(); ++i) {
@@ -294,15 +288,11 @@ class ReinforcementPoolTracker : Tracker {
 		}
 	}
 
-	// Bei Besitzerwechsel: Counter für diese Basis auf 0 – neuer Besitzer bekommt über 5 Min den vollen Bonus.
-	// Zusätzlich: Verlierer-Fraktion verliert die Hälfte des Basis-Bonus; Commander-Meldungen für Verlierer und Eroberer.
+	// Bei Besitzerwechsel: Verlierer verliert Hälfte des Basis-Bonus; Eroberer bekommt vollen Bonus sofort. Commander-Meldungen für beide.
 	protected void handleBaseOwnerChangeEvent(const XmlElement@ event) {
 		int baseId = event.getIntAttribute("base_id");
 		int newOwnerId = event.getIntAttribute("owner_id");
 		int previousOwnerId = event.getIntAttribute("previous_owner_id");
-
-		setBaseGranted(baseId, 0.0f);
-		_log("ReinforcementPool: Base " + baseId + " Besitzerwechsel – Counter zurückgesetzt.", 1);
 
 		array<const XmlElement@>@ bases = getBases(m_metagame);
 		const XmlElement@ base = getBase(bases, baseId);
@@ -337,25 +327,66 @@ class ReinforcementPoolTracker : Tracker {
 			}
 		}
 
-		// Eroberer: Sofort einen sichtbaren Teil des Bonuses gutschreiben, Rest läuft über 5 Min im update()-Loop.
-		// (Im Loop ist add = rate*delta oft < 1, daher addInt=0 – ohne Sofortanteil wirkt es, als käme nichts.)
+		// Eroberer: vollen Bonus sofort gutschreiben (kein 5-Min-Puffer mehr).
 		if (newOwnerId >= 0 && bonus > 0) {
-			int immediateBonus = bonus / 10;  // 10 % sofort (z. B. 5 bei 50)
-			if (immediateBonus < 1) immediateBonus = 1;
 			int pool = getPoolForFaction(newOwnerId);
-			setPoolForFaction(newOwnerId, pool + immediateBonus);
-			setBaseGranted(baseId, float(immediateBonus));  // Rest (bonus - immediateBonus) fließt weiter über 5 Min
+			setPoolForFaction(newOwnerId, pool + bonus);
+			setBaseGranted(baseId, float(bonus));  // verhindert Doppel-Gutschrift
 			updateScoreDisplay();
-			_log("ReinforcementPool: Base " + baseId + " erobert – Faction " + newOwnerId + " +" + immediateBonus + " sofort, " + (bonus - immediateBonus) + " über 5 Min.", 0);
+			_log("ReinforcementPool: Base " + baseId + " erobert – Faction " + newOwnerId + " +" + bonus + " sofort.", 0);
 
-			sendFactionMessage(m_metagame, newOwnerId, "Base captured. +" + bonus + " reinforcements over the next 5 min.", 0.95);
+			sendFactionMessage(m_metagame, newOwnerId, "Base captured. +" + bonus + " reinforcements.", 0.95);
 			array<string> captureVariants;
-			captureVariants.insertLast("We have captured " + baseName + ". " + bonus + " reinforcements will join us over the next 5 minutes.");
-			captureVariants.insertLast("Base " + baseName + " is ours. " + bonus + " troops will support our position.");
-			captureVariants.insertLast("We took " + baseName + ". " + bonus + " reinforcements are on the way to join us.");
-			captureVariants.insertLast("Sector " + baseName + " secured. " + bonus + " troops will be deployed to hold it.");
+			captureVariants.insertLast("We have captured " + baseName + ". " + bonus + " reinforcements have joined us.");
+			captureVariants.insertLast("Base " + baseName + " is ours. " + bonus + " troops have reinforced our position.");
+			captureVariants.insertLast("We took " + baseName + ". " + bonus + " reinforcements are with us.");
+			captureVariants.insertLast("Sector " + baseName + " secured. " + bonus + " troops deployed.");
 			string followCap = captureVariants[rand(0, int(captureVariants.size()) - 1)];
 			m_pendingFollowUps.insertLast(PendingFollowUp(FOLLOWUP_MESSAGE_DELAY, newOwnerId, followCap));
+		}
+
+		// Fallback-Siegesbedingung: Wenn die Engine kein match_result sendet (z. B. Quick Match), bei „alle Basen einer Fraktion“ selbst set_match_status senden.
+		if (newOwnerId >= 0 && bases !is null) {
+			int totalOwned = 0;
+			int ownedByWinner = 0;
+			for (uint i = 0; i < bases.size(); ++i) {
+				int oid = bases[i].getIntAttribute("owner_id");
+				if (oid >= 0) {
+					totalOwned++;
+					if (oid == newOwnerId) ownedByWinner++;
+				}
+			}
+			if (totalOwned > 0 && totalOwned == ownedByWinner) {
+				_log("ReinforcementPool: Alle Basen bei Faction " + newOwnerId + " – setze Sieg (set_match_status).", 0);
+				array<const XmlElement@>@ factions = getFactions(m_metagame);
+				for (uint i = 0; i < factions.size(); ++i) {
+					int fid = int(i);
+					if (fid != newOwnerId)
+						m_metagame.getComms().send("<command class='set_match_status' lose='1' faction_id='" + fid + "' />");
+				}
+				m_metagame.getComms().send("<command class='set_match_status' win='1' faction_id='" + newOwnerId + "' />");
+			}
+		}
+	}
+
+	// Fahrzeug zerstört: Besitzer (owner_id) verliert Nachschub – Panzer/APC/Wiesel kosten extra.
+	protected void handleVehicleDestroyEvent(const XmlElement@ event) {
+		int ownerId = event.getIntAttribute("owner_id");
+		if (ownerId < 0) return;
+		string vehicleKey = event.getStringAttribute("vehicle_key");
+		int penalty = getVehicleDestroyPenalty(vehicleKey);
+		if (penalty <= 0) return;
+
+		int pool = getPoolForFaction(ownerId);
+		int newPool = pool - penalty;
+		if (newPool < 0) newPool = 0;
+		setPoolForFaction(ownerId, newPool);
+		updateScoreDisplay();
+		announceThreshold(ownerId, newPool);
+		_log("ReinforcementPool: Fahrzeug " + vehicleKey + " zerstört – Faction " + ownerId + " -" + penalty + " Nachschub (verbleibend " + newPool + ").", 0);
+		if (newPool <= 0 && !isSpawnDisabled(ownerId)) {
+			disableSpawnForFaction(ownerId);
+			setSpawnDisabled(ownerId);
 		}
 	}
 
