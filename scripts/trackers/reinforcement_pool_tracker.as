@@ -14,9 +14,9 @@ const int BASE_BONUS_STRONG = 100;
 const float BASE_UPDATE_INTERVAL = 1.0f;
 // Haltungsbonus nur während Spawn-AUS: alle 10 s pro Basis in Akkumulator; beim Öffnen (AUS→AN) wird Akkumulator in Pool überführt + Commander-Meldung.
 const float DEFENDER_TRICKLE_INTERVAL = 10.0f;
-const float DEFENDER_TRICKLE_SIDE = 0.3f;   // Sidebase: +50% (0.2→0.3 pro 10 s)
-const float DEFENDER_TRICKLE_MEDIUM = 1.5f; // Outpost: 1.5 Soldaten pro 10 s
-const float DEFENDER_TRICKLE_STRONG = 1.0f; // HQ: 1.0 pro 10 s
+const float DEFENDER_TRICKLE_SIDE = 0.5f;   // Sidebase: 0.5 pro 10 s
+const float DEFENDER_TRICKLE_MEDIUM = 0.8f; // Outpost: 0.8 pro 10 s
+const float DEFENDER_TRICKLE_STRONG = 1.5f; // HQ: 1.5 pro 10 s
 // Basis-Verlust: Nachschub-Penalty zufaellig, gleiche Bereiche wie Eroberungs-Bonus (Side 5–10, Medium 10–20, HQ 20–30).
 const int LOSS_PENALTY_SIDE_MIN = 5;
 const int LOSS_PENALTY_SIDE_MAX = 10;

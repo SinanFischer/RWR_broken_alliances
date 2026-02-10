@@ -12,9 +12,9 @@
 
 | Basistyp  | Beitrag pro 10 s |
 |-----------|-------------------|
-| **Side**  | 0,2               |
-| **Outpost** | 0,4             |
-| **HQ**    | 1,0               |
+| **Side**  | 0,5               |
+| **Outpost** | 0,8             |
+| **HQ**    | 1,5               |
 
 Konstanten in `reinforcement_pool_tracker.as`:  
 `DEFENDER_TRICKLE_INTERVAL = 10.0f`, `DEFENDER_TRICKLE_SIDE/MEDIUM/STRONG`.
@@ -23,8 +23,24 @@ Konstanten in `reinforcement_pool_tracker.as`:
 
 ## Beispiel 6 Basen (1 HQ + 2 Outpost + 3 Side)
 
-- Pro 10 s: 1,0 + 0,8 + 0,6 = **2,4**
-- AUS 120 s → 12×10 s → **~29** Verstärkung beim Öffnen
+- Pro 10 s: 1,5 + 1,6 + 1,5 = **4,6**
+- AUS 120 s → 12×10 s → **~55** Verstärkung beim Öffnen
+
+---
+
+## Tabelle: 5 Side + 2 Outpost + 1 HQ (pro 10 s = 5,6 Verstärkung)
+
+| AUS-Dauer   | Ticks (×10 s) | Verstärkung beim Öffnen |
+|-------------|----------------|---------------------------|
+| **10 s**    | 1              | **~6**                    |
+| **60 s**    | 6              | **~34**                   |
+| **72 s**    | 7 (min AUS)    | **~40**                   |
+| **90 s**    | 9              | **~50**                   |
+| **120 s**   | 12             | **~67**                   |
+| **180 s**   | 18             | **~101**                  |
+| **252 s**   | 25 (max AUS)   | **~141**                  |
+
+*AUS-Dauer hängt von der Kapazität ab (72–252 s, siehe `SPAWN_CLOSED_DURATION.md`).*
 
 ---
 
