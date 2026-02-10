@@ -5,7 +5,7 @@
 #include "log.as"
 #include "query_helpers.as"
 
-const int REINFORCEMENT_POOL_INITIAL = 1000;
+const int REINFORCEMENT_POOL_INITIAL = 1000; // fallback value if no capacity is found in factions
 const int REINFORCEMENT_POOL_MULTIPLIER = 2;
 const float CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO = 1.28f;
 const int BASE_BONUS_DEFAULT = 25;
@@ -27,7 +27,7 @@ const int LOSS_PENALTY_STRONG_MIN = 50;
 const int LOSS_PENALTY_STRONG_MAX = 100;
 // Fahrzeug-Verlust: Angreifer (Besitzer) verliet Nachschub – Ausgleich wenn Panzer/APC alles niedermähen.
 const int VEHICLE_PENALTY_TANK_BIG = 10;   // tank_1, tank_2: 5–15, hier Mittelwert 10 (Variante: rand(5,15))
-const int VEHICLE_PENALTY_TANK = 7;        // tank (ohne _1/_2)
+const int VEHICLE_PENALTY_TANK = 10;        // tank (ohne _1/_2)
 const int VEHICLE_PENALTY_VULCAN = 5;
 const int VEHICLE_PENALTY_APC = 4;
 const int VEHICLE_PENALTY_WIESEL = 3;
@@ -35,6 +35,8 @@ const int VEHICLE_PENALTY_WIESEL = 3;
 const string REINFORCEMENT_POOL_SAVE_FILENAME = "reinforcement_pool.xml";
 const string REINFORCEMENT_POOL_SAVE_LOCATION = "savegame";  // "savegame" = pro Savegame; falls nicht unterstützt: "app_data"
 const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speichern
+// Marker auf der Karte: Base-Wert (Side/Medium/Strong) an Basis-Position. ID-Bereich 40000+ baseId (Intel nutzt 5000+).
+const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
 
 // Verzögerte Commander-Anschlussmeldung (4 s nach Hauptmeldung)
 class PendingFollowUp {
@@ -65,6 +67,7 @@ class ReinforcementPoolTracker : Tracker {
 	protected array<PendingFollowUp@> m_pendingFollowUps;
 	protected float m_saveTimer = 0.0f;
 	protected bool m_loadedFromSave = false;
+	protected bool m_baseValueMarkersPlaced = false;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -88,21 +91,60 @@ class ReinforcementPoolTracker : Tracker {
 	bool hasStarted() const { return true; }
 
 	// Bonus nach Schwierigkeit (Key lowercase). Ergebnis pro baseId cachen – Basis-Key ändert sich nicht.
+	// Reine Key-Logik aus Map-Daten – keine dynamische Anpassung (z. B. "letzte Basis = Strong").
 	int getBaseBonus(const XmlElement@ base) {
 		if (base is null) return BASE_BONUS_DEFAULT;
 		string key = base.getStringAttribute("key").toLowerCase();
 		// Schwer/Hauptziel: höchster Bonus
 		if (key.findFirst("hq") >= 0 || key.findFirst("main") >= 0 || key.findFirst("capital") >= 0 ||
-		    key.findFirst("headquarters") >= 0 || key.findFirst("zentrum") >= 0 || key.findFirst("haupt") >= 0) {
+		    key.findFirst("headquarters") >= 0 || key.findFirst("zentrum") >= 0 || key.findFirst("haupt") >= 0 ||
+		    key.findFirst("center") >= 0 || key.findFirst("centre") >= 0 || key.findFirst("command") >= 0) {
 			return BASE_BONUS_STRONG;
 		}
-		// Mittel: Stützpunkt, Outpost, Forward, Festung etc.
+		// Mittel: Stützpunkt, Outpost, Forward, Festung, Bunker, Trench, Camp etc.
 		if (key.findFirst("stützpunkt") >= 0 || key.findFirst("stutzpunkt") >= 0 || key.findFirst("outpost") >= 0 ||
 		    key.findFirst("forward") >= 0 || key.findFirst("festung") >= 0 || key.findFirst("fort") >= 0 ||
-		    key.findFirst("base") >= 0 || key.findFirst("stütz") >= 0) {
+		    key.findFirst("base") >= 0 || key.findFirst("stütz") >= 0 ||
+		    key.findFirst("bunker") >= 0 || key.findFirst("trench") >= 0 || key.findFirst("camp") >= 0 ||
+		    key.findFirst("compound") >= 0 || key.findFirst("position") >= 0 || key.findFirst("post") >= 0) {
 			return BASE_BONUS_MEDIUM;
 		}
 		return BASE_BONUS_DEFAULT;
+	}
+
+	// Kategorie-Label für Karten-Marker (Side / Medium / Strong).
+	string getBaseCategoryLabel(const XmlElement@ base) {
+		int bonus = getBaseBonus(base);
+		if (bonus >= BASE_BONUS_STRONG) return "Strong";
+		if (bonus >= BASE_BONUS_MEDIUM) return "Medium";
+		return "Side";
+	}
+
+	// Setzt einmalig Marker an jeder Basis-Position mit Text Side/Medium/Strong (faction_id=0, nur eigene Fraktion sieht sie).
+	// Debug: pro Basis wird key -> Kategorie geloggt (Log-Level 1), damit du echte Map-Namen siehst und getBaseBonus anpassen kannst.
+	void placeBaseValueMarkers(array<const XmlElement@>@ bases) {
+		if (bases is null || bases.size() == 0) return;
+		for (uint i = 0; i < bases.size(); ++i) {
+			const XmlElement@ base = bases[i];
+			int baseId = base.getIntAttribute("id");
+			string key = base.getStringAttribute("key");
+			string position = base.getStringAttribute("position");
+			string text = getBaseCategoryLabel(base);
+			_log("Base-Wert: key='" + key + "' -> " + text, 1);
+			XmlElement command("command");
+			command.setStringAttribute("class", "set_marker");
+			command.setIntAttribute("id", BASE_VALUE_MARKER_ID_OFFSET + baseId);
+			command.setIntAttribute("faction_id", 0);
+			command.setStringAttribute("position", position);
+			command.setStringAttribute("text", text);
+			command.setFloatAttribute("size", 0.6f);
+			command.setBoolAttribute("enabled", true);
+			command.setBoolAttribute("show_in_map_view", true);
+			command.setBoolAttribute("show_in_game_view", false);
+			command.setBoolAttribute("show_at_screen_edge", false);
+			m_metagame.getComms().send(command);
+		}
+		_log("ReinforcementPool: Base-Wert-Marker gesetzt (" + bases.size() + " Basen).", 0);
 	}
 
 	int getBaseBonusCached(int baseId, const XmlElement@ base) {
@@ -206,6 +248,12 @@ class ReinforcementPoolTracker : Tracker {
 
 		bool poolChanged = false;
 		array<const XmlElement@>@ bases = getBases(m_metagame);
+
+		// Einmalig: Marker für Base-Wert (Side/Medium/Strong) auf der Karte setzen
+		if (!m_baseValueMarkersPlaced && bases.size() > 0) {
+			placeBaseValueMarkers(bases);
+			m_baseValueMarkersPlaced = true;
+		}
 
 		// Verteidiger-Bonus: alle 2 Min +2/+4/+6 Nachschub pro gehaltener Basis
 		if (m_defenderAccum >= DEFENDER_BONUS_INTERVAL) {
