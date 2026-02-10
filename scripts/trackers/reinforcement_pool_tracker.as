@@ -1,6 +1,6 @@
 // Reinforcement-Pool-Tracker: Nachschub begrenzt pro Fraktion; bei 0 kein Spawn mehr.
 // Eroberungs-Bonus: sofort voll (25/50/100) – kein 5-Min-Puffer mehr (kein „antellig bei schneller Rückeroberung“).
-// Verteidiger-Bonus: alle 3 Min +2/+4/+6 pro gehaltener Basis. Verlust: Hälfte des Basis-Bonus abgezogen.
+// Verteidiger-Bonus: alle 2 Min +2/+4/+6 pro gehaltener Basis. Verlust: Hälfte des Basis-Bonus abgezogen.
 #include "tracker.as"
 #include "log.as"
 #include "query_helpers.as"
@@ -12,19 +12,20 @@ const int BASE_BONUS_DEFAULT = 25;
 const int BASE_BONUS_MEDIUM = 50;
 const int BASE_BONUS_STRONG = 100;
 const float BASE_UPDATE_INTERVAL = 1.0f;
+// Verteidiger-Bonus: alle 2 Min (120 s) – kürzeres Intervall hilft großer Fraktion unter Druck. Bei 180 s eher „verdient“ wenn Truppen ausgehen.
 const float DEFENDER_BONUS_INTERVAL = 180.0f;
-const int DEFENDER_BONUS_SIDE = 2;
-const int DEFENDER_BONUS_MEDIUM = 4;
-const int DEFENDER_BONUS_STRONG = 6;
+const int DEFENDER_BONUS_SIDE = 5;
+const int DEFENDER_BONUS_MEDIUM = 6;
+const int DEFENDER_BONUS_STRONG = 12;
 const float FOLLOWUP_MESSAGE_DELAY = 4.0f;
-// Basis-Verlust: Nachschub-Penalty zufällig nach Kategorie (Side/Medium/Strong = getBaseBonus 25/50/100).
+// Basis-Verlust: Nachschub-Penalty zurfällig nach Kategorie (Side/Medium/Strong = getBaseBonus 25/50/100).
 const int LOSS_PENALTY_SIDE_MIN = 10;
 const int LOSS_PENALTY_SIDE_MAX = 25;
 const int LOSS_PENALTY_MEDIUM_MIN = 25;
 const int LOSS_PENALTY_MEDIUM_MAX = 50;
 const int LOSS_PENALTY_STRONG_MIN = 50;
 const int LOSS_PENALTY_STRONG_MAX = 100;
-// Fahrzeug-Verlust: Angreifer (Besitzer) verliert Nachschub – Ausgleich wenn Panzer/APC alles niedermähen.
+// Fahrzeug-Verlust: Angreifer (Besitzer) verliet Nachschub – Ausgleich wenn Panzer/APC alles niedermähen.
 const int VEHICLE_PENALTY_TANK_BIG = 10;   // tank_1, tank_2: 5–15, hier Mittelwert 10 (Variante: rand(5,15))
 const int VEHICLE_PENALTY_TANK = 7;        // tank (ohne _1/_2)
 const int VEHICLE_PENALTY_VULCAN = 5;
@@ -119,18 +120,22 @@ class ReinforcementPoolTracker : Tracker {
 		return DEFENDER_BONUS_SIDE;
 	}
 
-	// Nachschub-Penalty wenn Fahrzeug zerstört wird (Besitzer = Angreifer verliert). Key z. B. "vulcan_tank.vehicle".
+	// Nachschub-Penalty wenn Fahrzeug zerstört wird (Besitzer = Angreifer verliert). Keys einzeln vergleichen (Engine liefert z. B. "tank_2.vehicle").
 	int getVehicleDestroyPenalty(const string &in vehicleKey) {
 		if (vehicleKey.length() == 0) return 0;
 		string key = vehicleKey.toLowerCase();
-		// Reihenfolge wichtig: spezifische Keys zuerst
-		if (key.findFirst("tank_1") >= 0 || key.findFirst("tank_2") >= 0)
+		// Große Panzer: tank_1, tank_2 (einzeln)
+		if (key == "tank_1.vehicle" || key == "tank.vehicle" || key == "tank_2.vehicle")
 			return rand(5, 15);
-		if (key.findFirst("vulcan") >= 0) return VEHICLE_PENALTY_VULCAN;
-		if (key.findFirst("apc") >= 0) return VEHICLE_PENALTY_APC;
-		if (key.findFirst("wiesel") >= 0) return VEHICLE_PENALTY_WIESEL;
-		// Basis-Panzer "tank.vehicle" (nicht tank_1/tank_2/vulcan_tank)
-		if (key.findFirst("tank.vehicle") >= 0) return VEHICLE_PENALTY_TANK;
+		// Vulcan, Basis-Panzer, Doppelkannonen-Panzer
+		if (key == "vulcan_tank.vehicle") return VEHICLE_PENALTY_VULCAN;
+		if (key == "tank.vehicle") return VEHICLE_PENALTY_TANK;
+		if (key == "doublecannon_tank.vehicle") return VEHICLE_PENALTY_TANK;
+		if (key == "radar_tank.vehicle") return VEHICLE_PENALTY_TANK;
+		// APC (einzeln)
+		if (key == "apc.vehicle" || key == "apc_1.vehicle" || key == "apc_2.vehicle") return VEHICLE_PENALTY_APC;
+		// Wiesel
+		if (key == "wiesel_tow.vehicle" || key == "wiesel_mk20.vehicle") return VEHICLE_PENALTY_WIESEL;
 		return 0;
 	}
 
@@ -202,7 +207,7 @@ class ReinforcementPoolTracker : Tracker {
 		bool poolChanged = false;
 		array<const XmlElement@>@ bases = getBases(m_metagame);
 
-		// Verteidiger-Bonus: alle 3 Min +2/+4/+6 Nachschub pro gehaltener Basis
+		// Verteidiger-Bonus: alle 2 Min +2/+4/+6 Nachschub pro gehaltener Basis
 		if (m_defenderAccum >= DEFENDER_BONUS_INTERVAL) {
 			m_defenderAccum = 0.0f;
 			for (uint i = 0; i < bases.size(); ++i) {
