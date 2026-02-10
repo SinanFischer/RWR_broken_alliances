@@ -4,6 +4,7 @@
 #include "log.as"
 #include "query_helpers.as"
 #include "basic_command_handler.as"
+#include "trackers/faction_alive_hud_tracker.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // --------------------------------------------
@@ -24,6 +25,7 @@ class GameModeQuickMatch : Metagame {
 	void postBeginMatch() {
 		Metagame::postBeginMatch();
 		addTracker(BasicCommandHandler(this));
+		addTracker(FactionAliveHudTracker(this));
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 
 		const XmlElement@ player = getPlayerInfo(this, 0);
