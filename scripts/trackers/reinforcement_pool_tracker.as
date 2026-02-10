@@ -116,8 +116,7 @@ class ReinforcementPoolTracker : Tracker {
 		return BASE_BONUS_DEFAULT;
 	}
 
-	// Vollständiger Marker-Text: Name (Side Base / Outpost / HQ) + Verteidiger-Bonus pro 3 Min.
-	// DEFENDER_BONUS_INTERVAL = 180 s = 3 min; Bonus pro Kategorie: Side 5, Outpost 6, HQ 12.
+	// Marker-Text: Name (Sidebase/Outpost/HQ) + Leerzeichen + Bonus in Klammern, z. B. "Sidebase (5)".
 	string getBaseMarkerText(const XmlElement@ base) {
 		int bonus = getBaseBonus(base);
 		string name;
@@ -129,10 +128,10 @@ class ReinforcementPoolTracker : Tracker {
 			name = "Outpost";
 			defenderBonus = DEFENDER_BONUS_MEDIUM;
 		} else {
-			name = "Side Base";
+			name = "Sidebase";
 			defenderBonus = DEFENDER_BONUS_SIDE;
 		}
-		return name + "-" + defenderBonus + "/3min";
+		return name + " (" + defenderBonus + ")";
 	}
 
 	// Setzt einmalig Marker an jeder Basis-Position. Pro Fraktion eine Kopie (faction_id=0,1,2…), damit jede Fraktion sie sieht.
