@@ -40,11 +40,11 @@ const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
 const float SCORE_DISPLAY_THROTTLE = 1.0f;
 // Spawn-Fenster: 30 s AN (4x Rate). AUS-Dauer abhaengig von Capacity: 200 Soldaten = 90 s, darueber laenger (min 60, max 180 s).
 const float SPAWN_WINDOW_OPEN_DURATION = 30.0f;
-const float SPAWN_CLOSED_BASE = 90.0f;
+const float SPAWN_CLOSED_BASE = 102.0f;   // 90 + 12
 const int SPAWN_CLOSED_REF_SOLDIERS = 200;
 const float SPAWN_CLOSED_FACTOR = 0.5f;
-const float SPAWN_CLOSED_MIN = 60.0f;
-const float SPAWN_CLOSED_MAX = 180.0f;
+const float SPAWN_CLOSED_MIN = 72.0f;     // 60 + 12
+const float SPAWN_CLOSED_MAX = 192.0f;    // 180 + 12
 // Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
