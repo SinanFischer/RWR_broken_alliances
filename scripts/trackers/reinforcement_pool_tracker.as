@@ -112,16 +112,27 @@ class ReinforcementPoolTracker : Tracker {
 		return BASE_BONUS_DEFAULT;
 	}
 
-	// Kategorie-Label für Karten-Marker (Side / Medium / Strong).
-	string getBaseCategoryLabel(const XmlElement@ base) {
+	// Vollständiger Marker-Text: Name (Side Base / Outpost / HQ) + Verteidiger-Bonus pro 3 Min.
+	// DEFENDER_BONUS_INTERVAL = 180 s = 3 min; Bonus pro Kategorie: Side 5, Outpost 6, HQ 12.
+	string getBaseMarkerText(const XmlElement@ base) {
 		int bonus = getBaseBonus(base);
-		if (bonus >= BASE_BONUS_STRONG) return "Strong";
-		if (bonus >= BASE_BONUS_MEDIUM) return "Medium";
-		return "Side";
+		string name;
+		int defenderBonus;
+		if (bonus >= BASE_BONUS_STRONG) {
+			name = "HQ";
+			defenderBonus = DEFENDER_BONUS_STRONG;
+		} else if (bonus >= BASE_BONUS_MEDIUM) {
+			name = "Outpost";
+			defenderBonus = DEFENDER_BONUS_MEDIUM;
+		} else {
+			name = "Side Base";
+			defenderBonus = DEFENDER_BONUS_SIDE;
+		}
+		return name + " · " + defenderBonus + " / 3 min";
 	}
 
-	// Setzt einmalig Marker an jeder Basis-Position mit Text Side/Medium/Strong (faction_id=0, nur eigene Fraktion sieht sie).
-	// Debug: pro Basis wird key -> Kategorie geloggt (Log-Level 1), damit du echte Map-Namen siehst und getBaseBonus anpassen kannst.
+	// Setzt einmalig Marker an jeder Basis-Position mit vollständiger Beschriftung (faction_id=0, nur eigene Fraktion sieht sie).
+	// Debug: pro Basis wird key -> Text geloggt (Log-Level 1), damit du echte Map-Namen siehst und getBaseBonus anpassen kannst.
 	void placeBaseValueMarkers(array<const XmlElement@>@ bases) {
 		if (bases is null || bases.size() == 0) return;
 		for (uint i = 0; i < bases.size(); ++i) {
@@ -129,7 +140,7 @@ class ReinforcementPoolTracker : Tracker {
 			int baseId = base.getIntAttribute("id");
 			string key = base.getStringAttribute("key");
 			string position = base.getStringAttribute("position");
-			string text = getBaseCategoryLabel(base);
+			string text = getBaseMarkerText(base);
 			_log("Base-Wert: key='" + key + "' -> " + text, 1);
 			XmlElement command("command");
 			command.setStringAttribute("class", "set_marker");
