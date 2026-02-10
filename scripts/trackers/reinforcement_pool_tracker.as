@@ -7,10 +7,11 @@
 
 const int REINFORCEMENT_POOL_INITIAL = 1000; // fallback value if no capacity is found in factions
 const int REINFORCEMENT_POOL_MULTIPLIER = 2;
-const float CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO = 1.28f;
-const int BASE_BONUS_DEFAULT = 25;
-const int BASE_BONUS_MEDIUM = 50;
-const int BASE_BONUS_STRONG = 100;
+const float CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO = 2.5f;  // Capacity-Summe = 2.5x max_soldiers (vorher 1.28x)
+// Eroberungs-Bonus pro eingenommene Basis (verdoppelt: 50/100/200).
+const int BASE_BONUS_DEFAULT = 50;   // Side/leicht (vorher 25)
+const int BASE_BONUS_MEDIUM = 100;   // Outpost/mittel (vorher 50)
+const int BASE_BONUS_STRONG = 200;   // HQ/gross (vorher 100)
 const float BASE_UPDATE_INTERVAL = 1.0f;
 // Haltungsbonus nur während Spawn-AUS: alle 10 s pro Basis in Akkumulator; beim Öffnen (AUS→AN) wird Akkumulator in Pool überführt + Commander-Meldung. 2x, dann +1.6x.
 const float DEFENDER_TRICKLE_INTERVAL = 10.0f;
@@ -216,12 +217,12 @@ class ReinforcementPoolTracker : Tracker {
 		return bonus;
 	}
 
-	// Eroberungs-Bonus zufaellig: Side 5–10, Medium 10–20, HQ 20–30 (Verlust nutzt gleiche Bereiche via LOSS_PENALTY_*).
+	// Eroberungs-Bonus zufaellig, verdoppelt: Side 10–20, Medium 20–40, HQ 40–60 (Verlust nutzt LOSS_PENALTY_*).
 	int getCaptureBonusRandom(int baseId, const XmlElement@ base) {
 		int cat = getBaseBonusCached(baseId, base);
-		if (cat >= BASE_BONUS_STRONG) return rand(20, 30);
-		if (cat >= BASE_BONUS_MEDIUM) return rand(10, 20);
-		return rand(5, 10);
+		if (cat >= BASE_BONUS_STRONG) return rand(40, 60);
+		if (cat >= BASE_BONUS_MEDIUM) return rand(20, 40);
+		return rand(10, 20);
 	}
 
 	// Haltungsbonus: pro gehaltener Basis alle 10 s (nur während Spawn AUS) – Beitrag zum Akkumulator.
@@ -265,8 +266,8 @@ class ReinforcementPoolTracker : Tracker {
 	}
 
 	// Initialer Pool = max_soldiers * 2. max_soldiers kommt nicht aus der General-Query;
-	// die Engine liefert soldier_capacity pro Fraktion, Summe ≈ max_soldiers * CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO.
-	// Daher: max_soldiers = sum(soldier_capacity) / RATIO → Pool = sum * 2 / RATIO (z.B. 284*2/1.28 ≈ 444 bei 222 max).
+	// die Engine liefert soldier_capacity pro Fraktion, Summe = max_soldiers * CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO (2.5x).
+	// Daher: max_soldiers = sum(soldier_capacity) / RATIO → Pool = sum * 2 / RATIO (z.B. 284*2/2.5 ≈ 227 bei ~114 max).
 	int getInitialPoolValue() {
 		if (m_initialPoolValue >= 0) return m_initialPoolValue;
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
@@ -776,10 +777,7 @@ class ReinforcementPoolTracker : Tracker {
 	}
 
 	void announceThreshold(int factionId, int pool) {
-		if (pool == 0) {
-			sendFactionMessage(m_metagame, factionId, "Reinforcements depleted. No more reinforcements.", 1.0);
-			return;
-		}
+		if (pool == 0) return;  // Kein Commander-Meldung bei 0 („Reinforcements depleted“ entfernt)
 		for (uint i = 0; i < m_thresholds.size(); ++i) {
 			if (int(m_thresholds[i]) == pool && !hasAnnouncedThreshold(factionId, pool)) {
 				sendFactionMessage(m_metagame, factionId, "Reinforcements: " + pool + " remaining.", 0.95);
