@@ -1,4 +1,5 @@
 // Reinforcement-Pool-Tracker: Nachschub begrenzt pro Fraktion; bei 0 kein Spawn mehr.
+// Pool-Abzug bei jedem Tod (character_die, inkl. Artillerie/Umwelt), nicht bei Spawn.
 // Eroberungs-Bonus: sofort voll (25/50/100) – kein 5-Min-Puffer mehr.
 // Haltungsbonus: nur während Spawn AUS alle 10 s pro Basis in Akkumulator (Side 0.2, Outpost 0.4, HQ 1.0); beim Öffnen (AUS→AN) in Pool + Commander-Meldung. Pool mit Kommarest (z. B. 15.2 → 15 ausgeben, 0.2 bleibt).
 #include "tracker.as"
@@ -41,6 +42,8 @@ const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speiche
 const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
 // Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 2×/s, damit Killstreaks schneller sichtbar sind.
 const float SCORE_DISPLAY_THROTTLE = 0.5f;
+// Alle 60 s: getCharacters() fuer alle Fraktionen, Anzeige neu setzen (Recheck falls Zahl nicht stimmt).
+const float SCORE_RECHECK_INTERVAL = 60.0f;
 // Spawn-Fenster: 30 s AN (5x Rate). AUS-Dauer abhaengig von Capacity: 200 Soldaten = 90 s, darueber laenger (min 60, max 180 s).
 const float SPAWN_WINDOW_OPEN_DURATION = 30.0f;
 const float SPAWN_CLOSED_BASE = 102.0f;   // 90 + 12
@@ -55,8 +58,8 @@ const int GROSSANGRIFF_CYCLES = 4;
 const float GROSSANGRIFF_CAPACITY_MULTIPLIER = 2.0f;
 // Statt 0: minimaler Multiplikator, damit die Engine die Fraktion nicht als „tot“ behandelt (Capture-Timer bleibt gültig).
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f;
-// Attack-Boost: pro Spawn-Zyklus 25 % Chance pro Fraktion; 1.3x Capacity, 1.5x Spawn-Rate; Cooldown 1 Zyklus.
-const float BOOST_CAPACITY_MULTIPLIER = 1.3f;
+// Attack-Boost (Surge): pro Spawn-Zyklus 25 % Chance pro Fraktion; 1.2x Capacity, 1.5x Spawn-Rate; Cooldown 1 Zyklus.
+const float BOOST_CAPACITY_MULTIPLIER = 1.2f;
 const float BOOST_SPAWN_RATE_MULTIPLIER = 1.5f;
 const float BOOST_CHANCE_ON_WINDOW_OPEN = 0.25f;
 // Capacity-Nerf: Fraktionen mit ueberdurchschnittlicher soldier_capacity (mehr Basen) bekommen Multiplikator < 1, um 7-Basen-200-Truppen vs 1-Basis-40-Truppen abzumildern.
@@ -84,6 +87,7 @@ class ReinforcementPoolTracker : Tracker {
 	protected bool m_baseValueMarkersPlaced = false;
 	protected bool m_scoreDisplayDirty = false;
 	protected float m_scoreDisplayAccum = 0.0f;
+	protected float m_recheckAccum = 0.0f;
 	protected bool m_initialPoolCorrectedForLiving = false;
 	// Position des Status-Markers: aus erster Basis + Offset, damit er immer auf der Karte sichtbar ist (nicht ausserhalb wie 1500 0 50 bei kleinen Maps).
 	protected string m_statusMarkerPosition = "";
@@ -340,6 +344,14 @@ class ReinforcementPoolTracker : Tracker {
 			m_scoreDisplayDirty = false;
 			updateScoreDisplay();
 		}
+		// Alle 60 s: Recheck – getCharacters() fuer alle Fraktionen, Anzeige neu setzen (Zahl kann nachziehen).
+		if (m_initialAnnounceDone) {
+			m_recheckAccum += time;
+			if (m_recheckAccum >= SCORE_RECHECK_INTERVAL) {
+				m_recheckAccum = 0.0f;
+				updateScoreDisplay();
+			}
+		}
 
 		if (!m_initialAnnounceDone) {
 			m_timeAccum += time;
@@ -543,32 +555,26 @@ class ReinforcementPoolTracker : Tracker {
 		return "Spawn: AUS (" + secLeft + "s)";
 	}
 
-	// Kurz fuer HUD: nur "AN 30s" / "AUS 45s" / "MajorAttack 30s" (ohne "Spawn:").
+	// Kurz fuer HUD: AN (ohne Sekunden) oder AUS + verbleibende Sekunden.
 	string getSpawnStatusTextShort() {
-		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : getSpawnClosedDuration();
+		if (m_spawnWindowOpen) return "AN";
+		float duration = getSpawnClosedDuration();
 		int secLeft = int(duration - m_spawnWindowAccum);
 		if (secLeft < 0) secLeft = 0;
-		if (m_grossangriffActive) return "MajorAttack " + secLeft + "s";
-		if (m_spawnWindowOpen) return "AN " + secLeft + "s";
 		return "AUS " + secLeft + "s";
 	}
 
-	// HUD: Engine zeigt nur 3 Slots (id 0,1,2). Alle 3 Fraktionen sichtbar: Spawn in Zeile 0 davor, dann Fraktion 1–3.
+	// HUD: AN oder AUS (Xs) + pro Slot Fraktionsfarbe + Alive-Zahl (Slot 0 = Spawn + F0 Alive, Slot 1/2 = F1/F2 Alive).
 	void updateScoreDisplay() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
 		string markerPos = m_statusMarkerPosition.length() > 0 ? m_statusMarkerPosition : STATUS_MARKER_POSITION;
-		string spawnStatus = getSpawnStatusText();
-		string spawnShort = getSpawnStatusTextShort();
+		string spawnText = getSpawnStatusTextShort();
 
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			int alive = getAliveCountForFaction(factionId);
-			int pool = getPoolForFaction(factionId);
-			int total = alive + pool;   // Gesamtsoldaten = im Kampf + Nachschub
-			string lineText = alive + "/" + total;
-			if (getBoostActive(factionId)) lineText += " [Surge]";
-			if (factionId == 0) lineText = spawnShort + "  " + lineText;
+			string lineText = (factionId == 0) ? (spawnText + "  " + alive) : ("" + alive);
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
 			cmd.setIntAttribute("id", factionId);
@@ -576,16 +582,18 @@ class ReinforcementPoolTracker : Tracker {
 			cmd.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
 			m_metagame.getComms().send(cmd);
 		}
-		// Karte: Spawn-Status mit Sekunden (AN (Xs) / AUS (Xs))
+		// Karte: 1 Marker pro Fraktion, gleiche Position = 3 (bzw. 2) farbige Kreuze uebereinander; jeder mit Nachschub-Text + Fraktionsfarbe.
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
+			int pool = getPoolForFaction(factionId);
+			string markerText = "F" + factionId + ": " + pool;
 			XmlElement m("command");
 			m.setStringAttribute("class", "set_marker");
 			m.setIntAttribute("id", STATUS_MARKER_ID_BASE + factionId);
 			m.setIntAttribute("faction_id", factionId);
 			m.setIntAttribute("atlas_index", 0);
 			m.setStringAttribute("position", markerPos);
-			m.setStringAttribute("text", spawnStatus);
+			m.setStringAttribute("text", markerText);
 			m.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
 			m.setFloatAttribute("size", 0.75f);
 			m.setBoolAttribute("enabled", true);
@@ -874,14 +882,14 @@ class ReinforcementPoolTracker : Tracker {
 		}
 	}
 
-	// Nachschub wird bei Spawn abgezogen, nicht bei Tod. character_kill = A tötet B; character_die = Tod (auch Artillerie/Umwelt).
-	// Beide: Tote zählen + Dirty setzen, damit „alive“ (getCharacters) und „dead“ nach jedem Tod aktualisiert werden.
-	// Falls die Engine bei einem Tod beide sendet, kann „dead“ doppelt steigen – Anzeige bleibt konsistent.
+	// Nachschub geht bei jedem Tod runter (auch Artillerie/Umwelt). character_die = jeder Tod; character_kill nur fuer Tote-Zaehler.
+	// Nur in character_die Pool abziehen, damit bei einem Tod nicht doppelt abgezogen wird (Engine kann beide senden).
 	protected void handleCharacterKillEvent(const XmlElement@ event) {
 		const XmlElement@ target = event.getFirstElementByTagName("target");
 		if (target is null) return;
 		addDeathForFaction(target.getIntAttribute("faction_id"));
 		m_scoreDisplayDirty = true;
+		updateScoreDisplay();
 	}
 
 	protected void handleCharacterDieEvent(const XmlElement@ event) {
@@ -890,24 +898,25 @@ class ReinforcementPoolTracker : Tracker {
 		if (target is null) return;
 		int factionId = target.getIntAttribute("faction_id");
 		addDeathForFaction(factionId);
+		// Pool bei jedem Tod um 1 verringern (inkl. Artillerie, Umwelt, etc.)
+		float pool = getPoolForFactionFloat(factionId);
+		if (pool >= 1.0f) {
+			pool -= 1.0f;
+			setPoolForFaction(factionId, pool);
+			announceThreshold(factionId, getPoolForFaction(factionId));
+			if (getPoolForFaction(factionId) <= 0 && !isSpawnDisabled(factionId)) {
+				disableSpawnForFaction(factionId);
+				setSpawnDisabled(factionId);
+			}
+		}
 		m_scoreDisplayDirty = true;
+		updateScoreDisplay();
 	}
 
-	// Bei jedem Spawn: Nachschub um 1 verringern. Rest bleibt im Pool (z. B. 15.2 → 14.2).
+	// Spawn: Nachschub wird nicht mehr abgezogen – Abzug nur bei Tod (character_die).
 	protected void handleCharacterSpawnEvent(const XmlElement@ event) {
-		const XmlElement@ character = event.getFirstElementByTagName("character");
-		if (character is null) return;
-		int factionId = character.getIntAttribute("faction_id");
-		float pool = getPoolForFactionFloat(factionId);
-		if (pool < 1.0f) return;
-		pool -= 1.0f;
-		setPoolForFaction(factionId, pool);
 		m_scoreDisplayDirty = true;
-		announceThreshold(factionId, getPoolForFaction(factionId));
-		if (getPoolForFaction(factionId) <= 0 && !isSpawnDisabled(factionId)) {
-			disableSpawnForFaction(factionId);
-			setSpawnDisabled(factionId);
-		}
+		updateScoreDisplay();
 	}
 
 	// Chat-Command /nachschub oder /pool: Ausgabe pro Fraktion = Verbleibend (Nachschub), Tote, Lebende (aktuelle Charakteranzahl).
@@ -935,7 +944,7 @@ class ReinforcementPoolTracker : Tracker {
 		m_metagame.getComms().send(cmd);
 	}
 
-	// Spawn-Fenster umschalten. grossangriff=true: 30 s mit verdoppelter Kapazität (2x). Attack-Boost pro Fraktion: 1.3x Cap, 1.5x Spawn-Rate.
+	// Spawn-Fenster umschalten. grossangriff=true: 30 s mit verdoppelter Kapazität (2x). Attack-Boost (Surge): 1.2x Cap, 1.5x Spawn-Rate.
 	// Capacity-Nerf: Fraktionen mit ueberdurchschnittlicher soldier_capacity (mehr Basen) bekommen 0.9x, damit 7 Basen/200 Truppen vs 1 Basis/40 nicht so krass ist.
 	void applySpawnWindowState(bool open, bool grossangriff = false) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
