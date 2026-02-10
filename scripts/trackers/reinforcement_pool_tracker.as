@@ -12,11 +12,13 @@ const int BASE_BONUS_DEFAULT = 25;
 const int BASE_BONUS_MEDIUM = 50;
 const int BASE_BONUS_STRONG = 100;
 const float BASE_UPDATE_INTERVAL = 1.0f;
-// Haltungsbonus nur während Spawn-AUS: alle 10 s pro Basis in Akkumulator; beim Öffnen (AUS→AN) wird Akkumulator in Pool überführt + Commander-Meldung.
+// Haltungsbonus nur während Spawn-AUS: alle 10 s pro Basis in Akkumulator; beim Öffnen (AUS→AN) wird Akkumulator in Pool überführt + Commander-Meldung. 2x, dann +1.6x.
 const float DEFENDER_TRICKLE_INTERVAL = 10.0f;
-const float DEFENDER_TRICKLE_SIDE = 0.5f;   // Sidebase: 0.5 pro 10 s
-const float DEFENDER_TRICKLE_MEDIUM = 0.8f; // Outpost: 0.8 pro 10 s
-const float DEFENDER_TRICKLE_STRONG = 1.5f; // HQ: 1.5 pro 10 s
+const float DEFENDER_TRICKLE_SIDE = 1.6f;   // Sidebase: 1.6 pro 10 s
+const float DEFENDER_TRICKLE_MEDIUM = 2.56f; // Outpost: 2.56 pro 10 s
+const float DEFENDER_TRICKLE_STRONG = 4.8f;  // HQ: 4.8 pro 10 s
+// AUS-Phase direkt nach MajorAttack: 5.6x Trickle (3.5 * 1.6).
+const float TRICKLE_MULTIPLIER_AFTER_MAJOR_ATTACK = 5.6f;
 // Basis-Verlust: Nachschub-Penalty zufaellig, gleiche Bereiche wie Eroberungs-Bonus (Side 5–10, Medium 10–20, HQ 20–30).
 const int LOSS_PENALTY_SIDE_MIN = 5;
 const int LOSS_PENALTY_SIDE_MAX = 10;
@@ -52,6 +54,12 @@ const int GROSSANGRIFF_CYCLES = 4;
 const float GROSSANGRIFF_CAPACITY_MULTIPLIER = 2.0f;
 // Statt 0: minimaler Multiplikator, damit die Engine die Fraktion nicht als „tot“ behandelt (Capture-Timer bleibt gültig).
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f;
+// Attack-Boost: pro Spawn-Zyklus 25 % Chance pro Fraktion; 1.3x Capacity, 1.5x Spawn-Rate; Cooldown 1 Zyklus.
+const float BOOST_CAPACITY_MULTIPLIER = 1.3f;
+const float BOOST_SPAWN_RATE_MULTIPLIER = 1.5f;
+const float BOOST_CHANCE_ON_WINDOW_OPEN = 0.25f;
+// Capacity-Nerf: Fraktionen mit ueberdurchschnittlicher soldier_capacity (mehr Basen) bekommen Multiplikator < 1, um 7-Basen-200-Truppen vs 1-Basis-40-Truppen abzumildern.
+const float CAPACITY_NERF_ABOVE_AVG = 0.8f;
 // Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
@@ -88,6 +96,12 @@ class ReinforcementPoolTracker : Tracker {
 	protected bool m_grossangriffActive = false;
 	// Haltungsbonus: während Spawn AUS akkumuliert, beim Öffnen (AUS→AN) in Pool überführt
 	protected dictionary m_holdingAccumulator;
+	// Attack-Boost: pro Zyklus aktiv; Block für nächsten Zyklus; wer hatte Boost im letzten Zyklus (Cooldown-Aufhebung beim nächsten Öffnen)
+	protected dictionary m_factionBoostActive;
+	protected dictionary m_factionBoostBlocked;
+	protected dictionary m_factionHadBoostLastCycle;
+	// Naechste AUS-Phase nach MajorAttack: 3.5x Trickle (Reinforcements in der Nicht-Spawn-Zeit)
+	protected bool m_trickleBonusAfterMajorAttack = false;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -373,8 +387,19 @@ class ReinforcementPoolTracker : Tracker {
 			bool wasOpen = m_spawnWindowOpen;
 			m_spawnWindowOpen = !m_spawnWindowOpen;
 			if (wasOpen) {
-				// Gerade von AN auf AUS gewechselt → Zyklus-Ende
+				// Gerade von AN auf AUS gewechselt → Boost beenden, für Cooldown merken wer Boost hatte
+				array<const XmlElement@>@ factionsClose = getFactions(m_metagame);
+				if (factionsClose !is null) {
+					for (uint j = 0; j < factionsClose.size(); ++j) {
+						int fid = int(j);
+						if (getBoostActive(fid)) {
+							setBoostActive(fid, false);
+							setHadBoostLastCycle(fid, true);
+						}
+					}
+				}
 				if (m_grossangriffActive) {
+					m_trickleBonusAfterMajorAttack = true;  // naechste AUS-Phase: 3.5x Trickle
 					m_cyclesUntilGrossangriff = GROSSANGRIFF_CYCLES;
 					m_grossangriffActive = false;
 				} else if (m_cyclesUntilGrossangriff > 0) {
@@ -382,6 +407,7 @@ class ReinforcementPoolTracker : Tracker {
 				}
 				applySpawnWindowState(false, false);
 			} else {
+				m_trickleBonusAfterMajorAttack = false;  // AUS vorbei, Bonus nur eine Phase
 				// Gerade von AUS auf AN gewechselt: Akkumulator in Pool überführen + Commander-Meldung
 				array<const XmlElement@>@ factions = getFactions(m_metagame);
 				if (factions !is null) {
@@ -401,6 +427,27 @@ class ReinforcementPoolTracker : Tracker {
 								sendFactionMessage(m_metagame, fid, "Reinforcements arrived. +" + added + " added to supply.", 0.95);
 							resetHoldingAccumulator(fid);
 							_log("ReinforcementPool: Haltungsbonus Faction " + fid + " +" + acc + " -> Pool " + newPool, 0);
+						}
+					}
+				}
+				// Attack-Boost: Cooldown aufheben (wer letzten Zyklus Boost hatte, darf wieder würfeln ab übernächstem)
+				array<const XmlElement@>@ factionsOpen = getFactions(m_metagame);
+				if (factionsOpen !is null) {
+					for (uint j = 0; j < factionsOpen.size(); ++j) {
+						int fid = int(j);
+						if (getHadBoostLastCycle(fid)) {
+							setBoostBlocked(fid, false);
+							setHadBoostLastCycle(fid, false);
+						}
+					}
+					// 25 % Chance pro berechtigter Fraktion (Pool > 0, nicht blockiert)
+					for (uint j = 0; j < factionsOpen.size(); ++j) {
+						int fid = int(j);
+						if (getPoolForFaction(fid) > 0 && !isBoostBlocked(fid) && rand(1, 100) <= 25) {
+							setBoostActive(fid, true);
+							setBoostBlocked(fid, true);
+							sendFactionMessage(m_metagame, fid, "Reinforcement surge active. Increased capacity and spawn rate this cycle.", 0.95);
+							_log("ReinforcementPool: Attack-Boost Faction " + fid + " (25% hit).", 0);
 						}
 					}
 				}
@@ -440,6 +487,7 @@ class ReinforcementPoolTracker : Tracker {
 					if (ownerId < 0) continue;
 					int bonusCat = getBaseBonusCached(baseId, base);
 					float trickle = getDefenderTricklePer10s(bonusCat);
+					if (m_trickleBonusAfterMajorAttack) trickle *= TRICKLE_MULTIPLIER_AFTER_MAJOR_ATTACK;
 					if (trickle > 0.0f) {
 						addHoldingAccumulator(ownerId, trickle);
 						anyAdded = true;
@@ -518,6 +566,7 @@ class ReinforcementPoolTracker : Tracker {
 			int pool = getPoolForFaction(factionId);
 			int total = alive + pool;   // Gesamtsoldaten = im Kampf + Nachschub
 			string lineText = alive + "/" + total;
+			if (getBoostActive(factionId)) lineText += " [Surge]";
 			if (factionId == 0) lineText = spawnShort + "  " + lineText;
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
@@ -562,6 +611,8 @@ class ReinforcementPoolTracker : Tracker {
 			fe.setIntAttribute("acc_x100", int(accF * 100.0f));
 			fe.setIntAttribute("deaths", getDeathsForFaction(fid));
 			fe.setIntAttribute("spawn_disabled", isSpawnDisabled(fid) ? 1 : 0);
+			fe.setIntAttribute("boost_active", getBoostActive(fid) ? 1 : 0);
+			fe.setIntAttribute("boost_blocked", isBoostBlocked(fid) ? 1 : 0);
 			root.appendChild(fe);
 		}
 		XmlElement command("command");
@@ -600,6 +651,10 @@ class ReinforcementPoolTracker : Tracker {
 			bool spawnOff = fe.getIntAttribute("spawn_disabled") != 0;
 			m_deaths[factionKey(fid)] = deaths;
 			if (spawnOff) m_spawnDisabled[factionKey(fid)] = true;
+			if (fe.hasAttribute("boost_active") && fe.getIntAttribute("boost_active") != 0)
+				setBoostActive(fid, true);
+			if (fe.hasAttribute("boost_blocked") && fe.getIntAttribute("boost_blocked") != 0)
+				setBoostBlocked(fid, true);
 		}
 		// Nachschub wieder da nach Load → Spawn-Flag löschen, damit applySpawnWindowState (in update) sie wieder aktiviert
 		for (uint i = 0; i < factionNodes.size(); ++i) {
@@ -613,6 +668,38 @@ class ReinforcementPoolTracker : Tracker {
 	}
 
 	string factionKey(int factionId) { return "" + factionId; }
+
+	// Attack-Boost: nur in diesem Spawn-Zyklus aktiv; Block = darf nächsten Zyklus nicht gezogen werden.
+	bool getBoostActive(int fid) {
+		string key = factionKey(fid);
+		if (!m_factionBoostActive.exists(key)) return false;
+		return int(m_factionBoostActive[key]) != 0;
+	}
+	void setBoostActive(int fid, bool on) {
+		string key = factionKey(fid);
+		if (on) m_factionBoostActive[key] = 1;
+		else m_factionBoostActive.delete(key);
+	}
+	bool isBoostBlocked(int fid) {
+		string key = factionKey(fid);
+		if (!m_factionBoostBlocked.exists(key)) return false;
+		return int(m_factionBoostBlocked[key]) != 0;
+	}
+	void setBoostBlocked(int fid, bool block) {
+		string key = factionKey(fid);
+		if (block) m_factionBoostBlocked[key] = 1;
+		else m_factionBoostBlocked.delete(key);
+	}
+	bool getHadBoostLastCycle(int fid) {
+		string key = factionKey(fid);
+		if (!m_factionHadBoostLastCycle.exists(key)) return false;
+		return int(m_factionHadBoostLastCycle[key]) != 0;
+	}
+	void setHadBoostLastCycle(int fid, bool had) {
+		string key = factionKey(fid);
+		if (had) m_factionHadBoostLastCycle[key] = 1;
+		else m_factionHadBoostLastCycle.delete(key);
+	}
 
 	// Pool intern als float (Rest bleibt z. B. 15.2 → 15 Soldaten ausgeben, 0.2 bleibt).
 	float getPoolForFactionFloat(int factionId) {
@@ -850,19 +937,34 @@ class ReinforcementPoolTracker : Tracker {
 		m_metagame.getComms().send(cmd);
 	}
 
-	// Spawn-Fenster umschalten. grossangriff=true: 30 s mit verdoppelter Kapazität (2x) für alle spawnfähigen Fraktionen.
+	// Spawn-Fenster umschalten. grossangriff=true: 30 s mit verdoppelter Kapazität (2x). Attack-Boost pro Fraktion: 1.3x Cap, 1.5x Spawn-Rate.
+	// Capacity-Nerf: Fraktionen mit ueberdurchschnittlicher soldier_capacity (mehr Basen) bekommen 0.9x, damit 7 Basen/200 Truppen vs 1 Basis/40 nicht so krass ist.
 	void applySpawnWindowState(bool open, bool grossangriff = false) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
-		float capMult = (open && grossangriff) ? GROSSANGRIFF_CAPACITY_MULTIPLIER : 1.0f;
+		int sumCapacity = 0;
+		for (uint i = 0; i < factions.size(); ++i)
+			sumCapacity += factions[i].getIntAttribute("soldier_capacity");
+		float avgCapacity = factions.size() > 0 ? float(sumCapacity) / float(factions.size()) : 0.0f;
+
 		XmlElement command("command");
 		command.setStringAttribute("class", "change_game_settings");
 		for (uint i = 0; i < factions.size(); ++i) {
 			int fid = int(i);
 			XmlElement faction("faction");
 			bool canSpawn = open && getPoolForFaction(fid) > 0 && !isSpawnDisabled(fid);
+			float capMultBase = (open && grossangriff) ? GROSSANGRIFF_CAPACITY_MULTIPLIER : 1.0f;
+			float capMult = capMultBase;
+			float spawnInterval = 0.2f;
+			if (canSpawn && getBoostActive(fid)) {
+				capMult = capMultBase * BOOST_CAPACITY_MULTIPLIER;
+				spawnInterval = 0.2f / BOOST_SPAWN_RATE_MULTIPLIER;
+			}
+			// Nerf: ueberdurchschnittliche Capacity (mehr Basen) -> 0.9x
+			if (canSpawn && avgCapacity > 0.0f && float(factions[i].getIntAttribute("soldier_capacity")) > avgCapacity)
+				capMult *= CAPACITY_NERF_ABOVE_AVG;
 			faction.setFloatAttribute("capacity_multiplier", canSpawn ? capMult : CAPACITY_MULTIPLIER_NEAR_ZERO);
-			if (canSpawn) faction.setFloatAttribute("spawn_interval", 0.2f);  // 5x nativ (1/0.2 s)
+			if (canSpawn) faction.setFloatAttribute("spawn_interval", spawnInterval);
 			command.appendChild(faction);
 		}
 		m_metagame.getComms().send(command);
