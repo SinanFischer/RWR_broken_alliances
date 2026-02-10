@@ -681,8 +681,8 @@ class ReinforcementPoolTracker : Tracker {
 		if (pool <= 0) return;
 		pool--;
 		setPoolForFaction(factionId, pool);
-		_log("ReinforcementPool: Spawn Faction " + factionId + " -> " + pool + " verbleibend", 1);
-		updateScoreDisplay();
+		// Nur Dirty-Flag; update() aktualisiert Anzeige gedeckelt (SCORE_DISPLAY_THROTTLE) – bei 8x Spawn-Rate sonst hunderte getCharacters()/Sends pro Sekunde.
+		m_scoreDisplayDirty = true;
 		announceThreshold(factionId, pool);
 		if (pool <= 0 && !isSpawnDisabled(factionId)) {
 			disableSpawnForFaction(factionId);
