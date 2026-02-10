@@ -7,7 +7,8 @@
 #include "query_helpers.as"
 
 const int REINFORCEMENT_POOL_INITIAL = 1000; // fallback value if no capacity is found in factions
-const int REINFORCEMENT_POOL_MULTIPLIER = 2;
+const int REINFORCEMENT_POOL_MULTIPLIER = 3;  // Start-Nachschub = 3x Startkapazitaet (max_soldiers)
+const int BASE_COUNT_BONUS_PER_BASE_LESS = 50; // Entschaedigung: +50 Nachschub pro Basis weniger als die Fraktion mit den meisten Basen
 const float CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO = 2.5f;  // Capacity-Summe = 2.5x max_soldiers (vorher 1.28x)
 // Eroberungs-Bonus pro eingenommene Basis (verdoppelt: 50/100/200).
 const int BASE_BONUS_DEFAULT = 50;   // Side/leicht (vorher 25)
@@ -292,6 +293,26 @@ class ReinforcementPoolTracker : Tracker {
 		return m_initialPoolValue;
 	}
 
+	// Basen pro Fraktion zaehlen (owner_id); max zurueckgeben. Entschaedigung: +50 Nachschub pro Basis weniger.
+	int getBaseCountForFaction(array<const XmlElement@>@ bases, int factionId) {
+		if (bases is null) return 0;
+		int n = 0;
+		for (uint i = 0; i < bases.size(); ++i) {
+			if (bases[i].getIntAttribute("owner_id") == factionId) ++n;
+		}
+		return n;
+	}
+
+	int getMaxBaseCount(array<const XmlElement@>@ bases, int numFactions) {
+		if (bases is null || numFactions <= 0) return 0;
+		int maxB = 0;
+		for (int fid = 0; fid < numFactions; ++fid) {
+			int c = getBaseCountForFaction(bases, fid);
+			if (c > maxB) maxB = c;
+		}
+		return maxB;
+	}
+
 	string baseGrantedKey(int baseId) { return "b" + baseId; }
 
 	float getBaseGranted(int baseId) {
@@ -358,23 +379,32 @@ class ReinforcementPoolTracker : Tracker {
 			if (m_timeAccum < 3.0f) return;
 			m_initialAnnounceDone = true;
 			array<const XmlElement@>@ factions = getFactions(m_metagame);
-			// Jetzt sind Charaktere geladen: Pool = Initial minus bereits Lebende (einmalig, nur neues Spiel).
+			array<const XmlElement@>@ bases = getBases(m_metagame);
+			int numFactions = factions !is null ? int(factions.size()) : 0;
+			int maxBases = getMaxBaseCount(bases, numFactions);
+			// Jetzt sind Charaktere geladen: Pool = (Basis-Nachschub 3x + Entschaedigung 50 pro Basis weniger) minus bereits Lebende (einmalig, nur neues Spiel).
 			if (!m_loadedFromSave && !m_initialPoolCorrectedForLiving) {
-				int initial = getInitialPoolValue();
+				int basePool = getInitialPoolValue();
 				for (uint i = 0; i < factions.size(); ++i) {
 					int fid = int(i);
+					int factionBases = getBaseCountForFaction(bases, fid);
+					int bonus = (maxBases - factionBases) * BASE_COUNT_BONUS_PER_BASE_LESS;
+					if (bonus < 0) bonus = 0;
+					int initial = basePool + bonus;
 					int alive = getAliveCountForFaction(fid);
 					int pool = initial - alive;
 					if (pool < 0) pool = 0;
 					setPoolForFaction(fid, pool);
+					if (bonus > 0)
+						_log("ReinforcementPool: Faction " + fid + " " + factionBases + " Basen (max " + maxBases + ") -> +" + bonus + " Start-Nachschub.", 0);
 				}
 				m_initialPoolCorrectedForLiving = true;
 			}
 			for (uint i = 0; i < factions.size(); ++i) {
 				int factionId = int(i);
-				sendFactionMessage(m_metagame, factionId, "Reinforcements: " + getInitialPoolValue() + " remaining.", 0.95);
+				int shown = getPoolForFaction(factionId);
+				sendFactionMessage(m_metagame, factionId, "Reinforcements: " + shown + " remaining.", 0.95);
 			}
-			array<const XmlElement@>@ bases = getBases(m_metagame);
 			if (bases !is null && bases.size() > 0 && m_statusMarkerPosition.length() == 0) {
 				Vector3 p = stringToVector3(bases[0].getStringAttribute("position"));
 				m_statusMarkerPosition = (p.get_opIndex(0) + 360) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 360);
