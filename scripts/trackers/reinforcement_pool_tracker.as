@@ -17,7 +17,6 @@ const float DEFENDER_BONUS_INTERVAL = 180.0f;
 const int DEFENDER_BONUS_SIDE = 4;
 const int DEFENDER_BONUS_MEDIUM = 6;
 const int DEFENDER_BONUS_STRONG = 12;
-const float FOLLOWUP_MESSAGE_DELAY = 4.0f;
 // Basis-Verlust: Nachschub-Penalty zufaellig, gleiche Bereiche wie Eroberungs-Bonus (Side 5–10, Medium 10–20, HQ 20–30).
 const int LOSS_PENALTY_SIDE_MIN = 5;
 const int LOSS_PENALTY_SIDE_MAX = 10;
@@ -46,18 +45,6 @@ const float SPAWN_WINDOW_CLOSED_DURATION = 90.0f;
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
 
-// Verzögerte Commander-Anschlussmeldung (4 s nach Hauptmeldung)
-class PendingFollowUp {
-	float m_delay;
-	int m_factionId;
-	string m_text;
-	PendingFollowUp(float delay, int factionId, const string &in text) {
-		m_delay = delay;
-		m_factionId = factionId;
-		m_text = text;
-	}
-}
-
 class ReinforcementPoolTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected dictionary m_pool;
@@ -72,7 +59,6 @@ class ReinforcementPoolTracker : Tracker {
 	protected float m_baseUpdateAccum = 0.0f;
 	protected float m_defenderAccum = 0.0f;
 	protected array<int> m_thresholds;
-	protected array<PendingFollowUp@> m_pendingFollowUps;
 	protected float m_saveTimer = 0.0f;
 	protected bool m_loadedFromSave = false;
 	protected bool m_baseValueMarkersPlaced = false;
@@ -268,16 +254,6 @@ class ReinforcementPoolTracker : Tracker {
 	}
 
 	void update(float time) {
-		// Verzögerte Anschluss-Meldungen (4 s nach Base lost/captured)
-		for (int i = int(m_pendingFollowUps.size()) - 1; i >= 0; --i) {
-			PendingFollowUp@ p = m_pendingFollowUps[i];
-			p.m_delay -= time;
-			if (p.m_delay <= 0.0f) {
-				sendFactionMessage(m_metagame, p.m_factionId, p.m_text, 0.9);
-				m_pendingFollowUps.removeAt(i);
-			}
-		}
-
 		// Score-Anzeige (Lebend · Nachschub): bei Kills nur alle 1 s aktualisieren – getCharacters() ist teuer
 		m_scoreDisplayAccum += time;
 		if (m_scoreDisplayDirty && m_scoreDisplayAccum >= SCORE_DISPLAY_THROTTLE) {
@@ -602,14 +578,8 @@ class ReinforcementPoolTracker : Tracker {
 				setPoolForFaction(previousOwnerId, newPool);
 				updateScoreDisplay();
 				announceThreshold(previousOwnerId, newPool);
-				sendFactionMessage(m_metagame, previousOwnerId, "Base lost. -" + penalty + " reinforcements (" + newPool + " remaining).", 0.95);
-				// Anschluss-Meldung 4 s später: vollständige Sätze mit Basisname
-				array<string> loseVariants;
-				loseVariants.insertLast("We have lost " + baseName + ". Hold the line so we don't lose more reinforcements.");
-				loseVariants.insertLast("Base " + baseName + " has fallen. Dig in – every position we hold saves our reinforcements.");
-				loseVariants.insertLast("We lost " + baseName + ". Stand fast so we don't bleed more reinforcements.");
-				string followLose = loseVariants[rand(0, int(loseVariants.size()) - 1)];
-				m_pendingFollowUps.insertLast(PendingFollowUp(FOLLOWUP_MESSAGE_DELAY, previousOwnerId, followLose));
+				// Eine Meldung: Basisname + Verlust/Verbleibend in einem Satz (realitätsnäher)
+				sendFactionMessage(m_metagame, previousOwnerId, "We lost " + baseName + ". -" + penalty + " reinforcements (" + newPool + " remaining).", 0.95);
 				_log("ReinforcementPool: Basis " + baseId + " verloren – Faction " + previousOwnerId + " -" + penalty + " Nachschub (verbleibend " + newPool + ").", 0);
 				if (newPool <= 0 && !isSpawnDisabled(previousOwnerId)) {
 					disableSpawnForFaction(previousOwnerId);
@@ -626,14 +596,8 @@ class ReinforcementPoolTracker : Tracker {
 			updateScoreDisplay();
 			_log("ReinforcementPool: Base " + baseId + " erobert – Faction " + newOwnerId + " +" + bonus + " sofort.", 0);
 
-			sendFactionMessage(m_metagame, newOwnerId, "Base captured. +" + bonus + " reinforcements.", 0.95);
-			array<string> captureVariants;
-			captureVariants.insertLast("We have captured " + baseName + ". " + bonus + " reinforcements have joined us.");
-			captureVariants.insertLast("Base " + baseName + " is ours. " + bonus + " troops have reinforced our position.");
-			captureVariants.insertLast("We took " + baseName + ". " + bonus + " reinforcements are with us.");
-			captureVariants.insertLast("Sector " + baseName + " secured. " + bonus + " troops deployed.");
-			string followCap = captureVariants[rand(0, int(captureVariants.size()) - 1)];
-			m_pendingFollowUps.insertLast(PendingFollowUp(FOLLOWUP_MESSAGE_DELAY, newOwnerId, followCap));
+			// Eine Meldung: Basisname + Bonus in einem Satz (realitätsnäher)
+			sendFactionMessage(m_metagame, newOwnerId, "We captured " + baseName + ". +" + bonus + " reinforcements.", 0.95);
 		}
 
 		// Fallback-Siegesbedingung: Wenn die Engine kein match_result sendet (z. B. Quick Match), bei „alle Basen einer Fraktion“ selbst set_match_status senden.
