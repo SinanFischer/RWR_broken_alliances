@@ -39,9 +39,9 @@ const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speiche
 const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
 // Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 1×/s.
 const float SCORE_DISPLAY_THROTTLE = 1.0f;
-// Spawn-Fenster: Normal 2 Min. Beim ersten Mal nur 1 Min aktiv, danach 2-Min-Intervall.
-const float SPAWN_WINDOW_FIRST_DURATION = 60.0f;   // erstes Spawn-Fenster
-const float SPAWN_WINDOW_DURATION = 120.0f;        // ab dann 2 Min
+// Spawn-Fenster: 30 s erlaubt (4x Spawn-Rate), 90 s deaktiviert.
+const float SPAWN_WINDOW_OPEN_DURATION = 30.0f;
+const float SPAWN_WINDOW_CLOSED_DURATION = 90.0f;
 // Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
@@ -81,11 +81,10 @@ class ReinforcementPoolTracker : Tracker {
 	protected bool m_initialPoolCorrectedForLiving = false;
 	// Position des Status-Markers: aus erster Basis + Offset, damit er immer auf der Karte sichtbar ist (nicht ausserhalb wie 1500 0 50 bei kleinen Maps).
 	protected string m_statusMarkerPosition = "";
-	// Spawn-Fenster: erstes Mal 1 Min, danach 2 Min. capacity_multiplier wird umgeschaltet.
+	// Spawn-Fenster: 30 s an (4x Rate), 90 s aus.
 	protected bool m_spawnWindowOpen = true;
 	protected float m_spawnWindowAccum = 0.0f;
 	protected bool m_spawnWindowStateApplied = false;
-	protected bool m_firstSpawnWindowDone = false;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -321,19 +320,16 @@ class ReinforcementPoolTracker : Tracker {
 			return;
 		}
 
-		// Spawn-Fenster: erstes Mal 1 Min an, danach 2 Min an / 2 Min aus.
+		// Spawn-Fenster: 30 s an, 90 s aus.
 		m_spawnWindowAccum += time;
 		if (!m_spawnWindowStateApplied) {
 			m_spawnWindowStateApplied = true;
 			applySpawnWindowState(m_spawnWindowOpen);
 			m_scoreDisplayDirty = true;
 		}
-		float currentDuration = m_spawnWindowOpen
-			? (m_firstSpawnWindowDone ? SPAWN_WINDOW_DURATION : SPAWN_WINDOW_FIRST_DURATION)
-			: SPAWN_WINDOW_DURATION;
+		float currentDuration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : SPAWN_WINDOW_CLOSED_DURATION;
 		if (m_spawnWindowAccum >= currentDuration) {
 			m_spawnWindowAccum = 0.0f;
-			if (m_spawnWindowOpen) m_firstSpawnWindowDone = true;
 			m_spawnWindowOpen = !m_spawnWindowOpen;
 			applySpawnWindowState(m_spawnWindowOpen);
 			m_scoreDisplayDirty = true;
@@ -402,11 +398,9 @@ class ReinforcementPoolTracker : Tracker {
 		return (chars is null) ? 0 : int(chars.size());
 	}
 
-	// Spawn-Status-Text nur fuer Karten-Marker: Sekunden anzeigen (AN wie lange noch, AUS wie lange bis wieder an).
+	// Spawn-Status-Text nur fuer Karten-Marker: Sekunden anzeigen (AN 30s, AUS 90s).
 	string getSpawnStatusText() {
-		float duration = m_spawnWindowOpen
-			? (m_firstSpawnWindowDone ? SPAWN_WINDOW_DURATION : SPAWN_WINDOW_FIRST_DURATION)
-			: SPAWN_WINDOW_DURATION;
+		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : SPAWN_WINDOW_CLOSED_DURATION;
 		int secLeft = int(duration - m_spawnWindowAccum);
 		if (secLeft < 0) secLeft = 0;
 		if (m_spawnWindowOpen) return "Spawn: AN (" + secLeft + "s)";
@@ -721,7 +715,7 @@ class ReinforcementPoolTracker : Tracker {
 		m_metagame.getComms().send(cmd);
 	}
 
-	// Spawn-Fenster umschalten: open = true → Fraktionen mit Pool duerfen spawnen (capacity 1.0, spawn_interval 1s). open = false → alle aus (capacity 0).
+	// Spawn-Fenster umschalten: AN = 4x Spawn-Rate (capacity 2.0, spawn_interval 0.5), AUS = capacity 0.
 	void applySpawnWindowState(bool open) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
@@ -731,12 +725,12 @@ class ReinforcementPoolTracker : Tracker {
 			int fid = int(i);
 			XmlElement faction("faction");
 			bool canSpawn = open && getPoolForFaction(fid) > 0 && !isSpawnDisabled(fid);
-			faction.setFloatAttribute("capacity_multiplier", canSpawn ? 1.0f : 0.0f);
-			if (canSpawn) faction.setFloatAttribute("spawn_interval", 1.0f);
+			faction.setFloatAttribute("capacity_multiplier", canSpawn ? 2.0f : 0.0f);
+			if (canSpawn) faction.setFloatAttribute("spawn_interval", 0.5f);
 			command.appendChild(faction);
 		}
 		m_metagame.getComms().send(command);
-		_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN" : "AUS") + ".", 0);
+		_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN (4x)" : "AUS") + ".", 0);
 	}
 
 	// Setzt capacity_multiplier der betroffenen Fraktion auf 0; andere Fraktionen unverändert lassen.
