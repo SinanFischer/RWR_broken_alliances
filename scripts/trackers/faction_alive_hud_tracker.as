@@ -1,4 +1,5 @@
-// Faction-Alive-HUD-Tracker: Zeigt nur die Anzahl lebender Soldaten pro Fraktion in der HUD-Anzeige unten an.
+// Faction-Alive-HUD-Tracker: Zeigt die Anzahl lebender Soldaten pro Fraktion in der HUD-Anzeige unten an.
+// Optional nur in der "Area" um den Spieler (Radius AREA_RADIUS), sonst globaler Fallback.
 // Fraktion wird durch Farbe der Schrift gekennzeichnet (update_score_display). Keine Pool-/Spawn-Logik.
 
 #include "tracker.as"
@@ -6,6 +7,8 @@
 #include "query_helpers.as"
 
 const float HUD_UPDATE_THROTTLE = 0.5f;  // Anzeige max. 2x/s aktualisieren (getCharacters ist Engine-Query)
+const float AREA_RADIUS = 100.0f;        // Radius um Spielerposition für "Alive in Area" (Meter)
+const bool USE_AREA_COUNT = true;        // true = nur Soldaten in Spieler-Area zählen, false = global wie bisher
 
 class FactionAliveHudTracker : Tracker {
 	protected Metagame@ m_metagame;
@@ -40,7 +43,31 @@ class FactionAliveHudTracker : Tracker {
 		}
 	}
 
+	// Liefert Spielerposition des ersten Spielers mit gültigem character_id, sonst null (Fallback auf Global).
+	bool getLocalPlayerPosition(Vector3 &out position) {
+		array<const XmlElement@>@ players = getPlayers(m_metagame);
+		if (players is null || players.size() == 0) return false;
+		for (uint i = 0; i < players.size(); ++i) {
+			int characterId = players[i].getIntAttribute("character_id");
+			if (characterId < 0) continue;
+			const XmlElement@ character = getCharacterInfo(m_metagame, characterId);
+			if (character is null) continue;
+			string posStr = character.getStringAttribute("position");
+			if (posStr.length() == 0) continue;
+			position = stringToVector3(posStr);
+			return true;
+		}
+		return false;
+	}
+
 	int getAliveCountForFaction(int factionId) {
+		if (USE_AREA_COUNT) {
+			Vector3 playerPos;
+			if (getLocalPlayerPosition(playerPos)) {
+				array<const XmlElement@>@ chars = getCharactersNearPosition(m_metagame, playerPos, factionId, AREA_RADIUS);
+				return (chars is null) ? 0 : int(chars.size());
+			}
+		}
 		array<const XmlElement@>@ chars = getCharacters(m_metagame, factionId);
 		return (chars is null) ? 0 : int(chars.size());
 	}
