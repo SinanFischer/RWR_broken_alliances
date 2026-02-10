@@ -38,13 +38,16 @@ const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speiche
 const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
 // Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 1×/s.
 const float SCORE_DISPLAY_THROTTLE = 1.0f;
-// Spawn-Fenster: 30 s erlaubt (4x Spawn-Rate), 90 s deaktiviert.
+// Spawn-Fenster: 30 s AN (4x Rate). AUS-Dauer abhaengig von Capacity: 200 Soldaten = 90 s, darueber laenger (min 60, max 180 s).
 const float SPAWN_WINDOW_OPEN_DURATION = 30.0f;
-const float SPAWN_WINDOW_CLOSED_DURATION = 90.0f;
+const float SPAWN_CLOSED_BASE = 90.0f;
+const int SPAWN_CLOSED_REF_SOLDIERS = 200;
+const float SPAWN_CLOSED_FACTOR = 0.5f;
+const float SPAWN_CLOSED_MIN = 60.0f;
+const float SPAWN_CLOSED_MAX = 180.0f;
 // Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
-
 class ReinforcementPoolTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected dictionary m_pool;
@@ -67,10 +70,11 @@ class ReinforcementPoolTracker : Tracker {
 	protected bool m_initialPoolCorrectedForLiving = false;
 	// Position des Status-Markers: aus erster Basis + Offset, damit er immer auf der Karte sichtbar ist (nicht ausserhalb wie 1500 0 50 bei kleinen Maps).
 	protected string m_statusMarkerPosition = "";
-	// Spawn-Fenster: 30 s an (4x Rate), 90 s aus.
+	// Spawn-Fenster: 30 s an; AUS-Dauer aus Capacity (einmal berechnet, getSpawnClosedDuration).
 	protected bool m_spawnWindowOpen = true;
 	protected float m_spawnWindowAccum = 0.0f;
 	protected bool m_spawnWindowStateApplied = false;
+	protected float m_spawnClosedDuration = -1.0f;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -218,6 +222,20 @@ class ReinforcementPoolTracker : Tracker {
 		return 0;
 	}
 
+	// Kurzer Anzeigename für Fahrzeug-Zerstörungsmeldung (Englisch).
+	string getVehicleDisplayName(const string &in vehicleKey) {
+		if (vehicleKey.length() == 0) return "vehicle";
+		string key = vehicleKey.toLowerCase();
+		if (key.findFirst("tank") >= 0) return "tank";
+		if (key.findFirst("apc") >= 0) return "APC";
+		if (key.findFirst("vulcan") >= 0) return "Vulcan";
+		if (key.findFirst("wiesel") >= 0) return "Wiesel";
+		// Fallback: .vehicle abstreifen
+		int dot = key.findFirst(".vehicle");
+		if (dot >= 0) return key.substr(0, dot);
+		return key;
+	}
+
 	// Initialer Pool = max_soldiers * 2. max_soldiers kommt nicht aus der General-Query;
 	// die Engine liefert soldier_capacity pro Fraktion, Summe ≈ max_soldiers * CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO.
 	// Daher: max_soldiers = sum(soldier_capacity) / RATIO → Pool = sum * 2 / RATIO (z.B. 284*2/1.28 ≈ 444 bei 222 max).
@@ -251,6 +269,26 @@ class ReinforcementPoolTracker : Tracker {
 
 	void setBaseGranted(int baseId, float value) {
 		m_baseGranted[baseGrantedKey(baseId)] = value;
+	}
+
+	// AUS-Dauer aus Capacity: 200 Soldaten = 90 s, +0.5 s pro Soldat darueber, Clamp 60–180 s. Einmal berechnet.
+	float getSpawnClosedDuration() {
+		if (m_spawnClosedDuration >= 0.0f) return m_spawnClosedDuration;
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null || factions.size() == 0) {
+			m_spawnClosedDuration = SPAWN_CLOSED_BASE;
+			return m_spawnClosedDuration;
+		}
+		int sumCapacity = 0;
+		for (uint i = 0; i < factions.size(); ++i)
+			sumCapacity += factions[i].getIntAttribute("soldier_capacity");
+		float maxSoldiers = float(sumCapacity) / CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO;
+		float d = SPAWN_CLOSED_BASE + (maxSoldiers - float(SPAWN_CLOSED_REF_SOLDIERS)) * SPAWN_CLOSED_FACTOR;
+		if (d < SPAWN_CLOSED_MIN) d = SPAWN_CLOSED_MIN;
+		if (d > SPAWN_CLOSED_MAX) d = SPAWN_CLOSED_MAX;
+		m_spawnClosedDuration = d;
+		_log("ReinforcementPool: max_soldiers~" + int(maxSoldiers) + " -> Spawn AUS " + int(d) + " s", 0);
+		return m_spawnClosedDuration;
 	}
 
 	void update(float time) {
@@ -303,7 +341,7 @@ class ReinforcementPoolTracker : Tracker {
 			applySpawnWindowState(m_spawnWindowOpen);
 			m_scoreDisplayDirty = true;
 		}
-		float currentDuration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : SPAWN_WINDOW_CLOSED_DURATION;
+		float currentDuration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : getSpawnClosedDuration();
 		if (m_spawnWindowAccum >= currentDuration) {
 			m_spawnWindowAccum = 0.0f;
 			m_spawnWindowOpen = !m_spawnWindowOpen;
@@ -376,7 +414,7 @@ class ReinforcementPoolTracker : Tracker {
 
 	// Spawn-Status-Text nur fuer Karten-Marker: Sekunden anzeigen (AN 30s, AUS 90s).
 	string getSpawnStatusText() {
-		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : SPAWN_WINDOW_CLOSED_DURATION;
+		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : getSpawnClosedDuration();
 		int secLeft = int(duration - m_spawnWindowAccum);
 		if (secLeft < 0) secLeft = 0;
 		if (m_spawnWindowOpen) return "Spawn: AN (" + secLeft + "s)";
@@ -385,42 +423,34 @@ class ReinforcementPoolTracker : Tracker {
 
 	// Kurz fuer HUD: nur "AN 30s" / "AUS 45s" (ohne "Spawn:").
 	string getSpawnStatusTextShort() {
-		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : SPAWN_WINDOW_CLOSED_DURATION;
+		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : getSpawnClosedDuration();
 		int secLeft = int(duration - m_spawnWindowAccum);
 		if (secLeft < 0) secLeft = 0;
 		if (m_spawnWindowOpen) return "AN " + secLeft + "s";
 		return "AUS " + secLeft + "s";
 	}
 
-	// HUD: Zeile 0 = Spawn (kurz), Zeile 1..n = Lebend-Nachschub pro Fraktion. Karte: Spawn-Status wie bisher.
+	// HUD: Engine zeigt nur 3 Slots (id 0,1,2). Alle 3 Fraktionen sichtbar: Spawn in Zeile 0 davor, dann Fraktion 1–3.
 	void updateScoreDisplay() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
 		string markerPos = m_statusMarkerPosition.length() > 0 ? m_statusMarkerPosition : STATUS_MARKER_POSITION;
 		string spawnStatus = getSpawnStatusText();
+		string spawnShort = getSpawnStatusTextShort();
 
-		// HUD Zeile 0: Spawn-Status kurz (AN 30s / AUS 45s)
-		{
-			XmlElement cmd("command");
-			cmd.setStringAttribute("class", "update_score_display");
-			cmd.setIntAttribute("id", 0);
-			cmd.setStringAttribute("text", getSpawnStatusTextShort());
-			cmd.setStringAttribute("color", "#c0c0c0");
-			m_metagame.getComms().send(cmd);
-		}
-		// HUD Zeile 1..n: Lebend-Nachschub pro Fraktion
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			int alive = getAliveCountForFaction(factionId);
 			int pool = getPoolForFaction(factionId);
+			string lineText = alive + "-" + pool;
+			if (factionId == 0) lineText = spawnShort + "  " + lineText;
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
-			cmd.setIntAttribute("id", factionId + 1);
-			cmd.setStringAttribute("text", alive + "-" + pool);
+			cmd.setIntAttribute("id", factionId);
+			cmd.setStringAttribute("text", lineText);
 			cmd.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
 			m_metagame.getComms().send(cmd);
 		}
-
 		// Karte: Spawn-Status mit Sekunden (AN (Xs) / AUS (Xs))
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
@@ -624,10 +654,11 @@ class ReinforcementPoolTracker : Tracker {
 		}
 	}
 
-	// Fahrzeug zerstört: Besitzer (owner_id) verliert Nachschub – Panzer/APC/Wiesel kosten extra.
+	// Fahrzeug zerstört: Besitzer (owner_id) verliert Nachschub. Zerstörer-Fraktion (faction_id) bekommt Meldung „We destroyed X.“ (gleicher Kanal wie Commander/Chat, oft oben rechts).
 	protected void handleVehicleDestroyEvent(const XmlElement@ event) {
 		int ownerId = event.getIntAttribute("owner_id");
 		if (ownerId < 0) return;
+		int killerFactionId = event.getIntAttribute("faction_id");  // Fraktion, die das Fahrzeug zerstört hat (bei owner_id != faction_id)
 		string vehicleKey = event.getStringAttribute("vehicle_key");
 		int penalty = getVehicleDestroyPenalty(vehicleKey);
 		if (penalty <= 0) return;
@@ -642,6 +673,11 @@ class ReinforcementPoolTracker : Tracker {
 		if (newPool <= 0 && !isSpawnDisabled(ownerId)) {
 			disableSpawnForFaction(ownerId);
 			setSpawnDisabled(ownerId);
+		}
+		// Meldung an Zerstörer-Fraktion (wenn anders als Besitzer): „We destroyed tank.“ – gleiche Anzeige wie „Spiel gespeichert“/Commander (Engine legt Position fest).
+		if (killerFactionId >= 0 && killerFactionId != ownerId) {
+			string vehicleName = getVehicleDisplayName(vehicleKey);
+			sendFactionMessage(m_metagame, killerFactionId, "We destroyed " + vehicleName + ".", 0.9);
 		}
 	}
 
