@@ -36,15 +36,17 @@ const string REINFORCEMENT_POOL_SAVE_LOCATION = "savegame";  // "savegame" = pro
 const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speichern
 // Marker auf der Karte: Base-Wert (Side/Medium/Strong) an Basis-Position. ID-Bereich 40000+ baseId (Intel nutzt 5000+).
 const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
-// Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 1×/s.
-const float SCORE_DISPLAY_THROTTLE = 1.0f;
+// Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 2×/s, damit Killstreaks schneller sichtbar sind.
+const float SCORE_DISPLAY_THROTTLE = 0.5f;
 // Spawn-Fenster: 30 s AN (4x Rate). AUS-Dauer abhaengig von Capacity: 200 Soldaten = 90 s, darueber laenger (min 60, max 180 s).
 const float SPAWN_WINDOW_OPEN_DURATION = 30.0f;
 const float SPAWN_CLOSED_BASE = 102.0f;   // 90 + 12
 const int SPAWN_CLOSED_REF_SOLDIERS = 200;
 const float SPAWN_CLOSED_FACTOR = 0.5f;
 const float SPAWN_CLOSED_MIN = 72.0f;     // 60 + 12
-const float SPAWN_CLOSED_MAX = 192.0f;    // 180 + 12
+const float SPAWN_CLOSED_MAX = 252.0f;    // 192 + 60 (bei hoher Kapazität +60 s Pause)
+const int SPAWN_CLOSED_HIGH_CAPACITY_THRESHOLD = 320;  // maxSoldiers > 320 → +60 s Spawn-Pause
+const float SPAWN_CLOSED_HIGH_CAPACITY_BONUS = 60.0f;
 // Großangriff: nach 4 normalen Zyklen 30 s Spawn mit verdoppelter Kapazität + Commander-Meldung
 const int GROSSANGRIFF_CYCLES = 4;
 const float GROSSANGRIFF_CAPACITY_MULTIPLIER = 2.0f;
@@ -88,6 +90,7 @@ class ReinforcementPoolTracker : Tracker {
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
+		m_metagame.getComms().send("<command class='set_metagame_event' name='character_die' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_spawn' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='chat_event' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='base_owner_change_event' enabled='1' />");
@@ -303,6 +306,8 @@ class ReinforcementPoolTracker : Tracker {
 			sumCapacity += factions[i].getIntAttribute("soldier_capacity");
 		float maxSoldiers = float(sumCapacity) / CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO;
 		float d = SPAWN_CLOSED_BASE + (maxSoldiers - float(SPAWN_CLOSED_REF_SOLDIERS)) * SPAWN_CLOSED_FACTOR;
+		if (maxSoldiers > float(SPAWN_CLOSED_HIGH_CAPACITY_THRESHOLD))
+			d += SPAWN_CLOSED_HIGH_CAPACITY_BONUS;
 		if (d < SPAWN_CLOSED_MIN) d = SPAWN_CLOSED_MIN;
 		if (d > SPAWN_CLOSED_MAX) d = SPAWN_CLOSED_MAX;
 		m_spawnClosedDuration = d;
@@ -311,7 +316,7 @@ class ReinforcementPoolTracker : Tracker {
 	}
 
 	void update(float time) {
-		// Score-Anzeige (Lebend · Nachschub): bei Kills nur alle 1 s aktualisieren – getCharacters() ist teuer
+		// Score-Anzeige (Lebend · Nachschub): bei Kill/Die-Events dirty, dann alle 0,5 s getCharacters() – lebend = immer aktuelle Engine-Abfrage, kein Cache
 		m_scoreDisplayAccum += time;
 		if (m_scoreDisplayDirty && m_scoreDisplayAccum >= SCORE_DISPLAY_THROTTLE) {
 			m_scoreDisplayAccum = 0.0f;
@@ -434,16 +439,24 @@ class ReinforcementPoolTracker : Tracker {
 		}
 	}
 
-	// Farbe für Score-Anzeige: zuerst aus Faction-XML (color), sonst Fallback pro Slot (Engine-Query liefert oft kein color).
+	// Farbe für Score-Anzeige: 1) Faction-XML color, 2) anhand Name/Key (green/grey/brown) – immer fraktionsbezogen, nie nur Slot.
 	string getScoreDisplayColor(const XmlElement@ faction, int factionId) {
 		if (faction !is null) {
 			string color = faction.getStringAttribute("color");
 			if (color.length() > 0) return color;
+			string name = faction.getStringAttribute("name").toLowerCase();
+			string key = faction.getStringAttribute("key").toLowerCase();
+			// Green: green/greenbelt/United States
+			if (name.findFirst("green") >= 0 || key.findFirst("green") >= 0 || name.findFirst("greenbelt") >= 0 || name.findFirst("united states") >= 0) return "0.0 0.5 0.1";
+			// Grey: grey/gray/European Union/Graycollars
+			if (name.findFirst("grey") >= 0 || name.findFirst("gray") >= 0 || key.findFirst("grey") >= 0 || key.findFirst("gray") >= 0 || name.findFirst("european") >= 0 || name.findFirst("graycollar") >= 0) return "0.3 0.3 0.3";
+			// Brown: brown/Russian/Brownpants
+			if (name.findFirst("brown") >= 0 || key.findFirst("brown") >= 0 || name.findFirst("russian") >= 0 || name.findFirst("brownpants") >= 0) return "0.5 0.35 0.1";
 		}
-		// Fallback: Mod-Slots wie in Faction-XMLs (green, grey, brown)
-		if (factionId == 0) return "0.0 0.5 0.1";    // Green
-		if (factionId == 1) return "0.3 0.3 0.3";   // Grey
-		if (factionId == 2) return "0.5 0.35 0.1";   // Brown
+		// Letzter Fallback: Slot (nur wenn weder color noch Name/Key erkennbar)
+		if (factionId == 0) return "0.0 0.5 0.1";
+		if (factionId == 1) return "0.3 0.3 0.3";
+		if (factionId == 2) return "0.5 0.35 0.1";
 		return "0.5 0.5 0.5";
 	}
 
@@ -485,7 +498,8 @@ class ReinforcementPoolTracker : Tracker {
 			int factionId = int(i);
 			int alive = getAliveCountForFaction(factionId);
 			int pool = getPoolForFaction(factionId);
-			string lineText = alive + "-" + pool;
+			int total = alive + pool;   // Gesamtsoldaten = im Kampf + Nachschub
+			string lineText = alive + "/" + total;
 			if (factionId == 0) lineText = spawnShort + "  " + lineText;
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
@@ -724,9 +738,19 @@ class ReinforcementPoolTracker : Tracker {
 		}
 	}
 
-	// Nachschub wird bei Spawn abgezogen (handleCharacterSpawnEvent), nicht bei Tod. Hier nur Tote zählen und Anzeige aktualisieren.
+	// Nachschub wird bei Spawn abgezogen, nicht bei Tod. character_kill = A tötet B; character_die = Tod (auch Artillerie/Umwelt).
+	// Beide: Tote zählen + Dirty setzen, damit „alive“ (getCharacters) und „dead“ nach jedem Tod aktualisiert werden.
+	// Falls die Engine bei einem Tod beide sendet, kann „dead“ doppelt steigen – Anzeige bleibt konsistent.
 	protected void handleCharacterKillEvent(const XmlElement@ event) {
 		const XmlElement@ target = event.getFirstElementByTagName("target");
+		if (target is null) return;
+		addDeathForFaction(target.getIntAttribute("faction_id"));
+		m_scoreDisplayDirty = true;
+	}
+
+	protected void handleCharacterDieEvent(const XmlElement@ event) {
+		const XmlElement@ character = event.getFirstElementByTagName("character");
+		const XmlElement@ target = character is null ? event.getFirstElementByTagName("target") : character;
 		if (target is null) return;
 		int factionId = target.getIntAttribute("faction_id");
 		addDeathForFaction(factionId);
