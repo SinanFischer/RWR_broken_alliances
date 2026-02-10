@@ -13,7 +13,8 @@
 	name="APR" 
 	class="0" 
 	reload_one_at_a_time="0" 
-	sight_range_modifier="2.15" 
+	sight_range_modifier="2.25" 
+	ai_sight_range_modifier="2.15"
 	projectile_speed="210.0" 
 	barrel_offset="0.4" 
 	projectiles_per_shot="1" />

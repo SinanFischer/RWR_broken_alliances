@@ -2,7 +2,7 @@
 <weapon file="base_primary.weapon" key="m14_ebr.weapon">
 	<tag name="sniper" />
     <specification 
-	retrigger_time="0.7" 
+	retrigger_time="0.85" 
   	spread_range="0.4"
   	accuracy_factor="0.95" 
 	sustained_fire_grow_step="1.65" 
@@ -15,6 +15,7 @@
 	burst_shots="1"
 	reload_one_at_a_time="0" 
 	sight_range_modifier="1.95" 
+	ai_sight_range_modifier="1.85"
 	projectile_speed="215.0"
 	barrel_offset="0.6" 
 	projectiles_per_shot="1" /> <!--270-->
