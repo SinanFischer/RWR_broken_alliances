@@ -4,7 +4,7 @@
 #include "my_vehicle_delivery_configurator.as"
 #include "trackers/bullet_flyby_effect.as"
 #include "trackers/defender_tank_help.as"
-#include "trackers/reinforcement_pool_tracker.as"
+// #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // --------------------------------------------
 class MyGameMode : GameModeCampaign {
@@ -18,7 +18,7 @@ class MyGameMode : GameModeCampaign {
 		GameModeCampaign::postBeginMatch();
 		addTracker(BulletFlybyEffect(this));
 		addTracker(DefenderTankHelp(this));
-		addTracker(ReinforcementPoolTracker(this));
+		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 	}
 
 	// --------------------------------------------

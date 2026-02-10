@@ -8,6 +8,13 @@ class MyStageConfigurator : StageConfiguratorCampaign {
 	}
 
 	// ------------------------------------------------------------------------------------------------
+	// Capacity-Aenderungen nur vom ReinforcementPoolTracker (60/40-Cap); Campaign/Vanilla ueberschreibt nicht.
+	protected void addStage(Stage@ stage) {
+		stage.m_allowChangeCapacityOnTheFly = false;
+		StageConfiguratorCampaign::addStage(stage);
+	}
+
+	// ------------------------------------------------------------------------------------------------
 	const array<FactionConfig@>@ getAvailableFactionConfigs() const {
 		array<FactionConfig@> availableFactionConfigs;
 
