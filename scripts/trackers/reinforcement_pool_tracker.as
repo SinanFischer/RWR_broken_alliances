@@ -37,6 +37,8 @@ const string REINFORCEMENT_POOL_SAVE_LOCATION = "savegame";  // "savegame" = pro
 const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speichern
 // Marker auf der Karte: Base-Wert (Side/Medium/Strong) an Basis-Position. ID-Bereich 40000+ baseId (Intel nutzt 5000+).
 const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
+// Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 1×/s.
+const float SCORE_DISPLAY_THROTTLE = 1.0f;
 
 // Verzögerte Commander-Anschlussmeldung (4 s nach Hauptmeldung)
 class PendingFollowUp {
@@ -68,6 +70,8 @@ class ReinforcementPoolTracker : Tracker {
 	protected float m_saveTimer = 0.0f;
 	protected bool m_loadedFromSave = false;
 	protected bool m_baseValueMarkersPlaced = false;
+	protected bool m_scoreDisplayDirty = false;
+	protected float m_scoreDisplayAccum = 0.0f;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -128,13 +132,15 @@ class ReinforcementPoolTracker : Tracker {
 			name = "Side Base";
 			defenderBonus = DEFENDER_BONUS_SIDE;
 		}
-		return name + " · " + defenderBonus + " / 3 min";
+		return name + "-" + defenderBonus + "/3min";
 	}
 
-	// Setzt einmalig Marker an jeder Basis-Position mit vollständiger Beschriftung (faction_id=0, nur eigene Fraktion sieht sie).
-	// Debug: pro Basis wird key -> Text geloggt (Log-Level 1), damit du echte Map-Namen siehst und getBaseBonus anpassen kannst.
+	// Setzt einmalig Marker an jeder Basis-Position. Pro Fraktion eine Kopie (faction_id=0,1,2…), damit jede Fraktion sie sieht.
+	// atlas_index und size wie in Vanilla (intel/kill_commander), Placement auch beim Initial-Announce versuchen.
 	void placeBaseValueMarkers(array<const XmlElement@>@ bases) {
 		if (bases is null || bases.size() == 0) return;
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null || factions.size() == 0) return;
 		for (uint i = 0; i < bases.size(); ++i) {
 			const XmlElement@ base = bases[i];
 			int baseId = base.getIntAttribute("id");
@@ -142,20 +148,24 @@ class ReinforcementPoolTracker : Tracker {
 			string position = base.getStringAttribute("position");
 			string text = getBaseMarkerText(base);
 			_log("Base-Wert: key='" + key + "' -> " + text, 1);
-			XmlElement command("command");
-			command.setStringAttribute("class", "set_marker");
-			command.setIntAttribute("id", BASE_VALUE_MARKER_ID_OFFSET + baseId);
-			command.setIntAttribute("faction_id", 0);
-			command.setStringAttribute("position", position);
-			command.setStringAttribute("text", text);
-			command.setFloatAttribute("size", 0.6f);
-			command.setBoolAttribute("enabled", true);
-			command.setBoolAttribute("show_in_map_view", true);
-			command.setBoolAttribute("show_in_game_view", false);
-			command.setBoolAttribute("show_at_screen_edge", false);
-			m_metagame.getComms().send(command);
+			for (uint f = 0; f < factions.size(); ++f) {
+				int factionId = int(f);
+				XmlElement command("command");
+				command.setStringAttribute("class", "set_marker");
+				command.setIntAttribute("id", BASE_VALUE_MARKER_ID_OFFSET + baseId * 8 + factionId);
+				command.setIntAttribute("faction_id", factionId);
+				command.setIntAttribute("atlas_index", 0);
+				command.setStringAttribute("position", position);
+				command.setStringAttribute("text", text);
+				command.setFloatAttribute("size", 1.0f);
+				command.setBoolAttribute("enabled", true);
+				command.setBoolAttribute("show_in_map_view", true);
+				command.setBoolAttribute("show_in_game_view", false);
+				command.setBoolAttribute("show_at_screen_edge", false);
+				m_metagame.getComms().send(command);
+			}
 		}
-		_log("ReinforcementPool: Base-Wert-Marker gesetzt (" + bases.size() + " Basen).", 0);
+		_log("ReinforcementPool: Base-Wert-Marker gesetzt (" + bases.size() + " Basen, " + factions.size() + " Faktionen).", 0);
 	}
 
 	int getBaseBonusCached(int baseId, const XmlElement@ base) {
@@ -238,6 +248,14 @@ class ReinforcementPoolTracker : Tracker {
 			}
 		}
 
+		// Score-Anzeige (Lebend · Nachschub): bei Kills nur alle 1 s aktualisieren – getCharacters() ist teuer
+		m_scoreDisplayAccum += time;
+		if (m_scoreDisplayDirty && m_scoreDisplayAccum >= SCORE_DISPLAY_THROTTLE) {
+			m_scoreDisplayAccum = 0.0f;
+			m_scoreDisplayDirty = false;
+			updateScoreDisplay();
+		}
+
 		if (!m_initialAnnounceDone) {
 			m_timeAccum += time;
 			if (m_timeAccum < 3.0f) return;
@@ -248,6 +266,14 @@ class ReinforcementPoolTracker : Tracker {
 				sendFactionMessage(m_metagame, factionId, "Reinforcements: " + getInitialPoolValue() + " remaining.", 0.95);
 			}
 			updateScoreDisplay();
+			// Marker sofort beim Start versuchen (Basen können schon da sein), nicht erst nach 1 s Intervall
+			if (!m_baseValueMarkersPlaced) {
+				array<const XmlElement@>@ bases = getBases(m_metagame);
+				if (bases.size() > 0) {
+					placeBaseValueMarkers(bases);
+					m_baseValueMarkersPlaced = true;
+				}
+			}
 			return;
 		}
 
@@ -302,16 +328,28 @@ class ReinforcementPoolTracker : Tracker {
 		return "0.85 0.85 0.85";                     // Grau für weitere
 	}
 
-	// Nutzt das gleiche UI wie Minimodes (Score-Anzeige oben). Nur die Zahl pro Fraktion, feste Farbe pro Slot.
+	// Zählt lebende Charaktere (dead=0) einer Fraktion für die kompakte Anzeige.
+	int getAliveCountForFaction(int factionId) {
+		array<const XmlElement@>@ chars = getCharacters(m_metagame, factionId);
+		if (chars is null) return 0;
+		int n = 0;
+		for (uint i = 0; i < chars.size(); ++i)
+			if (chars[i].getIntAttribute("dead") == 0) n++;
+		return n;
+	}
+
+	// Kompakte Score-Anzeige: "Lebend-Nachschub" (z. B. "14-520"). Bindestrich spart Leerzeichen, ASCII-sicher.
 	void updateScoreDisplay() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
+			int alive = getAliveCountForFaction(factionId);
 			int pool = getPoolForFaction(factionId);
+			string text = alive + "-" + pool;
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
 			cmd.setIntAttribute("id", factionId);
-			cmd.setStringAttribute("text", "" + pool);
+			cmd.setStringAttribute("text", text);
 			cmd.setStringAttribute("color", getScoreDisplayColor(factionId));
 			m_metagame.getComms().send(cmd);
 		}
@@ -545,7 +583,8 @@ class ReinforcementPoolTracker : Tracker {
 		setPoolForFaction(factionId, pool);
 		_log("ReinforcementPool: Faction " + factionId + " -> " + pool + " verbleibend", 1);
 
-		updateScoreDisplay();
+		// Anzeige nicht bei jedem Kill neu berechnen (getCharacters = Query pro Fraktion) – Throttle in update()
+		m_scoreDisplayDirty = true;
 
 		// Commander-Meldung bei Schwellen (800, 600, 500, 300, 100, 10) und bei aufgebraucht
 		announceThreshold(factionId, pool);
