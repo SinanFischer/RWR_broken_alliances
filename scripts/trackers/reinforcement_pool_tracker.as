@@ -39,8 +39,8 @@ const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speiche
 const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
 // Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 1×/s.
 const float SCORE_DISPLAY_THROTTLE = 1.0f;
-// Spawn-Fenster: 30 s duerfen Truppen spawnen, 30 s Pause, dann wieder 30 s – Umschaltung per capacity_multiplier.
-const float SPAWN_WINDOW_DURATION = 30.0f;
+// Spawn-Fenster: 60 s Truppen spawnen, 60 s Pause – Umschaltung per capacity_multiplier.
+const float SPAWN_WINDOW_DURATION = 60.0f;
 // Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
@@ -395,31 +395,31 @@ class ReinforcementPoolTracker : Tracker {
 		return "Spawn: AUS (" + secLeft + "s)";
 	}
 
-	// Kompakte Score-Anzeige: "Lebend-Nachschub" + Spawn-Status. HUD (falls UI-Slot) + Karten-Marker.
+	// HUD: Spawn-Status 1x fuer alle (id=0, unten). Karte: nur Spawn-Status, keine Lebend/Nachschub-Zahlen.
 	void updateScoreDisplay() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null || factions.size() == 0) return;
 		string markerPos = m_statusMarkerPosition.length() > 0 ? m_statusMarkerPosition : STATUS_MARKER_POSITION;
 		string spawnStatus = getSpawnStatusText();
+
+		// HUD unten: Spawn-Status nur 1x (gilt fuer alle Fraktionen gleich)
+		XmlElement cmd("command");
+		cmd.setStringAttribute("class", "update_score_display");
+		cmd.setIntAttribute("id", 0);
+		cmd.setStringAttribute("text", spawnStatus);
+		cmd.setStringAttribute("color", getScoreDisplayColor(factions[0], 0));
+		m_metagame.getComms().send(cmd);
+
+		// Karte: nur Spawn-Status, ohne Lebend/Nachschub – pro Fraktion gleicher Text
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
-			int alive = getAliveCountForFaction(factionId);
-			int pool = getPoolForFaction(factionId);
-			string text = alive + "-" + pool;
-			// HUD (wird nur angezeigt, wenn die Engine/ das Gamemode einen Score-Display-Slot hat)
-			XmlElement cmd("command");
-			cmd.setStringAttribute("class", "update_score_display");
-			cmd.setIntAttribute("id", factionId);
-			cmd.setStringAttribute("text", spawnStatus + " | " + text);
-			cmd.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
-			m_metagame.getComms().send(cmd);
-			// Karten-Status-Marker: Spawn AN/AUS + Lebend-Nachschub
 			XmlElement m("command");
 			m.setStringAttribute("class", "set_marker");
 			m.setIntAttribute("id", STATUS_MARKER_ID_BASE + factionId);
 			m.setIntAttribute("faction_id", factionId);
 			m.setIntAttribute("atlas_index", 0);
 			m.setStringAttribute("position", markerPos);
-			m.setStringAttribute("text", spawnStatus + " | " + text);
+			m.setStringAttribute("text", spawnStatus);
 			m.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
 			m.setFloatAttribute("size", 0.75f);
 			m.setBoolAttribute("enabled", true);
