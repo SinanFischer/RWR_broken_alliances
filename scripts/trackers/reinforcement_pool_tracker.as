@@ -14,7 +14,7 @@ const int BASE_BONUS_STRONG = 100;
 const float BASE_UPDATE_INTERVAL = 1.0f;
 // Verteidiger-Bonus: alle 2 Min (120 s) – kürzeres Intervall hilft großer Fraktion unter Druck. Bei 180 s eher „verdient“ wenn Truppen ausgehen.
 const float DEFENDER_BONUS_INTERVAL = 180.0f;
-const int DEFENDER_BONUS_SIDE = 5;
+const int DEFENDER_BONUS_SIDE = 4;
 const int DEFENDER_BONUS_MEDIUM = 6;
 const int DEFENDER_BONUS_STRONG = 12;
 const float FOLLOWUP_MESSAGE_DELAY = 4.0f;
@@ -72,6 +72,7 @@ class ReinforcementPoolTracker : Tracker {
 	protected bool m_baseValueMarkersPlaced = false;
 	protected bool m_scoreDisplayDirty = false;
 	protected float m_scoreDisplayAccum = 0.0f;
+	protected bool m_initialPoolCorrectedForLiving = false;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -90,18 +91,7 @@ class ReinforcementPoolTracker : Tracker {
 
 	void start() {
 		loadFromSavegame();
-		// Neues Spiel: Pool um bereits lebende Charaktere pro Fraktion reduzieren (die „kosten“ schon).
-		if (!m_loadedFromSave) {
-			int initial = getInitialPoolValue();
-			array<const XmlElement@>@ factions = getFactions(m_metagame);
-			for (uint i = 0; i < factions.size(); ++i) {
-				int fid = int(i);
-				int alive = getAliveCountForFaction(fid);
-				int pool = initial - alive;
-				if (pool < 0) pool = 0;
-				setPoolForFaction(fid, pool);
-			}
-		}
+		// Abzug der Lebenden erst beim Initial-Announce (~3 s), da getCharacters() in start() oft noch 0 liefert.
 	}
 
 	bool hasEnded() const { return false; }
@@ -118,12 +108,13 @@ class ReinforcementPoolTracker : Tracker {
 		    key.findFirst("center") >= 0 || key.findFirst("centre") >= 0 || key.findFirst("command") >= 0) {
 			return BASE_BONUS_STRONG;
 		}
-		// Mittel: Stützpunkt, Outpost, Forward, Festung, Bunker, Trench, Camp etc.
+		// Mittel (Outpost): Stützpunkt, Outpost, Forward, Town, Festung, Bunker, Trench, Camp etc.
 		if (key.findFirst("stützpunkt") >= 0 || key.findFirst("stutzpunkt") >= 0 || key.findFirst("outpost") >= 0 ||
 		    key.findFirst("forward") >= 0 || key.findFirst("festung") >= 0 || key.findFirst("fort") >= 0 ||
 		    key.findFirst("base") >= 0 || key.findFirst("stütz") >= 0 ||
 		    key.findFirst("bunker") >= 0 || key.findFirst("trench") >= 0 || key.findFirst("camp") >= 0 ||
-		    key.findFirst("compound") >= 0 || key.findFirst("position") >= 0 || key.findFirst("post") >= 0) {
+		    key.findFirst("compound") >= 0 || key.findFirst("position") >= 0 || key.findFirst("post") >= 0 ||
+		    key.findFirst("town") >= 0) {
 			return BASE_BONUS_MEDIUM;
 		}
 		return BASE_BONUS_DEFAULT;
@@ -273,6 +264,18 @@ class ReinforcementPoolTracker : Tracker {
 			if (m_timeAccum < 3.0f) return;
 			m_initialAnnounceDone = true;
 			array<const XmlElement@>@ factions = getFactions(m_metagame);
+			// Jetzt sind Charaktere geladen: Pool = Initial minus bereits Lebende (einmalig, nur neues Spiel).
+			if (!m_loadedFromSave && !m_initialPoolCorrectedForLiving) {
+				int initial = getInitialPoolValue();
+				for (uint i = 0; i < factions.size(); ++i) {
+					int fid = int(i);
+					int alive = getAliveCountForFaction(fid);
+					int pool = initial - alive;
+					if (pool < 0) pool = 0;
+					setPoolForFaction(fid, pool);
+				}
+				m_initialPoolCorrectedForLiving = true;
+			}
 			for (uint i = 0; i < factions.size(); ++i) {
 				int factionId = int(i);
 				sendFactionMessage(m_metagame, factionId, "Reinforcements: " + getInitialPoolValue() + " remaining.", 0.95);
@@ -331,13 +334,17 @@ class ReinforcementPoolTracker : Tracker {
 		}
 	}
 
-	// Feste Farben pro Slot, damit die Engine sie zuverlässig anzeigt. Slot 0 = Grün (meist eigene Fraktion), 1 = Rot, 2 = Orange.
-	// Format: "R G B" 0.0–1.0 (wie in Faction-XML).
-	string getScoreDisplayColor(int factionId) {
-		if (factionId == 0) return "0.0 0.85 0.2";   // Grün – typisch eigene Fraktion
-		if (factionId == 1) return "0.9 0.2 0.2";   // Rot
-		if (factionId == 2) return "0.9 0.55 0.1";  // Orange
-		return "0.85 0.85 0.85";                     // Grau für weitere
+	// Farbe für Score-Anzeige: zuerst aus Faction-XML (color), sonst Fallback pro Slot (Engine-Query liefert oft kein color).
+	string getScoreDisplayColor(const XmlElement@ faction, int factionId) {
+		if (faction !is null) {
+			string color = faction.getStringAttribute("color");
+			if (color.length() > 0) return color;
+		}
+		// Fallback: Mod-Slots wie in Faction-XMLs (green, grey, brown)
+		if (factionId == 0) return "0.0 0.5 0.1";    // Green
+		if (factionId == 1) return "0.3 0.3 0.3";   // Grey
+		if (factionId == 2) return "0.5 0.35 0.1";   // Brown
+		return "0.5 0.5 0.5";
 	}
 
 	// Zählt lebende Charaktere einer Fraktion. Die characters-Query liefert keine "dead"-Attribute (→ Log-Warnung), daher: zurückgegebene Anzahl = lebend.
@@ -358,7 +365,7 @@ class ReinforcementPoolTracker : Tracker {
 			cmd.setStringAttribute("class", "update_score_display");
 			cmd.setIntAttribute("id", factionId);
 			cmd.setStringAttribute("text", text);
-			cmd.setStringAttribute("color", getScoreDisplayColor(factionId));
+			cmd.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
 			m_metagame.getComms().send(cmd);
 		}
 	}
