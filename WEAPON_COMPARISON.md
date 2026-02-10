@@ -74,12 +74,12 @@
 
 | Metrik | EU (G22/PSG90) | US (M24-A2) | RU (SV-98) |
 |--------|----------------|-------------|------------|
-| **kill** | **1.0** | 0.98 | 0.96 |
+| **kill** | **1.0** | **1.0** | 0.96 |
 | **RT** (s) | 1.48 | 1.48 | 1.48 |
 | **com** | **0.038** | **0.038** | 0.01 |
 | **Preis** | 70 | 70 | **40** |
 
-→ **Balance:** EU einziger One-Hit-Sniper (1.0). RU SV-98 deutlich günstigster (40 RP), aber niedrigere kill und Commonness.
+→ **Balance:** EU und US je One-Hit-Sniper (1.0). RU SV-98 deutlich günstigster (40 RP), aber niedrigere kill (0.96) und Commonness.
 
 ---
 
@@ -87,12 +87,12 @@
 
 | Metrik | EU (G28) | US (M14 EBR) | RU (Dragunov SVD) |
 |--------|----------|--------------|-------------------|
-| **kill** | **0.92** | 0.90 | 0.90 |
+| **kill** | **0.90** | **0.90** | **0.90** |
 | **RT** (s) | **0.65** | 0.85 | 0.88 |
 | **com** | 0.01 | 0.01 | **0.04** |
 | **Preis** | 40 | 40 | 50 |
 
-→ **Balance:** EU G28 höchste kill (0.92). RU SVD höchste Commonness (0.04). US/RU etwas schneller nachschuss (kleinerer RT), EU stärkster Schuss.
+→ **Balance:** Alle drei gleiche kill (0.90). EU G28 schnellster Nachschuss (RT 0.65). RU SVD höchste Commonness (0.04).
 
 ---
 
@@ -118,9 +118,23 @@
 | **Höchste AR-Commonness** | 0.22 | **0.3** (M4A1) | 0.22 |
 | **Günstigstes MG** | 60 | 60 | **50** |
 | **Günstigster Sniper** | 70 | 70 | **40** |
-| **Stärkster Bolt-Sniper (kill)** | **1.0** | 0.98 | 0.96 |
-| **Stärkster DMR (kill)** | **0.92** | 0.90 | 0.90 |
+| **Stärkster Bolt-Sniper (kill)** | **1.0** | **1.0** (M24) | 0.96 |
+| **Stärkster DMR (kill)** | 0.90 | 0.90 | 0.90 |
 | **Günstigste Shotgun** | 30 | 30 | **2** |
+
+---
+
+## 10. Stärken-Matrix: Gleichen sich die Fraktionen aus?
+
+**Kurzantwort:** Nach Balance-Anpassung **ja** – jede Fraktion hat 2–3 klare Stärken, die sich gegenseitig aufwiegen.
+
+| Fraktion | Klare Stärken | Trade-off |
+|----------|----------------|-----------|
+| **EU** | Schnellstes Standard-AR (G36), schnellstes Leicht-MG (MG4), **One-Hit Bolt (G22)**, schnellster DMR (G28 RT), beste Shotgun-Kill (SPAS) | Kein 7.62-MG; Premium-AR nicht stärkste Kill (XM8 US) |
+| **US** | **One-Hit Bolt (M24)**, stärkstes Schwer-MG (M240), beste Leicht-MG-Kill (M249), stärkste Premium-AR (XM8), höchste AR-Commonness (M4A1) | Standard-AR etwas langsamer als G36; DMR nicht schnellster |
+| **RU** | Günstigster Einstieg überall (AR 15, MG 50, Sniper 40, Shotgun 2), schnellstes Pool-AR (AKS-74U), DMR am häufigsten (SVD), PKM günstig & stark | Bolt-Sniper kein One-Hit (0.96); AR-Kill teils niedriger (AKS, SG552) |
+
+**Fazit:** EU dominiert nicht mehr allein bei Bolt und DMR. US hat gleichwertigen One-Hit-Sniper (M24 1.0); alle drei DMRs gleiche Kill (0.90), EU behält nur schnellsten Nachschuss (G28 RT). RU bleibt die „günstige, verfügbare“ Fraktion mit klaren Preisvorteilen.
 
 ---
 
