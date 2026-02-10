@@ -158,8 +158,8 @@ class ReinforcementPoolTracker : Tracker {
 		// Status-Marker-Position: Offset von erster Basis, damit auf jeder Map sichtbar (nicht 1500/0/50 ausserhalb).
 		if (m_statusMarkerPosition.length() == 0) {
 			Vector3 p = stringToVector3(bases[0].getStringAttribute("position"));
-			// Nochmal gleiche Distanz rechts (+120), dann diese rechte Distanz nach oben (z -120): gesamt +240 x, -240 z
-			m_statusMarkerPosition = (p.get_opIndex(0) + 240) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 240);
+			// Weiter oben rechts: +360 x, -360 z (von erster Basis)
+			m_statusMarkerPosition = (p.get_opIndex(0) + 360) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 360);
 		}
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
@@ -310,7 +310,7 @@ class ReinforcementPoolTracker : Tracker {
 			array<const XmlElement@>@ bases = getBases(m_metagame);
 			if (bases !is null && bases.size() > 0 && m_statusMarkerPosition.length() == 0) {
 				Vector3 p = stringToVector3(bases[0].getStringAttribute("position"));
-				m_statusMarkerPosition = (p.get_opIndex(0) + 240) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 240);
+				m_statusMarkerPosition = (p.get_opIndex(0) + 360) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 360);
 			}
 			updateScoreDisplay();
 			if (!m_baseValueMarkersPlaced && bases !is null && bases.size() > 0) {
@@ -715,7 +715,7 @@ class ReinforcementPoolTracker : Tracker {
 		m_metagame.getComms().send(cmd);
 	}
 
-	// Spawn-Fenster umschalten: AN = 4x Spawn-Rate (capacity 2.0, spawn_interval 0.5), AUS = capacity 0.
+	// Spawn-Fenster umschalten: AN = 8x Spawn-Rate (capacity 4.0, spawn_interval 0.25), AUS = capacity 0.
 	void applySpawnWindowState(bool open) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
@@ -725,12 +725,12 @@ class ReinforcementPoolTracker : Tracker {
 			int fid = int(i);
 			XmlElement faction("faction");
 			bool canSpawn = open && getPoolForFaction(fid) > 0 && !isSpawnDisabled(fid);
-			faction.setFloatAttribute("capacity_multiplier", canSpawn ? 2.0f : 0.0f);
-			if (canSpawn) faction.setFloatAttribute("spawn_interval", 0.5f);
+			faction.setFloatAttribute("capacity_multiplier", canSpawn ? 4.0f : 0.0f);
+			if (canSpawn) faction.setFloatAttribute("spawn_interval", 0.25f);
 			command.appendChild(faction);
 		}
 		m_metagame.getComms().send(command);
-		_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN (4x)" : "AUS") + ".", 0);
+		_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN (8x)" : "AUS") + ".", 0);
 	}
 
 	// Setzt capacity_multiplier der betroffenen Fraktion auf 0; andere Fraktionen unverändert lassen.
