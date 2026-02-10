@@ -1,6 +1,6 @@
 // Reinforcement-Pool-Tracker: Nachschub begrenzt pro Fraktion; bei 0 kein Spawn mehr.
-// Eroberungs-Bonus: sofort voll (25/50/100) – kein 5-Min-Puffer mehr (kein „antellig bei schneller Rückeroberung“).
-// Verteidiger-Bonus: alle 2 Min +2/+4/+6 pro gehaltener Basis. Verlust: Hälfte des Basis-Bonus abgezogen.
+// Eroberungs-Bonus: sofort voll (25/50/100) – kein 5-Min-Puffer mehr.
+// Haltungsbonus: nur während Spawn AUS alle 10 s pro Basis in Akkumulator (Side 0.2, Outpost 0.4, HQ 1.0); beim Öffnen (AUS→AN) in Pool + Commander-Meldung. Pool mit Kommarest (z. B. 15.2 → 15 ausgeben, 0.2 bleibt).
 #include "tracker.as"
 #include "log.as"
 #include "query_helpers.as"
@@ -12,11 +12,11 @@ const int BASE_BONUS_DEFAULT = 25;
 const int BASE_BONUS_MEDIUM = 50;
 const int BASE_BONUS_STRONG = 100;
 const float BASE_UPDATE_INTERVAL = 1.0f;
-// Verteidiger-Bonus: alle 2 Min (120 s) – kürzeres Intervall hilft großer Fraktion unter Druck. Bei 180 s eher „verdient“ wenn Truppen ausgehen.
-const float DEFENDER_BONUS_INTERVAL = 180.0f;
-const int DEFENDER_BONUS_SIDE = 4;
-const int DEFENDER_BONUS_MEDIUM = 6;
-const int DEFENDER_BONUS_STRONG = 12;
+// Haltungsbonus nur während Spawn-AUS: alle 10 s pro Basis in Akkumulator; beim Öffnen (AUS→AN) wird Akkumulator in Pool überführt + Commander-Meldung.
+const float DEFENDER_TRICKLE_INTERVAL = 10.0f;
+const float DEFENDER_TRICKLE_SIDE = 0.3f;   // Sidebase: +50% (0.2→0.3 pro 10 s)
+const float DEFENDER_TRICKLE_MEDIUM = 1.5f; // Outpost: 1.5 Soldaten pro 10 s
+const float DEFENDER_TRICKLE_STRONG = 1.0f; // HQ: 1.0 pro 10 s
 // Basis-Verlust: Nachschub-Penalty zufaellig, gleiche Bereiche wie Eroberungs-Bonus (Side 5–10, Medium 10–20, HQ 20–30).
 const int LOSS_PENALTY_SIDE_MIN = 5;
 const int LOSS_PENALTY_SIDE_MAX = 10;
@@ -38,7 +38,7 @@ const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speiche
 const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
 // Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 2×/s, damit Killstreaks schneller sichtbar sind.
 const float SCORE_DISPLAY_THROTTLE = 0.5f;
-// Spawn-Fenster: 30 s AN (4x Rate). AUS-Dauer abhaengig von Capacity: 200 Soldaten = 90 s, darueber laenger (min 60, max 180 s).
+// Spawn-Fenster: 30 s AN (5x Rate). AUS-Dauer abhaengig von Capacity: 200 Soldaten = 90 s, darueber laenger (min 60, max 180 s).
 const float SPAWN_WINDOW_OPEN_DURATION = 30.0f;
 const float SPAWN_CLOSED_BASE = 102.0f;   // 90 + 12
 const int SPAWN_CLOSED_REF_SOLDIERS = 200;
@@ -86,6 +86,8 @@ class ReinforcementPoolTracker : Tracker {
 	// Großangriff: Zähler (4 → 0), bei 0 nächster Öffnung = Großangriff (30 s, 2x Kapazität)
 	protected int m_cyclesUntilGrossangriff = GROSSANGRIFF_CYCLES;
 	protected bool m_grossangriffActive = false;
+	// Haltungsbonus: während Spawn AUS akkumuliert, beim Öffnen (AUS→AN) in Pool überführt
+	protected dictionary m_holdingAccumulator;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -135,22 +137,22 @@ class ReinforcementPoolTracker : Tracker {
 		return BASE_BONUS_DEFAULT;
 	}
 
-	// Marker-Text: Name (Sidebase/Outpost/HQ) + Leerzeichen + Bonus in Klammern, z. B. "Sidebase (5)".
+	// Marker-Text: Name (Sidebase/Outpost/HQ) + Trickle pro 10 s, z. B. "Sidebase (0.2/10s)".
 	string getBaseMarkerText(const XmlElement@ base) {
 		int bonus = getBaseBonus(base);
 		string name;
-		int defenderBonus;
+		float trickle;
 		if (bonus >= BASE_BONUS_STRONG) {
 			name = "HQ";
-			defenderBonus = DEFENDER_BONUS_STRONG;
+			trickle = DEFENDER_TRICKLE_STRONG;
 		} else if (bonus >= BASE_BONUS_MEDIUM) {
 			name = "Outpost";
-			defenderBonus = DEFENDER_BONUS_MEDIUM;
+			trickle = DEFENDER_TRICKLE_MEDIUM;
 		} else {
 			name = "Sidebase";
-			defenderBonus = DEFENDER_BONUS_SIDE;
+			trickle = DEFENDER_TRICKLE_SIDE;
 		}
-		return name + " (" + defenderBonus + ")";
+		return name + " (" + trickle + "/10s)";
 	}
 
 	// Setzt einmalig Marker an jeder Basis-Position. Pro Fraktion eine Kopie (faction_id=0,1,2…), damit jede Fraktion sie sieht.
@@ -208,11 +210,11 @@ class ReinforcementPoolTracker : Tracker {
 		return rand(5, 10);
 	}
 
-	// Verteidiger-Bonus: pro gehaltener Basis jede Minute (Side/Medium/Strong = Konstanten).
-	int getDefenderBonusPerMinute(int bonusCategory) {
-		if (bonusCategory == BASE_BONUS_STRONG) return DEFENDER_BONUS_STRONG;
-		if (bonusCategory == BASE_BONUS_MEDIUM) return DEFENDER_BONUS_MEDIUM;
-		return DEFENDER_BONUS_SIDE;
+	// Haltungsbonus: pro gehaltener Basis alle 10 s (nur während Spawn AUS) – Beitrag zum Akkumulator.
+	float getDefenderTricklePer10s(int bonusCategory) {
+		if (bonusCategory == BASE_BONUS_STRONG) return DEFENDER_TRICKLE_STRONG;
+		if (bonusCategory == BASE_BONUS_MEDIUM) return DEFENDER_TRICKLE_MEDIUM;
+		return DEFENDER_TRICKLE_SIDE;
 	}
 
 	// Nachschub-Penalty wenn Fahrzeug zerstört wird (Besitzer = Angreifer verliert). Keys einzeln vergleichen (Engine liefert z. B. "tank_2.vehicle").
@@ -380,7 +382,28 @@ class ReinforcementPoolTracker : Tracker {
 				}
 				applySpawnWindowState(false, false);
 			} else {
-				// Gerade von AUS auf AN gewechselt
+				// Gerade von AUS auf AN gewechselt: Akkumulator in Pool überführen + Commander-Meldung
+				array<const XmlElement@>@ factions = getFactions(m_metagame);
+				if (factions !is null) {
+					for (uint i = 0; i < factions.size(); ++i) {
+						int fid = int(i);
+						float acc = getHoldingAccumulator(fid);
+						if (acc > 0.0f) {
+							float pool = getPoolForFactionFloat(fid);
+							float newPool = pool + acc;
+							setPoolForFaction(fid, newPool);
+							int poolBefore = int(pool);
+							int poolAfter = int(newPool);
+							if (poolBefore <= 0 && poolAfter > 0 && isSpawnDisabled(fid))
+								enableSpawnForFaction(fid);
+							int added = poolAfter - poolBefore;
+							if (added > 0)
+								sendFactionMessage(m_metagame, fid, "Reinforcements arrived. +" + added + " added to supply.", 0.95);
+							resetHoldingAccumulator(fid);
+							_log("ReinforcementPool: Haltungsbonus Faction " + fid + " +" + acc + " -> Pool " + newPool, 0);
+						}
+					}
+				}
 				if (m_cyclesUntilGrossangriff == 0) {
 					m_grossangriffActive = true;
 					sendGrossangriffMessageToAll();
@@ -392,45 +415,40 @@ class ReinforcementPoolTracker : Tracker {
 			m_scoreDisplayDirty = true;
 		}
 
-		// Nur Verteidiger-Bonus (Eroberungs-Bonus wird beim Eroberungs-Event sofort voll gutgeschrieben, kein 5-Min-Puffer).
+		// Basis-Update (Marker, Trickle nur während Spawn AUS)
 		m_baseUpdateAccum += time;
-		m_defenderAccum += time;
 		if (m_baseUpdateAccum < BASE_UPDATE_INTERVAL) return;
 		m_baseUpdateAccum = 0.0f;
-		// Countdown im Status-Marker braucht 1s-Update wenn Spawn AUS
 		if (!m_spawnWindowOpen) m_scoreDisplayDirty = true;
 
-		bool poolChanged = false;
 		array<const XmlElement@>@ bases = getBases(m_metagame);
-
-		// Einmalig: Marker für Base-Wert (Side/Medium/Strong) auf der Karte setzen
 		if (!m_baseValueMarkersPlaced && bases.size() > 0) {
 			placeBaseValueMarkers(bases);
 			m_baseValueMarkersPlaced = true;
 		}
 
-		// Verteidiger-Bonus: alle 2 Min +2/+4/+6 Nachschub pro gehaltener Basis. Bei Pool 0→>0 Spawn wieder aktivieren.
-		if (m_defenderAccum >= DEFENDER_BONUS_INTERVAL) {
-			m_defenderAccum = 0.0f;
-			for (uint i = 0; i < bases.size(); ++i) {
-				const XmlElement@ base = bases[i];
-				int baseId = base.getIntAttribute("id");
-				int ownerId = base.getIntAttribute("owner_id");
-				if (ownerId < 0) continue;
-				int bonusCat = getBaseBonusCached(baseId, base);
-				int defenderAdd = getDefenderBonusPerMinute(bonusCat);
-				if (defenderAdd > 0) {
-					int pool = getPoolForFaction(ownerId);
-					int newPool = pool + defenderAdd;
-					setPoolForFaction(ownerId, newPool);
-					poolChanged = true;
-					if (pool <= 0 && newPool > 0 && isSpawnDisabled(ownerId))
-						enableSpawnForFaction(ownerId);
-					_log("ReinforcementPool: Verteidiger-Bonus Base " + baseId + " +" + defenderAdd + " -> Faction " + ownerId, 1);
+		// Haltungsbonus: nur während Spawn AUS alle 10 s pro Basis in Akkumulator einzahlen
+		if (!m_spawnWindowOpen && bases.size() > 0) {
+			m_defenderAccum += time;
+			if (m_defenderAccum >= DEFENDER_TRICKLE_INTERVAL) {
+				m_defenderAccum = 0.0f;
+				bool anyAdded = false;
+				for (uint i = 0; i < bases.size(); ++i) {
+					const XmlElement@ base = bases[i];
+					int baseId = base.getIntAttribute("id");
+					int ownerId = base.getIntAttribute("owner_id");
+					if (ownerId < 0) continue;
+					int bonusCat = getBaseBonusCached(baseId, base);
+					float trickle = getDefenderTricklePer10s(bonusCat);
+					if (trickle > 0.0f) {
+						addHoldingAccumulator(ownerId, trickle);
+						anyAdded = true;
+						_log("ReinforcementPool: Trickle Base " + baseId + " +" + trickle + " -> Faction " + ownerId, 1);
+					}
 				}
+				if (anyAdded) updateScoreDisplay();
 			}
 		}
-		if (poolChanged) updateScoreDisplay();
 
 		m_saveTimer -= time;
 		if (m_saveTimer <= 0.0f) {
@@ -535,9 +553,13 @@ class ReinforcementPoolTracker : Tracker {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		for (uint i = 0; i < factions.size(); ++i) {
 			int fid = int(i);
+			float poolF = getPoolForFactionFloat(fid);
+			float accF = getHoldingAccumulator(fid);
 			XmlElement fe("faction");
 			fe.setIntAttribute("id", fid);
-			fe.setIntAttribute("pool", getPoolForFaction(fid));
+			fe.setIntAttribute("pool", int(poolF));
+			fe.setIntAttribute("pool_frac", int((poolF - float(int(poolF))) * 100.0f));
+			fe.setIntAttribute("acc_x100", int(accF * 100.0f));
 			fe.setIntAttribute("deaths", getDeathsForFaction(fid));
 			fe.setIntAttribute("spawn_disabled", isSpawnDisabled(fid) ? 1 : 0);
 			root.appendChild(fe);
@@ -565,10 +587,17 @@ class ReinforcementPoolTracker : Tracker {
 		for (uint i = 0; i < factionNodes.size(); ++i) {
 			const XmlElement@ fe = factionNodes[i];
 			int fid = fe.getIntAttribute("id");
-			int pool = fe.getIntAttribute("pool");
+			int poolInt = fe.getIntAttribute("pool");
+			int poolFrac = 0;
+			if (fe.hasAttribute("pool_frac")) poolFrac = fe.getIntAttribute("pool_frac");
+			float pool = float(poolInt) + float(poolFrac) / 100.0f;
+			setPoolForFaction(fid, pool);
+			if (fe.hasAttribute("acc_x100")) {
+				float acc = float(fe.getIntAttribute("acc_x100")) / 100.0f;
+				if (acc > 0.0f) m_holdingAccumulator[factionKey(fid)] = acc;
+			}
 			int deaths = fe.getIntAttribute("deaths");
 			bool spawnOff = fe.getIntAttribute("spawn_disabled") != 0;
-			setPoolForFaction(fid, pool);
 			m_deaths[factionKey(fid)] = deaths;
 			if (spawnOff) m_spawnDisabled[factionKey(fid)] = true;
 		}
@@ -585,12 +614,17 @@ class ReinforcementPoolTracker : Tracker {
 
 	string factionKey(int factionId) { return "" + factionId; }
 
-	int getPoolForFaction(int factionId) {
+	// Pool intern als float (Rest bleibt z. B. 15.2 → 15 Soldaten ausgeben, 0.2 bleibt).
+	float getPoolForFactionFloat(int factionId) {
 		string key = factionKey(factionId);
 		if (!m_pool.exists(key)) {
-			m_pool[key] = getInitialPoolValue();
+			m_pool[key] = float(getInitialPoolValue());
 		}
-		return int(m_pool[key]);
+		return float(m_pool[key]);
+	}
+
+	int getPoolForFaction(int factionId) {
+		return int(getPoolForFactionFloat(factionId));
 	}
 
 	int getDeathsForFaction(int factionId) {
@@ -605,8 +639,25 @@ class ReinforcementPoolTracker : Tracker {
 		m_deaths[key] = v + 1;
 	}
 
-	void setPoolForFaction(int factionId, int value) {
+	void setPoolForFaction(int factionId, float value) {
+		if (value < 0.0f) value = 0.0f;
 		m_pool[factionKey(factionId)] = value;
+	}
+
+	float getHoldingAccumulator(int factionId) {
+		string key = factionKey(factionId);
+		if (!m_holdingAccumulator.exists(key)) return 0.0f;
+		return float(m_holdingAccumulator[key]);
+	}
+
+	void addHoldingAccumulator(int factionId, float amount) {
+		string key = factionKey(factionId);
+		float v = getHoldingAccumulator(factionId);
+		m_holdingAccumulator[key] = v + amount;
+	}
+
+	void resetHoldingAccumulator(int factionId) {
+		m_holdingAccumulator.delete(factionKey(factionId));
 	}
 
 	bool isSpawnDisabled(int factionId) {
@@ -677,14 +728,14 @@ class ReinforcementPoolTracker : Tracker {
 			else
 				penalty = rand(LOSS_PENALTY_SIDE_MIN, LOSS_PENALTY_SIDE_MAX);
 			if (penalty > 0) {
-				int pool = getPoolForFaction(previousOwnerId);
-				int newPool = pool - penalty;
-				if (newPool < 0) newPool = 0;
+				float pool = getPoolForFactionFloat(previousOwnerId);
+				float newPool = pool - float(penalty);
+				if (newPool < 0.0f) newPool = 0.0f;
 				setPoolForFaction(previousOwnerId, newPool);
 				updateScoreDisplay();
-				announceThreshold(previousOwnerId, newPool);
-				sendFactionMessage(m_metagame, previousOwnerId, "We lost " + baseName + ". -" + penalty + " reinforcements (" + newPool + " remaining).", 0.95);
-				_log("ReinforcementPool: Basis " + baseId + " verloren – Faction " + previousOwnerId + " -" + penalty + " Nachschub (verbleibend " + newPool + ").", 0);
+				announceThreshold(previousOwnerId, int(newPool));
+				sendFactionMessage(m_metagame, previousOwnerId, "We lost " + baseName + ". -" + penalty + " reinforcements.", 0.95);
+				_log("ReinforcementPool: Basis " + baseId + " verloren – Faction " + previousOwnerId + " -" + penalty + " Nachschub (verbleibend " + int(newPool) + ").", 0);
 				if (newPool <= 0 && !isSpawnDisabled(previousOwnerId)) {
 					disableSpawnForFaction(previousOwnerId);
 					setSpawnDisabled(previousOwnerId);
@@ -694,8 +745,8 @@ class ReinforcementPoolTracker : Tracker {
 
 		// Eroberer: vollen Bonus genau einmal pro Besitzerwechsel (Doppel-Gutschrift verhindert).
 		if (newOwnerId >= 0 && bonus > 0 && getBaseGrantedOwner(baseId) != newOwnerId) {
-			int pool = getPoolForFaction(newOwnerId);
-			setPoolForFaction(newOwnerId, pool + bonus);
+			float pool = getPoolForFactionFloat(newOwnerId);
+			setPoolForFaction(newOwnerId, pool + float(bonus));
 			setBaseGranted(baseId, float(bonus));
 			setBaseGrantedOwner(baseId, newOwnerId);
 			updateScoreDisplay();
@@ -720,13 +771,13 @@ class ReinforcementPoolTracker : Tracker {
 		int penalty = getVehicleDestroyPenalty(vehicleKey);
 		if (penalty <= 0) return;
 
-		int pool = getPoolForFaction(ownerId);
-		int newPool = pool - penalty;
-		if (newPool < 0) newPool = 0;
+		float pool = getPoolForFactionFloat(ownerId);
+		float newPool = pool - float(penalty);
+		if (newPool < 0.0f) newPool = 0.0f;
 		setPoolForFaction(ownerId, newPool);
 		updateScoreDisplay();
-		announceThreshold(ownerId, newPool);
-		_log("ReinforcementPool: Fahrzeug " + vehicleKey + " zerstört – Faction " + ownerId + " -" + penalty + " Nachschub (verbleibend " + newPool + ").", 0);
+		announceThreshold(ownerId, int(newPool));
+		_log("ReinforcementPool: Fahrzeug " + vehicleKey + " zerstört – Faction " + ownerId + " -" + penalty + " Nachschub (verbleibend " + int(newPool) + ").", 0);
 		if (newPool <= 0 && !isSpawnDisabled(ownerId)) {
 			disableSpawnForFaction(ownerId);
 			setSpawnDisabled(ownerId);
@@ -757,19 +808,18 @@ class ReinforcementPoolTracker : Tracker {
 		m_scoreDisplayDirty = true;
 	}
 
-	// Bei jedem Spawn: Nachschub um 1 verringern. So kostet „Leben“ beim Spawnen, nicht beim Sterben.
+	// Bei jedem Spawn: Nachschub um 1 verringern. Rest bleibt im Pool (z. B. 15.2 → 14.2).
 	protected void handleCharacterSpawnEvent(const XmlElement@ event) {
 		const XmlElement@ character = event.getFirstElementByTagName("character");
 		if (character is null) return;
 		int factionId = character.getIntAttribute("faction_id");
-		int pool = getPoolForFaction(factionId);
-		if (pool <= 0) return;
-		pool--;
+		float pool = getPoolForFactionFloat(factionId);
+		if (pool < 1.0f) return;
+		pool -= 1.0f;
 		setPoolForFaction(factionId, pool);
-		// Nur Dirty-Flag; update() aktualisiert Anzeige gedeckelt (SCORE_DISPLAY_THROTTLE) – bei 8x Spawn-Rate sonst hunderte getCharacters()/Sends pro Sekunde.
 		m_scoreDisplayDirty = true;
-		announceThreshold(factionId, pool);
-		if (pool <= 0 && !isSpawnDisabled(factionId)) {
+		announceThreshold(factionId, getPoolForFaction(factionId));
+		if (getPoolForFaction(factionId) <= 0 && !isSpawnDisabled(factionId)) {
 			disableSpawnForFaction(factionId);
 			setSpawnDisabled(factionId);
 		}
@@ -812,14 +862,14 @@ class ReinforcementPoolTracker : Tracker {
 			XmlElement faction("faction");
 			bool canSpawn = open && getPoolForFaction(fid) > 0 && !isSpawnDisabled(fid);
 			faction.setFloatAttribute("capacity_multiplier", canSpawn ? capMult : CAPACITY_MULTIPLIER_NEAR_ZERO);
-			if (canSpawn) faction.setFloatAttribute("spawn_interval", 0.25f);
+			if (canSpawn) faction.setFloatAttribute("spawn_interval", 0.2f);  // 5x nativ (1/0.2 s)
 			command.appendChild(faction);
 		}
 		m_metagame.getComms().send(command);
 		if (grossangriff && open)
 			_log("ReinforcementPool: MajorAttack – Spawn 30 s mit 2x Kapazität.", 0);
 		else
-			_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN (4x)" : "AUS") + ".", 0);
+			_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN (5x)" : "AUS") + ".", 0);
 	}
 
 	void sendGrossangriffMessageToAll() {
