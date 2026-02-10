@@ -39,6 +39,11 @@ const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speiche
 const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
 // Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 1×/s.
 const float SCORE_DISPLAY_THROTTLE = 1.0f;
+// Spawn-Fenster: 30 s duerfen Truppen spawnen, 30 s Pause, dann wieder 30 s – Umschaltung per capacity_multiplier.
+const float SPAWN_WINDOW_DURATION = 30.0f;
+// Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
+const int STATUS_MARKER_ID_BASE = 45000;
+const string STATUS_MARKER_POSITION = "1500 0 50";
 
 // Verzögerte Commander-Anschlussmeldung (4 s nach Hauptmeldung)
 class PendingFollowUp {
@@ -73,6 +78,12 @@ class ReinforcementPoolTracker : Tracker {
 	protected bool m_scoreDisplayDirty = false;
 	protected float m_scoreDisplayAccum = 0.0f;
 	protected bool m_initialPoolCorrectedForLiving = false;
+	// Position des Status-Markers: aus erster Basis + Offset, damit er immer auf der Karte sichtbar ist (nicht ausserhalb wie 1500 0 50 bei kleinen Maps).
+	protected string m_statusMarkerPosition = "";
+	// Spawn-Fenster: 30 s an, 30 s aus. capacity_multiplier wird umgeschaltet.
+	protected bool m_spawnWindowOpen = true;
+	protected float m_spawnWindowAccum = 0.0f;
+	protected bool m_spawnWindowStateApplied = false;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -91,6 +102,7 @@ class ReinforcementPoolTracker : Tracker {
 
 	void start() {
 		loadFromSavegame();
+		// Spawn-Fenster (30s an / 30s aus) wird in update() nach Initial-Announce angewendet.
 		// Abzug der Lebenden erst beim Initial-Announce (~3 s), da getCharacters() in start() oft noch 0 liefert.
 	}
 
@@ -142,6 +154,11 @@ class ReinforcementPoolTracker : Tracker {
 	// atlas_index und size wie in Vanilla (intel/kill_commander), Placement auch beim Initial-Announce versuchen.
 	void placeBaseValueMarkers(array<const XmlElement@>@ bases) {
 		if (bases is null || bases.size() == 0) return;
+		// Status-Marker-Position: Offset von erster Basis, damit auf jeder Map sichtbar (nicht 1500/0/50 ausserhalb).
+		if (m_statusMarkerPosition.length() == 0) {
+			Vector3 p = stringToVector3(bases[0].getStringAttribute("position"));
+			m_statusMarkerPosition = (p.get_opIndex(0) + 120) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 120);
+		}
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
 		for (uint i = 0; i < bases.size(); ++i) {
@@ -280,16 +297,31 @@ class ReinforcementPoolTracker : Tracker {
 				int factionId = int(i);
 				sendFactionMessage(m_metagame, factionId, "Reinforcements: " + getInitialPoolValue() + " remaining.", 0.95);
 			}
+			array<const XmlElement@>@ bases = getBases(m_metagame);
+			if (bases !is null && bases.size() > 0 && m_statusMarkerPosition.length() == 0) {
+				Vector3 p = stringToVector3(bases[0].getStringAttribute("position"));
+				m_statusMarkerPosition = (p.get_opIndex(0) + 120) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 120);
+			}
 			updateScoreDisplay();
-			// Marker sofort beim Start versuchen (Basen können schon da sein), nicht erst nach 1 s Intervall
-			if (!m_baseValueMarkersPlaced) {
-				array<const XmlElement@>@ bases = getBases(m_metagame);
-				if (bases.size() > 0) {
-					placeBaseValueMarkers(bases);
-					m_baseValueMarkersPlaced = true;
-				}
+			if (!m_baseValueMarkersPlaced && bases !is null && bases.size() > 0) {
+				placeBaseValueMarkers(bases);
+				m_baseValueMarkersPlaced = true;
 			}
 			return;
+		}
+
+		// Spawn-Fenster: 30 s Truppen duerfen spawnen, 30 s Pause. Umschaltung per capacity_multiplier.
+		m_spawnWindowAccum += time;
+		if (!m_spawnWindowStateApplied) {
+			m_spawnWindowStateApplied = true;
+			applySpawnWindowState(m_spawnWindowOpen);
+			m_scoreDisplayDirty = true;
+		}
+		if (m_spawnWindowAccum >= SPAWN_WINDOW_DURATION) {
+			m_spawnWindowAccum = 0.0f;
+			m_spawnWindowOpen = !m_spawnWindowOpen;
+			applySpawnWindowState(m_spawnWindowOpen);
+			m_scoreDisplayDirty = true;
 		}
 
 		// Nur Verteidiger-Bonus (Eroberungs-Bonus wird beim Eroberungs-Event sofort voll gutgeschrieben, kein 5-Min-Puffer).
@@ -297,6 +329,8 @@ class ReinforcementPoolTracker : Tracker {
 		m_defenderAccum += time;
 		if (m_baseUpdateAccum < BASE_UPDATE_INTERVAL) return;
 		m_baseUpdateAccum = 0.0f;
+		// Countdown im Status-Marker braucht 1s-Update wenn Spawn AUS
+		if (!m_spawnWindowOpen) m_scoreDisplayDirty = true;
 
 		bool poolChanged = false;
 		array<const XmlElement@>@ bases = getBases(m_metagame);
@@ -353,20 +387,46 @@ class ReinforcementPoolTracker : Tracker {
 		return (chars is null) ? 0 : int(chars.size());
 	}
 
-	// Kompakte Score-Anzeige: "Lebend-Nachschub" (z. B. "14-520"). Bindestrich spart Leerzeichen, ASCII-sicher.
+	// Spawn-Status-Text fuer Marker: "Spawn: AN" oder "Spawn: AUS (noch Xs)"
+	string getSpawnStatusText() {
+		if (m_spawnWindowOpen) return "Spawn: AN";
+		int secLeft = int(SPAWN_WINDOW_DURATION - m_spawnWindowAccum);
+		if (secLeft < 0) secLeft = 0;
+		return "Spawn: AUS (" + secLeft + "s)";
+	}
+
+	// Kompakte Score-Anzeige: "Lebend-Nachschub" + Spawn-Status. HUD (falls UI-Slot) + Karten-Marker.
 	void updateScoreDisplay() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		string markerPos = m_statusMarkerPosition.length() > 0 ? m_statusMarkerPosition : STATUS_MARKER_POSITION;
+		string spawnStatus = getSpawnStatusText();
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			int alive = getAliveCountForFaction(factionId);
 			int pool = getPoolForFaction(factionId);
 			string text = alive + "-" + pool;
+			// HUD (wird nur angezeigt, wenn die Engine/ das Gamemode einen Score-Display-Slot hat)
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
 			cmd.setIntAttribute("id", factionId);
-			cmd.setStringAttribute("text", text);
+			cmd.setStringAttribute("text", spawnStatus + " | " + text);
 			cmd.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
 			m_metagame.getComms().send(cmd);
+			// Karten-Status-Marker: Spawn AN/AUS + Lebend-Nachschub
+			XmlElement m("command");
+			m.setStringAttribute("class", "set_marker");
+			m.setIntAttribute("id", STATUS_MARKER_ID_BASE + factionId);
+			m.setIntAttribute("faction_id", factionId);
+			m.setIntAttribute("atlas_index", 0);
+			m.setStringAttribute("position", markerPos);
+			m.setStringAttribute("text", spawnStatus + " | " + text);
+			m.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
+			m.setFloatAttribute("size", 0.75f);
+			m.setBoolAttribute("enabled", true);
+			m.setBoolAttribute("show_in_map_view", true);
+			m.setBoolAttribute("show_in_game_view", false);
+			m.setBoolAttribute("show_at_screen_edge", false);
+			m_metagame.getComms().send(m);
 		}
 	}
 
@@ -635,6 +695,24 @@ class ReinforcementPoolTracker : Tracker {
 		cmd.setStringAttribute("class", "chat");
 		cmd.setStringAttribute("text", line);
 		m_metagame.getComms().send(cmd);
+	}
+
+	// Spawn-Fenster umschalten: open = true → Fraktionen mit Pool duerfen spawnen (capacity 1.0, spawn_interval 1s). open = false → alle aus (capacity 0).
+	void applySpawnWindowState(bool open) {
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null || factions.size() == 0) return;
+		XmlElement command("command");
+		command.setStringAttribute("class", "change_game_settings");
+		for (uint i = 0; i < factions.size(); ++i) {
+			int fid = int(i);
+			XmlElement faction("faction");
+			bool canSpawn = open && getPoolForFaction(fid) > 0 && !isSpawnDisabled(fid);
+			faction.setFloatAttribute("capacity_multiplier", canSpawn ? 1.0f : 0.0f);
+			if (canSpawn) faction.setFloatAttribute("spawn_interval", 1.0f);
+			command.appendChild(faction);
+		}
+		m_metagame.getComms().send(command);
+		_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN" : "AUS") + ".", 0);
 	}
 
 	// Setzt capacity_multiplier der betroffenen Fraktion auf 0; andere Fraktionen unverändert lassen.
