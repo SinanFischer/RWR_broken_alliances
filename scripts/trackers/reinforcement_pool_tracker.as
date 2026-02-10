@@ -76,6 +76,7 @@ class ReinforcementPoolTracker : Tracker {
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
+		m_metagame.getComms().send("<command class='set_metagame_event' name='character_spawn' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='chat_event' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='base_owner_change_event' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='vehicle_destroyed_event' enabled='1' />");
@@ -89,6 +90,18 @@ class ReinforcementPoolTracker : Tracker {
 
 	void start() {
 		loadFromSavegame();
+		// Neues Spiel: Pool um bereits lebende Charaktere pro Fraktion reduzieren (die „kosten“ schon).
+		if (!m_loadedFromSave) {
+			int initial = getInitialPoolValue();
+			array<const XmlElement@>@ factions = getFactions(m_metagame);
+			for (uint i = 0; i < factions.size(); ++i) {
+				int fid = int(i);
+				int alive = getAliveCountForFaction(fid);
+				int pool = initial - alive;
+				if (pool < 0) pool = 0;
+				setPoolForFaction(fid, pool);
+			}
+		}
 	}
 
 	bool hasEnded() const { return false; }
@@ -156,7 +169,7 @@ class ReinforcementPoolTracker : Tracker {
 				command.setIntAttribute("atlas_index", 0);
 				command.setStringAttribute("position", position);
 				command.setStringAttribute("text", text);
-				command.setFloatAttribute("size", 1.0f);
+				command.setFloatAttribute("size", 0.5f);
 				command.setBoolAttribute("enabled", true);
 				command.setBoolAttribute("show_in_map_view", true);
 				command.setBoolAttribute("show_in_game_view", false);
@@ -327,14 +340,10 @@ class ReinforcementPoolTracker : Tracker {
 		return "0.85 0.85 0.85";                     // Grau für weitere
 	}
 
-	// Zählt lebende Charaktere (dead=0) einer Fraktion für die kompakte Anzeige.
+	// Zählt lebende Charaktere einer Fraktion. Die characters-Query liefert keine "dead"-Attribute (→ Log-Warnung), daher: zurückgegebene Anzahl = lebend.
 	int getAliveCountForFaction(int factionId) {
 		array<const XmlElement@>@ chars = getCharacters(m_metagame, factionId);
-		if (chars is null) return 0;
-		int n = 0;
-		for (uint i = 0; i < chars.size(); ++i)
-			if (chars[i].getIntAttribute("dead") == 0) n++;
-		return n;
+		return (chars is null) ? 0 : int(chars.size());
 	}
 
 	// Kompakte Score-Anzeige: "Lebend-Nachschub" (z. B. "14-520"). Bindestrich spart Leerzeichen, ASCII-sicher.
@@ -569,25 +578,27 @@ class ReinforcementPoolTracker : Tracker {
 		}
 	}
 
+	// Nachschub wird bei Spawn abgezogen (handleCharacterSpawnEvent), nicht bei Tod. Hier nur Tote zählen und Anzeige aktualisieren.
 	protected void handleCharacterKillEvent(const XmlElement@ event) {
 		const XmlElement@ target = event.getFirstElementByTagName("target");
 		if (target is null) return;
-
 		int factionId = target.getIntAttribute("faction_id");
-		int pool = getPoolForFaction(factionId);
-		if (pool <= 0) return;  // bereits aufgebraucht, nichts tun
-
 		addDeathForFaction(factionId);
+		m_scoreDisplayDirty = true;
+	}
+
+	// Bei jedem Spawn: Nachschub um 1 verringern. So kostet „Leben“ beim Spawnen, nicht beim Sterben.
+	protected void handleCharacterSpawnEvent(const XmlElement@ event) {
+		const XmlElement@ character = event.getFirstElementByTagName("character");
+		if (character is null) return;
+		int factionId = character.getIntAttribute("faction_id");
+		int pool = getPoolForFaction(factionId);
+		if (pool <= 0) return;
 		pool--;
 		setPoolForFaction(factionId, pool);
-		_log("ReinforcementPool: Faction " + factionId + " -> " + pool + " verbleibend", 1);
-
-		// Anzeige nicht bei jedem Kill neu berechnen (getCharacters = Query pro Fraktion) – Throttle in update()
-		m_scoreDisplayDirty = true;
-
-		// Commander-Meldung bei Schwellen (800, 600, 500, 300, 100, 10) und bei aufgebraucht
+		_log("ReinforcementPool: Spawn Faction " + factionId + " -> " + pool + " verbleibend", 1);
+		updateScoreDisplay();
 		announceThreshold(factionId, pool);
-
 		if (pool <= 0 && !isSpawnDisabled(factionId)) {
 			disableSpawnForFaction(factionId);
 			setSpawnDisabled(factionId);
