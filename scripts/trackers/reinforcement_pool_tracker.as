@@ -395,22 +395,34 @@ class ReinforcementPoolTracker : Tracker {
 		return "Spawn: AUS (" + secLeft + "s)";
 	}
 
-	// HUD: Spawn-Status 1x fuer alle (id=0, unten). Karte: nur Spawn-Status, keine Lebend/Nachschub-Zahlen.
+	// HUD: 1. Zeile = Spawn-Status 1x (fuer alle). 2.–n. Zeile = Lebend-Nachschub pro Fraktion in Fraktionsfarben. Karte: nur Spawn-Status.
 	void updateScoreDisplay() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
 		string markerPos = m_statusMarkerPosition.length() > 0 ? m_statusMarkerPosition : STATUS_MARKER_POSITION;
 		string spawnStatus = getSpawnStatusText();
 
-		// HUD unten: Spawn-Status nur 1x (gilt fuer alle Fraktionen gleich)
-		XmlElement cmd("command");
-		cmd.setStringAttribute("class", "update_score_display");
-		cmd.setIntAttribute("id", 0);
-		cmd.setStringAttribute("text", spawnStatus);
-		cmd.setStringAttribute("color", getScoreDisplayColor(factions[0], 0));
-		m_metagame.getComms().send(cmd);
+		// HUD: Zeile 0 = Spawn-Status 1x (davor). Zeilen 1..n = Lebend-Nachschub pro Fraktion in Fraktionsfarben.
+		XmlElement cmd0("command");
+		cmd0.setStringAttribute("class", "update_score_display");
+		cmd0.setIntAttribute("id", 0);
+		cmd0.setStringAttribute("text", spawnStatus);
+		cmd0.setStringAttribute("color", getScoreDisplayColor(factions[0], 0));
+		m_metagame.getComms().send(cmd0);
 
-		// Karte: nur Spawn-Status, ohne Lebend/Nachschub – pro Fraktion gleicher Text
+		for (uint i = 0; i < factions.size(); ++i) {
+			int factionId = int(i);
+			int alive = getAliveCountForFaction(factionId);
+			int pool = getPoolForFaction(factionId);
+			XmlElement cmd("command");
+			cmd.setStringAttribute("class", "update_score_display");
+			cmd.setIntAttribute("id", factionId + 1);
+			cmd.setStringAttribute("text", alive + "-" + pool);
+			cmd.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
+			m_metagame.getComms().send(cmd);
+		}
+
+		// Karte: nur Spawn-Status
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			XmlElement m("command");
