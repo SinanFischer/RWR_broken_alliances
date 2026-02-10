@@ -54,6 +54,7 @@ class ReinforcementPoolTracker : Tracker {
 	protected dictionary m_spawnDisabled;
 	protected dictionary m_announcedThresholds;
 	protected dictionary m_baseGranted;   // pro Basis: bereits gewährter Bonus (bei Eroberung sofort voll)
+	protected dictionary m_baseGrantedOwner; // pro Basis: owner_id, dem zuletzt gutgeschrieben wurde (-1 = nach Verlust zurückgesetzt)
 	protected dictionary m_baseBonusCache;
 	protected dictionary m_deaths;
 	protected int m_initialPoolValue = -1;
@@ -269,6 +270,16 @@ class ReinforcementPoolTracker : Tracker {
 
 	void setBaseGranted(int baseId, float value) {
 		m_baseGranted[baseGrantedKey(baseId)] = value;
+	}
+
+	int getBaseGrantedOwner(int baseId) {
+		string key = baseGrantedKey(baseId) + "_owner";
+		if (!m_baseGrantedOwner.exists(key)) return -1;
+		return int(m_baseGrantedOwner[key]);
+	}
+
+	void setBaseGrantedOwner(int baseId, int ownerId) {
+		m_baseGrantedOwner[baseGrantedKey(baseId) + "_owner"] = ownerId;
 	}
 
 	// AUS-Dauer aus Capacity: 200 Soldaten = 90 s, +0.5 s pro Soldat darueber, Clamp 60–180 s. Einmal berechnet.
@@ -555,6 +566,16 @@ class ReinforcementPoolTracker : Tracker {
 		m_spawnDisabled[factionKey(factionId)] = true;
 	}
 
+	void clearSpawnDisabled(int factionId) {
+		m_spawnDisabled.delete(factionKey(factionId));
+	}
+
+	// Spawn für Fraktion wieder erlauben (z. B. nach Eroberung bei Pool 0 → Pool > 0).
+	void enableSpawnForFaction(int factionId) {
+		clearSpawnDisabled(factionId);
+		applySpawnWindowState(m_spawnWindowOpen);
+	}
+
 	bool hasAnnouncedThreshold(int factionId, int value) {
 		string key = factionKey(factionId) + "_" + value;
 		return m_announcedThresholds.exists(key) && bool(m_announcedThresholds[key]);
@@ -592,8 +613,10 @@ class ReinforcementPoolTracker : Tracker {
 		if (baseName.length() == 0 && base !is null) baseName = base.getStringAttribute("key");
 		if (baseName.length() == 0) baseName = "sector";
 
-		// Verlierer bestrafen: Nachschub-Verlust zufaellig (Side 5–10, Medium 10–20, HQ 20–30).
-		if (previousOwnerId >= 0) {
+		// Verlierer bestrafen: nur einmal pro Besitzerwechsel (verhindert Doppel-Penalty bei mehrfach gefeuertem Event).
+		int grantedOwner = getBaseGrantedOwner(baseId);
+		if (previousOwnerId >= 0 && (grantedOwner == -1 || grantedOwner == previousOwnerId)) {
+			setBaseGrantedOwner(baseId, -1); // Basis „frei“ für Gutschrift an neuen Besitzer
 			int penalty = 0;
 			if (bonusCat >= BASE_BONUS_STRONG)
 				penalty = rand(LOSS_PENALTY_STRONG_MIN, LOSS_PENALTY_STRONG_MAX);
@@ -608,7 +631,6 @@ class ReinforcementPoolTracker : Tracker {
 				setPoolForFaction(previousOwnerId, newPool);
 				updateScoreDisplay();
 				announceThreshold(previousOwnerId, newPool);
-				// Eine Meldung: Basisname + Verlust/Verbleibend in einem Satz (realitätsnäher)
 				sendFactionMessage(m_metagame, previousOwnerId, "We lost " + baseName + ". -" + penalty + " reinforcements (" + newPool + " remaining).", 0.95);
 				_log("ReinforcementPool: Basis " + baseId + " verloren – Faction " + previousOwnerId + " -" + penalty + " Nachschub (verbleibend " + newPool + ").", 0);
 				if (newPool <= 0 && !isSpawnDisabled(previousOwnerId)) {
@@ -618,16 +640,20 @@ class ReinforcementPoolTracker : Tracker {
 			}
 		}
 
-		// Eroberer: vollen Bonus sofort gutschreiben (kein 5-Min-Puffer mehr).
-		if (newOwnerId >= 0 && bonus > 0) {
+		// Eroberer: vollen Bonus genau einmal pro Besitzerwechsel (Doppel-Gutschrift verhindert).
+		if (newOwnerId >= 0 && bonus > 0 && getBaseGrantedOwner(baseId) != newOwnerId) {
 			int pool = getPoolForFaction(newOwnerId);
 			setPoolForFaction(newOwnerId, pool + bonus);
-			setBaseGranted(baseId, float(bonus));  // verhindert Doppel-Gutschrift
+			setBaseGranted(baseId, float(bonus));
+			setBaseGrantedOwner(baseId, newOwnerId);
 			updateScoreDisplay();
 			_log("ReinforcementPool: Base " + baseId + " erobert – Faction " + newOwnerId + " +" + bonus + " sofort.", 0);
-
-			// Eine Meldung: Basisname + Bonus in einem Satz (realitätsnäher)
 			sendFactionMessage(m_metagame, newOwnerId, "We captured " + baseName + ". +" + bonus + " reinforcements.", 0.95);
+			// Spawn wieder aktivieren, wenn Fraktion sich von 0 hochspielt
+			if (getPoolForFaction(newOwnerId) > 0 && isSpawnDisabled(newOwnerId)) {
+				enableSpawnForFaction(newOwnerId);
+				_log("ReinforcementPool: Faction " + newOwnerId + " – Spawn wieder aktiviert (Pool > 0 nach Eroberung).", 0);
+			}
 		}
 
 		// Fallback-Siegesbedingung: Wenn die Engine kein match_result sendet (z. B. Quick Match), bei „alle Basen einer Fraktion“ selbst set_match_status senden.
@@ -751,22 +777,11 @@ class ReinforcementPoolTracker : Tracker {
 		_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN (4x)" : "AUS") + ".", 0);
 	}
 
-	// Setzt capacity_multiplier der betroffenen Fraktion auf 0; andere Fraktionen unverändert lassen.
+	// Spawn für Fraktion abschalten. Immer vollen Zustand für ALLE Fraktionen senden (wie applySpawnWindowState),
+	// damit die Engine keine leeren <faction/>-Elemente bekommt – die können den Basis-Capture-Timer zurücksetzen.
 	void disableSpawnForFaction(int factionId) {
-		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		uint count = factions.size();
-		if (count == 0) return;
-
-		XmlElement command("command");
-		command.setStringAttribute("class", "change_game_settings");
-		for (uint i = 0; i < count; ++i) {
-			XmlElement faction("faction");
-			if (int(i) == factionId) {
-				faction.setFloatAttribute("capacity_multiplier", 0.0f);
-			}
-			command.appendChild(faction);
-		}
-		m_metagame.getComms().send(command);
+		setSpawnDisabled(factionId);
+		applySpawnWindowState(m_spawnWindowOpen);
 		_log("ReinforcementPool: Faction " + factionId + " – Nachschub aufgebraucht, Spawn deaktiviert.", 0);
 	}
 }
