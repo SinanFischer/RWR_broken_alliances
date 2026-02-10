@@ -45,6 +45,9 @@ const int SPAWN_CLOSED_REF_SOLDIERS = 200;
 const float SPAWN_CLOSED_FACTOR = 0.5f;
 const float SPAWN_CLOSED_MIN = 72.0f;     // 60 + 12
 const float SPAWN_CLOSED_MAX = 192.0f;    // 180 + 12
+// Großangriff: nach 4 normalen Zyklen 30 s Spawn mit verdoppelter Kapazität + Commander-Meldung
+const int GROSSANGRIFF_CYCLES = 4;
+const float GROSSANGRIFF_CAPACITY_MULTIPLIER = 2.0f;
 // Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
@@ -76,6 +79,9 @@ class ReinforcementPoolTracker : Tracker {
 	protected float m_spawnWindowAccum = 0.0f;
 	protected bool m_spawnWindowStateApplied = false;
 	protected float m_spawnClosedDuration = -1.0f;
+	// Großangriff: Zähler (4 → 0), bei 0 nächster Öffnung = Großangriff (30 s, 2x Kapazität)
+	protected int m_cyclesUntilGrossangriff = GROSSANGRIFF_CYCLES;
+	protected bool m_grossangriffActive = false;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -345,18 +351,37 @@ class ReinforcementPoolTracker : Tracker {
 			return;
 		}
 
-		// Spawn-Fenster: 30 s an, 90 s aus.
+		// Spawn-Fenster: 30 s an, dann AUS (72–192 s). Alle 4 Zyklen = Großangriff (30 s mit 2x Kapazität + Commander-Meldung).
 		m_spawnWindowAccum += time;
 		if (!m_spawnWindowStateApplied) {
 			m_spawnWindowStateApplied = true;
-			applySpawnWindowState(m_spawnWindowOpen);
+			applySpawnWindowState(m_spawnWindowOpen, false);
 			m_scoreDisplayDirty = true;
 		}
 		float currentDuration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : getSpawnClosedDuration();
 		if (m_spawnWindowAccum >= currentDuration) {
 			m_spawnWindowAccum = 0.0f;
+			bool wasOpen = m_spawnWindowOpen;
 			m_spawnWindowOpen = !m_spawnWindowOpen;
-			applySpawnWindowState(m_spawnWindowOpen);
+			if (wasOpen) {
+				// Gerade von AN auf AUS gewechselt → Zyklus-Ende
+				if (m_grossangriffActive) {
+					m_cyclesUntilGrossangriff = GROSSANGRIFF_CYCLES;
+					m_grossangriffActive = false;
+				} else if (m_cyclesUntilGrossangriff > 0) {
+					m_cyclesUntilGrossangriff--;
+				}
+				applySpawnWindowState(false, false);
+			} else {
+				// Gerade von AUS auf AN gewechselt
+				if (m_cyclesUntilGrossangriff == 0) {
+					m_grossangriffActive = true;
+					sendGrossangriffMessageToAll();
+					applySpawnWindowState(true, true);
+				} else {
+					applySpawnWindowState(true, false);
+				}
+			}
 			m_scoreDisplayDirty = true;
 		}
 
@@ -423,20 +448,22 @@ class ReinforcementPoolTracker : Tracker {
 		return (chars is null) ? 0 : int(chars.size());
 	}
 
-	// Spawn-Status-Text nur fuer Karten-Marker: Sekunden anzeigen (AN 30s, AUS 90s).
+	// Spawn-Status-Text nur fuer Karten-Marker: Sekunden anzeigen (AN 30s, AUS 90s, Großangriff 30s).
 	string getSpawnStatusText() {
 		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : getSpawnClosedDuration();
 		int secLeft = int(duration - m_spawnWindowAccum);
 		if (secLeft < 0) secLeft = 0;
+		if (m_grossangriffActive) return "Spawn: Großangriff (" + secLeft + "s)";
 		if (m_spawnWindowOpen) return "Spawn: AN (" + secLeft + "s)";
 		return "Spawn: AUS (" + secLeft + "s)";
 	}
 
-	// Kurz fuer HUD: nur "AN 30s" / "AUS 45s" (ohne "Spawn:").
+	// Kurz fuer HUD: nur "AN 30s" / "AUS 45s" / "Großangriff 30s" (ohne "Spawn:").
 	string getSpawnStatusTextShort() {
 		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : getSpawnClosedDuration();
 		int secLeft = int(duration - m_spawnWindowAccum);
 		if (secLeft < 0) secLeft = 0;
+		if (m_grossangriffActive) return "Großangriff " + secLeft + "s";
 		if (m_spawnWindowOpen) return "AN " + secLeft + "s";
 		return "AUS " + secLeft + "s";
 	}
@@ -759,22 +786,34 @@ class ReinforcementPoolTracker : Tracker {
 		m_metagame.getComms().send(cmd);
 	}
 
-	// Spawn-Fenster umschalten: AN = 4x Spawn-Rate ueber Interval (spawn_interval 0.25), capacity normal (1.0). AUS = capacity 0.
-	void applySpawnWindowState(bool open) {
+	// Spawn-Fenster umschalten. grossangriff=true: 30 s mit verdoppelter Kapazität (2x) für alle spawnfähigen Fraktionen.
+	void applySpawnWindowState(bool open, bool grossangriff = false) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
+		float capMult = (open && grossangriff) ? GROSSANGRIFF_CAPACITY_MULTIPLIER : 1.0f;
 		XmlElement command("command");
 		command.setStringAttribute("class", "change_game_settings");
 		for (uint i = 0; i < factions.size(); ++i) {
 			int fid = int(i);
 			XmlElement faction("faction");
 			bool canSpawn = open && getPoolForFaction(fid) > 0 && !isSpawnDisabled(fid);
-			faction.setFloatAttribute("capacity_multiplier", canSpawn ? 1.0f : 0.0f);
+			faction.setFloatAttribute("capacity_multiplier", canSpawn ? capMult : 0.0f);
 			if (canSpawn) faction.setFloatAttribute("spawn_interval", 0.25f);
 			command.appendChild(faction);
 		}
 		m_metagame.getComms().send(command);
-		_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN (4x)" : "AUS") + ".", 0);
+		if (grossangriff && open)
+			_log("ReinforcementPool: Großangriff – Spawn 30 s mit 2x Kapazität.", 0);
+		else
+			_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN (4x)" : "AUS") + ".", 0);
+	}
+
+	void sendGrossangriffMessageToAll() {
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null) return;
+		string msg = "All sides are preparing for a major assault.";
+		for (uint i = 0; i < factions.size(); ++i)
+			sendFactionMessage(m_metagame, int(i), msg, 0.95);
 	}
 
 	// Spawn für Fraktion abschalten. Immer vollen Zustand für ALLE Fraktionen senden (wie applySpawnWindowState),
