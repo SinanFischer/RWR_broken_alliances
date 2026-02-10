@@ -159,7 +159,8 @@ class ReinforcementPoolTracker : Tracker {
 		// Status-Marker-Position: Offset von erster Basis, damit auf jeder Map sichtbar (nicht 1500/0/50 ausserhalb).
 		if (m_statusMarkerPosition.length() == 0) {
 			Vector3 p = stringToVector3(bases[0].getStringAttribute("position"));
-			m_statusMarkerPosition = (p.get_opIndex(0) + 120) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 120);
+			// Nochmal gleiche Distanz rechts (+120), dann diese rechte Distanz nach oben (z -120): gesamt +240 x, -240 z
+			m_statusMarkerPosition = (p.get_opIndex(0) + 240) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 240);
 		}
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
@@ -310,7 +311,7 @@ class ReinforcementPoolTracker : Tracker {
 			array<const XmlElement@>@ bases = getBases(m_metagame);
 			if (bases !is null && bases.size() > 0 && m_statusMarkerPosition.length() == 0) {
 				Vector3 p = stringToVector3(bases[0].getStringAttribute("position"));
-				m_statusMarkerPosition = (p.get_opIndex(0) + 120) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 120);
+				m_statusMarkerPosition = (p.get_opIndex(0) + 240) + " " + p.get_opIndex(1) + " " + (p.get_opIndex(2) - 240);
 			}
 			updateScoreDisplay();
 			if (!m_baseValueMarkersPlaced && bases !is null && bases.size() > 0) {
@@ -401,43 +402,38 @@ class ReinforcementPoolTracker : Tracker {
 		return (chars is null) ? 0 : int(chars.size());
 	}
 
-	// Spawn-Status-Text fuer Marker: "Spawn: AN" oder "Spawn: AUS (noch Xs)"
+	// Spawn-Status-Text nur fuer Karten-Marker: Sekunden anzeigen (AN wie lange noch, AUS wie lange bis wieder an).
 	string getSpawnStatusText() {
-		if (m_spawnWindowOpen) return "Spawn: AN";
-		float duration = SPAWN_WINDOW_DURATION;
+		float duration = m_spawnWindowOpen
+			? (m_firstSpawnWindowDone ? SPAWN_WINDOW_DURATION : SPAWN_WINDOW_FIRST_DURATION)
+			: SPAWN_WINDOW_DURATION;
 		int secLeft = int(duration - m_spawnWindowAccum);
 		if (secLeft < 0) secLeft = 0;
+		if (m_spawnWindowOpen) return "Spawn: AN (" + secLeft + "s)";
 		return "Spawn: AUS (" + secLeft + "s)";
 	}
 
-	// HUD: 1. Zeile = Spawn-Status 1x (fuer alle). 2.–n. Zeile = Lebend-Nachschub pro Fraktion in Fraktionsfarben. Karte: nur Spawn-Status.
+	// HUD: nur Lebend-Nachschub pro Fraktion in Fraktionsfarben. Karte: Spawn-Status inkl. Sekunden (AN/AUS).
 	void updateScoreDisplay() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
 		string markerPos = m_statusMarkerPosition.length() > 0 ? m_statusMarkerPosition : STATUS_MARKER_POSITION;
 		string spawnStatus = getSpawnStatusText();
 
-		// HUD: Zeile 0 = Spawn-Status 1x (davor). Zeilen 1..n = Lebend-Nachschub pro Fraktion in Fraktionsfarben.
-		XmlElement cmd0("command");
-		cmd0.setStringAttribute("class", "update_score_display");
-		cmd0.setIntAttribute("id", 0);
-		cmd0.setStringAttribute("text", spawnStatus);
-		cmd0.setStringAttribute("color", getScoreDisplayColor(factions[0], 0));
-		m_metagame.getComms().send(cmd0);
-
+		// HUD: nur Lebend-Nachschub pro Fraktion (kein Spawn-Status)
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			int alive = getAliveCountForFaction(factionId);
 			int pool = getPoolForFaction(factionId);
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
-			cmd.setIntAttribute("id", factionId + 1);
+			cmd.setIntAttribute("id", factionId);
 			cmd.setStringAttribute("text", alive + "-" + pool);
 			cmd.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
 			m_metagame.getComms().send(cmd);
 		}
 
-		// Karte: nur Spawn-Status
+		// Karte: Spawn-Status mit Sekunden (AN (Xs) / AUS (Xs))
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			XmlElement m("command");

@@ -1,113 +1,127 @@
 # Waffen-Vergleich der 3 Fraktionen (EU / US / Russia)
 
-**Legende:** kill = kill_probability | RT = retrigger_time (s) | com = commonness | Preis = RP im Shop
+**Zweck:** Balance prüfen – pro Zeile ist der **beste** Wert **fett**.  
+**Legende:** kill = kill_probability (höher = besser) | RT = retrigger_time in s (niedriger = schneller) | com = commonness (höher = häufiger) | Preis = RP (niedriger = günstiger).
 
 ---
 
 ## 1. Standard-Sturmgewehre (Hauptwaffe Infanterie)
 
-| Waffe | Fraktion | kill | RT | commonness | Preis |
-|-------|----------|------|-----|------------|-------|
-| **G36** | EU | 0.52 | 0.088 | **0.22** | 16 |
-| **M16A4** | US | 0.52 | 0.115 | **0.22** | 16 |
-| **AK-74M** | RU | 0.50 | 0.09 | **0.22** | **15** |
+| Metrik | EU (G36) | US (M16A4) | RU (AK-74M) |
+|--------|----------|------------|-------------|
+| **kill** | **0.65** | **0.65** | **0.65** |
+| **RT** (s) | **0.080** | 0.105 | 0.10 |
+| **com** | 0.22 | 0.22 | 0.22 |
+| **Preis** | 16 | 16 | **15** |
 
-→ EU und US gleicher Preis/Commonness, RU etwas günstiger (15 RP), aber geringere kill (0.50).
-
----
-
-## 2. Zusätzliche Sturmgewehre / Burst (im Pool der Fraktion)
-
-| Waffe | Fraktion | kill | RT | commonness | Preis |
-|-------|----------|------|-----|------------|-------|
-| **HK416** | EU | 0.52 | 0.0705 | 0.025 | 40 |
-| **FAMAS G1** | EU | 0.52 | 0.08 | 0.049 | 200 |
-| **M4A1** | US | 0.5 | 0.075 | **0.3** | 40 |
-| **L85A2** | US | 0.51 | 0.095 | 0.046 | 200 |
-| **XM8** | US | **0.575** | 0.115 | 0.043 | **400** |
-| **AKS-74U** | RU | 0.50 | 0.072 | 0.046 | 40 |
-| **SG 552** | RU | 0.52 | 0.115 | 0.024 | 200 |
-
-→ US: M4A1 mit **commonness 0.3** (am häufigsten); XM8 stärkste AR (0.575), aber 400 RP.
+→ **Balance:** EU schnellstes Feuer (0.080), RU günstigster Einstieg (15 RP). Kill überall gleich.
 
 ---
 
-## 3. Gemeinsame Premium-AR (alle Fraktionen)
+## 2. Zusätzliche Sturmgewehre (Pool, ~40 RP)
 
-| Waffe | kill | RT | commonness | Preis |
-|-------|------|-----|------------|-------|
-| **Steyr AUG** | 0.55 | 0.123 | 0.0 (nur Stock) | 250 |
-| **SCAR SSR** | 1.0 (Sniper) | 0.35 | 0.0 | 150 |
-| **APR** (Tarn) | 0.85 | – | 0.0 | 450 |
+| Metrik | EU (HK416) | US (M4A1) | RU (AKS-74U) |
+|--------|------------|-----------|---------------|
+| **kill** | **0.65** | **0.65** | 0.58 |
+| **RT** (s) | 0.095 | 0.15 | **0.088** |
+| **com** | 0.025 | **0.3** | 0.046 |
+| **Preis** | 40 | 40 | 40 |
 
----
-
-## 4. Maschinengewehre (MG)
-
-| Waffe | Fraktion | kill | RT | commonness | Preis |
-|-------|----------|------|-----|------------|-------|
-| **MG4** | EU | 0.52 | **0.067** | 0.05 | 80 |
-| **IMI Negev** | EU | 0.49 | 0.074 | 0.028 | 60 |
-| **MG-42** | EU | **0.62** | 0.05 | 0.00001 | 1200 |
-| **M249 Para** | US | 0.52 | 0.075 | 0.05 | 80 |
-| **M240** | US | 0.50 | 0.104 | 0.029 | 60 |
-| **Stoner LMG** | US | 0.52 | 0.06 | 0.0028 | 500 |
-| **PKP** | RU | 0.48 | 0.058 | 0.031 | **50** |
-| **RPK-74M** | RU | 0.50 | 0.072 | 0.05 | 80 |
-
-→ EU: MG4 schnellstes MG; MG-42 höchste kill (0.62), aber extrem selten. RU: PKP günstigster (50 RP), geringere kill.
+→ **Balance:** US M4A1 mit Abstand höchste Commonness (0.3). RU AKS-74U schnellstes Feuer, aber niedrigere kill (0.58).
 
 ---
 
-## 5. Scharfschützengewehre (Bolt-Action)
+## 3. Premium-AR (teure Pool-Waffen, 200–400 RP)
 
-| Waffe | Fraktion | kill | commonness | Preis |
-|-------|----------|------|------------|-------|
-| **G22 (PSG90)** | EU | **1.0** | 0.038 | 70 |
-| **M24-A2** | US | 0.95 | 0.038 | 70 |
-| **SV-98** | RU | 0.90 | 0.01 | **40** |
+| Metrik | EU (FAMAS G1) | US (XM8) | RU (SG 552) |
+|--------|----------------|----------|-------------|
+| **kill** | 0.65 | **0.72** | 0.52 |
+| **RT** (s) | **0.092** | 0.115 | 0.127 |
+| **com** | **0.049** | 0.043 | 0.024 |
+| **Preis** | **200** | 250 | **200** |
 
-→ EU: einziger One-Shot-Sniper (1.0). RU: SV-98 günstigster (40 RP).
-
----
-
-## 6. DMR / Semi-Auto-Scharfschützen
-
-| Waffe | Fraktion | kill | commonness | Preis |
-|-------|----------|------|------------|-------|
-| **G28** | EU | 0.9 | 0.01 | 40 |
-| **M14 EBR** | US | 0.9 | 0.01 | 40 |
-| **Dragunov SVD** | RU | 0.82 | 0.04 | 50 |
-
-→ EU/US: gleiche Stärke (0.9). RU: SVD etwas schwächer (0.82), aber höhere commonness (0.04).
+→ **Balance:** US XM8 höchste kill (0.72), EU FAMAS schnellstes Feuer und höchste Commonness. RU SG 552 schwächste kill (0.52).
 
 ---
 
-## 7. Shotguns
+## 4. Leicht-MG (5.56 / 5.45)
 
-| Waffe | Fraktion | kill | commonness | Preis |
-|-------|----------|------|------------|-------|
-| **SPAS-12** | EU | 0.62 | 0.029 | 30 |
-| **CAWS** | EU | 0.325 | 0.01 | 50 |
-| **Mossberg 500** | US | 0.6 | 0.029 | 30 |
-| **Saiga-12K** | RU | – | 0.01 | 50 |
-| **QBS-09** | RU | 0.59 | 0.01 | **2** |
+| Metrik | EU (MG4) | US (M249) | RU (RPK-74M) |
+|--------|----------|-----------|--------------|
+| **kill** | 0.52 | **0.58** | 0.56 |
+| **RT** (s) | **0.075** | 0.092 | 0.10 |
+| **com** | 0.05 | 0.05 | 0.05 |
+| **Preis** | 80 | 80 | 80 |
 
-→ RU: QBS-09 mit **Preis 2 RP** (extrem günstig). CAWS (EU) niedrigste kill (0.325).
-
----
-
-## 8. Kurzüberblick Preis/Commonness pro Fraktion
-
-| | EU (Grey) | US (Green) | RU (Brown) |
-|---|-----------|-------------|------------|
-| **Standard-AR Preis** | 16 (G36) | 16 (M16) | **15** (AK) |
-| **Standard-AR commonness** | 0.22 | 0.22 | 0.22 |
-| **Höchste AR commonness** | 0.22 (G36) | **0.3** (M4A1) | 0.22 (AK) |
-| **Günstigste MG** | 60 (Negev) | 60 (M240) | **50** (PKP) |
-| **Günstigster Sniper** | 70 (PSG90) | 70 (M24) | **40** (SV-98) |
-| **Teuerste Waffe (Pool)** | 1200 (MG-42) | 500 (Stoner) | 200 (SG552) |
+→ **Balance:** EU MG4 schnellstes MG (0.075), US M249 höchste kill. Preise gleich.
 
 ---
 
-*Erstellt aus den .weapon-Dateien des RWR Total Conversion Mod. RT = Sekunden zwischen Schüssen (kleiner = schneller).*
+## 5. Schwer-MG (7.62) – EU ohne eigenes 7.62-MG
+
+| Metrik | EU (IMI Negev) | US (M240) | RU (PKM) |
+|--------|----------------|-----------|----------|
+| **kill** | 0.58 | **0.89** | 0.82 |
+| **RT** (s) | **0.072** | 0.12 | 0.12 |
+| **com** | 0.028 | 0.029 | **0.031** |
+| **Preis** | 60 | 60 | **50** |
+
+→ **Balance:** US M240 mit Abstand höchste kill (0.89). RU PKM günstigster (50 RP). EU Negev schnellstes Feuer (Leicht-MG-Klasse).
+
+---
+
+## 6. Scharfschützengewehre (Bolt-Action)
+
+| Metrik | EU (G22/PSG90) | US (M24-A2) | RU (SV-98) |
+|--------|----------------|-------------|------------|
+| **kill** | **1.0** | 0.98 | 0.96 |
+| **RT** (s) | 1.48 | 1.48 | 1.48 |
+| **com** | **0.038** | **0.038** | 0.01 |
+| **Preis** | 70 | 70 | **40** |
+
+→ **Balance:** EU einziger One-Hit-Sniper (1.0). RU SV-98 deutlich günstigster (40 RP), aber niedrigere kill und Commonness.
+
+---
+
+## 7. DMR / Semi-Auto-Scharfschützen
+
+| Metrik | EU (G28) | US (M14 EBR) | RU (Dragunov SVD) |
+|--------|----------|--------------|-------------------|
+| **kill** | **0.92** | 0.90 | 0.90 |
+| **RT** (s) | **0.65** | 0.85 | 0.88 |
+| **com** | 0.01 | 0.01 | **0.04** |
+| **Preis** | 40 | 40 | 50 |
+
+→ **Balance:** EU G28 höchste kill (0.92). RU SVD höchste Commonness (0.04). US/RU etwas schneller nachschuss (kleinerer RT), EU stärkster Schuss.
+
+---
+
+## 8. Shotguns
+
+| Metrik | EU (SPAS-12) | US (Mossberg 500) | RU (QBS-09) |
+|--------|--------------|-------------------|--------------|
+| **kill** | **0.68** | 0.65 | 0.65 |
+| **RT** (s) | – (Pump) | 0.51 | **0.40** |
+| **com** | **0.029** | **0.029** | 0.01 |
+| **Preis** | 30 | 30 | **2** |
+
+→ **Balance:** EU SPAS-12 höchste kill (0.68). RU QBS-09 extrem günstig (2 RP), dafür niedrigere Commonness.
+
+---
+
+## 9. Kurzüberblick: Wer führt wo?
+
+| Metrik | EU | US | RU |
+|--------|----|----|-----|
+| **Standard-AR Preis** | 16 | 16 | **15** |
+| **Höchste AR-Kill (Pool)** | 0.65 | **0.72** (XM8) | 0.52 |
+| **Höchste AR-Commonness** | 0.22 | **0.3** (M4A1) | 0.22 |
+| **Günstigstes MG** | 60 | 60 | **50** |
+| **Günstigster Sniper** | 70 | 70 | **40** |
+| **Stärkster Bolt-Sniper (kill)** | **1.0** | 0.98 | 0.96 |
+| **Stärkster DMR (kill)** | **0.92** | 0.90 | 0.90 |
+| **Günstigste Shotgun** | 30 | 30 | **2** |
+
+---
+
+*Stand: aus den .weapon-Dateien des RWR Total Conversion Mod. RT = Sekunden zwischen Schüssen (kleiner = schneller).*
