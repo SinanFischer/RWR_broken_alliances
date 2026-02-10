@@ -18,13 +18,13 @@ const int DEFENDER_BONUS_SIDE = 4;
 const int DEFENDER_BONUS_MEDIUM = 6;
 const int DEFENDER_BONUS_STRONG = 12;
 const float FOLLOWUP_MESSAGE_DELAY = 4.0f;
-// Basis-Verlust: Nachschub-Penalty zurfällig nach Kategorie (Side/Medium/Strong = getBaseBonus 25/50/100).
-const int LOSS_PENALTY_SIDE_MIN = 10;
-const int LOSS_PENALTY_SIDE_MAX = 25;
-const int LOSS_PENALTY_MEDIUM_MIN = 25;
-const int LOSS_PENALTY_MEDIUM_MAX = 50;
-const int LOSS_PENALTY_STRONG_MIN = 50;
-const int LOSS_PENALTY_STRONG_MAX = 100;
+// Basis-Verlust: Nachschub-Penalty zufaellig, gleiche Bereiche wie Eroberungs-Bonus (Side 5–10, Medium 10–20, HQ 20–30).
+const int LOSS_PENALTY_SIDE_MIN = 5;
+const int LOSS_PENALTY_SIDE_MAX = 10;
+const int LOSS_PENALTY_MEDIUM_MIN = 10;
+const int LOSS_PENALTY_MEDIUM_MAX = 20;
+const int LOSS_PENALTY_STRONG_MIN = 20;
+const int LOSS_PENALTY_STRONG_MAX = 30;
 // Fahrzeug-Verlust: Angreifer (Besitzer) verliet Nachschub – Ausgleich wenn Panzer/APC alles niedermähen.
 const int VEHICLE_PENALTY_TANK_BIG = 10;   // tank_1, tank_2: 5–15, hier Mittelwert 10 (Variante: rand(5,15))
 const int VEHICLE_PENALTY_TANK = 10;        // tank (ohne _1/_2)
@@ -39,8 +39,9 @@ const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speiche
 const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
 // Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 1×/s.
 const float SCORE_DISPLAY_THROTTLE = 1.0f;
-// Spawn-Fenster: 60 s Truppen spawnen, 60 s Pause – Umschaltung per capacity_multiplier.
-const float SPAWN_WINDOW_DURATION = 60.0f;
+// Spawn-Fenster: Normal 2 Min. Beim ersten Mal nur 1 Min aktiv, danach 2-Min-Intervall.
+const float SPAWN_WINDOW_FIRST_DURATION = 60.0f;   // erstes Spawn-Fenster
+const float SPAWN_WINDOW_DURATION = 120.0f;        // ab dann 2 Min
 // Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
@@ -80,10 +81,11 @@ class ReinforcementPoolTracker : Tracker {
 	protected bool m_initialPoolCorrectedForLiving = false;
 	// Position des Status-Markers: aus erster Basis + Offset, damit er immer auf der Karte sichtbar ist (nicht ausserhalb wie 1500 0 50 bei kleinen Maps).
 	protected string m_statusMarkerPosition = "";
-	// Spawn-Fenster: 30 s an, 30 s aus. capacity_multiplier wird umgeschaltet.
+	// Spawn-Fenster: erstes Mal 1 Min, danach 2 Min. capacity_multiplier wird umgeschaltet.
 	protected bool m_spawnWindowOpen = true;
 	protected float m_spawnWindowAccum = 0.0f;
 	protected bool m_spawnWindowStateApplied = false;
+	protected bool m_firstSpawnWindowDone = false;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -194,6 +196,14 @@ class ReinforcementPoolTracker : Tracker {
 		int bonus = getBaseBonus(base);
 		m_baseBonusCache[ckey] = bonus;
 		return bonus;
+	}
+
+	// Eroberungs-Bonus zufaellig: Side 5–10, Medium 10–20, HQ 20–30 (Verlust nutzt gleiche Bereiche via LOSS_PENALTY_*).
+	int getCaptureBonusRandom(int baseId, const XmlElement@ base) {
+		int cat = getBaseBonusCached(baseId, base);
+		if (cat >= BASE_BONUS_STRONG) return rand(20, 30);
+		if (cat >= BASE_BONUS_MEDIUM) return rand(10, 20);
+		return rand(5, 10);
 	}
 
 	// Verteidiger-Bonus: pro gehaltener Basis jede Minute (Side/Medium/Strong = Konstanten).
@@ -310,15 +320,19 @@ class ReinforcementPoolTracker : Tracker {
 			return;
 		}
 
-		// Spawn-Fenster: 30 s Truppen duerfen spawnen, 30 s Pause. Umschaltung per capacity_multiplier.
+		// Spawn-Fenster: erstes Mal 1 Min an, danach 2 Min an / 2 Min aus.
 		m_spawnWindowAccum += time;
 		if (!m_spawnWindowStateApplied) {
 			m_spawnWindowStateApplied = true;
 			applySpawnWindowState(m_spawnWindowOpen);
 			m_scoreDisplayDirty = true;
 		}
-		if (m_spawnWindowAccum >= SPAWN_WINDOW_DURATION) {
+		float currentDuration = m_spawnWindowOpen
+			? (m_firstSpawnWindowDone ? SPAWN_WINDOW_DURATION : SPAWN_WINDOW_FIRST_DURATION)
+			: SPAWN_WINDOW_DURATION;
+		if (m_spawnWindowAccum >= currentDuration) {
 			m_spawnWindowAccum = 0.0f;
+			if (m_spawnWindowOpen) m_firstSpawnWindowDone = true;
 			m_spawnWindowOpen = !m_spawnWindowOpen;
 			applySpawnWindowState(m_spawnWindowOpen);
 			m_scoreDisplayDirty = true;
@@ -390,7 +404,8 @@ class ReinforcementPoolTracker : Tracker {
 	// Spawn-Status-Text fuer Marker: "Spawn: AN" oder "Spawn: AUS (noch Xs)"
 	string getSpawnStatusText() {
 		if (m_spawnWindowOpen) return "Spawn: AN";
-		int secLeft = int(SPAWN_WINDOW_DURATION - m_spawnWindowAccum);
+		float duration = SPAWN_WINDOW_DURATION;
+		int secLeft = int(duration - m_spawnWindowAccum);
 		if (secLeft < 0) secLeft = 0;
 		return "Spawn: AUS (" + secLeft + "s)";
 	}
@@ -557,17 +572,18 @@ class ReinforcementPoolTracker : Tracker {
 
 		array<const XmlElement@>@ bases = getBases(m_metagame);
 		const XmlElement@ base = getBase(bases, baseId);
-		int bonus = getBaseBonusCached(baseId, base);
+		int bonusCat = getBaseBonusCached(baseId, base);
+		int bonus = getCaptureBonusRandom(baseId, base);
 		string baseName = base !is null ? base.getStringAttribute("name") : "";
 		if (baseName.length() == 0 && base !is null) baseName = base.getStringAttribute("key");
 		if (baseName.length() == 0) baseName = "sector";
 
-		// Verlierer bestrafen: Nachschub-Verlust zufällig nach Basis-Kategorie (Side -10 bis -25, Medium -25 bis -50, Strong -50 bis -100).
+		// Verlierer bestrafen: Nachschub-Verlust zufaellig (Side 5–10, Medium 10–20, HQ 20–30).
 		if (previousOwnerId >= 0) {
 			int penalty = 0;
-			if (bonus >= BASE_BONUS_STRONG)
+			if (bonusCat >= BASE_BONUS_STRONG)
 				penalty = rand(LOSS_PENALTY_STRONG_MIN, LOSS_PENALTY_STRONG_MAX);
-			else if (bonus >= BASE_BONUS_MEDIUM)
+			else if (bonusCat >= BASE_BONUS_MEDIUM)
 				penalty = rand(LOSS_PENALTY_MEDIUM_MIN, LOSS_PENALTY_MEDIUM_MAX);
 			else
 				penalty = rand(LOSS_PENALTY_SIDE_MIN, LOSS_PENALTY_SIDE_MAX);

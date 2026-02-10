@@ -762,7 +762,7 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 			// interpolate players 1 -> 32
 			addTracker(SideBaseAttackHandler(this, i, 
 				1, 32, 
-				0.10, 0.0,    // side base attack probability (verdoppelt: war 0.05)
+				0.12, 0.0,    // side base attack probability (verdoppelt: war 0.05)
 				0.005, 0.0)); // lonewolf spawn score
 		}
 	}
