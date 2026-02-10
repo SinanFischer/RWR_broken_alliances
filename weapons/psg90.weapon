@@ -14,7 +14,7 @@
   class="2" 
   reload_one_at_a_time="0" 
   sight_range_modifier="2.4" 
-  projectile_speed="190.0" 
+  projectile_speed="240.0" 
   barrel_offset="0.5" 
   projectiles_per_shot="1" />
     <animation key="recoil" ref="27" />

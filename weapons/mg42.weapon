@@ -13,7 +13,7 @@
     name="MG-42" 
     class="0" 
 	barrel_offset="0.4" 
-    projectile_speed="120.0" />
+    projectile_speed="170.0" />
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />
     <animation key="recoil" ref="14" />

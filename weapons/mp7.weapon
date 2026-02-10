@@ -14,7 +14,7 @@
   name="MP7" 
   class="0" 
   slot="1"
-  projectile_speed="110.0" />
+  projectile_speed="200.0" />
 
 	<animation state_key="recoil"	animation_key="recoil, pistol" />
   <animation state_key="reload"	animation_key="reloading, pistol" />

@@ -13,7 +13,7 @@
   suppressed="0" 
   name="IMI Negev" 
   class="0" 
-  projectile_speed="93.0" />
+  projectile_speed="143.0" />
 
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />

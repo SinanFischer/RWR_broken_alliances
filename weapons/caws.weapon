@@ -15,7 +15,7 @@
     barrel_offset="0.2"
     reload_one_at_a_time="0" 
     sight_range_modifier="1.0" 
-    projectile_speed="95.0" 
+    projectile_speed="145.0" 
     projectiles_per_shot="11" 
     burst_shots="1" />
 

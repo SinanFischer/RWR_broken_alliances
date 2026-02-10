@@ -15,7 +15,7 @@
   class="0" 
   barrel_offset="0.6"
   barrel_offset_3d="0 -0.1 0.6"
-  projectile_speed="120.0"
+  projectile_speed="170.0"
   projectiles_per_shot="1" />
 
 	<animation state_key="recoil"	animation_key="recoil, hip fire" />

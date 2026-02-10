@@ -10,7 +10,7 @@
     suppressed="0" 
     name="Jackhammer" 
     class="0" 
-    projectile_speed="98.0"
+    projectile_speed="148.0"
     projectiles_per_shot="3" 
 	barrel_offset="0.325"
 	/>

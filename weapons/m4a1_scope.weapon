@@ -12,7 +12,7 @@
   name="M4A1" 
   class="0" 
   sight_range_modifier="1.1" 
-  projectile_speed="110.0"
+  projectile_speed="160.0"
   barrel_offset="0.5" /> <!--220-->
 
     <animation key="recoil" ref="12" />

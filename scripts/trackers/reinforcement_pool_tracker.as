@@ -337,8 +337,17 @@ class ReinforcementPoolTracker : Tracker {
 			}
 		}
 
-		// Eroberer: Commander-Meldung, was gewonnen wird (voller Bonus über 5 Min) + Anschluss 4 s später (vollständige Sätze mit Basisname + Truppen).
+		// Eroberer: Sofort einen sichtbaren Teil des Bonuses gutschreiben, Rest läuft über 5 Min im update()-Loop.
+		// (Im Loop ist add = rate*delta oft < 1, daher addInt=0 – ohne Sofortanteil wirkt es, als käme nichts.)
 		if (newOwnerId >= 0 && bonus > 0) {
+			int immediateBonus = bonus / 10;  // 10 % sofort (z. B. 5 bei 50)
+			if (immediateBonus < 1) immediateBonus = 1;
+			int pool = getPoolForFaction(newOwnerId);
+			setPoolForFaction(newOwnerId, pool + immediateBonus);
+			setBaseGranted(baseId, float(immediateBonus));  // Rest (bonus - immediateBonus) fließt weiter über 5 Min
+			updateScoreDisplay();
+			_log("ReinforcementPool: Base " + baseId + " erobert – Faction " + newOwnerId + " +" + immediateBonus + " sofort, " + (bonus - immediateBonus) + " über 5 Min.", 0);
+
 			sendFactionMessage(m_metagame, newOwnerId, "Base captured. +" + bonus + " reinforcements over the next 5 min.", 0.95);
 			array<string> captureVariants;
 			captureVariants.insertLast("We have captured " + baseName + ". " + bonus + " reinforcements will join us over the next 5 minutes.");

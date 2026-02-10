@@ -13,7 +13,7 @@
     suppressed="0"
     name="MG-3"
     class="0"
-    projectile_speed="120.0"
+    projectile_speed="170.0"
     barrel_offset="0.5" />
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />

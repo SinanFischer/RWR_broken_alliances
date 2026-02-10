@@ -11,7 +11,7 @@
     suppressed="0" 
     name="MG" 
     class="0" 
-    projectile_speed="115.0" 
+    projectile_speed="165.0" 
     slot="2" 
     barrel_offset="1.0" 
     projectiles_per_shot="1" 

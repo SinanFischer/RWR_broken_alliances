@@ -12,7 +12,7 @@
   suppressed="1" 
   name="AAC Honey Badger" 
   class="0" 
-  projectile_speed="155.0" 
+  projectile_speed="205.0" 
   barrel_offset="0.4" 
   burst_shots="3"/>
 

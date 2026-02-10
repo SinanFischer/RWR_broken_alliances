@@ -12,7 +12,7 @@
     class="0" 
     reload_one_at_a_time="1" 
     sight_range_modifier="1.0" 
-    projectile_speed="100.0" 
+    projectile_speed="150.0" 
     projectiles_per_shot="6" />
 
     <animation key="recoil" ref="27" />

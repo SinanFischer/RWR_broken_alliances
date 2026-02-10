@@ -11,7 +11,7 @@
     suppressed="0" 
     name="Tank cannon" 
     class="0" 
-    projectile_speed="125.0" 
+    projectile_speed="175.0" 
     slot="2" 
     barrel_offset="2.0" 
     projectiles_per_shot="1" />

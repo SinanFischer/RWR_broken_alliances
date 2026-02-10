@@ -12,7 +12,7 @@
   name="XM8" 
   class="0" 
   sight_range_modifier="1.42"
-  projectile_speed="115.0" 
+  projectile_speed="165.0" 
   barrel_offset="0.4" />
 
     <animation key="recoil" ref="12" />

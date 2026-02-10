@@ -15,7 +15,7 @@
 	sight_range_modifier="1.0" 
 	name="M712 Schnellfeuer" 
 	class="0" 
-	projectile_speed="90.0"
+	projectile_speed="140.0"
 	barrel_offset="0"   
 	slot="1"   />
 

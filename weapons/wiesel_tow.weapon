@@ -12,7 +12,7 @@
     suppressed="0"
     name="TOW"
     class="0"
-    projectile_speed="40.0"
+    projectile_speed="90.0"
     slot="2"
     barrel_offset="2.0"
     projectiles_per_shot="1" />

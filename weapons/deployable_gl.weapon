@@ -11,7 +11,7 @@
     suppressed="0" 
     name="Grenade Launcher" 
     class="0" 
-    projectile_speed="138.0" 
+    projectile_speed="188.0" 
     slot="2" 
     barrel_offset="1.0" 
     projectiles_per_shot="1" 

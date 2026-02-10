@@ -15,7 +15,7 @@
   class="3" 
   reload_one_at_a_time="1" 
   sight_range_modifier="1.5" 
-  projectile_speed="75.0" 
+  projectile_speed="125.0" 
   slot="1" 
   projectiles_per_shot="1" />
 

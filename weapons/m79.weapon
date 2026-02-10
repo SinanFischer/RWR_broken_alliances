@@ -13,7 +13,7 @@
   name="m79 grenade launcher" 
   class="4" 
   slot="1"
-  projectile_speed="120.0" 
+  projectile_speed="170.0" 
   barrel_offset="0.3" 
   spread_range="0.05"/>
 

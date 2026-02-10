@@ -12,7 +12,7 @@
   name="Scorpion Evo III" 
   class="0" 
   slot="1"
-  projectile_speed="95.0" />
+  projectile_speed="144.0" />
   
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />

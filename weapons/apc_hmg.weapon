@@ -10,7 +10,7 @@
     suppressed="0" 
     name="APC HMG" 
     class="0" 
-    projectile_speed="77.0" 
+    projectile_speed="127.0" 
     slot="2" barrel_offset="0.5" 
     projectiles_per_shot="1" />
     <model mesh_filename="apc_cannon.mesh" texture_filename="apc.png" />

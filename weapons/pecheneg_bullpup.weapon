@@ -13,7 +13,7 @@
   suppressed="0" 
   name="Pecheneg Bullpup" 
   class="0" 
-  projectile_speed="108.0"
+  projectile_speed="158.0"
   sight_range_modifier="1.2"
   barrel_offset="0.6" />
     <animation key="recoil" ref="12" />

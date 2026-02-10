@@ -13,7 +13,7 @@
   name="MGL Flasher" 
   class="4"
   slot="1"  
-  projectile_speed="110.0" 
+  projectile_speed="160.0" 
   barrel_offset="1" 
   projectiles_per_shot="1"
   sight_range_modifier="1.1"

@@ -14,7 +14,7 @@
     suppressed="0" 
     name="Minigun" 
     class="0" 
-    projectile_speed="105.0" 
+    projectile_speed="155.0" 
     slot="2" 
     barrel_offset="1.0" 
     projectiles_per_shot="1" />

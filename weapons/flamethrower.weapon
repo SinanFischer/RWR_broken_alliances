@@ -16,7 +16,7 @@
 	class="0"
 	barrel_offset="0.35"
 	barrel_offset_3d="0 -0.1 0.35"
-	projectile_speed="140.0"
+	projectile_speed="190.0"
 	/>
 
 	<addon_model filename="backpack_fuel.xml" />

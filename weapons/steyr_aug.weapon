@@ -11,7 +11,7 @@
     suppressed="0" 
     name="Steyr AUG" 
     class="0" 
-    projectile_speed="120.0"
+    projectile_speed="170.0"
 	sight_range_modifier="1.3"
 	barrel_offset="0.325"
 	/>

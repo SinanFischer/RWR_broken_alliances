@@ -13,7 +13,7 @@
   suppressed="0" 
   name="M249 Para" 
   class="0" 
-  projectile_speed="92.0"
+  projectile_speed="142.0"
   barrel_offset="0.5" />
 
     <animation key="recoil" ref="12" />

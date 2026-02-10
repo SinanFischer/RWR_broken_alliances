@@ -18,7 +18,7 @@
 	suppressed="0"
 	name="Coastal Gun"
 	class="0"
-	projectile_speed="100.0"
+	projectile_speed="150.0"
 	slot="2"
 	barrel_offset="5.6"
 	barrel_offset_3d="0.2 2 5.6"

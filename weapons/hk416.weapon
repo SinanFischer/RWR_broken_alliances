@@ -13,7 +13,7 @@
   name="HK416" 
   class="0" 
   sight_range_modifier="1.0" 
-  projectile_speed="115.0"
+  projectile_speed="165.0"
   barrel_offset="0.5" />
 
     <animation key="recoil" ref="12" />
