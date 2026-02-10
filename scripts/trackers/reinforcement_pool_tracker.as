@@ -407,21 +407,39 @@ class ReinforcementPoolTracker : Tracker {
 		return "Spawn: AUS (" + secLeft + "s)";
 	}
 
-	// HUD: nur Lebend-Nachschub pro Fraktion in Fraktionsfarben. Karte: Spawn-Status inkl. Sekunden (AN/AUS).
+	// Kurz fuer HUD: nur "AN 30s" / "AUS 45s" (ohne "Spawn:").
+	string getSpawnStatusTextShort() {
+		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : SPAWN_WINDOW_CLOSED_DURATION;
+		int secLeft = int(duration - m_spawnWindowAccum);
+		if (secLeft < 0) secLeft = 0;
+		if (m_spawnWindowOpen) return "AN " + secLeft + "s";
+		return "AUS " + secLeft + "s";
+	}
+
+	// HUD: Zeile 0 = Spawn (kurz), Zeile 1..n = Lebend-Nachschub pro Fraktion. Karte: Spawn-Status wie bisher.
 	void updateScoreDisplay() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
 		string markerPos = m_statusMarkerPosition.length() > 0 ? m_statusMarkerPosition : STATUS_MARKER_POSITION;
 		string spawnStatus = getSpawnStatusText();
 
-		// HUD: nur Lebend-Nachschub pro Fraktion (kein Spawn-Status)
+		// HUD Zeile 0: Spawn-Status kurz (AN 30s / AUS 45s)
+		{
+			XmlElement cmd("command");
+			cmd.setStringAttribute("class", "update_score_display");
+			cmd.setIntAttribute("id", 0);
+			cmd.setStringAttribute("text", getSpawnStatusTextShort());
+			cmd.setStringAttribute("color", "#c0c0c0");
+			m_metagame.getComms().send(cmd);
+		}
+		// HUD Zeile 1..n: Lebend-Nachschub pro Fraktion
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			int alive = getAliveCountForFaction(factionId);
 			int pool = getPoolForFaction(factionId);
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
-			cmd.setIntAttribute("id", factionId);
+			cmd.setIntAttribute("id", factionId + 1);
 			cmd.setStringAttribute("text", alive + "-" + pool);
 			cmd.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
 			m_metagame.getComms().send(cmd);
