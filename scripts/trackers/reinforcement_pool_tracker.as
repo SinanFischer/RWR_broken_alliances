@@ -8,7 +8,7 @@
 
 const int REINFORCEMENT_POOL_INITIAL = 1000; // fallback value if no capacity is found in factions
 const int REINFORCEMENT_POOL_MULTIPLIER = 3;  // Start-Nachschub = 3x Startkapazitaet (max_soldiers)
-const int BASE_COUNT_BONUS_PER_BASE_LESS = 50; // Entschaedigung: +50 Nachschub pro Basis weniger als die Fraktion mit den meisten Basen
+const int BASE_COUNT_BONUS_PER_BASE_LESS = 30; // Entschaedigung: +30 Nachschub pro Basis weniger als die Fraktion mit den meisten Basen
 const float CAPACITY_SUM_TO_MAX_SOLDIERS_RATIO = 2.5f;  // Capacity-Summe = 2.5x max_soldiers (vorher 1.28x)
 // Eroberungs-Bonus pro eingenommene Basis (verdoppelt: 50/100/200).
 const int BASE_BONUS_DEFAULT = 50;   // Side/leicht (vorher 25)
@@ -65,6 +65,9 @@ const float BOOST_SPAWN_RATE_MULTIPLIER = 1.5f;
 const float BOOST_CHANCE_ON_WINDOW_OPEN = 0.25f;
 // Capacity-Nerf: Fraktionen mit ueberdurchschnittlicher soldier_capacity (mehr Basen) bekommen Multiplikator < 1, um 7-Basen-200-Truppen vs 1-Basis-40-Truppen abzumildern.
 const float CAPACITY_NERF_ABOVE_AVG = 0.8f;
+// Max Verhaeltnis staerkste zu schwaechster Fraktion: 60% / 40% = 1.5 (Cap auf dem Schlachtfeld, nicht Nachschub).
+// Bsp. max 300: A (7 Basen) = 180, B (1 Basis) = 120. Hat B keinen Nachschub mehr, hat B z. B. nur 40 Truppen; A darf seine 60% (180) auffuellen, Bs freie Cap wird nicht an A uebertragen.
+const float CAPACITY_MAX_VS_MIN_RATIO = 1.5f;
 // Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
@@ -1002,7 +1005,7 @@ class ReinforcementPoolTracker : Tracker {
 	}
 
 	// Spawn-Fenster umschalten. grossangriff=true: 30 s mit verdoppelter Kapazität (2x). Attack-Boost (Surge): 1.2x Cap, 1.5x Spawn-Rate.
-	// Capacity-Nerf: Fraktionen mit ueberdurchschnittlicher soldier_capacity (mehr Basen) bekommen 0.9x, damit 7 Basen/200 Truppen vs 1 Basis/40 nicht so krass ist.
+	// Capacity-Nerf: ueberdurchschnittliche Fraktion 0.8x. Zusaetzlich: max Verhaeltnis staerkste/schwaechste = 60/40 (1.5), damit z. B. 7 vs 1 Basis nicht 250 vs 50 ergibt.
 	void applySpawnWindowState(bool open, bool grossangriff = false) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
@@ -1011,12 +1014,17 @@ class ReinforcementPoolTracker : Tracker {
 			sumCapacity += factions[i].getIntAttribute("soldier_capacity");
 		float avgCapacity = factions.size() > 0 ? float(sumCapacity) / float(factions.size()) : 0.0f;
 
-		XmlElement command("command");
-		command.setStringAttribute("class", "change_game_settings");
+		// 1. Pass: capMult und effective Capacity pro Fraktion; Minimum unter spawnberechtigten ermitteln
+		float minEffective = 0.0f;
+		bool minEffectiveSet = false;
+		dictionary capMultByFid;
+		dictionary spawnIntervalByFid;
+		dictionary effectiveByFid;
+		dictionary canSpawnByFid;
 		for (uint i = 0; i < factions.size(); ++i) {
 			int fid = int(i);
-			XmlElement faction("faction");
 			bool canSpawn = open && getPoolForFaction(fid) > 0 && !isSpawnDisabled(fid);
+			int rawCap = factions[i].getIntAttribute("soldier_capacity");
 			float capMultBase = (open && grossangriff) ? GROSSANGRIFF_CAPACITY_MULTIPLIER : 1.0f;
 			float capMult = capMultBase;
 			float spawnInterval = 0.2f;
@@ -1024,9 +1032,43 @@ class ReinforcementPoolTracker : Tracker {
 				capMult = capMultBase * BOOST_CAPACITY_MULTIPLIER;
 				spawnInterval = 0.2f / BOOST_SPAWN_RATE_MULTIPLIER;
 			}
-			// Nerf: ueberdurchschnittliche Capacity (mehr Basen) -> 0.9x
-			if (canSpawn && avgCapacity > 0.0f && float(factions[i].getIntAttribute("soldier_capacity")) > avgCapacity)
+			if (canSpawn && avgCapacity > 0.0f && float(rawCap) > avgCapacity)
 				capMult *= CAPACITY_NERF_ABOVE_AVG;
+			float effective = float(rawCap) * capMult;
+			capMultByFid["f" + fid] = capMult;
+			spawnIntervalByFid["f" + fid] = spawnInterval;
+			effectiveByFid["f" + fid] = effective;
+			canSpawnByFid["f" + fid] = canSpawn ? 1 : 0;
+			if (canSpawn && effective > 0.0f) {
+				if (!minEffectiveSet || effective < minEffective) {
+					minEffective = effective;
+					minEffectiveSet = true;
+				}
+			}
+		}
+		// 2. Pass: Staerkere Fraktionen auf max 60/40 (1.5x der schwaechsten) begrenzen
+		float maxAllowed = minEffectiveSet && minEffective > 0.0f ? CAPACITY_MAX_VS_MIN_RATIO * minEffective : 0.0f;
+		for (uint i = 0; i < factions.size(); ++i) {
+			int fid = int(i);
+			string key = "f" + fid;
+			bool canSpawn = (int(canSpawnByFid[key]) != 0);
+			float effective = float(effectiveByFid[key]);
+			float capMult = float(capMultByFid[key]);
+			int rawCap = factions[i].getIntAttribute("soldier_capacity");
+			if (canSpawn && maxAllowed > 0.0f && rawCap > 0 && effective > maxAllowed)
+				capMult = maxAllowed / float(rawCap);
+			capMultByFid[key] = capMult;
+		}
+		// 3. Pass: Engine-Command bauen
+		XmlElement command("command");
+		command.setStringAttribute("class", "change_game_settings");
+		for (uint i = 0; i < factions.size(); ++i) {
+			int fid = int(i);
+			string key = "f" + fid;
+			bool canSpawn = (int(canSpawnByFid[key]) != 0);
+			float capMult = float(capMultByFid[key]);
+			float spawnInterval = float(spawnIntervalByFid[key]);
+			XmlElement faction("faction");
 			faction.setFloatAttribute("capacity_multiplier", canSpawn ? capMult : CAPACITY_MULTIPLIER_NEAR_ZERO);
 			if (canSpawn) faction.setFloatAttribute("spawn_interval", spawnInterval);
 			command.appendChild(faction);
