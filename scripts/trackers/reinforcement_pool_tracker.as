@@ -539,6 +539,24 @@ class ReinforcementPoolTracker : Tracker {
 		return "0.5 0.5 0.5";
 	}
 
+	// Anzeigename 100% dynamisch aus Faction-XML: Abkuerzung = erste Buchstaben der Woerter (name), sonst key, sonst F+id.
+	string getFactionDisplayName(const XmlElement@ faction, int factionId) {
+		if (faction is null) return "F" + factionId;
+		string name = faction.getStringAttribute("name");
+		if (name.length() > 0) {
+			array<string>@ words = name.split(" ");
+			string abbr = "";
+			for (uint w = 0; w < words.size() && abbr.length() < 3; ++w) {
+				string word = words[w];
+				if (word.length() > 0) abbr += word.substr(0, 1);
+			}
+			if (abbr.length() >= 1) return abbr;
+		}
+		string key = faction.getStringAttribute("key");
+		if (key.length() > 0) return key.length() >= 2 ? key.substr(0, 2) : key.substr(0, 1);
+		return "F" + factionId;
+	}
+
 	// Zählt lebende Charaktere einer Fraktion. Die characters-Query liefert keine "dead"-Attribute (→ Log-Warnung), daher: zurückgegebene Anzahl = lebend.
 	int getAliveCountForFaction(int factionId) {
 		array<const XmlElement@>@ chars = getCharacters(m_metagame, factionId);
@@ -575,6 +593,7 @@ class ReinforcementPoolTracker : Tracker {
 			int factionId = int(i);
 			int alive = getAliveCountForFaction(factionId);
 			string lineText = (factionId == 0) ? (spawnText + "  " + alive) : ("" + alive);
+			if (getBoostActive(factionId)) lineText += " [Surge]";
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
 			cmd.setIntAttribute("id", factionId);
@@ -582,26 +601,26 @@ class ReinforcementPoolTracker : Tracker {
 			cmd.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
 			m_metagame.getComms().send(cmd);
 		}
-		// Karte: 1 Marker pro Fraktion, gleiche Position = 3 (bzw. 2) farbige Kreuze uebereinander; jeder mit Nachschub-Text + Fraktionsfarbe.
+		// Karte: ein gemeinsamer Marker mit allen Nachschub-Zahlen (EU, UN, RU).
+		string markerText = "";
 		for (uint i = 0; i < factions.size(); ++i) {
-			int factionId = int(i);
-			int pool = getPoolForFaction(factionId);
-			string markerText = "F" + factionId + ": " + pool;
-			XmlElement m("command");
-			m.setStringAttribute("class", "set_marker");
-			m.setIntAttribute("id", STATUS_MARKER_ID_BASE + factionId);
-			m.setIntAttribute("faction_id", factionId);
-			m.setIntAttribute("atlas_index", 0);
-			m.setStringAttribute("position", markerPos);
-			m.setStringAttribute("text", markerText);
-			m.setStringAttribute("color", getScoreDisplayColor(factions[factionId], factionId));
-			m.setFloatAttribute("size", 0.75f);
-			m.setBoolAttribute("enabled", true);
-			m.setBoolAttribute("show_in_map_view", true);
-			m.setBoolAttribute("show_in_game_view", false);
-			m.setBoolAttribute("show_at_screen_edge", false);
-			m_metagame.getComms().send(m);
+			if (i > 0) markerText += "  ";
+			markerText += getFactionDisplayName(factions[i], int(i)) + ": " + getPoolForFaction(int(i));
 		}
+		XmlElement m("command");
+		m.setStringAttribute("class", "set_marker");
+		m.setIntAttribute("id", STATUS_MARKER_ID_BASE);
+		m.setIntAttribute("faction_id", 0);
+		m.setIntAttribute("atlas_index", 0);
+		m.setStringAttribute("position", markerPos);
+		m.setStringAttribute("text", markerText);
+		m.setStringAttribute("color", getScoreDisplayColor(factions[0], 0));
+		m.setFloatAttribute("size", 0.75f);
+		m.setBoolAttribute("enabled", true);
+		m.setBoolAttribute("show_in_map_view", true);
+		m.setBoolAttribute("show_in_game_view", false);
+		m.setBoolAttribute("show_at_screen_edge", false);
+		m_metagame.getComms().send(m);
 	}
 
 	void saveToSavegame() {
@@ -919,14 +938,22 @@ class ReinforcementPoolTracker : Tracker {
 		updateScoreDisplay();
 	}
 
-	// Chat-Command /nachschub oder /pool: Ausgabe pro Fraktion = Verbleibend (Nachschub), Tote, Lebende (aktuelle Charakteranzahl).
+	// Chat-Command /nachschub oder /pool: sofort ausfuehren, Pools bei Bedarf initialisieren. Ausgabe mit dynamischen Fraktionskuerzeln.
 	protected void handleChatEvent(const XmlElement@ event) {
 		string message = event.getStringAttribute("message");
 		if (!startsWith(message, "/")) return;
 		if (!checkCommand(message, "nachschub") && !checkCommand(message, "pool")) return;
 
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		if (factions.size() == 0) return;
+		if (factions is null || factions.size() == 0) {
+			XmlElement cmd("command");
+			cmd.setStringAttribute("class", "chat");
+			cmd.setStringAttribute("text", "Reinforcements: no faction data yet. Try again in a moment.");
+			m_metagame.getComms().send(cmd);
+			return;
+		}
+		// Pools sofort verfuegbar machen (getPoolForFactionFloat initialisiert bei Bedarf)
+		getInitialPoolValue();
 
 		string line = "Reinforcements | ";
 		for (uint i = 0; i < factions.size(); ++i) {
@@ -934,9 +961,9 @@ class ReinforcementPoolTracker : Tracker {
 			int pool = getPoolForFaction(factionId);
 			int dead = getDeathsForFaction(factionId);
 			array<const XmlElement@>@ chars = getCharacters(m_metagame, factionId);
-			int alive = int(chars.size());
+			int alive = (chars is null) ? 0 : int(chars.size());
 			if (i > 0) line += " | ";
-			line += "F" + factionId + ": " + pool + " left, " + dead + " dead, " + alive + " alive";
+			line += getFactionDisplayName(factions[factionId], factionId) + ": " + pool + " left, " + dead + " dead, " + alive + " alive";
 		}
 		XmlElement cmd("command");
 		cmd.setStringAttribute("class", "chat");
