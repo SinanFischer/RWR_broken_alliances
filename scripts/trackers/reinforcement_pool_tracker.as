@@ -17,6 +17,13 @@ const int DEFENDER_BONUS_SIDE = 2;
 const int DEFENDER_BONUS_MEDIUM = 4;
 const int DEFENDER_BONUS_STRONG = 6;
 const float FOLLOWUP_MESSAGE_DELAY = 4.0f;
+// Basis-Verlust: Nachschub-Penalty zufällig nach Kategorie (Side/Medium/Strong = getBaseBonus 25/50/100).
+const int LOSS_PENALTY_SIDE_MIN = 10;
+const int LOSS_PENALTY_SIDE_MAX = 25;
+const int LOSS_PENALTY_MEDIUM_MIN = 25;
+const int LOSS_PENALTY_MEDIUM_MAX = 50;
+const int LOSS_PENALTY_STRONG_MIN = 50;
+const int LOSS_PENALTY_STRONG_MAX = 100;
 // Fahrzeug-Verlust: Angreifer (Besitzer) verliert Nachschub – Ausgleich wenn Panzer/APC alles niedermähen.
 const int VEHICLE_PENALTY_TANK_BIG = 10;   // tank_1, tank_2: 5–15, hier Mittelwert 10 (Variante: rand(5,15))
 const int VEHICLE_PENALTY_TANK = 7;        // tank (ohne _1/_2)
@@ -301,9 +308,15 @@ class ReinforcementPoolTracker : Tracker {
 		if (baseName.length() == 0 && base !is null) baseName = base.getStringAttribute("key");
 		if (baseName.length() == 0) baseName = "sector";
 
-		// Verlierer bestrafen + Commander-Meldung: Nachschub um die Hälfte des Eroberungs-Bonus verringern.
+		// Verlierer bestrafen: Nachschub-Verlust zufällig nach Basis-Kategorie (Side -10 bis -25, Medium -25 bis -50, Strong -50 bis -100).
 		if (previousOwnerId >= 0) {
-			int penalty = bonus / 2;
+			int penalty = 0;
+			if (bonus >= BASE_BONUS_STRONG)
+				penalty = rand(LOSS_PENALTY_STRONG_MIN, LOSS_PENALTY_STRONG_MAX);
+			else if (bonus >= BASE_BONUS_MEDIUM)
+				penalty = rand(LOSS_PENALTY_MEDIUM_MIN, LOSS_PENALTY_MEDIUM_MAX);
+			else
+				penalty = rand(LOSS_PENALTY_SIDE_MIN, LOSS_PENALTY_SIDE_MAX);
 			if (penalty > 0) {
 				int pool = getPoolForFaction(previousOwnerId);
 				int newPool = pool - penalty;
