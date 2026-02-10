@@ -30,6 +30,10 @@ const int VEHICLE_PENALTY_TANK = 7;        // tank (ohne _1/_2)
 const int VEHICLE_PENALTY_VULCAN = 5;
 const int VEHICLE_PENALTY_APC = 4;
 const int VEHICLE_PENALTY_WIESEL = 3;
+// Savegame: Nachschub-Werte speichern/laden (save_data/saved_data), damit sie bei Rejoin/Continue erhalten bleiben.
+const string REINFORCEMENT_POOL_SAVE_FILENAME = "reinforcement_pool.xml";
+const string REINFORCEMENT_POOL_SAVE_LOCATION = "savegame";  // "savegame" = pro Savegame; falls nicht unterstützt: "app_data"
+const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speichern
 
 // Verzögerte Commander-Anschlussmeldung (4 s nach Hauptmeldung)
 class PendingFollowUp {
@@ -58,6 +62,8 @@ class ReinforcementPoolTracker : Tracker {
 	protected float m_defenderAccum = 0.0f;
 	protected array<int> m_thresholds;
 	protected array<PendingFollowUp@> m_pendingFollowUps;
+	protected float m_saveTimer = 0.0f;
+	protected bool m_loadedFromSave = false;
 
 	ReinforcementPoolTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -71,6 +77,10 @@ class ReinforcementPoolTracker : Tracker {
 		m_thresholds.insertLast(300);
 		m_thresholds.insertLast(100);
 		m_thresholds.insertLast(10);
+	}
+
+	void start() {
+		loadFromSavegame();
 	}
 
 	bool hasEnded() const { return false; }
@@ -211,6 +221,12 @@ class ReinforcementPoolTracker : Tracker {
 			}
 		}
 		if (poolChanged) updateScoreDisplay();
+
+		m_saveTimer -= time;
+		if (m_saveTimer <= 0.0f) {
+			saveToSavegame();
+			m_saveTimer = REINFORCEMENT_POOL_SAVE_INTERVAL;
+		}
 	}
 
 	// Feste Farben pro Slot, damit die Engine sie zuverlässig anzeigt. Slot 0 = Grün (meist eigene Fraktion), 1 = Rot, 2 = Orange.
@@ -235,6 +251,55 @@ class ReinforcementPoolTracker : Tracker {
 			cmd.setStringAttribute("color", getScoreDisplayColor(factionId));
 			m_metagame.getComms().send(cmd);
 		}
+	}
+
+	void saveToSavegame() {
+		XmlElement root("reinforcement_pool");
+		root.setIntAttribute("initial_pool_value", m_initialPoolValue >= 0 ? m_initialPoolValue : getInitialPoolValue());
+		root.setIntAttribute("initial_announce_done", m_initialAnnounceDone ? 1 : 0);
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		for (uint i = 0; i < factions.size(); ++i) {
+			int fid = int(i);
+			XmlElement fe("faction");
+			fe.setIntAttribute("id", fid);
+			fe.setIntAttribute("pool", getPoolForFaction(fid));
+			fe.setIntAttribute("deaths", getDeathsForFaction(fid));
+			fe.setIntAttribute("spawn_disabled", isSpawnDisabled(fid) ? 1 : 0);
+			root.appendChild(fe);
+		}
+		XmlElement command("command");
+		command.setStringAttribute("class", "save_data");
+		command.setStringAttribute("filename", REINFORCEMENT_POOL_SAVE_FILENAME);
+		command.setStringAttribute("location", REINFORCEMENT_POOL_SAVE_LOCATION);
+		command.appendChild(root);
+		m_metagame.getComms().send(command);
+		_log("ReinforcementPool: gespeichert (Pool/Deaths/Spawn pro Faction).", 1);
+	}
+
+	void loadFromSavegame() {
+		XmlElement@ query = XmlElement(
+			makeQuery(m_metagame, array<dictionary> = {
+				dictionary = { {"TagName", "data"}, {"class", "saved_data"}, {"filename", REINFORCEMENT_POOL_SAVE_FILENAME}, {"location", REINFORCEMENT_POOL_SAVE_LOCATION} } }));
+		const XmlElement@ doc = m_metagame.getComms().query(query);
+		if (doc is null) return;
+		const XmlElement@ root = doc.getFirstChild();
+		if (root is null || root.getName() != "reinforcement_pool") return;
+		m_initialPoolValue = root.getIntAttribute("initial_pool_value");
+		m_initialAnnounceDone = root.getIntAttribute("initial_announce_done") != 0;
+		array<const XmlElement@>@ factionNodes = root.getElementsByTagName("faction");
+		for (uint i = 0; i < factionNodes.size(); ++i) {
+			const XmlElement@ fe = factionNodes[i];
+			int fid = fe.getIntAttribute("id");
+			int pool = fe.getIntAttribute("pool");
+			int deaths = fe.getIntAttribute("deaths");
+			bool spawnOff = fe.getIntAttribute("spawn_disabled") != 0;
+			setPoolForFaction(fid, pool);
+			m_deaths[factionKey(fid)] = deaths;
+			if (spawnOff) m_spawnDisabled[factionKey(fid)] = true;
+		}
+		m_loadedFromSave = true;
+		updateScoreDisplay();
+		_log("ReinforcementPool: geladen aus Savegame (Pool/Deaths/Spawn pro Faction).", 0);
 	}
 
 	string factionKey(int factionId) { return "" + factionId; }
