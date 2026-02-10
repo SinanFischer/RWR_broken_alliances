@@ -48,6 +48,8 @@ const float SPAWN_CLOSED_MAX = 192.0f;    // 180 + 12
 // Großangriff: nach 4 normalen Zyklen 30 s Spawn mit verdoppelter Kapazität + Commander-Meldung
 const int GROSSANGRIFF_CYCLES = 4;
 const float GROSSANGRIFF_CAPACITY_MULTIPLIER = 2.0f;
+// Statt 0: minimaler Multiplikator, damit die Engine die Fraktion nicht als „tot“ behandelt (Capture-Timer bleibt gültig).
+const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f;
 // Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
@@ -402,7 +404,7 @@ class ReinforcementPoolTracker : Tracker {
 			m_baseValueMarkersPlaced = true;
 		}
 
-		// Verteidiger-Bonus: alle 2 Min +2/+4/+6 Nachschub pro gehaltener Basis
+		// Verteidiger-Bonus: alle 2 Min +2/+4/+6 Nachschub pro gehaltener Basis. Bei Pool 0→>0 Spawn wieder aktivieren.
 		if (m_defenderAccum >= DEFENDER_BONUS_INTERVAL) {
 			m_defenderAccum = 0.0f;
 			for (uint i = 0; i < bases.size(); ++i) {
@@ -414,8 +416,11 @@ class ReinforcementPoolTracker : Tracker {
 				int defenderAdd = getDefenderBonusPerMinute(bonusCat);
 				if (defenderAdd > 0) {
 					int pool = getPoolForFaction(ownerId);
-					setPoolForFaction(ownerId, pool + defenderAdd);
+					int newPool = pool + defenderAdd;
+					setPoolForFaction(ownerId, newPool);
 					poolChanged = true;
+					if (pool <= 0 && newPool > 0 && isSpawnDisabled(ownerId))
+						enableSpawnForFaction(ownerId);
 					_log("ReinforcementPool: Verteidiger-Bonus Base " + baseId + " +" + defenderAdd + " -> Faction " + ownerId, 1);
 				}
 			}
@@ -453,17 +458,17 @@ class ReinforcementPoolTracker : Tracker {
 		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : getSpawnClosedDuration();
 		int secLeft = int(duration - m_spawnWindowAccum);
 		if (secLeft < 0) secLeft = 0;
-		if (m_grossangriffActive) return "Spawn: Großangriff (" + secLeft + "s)";
+		if (m_grossangriffActive) return "Spawn: MajorAttack (" + secLeft + "s)";
 		if (m_spawnWindowOpen) return "Spawn: AN (" + secLeft + "s)";
 		return "Spawn: AUS (" + secLeft + "s)";
 	}
 
-	// Kurz fuer HUD: nur "AN 30s" / "AUS 45s" / "Großangriff 30s" (ohne "Spawn:").
+	// Kurz fuer HUD: nur "AN 30s" / "AUS 45s" / "MajorAttack 30s" (ohne "Spawn:").
 	string getSpawnStatusTextShort() {
 		float duration = m_spawnWindowOpen ? SPAWN_WINDOW_OPEN_DURATION : getSpawnClosedDuration();
 		int secLeft = int(duration - m_spawnWindowAccum);
 		if (secLeft < 0) secLeft = 0;
-		if (m_grossangriffActive) return "Großangriff " + secLeft + "s";
+		if (m_grossangriffActive) return "MajorAttack " + secLeft + "s";
 		if (m_spawnWindowOpen) return "AN " + secLeft + "s";
 		return "AUS " + secLeft + "s";
 	}
@@ -552,6 +557,12 @@ class ReinforcementPoolTracker : Tracker {
 			setPoolForFaction(fid, pool);
 			m_deaths[factionKey(fid)] = deaths;
 			if (spawnOff) m_spawnDisabled[factionKey(fid)] = true;
+		}
+		// Nachschub wieder da nach Load → Spawn-Flag löschen, damit applySpawnWindowState (in update) sie wieder aktiviert
+		for (uint i = 0; i < factionNodes.size(); ++i) {
+			int fid = factionNodes[i].getIntAttribute("id");
+			int pool = getPoolForFaction(fid);
+			if (pool > 0 && isSpawnDisabled(fid)) clearSpawnDisabled(fid);
 		}
 		m_loadedFromSave = true;
 		updateScoreDisplay();
@@ -683,28 +694,7 @@ class ReinforcementPoolTracker : Tracker {
 			}
 		}
 
-		// Fallback-Siegesbedingung: Wenn die Engine kein match_result sendet (z. B. Quick Match), bei „alle Basen einer Fraktion“ selbst set_match_status senden.
-		if (newOwnerId >= 0 && bases !is null) {
-			int totalOwned = 0;
-			int ownedByWinner = 0;
-			for (uint i = 0; i < bases.size(); ++i) {
-				int oid = bases[i].getIntAttribute("owner_id");
-				if (oid >= 0) {
-					totalOwned++;
-					if (oid == newOwnerId) ownedByWinner++;
-				}
-			}
-			if (totalOwned > 0 && totalOwned == ownedByWinner) {
-				_log("ReinforcementPool: Alle Basen bei Faction " + newOwnerId + " – setze Sieg (set_match_status).", 0);
-				array<const XmlElement@>@ factions = getFactions(m_metagame);
-				for (uint i = 0; i < factions.size(); ++i) {
-					int fid = int(i);
-					if (fid != newOwnerId)
-						m_metagame.getComms().send("<command class='set_match_status' lose='1' faction_id='" + fid + "' />");
-				}
-				m_metagame.getComms().send("<command class='set_match_status' win='1' faction_id='" + newOwnerId + "' />");
-			}
-		}
+		// Kein set_match_status: Win/Lose bleibt der Engine oder dem Gamemode überlassen (bei Nachschub 0 überrennt man ohnehin).
 	}
 
 	// Fahrzeug zerstört: Besitzer (owner_id) verliert Nachschub. Zerstörer-Fraktion (faction_id) bekommt Meldung „We destroyed X.“ (gleicher Kanal wie Commander/Chat, oft oben rechts).
@@ -797,13 +787,13 @@ class ReinforcementPoolTracker : Tracker {
 			int fid = int(i);
 			XmlElement faction("faction");
 			bool canSpawn = open && getPoolForFaction(fid) > 0 && !isSpawnDisabled(fid);
-			faction.setFloatAttribute("capacity_multiplier", canSpawn ? capMult : 0.0f);
+			faction.setFloatAttribute("capacity_multiplier", canSpawn ? capMult : CAPACITY_MULTIPLIER_NEAR_ZERO);
 			if (canSpawn) faction.setFloatAttribute("spawn_interval", 0.25f);
 			command.appendChild(faction);
 		}
 		m_metagame.getComms().send(command);
 		if (grossangriff && open)
-			_log("ReinforcementPool: Großangriff – Spawn 30 s mit 2x Kapazität.", 0);
+			_log("ReinforcementPool: MajorAttack – Spawn 30 s mit 2x Kapazität.", 0);
 		else
 			_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN (4x)" : "AUS") + ".", 0);
 	}
