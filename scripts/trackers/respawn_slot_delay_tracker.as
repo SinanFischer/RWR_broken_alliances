@@ -17,7 +17,7 @@ const float RESPAWN_SLOT_DELAY = 10.0f;   // Basis-Sekunden, die der Slot nach e
 const float ALIVE_CHECK_INTERVAL = 15.0f; // Alle 15 s: Alive-Zahlen prüfen, Extra-Verzögerung pro Fraktion setzen
 const int   TROOPS_PER_EXTRA_BLOCK = 25;  // Alle 25 Truppen Vorsprung …
 const float EXTRA_SECONDS_PER_BLOCK = 4.0f; // … = 2 Sekunden länger Slot-Delay
-// Slots per Death: >=350→6, >=300→5, >=250→4, >=200→3, >=100→2, sonst 1 (getSlotsPerDeathForCapacity).
+// Slots per Death: <70→1, 70-120→2, 121-200→3, 201-250→4, 251-299→5, >=300→6; Führer +2 (getSlotsPerDeathForCapacity).
 const float APPLY_INTERVAL = 1.0f;        // Alle 1 s an Engine senden (genauerer Delay-Effekt)
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f;  // Min-Mult, damit Engine Fraktion nicht als „tot“ sieht
 //
@@ -34,6 +34,7 @@ class RespawnSlotDelayTracker : Tracker {
 	protected dictionary m_deathTimestamps;   // key = factionId, value = "t1,t2,t3"
 	protected dictionary m_pendingDeaths;     // key = factionId, value = Anzahl (im nächsten update zeitstempeln)
 	protected dictionary m_extraDelaySeconds;  // key = factionId, value = float (extra Sekunden Slot-Delay bei Truppenüberlegenheit)
+	protected int m_leaderFactionId = -1;    // Fraktion mit den meisten Alive (alle 15 s); erhält +2 Slots pro Tod
 
 	RespawnSlotDelayTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -81,6 +82,7 @@ class RespawnSlotDelayTracker : Tracker {
 			else if (n > second) second = n;
 		}
 		if (factions.size() == 1) second = first; // Kein „Zweiter“ → kein Extra-Delay für die einzige Fraktion
+		m_leaderFactionId = -1;
 		for (uint i = 0; i < factions.size(); ++i) {
 			string key = "" + int(i);
 			int alive = aliveCounts[i];
@@ -88,6 +90,8 @@ class RespawnSlotDelayTracker : Tracker {
 			if (alive > second)
 				extra = float((alive - second) / TROOPS_PER_EXTRA_BLOCK) * EXTRA_SECONDS_PER_BLOCK;
 			m_extraDelaySeconds[key] = extra;
+			if (alive == first && m_leaderFactionId < 0)
+				m_leaderFactionId = int(i); // Erste Fraktion mit max Alive = Führer (+2 Slots pro Tod)
 		}
 	}
 
@@ -104,15 +108,14 @@ class RespawnSlotDelayTracker : Tracker {
 		m_pendingDeaths[key] = v + 1;
 	}
 
-	// Slots pro Tod abhängig von der **eigenen** Capacity der sterbenden Fraktion (nicht Gesamt-Cap).
-	// Starke Fraktion verliert mehr pro Tod → natürliche Penalty; Underdog kann den Führenden stark ausbluten.
-	// >=350→6, >=300→5, >=250→4, >=200→3, >=100→2, sonst 1.
+	// Slots pro Tod (Basis) nach eigener Capacity: <70→1, 70-120→2, 121-200→3, 201-250→4, 251-299→5, >=300→6.
+	// Führer-Bonus (+2) wird in flushPendingDeaths() addiert.
 	int getSlotsPerDeathForCapacity(int factionCap) {
-		if (factionCap >= 350) return 6;
-		if (factionCap >= 300) return 5;
-		if (factionCap >= 250) return 4;
-		if (factionCap >= 200) return 3;
-		if (factionCap >= 100) return 2;
+		if (factionCap >= 300) return 6;
+		if (factionCap >= 251) return 5;
+		if (factionCap >= 201) return 4;
+		if (factionCap >= 121) return 3;
+		if (factionCap >= 70) return 2;
 		return 1;
 	}
 
@@ -128,6 +131,7 @@ class RespawnSlotDelayTracker : Tracker {
 			int rawCap = factions[fid].getIntAttribute("soldier_capacity");
 			if (rawCap < 0) rawCap = 0;
 			int slotsPerDeath = getSlotsPerDeathForCapacity(rawCap);
+			if (fid == m_leaderFactionId) slotsPerDeath += 2; // Führer verliert 2 Slots mehr pro Tod
 			string ts = "";
 			if (m_deathTimestamps.exists(key)) ts = string(m_deathTimestamps[key]);
 			for (int j = 0; j < n; ++j) {
