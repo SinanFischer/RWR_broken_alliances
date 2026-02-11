@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Nur für Default-Soldaten: Slot-1-Pool = nur vest_default, damit 25% Wahrscheinlichkeit
-     (item_class_existence probability 0.25) genau 25% Verletzung bei erstem Treffer ergibt.
+<!-- Nur für Default-Soldaten: Slot-1-Pool = nur vest_default. Jeder bekommt diese Weste
+     (item_class_existence probability 1.0). Erster tödlicher Treffer → wounded (Medic nötig), danach kein Schutz.
      Muss NACH common.resources geladen werden (z. B. als letzte Resource in default/default_ai). -->
 <resources clear_carry_items="1">
 	<carry_item key="vest_default.carry_item" />

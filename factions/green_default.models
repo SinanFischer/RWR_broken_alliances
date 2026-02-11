@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <models>
+	<!-- Default-Weste (1 Hit → wounded, dann Medic) -->
+	<model filename="soldier_a1_vest.xml">
+		<requirement class="carry_item" slot="1" key="vest_default.carry_item"/>
+		<requirement class="rank" range="0 100" />
+	</model>
+	<model filename="soldier_a1_vest.xml">
+		<requirement class="carry_item" slot="1" key="vest_default_used"/>
+		<requirement class="rank" range="0 100" />
+	</model>
+
 	<!-- -------------------------- -->
 	<model filename="soldier_a1_vest.xml">
 		<requirement class="carry_item" slot="1" key="vest3.carry_item"/>

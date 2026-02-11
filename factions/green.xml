@@ -74,8 +74,8 @@
 		<item_class_existence_config>
 			<!-- secondaries -->
 			<item_class_existence class="weapon" slot="1" probability="0.4" />
-			<!-- wearables: 25% Default-Weste (Verletzung bei erstem Treffer, dann Medic) -->
-			<item_class_existence class="carry_item" slot="1" probability="0.25" />
+			<!-- wearables: 100% Default-Weste (Verletzung bei erstem Treffer, dann Medic) -->
+			<item_class_existence class="carry_item" slot="1" probability="1.0" />
 			<!-- backpack -->
 			<item_class_existence class="carry_item" slot="0" probability="0.03" />
 			<!-- throwable slot: geringe Chance auf Jackal/VFS-Flare -->
@@ -110,8 +110,8 @@
 		<item_class_existence_config>
 			<!-- secondaries -->
 			<item_class_existence class="weapon" slot="1" probability="0.4" />
-			<!-- wearables: 25% Default-Weste (Verletzung bei erstem Treffer, dann Medic) -->
-			<item_class_existence class="carry_item" slot="1" probability="0.25" />
+			<!-- wearables: 100% Default-Weste (Verletzung bei erstem Treffer, dann Medic) -->
+			<item_class_existence class="carry_item" slot="1" probability="1.0" />
 			<!-- backpack -->
 			<item_class_existence class="carry_item" slot="0" probability="0.03" />
 			<!-- throwable slot: geringe Chance auf Jackal/VFS-Flare -->

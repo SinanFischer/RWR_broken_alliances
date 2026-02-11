@@ -10,7 +10,8 @@
 	<carry_item file="comic_book.carry_item" />
 	<carry_item file="rwr_handbook.carry_item" />
 	<carry_item file="oscar_statue.carry_item" />
-	<carry_item file="vest2.carry_item" /> 
+	<carry_item file="vest2.carry_item" />
+	<carry_item file="vest_default.carry_item" />
 
 	<carry_item file="cigars.carry_item" />
 	<carry_item file="beer_can.carry_item" />
