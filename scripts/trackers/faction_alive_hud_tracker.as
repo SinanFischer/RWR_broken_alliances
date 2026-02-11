@@ -7,7 +7,7 @@
 #include "query_helpers.as"
 
 const float HUD_UPDATE_THROTTLE = 0.5f;  // Anzeige max. 2x/s aktualisieren (getCharacters ist Engine-Query)
-const float AREA_RADIUS = 100.0f;        // Radius um Spielerposition für "Alive in Area" (Meter)
+const float AREA_RADIUS = 150.0f;        // Radius um Spielerposition für "Alive in Area" (Meter)
 const bool USE_AREA_COUNT = true;        // true = nur Soldaten in Spieler-Area zählen, false = global wie bisher
 
 class FactionAliveHudTracker : Tracker {

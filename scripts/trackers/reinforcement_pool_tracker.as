@@ -1,7 +1,17 @@
+// =============================================================================
+// *** INAKTIV – DIESER TRACKER WIRD NICHT GENUTZT ***
+// Der ReinforcementPoolTracker ist in allen Gamemodes auskommentiert und wird
+// nirgends eingebunden (gamemode_invasion.as, gamemode_quick_match.as, my_gamemode.as).
+// Die Logik in dieser Datei hat aktuell keine Wirkung im Spiel.
+// =============================================================================
+//
 // Reinforcement-Pool-Tracker: Nachschub begrenzt pro Fraktion; bei 0 kein Spawn mehr.
 // Pool-Abzug bei jedem Tod (character_die, inkl. Artillerie/Umwelt), nicht bei Spawn.
 // Eroberungs-Bonus: sofort voll (25/50/100) – kein 5-Min-Puffer mehr.
 // Haltungsbonus: nur während Spawn AUS alle 10 s pro Basis in Akkumulator (Side 0.2, Outpost 0.4, HQ 1.0); beim Öffnen (AUS→AN) in Pool + Commander-Meldung. Pool mit Kommarest (z. B. 15.2 → 15 ausgeben, 0.2 bleibt).
+
+// =============================================================================
+//
 #include "tracker.as"
 #include "log.as"
 #include "query_helpers.as"
