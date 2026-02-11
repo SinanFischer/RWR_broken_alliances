@@ -16,7 +16,7 @@ const float RESPAWN_SLOT_DELAY = 10.0f;   // Basis-Sekunden, die der Slot nach e
 // Pro 25 Truppen Vorsprung gegenüber der zweitstärksten Fraktion: +2 s extra pro Tod (z.B. 200 vs 150 → +4 s).
 const float ALIVE_CHECK_INTERVAL = 15.0f; // Alle 15 s: Alive-Zahlen prüfen, Extra-Verzögerung pro Fraktion setzen
 const int   TROOPS_PER_EXTRA_BLOCK = 25;  // Alle 25 Truppen Vorsprung …
-const float EXTRA_SECONDS_PER_BLOCK = 2.0f; // … = 2 Sekunden länger Slot-Delay
+const float EXTRA_SECONDS_PER_BLOCK = 4.0f; // … = 2 Sekunden länger Slot-Delay
 // Slots per Death: >=350→6, >=300→5, >=250→4, >=200→3, >=100→2, sonst 1 (getSlotsPerDeathForCapacity).
 const float APPLY_INTERVAL = 1.0f;        // Alle 1 s an Engine senden (genauerer Delay-Effekt)
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f;  // Min-Mult, damit Engine Fraktion nicht als „tot“ sieht

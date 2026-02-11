@@ -3,7 +3,7 @@
 // Einbindung: NUR wenn RespawnSlotDelayTracker genutzt wird. RespawnTracker zuerst erstellen, dann diesen mit Referenz.
 // Normalbetrieb (nur Alive auf 150m): FactionAliveHudTracker(this) ohne diesen Tracker.
 //
-// Darstellung: für jede Fraktion ein HUD-Element mit Fraktionsfarbe, Text "alive/capacity".
+// Darstellung: für jede Fraktion "alive/capacity", optional "+N" (N = aktuell durch Tote abgezogene Slots in der Warteschleife). Bei +0 wird "+0" nicht angezeigt.
 
 #include "tracker.as"
 #include "log.as"
@@ -37,8 +37,10 @@ class CapacityDebugHudTracker : Tracker {
 			int factionId = int(i);
 			int alive = getAliveCountGlobal(factionId);
 			int capacity = m_respawnTracker.getEffectiveCapacityForFaction(factionId);
+			int reserved = m_respawnTracker.getReservedSlots(factionId); // Abgezogene Capacity (Slots in Warteschleife)
 			string color = getScoreDisplayColor(factions[factionId], factionId);
 			string text = "" + alive + "/" + capacity;
+			if (reserved > 0) text += "+" + reserved; // Nur anzeigen wenn > 0
 
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");

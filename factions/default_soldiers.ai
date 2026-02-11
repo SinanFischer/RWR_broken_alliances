@@ -27,9 +27,9 @@
   <!-- <parameter class="max_sight_range_with_muzzle" value="75.0" />
   <parameter class="leader_sight_range" value="67.0" />
   <parameter class="team_member_sight_range" value="67.0" /> -->
-  <parameter class="max_sight_range_with_muzzle" value="45.0" />
-  <parameter class="leader_sight_range" value="32.0" />
-  <parameter class="team_member_sight_range" value="32.0" />
+  <parameter class="max_sight_range_with_muzzle" value="50.0" />
+  <parameter class="leader_sight_range" value="42.0" />
+  <parameter class="team_member_sight_range" value="42.0" />
   <parameter class="strike_frequency_time" value="6.0" /> 
   <parameter class="global_separation_radius_factor" value="2.0" />
   <parameter class="prefer_roofs_probability" value="0.5" />

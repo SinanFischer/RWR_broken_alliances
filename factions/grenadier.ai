@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Von Project Apocalypse übernommen: Grenadier-AI (mehr Autorität, leicht erhöhte Genauigkeit) -->
-<ai filename="default.ai">
+<ai filename="default_soldiers.ai">
   <parameter class="max_leader_authority_willing_to_join_another_squad" value="0.0" />
   <parameter class="defending_authority_offset_to_join_squad" value="10.0" />
   <parameter class="value_increase_required_to_join_defend_squad" value="1.0" />
