@@ -12,10 +12,13 @@
 // oder nur diesen Tracker für Capacity nutzen.
 //
 // --- Konfiguration (anpassen nach Bedarf) ---
-const float RESPAWN_SLOT_DELAY = 10.0f;   // Sekunden, die der Slot nach einem Tod „besetzt“ bleibt
-// Slots per Death nach aktueller Gesamt-Capacity (Summe soldier_capacity aller Fraktionen):
-// >=350→6, >=300→5, >=250→4, >=200→3, >=100→2, sonst 1 (siehe getSlotsPerDeathForCapacity).
-const float APPLY_INTERVAL = 1.0f;        // Alle 1 s an Engine senden (genauerer 10s-Effekt)
+const float RESPAWN_SLOT_DELAY = 10.0f;   // Basis-Sekunden, die der Slot nach einem Tod „besetzt“ bleibt
+// Pro 25 Truppen Vorsprung gegenüber der zweitstärksten Fraktion: +2 s extra pro Tod (z.B. 200 vs 150 → +4 s).
+const float ALIVE_CHECK_INTERVAL = 15.0f; // Alle 15 s: Alive-Zahlen prüfen, Extra-Verzögerung pro Fraktion setzen
+const int   TROOPS_PER_EXTRA_BLOCK = 25;  // Alle 25 Truppen Vorsprung …
+const float EXTRA_SECONDS_PER_BLOCK = 2.0f; // … = 2 Sekunden länger Slot-Delay
+// Slots per Death: >=350→6, >=300→5, >=250→4, >=200→3, >=100→2, sonst 1 (getSlotsPerDeathForCapacity).
+const float APPLY_INTERVAL = 1.0f;        // Alle 1 s an Engine senden (genauerer Delay-Effekt)
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f;  // Min-Mult, damit Engine Fraktion nicht als „tot“ sieht
 //
 
@@ -27,8 +30,10 @@ class RespawnSlotDelayTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected float m_timeAccum = 0.0f;
 	protected float m_applyAccum = 0.0f;
-	protected dictionary m_deathTimestamps;  // key = factionId, value = "t1,t2,t3"
-	protected dictionary m_pendingDeaths;    // key = factionId, value = Anzahl (im nächsten update zeitstempeln)
+	protected float m_aliveCheckAccum = 0.0f;
+	protected dictionary m_deathTimestamps;   // key = factionId, value = "t1,t2,t3"
+	protected dictionary m_pendingDeaths;     // key = factionId, value = Anzahl (im nächsten update zeitstempeln)
+	protected dictionary m_extraDelaySeconds;  // key = factionId, value = float (extra Sekunden Slot-Delay bei Truppenüberlegenheit)
 
 	RespawnSlotDelayTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -39,7 +44,7 @@ class RespawnSlotDelayTracker : Tracker {
 	bool hasStarted() const { return true; }
 
 	void start() {
-		// Ersten Apply sofort, nicht erst nach 1 s warten
+		refreshAliveBasedExtraDelay(); // Sofort erste Alive-basierte Extra-Verzögerung setzen
 		applyCapacityWithReservedSlots();
 	}
 
@@ -47,11 +52,49 @@ class RespawnSlotDelayTracker : Tracker {
 		m_timeAccum += time;
 		flushPendingDeaths();
 
+		m_aliveCheckAccum += time;
+		if (m_aliveCheckAccum >= ALIVE_CHECK_INTERVAL) {
+			m_aliveCheckAccum = 0.0f;
+			refreshAliveBasedExtraDelay();
+		}
+
 		m_applyAccum += time;
 		if (m_applyAccum < APPLY_INTERVAL) return;
 		m_applyAccum = 0.0f;
 
 		applyCapacityWithReservedSlots();
+	}
+
+	// Alle 15 s: Alive pro Fraktion holen; für jede Fraktion mit mehr Truppen als die 2. höchste
+	// extraDelay = (Vorsprung / 25) * 2 Sekunden (z.B. 50 Vorsprung → 4 s länger bis Capacity zurück).
+	void refreshAliveBasedExtraDelay() {
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null || factions.size() == 0) return;
+		array<int> aliveCounts;
+		aliveCounts.resize(factions.size());
+		int first = 0, second = 0;
+		for (uint i = 0; i < factions.size(); ++i) {
+			array<const XmlElement@>@ chars = getCharacters(m_metagame, int(i));
+			int n = (chars is null) ? 0 : int(chars.size());
+			aliveCounts[i] = n;
+			if (n >= first) { second = first; first = n; }
+			else if (n > second) second = n;
+		}
+		if (factions.size() == 1) second = first; // Kein „Zweiter“ → kein Extra-Delay für die einzige Fraktion
+		for (uint i = 0; i < factions.size(); ++i) {
+			string key = "" + int(i);
+			int alive = aliveCounts[i];
+			float extra = 0.0f;
+			if (alive > second)
+				extra = float((alive - second) / TROOPS_PER_EXTRA_BLOCK) * EXTRA_SECONDS_PER_BLOCK;
+			m_extraDelaySeconds[key] = extra;
+		}
+	}
+
+	float getExtraDelaySeconds(int factionId) {
+		string key = "" + factionId;
+		if (!m_extraDelaySeconds.exists(key)) return 0.0f;
+		return float(m_extraDelaySeconds[key]);
 	}
 
 	void addPendingDeath(int factionId) {
@@ -98,12 +141,14 @@ class RespawnSlotDelayTracker : Tracker {
 	}
 
 	// Nur zählen, keine Seiteneffekte. Aufräumen separat in pruneDeathTimestamps().
+	// effectiveDelay = Basis + Extra bei Truppenüberlegenheit (alle 15 s aktualisiert).
 	int getReservedSlots(int factionId) {
 		string key = "" + factionId;
 		if (!m_deathTimestamps.exists(key)) return 0;
 		string s = string(m_deathTimestamps[key]);
 		if (s.length() == 0) return 0;
 		float now = m_timeAccum;
+		float effectiveDelay = RESPAWN_SLOT_DELAY + getExtraDelaySeconds(factionId);
 		int count = 0;
 		uint start = 0;
 		for (uint i = 0; i <= s.length(); ++i) {
@@ -112,8 +157,7 @@ class RespawnSlotDelayTracker : Tracker {
 			start = i + 1;
 			if (part.length() == 0) continue;
 			float t = parseFloat(part);
-			// Nur gültige Zeitstempel: im Fenster [now-DELAY, now] und sinnvoll (t > 0)
-			if (t > 0.0f && t <= now && (now - t) <= RESPAWN_SLOT_DELAY)
+			if (t > 0.0f && t <= now && (now - t) <= effectiveDelay)
 				count++;
 		}
 		return count;
@@ -126,6 +170,7 @@ class RespawnSlotDelayTracker : Tracker {
 		string s = string(m_deathTimestamps[key]);
 		if (s.length() == 0) return;
 		float now = m_timeAccum;
+		float effectiveDelay = RESPAWN_SLOT_DELAY + getExtraDelaySeconds(factionId);
 		string kept = "";
 		uint start = 0;
 		for (uint i = 0; i <= s.length(); ++i) {
@@ -134,7 +179,7 @@ class RespawnSlotDelayTracker : Tracker {
 			start = i + 1;
 			if (part.length() == 0) continue;
 			float t = parseFloat(part);
-			if (t > 0.0f && t <= now && (now - t) <= RESPAWN_SLOT_DELAY) {
+			if (t > 0.0f && t <= now && (now - t) <= effectiveDelay) {
 				if (kept.length() > 0) kept += ",";
 				kept += part;
 			}
