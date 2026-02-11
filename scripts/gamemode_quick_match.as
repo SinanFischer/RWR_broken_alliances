@@ -5,7 +5,13 @@
 #include "query_helpers.as"
 #include "basic_command_handler.as"
 #include "trackers/faction_alive_hud_tracker.as"
+// Capacity-Debug: HUD zeigt "Alive/Capacity" pro Fraktion. RespawnSlotDelayTracker muss vor capacity_debug_hud eingebunden sein.
+#include "trackers/respawn_slot_delay_tracker.as"
+#include "trackers/capacity_debug_hud_tracker.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
+
+// true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 150m (normal)
+const bool CAPACITY_DEBUG_HUD = true;
 
 // --------------------------------------------
 class GameModeQuickMatch : Metagame {
@@ -25,7 +31,13 @@ class GameModeQuickMatch : Metagame {
 	void postBeginMatch() {
 		Metagame::postBeginMatch();
 		addTracker(BasicCommandHandler(this));
-		addTracker(FactionAliveHudTracker(this));
+		if (CAPACITY_DEBUG_HUD) {
+			RespawnSlotDelayTracker@ respawnTr = RespawnSlotDelayTracker(this);
+			addTracker(respawnTr);
+			addTracker(CapacityDebugHudTracker(this, respawnTr));
+		} else {
+			addTracker(FactionAliveHudTracker(this));
+		}
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 
 		const XmlElement@ player = getPlayerInfo(this, 0);

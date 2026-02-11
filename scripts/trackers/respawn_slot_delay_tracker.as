@@ -153,6 +153,17 @@ class RespawnSlotDelayTracker : Tracker {
 			pruneDeathTimestamps(int(i));
 	}
 
+	// Für Debug-HUD: effektive Capacity (rawCap - reserved), die die Engine für Spawn-Limit nutzt.
+	int getEffectiveCapacityForFaction(int factionId) {
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null || factionId < 0 || uint(factionId) >= factions.size()) return 0;
+		int rawCap = factions[factionId].getIntAttribute("soldier_capacity");
+		if (rawCap < 0) rawCap = 0;
+		int reserved = getReservedSlots(factionId);
+		int effective = rawCap - reserved;
+		return (effective > 0) ? effective : 0;
+	}
+
 	protected void handleCharacterDieEvent(const XmlElement@ event) {
 		const XmlElement@ character = event.getFirstElementByTagName("character");
 		const XmlElement@ target = character is null ? event.getFirstElementByTagName("target") : character;
