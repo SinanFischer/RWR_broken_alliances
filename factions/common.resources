@@ -47,6 +47,7 @@
 	<weapon key='coastal_gun_resource.weapon' />    
 
 	<carry_item key='vest1.carry_item' enabled="1" />
+	<carry_item key='vest_default.carry_item' />
 
 	<carry_item key='costume_were.carry_item' />
 	<carry_item key='costume_clown.carry_item' />
