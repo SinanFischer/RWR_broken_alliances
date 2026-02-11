@@ -13,6 +13,8 @@
 //
 // --- Konfiguration (anpassen nach Bedarf) ---
 const float RESPAWN_SLOT_DELAY = 10.0f;   // Sekunden, die der Slot nach einem Tod „besetzt“ bleibt
+// Slots per Death nach aktueller Gesamt-Capacity (Summe soldier_capacity aller Fraktionen):
+// >=350→6, >=300→5, >=250→4, >=200→3, >=100→2, sonst 1 (siehe getSlotsPerDeathForCapacity).
 const float APPLY_INTERVAL = 1.0f;        // Alle 1 s an Engine senden (genauerer 10s-Effekt)
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f;  // Min-Mult, damit Engine Fraktion nicht als „tot“ sieht
 //
@@ -59,6 +61,18 @@ class RespawnSlotDelayTracker : Tracker {
 		m_pendingDeaths[key] = v + 1;
 	}
 
+	// Slots pro Tod abhängig von der **eigenen** Capacity der sterbenden Fraktion (nicht Gesamt-Cap).
+	// Starke Fraktion verliert mehr pro Tod → natürliche Penalty; Underdog kann den Führenden stark ausbluten.
+	// >=350→6, >=300→5, >=250→4, >=200→3, >=100→2, sonst 1.
+	int getSlotsPerDeathForCapacity(int factionCap) {
+		if (factionCap >= 350) return 6;
+		if (factionCap >= 300) return 5;
+		if (factionCap >= 250) return 4;
+		if (factionCap >= 200) return 3;
+		if (factionCap >= 100) return 2;
+		return 1;
+	}
+
 	void flushPendingDeaths() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null) return;
@@ -68,11 +82,16 @@ class RespawnSlotDelayTracker : Tracker {
 			if (!m_pendingDeaths.exists(key)) continue;
 			int n = int(m_pendingDeaths[key]);
 			m_pendingDeaths.delete(key);
+			int rawCap = factions[fid].getIntAttribute("soldier_capacity");
+			if (rawCap < 0) rawCap = 0;
+			int slotsPerDeath = getSlotsPerDeathForCapacity(rawCap);
 			string ts = "";
 			if (m_deathTimestamps.exists(key)) ts = string(m_deathTimestamps[key]);
 			for (int j = 0; j < n; ++j) {
-				if (ts.length() > 0) ts += ",";
-				ts += "" + m_timeAccum;
+				for (int k = 0; k < slotsPerDeath; ++k) {
+					if (ts.length() > 0) ts += ",";
+					ts += "" + m_timeAccum;
+				}
 			}
 			m_deathTimestamps[key] = ts;
 		}
