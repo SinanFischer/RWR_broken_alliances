@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<weapon key='medikit.weapon' />
 	<weapon key='rpg-7.weapon' />
   	<weapon key='pb.weapon' /> 
 	<weapon key='qcw-05.weapon' />

@@ -72,8 +72,8 @@
 		<resources file="default_vests.resources" />
 
 		<item_class_existence_config>
-			<!-- secondaries -->
-			<item_class_existence class="weapon" slot="1" probability="0.4" />
+			<!-- secondaries (0.5 = leichte Erhöhung, mehr Chance auf Medikit/andere Secondaries) -->
+			<item_class_existence class="weapon" slot="1" probability="0.5" />
 			<!-- wearables: 100% Default-Weste (Verletzung bei erstem Treffer, dann Medic) -->
 			<item_class_existence class="carry_item" slot="1" probability="1.0" />
 			<!-- backpack -->
@@ -108,8 +108,8 @@
 		<resources file="default_vests.resources" />
 
 		<item_class_existence_config>
-			<!-- secondaries -->
-			<item_class_existence class="weapon" slot="1" probability="0.4" />
+			<!-- secondaries (0.5 = leichte Erhöhung, mehr Chance auf Medikit/andere Secondaries) -->
+			<item_class_existence class="weapon" slot="1" probability="0.5" />
 			<!-- wearables: 100% Default-Weste (Verletzung bei erstem Treffer, dann Medic) -->
 			<item_class_existence class="carry_item" slot="1" probability="1.0" />
 			<!-- backpack -->
@@ -288,7 +288,7 @@
 	<!-- -------------- -->
 	<!-- designated medic group -->
 	<!-- -------------- -->
-	<soldier name="medic" spawn_score="0.0" copy_from="default">
+	<soldier name="medic" spawn_score="0.07" copy_from="default">
 		<resources file="common_medic.resources" />
 		<resources file="green_primaries.resources" />
 
