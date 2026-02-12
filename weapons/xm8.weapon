@@ -28,7 +28,7 @@
 
     <hud_icon filename="hud_xm8.png" />
     <commonness value="0.043" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="4.0" price="250.0" />
+    <inventory encumbrance="4.0" price="150.0" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="1.0" />
@@ -44,8 +44,8 @@
     <stance state_key="crouch_moving" accuracy="0.62" />
     <stance state_key="prone_moving" accuracy="0.62" />
 
-    <stance state_key="standing" accuracy="0.9" />
-    <stance state_key="crouching" accuracy="0.95" />
-    <stance state_key="prone" accuracy="1.0" />
+    <stance state_key="standing" accuracy="0.85" />
+    <stance state_key="crouching" accuracy="0.90" />
+    <stance state_key="prone" accuracy="0.92" />
     <modifier class="speed" value="-0.029" />
 </weapon>
