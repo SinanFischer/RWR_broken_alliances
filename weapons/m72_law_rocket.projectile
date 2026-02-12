@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectile class="grenade" name="rocket" slot="1" pulldown_in_air="0.4" key="m72_law_rocket.projectile">
     <tag name="rocket"/>
-    <result class="blast" radius="3.6" damage="1.35" decal="1" />
+    <result class="blast" radius="5.5" damage="3.6" push="1.2" decal="1" />
     <trigger class="impact" />
     <rotation class="motion" />
     <model mesh_filename="mortar_shell.xml" />

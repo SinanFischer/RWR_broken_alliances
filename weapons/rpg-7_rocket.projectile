@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectile class="grenade" name="rocket" slot="1" pulldown_in_air="0.4" key="rpg-7_rocket.projectile">
     <tag name="rocket"/>
-    <result class="blast" radius="4.2" damage="2.3" decal="1" />
+    <result class="blast" radius="6.0" damage="4.0" push="1.3" decal="1" />
     <trigger class="impact" />
     <rotation class="motion" />
     <model mesh_filename="rpg_rocket.xml" />
