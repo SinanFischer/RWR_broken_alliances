@@ -3,9 +3,9 @@
     <tag name="assault" />
     <specification 
   retrigger_time="0.098" 
-  accuracy_factor="0.98" 
-  sustained_fire_grow_step="0.24" 
-  sustained_fire_diminish_rate="1.35" 
+  accuracy_factor="0.77" 
+  sustained_fire_grow_step="0.36" 
+  sustained_fire_diminish_rate="1.28" 
   magazine_size="30" 
   can_shoot_standing="1" 
   suppressed="0" 

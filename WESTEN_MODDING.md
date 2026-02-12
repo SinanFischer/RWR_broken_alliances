@@ -192,3 +192,18 @@ Im Total-Conversion-Mod ist eine **Default-Weste** (`vest_default.carry_item`) i
 ---
 
 Mit diesem Aufbau und den genannten Dateien kannst du eine eigene Weste definieren, optisch anpassen (Modell + Icon), über Resources einer Fraktion zuweisen und optional als Spawn-Item und in der Invasion-Logik einbinden.
+
+---
+
+## 12. Waffenkammer: Westen anzeigen (dieser Mod)
+
+**Problem:** In der Westen-Kategorie der Waffenkammer erschienen nur die Default-Weste.
+
+**Ursache:** Die Waffenkammer bezieht die anzeigbaren Slot-1-Items aus dem **Ressourcen-Pool der Default-Soldatengruppe** (nicht aus der supply-Gruppe und nicht aus per Script gesendeten `faction_resources`-Befehlen).
+
+**Lösung:**
+
+1. **`factions/armory_vests.resources`** – Liste aller Westen (vest1–4, eodvest, camouflage_suit, sf_suit, vest_blackops) **ohne** `clear_carry_items`, damit der Pool ergänzt wird.
+2. **Fraktionen (green/brown/grey.xml):** In der **default-** und **default_ai-**Soldatengruppe **nach** `default_vests.resources` einbinden: `<resources file="armory_vests.resources" />`.
+3. **Spawn-Verhalten:** In den Mod-`carry_item`-Dateien (vest1–4, camouflage_suit, sf_suit) für den **ersten Zustand** `commonness value="0.0"` und `in_stock="1"` setzen. So erscheinen die Westen in der Waffenkammer, werden aber für Default-Spawns nicht gewichtet (nur vest_default mit commonness 1.0 wird gezogen).
+4. **sf_suit:** Zusätzlich `in_stock="1"` setzen (vorher 0), damit die Weste in der Waffenkammer angeboten wird.

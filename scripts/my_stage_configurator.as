@@ -34,10 +34,29 @@ class MyStageConfigurator : StageConfiguratorCampaign {
 		return availableFactionConfigs;
 	}
 
+	// ------------------------------------------------------------------------------------------------
+	// Westen in Waffenkammer: Fraktion bekommt alle Westen als Ressource (enabled), damit sie in der
+	// Westen-Kategorie der Waffenkammer angezeigt werden (wie in Project Apocalypse).
+	protected array<ResourceChange@> getFriendlyFactionResourceChanges() const {
+		array<ResourceChange@> list = StageConfiguratorInvasion::getFriendlyFactionResourceChanges();
+
+		// Alle Westen für Spielerfraktion freischalten → erscheinen in Waffenkammer
+		list.push_back(ResourceChange(Resource("vest_default.carry_item", "carry_item"), true));
+		list.push_back(ResourceChange(Resource("vest1.carry_item", "carry_item"), true));
+		list.push_back(ResourceChange(Resource("vest2.carry_item", "carry_item"), true));
+		list.push_back(ResourceChange(Resource("vest3.carry_item", "carry_item"), true));
+		list.push_back(ResourceChange(Resource("vest4.carry_item", "carry_item"), true));
+		list.push_back(ResourceChange(Resource("eodvest.carry_item", "carry_item"), true));
+		list.push_back(ResourceChange(Resource("camouflage_suit.carry_item", "carry_item"), true));
+		list.push_back(ResourceChange(Resource("sf_suit.carry_item", "carry_item"), true));
+		list.push_back(ResourceChange(Resource("vest_blackops.carry_item", "carry_item"), true));
+
+		return list;
+	}
+
 	// NOTE
 	// if you need to add certain resources for enemies or friendlies generally in all stages, have a look at
 	// vanilla\scripts\gamemodes\invasion\stage_configurator_invasion.as and consider overriding
 	// getCommonFactionResourceChanges
-	// getFriendlyFactionResourceChanges
 	// getCompletionVarianceCommands
 }

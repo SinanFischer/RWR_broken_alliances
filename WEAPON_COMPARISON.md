@@ -14,12 +14,12 @@
 | **mag** | 30 | 30 | 30 |
 | **com** | 0.22 | 0.22 | 0.22 |
 | **sight** | 1.1 | 1.1 | – |
-| **acc_factor** | 0.98 | **1.0** | 0.96 |
-| **grow** | 0.26 | **0.16** | 0.22 |
-| **diminish** | 1.18 | **1.25** | 1.15 |
+| **acc_factor** | 0.74 | **0.80** | 0.72 |
+| **grow** | 0.38 | **0.26** | 0.40 |
+| **diminish** | 1.15 | **1.22** | 1.12 |
 | **Preis** | 16 | 16 | **15** |
 
-→ **Balance:** **RU-Stärke:** AK-74M Kill 0.92. EU G36 schnellstes Feuer (0.095); M16 beste Accuracy (factor 1.0, niedrigster grow 0.16). Stances = base (0.85/0.9/0.93); Differenzierung über grow/diminish.
+→ **Balance:** **RU-Stärke:** AK-74M Kill 0.92. EU G36 schnellstes Feuer (0.095); M16 beste Accuracy (factor 0.80, niedrigster grow 0.26). Alle deutlich ungenauer als vorher; Stances = base.
 
 ---
 
@@ -32,12 +32,12 @@
 | **mag** | 30 | 30 | **38** |
 | **com** | 0.025 | **0.3** | 0.046 |
 | **sight** | 1.0 | **1.1** | 1.05 |
-| **acc_factor** | 0.96 | **0.98** | 0.92 |
-| **grow** | **0.20** | 0.24 | 0.24 |
-| **diminish** | 1.20 | **1.35** | 1.12 |
+| **acc_factor** | 0.75 | **0.77** | 0.70 |
+| **grow** | **0.32** | 0.36 | 0.40 |
+| **diminish** | 1.18 | **1.28** | 1.10 |
 | **Preis** | 40 | 40 | 40 |
 
-→ **Balance:** HK416 niedrigster grow (0.20). M4A1 beste Accuracy (0.98), beste diminish (1.35). RU AKS-74U schnellstes Feuer (0.09), Mag 38. Stances = base.
+→ **Balance:** HK416 niedrigster grow (0.32). M4A1 beste Accuracy (0.77), beste diminish (1.28). RU AKS-74U schnellstes Feuer (0.09), Mag 38. Alle deutlich ungenauer.
 
 ---
 

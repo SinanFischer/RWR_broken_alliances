@@ -222,7 +222,6 @@
 
 	<!-- Leichte Landfahrzeuge -->
 	<call key="humvee.call" />
-	<call key="wiesel_drop.call" />
 	<call key="vulcan_tank.call" />
 	<call key="apc.call" />
 	<!-- Tank pro Fraktion nur in grey_default / green_default / brown_default -->

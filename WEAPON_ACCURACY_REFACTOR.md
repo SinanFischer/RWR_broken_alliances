@@ -22,13 +22,13 @@
 | **prone_moving** | 0.56 | 0.538 | 0.56 |
 | **Stance-Overrides** | 7 | 7 | 7 |
 
-### NACHHER (Vanilla-nahe)
+### NACHHER (deutlich ungenauer, Vanilla-nah)
 
 | Metrik | G36 | M16A4 | AK-74M |
 |--------|-----|-------|--------|
-| **acc_factor** | **0.98** | **1.0** | **0.96** |
-| **sustained_fire_grow_step** | **0.26** | **0.16** | **0.22** |
-| **sustained_fire_diminish_rate** | **1.18** | **1.25** | **1.15** |
+| **acc_factor** | 0.74 | **0.80** | 0.72 |
+| **sustained_fire_grow_step** | 0.38 | **0.26** | 0.40 |
+| **sustained_fire_diminish_rate** | 1.15 | **1.22** | 1.12 |
 | **standing** | (base 0.85) | (base 0.85) | (base 0.85) |
 | **crouching** | (base 0.9) | (base 0.9) | (base 0.9) |
 | **prone** | (base 0.93) | (base 0.93) | (base 0.93) |
@@ -61,13 +61,13 @@
 | **prone_moving** | 0.60 | 0.65 | 0.58 |
 | **Stance-Overrides** | 7 | 7 | 7 |
 
-### NACHHER (Vanilla-nahe)
+### NACHHER (deutlich ungenauer)
 
 | Metrik | HK416 | M4A1 | AKS-74U |
 |--------|-------|------|---------|
-| **acc_factor** | **0.96** | **0.98** | **0.92** |
-| **sustained_fire_grow_step** | **0.20** | **0.24** | **0.24** |
-| **sustained_fire_diminish_rate** | **1.20** | **1.35** | **1.12** |
+| **acc_factor** | 0.75 | **0.77** | 0.70 |
+| **sustained_fire_grow_step** | **0.32** | 0.36 | 0.40 |
+| **sustained_fire_diminish_rate** | 1.18 | **1.28** | 1.10 |
 | **standing** | (base 0.85) | (base 0.85) | (base 0.85) |
 | **crouching** | (base 0.9) | (base 0.9) | (base 0.9) |
 | **prone** | (base 0.93) | (base 0.93) | (base 0.93) |

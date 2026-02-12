@@ -11,7 +11,6 @@
 	<call file="tactical_strike.call" />
 	<call file="vulcan_tank.call" />
 	<call file="humvee.call" />
-	<call file="wiesel_drop.call" />
 	<call file="apc.call" />
 	<call file="tank.call" />
 	<call file="paratroopers4.call" />
