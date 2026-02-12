@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Deckungstruppe / Pioniere: Sandsäcke im Slot 1, platzieren Deckung (cover_resource). Sicht 48/50, enger Sichtkegel. -->
 <ai filename="default_soldiers.ai">
   <parameter class="deploy_recheck_time" value="2.5" />
   <parameter class="minimum_distance_to_consider_deploying_cover" value="12.0" />
@@ -7,7 +8,7 @@
   <parameter class="max_objects_per_sqm_to_consider_deployment" value="0.05" />
   <parameter class="deployment_max_position_pick_attempts" value="4" />
   <parameter class="willingness_to_charge" value="0.1" />
-   <parameter class="max_sight_range_with_muzzle" value="65.0" />
-  <parameter class="leader_sight_range" value="55.0" />
-  <parameter class="team_member_sight_range" value="55.0" />
+   <parameter class="max_sight_range_with_muzzle" value="60.0" />
+  <parameter class="leader_sight_range" value="48.0" />
+  <parameter class="team_member_sight_range" value="50.0" />
 </ai>
