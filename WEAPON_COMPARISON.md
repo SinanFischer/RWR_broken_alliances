@@ -45,17 +45,17 @@
 
 | Metrik | EU (FAMAS G1) | US (XM8) | RU (SG 552) |
 |--------|----------------|----------|-------------|
-| **kill** | 0.65 | **0.72** | 0.64 |
+| **kill** | 0.65 | 0.72 | **0.95** |
 | **RT** (s) | **0.092** | 0.115 | **0.108** |
-| **mag** | 27 | **30** | **30** |
+| **mag** | 27 | **30** | **36** |
 | **com** | **0.049** | 0.043 | 0.024 |
 | **sight** | – | **1.15** | 1.1 |
 | **standing** | 0.788 | **0.85** | 0.818 |
 | **crouching** | 0.898 | **0.90** | 0.888 |
 | **prone** | **0.938** | 0.92 | 0.948 |
-| **Preis** | **100** | 150 | **100** |
+| **Preis** | **100** | 150 | **80** |
 
-→ **Balance:** US XM8 höchste kill (0.72), Sight 1.15; Stances reduziert (prone 0.92, nicht 1.0). EU FAMAS schnellstes Feuer, höchste Commonness. RU SG 552: jetzt Vollauto (war Einzelschuss), schneller RT (0.108), Kill 0.64, Mobilität (walking/crouch_moving), CQB-Karabin.
+→ **Balance:** RU SG 552 höchste kill (0.95), Sight 1.1; Stances reduziert. US XM8 kill 0.72, Sight 1.15. EU FAMAS schnellstes Feuer, höchste Commonness. RU SG 552: jetzt Vollauto (war Einzelschuss), schneller RT (0.108), Mobilität (walking/crouch_moving), CQB-Karabin.
 
 ---
 
@@ -155,7 +155,7 @@
 |--------|----|----|-----|
 | **Standard-AR Kill** | 0.65 | 0.65 | **0.92** (AK-74M) |
 | **Standard-AR Preis** | 16 | 16 | **15** |
-| **Höchste AR-Kill (Pool)** | 0.65 | **0.72** (XM8) | 0.64 |
+| **Höchste AR-Kill (Pool)** | 0.65 | 0.72 | **0.95** (SG 552) |
 | **Höchste AR-Commonness** | 0.22 | **0.3** (M4A1) | 0.22 |
 | **Günstigstes MG** | 60 | 60 | **50** |
 | **Günstigster Sniper** | 70 | 70 | **40** |
@@ -173,9 +173,9 @@
 
 | Fraktion | Stärken (kampfrelevant) | Nur Spieler (Preis) | Trade-off |
 |----------|-------------------------|---------------------|-----------|
-| **EU** | Schnellstes Standard-AR (G36), schnellstes Leicht-MG (MG4), **One-Hit Bolt (G22)**, schnellster DMR (G28 RT), beste Shotgun-Kill (SPAS) | – | Kein 7.62-MG; Premium-AR nicht stärkste Kill (XM8 US) |
-| **US** | **One-Hit Bolt (M24)**, stärkstes Schwer-MG (M240), beste Leicht-MG-Kill (M249), stärkste Premium-AR (XM8), höchste AR-Commonness (M4A1) | – | Standard-AR etwas langsamer als G36; DMR nicht schnellster |
-| **RU** | **Höchste Kill Standard-AR (AK-74M 0.92)**, One-Hit Bolt (SV-98), schnellstes Pool-AR (AKS-74U), DMR am häufigsten (SVD), PKM stark (0.82 kill) | Günstigere Shop-Preise (für Menschen) | Pool/Premium-AR teils niedrigere Kill (AKS 0.62); SG 552 jetzt Vollauto, Kill 0.64, Mobilität; langsamere Kadenz Standard-AR |
+| **EU** | Schnellstes Standard-AR (G36), schnellstes Leicht-MG (MG4), **One-Hit Bolt (G22)**, schnellster DMR (G28 RT), beste Shotgun-Kill (SPAS) | – | Kein 7.62-MG; Premium-AR nicht stärkste Kill (SG 552 RU) |
+| **US** | **One-Hit Bolt (M24)**, stärkstes Schwer-MG (M240), beste Leicht-MG-Kill (M249), höchste AR-Commonness (M4A1) | – | Standard-AR etwas langsamer als G36; DMR nicht schnellster; Premium-AR (XM8) nicht stärkste |
+| **RU** | **Höchste Kill Standard-AR (AK-74M 0.92)**, **stärkste Premium-AR (SG 552 0.95)**, One-Hit Bolt (SV-98), schnellstes Pool-AR (AKS-74U), DMR am häufigsten (SVD), PKM stark (0.82 kill) | Günstigere Shop-Preise (für Menschen) | Pool-AR AKS-74U niedrigere Kill (0.62); langsamere Kadenz Standard-AR |
 
 **Fazit:** Alle drei haben einen One-Hit-Bolt (EU G22, US M24, RU SV-98). RU-Stärken sind damit **kampfrelevant** (Bolt, schnellstes Pool-AR, SVD-Commonness, PKM), nicht nur „günstig im Shop“.
 

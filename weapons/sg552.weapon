@@ -6,7 +6,7 @@
   accuracy_factor="0.968" 
   sustained_fire_grow_step="0.54" 
   sustained_fire_diminish_rate="1.34" 
-  magazine_size="30" 
+  magazine_size="36" 
   can_shoot_standing="1" 
   suppressed="0" 
   name="SG 552" 
@@ -27,7 +27,7 @@
 
     <hud_icon filename="hud_sg552.png" />
     <commonness value="0.024" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="3.0" price="100.0" />
+    <inventory encumbrance="3.0" price="80.0" />
 
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.5" />    
@@ -35,7 +35,7 @@
 
     <weak_hand_hold offset="0.0" />
     <projectile file="bullet.projectile">
-        <result class="hit"  kill_probability="0.64" kill_decay_start_time="0.32" kill_decay_end_time="0.65" />
+        <result class="hit"  kill_probability="0.95" kill_decay_start_time="0.32" kill_decay_end_time="0.65" />
     </projectile>
 	
 	<stance state_key="running" accuracy="0.65" />
@@ -47,5 +47,5 @@
     <stance state_key="crouching" accuracy="0.888" />
     <stance state_key="prone" accuracy="0.948" />
 	
-    <modifier class="speed" value="-0.02" />    
+    <modifier class="speed" value="-0.01" />    
 </weapon>

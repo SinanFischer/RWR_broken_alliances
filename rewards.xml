@@ -18,7 +18,7 @@
 
 	<!-- Heilen: unverändert (+35 %) -->
 	<reward class="fellow_unwound" 				base="+0.0095"			type="xp" />
-	<reward class="fellow_unwound" 				base="+57"				type="rp" />  
+	<reward class="fellow_unwound" 				base="+45"				type="rp" />  
 
 	<reward class="staying_alive" 				base="21" 				type="rp" />
 
