@@ -68,10 +68,7 @@
 		<trigger class="destroy" />  	
     <result class="spawn" instance_class="visual_item" instance_key="burning_piece_armor2.visual_item" min_amount="0" max_amount="1" offset="0 2.5 0" position_spread="1.5 1.5" direction_spread="0.10 0.25" />
 	</event>
-  <event>
-
-
-  <event>
+	<event>
 		<trigger class="cleanup" />		
     <result class="spawn" instance_class="visual_item" instance_key="burning_piece_cleanup.visual_item" min_amount="20" max_amount="30" offset="0 2.0 0" position_spread="1.5 1.5" direction_spread="0.1 0.1" /> 
   </event>    
