@@ -44,7 +44,7 @@
 
     <hud_icon filename="hud_m2_carlgustav.png" />
     <commonness value="0.059" />
-    <inventory encumbrance="6.0" price="30.0" />
+    <inventory encumbrance="6.0" price="50.0" />
 
     <effect class="muzzle" ref="LawMuzzle" />
     <effect class="muzzle" ref="UpDust" />
