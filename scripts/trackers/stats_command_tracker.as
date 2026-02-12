@@ -1,6 +1,6 @@
-// /stats-Command: Pro Fraktion Kürzel, alive, capacity, kills, deaths, blocked (Slots), blocked_s (Impact).
-// Kills = character_kill (Killer-Fraktion). Deaths = character_die (sterbende Fraktion).
-// blocked = Anzahl aktuell blockierter Slots. blocked_s = kumulierte Slot-Sekunden (Impact über Match).
+// /stats-Command: Kompaktes Format pro Fraktion:
+// EU: A-K-D: 50-100-80 C-B: 65-5 B(s): 150
+// A-K-D = Alive-Kills-Deaths, C-B = Capacity-Blocked, B(s) = blocked_s (Slot-Sekunden)
 
 #include "tracker.as"
 #include "log.as"
@@ -41,17 +41,14 @@ class StatsCommandTracker : Tracker {
 			int fid = int(i);
 			string shortName = getFactionShortName(factions[fid], fid);
 			int alive = getAliveCountGlobal(fid);
-			int capacity = (m_respawnTracker !is null) ? m_respawnTracker.getEffectiveCapacityForFaction(fid) : getRawCapacity(fid);
 			int kills = getKillsForFaction(fid);
 			int deaths = getDeathsForFaction(fid);
+			int capacity = (m_respawnTracker !is null) ? m_respawnTracker.getEffectiveCapacityForFaction(fid) : getRawCapacity(fid);
+			int blocked = (m_respawnTracker !is null) ? m_respawnTracker.getReservedSlots(fid) : 0;
+			int blockedS = (m_respawnTracker !is null) ? int(m_respawnTracker.getTotalSlotSecondsBlocked(fid)) : 0;
+
 			if (block.length() > 0) block += "\n";
-			block += shortName + ": alive: " + alive + " capacity: " + capacity + " kills: " + kills + " deaths: " + deaths;
-			if (m_respawnTracker !is null) {
-				int blocked = m_respawnTracker.getReservedSlots(fid);
-				block += " blocked: " + blocked;
-				int blockedS = int(m_respawnTracker.getTotalSlotSecondsBlocked(fid));
-				block += " blocked_s: " + blockedS;
-			}
+			block += shortName + ": A-K-D: " + alive + "-" + kills + "-" + deaths + " C-B: " + capacity + "-" + blocked + " B(s): " + blockedS;
 		}
 		sendPrivateMessage(m_metagame, senderId, block);
 	}

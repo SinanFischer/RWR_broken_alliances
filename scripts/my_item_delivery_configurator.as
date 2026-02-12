@@ -84,7 +84,18 @@ class MyItemDeliveryConfigurator : ItemDeliveryConfiguratorInvasion {
 
 		// squad equipment kits (from Project Apocalypse)
 		list.push_back(Resource("squad_equipment_kit.weapon", "weapon"));
-		list.push_back(Resource("squad_equipment_kit_navy.weapon", "weapon"));     
+		list.push_back(Resource("squad_equipment_kit_navy.weapon", "weapon"));
+
+		// Westen: in Waffenkammer von Anfang an verfügbar (Weste 1 bis EOD + Default, Tarnanzug, SF)
+		list.push_back(Resource("vest_default.carry_item", "carry_item"));
+		list.push_back(Resource("vest1.carry_item", "carry_item"));
+		list.push_back(Resource("vest2.carry_item", "carry_item"));
+		list.push_back(Resource("vest3.carry_item", "carry_item"));
+		list.push_back(Resource("vest4.carry_item", "carry_item"));
+		list.push_back(Resource("eodvest.carry_item", "carry_item"));
+		list.push_back(Resource("camouflage_suit.carry_item", "carry_item"));
+		list.push_back(Resource("sf_suit.carry_item", "carry_item"));
+		list.push_back(Resource("vest_blackops.carry_item", "carry_item"));
 
 		return list;
 	}
