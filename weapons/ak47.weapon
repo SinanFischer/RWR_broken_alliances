@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="ak47.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="assault" />
-    <!-- 5.45x39, Standard-Sturmgewehr RU; Balance wie G36/M16 -->
+    <!-- 5.45x39, Standard-Sturmgewehr RU; Russen-Vorteil: höhere Kill pro Treffer (heftiger) -->
     <specification 
   retrigger_time="0.10" 
   accuracy_factor="0.88" 
@@ -33,7 +33,7 @@
     <inventory encumbrance="3.0" price="15.0" />
 
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
+        <result class="hit" kill_probability="0.70" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
 
     <stance state_key="running" accuracy="0.48" />

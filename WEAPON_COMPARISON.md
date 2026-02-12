@@ -9,7 +9,7 @@
 
 | Metrik | EU (G36) | US (M16A4) | RU (AK-74M) |
 |--------|----------|------------|-------------|
-| **kill** | **0.65** | **0.65** | **0.65** |
+| **kill** | 0.65 | 0.65 | **0.70** |
 | **RT** (s) | **0.080** | 0.092 | 0.10 |
 | **com** | 0.22 | 0.22 | 0.22 |
 | **acc_factor** | 0.88 | **0.90** | 0.88 |
@@ -18,7 +18,7 @@
 | **prone** | 0.86 | **0.968** | 0.90 |
 | **Preis** | 16 | 16 | **15** |
 
-→ **Balance:** EU schnellstes Feuer (0.080). US M16 beste Accuracy (Factor + alle Stances). EU G36 etwas abgesenkt (generverd).
+→ **Balance:** **RU-Vorteil:** AK-74M höchste Kill (0.70) – Treffer wirkt heftiger. EU schnellstes Feuer (0.080). US M16 beste Accuracy.
 
 ---
 
@@ -139,6 +139,7 @@
 
 | Metrik | EU | US | RU |
 |--------|----|----|-----|
+| **Standard-AR Kill** | 0.65 | 0.65 | **0.70** (AK-74M) |
 | **Standard-AR Preis** | 16 | 16 | **15** |
 | **Höchste AR-Kill (Pool)** | 0.65 | **0.72** (XM8) | 0.52 |
 | **Höchste AR-Commonness** | 0.22 | **0.3** (M4A1) | 0.22 |
@@ -160,7 +161,7 @@
 |----------|-------------------------|---------------------|-----------|
 | **EU** | Schnellstes Standard-AR (G36), schnellstes Leicht-MG (MG4), **One-Hit Bolt (G22)**, schnellster DMR (G28 RT), beste Shotgun-Kill (SPAS) | – | Kein 7.62-MG; Premium-AR nicht stärkste Kill (XM8 US) |
 | **US** | **One-Hit Bolt (M24)**, stärkstes Schwer-MG (M240), beste Leicht-MG-Kill (M249), stärkste Premium-AR (XM8), höchste AR-Commonness (M4A1) | – | Standard-AR etwas langsamer als G36; DMR nicht schnellster |
-| **RU** | **One-Hit Bolt (SV-98)**, schnellstes Pool-AR (AKS-74U), DMR am häufigsten (SVD), PKM stark (0.82 kill) | Günstigere Shop-Preise (für Menschen) | AR-Kill teils niedriger (AKS 0.62, SG552 0.52); Premium-AR schwächste Kill |
+| **RU** | **Höchste Kill Standard-AR (AK-74M 0.70)**, One-Hit Bolt (SV-98), schnellstes Pool-AR (AKS-74U), DMR am häufigsten (SVD), PKM stark (0.82 kill) | Günstigere Shop-Preise (für Menschen) | Pool/Premium-AR teils niedrigere Kill (AKS 0.62, SG552 0.52); langsamere Kadenz Standard-AR |
 
 **Fazit:** Alle drei haben einen One-Hit-Bolt (EU G22, US M24, RU SV-98). RU-Stärken sind damit **kampfrelevant** (Bolt, schnellstes Pool-AR, SVD-Commonness, PKM), nicht nur „günstig im Shop“.
 
