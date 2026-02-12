@@ -23,27 +23,16 @@
 
 ### Referenz-Dateien
 
-- **Vanilla:** `c:\Program Files (x86)\Steam\steamapps\common\RunningWithRifles\media\packages\vanilla\factions\default_base.character` (Zeilen 48–52)
-- **RWR_total_conversion_mod:** Nutzt Vanilla-Karaktere (kein eigenes `default_base.character`)
+- **Vanilla:** `vanilla/factions/default_base.character` → `wounded_auto_death_time` = 60.0
+- **RWR_total_conversion_mod:** Eigene `factions/default_base.character` mit **90.0** Sek (implementiert)
 - **Project_Apocalypse:** Nutzt Vanilla-Karaktere
 
-### Implementierung
+### Implementierung (Status)
 
-**Verlängerung der Wounded-Zeit:** In deinem Mod eine eigene `default_base.character` anlegen (oder eine Character-Datei, die von `default_base.character` erbt) und überschreiben:
-
-```xml
-<parameter class="wounded_auto_death_time" value="120.0" />
-```
-
-So wird die Zeit von 60 auf 120 Sekunden erhöht.
-
-**Alternative:** Ein Character-File im Mod erstellen, z.B. `factions/default_base.character` mit:
+**RWR_total_conversion_mod:** Vollständige Kopie von Vanilla `default_base.character` mit Override:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
-<character filename="default_base.character">
-    <parameter class="wounded_auto_death_time" value="120.0" />
-</character>
+<parameter class="wounded_auto_death_time" value="90.0" />
 ```
 
 **Hinweis:** `check_wounded_time` in `default.ai` steuert nur das KI-Intervall zum Prüfen auf Verwundete, nicht die Dauer des Wounded-States. Für längere Wounded-Zeit entscheidend ist `wounded_auto_death_time`.
@@ -86,7 +75,7 @@ In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setze
 <vehicle file="vehicle_base.vehicle" time_to_live_unsteerable="180" ... />
 ```
 
-**RWR_total_conversion_mod:** `vehicles/vehicle_base.vehicle` existiert, enthält aber nur `<tag name="vehicle" />` und überschreibt `time_to_live_unsteerable` nicht. Ein Eintrag wie oben würde den globalen Default erhöhen.
+**RWR_total_conversion_mod:** `vehicles/vehicle_base.vehicle` mit `time_to_live_unsteerable="1200"` (20 Min) – **implementiert**.
 
 ---
 
@@ -105,14 +94,14 @@ In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setze
 
 - **Kein Parameter** wie `wounded_bleed_interval`, `wounded_blood_particle_rate` o.ä. in den durchsuchten Dateien.
 - Blutpartikel werden nur bei **Hits** (Treffer) gespawnt, nicht zeitbasiert für liegende Verwundete.
-- Die Engine-Logik für „Blut über Zeit bei wounded“ scheint nicht über XML/Mod-Dateien konfigurierbar zu sein.
 
-### Mögliche Ansätze
+### Versuch: AngelScript-Tracker (entfernt)
 
-1. **AngelScript:** In `scripts/` könnte ein Tracker prüfen, ob Character `wounded` ist und periodisch Partikel-Effekte spawnen. Dafür müsste die Script-API Partikel-Spawning unterstützen – in den vorhandenen Scripts war kein entsprechendes Beispiel.
-2. **Gamedata/Engine:** Die Logik könnte in der Engine (C++/binär) liegen und für Mods nicht zugänglich sein.
+- **Implementiert war:** `WoundedBleedingTracker` + `wounded_bleed.projectile` – Tracker lauschte auf `player_wound`, spawnte alle 10 Sek ein Projektil mit BloodSplat-Effekten.
+- **Problem:** Funktionierte nicht zuverlässig (z.B. in Quickmatches kein sichtbares Bluten); `player_wound`/create_instance-Logik passte nicht zum gewünschten Verhalten.
+- **Status:** Feature entfernt – Script, Projektil und alle Tracker-Referenzen gelöscht.
 
-**Fazit:** Ohne tiefer gehende Engine/Script-Dokumentation ist „Wounded-Bleeding“ über Mod-Dateien nicht implementierbar. Empfehlung: RWR-Wiki/Forum oder Modding-Discord prüfen.
+**Fazit:** „Wounded-Bleeding“ über AngelScript ist theoretisch möglich, aber die aktuelle Mod-API liefert kein zuverlässiges Ergebnis. Empfehlung: RWR-Wiki/Forum oder Modding-Discord prüfen.
 
 ---
 
@@ -157,7 +146,8 @@ In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setze
 | `vanilla/factions/default.ai` | `check_wounded_time`, `consider_someone_already_healing_wounded_distance` |
 | `vanilla/factions/medic.ai` | `check_wounded_time` = 2.0 (Medics prüfen öfter) |
 | `vanilla/factions/snowman.character`, `dog.character`, `elf.character`, `chicken_base.character` | Char-spezifische Overrides |
-| `RWR_total_conversion_mod/factions/default.ai` | Nur `check_wounded_time` = 2.0 (kein wounded_auto_death_time) |
+| `RWR_total_conversion_mod/factions/default_base.character` | `wounded_auto_death_time` = 90.0 (Mod-override) |
+| `RWR_total_conversion_mod/factions/default.ai` | `check_wounded_time` = 2.0 |
 
 ### Vehicles / Despawn
 
@@ -165,7 +155,7 @@ In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setze
 |------|--------|
 | `vanilla/vehicles/vehicle_base.vehicle` | `time_to_live_unsteerable="40"` |
 | `vanilla/vehicles/m551.vehicle`, `fv101.vehicle`, `vfs_base.vehicle` | Höhere Overrides (85–105) |
-| `RWR_total_conversion_mod/vehicles/vehicle_base.vehicle` | Kein `time_to_live_unsteerable` (nutzt Vanilla-Default) |
+| `RWR_total_conversion_mod/vehicles/vehicle_base.vehicle` | `time_to_live_unsteerable="1200"` (20 Min) |
 
 ### Blood / Effects
 
@@ -194,12 +184,12 @@ In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setze
 
 ## 6. Zusammenfassung
 
-| Thema | Modding möglich? | Empfohlene Aktion |
-|-------|------------------|-------------------|
-| **1. Wounded-Zeit verlängern** | Ja | Eigenes Character-File mit `wounded_auto_death_time` (z.B. 120) |
-| **2. Fahrzeug-Despawn verlängern** | Ja | `time_to_live_unsteerable` in `vehicle_base.vehicle` oder pro Fahrzeug setzen |
-| **3. Wounded-Bleeding (Blut über Zeit)** | Unklar | Keine XML-Parameter; ggf. Script-/Engine-Recherche nötig |
-| **4. Leichen-Limit erhöhen** | Unklar | Wahrscheinlich Engine/Config; UI-Maximum nicht per Mod überschreibbar gefunden |
+| Thema | Modding möglich? | Status RWR_total_conversion_mod |
+|-------|------------------|----------------------------------|
+| **1. Wounded-Zeit verlängern** | Ja | ✓ `default_base.character` mit 90 Sek |
+| **2. Fahrzeug-Despawn verlängern** | Ja | ✓ `vehicle_base.vehicle` mit 1200 Sek (20 Min) |
+| **3. Wounded-Bleeding (Blut über Zeit)** | Nein (zuverlässig) | ✗ Versuch entfernt – AngelScript-Ansatz funktionierte nicht |
+| **4. Leichen-Limit erhöhen** | Nein | Engine/Config; keine Mod-API |
 
 ---
 
