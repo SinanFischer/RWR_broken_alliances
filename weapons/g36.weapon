@@ -12,7 +12,7 @@
   suppressed="0" 
   name="G36" 
   class="0" 
-  sight_range_modifier="1.2"
+  sight_range_modifier="1.1"
   projectile_speed="160.0" 
   barrel_offset="0.2" />
 
@@ -44,9 +44,9 @@
     <stance state_key="crouch_moving" accuracy="0.62" />
     <stance state_key="prone_moving" accuracy="0.56" />
 
-    <stance state_key="standing" accuracy="0.70" />
-    <stance state_key="crouching" accuracy="0.78" />
-    <stance state_key="prone" accuracy="0.86" />
+    <stance state_key="standing" accuracy="0.75" />
+    <stance state_key="crouching" accuracy="0.8" />
+    <stance state_key="prone" accuracy="0.925" />
 
     <modifier class="speed" value="-0.05" />
 </weapon>

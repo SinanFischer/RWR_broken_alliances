@@ -48,8 +48,8 @@
     <stance state_key="prone_moving" accuracy="0.60" />
 
     <stance state_key="standing" accuracy="0.76" />
-    <stance state_key="crouching" accuracy="0.82" />
-    <stance state_key="prone" accuracy="0.90" />
+    <stance state_key="crouching" accuracy="0.85" />
+    <stance state_key="prone" accuracy="0.93" />
 
     <modifier class="speed" value="-0.05" />
 </weapon>
