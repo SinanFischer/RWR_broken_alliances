@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <character filename="default_base.character">
     <!-- defined in default.character for differentiation, see maps/lobby/default.character too -->
+    <!-- FOV: Breiterer Sichtkegel + mehr Reichweite. Muss hier stehen - factions/default_base würde Vanilla ersetzen und zum Absturz führen. -->
+    <parameter class="player_fov_range" value="65.0" />
+    <parameter class="player_fov_max_dot_range" value="1.5" />
+    <parameter class="player_fov_min_dot_range_offset" value="1.0" />
     <!-- <comment key="Hmm, no signal" /> -->
 
 	<comment key="Driver, abandon vehicle" text="Fahrer, verlassen Sie das Fahrzeug" />
   <comment key="Driver, abandon vehicle" text="Fahrer, verlassen Sie das Fahrzeug" />  
-	<comment key="Gunner, abandon vehicle" text="Sch�tze, verlassen Sie das Fahrzeug" />
-  <comment key="Gunner, abandon vehicle" text="Sch�tze, verlassen Sie das Fahrzeug" />  
+	<comment key="Gunner, abandon vehicle" text="Sch?tze, verlassen Sie das Fahrzeug" />
+  <comment key="Gunner, abandon vehicle" text="Sch?tze, verlassen Sie das Fahrzeug" />  
 	<comment key="Squad, abandon vehicle" text="Squad, verlassen Sie das Fahrzeug"/>
 	<comment key="Squad, get out" text="Squad, raus mit euch" />
 
@@ -15,8 +19,8 @@
   <comment key="Squad, get in" text="Squad, steigen Sie in das Fahrzeug ein" /> 
 
 	<comment key="Squad, follow the vehicle" text="Squad, folgen Sie dem Fahrzeug" />
-	<comment key="Squad, follow the vehicle" text="Squad, bleiben Sie in der N�he des Fahrzeugs" />
-  <comment key="Squad, follow the vehicle" text="Squad, unterst�tzen Sie das Fahrzeug" />
+	<comment key="Squad, follow the vehicle" text="Squad, bleiben Sie in der N?he des Fahrzeugs" />
+  <comment key="Squad, follow the vehicle" text="Squad, unterst?tzen Sie das Fahrzeug" />
 
 	<comment key="Squad, follow me" text="Squad, folgt mir" />
 	<comment key="Squad, follow me" text="Squad, gruppieren" />
@@ -29,13 +33,13 @@
   <comment key="Driver, stop the vehicle" text="Hey, stopp!" />
   <comment key="Driver, stop the vehicle" text="Fahrer, halt!" />
   <comment key="Driver, stop the vehicle" text="Fahrer, ziehen Sie die Handbremse" />  
-	<comment key="Gunner, fire at will" text="Sch�tze, Feuer frei!" />
+	<comment key="Gunner, fire at will" text="Sch?tze, Feuer frei!" />
 
 	<comment key="Driver, stop the vehicle" text="Fahrer, halten Sie sofort an!" />
 
-	<comment key="Driver, stay close" text="Bleiben Sie in der N�he, Fahrer" />
+	<comment key="Driver, stay close" text="Bleiben Sie in der N?he, Fahrer" />
 	<comment key="Driver, stay close" text="Fahrer, folgt mir" />
-  <comment key="Driver, stay close" text="Fahrer, brauche Unterst�tzung" />
+  <comment key="Driver, stay close" text="Fahrer, brauche Unterst?tzung" />
 
 	<comment key="Squad, move over there" text="Squad, gehen Sie dorthin" />
 	<comment key="Squad, move over there" text="Squad, bewegen Sie sich dorthin" />
@@ -48,32 +52,32 @@
 	<comment key="Driver, take us there" text="Fahrer, bringt uns dorthin" />
 	<comment key="Driver, over there" text="Fahrer, dorthin!" />
 
-	<comment key="Gunner, there" text="Sch�tze, hier!"/>
+	<comment key="Gunner, there" text="Sch?tze, hier!"/>
   <comment key="Gunner, there" text="Nach dort zielen!" />
-  <comment key="Gunner, there" text="Sch�tze, dort!" />
-  <comment key="Gunner, there" text="Sch�tze, auf das Ziel feuern!" />  
+  <comment key="Gunner, there" text="Sch?tze, dort!" />
+  <comment key="Gunner, there" text="Sch?tze, auf das Ziel feuern!" />  
 
 	<comment key="We surrender!" text="Wir geben auf!"/>
 	<comment key="We surrender!" text="Nicht schiessen!" />
 	<comment key="We surrender!" text="" />
 	<comment key="We surrender!" text="" />
 
-	<!-- Verwundeten-Kommentare - brutal/realistisch, keine Zensur -->
-	<comment key="Medic!" text="Sanit�ter!" />
+	<!-- Verwundeten-Kommentare - brutal/realistisch (Ersatzschreibweise ae/oe/ue/ss) -->
+	<comment key="Medic!" text="Sanitaeter!" />
 	<comment key="Medic!" text="Sani!" />
 	<comment key="Medic!" text="Ich bin getroffen!" />
 	<comment key="Medic!" text="Mann verwundet!" />
 	<comment key="Medic!" text="Verdammt, ich bin getroffen!" />
-	<comment key="Medic!" text="Schei??e, ich bin getroffen!" />
+	<comment key="Medic!" text="Scheisse, ich bin getroffen!" />
 	<comment key="Medic!" text="Ich verblute hier!" />
 	<comment key="Medic!" text="Sie haben mich erwischt!" />
 	<comment key="Medic!" text="Sani! Ich bin getroffen!" />
-	<comment key="Medic!" text="Sanit�ter! Sofort!" />
+	<comment key="Medic!" text="Sanitaeter! Sofort!" />
 	<comment key="Medic!" text="Verdammt, ich brauche einen Sani!" />
 	<comment key="Medic!" text="Ich blute aus!" />
-	<comment key="Medic!" text="Schei??e, ich blute!" />
+	<comment key="Medic!" text="Scheisse, ich blute!" />
 	<comment key="Medic!" text="Sani! Ich verblute!" />
-	<comment key="Medic!" text="Sanit�ter! Ich bin getroffen!" />
+	<comment key="Medic!" text="Sanitaeter! Ich bin getroffen!" />
 	<comment key="Medic!" text="Ich wurde getroffen!" />
 	<comment key="Medic!" text="Brauch ein Sani!" />
 	<comment key="Medic!" text="Aah, brauche Hilfe!" />
@@ -81,7 +85,7 @@
 	<comment key="Medic!" text="Ich bin getroffen! Sani!" />
 	<comment key="Medic!" text="Fick, ich bin getroffen!" />
 	<comment key="Medic!" text="Verdammt, ich verblute!" />
-	<comment key="Medic!" text="Getroffen! Sanit�ter!" />
+	<comment key="Medic!" text="Getroffen! Sanitaeter!" />
 	<comment key="Medic!" text="Ich bin getroffen! Hilfe!" />
 	<comment key="Medic!" text="Mist, sie haben mich erwischt!" />
 	<comment key="Medic!" text="Kamerad! Wo seid ihr?!" />
@@ -108,13 +112,12 @@
 	<comment key="Medic!" text="Ich will nicht so sterben..." />
 	<comment key="Medic!" text="Es brennt..." />
 	<comment key="Medic!" text="Gott... hilf mir..." />
- 
 
 	<comment key="I feel good!" text="Mir geht es besser!"/>
 	<comment key="I feel good!" text="Danke Sani!" />
-	<comment key="I feel good!" text="Danke f�r die Hilfe!" /> 
+	<comment key="I feel good!" text="Danke f?r die Hilfe!" /> 
 	<comment key="I feel good!" text="Danke Doc!" /> 
-  <comment key="I feel good!" text="F�hle mich schon viel besser!" />     
+  <comment key="I feel good!" text="F?hle mich schon viel besser!" />     
 
 	<comment key="Reloading" text="Lade nach!"/>
 	<comment key="Reloading" text="Gebt mir Deckung!" />
@@ -123,12 +126,12 @@
 
 	<comment key="cancel radio call" text="Vergesst es, Ende" />
 	<comment key="cancel radio call" text="Bah, doch nicht, Ende" />
-	<comment key="initiate radio call" text="Alpha Null, h�rt ihr mich?" />
+	<comment key="initiate radio call" text="Alpha Null, h?rt ihr mich?" />
 	<comment key="commander radio response" text="Hier Alpha Null, klar und deutlich!" />
-    <comment key="commander radio full" text="Hier alpha null. Wir haben zu viele Anfragen zu bearbeiten, versuchen Sie es noch einmal in K�rze."/>    
-	<comment key="no radio equipment" text="Ich habe noch gar kein Funkger�t" />
-	<comment key="no radio equipment" text="Sie geben noch kein Funkger�t an %rank_names" />
-	<comment key="no radio equipment" text="Mist, ich hab mein Funkger�t in meiner anderen Hose vergessen!" />
+    <comment key="commander radio full" text="Hier alpha null. Wir haben zu viele Anfragen zu bearbeiten, versuchen Sie es noch einmal in K?rze."/>    
+	<comment key="no radio equipment" text="Ich habe noch gar kein Funkger?t" />
+	<comment key="no radio equipment" text="Sie geben noch kein Funkger?t an %rank_names" />
+	<comment key="no radio equipment" text="Mist, ich hab mein Funkger?t in meiner anderen Hose vergessen!" />
 
 	<comment key="squad chat, not in squad" text="Ich befinde mich nicht in einem Spieler-Squad" /> 
 
@@ -148,8 +151,8 @@
 	<comment key="hostile vehicle takeover" text="Huch?" /> 
 	<comment key="hostile vehicle takeover" text="Was'n hier los?" />    
 	
-	<comment key="Can't respawn - the last base is under attack" text="Spawnen nicht m�glich, letzte Basis unter Beschuss" />
-	<comment key="Can't respawn - spawning is locked" text="Spawnen nicht m�glich, Spawnpunkte vom Gegner besetzt" />
+	<comment key="Can't respawn - the last base is under attack" text="Spawnen nicht m?glich, letzte Basis unter Beschuss" />
+	<comment key="Can't respawn - spawning is locked" text="Spawnen nicht m?glich, Spawnpunkte vom Gegner besetzt" />
 
 	<comment key="Hmm.. not enough room here" text="Hmm.. nicht genug Platz hier" />
 
@@ -166,8 +169,8 @@
 
 	<comment key="Lone leader, open fire" text="" />
 
-	<comment key="fire opened, weapon tag = sniper" text="ScharfSch�tze" />
-	<comment key="fire opened, weapon tag = sniper" text="ScharfSch�tze in der N�he" />
+	<comment key="fire opened, weapon tag = sniper" text="Scharfsch?tze" />
+	<comment key="fire opened, weapon tag = sniper" text="Scharfsch?tze in der N?he" />
 
 	<comment key="grenade alert, grenade tag = grenade" text="OMG Granate!" />
 	<comment key="grenade alert, grenade tag = grenade" text="Achtung" />
@@ -186,10 +189,10 @@
 	<comment key="Lone leader, enemy not seen, area alerted" text="" />
 
 	<comment key="leader, enemy not seen, taking suppressed fire" text="In Deckung" />
-	<comment key="leader, enemy not seen, taking suppressed fire" text="Achtung Sch�sse" />
+	<comment key="leader, enemy not seen, taking suppressed fire" text="Achtung Sch?sse" />
 
 	<comment key="Lone leader, enemy not seen, taking suppressed fire" text="Ich weiss, dass du da bist!" />
-	<comment key="Lone leader, enemy not seen, taking suppressed fire" text="H�re Sch�sse" />
+	<comment key="Lone leader, enemy not seen, taking suppressed fire" text="H?re Sch?sse" />
 	<comment key="Lone leader, enemy not seen, taking suppressed fire" text="Was ?!" />
 	<comment key="Lone leader, enemy not seen, taking suppressed fire" text="!" />
 	<comment key="Lone leader, enemy not seen, taking suppressed fire" text="Feigling!" />
@@ -206,7 +209,7 @@
   <comment key="enemy seen, vehicle tag = any_tank" text="Kacke, das Ding ist fett!"/> 
 	<comment key="enemy seen, vehicle tag = any_tank" text="Panzer auf 12 Uhr!" />  
 	<comment key="enemy seen, vehicle tag = any_tank" text="Feindlicher Panzer im Anmarsch!" /> 
-  <comment key="enemy seen, vehicle tag = any_tank" text="Ein Panzer kommt uns N�her!" />    
+  <comment key="enemy seen, vehicle tag = any_tank" text="Ein Panzer kommt uns n?her!" />    
   
  	<comment key="enemy seen, vehicle tag = apc" text="APC!" /> 
  	<comment key="enemy seen, vehicle tag = apc" text="APC auf 12 Uhr! Macht ihn fertig!" />  
@@ -224,24 +227,24 @@
 	<comment key="enemy not seen, taking suppressed fire" text="?" />
 	<comment key="enemy not seen, taking suppressed fire" text="Was das das denn?" />
 	<comment key="enemy not seen, taking suppressed fire" text="Alaaarm!" />
-	<comment key="enemy not seen, taking suppressed fire" text="Es fallen Sch�sse!" />
+	<comment key="enemy not seen, taking suppressed fire" text="Es fallen Sch?sse!" />
 
-	<comment key="Waiting for reinforcements" text="Warte auf Verst�rkung"/>
-	<comment key="Waiting for reinforcements" text="Lasst uns hier auf Verst�rkung warten" />
+	<comment key="Waiting for reinforcements" text="Warte auf Verst?rkung"/>
+	<comment key="Waiting for reinforcements" text="Lasst uns hier auf Verst?rkung warten" />
 
 	<comment key="Hold on!" text="Auf dem Weg!" />
 	<comment key="Hold on!" text="Bin auf dem Weg!" />  
 	<comment key="Hold on!" text="Bin gleich da!" />  
 	<comment key="Hold on!" text="Halte durch, bin unterwegs!" />  
 
-	<comment key="Move out" text="Vorw�rts" />
+	<comment key="Move out" text="Vorw?rts" />
 	<comment key="Move out" text="Lasst uns gehen" />
 	<comment key="Move out" text="Folgt mir" />
   <comment key="Move out" text="Lasst uns loslaufen" />
 
 	<comment key="All quiet here" text="So ruhig hier" />
 	<comment key="All quiet here" text="Was ne Ruhe" />
-	<comment key="All quiet here" text="*g�hn*" />
+	<comment key="All quiet here" text="*g?hn*" />
 	<comment key="All quiet here" text="keiner weit und breit" />
 	<comment key="All quiet here" text="*pfeiff*" /> 
 	<comment key="All quiet here" text="Ruhe vor dem Sturm?" />
@@ -257,23 +260,23 @@
   <comment key="Yes sir" text="Hab verstanden" />  
 
 	<comment key="Uh, I can't drive this thing" text="Kann das Ding nicht kontrollieren" />
-	<comment key="Uh, I can't drive this thing" text="Na, zur�ck zur Fahrschule?" />
+	<comment key="Uh, I can't drive this thing" text="Na, zur?ck zur Fahrschule?" />
 	<comment key="Uh, I can't drive this thing" text="Ups!" />
 	<comment key="Uh, I can't drive this thing" text="Dang!" />
   <comment key="Uh, I can't drive this thing" text="Hmm bestimmt die Kurbelwelle am Arsch" />
   <comment key="Uh, I can't drive this thing" text="Bin ziemlich sicher, dass der Vergaser futsch ist" />
-  <comment key="Uh, I can't drive this thing" text="Muss was an der Lenkung sein, bin doch nicht bl�d!" /> 
+  <comment key="Uh, I can't drive this thing" text="Muss was an der Lenkung sein, bin doch nicht bl?d!" /> 
   <comment key="Uh, I can't drive this thing" text="Ah, das liegt bestimmt an der Kupplung" />
-  <comment key="Uh, I can't drive this thing" text="M�sste ich nur nicht fahren..." />
+  <comment key="Uh, I can't drive this thing" text="M?sste ich nur nicht fahren..." />
   <comment key="Uh, I can't drive this thing" text="Junger Vater!" />
   <comment key="Uh, I can't drive this thing" text="Alter, nicht schon wieder!" />
   <comment key="Uh, I can't drive this thing" text="Hey, will jemand fahren?" />
   <comment key="Uh, I can't drive this thing" text="Vermisse meine Brille" />
   <comment key="Uh, I can't drive this thing" text="Uh, die Steuerung scheint invertiert zu sein" />
-  <comment key="Uh, I can't drive this thing" text="Kann nichts daf�r" />
+  <comment key="Uh, I can't drive this thing" text="Kann nichts daf?r" />
   <comment key="Uh, I can't drive this thing" text="Alter Schwede, ich dreh hier noch am Rad!" />
-  <comment key="Waiting f�r squad" text="Warte auf Squad" />
-  <comment key="Waiting f�r squad" text="Auf geht's, rein mit euch!" />  
+  <comment key="Waiting for squad" text="Warte auf Squad" />
+  <comment key="Waiting for squad" text="Auf geht's, rein mit euch!" />  
 
 	<comment key="Shield up" text="Schild bereit" />
 	<comment key="Shield up" text="" />
@@ -283,10 +286,10 @@
 	<comment key="overencumbered" text="Ich kann kaum zielen mit so einem schweren Rucksack" />
 	<comment key="overencumbered" text="Ich sollte mein Rucksack etwas leeren" />  
 
-	<comment key="WH�re to, chief?" text="Wo geht es hin, Chef?"/>
-	<comment key="WH�re to, chief?" text="Soll es irgendwo bestimmtes sein?" />
-  <comment key="WH�re to, chief?" text="Zu ihren Diensten" />
-  <comment key="WH�re to, chief?" text="Warte auf BeF�hl" />
+	<comment key="Where to, chief?" text="Wo geht es hin, Chef?"/>
+	<comment key="Where to, chief?" text="Soll es irgendwo bestimmtes sein?" />
+  <comment key="Where to, chief?" text="Zu ihren Diensten" />
+  <comment key="Where to, chief?" text="Warte auf Befehl" />
   
 	<comment key="celebrating" text="Wir haben gewonnen!" />
 	<comment key="celebrating" text="Bin ja gar nicht gestorben!" />
@@ -301,33 +304,33 @@
 	<comment key="celebrating" text=":D" />
 	<comment key="celebrating" text="Schwede, haben wir sie gestampft!" />
 	<comment key="celebrating" text="Jetzt kann ich endlich kacken gehen!" />
-	<comment key="celebrating" text="Hat ja �belst lange gedauert!" />
+	<comment key="celebrating" text="Hat ja ?belst lange gedauert!" />
 	<comment key="celebrating" text="Was ein Krieg..." />
 	<comment key="celebrating" text="So wird's gemacht!" />
 	<comment key="celebrating" text="Cool!" />
 	<comment key="celebrating" text="Sauber!" />
-	<comment key="celebrating" text="L�uft bei uns!" /> 
+	<comment key="celebrating" text="L?uft bei uns!" /> 
   <comment key="celebrating" text="Haben die Bude gerockt!" />
 	<comment key="about to drive over a friendly" text="Vorsicht!" />
 	<comment key="about to drive over a friendly" text="Augen auf!" />
 	<comment key="about to drive over a friendly" text="Runter von der Strasse!" />
 
-  <comment key="this is as close as i can get" text="Das ist das n�chste was m�glich ist" />
-	<comment key="this is as close as i can get" text="N�her geht nicht" />
+  <comment key="this is as close as i can get" text="Das ist das n?chste was m?glich ist" />
+	<comment key="this is as close as i can get" text="N?her geht nicht" />
   
 	<comment key="enemy vehicle spotted, near base" text="%enemy_name %vehicle_name bei %base_name" />
 	<comment key="enemy vehicle spotted, not near base" text="%enemy_name %vehicle_name gesichtet" />
 
 	<comment key="comms have been restored" text="Die Funkverbindung wurde wieder hergestellt"/>
-	<comment key="enemy comms have been restored" text="%enemy_name Funkverbindung wurde vollst�ndig wieder hergestellt" />
+	<comment key="enemy comms have been restored" text="%enemy_name Funkverbindung wurde vollst?ndig wieder hergestellt" />
 
-	<comment key="comms have been destroyed" text="Die Funkkommunikation wurde zerst�rt!" />
+	<comment key="comms have been destroyed" text="Die Funkkommunikation wurde zerst?rt!" />
 	<comment key="enemy comms have been destroyed, by us" text="Gute Arbeit, die Funkverbindung der %enemy_name wurde sabotiert!" />  
 
 	<dialogue key="wander dialogue 2 men">
 		<comment text="Schau dir diese Gegend an man" />
 		<comment text="So ruhig" />
-		<comment text="K�nnte fast hier leben" />
+		<comment text="K?nnte fast hier leben" />
 	</dialogue>
 
 	<dialogue key="wander dialogue 2 men">
@@ -339,7 +342,7 @@
 	</dialogue>  
 
 	<dialogue key="wander dialogue 2 men">
-		<comment text="F�hl' mich heute unbesiegbar" />
+		<comment text="F?hl' mich heute unbesiegbar" />
 	</dialogue>
   
 	<dialogue key="wander dialogue 2 men">
@@ -378,7 +381,7 @@
 	</dialogue>
 
 	<dialogue key="defense dialogue 2 men">
-		<comment text="Der ganze Krieg hier ist so irreal f�r mich" />
+		<comment text="Der ganze Krieg hier ist so irreal f?r mich" />
 		<comment text="Hmm?" />
 		<comment text="Noch vor einem Monat war ich der, der Running With Rifles spielt" />
 		<comment text="Ja und nun bist du mitten drin in dem Spiel" />
@@ -392,14 +395,14 @@
 		<comment text="Ja, hab es volle Kanne verkackt" />
 		<comment text="Was hast du denn angerichtet?" />
 		<comment text="Erz?hl es niemanden aber ich habe ein Frachttruck in die Luft gejagt.." />
-		<comment text="Wie ist das m�glich, wenn du es von feindlichem Gebiet zur�ckgefahren hast?" />
+		<comment text="Wie ist das m?glich, wenn du es von feindlichem Gebiet zur?ckgefahren hast?" />
 		<comment text="Es war aber kein feindlicher Truck, den ich gesprengt habe" />
 		<comment text="Oh man, das fetzt nicht" />
 		<comment text="In der Tat nicht" />
 	</dialogue>
 
 	<dialogue key="defense dialogue 2 men">
-		<comment text="Hast du Kippen f�r mich?" /> 
+		<comment text="Hast du Kippen f?r mich?" /> 
 		<comment text="Ne, hab keine mehr. Aber seit wann rauchst du denn ?berhaupt?" />
 		<comment text="Tu ich nicht, will sie gegen eine neue Waffe tauschen" />
 		<comment text="Was stimmt denn nicht mit deiner aktuellen Waffe?" />
@@ -408,8 +411,8 @@
 		<comment text="Bah, die haben keine Reinigungwolle mehr im Waffenlager" />
 		<comment text="Das gibt's doch nicht" />
 		<comment text="Die haben dutzende Waffen, aber nichts um sie zu warten" />
-		<comment text="Sieht so aus, als w?rden die denken, dass wir sowieso nicht lange genug daf�r ?berleben" />
-		<comment text="Da K�nnte was dran sein" />
+		<comment text="Sieht so aus, als w?rden die denken, dass wir sowieso nicht lange genug daf?r ?berleben" />
+		<comment text="Da k?nnte was dran sein" />
 	</dialogue>
 
 	<dialogue key="defense dialogue 2 men">
@@ -435,13 +438,13 @@
 		<comment text="Hmm hast recht, es wurde uns nie gesagt" />
 		<comment text="Nenn mich verr?ckt aber ich finde das alles ziemlich suspekt" />
 		<comment text="Ich glaube wir befreien ein armes Land von einem Tyrannen" />
-		<comment text="f�r mich klingt es eher nach einer Invasion eines Landes ohne R?cksicht zu nehmen" />
-		<comment text="Vielleicht solltest du aufh?ren zu denken, das K�nnte uns Schwierigkeiten machen.." />
+		<comment text="F?r mich klingt es eher nach einer Invasion eines Landes ohne R?cksicht zu nehmen" />
+		<comment text="Vielleicht solltest du aufh?ren zu denken, das k?nnte uns Schwierigkeiten machen.." />
 	</dialogue>
 
 	<dialogue key="defense dialogue 2 men">
 		<comment text="Chef? Wieso tun wir nichts?" />
-		<comment text="Hinterfrage BeF�hle nicht, Junge. Das bringt dich nur um" />
+		<comment text="Hinterfrage Befehle nicht, Junge. Das bringt dich nur um" />
 		<comment text="OK Chef"/>      
 	</dialogue>
 
@@ -463,7 +466,7 @@
   
 	<dialogue key="defense dialogue 2 men">
 		<comment text="Zum Gl?ck greift der Gegner nicht von hinten an..." />
-		<comment text="Ja, daf�r w?ren wir nicht vorbereitet" />
+		<comment text="Ja, daf?r w?ren wir nicht vorbereitet" />
 	</dialogue>   
   
  	<dialogue key="vehicle dialogue 2 men">
@@ -484,7 +487,7 @@
 	</dialogue>  
 
 	<dialogue key="defense dialogue 2 men">
-		<comment text="Manchmal hab ich das GeF�hl, das wir einfach nur mit Gewehren rennen" />
+		<comment text="Manchmal hab ich das Gef?hl, das wir einfach nur mit Gewehren rennen" />
 		<comment text="Sag bloss..." />
 	</dialogue>  
 
@@ -509,7 +512,7 @@
 		<comment text="Weisste was?" />
 		<comment text="Hmm?" />
 		<comment text="Ich glaub ich bin in dich verliebt" />   
-		<comment text="h�rt sofort auf mit dem Quatsch..." />     
+		<comment text="H?rt sofort auf mit dem Quatsch..." />     
 	</dialogue> 
 
  	<dialogue key="vehicle dialogue 2 men">
@@ -523,7 +526,7 @@
 	</dialogue>
   
  	<dialogue key="vehicle dialogue 2 men">
-		<comment text="F�hle mich voll nicht sicher in der Kiste" />
+		<comment text="F?hle mich voll nicht sicher in der Kiste" />
 		<comment text="Wieso das denn?" />      
 		<comment text="Guck mal die R?der" />
 		<comment text="Was stimmt nicht mit den R?dern?" />
@@ -556,7 +559,7 @@
   
  	<dialogue key="vehicle dialogue 2 men">
 		<comment text="Blendgranaten sind nicht so nutzlos wie viele denken" />
-		<comment text="Ja, die bringen die Betreffenen ausser Gefecht f�r eine Weile" />
+		<comment text="Ja, die bringen die Betreffenen ausser Gefecht f?r eine Weile" />
 		<comment text="In einem deutlich gr?sseren Radius!" />    
 	</dialogue>     
 
@@ -566,21 +569,21 @@
 	</dialogue>  
   
  	<dialogue key="vehicle dialogue 2 men">
-		<comment text="Wir K�nnten zu Hause chillen" />
+		<comment text="Wir k?nnten zu Hause chillen" />
 		<comment text="Ein paar Bierchen saufen" />
 		<comment text="'RUNNING WITH RIFLES' zocken" />
 		<comment text="Aber nein, stattdessen m?ssen wir den Dreck hier durchmachen" />    
 	</dialogue>       
   
  	<dialogue key="vehicle dialogue 2 men">
-		<comment text="Ich glaub' wir m?ssen zur Waffenkammer zur�ck ?" />
+		<comment text="Ich glaub' wir m?ssen zur Waffenkammer zur?ck ?" />
 		<comment text="Wieso das denn?" />
 		<comment text="Ich hab meine Weste vergessen..." />    
 	</dialogue> 
   
  	<dialogue key="vehicle dialogue 2 men">
 		<comment text="Ein bisschen mehr richtige Frauen bei der Armee w?rden nicht schaden" />
-		<comment text="Stimmt schon, w?re nicht verkehrt f�r unsere Hormone" />
+		<comment text="Stimmt schon, w?re nicht verkehrt f?r unsere Hormone" />
 		<comment text="Nein, so meinte ich das nicht..." />
 		<comment text="Sondern?" /> 
 		<comment text="Da h?tten wir jemand f?rs B?geln, Kochen und Putzen" />               
@@ -596,7 +599,7 @@
 		<comment text="It's FRIDAY! FRIDAY! *sing*" />
 		<comment text="H?ttest S?nger werden sollen" />
 		<comment text="Wirklich, ist es dein Ernst?" /> 
-		<comment text="Jupp, dann M�ssten wir dich nicht den ganzen Tag hier h?ren" />    
+		<comment text="Jupp, dann m?ssten wir dich nicht den ganzen Tag hier h?ren" />    
 	</dialogue> 
 
 	<dialogue key="vehicle dialogue 2 men">
@@ -619,13 +622,13 @@
 	</dialogue>
 
 	<dialogue key="vehicle dialogue 2 men">
-		<comment text="Kennst du die Wettervorhersage f�r heute Abend?" />
+		<comment text="Kennst du die Wettervorhersage f?r heute Abend?" />
 		<comment text="Ja, wird dunkel" />
 		<comment text="..." />
   </dialogue>
 
  	<dialogue key="vehicle dialogue 2 men">
-		<comment text="Wem geh�rt das klingelnde Telefon?!" />
+		<comment text="Wem geh?rt das klingelnde Telefon?!" />
 		<comment text="Es ist kein Telefon, sondern ein Tamagotchi" />
 	</dialogue>
   
@@ -653,7 +656,7 @@
 	<dialogue key="vehicle dialogue 2 men">
 		<comment text="Vergesst nicht, was ich euch heute morgen gesagt habe!" />
 		<comment text="Ja Chef!" />
-		<comment text="Falls unser Angriff zu gut abL�uft, ist es ein Hinterhalt!" />    
+		<comment text="Falls unser Angriff zu gut abl?uft, ist es ein Hinterhalt!" />    
 	</dialogue> 
   
 	<dialogue key="vehicle dialogue 2 men">
@@ -688,7 +691,7 @@
 
 	<dialogue key="vehicle dialogue 2 men tag=campfire">
 		<comment text="Meine F?sse brennen" />
-		<comment text="Dann rutsch zur�ck" />
+		<comment text="Dann rutsch zur?ck" />
 		<comment text="Ich kann nicht" />
 	</dialogue>
 
@@ -701,7 +704,7 @@
   <dialogue key="vehicle dialogue 2 men tag=any_tank">
       <comment text="Werden wir diesen Panzer taufen?" /> 
       <comment text="Wieso willst du das?" />
-      <comment text="Naja, wir werden ihn ja f�r 'ne Weile haben, also..." />
+      <comment text="Naja, wir werden ihn ja f?r 'ne Weile haben, also..." />
   </dialogue>
 
 	<dialogue key="vehicle dialogue 2 men tag=any_tank">
@@ -719,7 +722,7 @@
 	</dialogue>
 
 	<dialogue key="vehicle dialogue 2 men tag=any_tank">
-		<comment text="Die beste Umgebung f�r einen Panzer ist eine ohne Panzerabwehr" /> 
+		<comment text="Die beste Umgebung f?r einen Panzer ist eine ohne Panzerabwehr" /> 
 	</dialogue>
 
 	<dialogue key="vehicle dialogue 2 men tag=any_tank">
@@ -769,7 +772,7 @@
 	</dialogue>  
   
 	<dialogue key="vehicle dialogue 2 men tag=truck">
-		<comment text="W?rde mir w?nschen, dass die Spieler das Innere von Fahrzeugen sehen K�nnten" />
+		<comment text="W?rde mir w?nschen, dass die Spieler das Innere von Fahrzeugen sehen k?nnten" />
 		<comment text="Jepp, null Details eingebaut" /> 
 		<comment text="Faule Entwickler!" />         
 	</dialogue>     
@@ -783,13 +786,13 @@
 	</dialogue>
   
 	<dialogue key="vehicle dialogue 2 men tag=truck">
-		<comment text="W?rde mich wohler F�hlen ausserhalb dieser Kiste" />
+		<comment text="W?rde mich wohler f?hlen ausserhalb dieser Kiste" />
 	</dialogue>  
 
 	<dialogue key="vehicle dialogue 2 men tag=truck">
 		<comment text="Stell dir jetzt eine Pizza vor" />
 		<comment text="Oder ein Eis" />
-		<comment text="Oder ein Brath?hN�hen" />
+		<comment text="Oder ein Brath?hnchen" />
 		<comment text="Oder einen Tofusalat" />
 		<comment text="Wie bitte !?!" />                
 	</dialogue>
@@ -800,18 +803,18 @@
 	</dialogue>  
   
 	<dialogue key="vehicle dialogue 2 men tag=truck">
-		<comment text="?hm? f�r was ist dieser gr?ne Knopf gut?" />
-		<comment text="Uh... f�r nichts..." />    
+		<comment text="?hm? F?r was ist dieser gr?ne Knopf gut?" />
+		<comment text="Uh... f?r nichts..." />    
 	</dialogue> 
   
 	<dialogue key="vehicle dialogue 2 men tag=truck">
-		<comment text="Hey, K�nntest du das Spiel neustarten bitte?" />
+		<comment text="Hey, k?nntest du das Spiel neustarten bitte?" />
 		<comment text="Was los?" /> 
 		<comment text="Bin in einer Textur blockiert.." />        
 	</dialogue>       
   
 	<dialogue key="vehicle dialogue 2 men tag=truck">
-		<comment text="Solltest lieber deineN�helm statt diesem roten Stirnband tragen" />
+		<comment text="Solltest lieber deinen Helm statt diesem roten Stirnband tragen" />
 		<comment text="Hast schon recht, aber sieht viel b?ser aus" />    
 		<comment text="Einer Kugel ist das egal" />    
 	</dialogue> 
@@ -842,23 +845,23 @@
 	</dialogue>
 
 	<dialogue key="defense dialogue 2 men">
-		<comment text="Ich F�hle mich so gut heute" />
+		<comment text="Ich f?hle mich so gut heute" />
 	</dialogue>
   
 	<dialogue key="defense dialogue 2 men">
-		<comment text="F�hle mich als w?re ich heute bereits 100 Mal auferstanden" />
+		<comment text="F?hle mich als w?re ich heute bereits 100 Mal auferstanden" />
     <comment text="Jupp, geht mir ebenso" />  
     <comment text="Stell dir mal vor so im echten Leben" />
     <comment text="Haha" />           
 	</dialogue>
   
 	<dialogue key="defense dialogue 2 men">
-		<comment text="?ltere Leute bei Hochzeiten sagen mir ?fters 'Du bist der n�chste'" />
+		<comment text="?ltere Leute bei Hochzeiten sagen mir ?fters 'Du bist der N?chste'" />
     <comment text="Du solltest das gleiche tun bei Beerdigungen" />     
 	</dialogue>    
   
 	<dialogue key="defense dialogue 2 men">
-		<comment text="Diese Telefonverk?uf�r gehen mir auf den Sack" />
+		<comment text="Diese Telefonverk?ufer gehen mir auf den Sack" />
     <comment text="Gib doch den H?rer deiner Tochter und sag ihr, es sei der Weihnachtsmann!" />     
 	</dialogue>  
   
@@ -876,7 +879,7 @@
     <comment text="Und?" /> 
     <comment text="Naja, was denkst du denn?" />
     <comment text="Nun ja, ich teilte schon immer den Geschmack deiner Frau" />    
-    <comment text="K�nntest du nicht ausnahmsweise mal ehrlich sein?" /> 
+    <comment text="K?nntest du nicht ausnahmsweise mal ehrlich sein?" /> 
     <comment text="Glaub mir, ich bin es..." />              
 	</dialogue>      
 
@@ -899,17 +902,17 @@
 	</dialogue>  
   
 	<dialogue key="defense dialogue 2 men">
-		<comment text="Vermisse �belst mein Smartphone" />
+		<comment text="Vermisse ?belst mein Smartphone" />
     <comment text="Jo, kein Facebook, kein Twitter, ziemlich langweilig!" /> 
     <comment text="Ich vermisse YouPorn am meisten" /> 
-    <comment text="Hmm noch nie davon geh�rt *pfeiff*" />
+    <comment text="Hmm noch nie davon geh?rt *pfeiff*" />
     <comment text="Aber siiiicher" />
     <comment text=":D" />                         
 	</dialogue> 
   
 	<dialogue key="defense dialogue 2 men">
 		<comment text="Bin froh, dass die Entwickler keine Luftfahrzeuge implementieren" />
-		<comment text="Hm ja, eine UnbeK�nnte weniger, die man beachten muss" /> 
+		<comment text="Hm ja, eine Unbekannte weniger, die man beachten muss" /> 
     <comment text="Jep, man muss sich nicht drum k?mmern, was vom Himmel runterkommt" />          
     <comment text="Ausser Artillerie, M?rser und ... aaaaargh!!" />
     <comment text="Hahaha und Vogelscheisse!" /> 
@@ -925,7 +928,7 @@
     <comment text="Die sprechen immer wieder von Milit?rintelligenz" />  
     <comment text="Was ist dabei?" />
     <comment text="Milit?rintelligenz ist ein Widerspruch" /> 
-    <comment text="Meh, sprich f�r dich!" />                                            
+    <comment text="Meh, sprich f?r dich!" />                                            
 	</dialogue>  
   
 	<dialogue key="defense dialogue 2 men">
@@ -948,7 +951,7 @@
 	</dialogue>  
 
 	<dialogue key="defense dialogue 2 men">
-    <comment text="Es gibt immer einen Weg f�r alles" />  
+    <comment text="Es gibt immer einen Weg f?r alles" />  
     <comment text="Der meistens ins Nirgendwo f?hrt" />                                     
 	</dialogue>  
 
@@ -978,14 +981,14 @@
 	</dialogue>      
   
 	<dialogue key="defense dialogue 2 men">
-    <comment text="Wieso ziehen sich unsere Jungs in letzter Zeit zur�ck?" />  
+    <comment text="Wieso ziehen sich unsere Jungs in letzter Zeit zur?ck?" />  
     <comment text="Tun sie nicht, die gehen nur in die falsche Richtung" />  
     <comment text="Oh ok" />                                       
 	</dialogue>  
 
 	<dialogue key="defense dialogue 2 men">
     <comment text="Du musst nicht straight sein, um zur Armee zu gehen" />  
-    <comment text="Danke f�r deine Unterst�tzung, Mann" />                                     
+    <comment text="Danke f?r deine Unterst?tzung, Mann" />                                     
     <comment text="Du musst nur straight schiessen m?ssen" />
 	</dialogue>     
   
@@ -995,14 +998,14 @@
 	</dialogue> 
   
 	<dialogue key="defense dialogue 2 men">
-    <comment text="Unterbreche niemals deinen Feind, wenn er einen F�hler macht" />  
+    <comment text="Unterbreche niemals deinen Feind, wenn er einen Fehler macht" />  
     <comment text="" />                                     
 	</dialogue>    
 
 	<dialogue key="defense dialogue 2 men">
     <comment text="Gibt so viele Wertgegenst?nde die auf dem Schlachtfeld rumliegen" />  
     <comment text="Und die meisten Soldaten scheren sich ein Dreck drum" /> 
-    <comment text="Ja doof, denn man kann sie f�r viel Kohle verkaufen" />                                         
+    <comment text="Ja doof, denn man kann sie f?r viel Kohle verkaufen" />                                         
 	</dialogue> 
 
 	<dialogue key="defense dialogue 2 men">
@@ -1016,10 +1019,10 @@
   <dialogue key="defense dialogue 2 men">
       <comment text="He, ich stellte mir neulich eine Frage" />
       <comment text="Was denn?" />
-      <comment text="Unsere Verst�rkung, wo kommt sie her?" />
+      <comment text="Unsere Verst?rkung, wo kommt sie her?" />
       <comment text="Wie meinst du das?" />
-      <comment text="Naja, die Schei??en nicht durch Truppentransporte oder so zu kommen" />
-      <comment text="Du meinst, die erSchei??en einfach so aus dem Nichts?" />
+      <comment text="Naja, die scheinen nicht durch Truppentransporte oder so zu kommen" />
+      <comment text="Du meinst, die erscheinen einfach so aus dem Nichts?" />
   </dialogue>
 
   <dialogue key="defense dialogue 2 men">
@@ -1030,7 +1033,7 @@
   </dialogue>
    
   <dialogue key="defense dialogue 2 men">
-      <comment text="Sie bezahlen uns nicht genug daf�r" />
+      <comment text="Sie bezahlen uns nicht genug daf?r" />
       <comment text="Nicht genug, um dein Gesicht sehen zu m?ssen" />
       <comment text="Was? Ist das ein Scherz?!" />
       <comment text="Oh, ich w?nschte, es w?re so" />
@@ -1054,7 +1057,7 @@
 	<comment key="enemy captured a base" text="Die %faction_name kontrollieren nun %base_name" />
 	<comment key="neutral captured a base" text="" />
 
-	<comment key="new attack orders" text="Neuer AngriffsbeF�hl, Ziel: %base_name aus Richtung %direction" />
+	<comment key="new attack orders" text="Neuer Angriffsbefehl, Ziel: %base_name aus Richtung %direction" />
 
 	<comment key="we have lost our last base" text="Wir haben unsere letzte Basis verloren - Die Schlacht ist verloren!" />
 	<comment key="enemy has lost their last base" text="%faction_name haben ihre letzte Basis verloren, das war's!" /> 
@@ -1069,42 +1072,42 @@
 	<comment key="we are attacking a base" text="Unsere Truppen greifen %base_name an" />
 
 	<comment key="fighting near a base" text="Ein Feuergefecht wurde bei %base_name lokalisiert" />
-	<comment key="fighting near a base" text="Verst�rkung angefordert bei %base_name" />
-	<comment key="fighting near a base" text="Es wurden Sch�sse bei %base_name festgestellt" />
+	<comment key="fighting near a base" text="Verst?rkung angefordert bei %base_name" />
+	<comment key="fighting near a base" text="Es wurden Sch?sse bei %base_name festgestellt" />
 
 	<comment key="defense timer started" text="Die %faction_name kontrollieren alle Basen, %time_left Sekunden verbleibend!" />
 	<comment key="defense timer to go" text="%time_left Sekunden verbleibend!" />
 
   <!-- adventure mode -->
 <!--
-  <comment key="map start with 1 base, part 1" text="Status Report: Wir K�nnten eine Basis sichern" />
-  <comment key="map start with 1 base, part 2" text="Machen sie sich bereit f�r die Invasion" />
+  <comment key="map start with 1 base, part 1" text="Status Report: Wir konnten eine Basis sichern" />
+  <comment key="map start with 1 base, part 2" text="Machen sie sich bereit f?r die Invasion" />
 -->
 
   <comment key="map start with 1 base, part 1" text="Achtung, Lagebesprechung des Kommandanten:" />
   <comment key="map start with 1 base, part 2" text="Sch?n, Sie alle hier zu haben, bei %map_name" />
-  <comment key="map start with 1 base, part 3" text="Der Vorbereitungszug ist fr?her angekommen als erwartet und hat den Umkreis von %base_name abgesich�rt" />
+  <comment key="map start with 1 base, part 3" text="Der Vorbereitungszug ist fr?her angekommen als erwartet und hat den Umkreis von %base_name abgesichert" />
 
-  <comment key="map start with 1 base, capture" text="Jetzt, wo Verst�rkung nachger?ckt ist, ist unser Ziel %map_name komplett zu kontrollieren" />
+  <comment key="map start with 1 base, capture" text="Jetzt, wo Verst?rkung nachger?ckt ist, ist unser Ziel %map_name komplett zu kontrollieren" />
   <comment key="map start with 1 base, koth" text="Unsere erste Aufgabe ist es %target_base_name einzunehmen und zu verteidigen" />
 
   <comment key="side objectives" text="Squad-Anf?hrer werden dazu ermutigt Sabotage-Missionen durchzuf?hren" />
   <comment key="loot objective" text="Wertsachen und Frachttrucks sollen an Waffenkammern zur Untersuchung geliefert werden" />
   <comment key="radio tower or truck objective" text="Haltet eure Augen offen und meldet Funkt?rme oder Kommunikationstrucks hinter feindlichen Linien" />
-  <comment key="aa objective" text="Feindliche Luftabwehrstellungen unterbinden Luftabw?rfe in der Umgebung, sp?rt sie auf und zerst�rt sie" />
+  <comment key="aa objective" text="Feindliche Luftabwehrstellungen unterbinden Luftabw?rfe in der Umgebung, sp?rt sie auf und zerst?rt sie" />
 
   <comment key="map start, ending" text="Viel Erfolg, Soldaten" />
   <comment key="map start, ending" text="Viel Gl?ck, Soldaten" />
 
-  <comment key="map start with more bases, part 1" text="Gute Sachem Sie bei uns zu haben, wir k?nnen jede Unterst�tzung hier gut gebrauchen" />
+  <comment key="map start with more bases, part 1" text="Gute Sachem Sie bei uns zu haben, wir k?nnen jede Unterst?tzung hier gut gebrauchen" />
   <comment key="map start with more bases, part 2" text="Wir haben es geschafft unsere Position zu halten, indem wir %number_of_bases Basen kontrollieren" />
 
-  <comment key="map start with completed map" text="Willkommen zur�ck, Soldat" />
+  <comment key="map start with completed map" text="Willkommen zur?ck, Soldat" />
 
   <comment key="map advance, held by enemy" text="Der Geheimdienst hat uns informiert, dass %map_name von den %faction_name kontrolliert wird" />
   <comment key="map advance, another enemy present" text="Die %faction_name wurden ebenfalls in der Region gesichtet" />
-  <comment key="map advance, new map" text="Unsere Kr?fte tun sich schwer, Fuss zu fassen, Unterst�tzung beantragt" />
-  <comment key="map advance, been tH�re before" text="Wir kontrollieren immer noch %number_of_bases Basen" />
+  <comment key="map advance, new map" text="Unsere Kr?fte tun sich schwer, Fuss zu fassen, Unterst?tzung beantragt" />
+  <comment key="map advance, been there before" text="Wir kontrollieren immer noch %number_of_bases Basen" />
   <comment key="map advance, friendly map" text="%map_name wird von den %faction_name kontrolliert, ziemlich friedlich hier" />
 
   <!-- boss maps -->
@@ -1117,54 +1120,54 @@
   <comment key="final map start with 1 base, part 3" text="L?scht sie aus!" />
   -->
 
-  <comment key="Final mission I advance, held by enemy, part 1" text="Gute Arbeit! Die %faction_name wurden erfolgreich zur�ckgedr?ngt" />
+  <comment key="Final mission I advance, held by enemy, part 1" text="Gute Arbeit! Die %faction_name wurden erfolgreich zur?ckgedr?ngt" />
   <comment key="Final mission I advance, held by enemy, part 2" text="Die ?berlebenden feindlichen Offiziere wurden in einem abgelegenen Dorf gesichtet" />
   <comment key="Final mission I advance, held by enemy, part 3" text="Eine Gruppe unserer besten M?nner wird auf eine Zerst?rungsmission geschickt um die restlichen Feinde auszuschalten" />
-  <comment key="Final mission I advance, held by enemy, part 4" text="Sie werden Delta Eins und Zwei zugeteilt um die Gruppe zu unterst�tzen" />
+  <comment key="Final mission I advance, held by enemy, part 4" text="Sie werden Delta Eins und Zwei zugeteilt um die Gruppe zu unterst?tzen" />
   <comment key="Final mission I advance, held by enemy, part 5" text="Warte auf Hubschrauber Transport" />
 
   <comment key="Final mission I start with 1 base, part 1" text="Verdammt! Es wurde doch best?tigt, dass der Luftraum sicher sei!" />
   <comment key="Final mission I start with 1 base, part 2" text="Delta Eins und Zwei sind gefallen, es bleiben nur noch Sie um die Mission zu erf?llen!" />
-  <comment key="Final mission I start with 1 base, part 3" text="Sie sind auf sich selbst gestellt - LuftUnterst�tzung kann nicht gew?hrleistet werden solange die Situation am Boden unklar ist" />
+  <comment key="Final mission I start with 1 base, part 3" text="Sie sind auf sich selbst gestellt - Luftunterst?tzung kann nicht gew?hrleistet werden solange die Situation am Boden unklar ist" />
   <comment key="Final mission I start with 1 base, part 4" text="Artillerie und M?rserstellungen sind ausserdem ausser Reichweite, da m?ssen wir ohne auskommen" />
   <comment key="Final mission I start with 1 base, part 5" text="Orten sie die feindlichen Funkt?rme, zerst?ren sie diese und tun Sie das selbe mit dem Feind allgemein!" />
 
-  <comment key="Final mission II advance, held by enemy, part 1" text="Gute Arbeit! %faction_name wurde erfolgreich zur�ckgedr?ngt" /> 
+  <comment key="Final mission II advance, held by enemy, part 1" text="Gute Arbeit! %faction_name wurde erfolgreich zur?ckgedr?ngt" /> 
   <comment key="Final mission II advance, held by enemy, part 2" text="Ein Zug unserer Armee hat die %faction_name aufgesp?rt, sie haben ein Camp im Frozen Canyon" />
-  <comment key="Final mission II advance, held by enemy, part 3" text="Die Lage des Zuges wurde gef?hrdet, sie M�ssten einer deutlichen ?berzahl des Gegners standhalten" />
-  <comment key="Final mission II advance, held by enemy, part 4" text="Der Verst�rkungstransport bringt Sie sofort dorthin" />
-  <comment key="Final mission II advance, held by enemy, part 5" text="Stellen Sie sich auf massive Gegenwehr und h�rte Wetterkonditionen ein!" />
+  <comment key="Final mission II advance, held by enemy, part 3" text="Die Lage des Zuges wurde gef?hrdet, sie mussten einer deutlichen ?berzahl des Gegners standhalten" />
+  <comment key="Final mission II advance, held by enemy, part 4" text="Der Verst?rkungstransport bringt Sie sofort dorthin" />
+  <comment key="Final mission II advance, held by enemy, part 5" text="Stellen Sie sich auf massive Gegenwehr und harte Wetterkonditionen ein!" />
 
-  <comment key="Final mission II start with 1 base, part 1" text="Verst�rkung ist gerade noch rechtzeitig eingetroffen" />
+  <comment key="Final mission II start with 1 base, part 1" text="Verst?rkung ist gerade noch rechtzeitig eingetroffen" />
   <comment key="Final mission II start with 1 base, part 2" text="Der Feind st?rmt auf unsere Basis zu, wir k?nnen kaum noch die Linie halten" />
   <comment key="Final mission II start with 1 base, part 3" text="Seid bereit und gebt niemals auf!" />
   <comment key="Final mission II start with 1 base, part 4" text="Halten Sie die Stellung und stossen Sie erst vor, wenn ich es Ihnen sage!" />
   <comment key="Final mission II start with 1 base, part 5" text="" />
 
   <comment key="Final mission II, phase 2, part 1" text="Gute Arbeit! Es scheint als lasse die Moral der Feinde nach" />
-  <comment key="Final mission II, phase 2, part 2" text="Sie Schei??en nun eine Verteidigungsstrategie einzugehen" />
+  <comment key="Final mission II, phase 2, part 2" text="Sie scheinen nun eine Verteidigungsstrategie einzugehen" />
   <comment key="Final mission II, phase 2, part 3" text="Das ist die Gelegenheit vorzustossen, das ist es!" />
-  <comment key="Final mission II, phase 2, part 4" text="Eine feindliche Luftabwehrstellung unterbindet das Eintreffen unserer Verst�rkung, sp?rt sie auf und schaltet sie aus!" />
-  <comment key="Final mission II, phase 2, part 5" text="Eine St?rfunkturm wurde in der Burgruine gesichtet, findet einen Weg dorthin und zerst�rt ihn!" />
+  <comment key="Final mission II, phase 2, part 4" text="Eine feindliche Luftabwehrstellung unterbindet das Eintreffen unserer Verst?rkung, sp?rt sie auf und schaltet sie aus!" />
+  <comment key="Final mission II, phase 2, part 5" text="Eine St?rfunkturm wurde in der Burgruine gesichtet, findet einen Weg dorthin und zerst?rt ihn!" />
 
-  <comment key="Final mission II, phase 3, part 1" text="Bravo! Die ?brigen feindlichen Einheiten Schei??en sich in einer Art Arena verschanzt zu haben?" />
+  <comment key="Final mission II, phase 3, part 1" text="Bravo! Die ?brigen feindlichen Einheiten scheinen sich in einer Art Arena verschanzt zu haben?" />
   <comment key="Final mission II, phase 3, part 2" text="Der Zugang wurde versperrt!" />
   <comment key="Final mission II, phase 3, part 3" text="Es scheint eine Art Verbindung zwischen Tor und Kommunikationsstruktur im S?den zu geben" />
   <comment key="Final mission II, phase 3, part 4" text="Sprengen Sie diese!" />
 
-  <comment key="Final mission II, phase 4, part 1" text="Wer h?tte das gedacht! Das Tor ist v?llig zerst�rt!" />
+  <comment key="Final mission II, phase 4, part 1" text="Wer h?tte das gedacht! Das Tor ist v?llig zerst?rt!" />
   <comment key="Final mission II, phase 4, part 2" text="Wir haben es bald geschafft, gehen Sie in die Arena und macht sie fertig!" />
 
   <!-- vehicle delivery objective -->
   <comment key="vehicle delivered" text="%vehicle_name ausgeliefert, gut gemacht!" />
-  <comment key="vehicle objective cancelled, vehicle destroyed" text="Ziel geSchei??ert, %vehicle_name zerst�rt..." />
+  <comment key="vehicle objective cancelled, vehicle destroyed" text="Ziel gescheitert, %vehicle_name zerst?rt..." />
   <comment key="vehicle objective instruction" text="%faction_name %vehicle_name im %location gesichtet, erobert es und bringt es zu einer Waffenkammer" />
 
   <comment key="resource out of stock" text="%resource_name nicht mehr vorr?tig" />
   <comment key="resource added in stock" text="%resource_name ist nun im Vorrat erh?ltlich!" />
 
   <comment key="overtime, we are winning" text="Macht so weiter, es scheint als w?rde dem Feind langsam die Puste ausgehen!" /> 
-  <comment key="overtime, we are losing" text="Es K�nnte unsere letzte Chance sein, es kommt keine Verst�rkung mehr nach!" />
+  <comment key="overtime, we are losing" text="Es k?nnte unsere letzte Chance sein, es kommt keine Verst?rkung mehr nach!" />
 
   <!-- item delivery objective; briefcases -->
   <comment key="item delivered" text="Ziel erreicht" />
@@ -1181,15 +1184,15 @@
   <comment key="extraction point available" text="Exfiltrationspunkt zu %map_name erh?ltlich" />
   <comment key="several extraction points available" text="Mehrere Exfiltrationspunkte erh?ltlich" />
 
-  <comment key="standby f�r extraction" text="Warte auf Exfiltration" /> 
+  <comment key="standby for extraction" text="Warte auf Exfiltration" /> 
 
-  <!-- teddy bear hunt session, f�r fun -->
+  <!-- teddy bear hunt session, for fun -->
   <comment key="flag dropped in container 0" text="%player_name hat einen %item_name verloren" />
   <comment key="flag dropped in container 1" text="%player_name hat einen %item_name an der Waffenkammer ausgeliefert, er punktet" />
   <comment key="flag dropped in container 2" text="%player_name hat einen %item_name in seinem Rucksack" />
   <comment key="flag dropped in container 3" text="%player_name hat einen %item_name in sein pers?nliches Lager gelegt" />
   
-  <comment key="tutorial end 1" text="Gute Arbeit Soldat, nun sind Sie bereit f�r den Kampf!" />
+  <comment key="tutorial end 1" text="Gute Arbeit Soldat, nun sind Sie bereit f?r den Kampf!" />
   <comment key="tutorial end 2" text="Packt euer Zeug zusammen und los geht's!" />
   
   <comment key="gift box delivered" text="Lasst uns mal die %delivered_item_name ansehen, %player_name" />
@@ -1200,33 +1203,33 @@
   <comment key="radar_tower.vehicle spotted, instructions" text="Zerst?re den Funkturm!" />
   <comment key="radar_truck.vehicle spotted, instructions" text="Zerst?re den Kommunikationstruck, lass ihn nicht entfliehen!" />
   <comment key="radio_jammer.vehicle spotted, instructions" text="Zerst?re den St?rsender!" />
-  <comment key="radio_jammer.vehicle destroyed" text="Gute Arbeit! St?rsender zerst�rt!" />
+  <comment key="radio_jammer.vehicle destroyed" text="Gute Arbeit! St?rsender zerst?rt!" />
   <comment key="radio_jammer2.vehicle spotted, instructions" text="Zerst?re den St?rsender!" />
-  <comment key="radio_jammer2.vehicle destroyed" text="Gute Arbeit! St?rsender zerst�rt!" />
+  <comment key="radio_jammer2.vehicle destroyed" text="Gute Arbeit! St?rsender zerst?rt!" />
   <!-- radar truck/vehicle destroy also triggers "enemy comms have been destroyed, by us" -->
   <comment key="prison_bus.vehicle spotted, instructions" text="Sprenge den Gefangegentransporter!" />
   <comment key="prison_bus.vehicle destroyed" text="Ausgezeichnet! Befreite Gefangene werden sich unserer Streitkraft anschliessen!" />
   <comment key="prison_door.vehicle spotted, instructions" text="Sprenge die Gef?ngnist?r!" />
   <comment key="prison_door.vehicle destroyed" text="Ausgezeichnet! Befreite Gefangene werden sich unserer Streitkraft anschliessen!" />
 
-  <comment key="aa_emplacement.vehicle spotted, instructions" text="Zerst?re die Flugabwehrkanone, um Funkspr?che f�r Luftabw?rfe zu erm�glichen!" />
+  <comment key="aa_emplacement.vehicle spotted, instructions" text="Zerst?re die Flugabwehrkanone, um Funkspr?che f?r Luftabw?rfe zu erm?glichen!" />
   <comment key="aa_emplacement.vehicle destroyed" text="Gut gemacht! Flugabwehrkanone ausser Gefecht, Luftabw?rfe sind jetzt erh?ltlich!" />
 
-  <comment key="intel radio reminder" text="Vergiss nicht Verst�rkung oder Luftschl?ge bei Bedarf anzufordern." />
+  <comment key="intel radio reminder" text="Vergiss nicht Verst?rkung oder Luftschl?ge bei Bedarf anzufordern." />
 
-  <comment key="report very weak defense" text="Geheimdienstbericht: %base_name scheint N�hezu unbewacht." />
+  <comment key="report very weak defense" text="Geheimdienstbericht: %base_name scheint nahezu unbewacht." />
   <comment key="respond very weak defense" text="Auf geht's! Fahren Sie mit der Einnahme der Basis fort!" />
   <comment key="report weak defense" text="Geheimdienstbericht: %base_name leicht bewacht, nur %enemy_range feindliche Truppen gemeldet." />
   <comment key="respond weak defense" text="Fahren Sie mit der Einnahme der Basis fort, wir z?hlen auf Sie." />
   <comment key="report medium defense" text="Geheimdienstbericht: %base_name solide verteidigt, %enemy_range Soldaten gemeldet." />
-  <comment key="respond medium defense" text="Sch�tzen Sie selbst die Lage vor Ort ein und fahren Sie, falls m�glich, mit dem Angriff fort." />
+  <comment key="respond medium defense" text="Sch?tzen Sie selbst die Lage vor Ort ein und fahren Sie, falls m?glich, mit dem Angriff fort." />
   <comment key="report heavy defense" text="Geheimdienstbericht: %base_name massiv verteidigt, ca. %enemy_range feindliche Truppen gemeldet." />
   <comment key="respond heavy defense" text="Einleiten eines Angriffs nur wenn Sie wissen was Sie tun!" />
 
   <comment key="base captured, clear victory, attack break" text="Umgebung sichern und neu gruppieren. Warten Sie auf neue Anweisungen." />
   <comment key="base captured, defend it" text="Umgebung sichern und diese verteidigen!" />
-  <comment key="sidebase captured, hold it" text="Umgebung sichern und diese gegen eine m�gliche Gegegenoffensive verteidigen." />
-  <comment key="sidebase captured, reinforcements" text="Verst�rkung ist auf dem Weg." />
+  <comment key="sidebase captured, hold it" text="Umgebung sichern und diese gegen eine m?gliche Gegegenoffensive verteidigen." />
+  <comment key="sidebase captured, reinforcements" text="Verst?rkung ist auf dem Weg." />
   
   <comment key="Occupy that vehicle!" text="Soldat, %vehicle_name nutzen!" />
   <comment key="Leave the vehicle!" text="Soldier, %vehicle_name verlassen!" />
@@ -1258,7 +1261,7 @@
   
   <comment key="rangefinder binoculars" text="Entfernung zum Ziel: %range Meter." />  
 
-  <comment key="squad_equipment_kit, equip" text="Damit kann ich Soldaten in der N�he mit Schutzwesten ausstatten!" /> 
+  <comment key="squad_equipment_kit, equip" text="Damit kann ich Soldaten in der N?he mit Schutzwesten ausstatten!" /> 
   <comment key="squad_equipment_kit, done" text="Westen werden ausgegeben!" />    
 
 <!-- 1.91 -->
@@ -1280,19 +1283,19 @@
 
   <comment key="VIP briefing" text="Escort the VIP to the designated base and capture it!"/>
   <comment key="VIP failed" text="Mission failed, the VIP has been lost!"/>
-  <comment key="VIP completed" text="Mission completed! Check your inventories f�r a reward!"/>
+  <comment key="VIP completed" text="Mission completed! Check your inventories for a reward!"/>
   
   <comment key="VIP arty warning" text="Warning! The enemy is trying to target the VIP's position with artillery, keep him on the move!"/>
-  <comment key="VIP arty lauN�hed" text="Alert! The enemy has pinpointed the VIP's location and lauN�hed an artillery strike on his position!"/>
+  <comment key="VIP arty launched" text="Alert! The enemy has pinpointed the VIP's location and launched an artillery strike on his position!"/>
   
   <!-- enemy commander event --> 
   <comment key="Enemy Commander briefing, part 1" text="Attention all! Our spy has confirmed that the enemy commander is stationed in the combat area" />
   <comment key="Enemy Commander briefing, part 2" text="His position has been marked on your map, go get him ASAP!" />
-  <comment key="Enemy Commander elimiated" text="Good job! Enemy commander is confirmed KIA, check your inventories f�r a reward!" />
+  <comment key="Enemy Commander elimiated" text="Good job! Enemy commander is confirmed KIA, check your inventories for a reward!" />
   <comment key="Evil Commander briefing, part 1" text="Be advised all units! An enemy commander has been spotted in the area, eliminate him!" />
   <comment key="Evil Commander briefing, part 2" text="We have concrete proof that his body has been augemnted and he possesses some...supernatural abilities!" />
   <comment key="Evil Commander briefing, part 3" text="His position has been marked on your map, good luck!" />
-  <comment key="Evil Commander elimiated, reward" text="Excellent work! The so called devil commander has been neutralized, check your inventories f�r a reward!" />
+  <comment key="Evil Commander elimiated, reward" text="Excellent work! The so called devil commander has been neutralized, check your inventories for a reward!" />
   <comment key="Evil Commander elimiated, part 1" text="Enemy commander is confirmed KIA!" />
   <comment key="Evil Commander elimiated, part 2" text="We will get to know more about experiments done on him very soon." />
 
@@ -1300,7 +1303,7 @@
 	<comment key="enemy hit, Compound X" text="What the hell is this?!" />
 	<comment key="enemy hit, Compound X" text="I feel... strange..." />
 	<comment key="enemy hit, Compound X" text="Grrrrrr..." />
-	<comment key="enemy hit, Compound X" text="My stomach..it h�rts!!" />
+	<comment key="enemy hit, Compound X" text="My stomach..it hurts!!" />
 	<comment key="enemy hit, Compound X" text="I need to call sick now..." />
 	<comment key="enemy hit, Compound X" text="Ughhh..." />
 
@@ -1310,7 +1313,7 @@
 	<comment key="commander, Compound X immune" text="Can't believe they've leaked this out, no use though!" />
 	<comment key="evil commander, Compound X immune" text="try harder next time!" />
 	<comment key="evil commander, Compound X immune" text="Not today!" />
-	<comment key="evil commander, Compound X immune" text="This is just breakfast juice f�r me!" /> 
+	<comment key="evil commander, Compound X immune" text="This is just breakfast juice for me!" /> 
 	<comment key="evil commander, Compound X immune" text="Good Thinking!" />
 	<comment key="easter bunny, Compound X immune" text="RAHAHAHAHA!!" />
 	<comment key="easter bunny, Compound X immune" text="BRUHHHAHAHA!!" />

@@ -4,7 +4,7 @@
     <!-- 5.56mm, ~750 rpm real; Premium: präziser, etwas schwerer -->
     <specification 
   retrigger_time="0.095" 
-  accuracy_factor="0.92" 
+  accuracy_factor="0.88" 
   sustained_fire_grow_step="0.18" 
   sustained_fire_diminish_rate="1.15" 
   magazine_size="30" 
@@ -47,9 +47,9 @@
     <stance state_key="crouch_moving" accuracy="0.65" />
     <stance state_key="prone_moving" accuracy="0.60" />
 
-    <stance state_key="standing" accuracy="0.78" />
-    <stance state_key="crouching" accuracy="0.85" />
-    <stance state_key="prone" accuracy="0.92" />
+    <stance state_key="standing" accuracy="0.76" />
+    <stance state_key="crouching" accuracy="0.82" />
+    <stance state_key="prone" accuracy="0.90" />
 
     <modifier class="speed" value="-0.05" />
 </weapon>
