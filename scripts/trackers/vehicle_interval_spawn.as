@@ -20,8 +20,9 @@
 // Schwer: Panzer
 // =============================================================================
 const string SIMPLE_VEHICLE_KEYS = "humvee.vehicle,jeep.vehicle,jeep_1.vehicle,jeep_2.vehicle,vfs_sport.vehicle,willys_mb.vehicle,wiesel_tow.vehicle,wiesel_mk20.vehicle";
-const string MEDIUM_VEHICLE_KEYS = "apc.vehicle,apc_1.vehicle,apc_2.vehicle";
-const string HEAVY_VEHICLE_KEYS = "tank.vehicle,tank_1.vehicle,tank_2.vehicle,vulcan_tank.vehicle";
+
+const string MEDIUM_VEHICLE_KEYS = "apc.vehicle,apc_1.vehicle,apc_2.vehicle,vulcan_tank.vehicle";
+const string HEAVY_VEHICLE_KEYS = "tank.vehicle,tank_1.vehicle,tank_2.vehicle";
 
 // DEBUG: 5 s nach Start Commander-Meldung mit nächstem Spawn
 const bool DEBUG_ANNOUNCE_LOADED = true;
