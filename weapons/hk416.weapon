@@ -3,7 +3,7 @@
     <tag name="assault" />
     <!-- 5.56mm, ~750 rpm real; Premium: präziser, etwas schwerer -->
     <specification 
-  retrigger_time="0.095" 
+  retrigger_time="0.104" 
   accuracy_factor="0.88" 
   sustained_fire_grow_step="0.18" 
   sustained_fire_diminish_rate="1.15" 

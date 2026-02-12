@@ -3,7 +3,7 @@
     <tag name="assault" />
     <!-- 5.56mm US-Standard; Balance EU/RU -->
     <specification 
-  retrigger_time="0.092" 
+  retrigger_time="0.103" 
   accuracy_factor="0.90" 
   sustained_fire_grow_step="0.20" 
   sustained_fire_diminish_rate="1.12" 

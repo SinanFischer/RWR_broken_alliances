@@ -3,7 +3,7 @@
     <tag name="assault" />
     <!-- 5.45x39, Standard-Sturmgewehr RU; Russen-Vorteil: höhere Kill pro Treffer (heftiger) -->
     <specification 
-  retrigger_time="0.10" 
+  retrigger_time="0.112" 
   accuracy_factor="0.88" 
   sustained_fire_grow_step="0.20" 
   sustained_fire_diminish_rate="1.12" 

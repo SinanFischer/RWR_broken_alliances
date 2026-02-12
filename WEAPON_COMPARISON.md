@@ -10,7 +10,7 @@
 | Metrik | EU (G36) | US (M16A4) | RU (AK-74M) |
 |--------|----------|------------|-------------|
 | **kill** | 0.65 | 0.65 | **0.70** |
-| **RT** (s) | **0.080** | 0.092 | 0.10 |
+| **RT** (s) | **0.095** | 0.103 | 0.112 |
 | **com** | 0.22 | 0.22 | 0.22 |
 | **acc_factor** | 0.88 | **0.90** | 0.88 |
 | **standing** | 0.70 | **0.878** | 0.74 |
@@ -18,7 +18,7 @@
 | **prone** | 0.86 | **0.968** | 0.90 |
 | **Preis** | 16 | 16 | **15** |
 
-→ **Balance:** **RU-Vorteil:** AK-74M höchste Kill (0.70) – Treffer wirkt heftiger. EU schnellstes Feuer (0.080). US M16 beste Accuracy.
+→ **Balance:** **RU-Vorteil:** AK-74M höchste Kill (0.70) – Treffer wirkt heftiger. EU schnellstes Feuer (0.095). US M16 beste Accuracy. RT = Mittelwert Mod/Vanilla.
 
 ---
 
@@ -27,7 +27,7 @@
 | Metrik | EU (HK416) | US (M4A1) | RU (AKS-74U) |
 |--------|------------|-----------|---------------|
 | **kill** | **0.65** | **0.65** | 0.62 |
-| **RT** (s) | 0.095 | 0.095 | **0.088** |
+| **RT** (s) | 0.104 | 0.098 | **0.093** |
 | **com** | 0.025 | **0.3** | 0.046 |
 | **acc_factor** | 0.88 | **0.88** | 0.84 |
 | **standing** | 0.76 | **0.80** | 0.72 |
@@ -35,7 +35,7 @@
 | **prone** | 0.90 | **0.93** | 0.88 |
 | **Preis** | 40 | 40 | 40 |
 
-→ **Balance:** M4A1 hatte früher acc_factor 0.734 (grotten schlecht); auf 0.88 angehoben, Stances stark. EU HK416 leicht generverd (0.92→0.88). RU AKS-74U schnellstes Feuer (0.088).
+→ **Balance:** M4A1 RT 0.098 (Mittelwert Mod/Vanilla), durch hohe Accuracy (0.88, Stances) ausgeglichen. RU AKS-74U schnellstes Feuer (0.093). RT aller Pool-AR = Mittelwert Mod/Vanilla.
 
 ---
 

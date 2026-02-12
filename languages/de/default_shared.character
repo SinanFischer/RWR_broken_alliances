@@ -83,7 +83,7 @@
 	<comment key="Medic!" text="Aah, brauche Hilfe!" />
 	<comment key="Medic!" text="Sani, ich verblute!" />
 	<comment key="Medic!" text="Ich bin getroffen! Sani!" />
-	<comment key="Medic!" text="Fick, ich bin getroffen!" />
+	<comment key="Medic!" text="Fuck, ich bin getroffen!" />
 	<comment key="Medic!" text="Verdammt, ich verblute!" />
 	<comment key="Medic!" text="Getroffen! Sanitaeter!" />
 	<comment key="Medic!" text="Ich bin getroffen! Hilfe!" />
@@ -1072,7 +1072,7 @@
 	<comment key="we are attacking a base" text="Unsere Truppen greifen %base_name an" />
 
 	<comment key="fighting near a base" text="Ein Feuergefecht wurde bei %base_name lokalisiert" />
-	<comment key="fighting near a base" text="Verst?rkung angefordert bei %base_name" />
+	<comment key="fighting near a base" text="Verstaerkung angefordert bei %base_name" />
 	<comment key="fighting near a base" text="Es wurden Sch?sse bei %base_name festgestellt" />
 
 	<comment key="defense timer started" text="Die %faction_name kontrollieren alle Basen, %time_left Sekunden verbleibend!" />
