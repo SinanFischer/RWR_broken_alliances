@@ -286,6 +286,7 @@
 	<!-- designated medic group (spawn_score leicht erhöht, damit öfter jemand Medikit dabei hat) -->
 	<!-- -------------- -->
 	<soldier name="medic" spawn_score="0.07" copy_from="default">
+		<ai filename="medic.ai" />
 		<resources file="common_medic.resources" />
 		<resources file="brown_primaries.resources" />
 

@@ -127,6 +127,7 @@
 	<!-- designated medic group -->
 	<!-- -------------- -->
 	<soldier name="medic" spawn_score="0.0" copy_from="default">
+		<ai filename="medic.ai" />
 		<resources file="common_medic.resources" />
 		<resources file="green_primaries.resources" />
 
