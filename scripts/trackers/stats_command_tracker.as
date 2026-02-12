@@ -1,5 +1,6 @@
-// /stats-Command: Gibt pro Fraktion Kürzel, alive, capacity, kills aus (sofort, für alle Spieler).
-// Zählt Kills über character_kill (Killer-Fraktion). Capacity von RespawnSlotDelayTracker oder raw.
+// /stats-Command: Pro Fraktion Kürzel, alive, capacity, kills, deaths, blocked (Impact).
+// Kills = character_kill (Killer-Fraktion). Deaths = character_die (sterbende Fraktion).
+// Blocked = kumulierte Slot-Sekunden (wie lange Kills die Capacity dieser Fraktion bereits verringert haben).
 
 #include "tracker.as"
 #include "log.as"
@@ -7,8 +8,9 @@
 
 class StatsCommandTracker : Tracker {
 	protected Metagame@ m_metagame;
-	protected RespawnSlotDelayTracker@ m_respawnTracker; // optional: für effektive Capacity
+	protected RespawnSlotDelayTracker@ m_respawnTracker; // optional: für effektive Capacity + blocked
 	protected dictionary m_killsPerFaction;  // key = "0","1",... value = Anzahl Kills
+	protected dictionary m_deathsPerFaction; // key = "0","1",... value = Anzahl Tode (sterbende Fraktion)
 
 	StatsCommandTracker(Metagame@ metagame, RespawnSlotDelayTracker@ respawnTracker = null) {
 		@m_metagame = metagame;
@@ -41,8 +43,13 @@ class StatsCommandTracker : Tracker {
 			int alive = getAliveCountGlobal(fid);
 			int capacity = (m_respawnTracker !is null) ? m_respawnTracker.getEffectiveCapacityForFaction(fid) : getRawCapacity(fid);
 			int kills = getKillsForFaction(fid);
+			int deaths = getDeathsForFaction(fid);
 			if (block.length() > 0) block += "\n";
-			block += shortName + ": alive: " + alive + " capacity: " + capacity + " kills: " + kills;
+			block += shortName + ": alive: " + alive + " capacity: " + capacity + " kills: " + kills + " deaths: " + deaths;
+			if (m_respawnTracker !is null) {
+				int blocked = int(m_respawnTracker.getTotalSlotSecondsBlocked(fid));
+				block += " blocked: " + blocked + " slot-s";
+			}
 		}
 		sendPrivateMessage(m_metagame, senderId, block);
 	}
@@ -58,12 +65,24 @@ class StatsCommandTracker : Tracker {
 		m_killsPerFaction[key] = v + 1;
 	}
 
+	protected void handleCharacterDieEvent(const XmlElement@ event) {
+		const XmlElement@ character = event.getFirstElementByTagName("character");
+		const XmlElement@ target = character is null ? event.getFirstElementByTagName("target") : character;
+		if (target is null) return;
+		int fid = target.getIntAttribute("faction_id");
+		if (fid < 0) return;
+		string key = "" + fid;
+		int v = 0;
+		if (m_deathsPerFaction.exists(key)) v = int(m_deathsPerFaction[key]);
+		m_deathsPerFaction[key] = v + 1;
+	}
+
 	string getFactionShortName(const XmlElement@ faction, int factionId) {
 		if (faction is null) return "F" + factionId;
 		string key = faction.getStringAttribute("key");
-		if (key.length() >= 2) return key.substr(0, 2).toUpper();
+		if (key.length() >= 2) return key.substr(0, 2);
 		string name = faction.getStringAttribute("name");
-		if (name.length() >= 2) return name.substr(0, 2).toUpper();
+		if (name.length() >= 2) return name.substr(0, 2);
 		return "F" + factionId;
 	}
 
@@ -83,5 +102,11 @@ class StatsCommandTracker : Tracker {
 		string key = "" + factionId;
 		if (!m_killsPerFaction.exists(key)) return 0;
 		return int(m_killsPerFaction[key]);
+	}
+
+	int getDeathsForFaction(int factionId) {
+		string key = "" + factionId;
+		if (!m_deathsPerFaction.exists(key)) return 0;
+		return int(m_deathsPerFaction[key]);
 	}
 }

@@ -35,6 +35,7 @@ class RespawnSlotDelayTracker : Tracker {
 	protected dictionary m_pendingDeaths;     // key = factionId, value = Anzahl (im nächsten update zeitstempeln)
 	protected dictionary m_extraDelaySeconds;  // key = factionId, value = float (extra Sekunden Slot-Delay bei Truppenüberlegenheit)
 	protected int m_leaderFactionId = -1;    // Fraktion mit den meisten Alive (alle 15 s); erhält +2 Slots pro Tod
+	protected dictionary m_totalSlotSecondsBlocked;  // key = factionId, value = float (kumulierte Slot·s durch Tode dieser Fraktion)
 
 	RespawnSlotDelayTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -132,6 +133,11 @@ class RespawnSlotDelayTracker : Tracker {
 			if (rawCap < 0) rawCap = 0;
 			int slotsPerDeath = getSlotsPerDeathForCapacity(rawCap);
 			if (fid == m_leaderFactionId) slotsPerDeath += 2; // Führer verliert 2 Slots mehr pro Tod
+			float effectiveDelay = RESPAWN_SLOT_DELAY + getExtraDelaySeconds(fid);
+			float addBlocked = float(n) * float(slotsPerDeath) * effectiveDelay;
+			float prev = 0.0f;
+			if (m_totalSlotSecondsBlocked.exists(key)) prev = float(m_totalSlotSecondsBlocked[key]);
+			m_totalSlotSecondsBlocked[key] = prev + addBlocked;
 			string ts = "";
 			if (m_deathTimestamps.exists(key)) ts = string(m_deathTimestamps[key]);
 			for (int j = 0; j < n; ++j) {
@@ -142,6 +148,13 @@ class RespawnSlotDelayTracker : Tracker {
 			}
 			m_deathTimestamps[key] = ts;
 		}
+	}
+
+	// Kumulierte Slot-Sekunden: Jeder Tod dieser Fraktion hat slotsPerDeath × effectiveDelay Sekunden Blockade erzeugt (Impact-Metrik).
+	float getTotalSlotSecondsBlocked(int factionId) {
+		string key = "" + factionId;
+		if (!m_totalSlotSecondsBlocked.exists(key)) return 0.0f;
+		return float(m_totalSlotSecondsBlocked[key]);
 	}
 
 	// Nur zählen, keine Seiteneffekte. Aufräumen separat in pruneDeathTimestamps().
