@@ -113,4 +113,16 @@ für jede Basis mit owner_id == factionId:
 
 ---
 
+## 6. Implementierung (vehicle_interval_spawn.as)
+
+**Status:** Implementiert.
+
+- **Einfache Fahrzeuge:** 2–4 min Intervall, zufällig pro Fraktion, Timer unabhängig.
+- **Mittlere Fahrzeuge:** 5–8 min Intervall, gleiche Logik.
+- **Basis-Auswahl:** Zufällige Basis der Fraktion (von denen, die `owner_id == factionId`).
+- **Spawn-Position:** Basenmittelpunkt + Offset (8 m X/Z, 5 m Y).
+- **Basis unter Beschuss:** RWR-API exponiert diesen Status nicht – Spawn erfolgt unabhängig davon.
+
+---
+
 *Stand: Basierend auf RWR-Script-API (query_helpers, getBases, getBasesForFaction, create_instance).*

@@ -32,11 +32,13 @@ Pro Tod einer Fraktion werden **so viele** Slots für die Dauer des Delays als �
 
 ## 2. Slot-Blockade (Delay)
 
-- **Basis:** Jeder reservierte Slot gilt für `RESPAWN_SLOT_DELAY` Sekunden (z. B. 10 s) als belegt.
+- **Basis (pro Fraktion):** Die **Basis-Dauer** der Blockade hängt von der **Anzahl Basen** der Fraktion ab (nur für diese Fraktion):  
+  **1 Basis** → 2 s, **2 Basen** → 5 s, **3+ Basen** → `RESPAWN_SLOT_DELAY` (z. B. 15 s).  
+  So haben stark unterlegene Fraktionen (nur noch 1–2 Basen) kürzeres Respawn-Delay.
 - **Extra bei Überlegenheit:** Alle 15 s wird pro Fraktion ermittelt, ob sie mehr lebende Truppen hat als die zweitstärkste. Wenn ja:  
   `extraDelay = (Vorsprung / TROOPS_PER_EXTRA_BLOCK) × EXTRA_SECONDS_PER_BLOCK`  
   (z. B. alle 25 Truppen Vorsprung = 4 s länger).  
-  Die **effektive** Blockade-Dauer pro Slot ist dann `RESPAWN_SLOT_DELAY + getExtraDelaySeconds(factionId)`.
+  Die **effektive** Blockade-Dauer pro Slot ist dann `getBaseDelaySeconds(factionId) + getExtraDelaySeconds(factionId)` (Basis aus Basenanzahl, alle 15 s gecacht).
 - **Reserved Slots:** Anzahl der Zeitstempel (pro Tod × slotsPerDeath) die innerhalb dieser effektiven Dauer vor „now“ liegen. Diese Anzahl wird von der raw Capacity abgezogen.
 
 ---

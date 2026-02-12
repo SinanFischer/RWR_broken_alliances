@@ -12,7 +12,9 @@
 // oder nur diesen Tracker für Capacity nutzen.
 //
 // --- Konfiguration (anpassen nach Bedarf) ---
-const float RESPAWN_SLOT_DELAY = 15.0f;   // Basis-Sekunden, die der Slot nach einem Tod „besetzt“ bleibt
+const float RESPAWN_SLOT_DELAY = 15.0f;   // Basis-Sekunden (3+ Basen)
+const float RESPAWN_SLOT_DELAY_2_BASES = 5.0f;  // Nur 2 Basen → kürzeres Delay (nur diese Fraktion)
+const float RESPAWN_SLOT_DELAY_1_BASE = 2.0f;  // Nur 1 Basis → stark reduziert (nur diese Fraktion)
 // Pro 25 Truppen Vorsprung gegenüber der zweitstärksten Fraktion: +2 s extra pro Tod (z.B. 200 vs 150 → +4 s).
 const float ALIVE_CHECK_INTERVAL = 15.0f; // Alle 15 s: Alive-Zahlen prüfen, Extra-Verzögerung pro Fraktion setzen
 const int   TROOPS_PER_EXTRA_BLOCK = 25;  // Alle 25 Truppen Vorsprung …
@@ -36,6 +38,7 @@ class RespawnSlotDelayTracker : Tracker {
 	protected dictionary m_extraDelaySeconds;  // key = factionId, value = float (extra Sekunden Slot-Delay bei Truppenüberlegenheit)
 	protected int m_leaderFactionId = -1;    // Fraktion mit den meisten Alive (alle 15 s); erhält +2 Slots pro Tod
 	protected dictionary m_totalSlotSecondsBlocked;  // key = factionId, value = float (kumulierte Slot·s durch Tode dieser Fraktion)
+	protected dictionary m_basesPerFaction;         // key = factionId, value = int (Anzahl Basen, alle 15 s aktualisiert)
 
 	RespawnSlotDelayTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -46,7 +49,7 @@ class RespawnSlotDelayTracker : Tracker {
 	bool hasStarted() const { return true; }
 
 	void start() {
-		refreshAliveBasedExtraDelay(); // Sofort erste Alive-basierte Extra-Verzögerung setzen
+		refreshAliveBasedExtraDelay(); // Sofort erste Alive-basierte Extra-Verzögerung + Basen-Cache
 		applyCapacityWithReservedSlots();
 	}
 
@@ -93,7 +96,19 @@ class RespawnSlotDelayTracker : Tracker {
 			m_extraDelaySeconds[key] = extra;
 			if (alive == first && m_leaderFactionId < 0)
 				m_leaderFactionId = int(i); // Erste Fraktion mit max Alive = Führer (+2 Slots pro Tod)
+			int bases = getBasesForFaction(m_metagame, int(i));
+			m_basesPerFaction[key] = bases;
 		}
+	}
+
+	// Basis-Delay pro Fraktion: 1 Basis → 2 s, 2 Basen → 5 s, 3+ → RESPAWN_SLOT_DELAY (nur für diese Fraktion).
+	float getBaseDelaySeconds(int factionId) {
+		string key = "" + factionId;
+		if (!m_basesPerFaction.exists(key)) return RESPAWN_SLOT_DELAY;
+		int bases = int(m_basesPerFaction[key]);
+		if (bases <= 1) return RESPAWN_SLOT_DELAY_1_BASE;
+		if (bases == 2) return RESPAWN_SLOT_DELAY_2_BASES;
+		return RESPAWN_SLOT_DELAY;
 	}
 
 	float getExtraDelaySeconds(int factionId) {
@@ -133,7 +148,7 @@ class RespawnSlotDelayTracker : Tracker {
 			if (rawCap < 0) rawCap = 0;
 			int slotsPerDeath = getSlotsPerDeathForCapacity(rawCap);
 			if (fid == m_leaderFactionId) slotsPerDeath += 2; // Führer verliert 2 Slots mehr pro Tod
-			float effectiveDelay = RESPAWN_SLOT_DELAY + getExtraDelaySeconds(fid);
+			float effectiveDelay = getBaseDelaySeconds(fid) + getExtraDelaySeconds(fid);
 			float addBlocked = float(n) * float(slotsPerDeath) * effectiveDelay;
 			float prev = 0.0f;
 			if (m_totalSlotSecondsBlocked.exists(key)) prev = float(m_totalSlotSecondsBlocked[key]);
@@ -165,7 +180,7 @@ class RespawnSlotDelayTracker : Tracker {
 		string s = string(m_deathTimestamps[key]);
 		if (s.length() == 0) return 0;
 		float now = m_timeAccum;
-		float effectiveDelay = RESPAWN_SLOT_DELAY + getExtraDelaySeconds(factionId);
+		float effectiveDelay = getBaseDelaySeconds(factionId) + getExtraDelaySeconds(factionId);
 		int count = 0;
 		uint start = 0;
 		for (uint i = 0; i <= s.length(); ++i) {
@@ -187,7 +202,7 @@ class RespawnSlotDelayTracker : Tracker {
 		string s = string(m_deathTimestamps[key]);
 		if (s.length() == 0) return;
 		float now = m_timeAccum;
-		float effectiveDelay = RESPAWN_SLOT_DELAY + getExtraDelaySeconds(factionId);
+		float effectiveDelay = getBaseDelaySeconds(factionId) + getExtraDelaySeconds(factionId);
 		string kept = "";
 		uint start = 0;
 		for (uint i = 0; i <= s.length(); ++i) {
