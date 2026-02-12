@@ -1,6 +1,6 @@
-// /stats-Command: Pro Fraktion Kürzel, alive, capacity, kills, deaths, blocked (Impact).
+// /stats-Command: Pro Fraktion Kürzel, alive, capacity, kills, deaths, blocked (aktuelle Slots).
 // Kills = character_kill (Killer-Fraktion). Deaths = character_die (sterbende Fraktion).
-// Blocked = kumulierte Slot-Sekunden (wie lange Kills die Capacity dieser Fraktion bereits verringert haben).
+// Blocked = Anzahl aktuell blockierter Slots (Tode × Slots/Tod, noch innerhalb der Delay-Zeit).
 
 #include "tracker.as"
 #include "log.as"
@@ -47,8 +47,8 @@ class StatsCommandTracker : Tracker {
 			if (block.length() > 0) block += "\n";
 			block += shortName + ": alive: " + alive + " capacity: " + capacity + " kills: " + kills + " deaths: " + deaths;
 			if (m_respawnTracker !is null) {
-				int blocked = int(m_respawnTracker.getTotalSlotSecondsBlocked(fid));
-				block += " blocked: " + blocked + " slot-s";
+				int blocked = m_respawnTracker.getReservedSlots(fid);
+				block += " blocked: " + blocked + " slots";
 			}
 		}
 		sendPrivateMessage(m_metagame, senderId, block);

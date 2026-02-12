@@ -12,7 +12,7 @@
 // oder nur diesen Tracker für Capacity nutzen.
 //
 // --- Konfiguration (anpassen nach Bedarf) ---
-const float RESPAWN_SLOT_DELAY = 10.0f;   // Basis-Sekunden, die der Slot nach einem Tod „besetzt“ bleibt
+const float RESPAWN_SLOT_DELAY = 15.0f;   // Basis-Sekunden, die der Slot nach einem Tod „besetzt“ bleibt
 // Pro 25 Truppen Vorsprung gegenüber der zweitstärksten Fraktion: +2 s extra pro Tod (z.B. 200 vs 150 → +4 s).
 const float ALIVE_CHECK_INTERVAL = 15.0f; // Alle 15 s: Alive-Zahlen prüfen, Extra-Verzögerung pro Fraktion setzen
 const int   TROOPS_PER_EXTRA_BLOCK = 25;  // Alle 25 Truppen Vorsprung …
