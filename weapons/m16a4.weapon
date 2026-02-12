@@ -4,9 +4,9 @@
     <!-- 5.56mm US-Standard; Balance EU/RU -->
     <specification 
   retrigger_time="0.108" 
-  accuracy_factor="0.90" 
-  sustained_fire_grow_step="0.20" 
-  sustained_fire_diminish_rate="1.12" 
+  accuracy_factor="1.0" 
+  sustained_fire_grow_step="0.16" 
+  sustained_fire_diminish_rate="1.25" 
   magazine_size="30" 
   can_shoot_standing="1" 
   suppressed="0" 
@@ -38,15 +38,6 @@
     <projectile file="bullet.projectile">
         <result class="hit" kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
-    
-    <stance state_key="running" accuracy="0.448" />
-    <stance state_key="walking" accuracy="0.578" />
-    <stance state_key="crouch_moving" accuracy="0.618" />
-    <stance state_key="prone_moving" accuracy="0.538" />
-
-    <stance state_key="standing" accuracy="0.78" />
-    <stance state_key="crouching" accuracy="0.82" />
-    <stance state_key="prone" accuracy="0.94" />
     
     <modifier class="speed" value="-0.05" />
 </weapon>

@@ -1,7 +1,7 @@
 # Waffen-Vergleich der 3 Fraktionen (EU / US / Russia)
 
 **Zweck:** Balance prüfen – pro Zeile ist der **beste** Wert **fett**.  
-**Legende:** kill = kill_probability | RT = retrigger_time (s, niedriger = schneller) | **mag** = magazine_size (Schuss/Magazin) | com = commonness | **sight** = sight_range_modifier (höher = weitere Sicht) | **acc_factor** = Basis-Genauigkeit | **stand/crouch/prone** = Genauigkeit in der Haltung (höher = genauer).
+**Legende:** kill = kill_probability | RT = retrigger_time (s, niedriger = schneller) | **mag** = magazine_size (Schuss/Magazin) | com = commonness | **sight** = sight_range_modifier | **acc_factor** = Basis-Genauigkeit | **grow** = sustained_fire_grow_step (niedriger = bleibt länger präzise) | **diminish** = sustained_fire_diminish_rate (höher = schneller Erholung). Standard-AR/Pool-AR: Stances = base (0.85/0.9/0.93).
 
 ---
 
@@ -14,13 +14,12 @@
 | **mag** | 30 | 30 | 30 |
 | **com** | 0.22 | 0.22 | 0.22 |
 | **sight** | 1.1 | 1.1 | – |
-| **acc_factor** | 0.88 | **0.90** | 0.88 |
-| **standing** | 0.75 | **0.78** | 0.74 |
-| **crouching** | 0.8 | **0.82** | 0.8 |
-| **prone** | 0.925 | **0.94** | 0.90 |
+| **acc_factor** | 0.98 | **1.0** | 0.96 |
+| **grow** | 0.26 | **0.16** | 0.22 |
+| **diminish** | 1.18 | **1.25** | 1.15 |
 | **Preis** | 16 | 16 | **15** |
 
-→ **Balance:** **RU-Stärke:** AK-74M Kill 0.92 (deutlich höher). G36/M16 gleiche Sicht (1.1, weniger „schießen obwohl man nichts sieht“). EU G36 schnellstes Feuer (0.095); US M16 langsamer (0.108), dafür beste Accuracy.
+→ **Balance:** **RU-Stärke:** AK-74M Kill 0.92. EU G36 schnellstes Feuer (0.095); M16 beste Accuracy (factor 1.0, niedrigster grow 0.16). Stances = base (0.85/0.9/0.93); Differenzierung über grow/diminish.
 
 ---
 
@@ -33,13 +32,12 @@
 | **mag** | 30 | 30 | **38** |
 | **com** | 0.025 | **0.3** | 0.046 |
 | **sight** | 1.0 | **1.1** | 1.05 |
-| **acc_factor** | 0.88 | **0.88** | 0.84 |
-| **standing** | 0.76 | **0.80** | 0.72 |
-| **crouching** | **0.85** | 0.82 | 0.80 |
-| **prone** | **0.93** | 0.90 | 0.88 |
+| **acc_factor** | 0.96 | **0.98** | 0.92 |
+| **grow** | **0.20** | 0.24 | 0.24 |
+| **diminish** | 1.20 | **1.35** | 1.12 |
 | **Preis** | 40 | 40 | 40 |
 
-→ **Balance:** HK416 sight 1.0, beste Crouch/Prone-Accuracy (0.85/0.93). M4A1 sight 1.1, RT 0.098. RU AKS-74U schnellstes Feuer (RT 0.09), Magazin 38. RT aller Pool-AR = Mittelwert Mod/Vanilla.
+→ **Balance:** HK416 niedrigster grow (0.20). M4A1 beste Accuracy (0.98), beste diminish (1.35). RU AKS-74U schnellstes Feuer (0.09), Mag 38. Stances = base.
 
 ---
 
