@@ -67,13 +67,13 @@
 | **RT** (s) | **0.075** | 0.092 | 0.10 |
 | **mag** | 100 | **130** | 60 |
 | **com** | 0.05 | 0.05 | 0.05 |
-| **sight** | – | – | – |
+| **sight** | 1.2 | 1.2 | 1.2 |
 | **standing** | 0.60 | 0.60 | **0.64** |
 | **crouching** | **0.85** | **0.85** | 0.84 |
 | **prone** | **0.95** | **0.95** | 0.92 |
 | **Preis** | 80 | 80 | 80 |
 
-→ **Balance:** EU MG4 schnellstes MG (0.075), US M249 höchste kill. MG4/M249 gleiche Stance-Accuracy; RPK-74M etwas bessere standing (0.64), geringere prone (0.92).
+→ **Balance:** EU MG4 schnellstes MG (0.075), US M249 höchste kill. MG4/M249 gleiche Stance-Accuracy; RPK-74M etwas bessere standing (0.64), geringere prone (0.92). **Sight-Bonus 1.2** für alle Leicht-MG (nur Liegen).
 
 ---
 
@@ -85,13 +85,13 @@
 | **RT** (s) | **0.072** | 0.12 | 0.12 |
 | **mag** | **150** | 90 | 100 |
 | **com** | 0.028 | 0.029 | **0.031** |
-| **sight** | – | – | – |
+| **sight** | 1.2 | 1.2 | 1.2 |
 | **standing** | **0.62** | – | 0.58 |
 | **crouching** | 0.86 | **0.87** | **0.87** |
 | **prone** | 0.94 | **1.0** | **1.0** |
 | **Preis** | 60 | 60 | **50** |
 
-→ **Balance:** US M240 mit Abstand höchste kill (0.89). M240/PKM nur crouch/prone (kein Stehend). EU Negev einziger mit standing (0.62); M240/PKM beste prone (1.0).
+→ **Balance:** US M240 mit Abstand höchste kill (0.89). M240/PKM nur crouch/prone (kein Stehend). EU Negev einziger mit standing (0.62); M240/PKM beste prone (1.0). **Sight-Bonus 1.2** für alle Schwer-MG (nur Liegen).
 
 ---
 
