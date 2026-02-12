@@ -98,6 +98,15 @@
 	<comment key="Medic!" text="FUCK! AAAH!" />
 	<comment key="Medic!" text="Comrades! Help me!" />
 	<comment key="Medic!" text="Please... somebody...!" />
+	<comment key="Medic!" text="I'm not ready..." />
+	<comment key="Medic!" text="It hurts so much..." />
+	<comment key="Medic!" text="Jesus... I'm hit..." />
+	<comment key="Medic!" text="So much blood..." />
+	<comment key="Medic!" text="I'm scared..." />
+	<comment key="Medic!" text="Tell my mom...!" />
+	<comment key="Medic!" text="I don't want to die like this..." />
+	<comment key="Medic!" text="It's burning..." />
+	<comment key="Medic!" text="God... help me..." />
  
 
 	<comment key="I feel good!" />
