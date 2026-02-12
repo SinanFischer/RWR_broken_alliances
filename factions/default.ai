@@ -30,12 +30,12 @@
   <parameter class="strike_frequency_time" value="8.0" /> 
   <parameter class="global_separation_radius_factor" value="2.0" />
   <parameter class="prefer_roofs_probability" value="0.5" />
-  <parameter class="max_leader_authority_willing_to_join_another_squad" value="0.3" />
-  <parameter class="defending_authority_offset_to_join_squad" value="0.2" />
+  <parameter class="max_leader_authority_willing_to_join_another_squad" value="0.45" />
+  <parameter class="defending_authority_offset_to_join_squad" value="0.3" />
   <parameter class="value_increase_required_to_join_defend_squad" value="0.1" />
   <parameter class="favor_joining_player_squad_value_increase" value="0.4" />
   <parameter class="favor_staying_in_current_player_squad_value_increase" value="0.5" />
-  <parameter class="authority_margin" value="0.07" /> 
+  <parameter class="authority_margin" value="0.05" /> 
   <!-- Sichtkegel KI: 1.8 = Vanilla (breiter), 2.15 = enger. Niedriger = KI sieht mehr seitlich. -->
   <parameter class="monitor_enemies_max_dot_range" value="1.8" />
   <parameter class="monitor_enemies_min_dot_range_offset" value="1.125" />

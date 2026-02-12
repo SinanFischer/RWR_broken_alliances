@@ -255,7 +255,7 @@
 	<!-- -------------- -->
 	<!-- miniboss group -->
 	<!-- -------------- -->
-	<soldier name="miniboss" spawn_score="0.054" squad_size_xp_cap="0.5">
+	<soldier name="miniboss" spawn_score="0.054">
 		<character filename="default.character" />
 		<ai filename="elite.ai" />
 		<model filename="rus_officer.xml" />

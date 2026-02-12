@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ai>
   <!-- Overrides gegenüber default.ai – alle übrigen Werte kommen von default.ai -->
-  <parameter class="vehicle_target_aim_time" value="0.75" />
+  <parameter class="vehicle_target_aim_time" value="1" />
   <parameter class="guard_range_from_leader_margin" value="0.75" />
   <parameter class="fighting_against_vehicle_separation" value="32" />
   <parameter class="day_reaction_time_to_fight_min" value="0.5" />

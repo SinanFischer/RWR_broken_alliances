@@ -119,8 +119,21 @@ Beispiel für **specialforces** (0.4–1.4):
 
 | Parameter | Bedeutung |
 |-----------|-----------|
-| `squad_size_xp_cap` | Begrenzt maximale Squad-Größe bei hohem XP (z.B. miniboss: 0.5, eod: 0.0). |
+| `squad_size_xp_cap` | Begrenzt maximale Squad-Größe bei hohem XP (z.B. eod: 0.0). Miniboss: ohne Cap = volle Squad. |
 | `spawn_score` | Relative Spawn-Häufigkeit; beeinflusst **nicht** den Rang. |
+
+---
+
+## 7b. Squad-Leadership-Parameter (AI-Dateien)
+
+| Parameter | Aktuell | Wirkung |
+|-----------|---------|---------|
+| `max_leader_authority_willing_to_join_another_squad` | 0.45 | Kleine Leader (bis XP ~0.45) wechseln eher zu stärkeren Leadern |
+| `defending_authority_offset_to_join_squad` | 0.3 | Beim **Verteidigen** eines Punktes: mehr Soldaten schließen sich Squads an |
+| `authority_margin` | 0.05 | Klarere Rang-Hierarchie (niedriger = feinere Abstufung) |
+| `favor_joining_player_squad_value_increase` (medic.ai) | 0.55 | Medics folgen dem Spieler stärker |
+
+**Hinweis:** Die genaue Bedeutung folgt aus Parameternamen und RWR-Wiki. `defending_authority_offset` gilt explizit für **Verteidigung**.
 
 ---
 
@@ -131,6 +144,7 @@ Beispiel für **specialforces** (0.4–1.4):
 - [x] Medic max Sergeant (XP 0.2)
 - [x] eod_light: Sergeant bis Major (0.2–1.2)
 - [x] specialforces: 0.4–1.4 (Staff Sgt 1st bis Lt Colonel)
-- [x] miniboss: Major bis General (1.2–50.0)
+- [x] miniboss: Major bis General (1.2–50.0), ohne squad_size_xp_cap
 - [x] eod: unverändert (1.6–3.7), starke Truppe führt mit
 - [x] Änderungen in allen drei Faction-XMLs (brown, green, grey) konsistent
+- [x] Squad-Settings: max_leader_authority 0.45, defending_offset 0.3, authority_margin 0.05, medic favor_joining 0.55

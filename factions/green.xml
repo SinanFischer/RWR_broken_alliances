@@ -258,7 +258,7 @@
 	<!-- -------------- -->
 	<!-- miniboss group -->
 	<!-- -------------- -->
-	<soldier name="miniboss" spawn_score="0.054" squad_size_xp_cap="0.5">
+	<soldier name="miniboss" spawn_score="0.054">
 		<character filename="default.character" />
 		<ai filename="elite.ai" />
 		<model filename="us_officer.xml" />
@@ -311,7 +311,7 @@
 	<!-- -------------- -->
 	<!-- miniboss female -->
 	<!-- -------------- -->
-	<soldier name="miniboss_female" spawn_score="0.0015" squad_size_xp_cap="0.5" firstnames_file="english_firstnames_female.txt" lastnames_file="english_lastnames.txt" >
+	<soldier name="miniboss_female" spawn_score="0.0015" firstnames_file="english_firstnames_female.txt" lastnames_file="english_lastnames.txt" >
 		<character filename="default_female.character" />
 		<ai filename="elite.ai" />
 		<model filename="soldier_elite_a2.xml" />  
