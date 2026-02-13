@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon file="tank_cannon_2.weapon" key="tank_cannon_2_alt.weapon">
+    <projectile file="tank_cannon_2_alt.projectile" />
+    <model texture_filename="tank_2_alt.png" />
+</weapon>

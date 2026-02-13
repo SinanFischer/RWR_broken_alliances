@@ -57,3 +57,52 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 | **Invasion**   | `/vehicle`, `/fahrzeug`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
 
 *Hinweis: `/bane_spawn` ist nur in Quick Match eingebunden.*
+
+---
+
+## 5. Vehicle-Spawn-Commands (Übersicht)
+
+Alle Chat-Commands, die ein **Fahrzeug** bei der Spielerposition spawnen. Mit `/` eingeben (z. B. `/jeep`). **Admin-only**, sofern nicht anders angegeben. Quelle: Vanilla BasicCommandHandler bzw. Mod.
+
+| Command | Fahrzeug (Key) | Anmerkung |
+|---------|----------------|-----------|
+| `/create_vehicle` | special_cargo_vehicle1.vehicle | Cargo-Fahrzeug |
+| `/jeep` | jeep.vehicle | Jeep |
+| `/atv` | atv_base.vehicle | Quad (Standard) |
+| `/quad` | atv_armory.vehicle | Versorgungs-Quad |
+| `/guntruck` | atv_armory.vehicle + Flare | wie quad, mit Flare |
+| `/armory` | mobile_armory.vehicle | Mobile Waffenkammer |
+| `/atank` | tank_alt.vehicle | Panzer Alt-Variante |
+| `/1atank` | tank_1_alt.vehicle | |
+| `/2atank` | tank_2_alt.vehicle | |
+| `/tank` | tank.vehicle | Panzer |
+| `/1tank` | tank_1.vehicle | |
+| `/2tank` | tank_2.vehicle | |
+| `/apc` | apc.vehicle | APC |
+| `/1apc` | apc_1.vehicle | |
+| `/2apc` | apc_2.vehicle | |
+| `/truck` | truck.vehicle | LKW |
+| `/1truck` | truck_1.vehicle | |
+| `/2truck` | truck_2.vehicle | |
+| `/rubber` | rubber_boat.vehicle | Gummiboot |
+| `/arubber` | rubber_boat_alt.vehicle | Gummiboot Alt |
+| `/cargo` | cargo_truck.vehicle | Cargo-LKW (Faktion 1) |
+| `/tow` | tow.vehicle | Abschleppwagen (Faktion 1) |
+| `/scorpion` | fv101.vehicle | Scorpio AXN (Leichter Panzer) |
+| `/hover` | hovercraft.vehicle | Hovercraft |
+| `/m551` | m551.vehicle | M551 |
+| `/vfs` | vfs_base.vehicle | VFS |
+| `/noxe` | noxe.vehicle | NOXE Ghost (Mod: mit MG-Passagier) |
+| `/legion` | legion.vehicle | Legion |
+| `/m528` | m528.vehicle | M528 |
+| `/croc` | flamer_tank.vehicle | Flammenpanzer |
+| `/sev90` | sev90.vehicle | SEV90 |
+| `/repair_crane` | repair_crane.vehicle | Reparaturkran |
+| `/mustela` | wiesel_tow.vehicle | Wiesel TOW |
+| `/icecream` | icecream.vehicle | Event-Fahrzeug |
+| `/rj` | radio_jammer.vehicle | Radio Jammer (Faktion 1) |
+| `/cat` | darkcat.vehicle | Darkcat (Faktion 0) |
+| `/ecat` | darkcat.vehicle | Darkcat (Faktion 1) |
+| `/snowman` | snowman.vehicle | Event (Faktion 1) |
+| `/vehicle test` | (zufälliges Simple-Fahrzeug) | **Mod:** eigene Fraktion, kein Admin nötig |
+| `/bane_spawn` | (1 Bane + 2 Terminators) | **Mod**, Quick Match, Admin |

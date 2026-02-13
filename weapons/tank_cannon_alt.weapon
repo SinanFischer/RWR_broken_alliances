@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Erbt Mod-Kanone, nutzt aber eigenes Projektil (Vanilla x2): schwächer als Haupttanks, stärker als Vanilla-Alt -->
+<weapon file="tank_cannon.weapon" key="tank_cannon_alt.weapon">
+    <projectile file="tank_cannon_alt.projectile" />
+    <model texture_filename="tank_alt.png" />
+</weapon>
