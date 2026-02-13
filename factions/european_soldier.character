@@ -32,6 +32,8 @@
 	<comment key="Medic!" text="I won't fall here. Sani!" />
 	<comment key="Medic!" text="For the Union... I need to make it..." />
 	<comment key="Medic!" text="Get me back in the fight!" />
+	<!-- Politisch/Insider - Epstein -->
+	<comment key="Medic!" text="Dying for the guys in the files... great" />
 	<!-- ========== All quiet here (Casual - sagen sie einfach so) ========== -->
 	<comment key="All quiet here" text="Should've stayed in Brussels" />
 	<comment key="All quiet here" text="Another emergency summit" />
@@ -40,8 +42,19 @@
 	<comment key="All quiet here" text="Typical Tuesday" />
 	<comment key="All quiet here" text="I filled out the wrong form" />
 	<comment key="All quiet here" text="At least the trains run on time" />
+	<!-- Post-Ukraine-Eskalation - gegen Russland UND USA, keine Verbündeten (ERA_STORY.md Phase 2b) -->
+	<comment key="All quiet here" text="Used to send aid to Ukraine. Now we're the front line." />
+	<comment key="All quiet here" text="So much for 'it won't happen here'" />
+	<comment key="All quiet here" text="How did we end up shooting at the Americans?" />
+	<comment key="All quiet here" text="Weren't we on the same side...?" />
+	<comment key="All quiet here" text="Russians. Americans. And us. How did it come to this?" />
+	<!-- Epstein-Files - EU-Elite auch betroffen, Soldaten aware (ERA_STORY.md Phase 1b) -->
+	<comment key="All quiet here" text="Dying for the Union... while they were on the list. Can that be true?" />
+	<!-- Native/neutrale Sprüche - garantieren Abwechslung -->
 	<comment key="All quiet here" text="*yawns*" />
+	<comment key="All quiet here" text="*whistles*" />
 	<comment key="All quiet here" text="No one there" />
+	<comment key="All quiet here" text="No sign of them" />
 	<comment key="All quiet here" text="Calm before the storm?" />
 	<comment key="All quiet here" text="Just two more weeks..." />
 
@@ -99,6 +112,7 @@
 	<comment key="celebrating" text="Now that's how it's done!" />
 	<comment key="celebrating" text="Yeah!" />
 	<comment key="celebrating" text="We did it!" />
+	<comment key="celebrating" text="Made it. Unlike some people in the files." />
 
 	<!-- ========== Good job, soldiers ========== -->
 	<comment key="Good job, soldiers" text="Well done, men" />

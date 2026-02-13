@@ -55,14 +55,24 @@
 	<comment key="All quiet here" text="At least no more mobilization letters" />
 	<comment key="All quiet here" text="Such is life." />
 	<comment key="All quiet here" text="In Russia, bullet finds you" />
-	<!-- Zweifel - Ukraine, Sinn des Einsatzes -->
+	<!-- Zweifel - Ukraine war gestern, jetzt EU/USA (siehe ERA_STORY.md) -->
+	<comment key="All quiet here" text="Ukraine was bad enough. Now the EU and Americans..." />
+	<comment key="All quiet here" text="First Ukraine. Now we're fighting the whole West." />
+	<comment key="All quiet here" text="Americans and Europeans shooting each other. We just watch." />
 	<comment key="All quiet here" text="Why are we even here..." />
-	<comment key="All quiet here" text="This doesn't feel like liberation" />
-	<comment key="All quiet here" text="They said it would be quick" />
-	<comment key="All quiet here" text="So this is because of Ukraine. Great." />
+	<comment key="All quiet here" text="They said Ukraine would be quick. Look at us now." />
+	<comment key="All quiet here" text="Bakhmut was just the warm-up. Great." />
 	<comment key="All quiet here" text="Wonder what they're saying about us back home" />
+	<!-- West-Eliten/Epstein - skeptisch, Propaganda-Perspektive (ERA_STORY.md Phase 1b) -->
+	<comment key="All quiet here" text="Their elites... the island... and we're the bad guys?" />
+	<comment key="All quiet here" text="Read about the files. Their 'democracy'." />
+	<comment key="All quiet here" text="Read that their leaders were in the files... and they lecture us about morals." />
+	<comment key="All quiet here" text="Those files came out. Nothing changed." />
+	<!-- Native/neutrale Sprüche - garantieren Abwechslung (auch wenn Engine merged) -->
 	<comment key="All quiet here" text="*yawns*" />
+	<comment key="All quiet here" text="*whistles*" />
 	<comment key="All quiet here" text="No one there" />
+	<comment key="All quiet here" text="No sign of them" />
 	<comment key="All quiet here" text="Calm before the storm?" />
 	<comment key="All quiet here" text="Just two more weeks..." />
 
@@ -120,6 +130,7 @@
 	<comment key="celebrating" text="That was close" />
 	<comment key="celebrating" text="Finally!" />
 	<comment key="celebrating" text="Yeah!" />
+	<comment key="celebrating" text="Survived. Unlike their elites on that island." />
 
 	<!-- ========== Good job, soldiers ========== -->
 	<comment key="Good job, soldiers" text="Well done, men" />
@@ -131,5 +142,6 @@
 	<comment key="We surrender!" text="We surrender!" />
 	<comment key="We surrender!" text="We give up!" />
 	<comment key="We surrender!" text="Don't shoot! We surrender!" />
+	<comment key="We surrender!" text="We give up! At least we're not on their list." />
 
 </character>

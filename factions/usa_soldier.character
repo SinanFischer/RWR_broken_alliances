@@ -55,11 +55,20 @@
 	<comment key="All quiet here" text="Too many tours. Can't feel it anymore." />
 	<comment key="All quiet here" text="This ain't my first rodeo... or is it?" />
 	<comment key="All quiet here" text="At least my student loans are forgiven... oh wait" />
+	<!-- Native/neutrale Sprüche - garantieren Abwechslung -->
 	<comment key="All quiet here" text="*yawns*" />
+	<comment key="All quiet here" text="*whistles*" />
 	<comment key="All quiet here" text="No one there" />
+	<comment key="All quiet here" text="No sign of them" />
 	<comment key="All quiet here" text="Calm before the storm?" />
 	<comment key="All quiet here" text="The front's a meat grinder, same as always." />
 	<comment key="All quiet here" text="Just two more weeks..." />
+	<!-- Post-Ukraine-Eskalation - gegen Russland UND EU, keine Verbündeten (ERA_STORY.md Phase 2b) -->
+	<comment key="All quiet here" text="Used to send weapons. Now we're the weapons." />
+	<comment key="All quiet here" text="So this is what happens when they escalate." />
+	<comment key="All quiet here" text="Fighting Russians. And the Europeans. How did that happen?" />
+	<comment key="All quiet here" text="Weren't we supposed to be allies with the Europeans?" />
+	<comment key="All quiet here" text="How the hell did we end up shooting at each other?" />
 
 	<!-- ========== I feel good! (Nach Heilung) ========== -->
 	<comment key="I feel good!" text="Thanks Doc!" />
