@@ -443,13 +443,13 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 
 	// --------------------------------------------
 	protected void setupDogs() {
-		// Hunde für alle Fraktionen (Spieler + Feinde), spawn_score 0.008 (Vanilla-Standard)
+		// Hunde für alle Fraktionen (Spieler + Feinde), spawn_score 0.04 (~4%)
 		for (uint i = 0; i < m_factions.size(); ++i) {
 			XmlElement command("command");
 			command.setStringAttribute("class", "faction");
 			command.setIntAttribute("faction_id", int(i));
 			command.setStringAttribute("soldier_group_name", "dog");
-			command.setFloatAttribute("spawn_score", 0.008f);
+			command.setFloatAttribute("spawn_score", 0.04f);
 			getComms().send(command);
 		}
 	}
