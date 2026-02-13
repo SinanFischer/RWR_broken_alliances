@@ -328,7 +328,7 @@ class VehicleIntervalSpawn : Tracker {
 		else
 			heavyStr = "heavy:  " + int(m_heavyTimer[factionId]) + "s";
 
-		string block = "Vehicle spawns (your faction)\n" + lightStr + "\n" + mediumStr + "\n" + heavyStr;
+		string block = "Upcoming vehicle spawns\n" + lightStr + "\n" + mediumStr + "\n" + heavyStr;
 		sendPrivateMessage(m_metagame, senderId, block);
 	}
 }

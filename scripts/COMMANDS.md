@@ -2,18 +2,20 @@
 
 Alle **eingebundenen** Chat-Commands des Mods. Ausgenommen: Reinforcement-Pool-Tracker (`/nachschub`, `/pool`) und nicht eingebundene Scripte.
 
+**Zugriff:** **Status-Commands** (nur Infos anzeigen) sind für **alle Spieler**. **Spawn-/Trigger-Commands** (etwas spawnen oder auslösen) sind **nur für Admins**.
+
 ---
 
 ## 1. Commands aus dem Mod (eigene Scripts)
 
-| Command | Quelle | Gamemode | Beschreibung |
-|--------|--------|----------|--------------|
-| `/stats` oder `/stat` | `trackers/stats_command_tracker.as` | Quick Match | Kompakte Statistik pro Fraktion: A-K-D (Alive-Kills-Deaths), C-B (Capacity-Blocked), B(s) (blocked Slot-Sekunden). |
-| `/vehicle`, `/vehicle_spawn`, `/fahrzeug` | `trackers/vehicle_interval_spawn.as` | Quick Match, Invasion | Status: nächste Fahrzeug-Spawns pro Fraktion (Simple 2–4 min, Medium 5–8 min). |
-| `/vehicle test`, `/vehicle_spawn test`, `/fahrzeug test` | wie oben | Quick Match, Invasion | Sofort-Spawn eines Simple-Fahrzeugs für die eigene Fraktion. |
-| `/bane_spawn` | `trackers/bane_spawn_command_tracker.as` | Quick Match | **Admin.** Spawnt 1 Bane + 2 Terminators bei Spielerposition (eigene Fraktion). |
-| `/bane_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match | Wie oben, mit Paradrop (Höhe). |
-| `/test_defender_tank` | `trackers/defender_tank_help.as` | **nur Invasion** | **Admin.** Simuliert Panzer-Spawn für Verteidiger (Test). |
+| Command | Quelle | Gamemode | Zugriff | Beschreibung |
+|--------|--------|----------|---------|--------------|
+| `/stats` oder `/stat` | `trackers/stats_command_tracker.as` | Quick Match | Alle | Statistik pro Fraktion: A-K-D, C-B, B(s). |
+| `/vehicle`, `/vehicle_spawn`, `/fahrzeug` | `trackers/vehicle_interval_spawn.as` | Quick Match, Invasion | Alle | Status: eigene Fraktion – light / medium / heavy (Zeiten in s); heavy zeigt „blocked (leading faction)“ wenn führend. |
+| `/vehicle test`, `/vehicle_spawn test`, `/fahrzeug test` | wie oben | Quick Match, Invasion | **Admin** | Sofort-Spawn eines Leicht-Fahrzeugs für die eigene Fraktion. |
+| `/bane_spawn` | `trackers/bane_spawn_command_tracker.as` | Quick Match | **Admin** | Spawnt 1 Bane + 2 Terminators bei Spielerposition (eigene Fraktion). |
+| `/bane_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match | **Admin** | Wie oben, mit Paradrop (Höhe). |
+| `/test_defender_tank` | `trackers/defender_tank_help.as` | **nur Invasion** | **Admin** | Simuliert Panzer-Spawn für Verteidiger (Test). |
 
 ---
 
@@ -104,5 +106,5 @@ Alle Chat-Commands, die ein **Fahrzeug** bei der Spielerposition spawnen. Mit `/
 | `/cat` | darkcat.vehicle | Darkcat (Faktion 0) |
 | `/ecat` | darkcat.vehicle | Darkcat (Faktion 1) |
 | `/snowman` | snowman.vehicle | Event (Faktion 1) |
-| `/vehicle test` | (zufälliges Simple-Fahrzeug) | **Mod:** eigene Fraktion, kein Admin nötig |
-| `/bane_spawn` | (1 Bane + 2 Terminators) | **Mod**, Quick Match, Admin |
+| `/vehicle test` | (zufälliges Leicht-Fahrzeug) | **Mod**, Admin only |
+| `/bane_spawn` | (1 Bane + 2 Terminators) | **Mod**, Quick Match, Admin only |
