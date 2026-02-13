@@ -4,15 +4,19 @@
 	<weapon key='steyr_aug.weapon' />
 	<weapon key='famasg1.weapon' />
 	<weapon key='mg42.weapon' />
-	<weapon key='m249.weapon' />
-	<weapon key='m240.weapon' />
-	<weapon key='hk416.weapon' />
+	<weapon key='microgun.weapon' />
+	<weapon key='minigun_ai.weapon' />
+	<weapon key='honey_badger.weapon' />
+	<weapon key='stoner_lmg.weapon' />
+	<!-- <weapon key='m249.weapon' /> -->
+	<!-- <weapon key='m240.weapon' /> -->
+	<!-- <weapon key='hk416.weapon' /> -->
 	<weapon key='scarssr.weapon' />
-	<weapon key='imi_negev.weapon' />
-	<weapon key='mg4.weapon' />
-	<weapon key='caws.weapon' />
-	<weapon key='uts15.weapon' />
-	<weapon key='javelin.weapon' />
+	<!-- <weapon key='imi_negev.weapon' /> -->
+	<!-- <weapon key='mg4.weapon' /> -->
+	<!-- <weapon key='caws.weapon' /> -->
+	<!-- <weapon key='uts15.weapon' /> -->
+	<!-- <weapon key='javelin.weapon' /> -->
 	<weapon key='m202_flash.weapon' />
 	<weapon key='mgl_flasher.weapon' />
 	<carry_item key='eodvest_ai.carry_item' enabled="1" />

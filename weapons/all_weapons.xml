@@ -44,6 +44,18 @@
 	<weapon file="squad_equipment_kit_navy.weapon" />
 
 	<weapon file="tow.weapon" />
+	<weapon file="noxe.weapon" />
+	<weapon file="scorpio_cannon.weapon" />
+	<weapon file="m551_cannon.weapon" />
+	<weapon file="m551_mg.weapon" />
+	<weapon file="hovercraft_minig.weapon" />
+	<weapon file="legion_cannon.weapon" />
+	<weapon file="legion_mg.weapon" />
+	<weapon file="sev90_cannon.weapon" />
+	<weapon file="flamer_tank_cannon.weapon" />
+	<weapon file="flamer_tank_mg.weapon" />
+	<weapon file="m528_hmg.weapon" />
+	<weapon file="m528_apj.weapon" />
 	<weapon file="vss_vintorez.weapon" />
 
 	<weapon file="ns2000.weapon" />

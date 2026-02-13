@@ -488,9 +488,9 @@
 	</soldier>    
 
 	<!-- -------------- -->
-	<!-- Bane (Leader, orange) – Import aus Apocalypse, SF/EOD Weste -->
+	<!-- Bane/Vanguard (Leader vorne, orange) – SF/EOD Weste -->
 	<!-- -------------- -->
-	<soldier name="bane" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="bane_firstname.txt" lastnames_file="bane_lastname.txt">
+	<soldier name="bane" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="vanguard_firstname.txt" lastnames_file="german_lastnames.txt">
 		<character filename="default_miniboss_male.character" />
 		<ai filename="bane_leader.ai" />
 		<model filename="soldier_bane.xml" />

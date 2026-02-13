@@ -1,5 +1,5 @@
 // Bane Spawn Command Tracker
-// /bane_spawn [paradrop] – spawnt 1 Bane + 2 Terminators bei Spielerposition, in Spielerfraktion
+// /bane_spawn [paradrop] – spawnt 1 Vanguard (vorne) + 1 General bei Spielerposition
 // Admin only. Import aus Project Apocalypse.
 
 #include "tracker.as"
@@ -38,7 +38,7 @@ class BaneSpawnCommandTracker : Tracker {
 		int senderId = event.getIntAttribute("player_id");
 		if (!trySpawnBaneSquad(senderId, paradrop)) return;
 
-		sendPrivateMessage(m_metagame, senderId, "Bane-Squad gespawnt (1 Bane, 2 Terminators)" + (paradrop ? " mit Paradrop" : ""));
+		sendPrivateMessage(m_metagame, senderId, "Squad gespawnt (1 Vanguard, 1 General)" + (paradrop ? " mit Paradrop" : ""));
 	}
 
 	// Liefert false, wenn Spieler/Char nicht gefunden.
@@ -61,15 +61,12 @@ class BaneSpawnCommandTracker : Tracker {
 		pos.m_values[0] += SPAWN_OFFSET_FWD;
 		if (paradrop) pos.m_values[1] += PARADROP_HEIGHT;
 
-		// 2 Terminators nebeneinander, 1 Bane dahinter
-		sendSpawnSoldier("terminator", pos, factionId);
-		pos.m_values[0] += SPAWN_OFFSET_SIDE;
-		sendSpawnSoldier("terminator", pos, factionId);
-		pos.m_values[0] -= SPAWN_OFFSET_SIDE;
-		pos.m_values[2] += SPAWN_OFFSET_SIDE;
+		// Vanguard zuerst vorne (Guard-Position), General dahinter
 		sendSpawnSoldier("bane", pos, factionId);
+		pos.m_values[0] -= SPAWN_OFFSET_SIDE;
+		sendSpawnSoldier("terminator", pos, factionId);
 
-		sendFactionMessage(m_metagame, factionId, "Bane-Squad deployed!", 1.5f);
+		sendFactionMessage(m_metagame, factionId, "Vanguard + General deployed!", 1.5f);
 		_log("BaneSpawnCommandTracker: Squad bei " + pos.toString(), 1);
 		return true;
 	}

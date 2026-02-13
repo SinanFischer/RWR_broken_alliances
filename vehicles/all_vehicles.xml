@@ -128,6 +128,9 @@
   <vehicle file="vfs_para.vehicle" />
   <vehicle file="vfs_sport.vehicle" />
   <vehicle file="vfs_base.vehicle" />
+  <vehicle file="fv101.vehicle" />
+  <vehicle file="m551.vehicle" />
+  <vehicle file="hovercraft.vehicle" />
   <vehicle file="willys_mb_spawn.vehicle" />
   <vehicle file="willys_mb_para.vehicle" />
   <vehicle file="willys_mb.vehicle" />

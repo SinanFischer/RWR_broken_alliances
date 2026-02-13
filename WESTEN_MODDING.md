@@ -207,3 +207,48 @@ Mit diesem Aufbau und den genannten Dateien kannst du eine eigene Weste definier
 2. **Fraktionen (green/brown/grey.xml):** In der **default-** und **default_ai-**Soldatengruppe **nach** `default_vests.resources` einbinden: `<resources file="armory_vests.resources" />`.
 3. **Spawn-Verhalten:** In den Mod-`carry_item`-Dateien (vest1–4, camouflage_suit, sf_suit) für den **ersten Zustand** `commonness value="0.0"` und `in_stock="1"` setzen. So erscheinen die Westen in der Waffenkammer, werden aber für Default-Spawns nicht gewichtet (nur vest_default mit commonness 1.0 wird gezogen).
 4. **sf_suit:** Zusätzlich `in_stock="1"` setzen (vorher 0), damit die Weste in der Waffenkammer angeboten wird.
+
+---
+
+## 13. Erkenntnisse – Wichtig für zukünftige Implementierungen
+
+Diese Punkte fassen Wissen aus der Mod-Entwicklung zusammen (Waffenkammer, Anzeige, Spawn). Bei neuen Westen oder Änderungen an der Armory-Anzeige darauf achten.
+
+### 13.1 Woher bekommt die Waffenkammer ihre Westen-Liste?
+
+| Quelle | Wird für Waffenkammer genutzt? |
+|--------|--------------------------------|
+| **Ressourcen der Default-Soldatengruppe** (default / default_ai) aus den in der Fraktion-XML geladenen `.resources`-Dateien | **Ja** – das ist die maßgebliche Quelle. |
+| supply-Soldatengruppe (z. B. `supply_common.resources`) | **Nein** – erscheint nicht in der Waffenkammer-Liste. |
+| Per Script gesendete `faction_resources`-Befehle (`getFriendlyFactionResourceChanges()` etc.) | **Nein** – die Waffenkammer-UI baut die Liste offenbar beim initialen Laden der Fraktion (XML/Resources); nachträgliche Script-Befehle reichen nicht für die Anzeige. |
+
+**Folgerung:** Damit eine Weste in der Waffenkammer erscheint, muss sie in einer `.resources`-Datei stehen, die von der **default-** bzw. **default_ai-**Soldatengruppe der Spielerfraktion geladen wird (z. B. `armory_vests.resources` nach `default_vests.resources`).
+
+### 13.2 Doppelte Einträge in der Waffenkammer
+
+- Die **Anzeige** in der Waffenkammer orientiert sich am **`name`-Attribut** des carry_item (bzw. an dessen Übersetzungs-Key).
+- Zwei **verschiedene** carry_items (z. B. `vest4.carry_item` und `sf_suit.carry_item`) mit **demselben** `name="Vest, type IV"` erscheinen als **zwei getrennte Zeilen mit identischem Text** („Weste 4“ zweimal).
+- **Lösung:** Jeder Westen-Typ braucht einen **eindeutigen Anzeigenamen**. Beispiel: sf_suit von `"Vest, type IV"` auf `"SF Vest"` umstellen (und ggf. in `languages/…/misc_text_vanilla.xml` übersetzen).
+
+### 13.3 commonness vs. in_stock (carry_item)
+
+| Attribut | Wirkung |
+|----------|--------|
+| **commonness** | Gewichtung beim **Spawn** und in Pools (z. B. Crates). `0.0` = wird für Default-Soldaten praktisch nicht gezogen; `1.0` = normale Gewichtung. Beeinflusst **nicht** direkt, ob die Weste in der Waffenkammer steht. |
+| **in_stock** | Steuert, ob die Weste **in der Waffenkammer** angeboten wird. `in_stock="1"` = anzeigen; `in_stock="0"` = nicht in der Waffenkammer (z. B. nur als Spawn/Loot). |
+
+**Typisches Setup für „Weste in Waffenkammer, aber nicht als Default-Spawn“:**  
+`commonness value="0.0"` und `in_stock="1"` im **ersten** Zustand der Weste; die Default-Gruppe lädt zusätzlich `default_vests.resources` mit nur `vest_default` (commonness 1.0), damit weiter nur die Default-Weste gespawnt wird.
+
+### 13.4 Reihenfolge der Resources in der Default-Gruppe
+
+- **Zuerst** `default_vests.resources` mit `clear_carry_items="1"` und nur `vest_default` → Slot-1-Pool = { vest_default }.
+- **Danach** `armory_vests.resources` **ohne** `clear_carry_items` → Pool wird ergänzt (vest_default + vest1, vest2, …).
+- So sind alle Westen in der Waffenkammer sichtbar; durch commonness wird beim Spawn weiter nur vest_default gewählt.
+
+### 13.5 Kurz-Checkliste: Neue Weste soll in der Waffenkammer erscheinen
+
+1. **carry_item:** `slot="1"`, `in_stock="1"`, eigener **eindeutiger** `name` (kein Duplikat zu anderer Weste).
+2. **Default-Gruppe:** Weste in einer Resource-Datei, die von default/default_ai geladen wird (z. B. in `armory_vests.resources` eintragen und diese Datei in green/brown/grey.xml nach `default_vests.resources` einbinden).
+3. **Spawn:** Wenn Default-Soldaten diese Weste **nicht** bekommen sollen: `commonness value="0.0"` im ersten Zustand; vest_default weiter mit commonness 1.0 in `default_vests.resources`.
+4. **Sprache (optional):** In `languages/<lang>/misc_text_vanilla.xml` (oder Mod-Äquivalent) Eintrag für den `name`-Key, falls Übersetzung gewünscht.
