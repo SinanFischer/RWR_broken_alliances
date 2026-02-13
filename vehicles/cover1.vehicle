@@ -1,6 +1,6 @@
 <vehicle name="" key="cover1.vehicle" map_view_atlas_index="15" respawn_time="0.0">
   <tag name="sandbag" />
-	<tag name="target" />
+	<!-- <tag name="target" />  Sandsack-Positionen immer sichtbar (nicht von FOV ausblenden) -->
 	<tire_set offset="1.0 0.0 0.5" radius="0.65" />
 	<tire_set offset="1.0 0.0 -0.5" radius="0.65" />
 

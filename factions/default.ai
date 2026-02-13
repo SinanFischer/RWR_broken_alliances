@@ -24,8 +24,8 @@
   <parameter class="crouching_near_leader_rejoin_range" value="14.0" />
   <parameter class="grenade_monitor_range" value="12.0" />
   <!-- Erhöhte Basis-Sichtweite: mehr sehen ohne Waffen-Multiplier (Standard war 42/40/40) GUT = 52g -->
-  <parameter class="max_sight_range_with_muzzle" value="85.0" />
-  <parameter class="leader_sight_range" value="75.0" />
+  <parameter class="max_sight_range_with_muzzle" value="165.0" />
+  <parameter class="leader_sight_range" value="80.0" />
   <parameter class="team_member_sight_range" value="65.0" />
   <parameter class="strike_frequency_time" value="8.0" /> 
   <parameter class="global_separation_radius_factor" value="2.0" />

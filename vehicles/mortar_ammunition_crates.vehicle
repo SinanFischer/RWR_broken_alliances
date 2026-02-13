@@ -1,6 +1,6 @@
 <vehicle name="Mortar Ammunition" key="mortar_ammunition_crates.vehicle" map_view_atlas_index="-1" respawn_time="600.0" existence="one_per_faction" reserves_spawn_point="1" protectors="3"  soldier_capacity_offset="3" >
 	<tag name="sandbag" />
-	<tag name="target" />
+	<!-- <tag name="target" />  Munitionskisten immer sichtbar (nicht von FOV ausblenden) -->
 	<tire_set offset="1.0 0.0 0.5" radius="0.65" />
 	<tire_set offset="1.0 0.0 -0.5" radius="0.65" />
 
