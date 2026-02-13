@@ -5,13 +5,14 @@
 // Fraktionen: dynamisch aus getFactions() (wie faction_alive_hud_tracker) – keine festen IDs.
 // Fahrzeug-Keys: oben konfigurierbar (Simple/Medium/Heavy).
 //
-// /vehicle, /vehicle_spawn, /fahrzeug: Status + nächste Spawns pro Fraktion.
-// /vehicle test: sofort Test-Spawn für deine Fraktion (Commander-Meldung prüfen).
+// /vehicle, /vehicle_spawn, /fahrzeug: Status nur für eigene Fraktion (Light/Medium/Heavy + Zeiten).
+// /vehicle test: sofort Test-Spawn (nur Admins).
 
 #include "tracker.as"
 #include "helpers.as"
 #include "log.as"
 #include "query_helpers.as"
+#include "admin_manager.as"
 
 // =============================================================================
 // KONFIGURATION – Fahrzeug-Keys pro Kategorie (Index = Fraktions-Index)
@@ -275,66 +276,59 @@ class VehicleIntervalSpawn : Tracker {
 
 		int senderId = event.getIntAttribute("player_id");
 
-		// /vehicle test oder /vehicle_spawn test: sofort Spawn für Spieler-Fraktion
 		int space = message.findFirst(" ");
 		string arg = "";
 		if (space >= 0 && space + 1 < int(message.length()))
 			arg = message.substr(space + 1, message.length() - space - 1);
-		if (arg.length() > 0 && arg.toLowerCase() == "test") {
-				const XmlElement@ player = getPlayerInfo(m_metagame, senderId);
-				if (player is null) {
-					sendPrivateMessage(m_metagame, senderId, "Player nicht gefunden.");
-					return;
-				}
-				int factionId = player.getIntAttribute("faction_id");
-				if (factionId < 0) {
-					sendPrivateMessage(m_metagame, senderId, "Du hast keine Fraktion (Beobachter?).");
-					return;
-				}
-				spawnVehicle(factionId, 0); // Leicht-Spawn
-				sendPrivateMessage(m_metagame, senderId, "Test-Spawn: Simple-Fahrzeug für Fraktion " + factionId + " gespawnt. Commander-Meldung sollte erscheinen.");
-				return;
-		}
 
-		// Status-Ausgabe – Lazy-Init falls noch nicht (Quick Match, wie faction_alive_hud_tracker)
-		tryInitFactions();
-		if (m_numFactions == 0) {
-			sendPrivateMessage(m_metagame, senderId, "VehicleIntervalSpawn: Noch keine Fraktionen. Warte auf Match-Start, dann /vehicle erneut.");
+		// /vehicle test: sofort Spawn – nur Admins
+		if (arg.length() > 0 && arg.toLowerCase() == "test") {
+			if (!m_metagame.getAdminManager().isAdmin(event.getStringAttribute("player_name"), event.getIntAttribute("player_id"))) {
+				sendPrivateMessage(m_metagame, senderId, "Nur für Admins.");
+				return;
+			}
+			const XmlElement@ player = getPlayerInfo(m_metagame, senderId);
+			if (player is null) {
+				sendPrivateMessage(m_metagame, senderId, "Player nicht gefunden.");
+				return;
+			}
+			int factionId = player.getIntAttribute("faction_id");
+			if (factionId < 0) {
+				sendPrivateMessage(m_metagame, senderId, "Du hast keine Fraktion (Beobachter?).");
+				return;
+			}
+			spawnVehicle(factionId, 0);
+			sendPrivateMessage(m_metagame, senderId, "Test-Spawn: Leicht-Fahrzeug für Fraktion " + factionId + " gespawnt.");
 			return;
 		}
 
-		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		array<const XmlElement@>@ bases = getBases(m_metagame);
-		if (factions is null || factions.size() == 0) return;
-
-		string block = "VehicleIntervalSpawn | " + m_numFactions + " Fraktionen | Leicht 2-4min, Mittel 5-8min, Schwer 12-15min\n";
-
-		for (uint i = 0; i < m_numFactions; ++i) {
-			int fid = int(i);
-			string fName = (factions !is null && uint(fid) < factions.size()) ? factions[fid].getStringAttribute("key") : "F" + fid;
-			if (fName.length() < 2) fName = "F" + fid;
-
-			int nextCat = 0;
-			float nextSec = m_simpleTimer[i];
-			if (m_mediumTimer[i] < nextSec) { nextSec = m_mediumTimer[i]; nextCat = 1; }
-			if (m_heavyTimer[i] < nextSec)  { nextSec = m_heavyTimer[i];  nextCat = 2; }
-			string vehicleKey = getVehicleKeyForFaction(fid, nextCat);
-			string vehicleName = getVehicleDisplayName(vehicleKey);
-
-			string baseName = "?";
-			if (bases !is null) {
-				for (uint b = 0; b < bases.size(); ++b) {
-					if (bases[b].getIntAttribute("owner_id") == fid) {
-						baseName = bases[b].getStringAttribute("name");
-						if (baseName.length() == 0) baseName = bases[b].getStringAttribute("key");
-						break;
-					}
-				}
-			}
-
-			block += fName + ": " + vehicleName + " in " + int(nextSec) + "s @ " + baseName + "\n";
+		// Status: nur eigene Fraktion – Light / Medium / Heavy (Heavy ggf. "blocked (leading)")
+		tryInitFactions();
+		if (m_numFactions == 0) {
+			sendPrivateMessage(m_metagame, senderId, "Noch keine Fraktionen. Nach Match-Start /vehicle erneut.");
+			return;
 		}
-		block += "--- /vehicle test = sofort Leicht-Spawn deiner Fraktion ---";
+
+		const XmlElement@ player = getPlayerInfo(m_metagame, senderId);
+		if (player is null) {
+			sendPrivateMessage(m_metagame, senderId, "Spieler nicht gefunden.");
+			return;
+		}
+		int factionId = player.getIntAttribute("faction_id");
+		if (factionId < 0 || uint(factionId) >= m_numFactions) {
+			sendPrivateMessage(m_metagame, senderId, "Du hast keine Fraktion (Beobachter?).");
+			return;
+		}
+
+		string lightStr = "light:  " + int(m_simpleTimer[factionId]) + "s";
+		string mediumStr = "medium: " + int(m_mediumTimer[factionId]) + "s";
+		string heavyStr;
+		if (factionId == getLeadingFactionId())
+			heavyStr = "heavy:  blocked (leading faction)";
+		else
+			heavyStr = "heavy:  " + int(m_heavyTimer[factionId]) + "s";
+
+		string block = "Vehicle spawns (your faction)\n" + lightStr + "\n" + mediumStr + "\n" + heavyStr;
 		sendPrivateMessage(m_metagame, senderId, block);
 	}
 }

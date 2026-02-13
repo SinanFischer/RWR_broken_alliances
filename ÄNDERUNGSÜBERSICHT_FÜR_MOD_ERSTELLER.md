@@ -64,6 +64,7 @@
 | **Sniper** | Sniper-Einheit (nur liegend/wand) |
 | **Support** | Unterstützungstrupp |
 | **Medic AI** | Überarbeitete Medic-Logik, folgt Spieler; deutlich wertvoller durch Slot-Block-System (Revive vermeidet temporäre Slot-Deaktivierung) |
+| **Hunde** | Im Total Conversion Mod deaktiviert – **wieder aktiviert**. Spawnen für alle Fraktionen (Spieler + Feinde) mit ~4 % Chance (spawn_score 0,04). Vanilla-Assets (dog.ai, dog.character, dog.weapon, dog_heal.weapon, dog.carry_item). |
 
 **AI-Anpassungen:** Erhöhte Aggression, Sichtweite, Reaktionsfähigkeit; größere Squads; Minibosse führen volle Trupps; **MGs nur in Prone-Stellung** – ideal für Deckungsfeuer, sehr tödlich; Nachteil: Hinlegen nötig, eingeschränkte Beweglichkeit.
 
