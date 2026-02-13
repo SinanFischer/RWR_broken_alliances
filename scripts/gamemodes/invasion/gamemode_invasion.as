@@ -443,30 +443,15 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 
 	// --------------------------------------------
 	protected void setupDogs() {
-		{
-			// enable dogs in friendly faction only
+		// Hunde für alle Fraktionen (Spieler + Feinde), spawn_score 0.008 (Vanilla-Standard)
+		for (uint i = 0; i < m_factions.size(); ++i) {
 			XmlElement command("command");
 			command.setStringAttribute("class", "faction");
-			command.setIntAttribute("faction_id", 0);
+			command.setIntAttribute("faction_id", int(i));
 			command.setStringAttribute("soldier_group_name", "dog");
 			command.setFloatAttribute("spawn_score", 0.008f);
 			getComms().send(command);
-        }
-
-		for (uint i = 1; i < m_factions.size(); ++i) {
-			const FactionConfig@ config = m_factions[i].m_config;
-		{
-			// disable dogs in enemy factions 
-			// to prevent players to have to kill dogs
-			XmlElement command("command");
-			command.setStringAttribute("class", "faction");
-			command.setIntAttribute("faction_id", i);
-			command.setStringAttribute("soldier_group_name", "dog");
-			command.setFloatAttribute("spawn_score", 0.0f);
-			getComms().send(command);
 		}
-
-      }
 	}
 
 	// --------------------------------------------

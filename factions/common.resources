@@ -70,7 +70,7 @@
 	<weapon key="tracer_dart.weapon" />
 	<weapon key="tracer_dart_ai.weapon" enabled="0" />
 	<carry_item key="eodvest_ai.carry_item" enabled="0" />  
-	<carry_item key="dog.carry_item" enabled="0" />
+	<carry_item key="dog.carry_item" enabled="1" />
 	<!-- common vehicles -->
 
 	<vehicle key="humvee.vehicle" />
