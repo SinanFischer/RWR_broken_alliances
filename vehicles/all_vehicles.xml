@@ -8,6 +8,9 @@
   <vehicle file="transport_truck.vehicle" />
   <vehicle file="transport_truck_1.vehicle" />
   <vehicle file="transport_truck_2.vehicle" />
+  <vehicle file="truck.vehicle" />
+  <vehicle file="truck_1.vehicle" />
+  <vehicle file="truck_2.vehicle" />
   <vehicle file="apc.vehicle" />
   <vehicle file="apc_1.vehicle" />  
   <vehicle file="apc_2.vehicle" /> 
@@ -26,7 +29,7 @@
 
 <!--  <vehicle file="radar_truck.vehicle" /> -->
 <!--  <vehicle file="radar_tank2.vehicle" />  -->
-<!--  <vehicle file="cargo_truck.vehicle" /> -->
+  <vehicle file="cargo_truck.vehicle" />
 <!--  <vehicle file="darkcat.vehicle"/> -->
 <!--  <vehicle file="tank2.vehicle" /> -->
 

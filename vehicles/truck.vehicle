@@ -1,0 +1,2 @@
+<!-- Alias für /truck-Command: Vanilla spawnt truck.vehicle, Mod hat nur transport_truck -->
+<vehicle file="transport_truck.vehicle" key="truck.vehicle" />

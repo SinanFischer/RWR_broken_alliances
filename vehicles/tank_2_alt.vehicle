@@ -1,0 +1,21 @@
+<vehicle file="tank_2.vehicle" key="tank_2_alt.vehicle">
+	<tag name="tank" remove="1" />
+	<tag name="tank_alt" />
+
+	<turret index="0" weapon_key="tank_cannon_2_alt.weapon" />
+
+	<visual class="chassis" texture_filename="tank_2_alt.png" />
+	<visual class="chassis" key="broken" texture_filename="tank_2_broken_alt.png" />
+	<visual class="turret" turret_index="0" texture_filename="tank_2_alt.png" />
+	<visual class="turret" turret_index="1" texture_filename="tank_2_alt.png" />
+	<visual class="turret" key="broken" texture_filename="tank_2_broken_alt.png" />
+
+	<visual class="track" index="0">
+		<part index="0" texture_filename="tank_2_alt.png" />
+	</visual>
+
+	<visual class="track" index="1">
+		<part index="0" texture_filename="tank_2_alt.png" />
+	</visual>
+
+</vehicle>
