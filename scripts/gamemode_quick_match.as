@@ -10,6 +10,7 @@
 #include "trackers/capacity_debug_hud_tracker.as"
 #include "trackers/stats_command_tracker.as"
 #include "trackers/vehicle_interval_spawn.as"
+#include "trackers/bane_spawn_command_tracker.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)
@@ -42,6 +43,7 @@ class GameModeQuickMatch : Metagame {
 			addTracker(FactionAliveHudTracker(this)); // HUD: nur Einheiten in 200m
 		}
 		addTracker(VehicleIntervalSpawn(this)); // Fahrzeug-Spawn alle 2–4 min (simple) / 5–8 min (medium)
+		addTracker(BaneSpawnCommandTracker(this)); // /bane_spawn – 2 Terminator + 1 Bane
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 
 		const XmlElement@ player = getPlayerInfo(this, 0);

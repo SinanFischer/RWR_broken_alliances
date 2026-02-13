@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- for bane npc -->
+<carry_items>
+    <carry_item key="vest_bane.carry_item" name="bane 8/8" slot="1" transform_on_consume="bane1" time_to_live_out_in_the_open="0.0">
+        <capacity value="1" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1000" />
+        <inventory encumbrance="7.0" buy_price="5000.0" sell_price="3000.0" />
+        <model mesh_filename="vest_bane.xml" />
+                                                                                                                                                    
+        <commonness value="0.00001" in_stock="1" can_respawn_with="0" />
+ 
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="none"  />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="none" />
+		<modifier class="speed" value="0.15" />
+</carry_item>
+
+    <carry_item key="bane1" name="bane 7/8" slot="1" transform_on_consume="bane2" time_to_live_out_in_the_open="0.0">
+        <capacity value="1" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1000" />
+        <inventory encumbrance="7.0" buy_price="5000.0" sell_price="3000.0" />
+         <model mesh_filename="vest_bane.xml" />
+ 
+                                                                                                                                                                          
+        <commonness value="0.00001" in_stock="1" can_respawn_with="0" />
+ 
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="none"  />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="none" />
+		<modifier class="speed" value="0.15" />
+</carry_item>
+
+		<carry_item key="bane2" name="bane 6/8" slot="1" transform_on_consume="bane3" time_to_live_out_in_the_open="0.0">
+        <capacity value="1" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1000" />
+        <inventory encumbrance="7.0" buy_price="5000.0" sell_price="3000.0" />
+         <model mesh_filename="vest_bane.xml" />                                                                                                                                                 
+        <commonness value="0.00001" in_stock="1" can_respawn_with="0" />
+ 
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="none"  />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="none" />
+		<modifier class="speed" value="0.15" />
+</carry_item>
+		
+		<carry_item key="bane3" name="bane 5/8" slot="1" transform_on_consume="bane4" time_to_live_out_in_the_open="0.0">
+        <capacity value="1" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1000" />
+        <inventory encumbrance="7.0" buy_price="5000.0" sell_price="3000.0" />
+         <model mesh_filename="vest_bane.xml" />                                                                                                                                                   
+        <commonness value="0.00001" in_stock="1" can_respawn_with="0" />
+ 
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="none"  />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="none" />
+		<modifier class="speed" value="0.15" />
+</carry_item> 
+		
+		<carry_item key="bane4" name="bane 4/8" slot="1" transform_on_consume="bane5" time_to_live_out_in_the_open="0.0">
+        <capacity value="1" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1000" />
+        <inventory encumbrance="7.0" buy_price="5000.0" sell_price="3000.0" />
+         <model mesh_filename="vest_bane.xml" />                                                                                                                                                    
+        <commonness value="0.00001" in_stock="1" can_respawn_with="0" />
+ 
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="none"  />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="none" />
+		<modifier class="speed" value="0.15" />
+</carry_item> 
+
+		<carry_item key="bane5" name="bane 3/8" slot="1" transform_on_consume="bane6" time_to_live_out_in_the_open="0.0">
+        <capacity value="1" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1000" />
+        <inventory encumbrance="7.0" buy_price="5000.0" sell_price="3000.0" />
+         <model mesh_filename="vest_bane.xml" />                                                                                                                                                
+        <commonness value="0.00001" in_stock="1" can_respawn_with="0" />
+ 
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="none"  />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="none" />
+		<modifier class="speed" value="0.15" />
+</carry_item> 
+
+		<carry_item key="bane6" name="bane 4/8" slot="1" transform_on_consume="bane7" time_to_live_out_in_the_open="0.0">
+        <capacity value="1" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1000" />
+        <inventory encumbrance="7.0" buy_price="5000.0" sell_price="3000.0" />
+         <model mesh_filename="vest_bane.xml" />                                                                                                                                                    
+        <commonness value="0.00001" in_stock="1" can_respawn_with="0" />
+ 
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="none"  />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="none" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="none" consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="stun" output_character_state="none" consumes_item="0" />
+        <modifier class="melee_hit_result" input_character_state="death" output_character_state="none" />
+		<modifier class="speed" value="0.15" />
+</carry_item> 
+
+		<carry_item key="bane7" name="bane 1/8" slot="1" transform_on_consume="bane8" time_to_live_out_in_the_open="0.0">
+        <capacity value="1" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1000" />
+        <inventory encumbrance="7.0" buy_price="5000.0" sell_price="3000.0" />
+         <model mesh_filename="vest_bane.xml" />                                                                                                                                                     
+        <commonness value="0.00001" in_stock="1" can_respawn_with="0" />
+ 
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun"  />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="stun" consumes_item="0" />
+        <modifier class="projectile_blast_result" input_character_state="stun" output_character_state="stun"  consumes_item="0" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="stun" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="wound" consumes_item="0" />
+		<modifier class="speed" value="0.15" />
+		<modifier class="detectability" value="0.10" />
+</carry_item>
+
+		<carry_item key="bane8" name="bane 0/8" slot="1" transform_on_consume="banedeath" time_to_live_out_in_the_open="0.0">
+        <capacity value="1" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1000" />
+        <inventory encumbrance="7.0" buy_price="5000.0" sell_price="3000.0" />
+ 
+                <model mesh_filename="vest_bane.xml" />
+                                                                                                                                                                          
+        <commonness value="0.00001" in_stock="1" can_respawn_with="0" />
+ 
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="wound" />
+        <modifier class="projectile_blast_result" input_character_state="wound" output_character_state="wound" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="wound" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="wound" consumes_item="0" />
+		<modifier class="speed" value="0.15" />
+
+</carry_item>  
+
+		<carry_item key="banedeath" name="bane wound" slot="1"  time_to_live_out_in_the_open="0.0">
+        <capacity value="1" source="rank" source_value="0.0" />
+        <capacity value="1" source="rank" source_value="1000" />
+        <inventory encumbrance="7.0" buy_price="5000.0" sell_price="3000.0" />
+ 
+                <model mesh_filename="vest_bane.xml" />
+                                                                                                                                                                          
+        <commonness value="0.00001" in_stock="1" can_respawn_with="0" />
+ 
+        <modifier class="projectile_blast_result" input_character_state="death" output_character_state="wound" />
+        <modifier class="projectile_hit_result" input_character_state="death" output_character_state="death" />
+        <modifier class="projectile_hit_result" input_character_state="wound" output_character_state="wound" consumes_item="0" />
+		<modifier class="speed" value="0.15" />
+</carry_item>
+</carry_items>

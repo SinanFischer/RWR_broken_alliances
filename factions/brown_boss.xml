@@ -148,4 +148,19 @@
 			<attribute weight="1.0" min="0.0" max="0.05" />
 		</attribute_config>
 	</soldier>
+
+	<!-- Bane + Terminator (Import Apocalypse) -->
+	<soldier name="bane" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="bane_firstname.txt" lastnames_file="bane_lastname.txt">
+		<character filename="default_miniboss_male.character" />
+		<ai filename="sniper.ai" />
+		<model filename="soldier_bane.xml" />
+		<resources file="bane.resources" />
+	</soldier>
+	<soldier name="terminator" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="terminator_firstname.txt" lastnames_file="terminator_lastname.txt">
+		<character filename="default_miniboss_male.character" />
+		<ai filename="elite.ai" />
+		<model filename="soldier_terminator.xml" />
+		<resources file="terminator.resources" />
+	</soldier>
+
 </faction>

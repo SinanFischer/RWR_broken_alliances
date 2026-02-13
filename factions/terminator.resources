@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources clear_weapons="1" clear_vehicles="1" clear_grenades="1" clear_carry_items="1">
+	<weapon key='minigun_ai.weapon' />
+	<weapon key='m79_terminator.weapon' />
+	<carry_item key='vest_terminator.carry_item' enabled="1" />
+	<carry_item key='germany.carry_item'/>
+</resources>

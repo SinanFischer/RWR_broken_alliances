@@ -486,6 +486,40 @@
 			<attribute weight="1.0" min="0.0" max="0.05" />
 		</attribute_config>
 	</soldier>    
-   
+
+	<!-- -------------- -->
+	<!-- Bane (Special Unit) – Import aus Apocalypse -->
+	<!-- -------------- -->
+	<soldier name="bane" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="bane_firstname.txt" lastnames_file="bane_lastname.txt">
+		<character filename="default_miniboss_male.character" />
+		<ai filename="sniper.ai" />
+		<model filename="soldier_bane.xml" />
+		<resources file="bane.resources" />
+		<item_class_existence_config>
+			<item_class_existence class="weapon" slot="1" probability="1.0" />
+			<item_class_existence class="carry_item" slot="1" probability="1.0" />
+			<item_class_existence class="carry_item" slot="0" probability="1.0" />
+		</item_class_existence_config>
+		<attribute_config class="xp"><attribute weight="1" min="10" max="100" /></attribute_config>
+		<attribute_config class="rp"><attribute weight="1.0" min="2000.0" max="10000.0" /></attribute_config>
+	</soldier>
+
+	<!-- -------------- -->
+	<!-- Terminator (Bodyguard) – Import aus Apocalypse -->
+	<!-- -------------- -->
+	<soldier name="terminator" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="terminator_firstname.txt" lastnames_file="terminator_lastname.txt">
+		<character filename="default_miniboss_male.character" />
+		<ai filename="elite.ai" />
+		<model filename="soldier_terminator.xml" />
+		<resources file="terminator.resources" />
+		<item_class_existence_config>
+			<item_class_existence class="weapon" slot="1" probability="1.0" />
+			<item_class_existence class="carry_item" slot="1" probability="1.0" />
+			<item_class_existence class="carry_item" slot="0" probability="1.0" />
+		</item_class_existence_config>
+		<attribute_config class="xp"><attribute weight="0.3" min="10" max="100" /><attribute weight="0.3" min="100" max="1000.0" /><attribute weight="0.2" min="1000.0" max="1500.0" /></attribute_config>
+		<attribute_config class="rp"><attribute weight="1.0" min="7000.0" max="30000.0" /></attribute_config>
+	</soldier>
+
 </faction>
 
