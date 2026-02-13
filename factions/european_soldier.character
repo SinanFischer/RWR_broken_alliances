@@ -12,6 +12,13 @@
 	<comment key="Medic!" text="Wounded." />
 	<comment key="Medic!" text="I'm hit... shit." />
 	<comment key="Medic!" text="So much blood..." />
+	<!-- Verletzung - sofortige Reaktion, energisch, gerade getroffen -->
+	<comment key="Medic!" text="SCHEISSE! My leg!" />
+	<comment key="Medic!" text="Arm's gone! Sani!" />
+	<comment key="Medic!" text="Something's torn off! HELP!" />
+	<comment key="Medic!" text="Leg's hit! I can't feel it!" />
+	<comment key="Medic!" text="Gut shot! I'm bleeding!" />
+	<comment key="Medic!" text="My leg! I can't feel my leg!" />
 	<!-- Kameradschaftlich -->
 	<comment key="Medic!" text="Kamerad! Where are you?!" />
 	<comment key="Medic!" text="Kameraden! Help me!" />
@@ -21,17 +28,20 @@
 	<comment key="Medic!" text="SCHEISSE! Sanitaeter!" />
 	<comment key="Medic!" text="Verdammt! I'm hit!" />
 	<comment key="Medic!" text="AAAARGH!" />
-	<comment key="Medic!" text="Mama...?" />
 	<!-- Traurig -->
 	<comment key="Medic!" text="I didn't want it like this" />
 	<comment key="Medic!" text="I don't want to die..." />
 	<comment key="Medic!" text="It's so cold..." />
-	<!-- Entschlossene Patrioten - trotz Verwundung -->
+	<!-- Entschlossene Patrioten - trotz Verwundung, wollen zurück in den Kampf -->
 	<comment key="Medic!" text="For Europe... get me up!" />
 	<comment key="Medic!" text="Not like this... not for the Union..." />
 	<comment key="Medic!" text="I won't fall here. Sani!" />
 	<comment key="Medic!" text="For the Union... I need to make it..." />
 	<comment key="Medic!" text="Get me back in the fight!" />
+	<comment key="Medic!" text="Sani! Patch me up! I'm going back in!" />
+	<comment key="Medic!" text="Fix me up! I can still fight!" />
+	<comment key="Medic!" text="I need to get back in the fight!" />
+	<comment key="Medic!" text="Don't let me die here... get me up!" />
 	<!-- Politisch/Insider - Epstein -->
 	<comment key="Medic!" text="Dying for the guys in the files... great" />
 	<!-- ========== All quiet here (Casual - sagen sie einfach so) ========== -->

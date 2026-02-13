@@ -12,6 +12,13 @@
 	<comment key="Medic!" text="Blood. Lots of it." />
 	<comment key="Medic!" text="Ranen. Next." />
 	<comment key="Medic!" text="They got me." />
+	<!-- Verletzung - Körperteil, was ab ist, was nicht mehr spürbar -->
+	<comment key="Medic!" text="My leg... got it." />
+	<comment key="Medic!" text="Arm's hit. Can't feel it." />
+	<comment key="Medic!" text="Something's torn off..." />
+	<comment key="Medic!" text="Leg's shot. Sani!" />
+	<comment key="Medic!" text="Gut hit. I'm bleeding." />
+	<comment key="Medic!" text="Can't feel my leg..." />
 	<!-- Kameradschaftlich -->
 	<comment key="Medic!" text="Tovarishchi! Pomogite!" />
 	<comment key="Medic!" text="Bratan, where are you?!" />
@@ -19,7 +26,6 @@
 	<!-- Panisch / Halluzination / Kulturell -->
 	<comment key="Medic!" text="Blyat! Menya ranili!" />
 	<comment key="Medic!" text="Cyka! Help!" />
-	<comment key="Medic!" text="Mama...? Mama, is that you...?" />
 	<comment key="Medic!" text="I see them... the dead... they're here..." />
 	<comment key="Medic!" text="Bratan...? You're still there...?" />
 	<comment key="Medic!" text="Wait... where am I...?" />
@@ -31,12 +37,16 @@
 	<comment key="Medic!" text="I don't want to die..." />
 	<comment key="Medic!" text="It's so cold..." />
 	<comment key="Medic!" text="Take me home..." />
-	<!-- Entschlossene Patrioten - trotz Verwundung -->
+	<!-- Entschlossene Patrioten - trotz Verwundung, wollen zurück in den Kampf -->
 	<comment key="Medic!" text="For the Motherland... get me up!" />
 	<comment key="Medic!" text="Not like this... for Russia..." />
 	<comment key="Medic!" text="I won't fall here. Sanitar!" />
 	<comment key="Medic!" text="For the Motherland... I need to make it..." />
 	<comment key="Medic!" text="Get me back in the fight!" />
+	<comment key="Medic!" text="Patch me up! I'm not done yet!" />
+	<comment key="Medic!" text="Sani! I need to get back in!" />
+	<comment key="Medic!" text="Fix me up! I can still fight!" />
+	<comment key="Medic!" text="Don't let me die here... get me up!" />
 	<!-- Putin-Patrioten - typische Rhetorik -->
 	<comment key="Medic!" text="For the denazification... get me up!" />
 	<comment key="Medic!" text="We're liberating... I need to survive..." />

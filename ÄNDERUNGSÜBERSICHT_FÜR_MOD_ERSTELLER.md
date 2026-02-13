@@ -1,5 +1,7 @@
 # Änderungsübersicht – Modifikationen am RWR Total Conversion Mod
 
+**Basis & Assets:** Dieser Mod baut auf dem **RWR Total Conversion Mod** auf und nutzt Assets aus **Project Apocalypse**. Der Mod-Ersteller ist ausschließlich Programmierer, kein Designer – es wurden keine eigenen Assets erstellt oder in Auftrag gegeben. Die Arbeit beschränkt sich auf die Implementierung, Anpassung und Erweiterung von **Logik** (Scripts, Balancing, Konfiguration).
+
 **Zweck:** Anfrage an den Mod-Ersteller um Erlaubnis zur Veröffentlichung mit prominenten Credits.
 
 **Zeitraum:** 03.02.2026 – 13.02.2026 | **~130 Commits** | **462 geänderte Dateien**
@@ -10,14 +12,25 @@
 
 | System | Beschreibung |
 |--------|--------------|
-| **Reinforcement Pool** | Nachschub-System mit Spawn-Intervallen, Basis-Eroberungsboni, Großangriff alle 4 Zyklen |
-| **Respawn Slot Delay** | Verzögerter Respawn bei Überzahl einer Fraktion (Capacity-Konzept) |
+| **Respawn Slot Delay / Slot-Block-System** | Jeder Tod blockiert X Capacity-Slots für X Sekunden; starke Fraktionen verlieren mehr Slots pro Kill; Underdog-Bonus (siehe Abschnitt 1a) |
 | **Faction Alive HUD** | HUD-Anzeige lebender Soldaten pro Fraktion (inkl. 100m/150m/200m Radius) |
 | **Stats Command** | In-Game-Befehl für Fraktions-Statistiken (Alive, Capacity, Blocked Slots) |
 | **Vehicle Interval Spawn** | Intervall-basierter Fahrzeug-Spawn statt rein zufällig |
 | **Defender Tank** | Verteidiger erhalten Panzer bei 2 Basenverlust |
 | **Squad Equipment Kit** | Ausrüstungskit für Trupps |
 | **Bullet Flyby Effect** | Akustischer Effekt bei nahen Projektilen |
+
+### 1a. Slot-Block-System & Underdog-Skalierung (Detail)
+
+**Slot-Block bei jedem Kill:** Wenn ein Soldat stirbt, werden **X Capacity-Slots** seiner Fraktion für **X Sekunden** blockiert – kein Respawn in diesen Slots. **Auch Verwundete blockieren** ihren Slot (solange sie am Boden liegen). Stirbt ein Verwundeter, kommt die zusätzliche Blockade durch den Tod obendrauf. Kills und Revives haben dadurch spürbaren Einfluss. **Medics sind deutlich wertvoller**, da ein Revive die Slot-Blockade vermeidet und die Capacity sofort wieder verfügbar macht.
+
+- **Slots pro Tod:** Hängen von der eigenen Fraktions-Capacity ab (1–6 Slots); starke Fraktionen verlieren mehr pro Kill.
+- **Block-Dauer:** 1 Basis → 2 s, 2 Basen → 5 s, 3+ Basen → 15 s. **Schwächere Fraktionen (weniger Basen) haben kürzeres Respawn-Delay.**
+- **Truppenüberlegenheit:** Hat eine Fraktion mehr lebende Truppen als die zweitstärkste, verlängert sich die Blockade pro Kill (+4 s pro 25 Truppen Vorsprung). Die führende Fraktion verliert zusätzlich +2 Slots pro Tod.
+
+**Underdog-Vorteil:** Die schwächste Fraktion (weniger Basen, weniger lebende Truppen) erhält kürzere Slot-Blockaden und verliert weniger Slots pro Tod – sie hat eine bessere Chance, sich zu erholen und zurückzuschlagen.
+
+**Wert des Systems:** Anders als „begrenzte Soldaten“ (die oft zu leerer Map und Frust führen) erzeugt das Slot-Block-System eine **temporäre Schwächephase** statt endgültiger Niederlage. Kills schaffen echte Zeitfenster zum Sturm – kein sofortiger Nachspawn. Medics werden **kriegsentscheidend**, da Revives die Slot-Blockade vermeiden. Underdog-Bonus verhindert Snowballing. Ergebnis: taktischer Flow, belohnende Kills, Survival-Anstrich ohne harten Frust.
 
 ---
 
@@ -32,13 +45,17 @@
 | **Shotgun** | Schrotflinten-Trupp |
 | **Sniper** | Sniper-Einheit (nur liegend/wand) |
 | **Support** | Unterstützungstrupp |
-| **Medic AI** | Überarbeitete Medic-Logik, folgt Spieler |
+| **Medic AI** | Überarbeitete Medic-Logik, folgt Spieler; deutlich wertvoller durch Slot-Block-System (Revive vermeidet temporäre Slot-Deaktivierung) |
 
-**AI-Anpassungen:** Erhöhte Aggression, Sichtweite, Reaktionsfähigkeit; größere Squads; Minibosse führen volle Trupps; MGs nur in Prone-Stellung.
+**AI-Anpassungen:** Erhöhte Aggression, Sichtweite, Reaktionsfähigkeit; größere Squads; Minibosse führen volle Trupps; **MGs nur in Prone-Stellung** – ideal für Deckungsfeuer, sehr tödlich; Nachteil: Hinlegen nötig, eingeschränkte Beweglichkeit.
+
+**Sicht/FOV-Anpassungen:** Deutlich erhöhte Sichtweite für Spieler und AI. Wenn gleich Spieler weiter sehen kann um Schüsse aus dem Bildschirm so gut es geht zu vermeiden. Erweiterte MG- und Sniper-Sicht (`sight_range_modifier`); MGs mit erhöhter Sichtreichweite. Ermöglicht **weitere Gefechtsdistanzen** – näher an realistischem Gefechts-Bereich.
 
 ---
 
 ## 3. NEUE FAHRZEUGE
+
+- **Fahrzeug-Despawn:** Zerstörte Fahrzeuge bleiben **20 Minuten** sichtbar, bevor sie despawnen (Vanilla: 40 s). Über `vehicle_base.vehicle` mit `time_to_live_unsteerable="1200"` – mehr Trümmer auf dem Schlachtfeld, bessere Orientierung.
 
 | Fahrzeug | Beschreibung |
 |----------|--------------|
@@ -55,7 +72,7 @@
 
 | Objekt | Beschreibung |
 |--------|--------------|
-| **Flares** | Signalraketen (mehrere Farben) |
+| **Flares** | For vehicle spawns |
 | **Healnade** | Heilungs-Granate |
 | **Cluster Grenade** | Streumunition |
 | **AT Grenade** | Panzerabwehr-Granate |
@@ -67,18 +84,24 @@
 
 ## 5. WESTEN-SYSTEM
 
-- **Default Weste** (`vest_default.carry_item`): Erhöhte Chance auf Verwundung statt Tod (25 % direkt verwundet)
+- **Default Weste** (`vest_default.carry_item`): Standard-Weste, die **alle** tragen (100 %). Führt dazu, dass Soldaten bei Treffern zuerst **verwundet** werden statt sofort zu sterben. Effekt: Deutlich mehr Verwundete auf dem Schlachtfeld – wirkt realitätsnäher und brutaler.
+- **Synergie mit Slot-Block:** Ein Verwundeter blockiert bereits den Capacity-Slot (kein Nachspawn, solange er am Boden liegt). Stirbt er, blockiert der Tod **noch mehr** Slots für X Sekunden. **Lazarett-Dilemma:** 10 Verwundete = 10 fehlen an der Front UND verhindern 10 frische Soldaten. **Double-Punish:** Retten → Slot sofort frei, Soldat kampfbereit. Ignorieren → Slot blockiert während Verbluten, danach dicke Blockade durch Tod. Erzeugt Dringlichkeit: „Wenn ich den da nicht hole, bricht unsere Verstärkung zusammen!“ – Combat-Sim-Feeling.
 - Westen in Waffenkammer für alle Fraktionen
 
 ---
 
 ## 6. WAFFEN-BALANCING
 
-- **ARs:** AK47, HK416, G36, M16A4, M4A1, SG552, XM8, FAMAS etc. (Genauigkeit, Feuerrate, Schaden)
-- **MGs:** Negev, M240, M249, MG4, MG42, PKM, RPK74M (Sichtweite, Rotation, Feuerrate)
-- **Sniper:** APR, Barrett, Dragunov, Lahti, M14 EBR, M24, PSG90, SCAR SSR, SV98, VSS
-- **Anti-Panzer:** Carl Gustav, LAW, RPG-7, SMAW (stärker, auch gegen Infanterie)
+- **ARs:** AK47, HK416, G36, M16A4, M4A1, SG552, XM8, FAMAS etc. – schnelle Feuerrate, teilweise gut genau; Nachteil: Magazingröße fordert häufiges Nachladen.
+- **MGs:** Negev, M240, M249, MG4, MG42, PKM, RPK74M – nur im Liegen einsetzbar; ideal für Deckungsfeuer, sehr tödlich. Nachteil: Hinlegen nötig, eingeschränkte Beweglichkeit; Stärke liegt im statischen Deckungsfeuer.
+- **Feste MGs (Deployables):** Deutlich stärker als Vanilla
+- **Sniper:** APR, Barrett, Dragunov, Lahti, M14 EBR, M24, PSG90, SCAR SSR, SV98, VSS – langsam beim Schießen, aber verdammt lange Sicht; **sehr hohe Kill-Ratio**, bei Treffer fast immer garantiert.
+- **Shotguns:** Sehr tödlich auf kurzer Distanz; verlieren schnell Effektivität auf mittlere und höhere Distanz.
+- **Anti-Panzer:** Carl Gustav, LAW, RPG-7, SMAW – deutlich tödlicher (größerer Sprengradius, mehr Schaden; auch gegen Infanterie)
+- **Panzer:** Deutlich tödlicher – größerer Sprengradius und mehr Schaden der Kanonen
 - **Projektile:** Erhöhte Geschwindigkeit für viele Waffen
+
+**Fraktionen:** Jede Fraktion hat Vor- und Nachteile in ihren Waffen; diese bleiben aus Balancing-Gründen relativ gering.
 
 ---
 
@@ -93,6 +116,7 @@
 
 - **Brown, Green, Grey:** Balancing, neue Trupptypen, Ränge, Ressourcen
 - **Maps:** `init_match.xml` für vanilla-Maps (lobby, map1–21) angepasst
+- **FOV:** Alle Quick-Match-Maps haben `fov="1"` in `init_match.xml` – erweiterter Sichtbereich (Field of View) aktiviert
 
 ---
 
@@ -114,25 +138,6 @@
 ## 11. DOKUMENTATION (MD-Dateien)
 
 Dokumentation zu Konzepten und Balancing (intern, nicht zwingend für Veröffentlichung):
-- CAPACITY_UND_SLOTS_PER_DEATH_KONZEPT, RESPAWN_SLOT_DELAY_SYSTEM, REINFORCEMENT_POOL
+- CAPACITY_UND_SLOTS_PER_DEATH_KONZEPT, RESPAWN_SLOT_DELAY_SYSTEM
 - WEAPON_COMPARISON, WEAPON_ACCURACY_REFACTOR, ANTITANK_COMPARISON
 - WESTEN_MODDING, VEHICLE_BALANCING_RULES, TROOP_RANK_BALANCE, etc.
-
----
-
-## ZUSAMMENFASSUNG FÜR ANFRAGE
-
-> **An den Mod-Ersteller:**
->
-> Ich habe den RWR Total Conversion Mod umfangreich erweitert und angepasst. Die Änderungen umfassen:
->
-> - **Neue Gameplay-Systeme:** Nachschub/Reinforcement, Respawn-Delay, HUD-Tracker, Stats-Befehl, Fahrzeug-Intervall-Spawn, Verteidiger-Panzer
-> - **Neue Trupptypen:** Cover Troop, EOD Light, Grenadier, Mortar Operator, Shotgun, Sniper, Support, verbesserte Medic-AI
-> - **Neue Fahrzeuge:** Wiesel MK20/TOW, Willys MB, Guntruck, Coastal Gun, Dogcrate
-> - **Neue Waffen/Werfobjekte:** Flares, Healnade, Cluster-Granate, AT-Granate, Coastal Gun, Squad Kit
-> - **Westen-System:** Default-Weste mit Verwundungs-Chance statt Tod
-> - **Umfangreiches Waffen-Balancing** für alle Fraktionen
-> - **AI-Anpassungen:** Aggression, Sichtweite, Squad-Größe
-> - **Neue Calls** und **Sprachdateien** (DE/EN)
->
-> **Darf ich diese Modifikationen veröffentlichen (z.B. als Submod oder Fork) mit prominenten Credits für dich als Original-Mod-Ersteller?**

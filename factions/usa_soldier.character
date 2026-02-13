@@ -12,6 +12,13 @@
 	<comment key="Medic!" text="They got me!" />
 	<comment key="Medic!" text="Oh shit, I'm hit!" />
 	<comment key="Medic!" text="I'm bleeding out!" />
+	<!-- Verletzung - Körperteil, was ab ist, was nicht mehr spürbar -->
+	<comment key="Medic!" text="My leg... they got my leg!" />
+	<comment key="Medic!" text="Arm's hit. I can't feel it." />
+	<comment key="Medic!" text="Something's torn off... Doc!" />
+	<comment key="Medic!" text="Leg's shot. Need a medic!" />
+	<comment key="Medic!" text="Gut shot. I'm bleeding bad." />
+	<comment key="Medic!" text="Can't feel my leg anymore..." />
 	<!-- Kameradschaftlich -->
 	<comment key="Medic!" text="Buddy! Where are you?!" />
 	<comment key="Medic!" text="Someone get Doc!" />
@@ -31,12 +38,16 @@
 	<comment key="Medic!" text="My kids... they're so young..." />
 	<comment key="Medic!" text="I won't make it home..." />
 	<comment key="Medic!" text="Tell the boys... tell them I'm sorry..." />
-	<!-- Entschlossene Patrioten - trotz Verwundung -->
+	<!-- Entschlossene Patrioten - trotz Verwundung, wollen zurück in den Kampf -->
 	<comment key="Medic!" text="For America... get me up!" />
 	<comment key="Medic!" text="Not like this... not for freedom..." />
 	<comment key="Medic!" text="I won't fall here. MEDIC!" />
 	<comment key="Medic!" text="For my country... I need to make it..." />
 	<comment key="Medic!" text="Get me back in the fight!" />
+	<comment key="Medic!" text="Doc! Patch me up! I'm going back in!" />
+	<comment key="Medic!" text="Fix me up! I'm not done yet!" />
+	<comment key="Medic!" text="I need to get back in the fight!" />
+	<comment key="Medic!" text="Don't let me die here... get me up!" />
 	<!-- Politisch/Insider - nur wenn aktiv verwundet -->
 	<comment key="Medic!" text="This is fine" />
 	<comment key="Medic!" text="Dying for the guys who... forget it" />
