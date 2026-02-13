@@ -1,7 +1,7 @@
 # Waffen-Vergleich der 3 Fraktionen (EU / US / Russia)
 
 **Zweck:** Balance prüfen – pro Zeile ist der **beste** Wert **fett**.  
-**Legende:** kill = kill_probability | RT = retrigger_time (s, niedriger = schneller) | **mag** = magazine_size (Schuss/Magazin) | com = commonness | **sight** = sight_range_modifier | **acc_factor** = Basis-Genauigkeit | **grow** = sustained_fire_grow_step (niedriger = bleibt länger präzise) | **diminish** = sustained_fire_diminish_rate (höher = schneller Erholung). Standard-AR/Pool-AR: Stances = base (0.85/0.9/0.93).
+**Legende:** kill = kill_probability | RT = retrigger_time (s, niedriger = schneller) | **mag** = magazine_size (Schuss/Magazin) | com = commonness | **sight** = sight_range_modifier | **acc_factor** = Basis-Genauigkeit (höher = genauer) | **grow** = sustained_fire_grow_step (niedriger = bleibt länger präzise) | **diminish** = sustained_fire_diminish_rate (höher = schneller Erholung). Standard-AR/Pool-AR: Stances = base (0.85/0.9/0.93). Shotguns: kill_decay_start/end = Reichweite, ab der Schaden fällt (kürzer = weniger tödlich auf Distanz).
 
 ---
 
@@ -135,17 +135,18 @@
 
 | Metrik | EU (SPAS-12) | US (Mossberg 500) | RU (QBS-09) |
 |--------|--------------|-------------------|--------------|
-| **kill** | **0.68** | 0.65 | 0.65 |
+| **kill** | **0.78** | **0.75** | **0.75** |
 | **RT** (s) | – (Pump) | 0.51 | **0.40** |
 | **mag** | 8 | 6 | **10** |
 | **com** | **0.029** | **0.029** | 0.01 |
 | **sight** | 1.0 | 1.0 | 1.0 |
-| **standing** | **0.85** | **0.85** | – |
-| **crouching** | 0.90 | **0.92** | – |
-| **prone** | 0.94 | **0.98** | – |
+| **acc_factor** | **0.42** | 0.40 | **0.42** |
+| **standing** | **0.62** | 0.60 | **0.62** |
+| **crouching** | **0.70** | 0.68 | **0.70** |
+| **prone** | **0.76** | 0.74 | **0.76** |
 | **Preis** | 30 | 30 | **2** |
 
-→ **Balance:** EU SPAS-12 höchste kill (0.68). US Mossberg beste Stance-Accuracy (crouch 0.92, prone 0.98). QBS-09 erbt Stances von Basis (nicht in Datei). RU QBS-09 extrem günstig (2 RP).
+→ **Balance:** EU SPAS-12 höchste kill (0.78), beste Accuracy (acc 0.42, Stances 0.62/0.70/0.76). US Mossberg niedrigster acc_factor (0.40) = stärkste Streuung. RU QBS-09 schnellstes Feuer (0.40), Mag 10, extrem günstig (2 RP). **Konzept:** Kurze Distanz tödlicher (kill 0.75–0.78), mittlere Distanz ungenauer (acc_factor 0.40–0.42 vs AR 0.72–0.80).
 
 ---
 
