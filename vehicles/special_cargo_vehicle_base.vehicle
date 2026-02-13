@@ -1,4 +1,4 @@
-<vehicle file="vehicle_base.vehicle" name="Cargo vehicle" key="special_cargo_vehicle.vehicle" map_view_atlas_index="-1" respawn_time="86400.0" spottable="0" allow_ai_to_use="0">
+<vehicle file="vehicle_base.vehicle" name="Cargo vehicle" key="special_cargo_vehicle.vehicle" map_view_atlas_index="-1" respawn_time="86400.0" spottable="0" allow_ai_to_use="1">
 	<tag name="metal_thin" />
 	<tire_set offset="1.054 0.0 2.193" radius="0.638" />
 	<tire_set offset="1.054 0.0 -1.683" radius="0.638" />

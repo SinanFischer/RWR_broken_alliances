@@ -1,4 +1,4 @@
-<vehicle file="vehicle_base.vehicle" name="Gun truck" key="guntruck_para.vehicle" map_view_atlas_index="35" minimum_fill_requirement="0.3">
+<vehicle file="vehicle_base.vehicle" name="Gun truck" key="guntruck_para.vehicle" map_view_atlas_index="35" minimum_fill_requirement="0.55">
 	<tag name="metal_thin" />
 	<tag name="guntruck_para" />
 	<tire_set offset="1.12 0.0 2.835" radius="0.64" />

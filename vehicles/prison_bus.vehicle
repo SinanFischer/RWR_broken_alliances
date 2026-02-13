@@ -1,4 +1,4 @@
-<vehicle name="Prisoner transport" key="prison_bus.vehicle" respawn_time="3600" existence="one_per_faction" reserves_spawn_point="1" protectors="10" soldier_capacity_offset="18" map_view_atlas_index="17" should_be_destroyed="0"  allow_ai_to_use="0" >
+<vehicle name="Prisoner transport" key="prison_bus.vehicle" respawn_time="3600" existence="one_per_faction" reserves_spawn_point="1" protectors="10" soldier_capacity_offset="18" map_view_atlas_index="17" should_be_destroyed="0"  allow_ai_to_use="1" >
 	<tag name="metal_thin" />
 	<tag name="target" />
   <tire_set offset="1.4 0.0 3.51" radius="0.6" />

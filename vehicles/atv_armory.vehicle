@@ -1,4 +1,4 @@
-<vehicle file="vehicle_base.vehicle" name="supply quad" key="atv_armory.vehicle" map_view_atlas_index="28" minimum_fill_requirement="1"  allow_ai_to_use="0" >
+<vehicle file="vehicle_base.vehicle" name="supply quad" key="atv_armory.vehicle" map_view_atlas_index="28" minimum_fill_requirement="1"  allow_ai_to_use="1" >
 	<tag name="metal_thin" />
 	<tag name="supply" />
 

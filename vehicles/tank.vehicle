@@ -1,4 +1,4 @@
-<vehicle file="vehicle_base.vehicle" name="RWR1a1 Tank" key="tank.vehicle" respawn_time="90" map_view_atlas_index="5" minimum_fill_requirement="0.2">
+<vehicle file="vehicle_base.vehicle" name="RWR1a1 Tank" key="tank.vehicle" respawn_time="90" map_view_atlas_index="5" minimum_fill_requirement="0.75">
 	<tag name="metal_heavy" />
 	<tag name="tank" />
 	<tire_set offset="1.8 0.0 +3" radius="0.52" />

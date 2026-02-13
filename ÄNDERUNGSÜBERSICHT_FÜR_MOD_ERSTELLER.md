@@ -107,7 +107,6 @@
 
 ## 7. CALLS (Befehle)
 
-- **Neu:** `cover_troop_drop`, `sniper_drop`, `wiesel_drop`
 - **Geändert:** Humvee (mit MG), Tank, APC, Paratroopers, Artillery, Mines (aktiviert), Mortar, Vulcan
 
 ---
@@ -123,7 +122,8 @@
 ## 9. SPRACHE & UI
 
 - **default_shared.character:** Deutsche und englische Texte für alle neuen Features
-- **defender_tank_mod.character:** Texte für Verteidiger-Panzer
+- **Fraktionsspezifische Kommentare:** Jede Fraktion hat eigene Voice-Lines (z. B. russische Soldaten: Sanitar!, Tovarishch, Blyat; US/EU eigene Varianten)
+- **Medic-Rufe:** Viele neue Verwundeten-Rufe („Medic!“, „Hold on!“, „I feel good!“ etc.) – mehr Variation und Immersion
 
 ---
 
