@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- European Union: Truppenspezifische Redeweisen nach CHARACTER_VOICE_SPEC.md -->
+<!-- Englisch + deutsche Würze (NEIN, Scheiße, Sanitäter) - Ersatzschreibweise ae/oe/ue/ss -->
+<character filename="default_male.character">
+
+	<!-- ========== Medic! (Verwundet) ========== -->
+	<!-- Militärisch -->
+	<comment key="Medic!" text="Sanitaeter!" />
+	<comment key="Medic!" text="Sani! Sofort!" />
+	<comment key="Medic!" text="Man down!" />
+	<!-- Brutal -->
+	<comment key="Medic!" text="Wounded." />
+	<comment key="Medic!" text="I'm hit... shit." />
+	<comment key="Medic!" text="So much blood..." />
+	<!-- Kameradschaftlich -->
+	<comment key="Medic!" text="Kamerad! Where are you?!" />
+	<comment key="Medic!" text="Kameraden! Help me!" />
+	<comment key="Medic!" text="Someone! Help me!" />
+	<!-- Panisch / Kulturell - NEIN, SCHEISSE als Würze -->
+	<comment key="Medic!" text="NEIN NEIN NEIN!" />
+	<comment key="Medic!" text="SCHEISSE! Sanitaeter!" />
+	<comment key="Medic!" text="Verdammt! I'm hit!" />
+	<comment key="Medic!" text="AAAARGH!" />
+	<comment key="Medic!" text="Mama...?" />
+	<!-- Traurig -->
+	<comment key="Medic!" text="I didn't want it like this" />
+	<comment key="Medic!" text="I don't want to die..." />
+	<comment key="Medic!" text="It's so cold..." />
+	<!-- Entschlossene Patrioten - trotz Verwundung -->
+	<comment key="Medic!" text="For Europe... get me up!" />
+	<comment key="Medic!" text="Not like this... not for the Union..." />
+	<comment key="Medic!" text="I won't fall here. Sani!" />
+	<comment key="Medic!" text="For the Union... I need to make it..." />
+	<comment key="Medic!" text="Get me back in the fight!" />
+	<!-- ========== All quiet here (Casual - sagen sie einfach so) ========== -->
+	<comment key="All quiet here" text="Should've stayed in Brussels" />
+	<comment key="All quiet here" text="Another emergency summit" />
+	<comment key="All quiet here" text="At least my forms are in order" />
+	<comment key="All quiet here" text="Nein. Just... nein." />
+	<comment key="All quiet here" text="Typical Tuesday" />
+	<comment key="All quiet here" text="I filled out the wrong form" />
+	<comment key="All quiet here" text="At least the trains run on time" />
+	<comment key="All quiet here" text="*yawns*" />
+	<comment key="All quiet here" text="No one there" />
+	<comment key="All quiet here" text="Calm before the storm?" />
+	<comment key="All quiet here" text="Just two more weeks..." />
+
+	<!-- ========== I feel good! (Nach Heilung) ========== -->
+	<comment key="I feel good!" text="Thanks Sani!" />
+	<comment key="I feel good!" text="Thanks for the help!" />
+	<comment key="I feel good!" text="I feel better!" />
+	<comment key="I feel good!" text="Feeling much better!" />
+	<comment key="I feel good!" text="All clear, let's go!" />
+	<comment key="I feel good!" text="Thanks Doc!" />
+
+	<!-- ========== Hold on! (Kamerad kommt) ========== -->
+	<comment key="Hold on!" text="I'm on my way!" />
+	<comment key="Hold on!" text="Hang in there!" />
+	<comment key="Hold on!" text="Hold on, Kamerad!" />
+	<comment key="Hold on!" text="Almost there!" />
+	<comment key="Hold on!" text="Coming!" />
+
+	<!-- ========== Reloading ========== -->
+	<comment key="Reloading" text="Cover me" />
+	<comment key="Reloading" text="Reloading!" />
+	<comment key="Reloading" text="Give me cover!" />
+	<comment key="Reloading" text="Give me cover!" />
+
+	<!-- ========== enemy seen ========== -->
+	<comment key="enemy seen" text="Over here" />
+	<comment key="enemy seen" text="Alert!" />
+	<comment key="enemy seen" text="Hostiles!" />
+	<comment key="enemy seen" text="Enemy spotted!" />
+	<comment key="enemy seen" text="Contact!" />
+
+	<!-- ========== grenade alert ========== -->
+	<comment key="grenade alert, grenade tag = grenade" text="Grenade!" />
+	<comment key="grenade alert, grenade tag = grenade" text="Look out!" />
+	<comment key="grenade alert, grenade tag = grenade" text="SCHEISSE! Granate!" />
+	<comment key="grenade alert, grenade tag = flashbang" text="Flashbang!" />
+	<comment key="grenade alert, grenade tag = flashbang" text="Look out!" />
+	<comment key="grenade alert, grenade tag = rocket" text="Rocket!" />
+	<comment key="grenade alert, grenade tag = rocket" text="Incoming!" />
+
+	<!-- ========== Yes sir ========== -->
+	<comment key="Yes sir" text="On it" />
+	<comment key="Yes sir" text="Roger" />
+	<comment key="Yes sir" text="Copy" />
+	<comment key="Yes sir" text="On my way" />
+	<comment key="Yes sir" text="Got it" />
+	<comment key="Yes sir" text="Jawohl!" />
+
+	<!-- ========== celebrating ========== -->
+	<comment key="celebrating" text="We won!" />
+	<comment key="celebrating" text="I survived!" />
+	<comment key="celebrating" text="Can't believe I'm alive" />
+	<comment key="celebrating" text="Finally we did it" />
+	<comment key="celebrating" text="That took ages!" />
+	<comment key="celebrating" text="Now that's how it's done!" />
+	<comment key="celebrating" text="Yeah!" />
+	<comment key="celebrating" text="We did it!" />
+
+	<!-- ========== Good job, soldiers ========== -->
+	<comment key="Good job, soldiers" text="Well done, men" />
+	<comment key="Good job, soldiers" text="Good work, Kameraden" />
+	<comment key="Good job, soldiers" text="Excellent!" />
+
+	<!-- ========== We surrender! ========== -->
+	<comment key="We surrender!" text="Don't shoot!" />
+	<comment key="We surrender!" text="We give up!" />
+	<comment key="We surrender!" text="We surrender!" />
+	<comment key="We surrender!" text="Don't shoot!" />
+
+</character>

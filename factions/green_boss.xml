@@ -56,7 +56,7 @@
 	<!-- default group -->
 	<!-- -------------- -->
 	<soldier name="default" spawn_score="1.0" squad_size_xp_cap="0.2">
-		<character filename="default_male.character" />
+		<character filename="usa_soldier.character" />
 		<ai filename="default.ai" />
 
 		<models file="green_default_basic.models" />

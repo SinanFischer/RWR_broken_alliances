@@ -58,7 +58,7 @@
 	<!-- default group -->
 	<!-- -------------- -->
 	<soldier name="default" spawn_score="0.0">
-		<character filename="default_male.character" />
+		<character filename="russian_soldier.character" />
 		<ai filename="default.ai" />
 
 		<models file="brown_default_basic.models" />
@@ -95,7 +95,7 @@
 
 	<!-- KI-Soldaten (Spawns): Vollständige Kopie von default, Sicht 5m geringer (default_soldiers.ai), spawn_score 0.783 -->
 	<soldier name="default_ai" spawn_score="0.783">
-		<character filename="default_male.character" />
+		<character filename="russian_soldier.character" />
 		<ai filename="default_soldiers.ai" />
 
 		<models file="brown_default_basic.models" />
@@ -134,7 +134,7 @@
 	<!-- shotgun group (nur Shotguns, ~jeder 6. Default-Soldat; Weste 20 % keine, 55 % Weste 1, 25 % Weste 2) -->
 	<!-- -------------- -->
 	<soldier name="shotgun" spawn_score="0.167">
-		<character filename="default_male.character" />
+		<character filename="russian_soldier.character" />
 		<ai filename="shotgun.ai" />
 
 		<models file="brown_default_basic.models" />
@@ -165,7 +165,7 @@
 	<!-- sniper group (nur Sniper/DMR, 5 % Spawn; erhöhte Sichtweite) -->
 	<!-- -------------- -->
 	<soldier name="sniper" spawn_score="0.05">
-		<character filename="default_male.character" />
+		<character filename="russian_soldier.character" />
 		<ai filename="sniper.ai" />
 
 		<models file="brown_default_basic.models" />
@@ -199,7 +199,7 @@
 	<!-- support group (MGs) -->
 	<!-- -------------- -->
 	<soldier name="support" spawn_score="0.27">
-		<character filename="default_male.character" />
+		<character filename="russian_soldier.character" />
 		<ai filename="support.ai" />
 		<models file="brown_default_basic.models" />
 		<models file="brown_default.models" />
@@ -375,7 +375,7 @@
 	<!-- EOD Light (keine Stürmer, schnell auf Fahrzeuge, 70 % Javelin, Cluster/Hand/AT-Granate) -->
 	<!-- -------------- -->
 	<soldier name="eod_light" spawn_score="0.048" squad_size_xp_cap="0.0">
-		<character filename="default_male.character" />
+		<character filename="russian_soldier.character" />
 		<ai filename="eod_light.ai" />
 		<models file="brown_eod_light.models" />
 
@@ -402,7 +402,7 @@
 	<!-- Mortar Operator (Mörser Deploy im Slot 1, selten) -->
 	<!-- -------------- -->
 	<soldier name="mortar_operator" spawn_score="0.012" squad_size_xp_cap="0.0" firstnames_file="names/mortar_operator_firstname.txt">
-		<character filename="default_male.character" />
+		<character filename="russian_soldier.character" />
 		<ai filename="default.ai" />
 		<models file="brown_mortar_operator.models" />
 
@@ -426,7 +426,7 @@
 	<!-- Deckungstruppe (Pioniere: Sandsack ODER Schild im Slot 1, geben Deckung) -->
 	<!-- -------------- -->
 	<soldier name="cover_troop" spawn_score="0.06" squad_size_xp_cap="0.0" firstnames_file="names/cover_troop_firstname.txt">
-		<character filename="default_male.character" />
+		<character filename="russian_soldier.character" />
 		<ai filename="cover_troop.ai" />
 		<models file="brown_cover_troop.models" />
 
@@ -452,7 +452,7 @@
 	<!-- Grenadier (Explosions-Chaos, Milkor MGL) -->
 	<!-- -------------- -->
 	<soldier name="grenadier" spawn_score="0.04" squad_size_xp_cap="0.0">
-		<character filename="default_male.character" />
+		<character filename="russian_soldier.character" />
 		<ai filename="grenadier.ai" />
 		<models file="brown_default_basic.models" />
 		<models file="brown_default.models" />

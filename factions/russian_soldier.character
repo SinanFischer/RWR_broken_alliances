@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian Federation: Truppenspezifische Redeweisen nach CHARACTER_VOICE_SPEC.md -->
+<!-- Grundsätzlich Englisch, gelegentlich Russisch (Blyat, Cyka, Tovarishch) -->
+<character filename="default_male.character">
+
+	<!-- ========== Medic! (Verwundet) ========== -->
+	<!-- Militärisch -->
+	<comment key="Medic!" text="Sanitar! Ranen!" />
+	<comment key="Medic!" text="Medic! Wounded!" />
+	<comment key="Medic!" text="Sanitar! Now!" />
+	<!-- Brutal -->
+	<comment key="Medic!" text="Blood. Lots of it." />
+	<comment key="Medic!" text="Ranen. Next." />
+	<comment key="Medic!" text="They got me." />
+	<!-- Kameradschaftlich -->
+	<comment key="Medic!" text="Tovarishchi! Pomogite!" />
+	<comment key="Medic!" text="Bratan, where are you?!" />
+	<comment key="Medic!" text="Tovarishch! Help!" />
+	<!-- Panisch / Halluzination / Kulturell -->
+	<comment key="Medic!" text="Blyat! Menya ranili!" />
+	<comment key="Medic!" text="Cyka! Help!" />
+	<comment key="Medic!" text="Mama...? Mama, is that you...?" />
+	<comment key="Medic!" text="I see them... the dead... they're here..." />
+	<comment key="Medic!" text="Bratan...? You're still there...?" />
+	<comment key="Medic!" text="Wait... where am I...?" />
+	<comment key="Medic!" text="AAAARGH!" />
+	<comment key="Medic!" text="Someone! Anyone!" />
+	<!-- Traurig -->
+	<comment key="Medic!" text="Tell my mother I tried" />
+	<comment key="Medic!" text="For the Motherland... I guess" />
+	<comment key="Medic!" text="I don't want to die..." />
+	<comment key="Medic!" text="It's so cold..." />
+	<comment key="Medic!" text="Take me home..." />
+	<!-- Entschlossene Patrioten - trotz Verwundung -->
+	<comment key="Medic!" text="For the Motherland... get me up!" />
+	<comment key="Medic!" text="Not like this... for Russia..." />
+	<comment key="Medic!" text="I won't fall here. Sanitar!" />
+	<comment key="Medic!" text="For the Motherland... I need to make it..." />
+	<comment key="Medic!" text="Get me back in the fight!" />
+	<!-- Putin-Patrioten - typische Rhetorik -->
+	<comment key="Medic!" text="For the denazification... get me up!" />
+	<comment key="Medic!" text="We're liberating... I need to survive..." />
+	<comment key="Medic!" text="Russia will remember us... Sani!" />
+	<comment key="Medic!" text="For our president... not like this..." />
+	<comment key="Medic!" text="The operation needs me... Sanitar!" />
+	<!-- Politisch/Insider - nur wenn aktiv verwundet (Bakhmut bleibt) -->
+	<comment key="Medic!" text="I thought I'd be safe outside Bakhmut..." />
+	<comment key="Medic!" text="Shit... like Bakhmut all over again..." />
+	<!-- Absurd/Meta -->
+	<comment key="Medic!" text="Not how I imagined Special Military Operation" />
+
+	<!-- ========== All quiet here (Casual - sagen sie einfach so) ========== -->
+	<comment key="All quiet here" text="Should've stayed in Moscow" />
+	<comment key="All quiet here" text="This wasn't in the contract" />
+	<comment key="All quiet here" text="At least no more mobilization letters" />
+	<comment key="All quiet here" text="Such is life." />
+	<comment key="All quiet here" text="In Russia, bullet finds you" />
+	<!-- Zweifel - Ukraine, Sinn des Einsatzes -->
+	<comment key="All quiet here" text="Why are we even here..." />
+	<comment key="All quiet here" text="This doesn't feel like liberation" />
+	<comment key="All quiet here" text="They said it would be quick" />
+	<comment key="All quiet here" text="So this is because of Ukraine. Great." />
+	<comment key="All quiet here" text="Wonder what they're saying about us back home" />
+	<comment key="All quiet here" text="*yawns*" />
+	<comment key="All quiet here" text="No one there" />
+	<comment key="All quiet here" text="Calm before the storm?" />
+	<comment key="All quiet here" text="Just two more weeks..." />
+
+	<!-- ========== I feel good! (Nach Heilung) ========== -->
+	<comment key="I feel good!" text="Spasibo, tovarishch!" />
+	<comment key="I feel good!" text="Spasibo, sanitar!" />
+	<comment key="I feel good!" text="Thanks, comrade!" />
+	<comment key="I feel good!" text="Back in the fight!" />
+	<comment key="I feel good!" text="Good to go!" />
+	<comment key="I feel good!" text="For the Motherland!" />
+
+	<!-- ========== Hold on! (Kamerad kommt) ========== -->
+	<comment key="Hold on!" text="I'm on my way!" />
+	<comment key="Hold on!" text="Hang in there!" />
+	<comment key="Hold on!" text="Hold on, tovarishch!" />
+	<comment key="Hold on!" text="Almost there!" />
+	<comment key="Hold on!" text="Hold on, bratan!" />
+
+	<!-- ========== Reloading ========== -->
+	<comment key="Reloading" text="Cover me" />
+	<comment key="Reloading" text="Reloading!" />
+	<comment key="Reloading" text="Cover me, tovarishchi!" />
+	<comment key="Reloading" text="Give me cover!" />
+
+	<!-- ========== enemy seen ========== -->
+	<comment key="enemy seen" text="Over here" />
+	<comment key="enemy seen" text="Alert!" />
+	<comment key="enemy seen" text="Hostiles!" />
+	<comment key="enemy seen" text="Contact!" />
+	<comment key="enemy seen" text="Enemy spotted!" />
+
+	<!-- ========== grenade alert ========== -->
+	<comment key="grenade alert, grenade tag = grenade" text="Grenade!" />
+	<comment key="grenade alert, grenade tag = grenade" text="Look out!" />
+	<comment key="grenade alert, grenade tag = grenade" text="Blyat, grenade!" />
+	<comment key="grenade alert, grenade tag = flashbang" text="Flashbang!" />
+	<comment key="grenade alert, grenade tag = flashbang" text="Look out!" />
+	<comment key="grenade alert, grenade tag = rocket" text="Rocket!" />
+	<comment key="grenade alert, grenade tag = rocket" text="Incoming!" />
+
+	<!-- ========== Yes sir ========== -->
+	<comment key="Yes sir" text="On it" />
+	<comment key="Yes sir" text="Roger" />
+	<comment key="Yes sir" text="Copy" />
+	<comment key="Yes sir" text="On my way" />
+	<comment key="Yes sir" text="Got it" />
+	<comment key="Yes sir" text="Da, comrade" />
+
+	<!-- ========== celebrating ========== -->
+	<comment key="celebrating" text="We won!" />
+	<comment key="celebrating" text="I survived!" />
+	<comment key="celebrating" text="For the Motherland!" />
+	<comment key="celebrating" text="Ura!" />
+	<comment key="celebrating" text="Can't believe I'm alive" />
+	<comment key="celebrating" text="That was close" />
+	<comment key="celebrating" text="Finally!" />
+	<comment key="celebrating" text="Yeah!" />
+
+	<!-- ========== Good job, soldiers ========== -->
+	<comment key="Good job, soldiers" text="Well done, men" />
+	<comment key="Good job, soldiers" text="Good work, tovarishchi" />
+	<comment key="Good job, soldiers" text="Excellent!" />
+
+	<!-- ========== We surrender! ========== -->
+	<comment key="We surrender!" text="Don't shoot!" />
+	<comment key="We surrender!" text="We surrender!" />
+	<comment key="We surrender!" text="We give up!" />
+	<comment key="We surrender!" text="Don't shoot! We surrender!" />
+
+</character>
