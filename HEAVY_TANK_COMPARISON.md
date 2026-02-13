@@ -1,8 +1,9 @@
-# Panzer-Vergleich: Normale Tanks + Heavy (Heavy-Spawn-Pool)
+# Panzer- & AT-Vergleich: Tanks, Heavy-Pool, Leicht-Pool, Panzerfäuste
 
-**Zweck:** Balance prüfen – pro Zeile ist der **stärkste** Wert **fett**.  
-**Metriken:** **Leben** = max_health (Fahrzeug-HP) | **Proj. Speed** = projectile_speed der Hauptkanone | **Damage** = Blast-Damage des Projektils | **Radius** = Blast-Radius (m).  
-Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV101, Legion, M528, FT-CROC (Leben/Health-Effekte/Despawn).
+**Zweck:** Balance prüfen – Panzer vs. Anti-Tank in einer Datei. Pro Zeile ist der **stärkste** Wert **fett**.  
+**Metriken (Fahrzeuge):** **Leben** = max_health | **Proj. Speed** = projectile_speed der Hauptkanone | **Damage** = Blast-Damage | **Radius** = Blast-Radius (m).  
+**Metriken (AT):** **Preis** (RP) | **Schaden** | **Radius** | **Gesamtschaden** (bei Mehrfach-Projektilen).  
+Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV101, Legion, M528, FT-CROC, Wiesel (Leben/Health-Effekte/Despawn).
 
 ---
 
@@ -46,9 +47,9 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 
 | Metrik | Humvee | Jeep | Jeep_1 | Jeep_2 | VFS Sport | Willys MB | Wiesel TOW | Wiesel Mk20 | ATV Base | ATV Armory | VFS Base | Truck | Truck_1 | Truck_2 |
 |--------|--------|------|--------|--------|-----------|------------|------------|-------------|----------|------------|----------|-------|--------|--------|
-| **Leben** | **7.2** | 2.4 | 2.4 | 2.4 | 4.2 | 2.4 | 6.0 | 6.0 | 5.5 | 5.5 | 4.2 | 6.8 | 6.8 | 6.8 |
+| **Leben** | **7.2** | 2.4 | 2.4 | 2.4 | 4.2 | 2.4 | **11** | **11** | 5.5 | 5.5 | 4.2 | 6.8 | 6.8 | 6.8 |
 
-→ **Hinweise:** Leichte Fahrzeuge haben keine Blast-Kanonen; Bewaffnung ist MG (Humvee, VFS, Willys), TOW-Rakete (Wiesel TOW), Mk20 (Wiesel Mk20) oder keine (Jeep, Truck, ATV). Vergleich nur über **Leben** sinnvoll. **Höchstes Leben:** Humvee (7.2), danach Truck/Truck_1/Truck_2 (6.8), Wiesel TOW/Mk20 (6.0). **Niedrigstes:** Jeep/Varianten und Willys (2.4).
+→ **Hinweise:** Leichte Fahrzeuge haben keine Blast-Kanonen; Bewaffnung ist MG (Humvee, VFS, Willys), TOW-Rakete (Wiesel TOW), Mk20 (Wiesel Mk20) oder keine (Jeep, Truck, ATV). Vergleich nur über **Leben** sinnvoll. **Höchstes Leben:** Wiesel TOW/Mk20 (11, Mod), danach Humvee (7.2), Truck-Varianten (6.8). **Niedrigstes:** Jeep/Varianten und Willys (2.4).
 
 ---
 
@@ -58,20 +59,40 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 |--------|--------------------|------|
 | **Leben** | Humvee | **7.2** |
 | **Leben (ohne MG)** | Truck / Truck_1 / Truck_2 | **6.8** |
-| **Leben (Kampfleicht)** | Wiesel TOW / Wiesel Mk20 | **6.0** |
+| **Leben (Kampfleicht)** | Wiesel TOW / Wiesel Mk20 | **11** (Mod) |
 
 | Fahrzeugtyp | Stärken (Leicht) | Trade-off |
 |-------------|-------------------|-----------|
-| **Humvee** | Höchstes Leben (7.2), MG | Langsamere Klasse als Jeeps |
+| **Wiesel TOW / Mk20** | **Höchstes Leben (11**, Mod), TOW/Mk20-Bewaffnung | Leicht gepanzert |
+| **Humvee** | Leben 7.2, MG | Langsamere Klasse als Jeeps |
 | **Truck / Truck_1 / Truck_2** | Hohes Leben (6.8), Transport | Unbewaffnet |
-| **Wiesel TOW / Mk20** | Leben 6.0, TOW/Mk20-Bewaffnung | Leicht gepanzert |
 | **ATV Base / Armory** | Leben 5.5, mobil | Unbewaffnet / Armory |
 | **VFS Base / Sport** | Leben 4.2, MG (Base) | Geringeres Leben |
 | **Jeep / Pigeon / TroX / Willys** | Schnell, wendig | Niedrigstes Leben (2.4) |
 
 ---
 
-## 5. Kurzüberblick: Stärkster Wert pro Metrik (nur kampfrelevante Panzer)
+## 5. Anti-Tank-Waffen (direkter Vergleich zu Panzer-Leben)
+
+*Zum Abgleich: z. B. Legion (34 Leben) ≈ 4× Javelin (8.7) oder 3× M202 (12.0); FV101 (15) ≈ 2× Javelin; Wiesel (11) ≈ 1–2× Javelin.*
+
+| Waffe | Preis (RP) | Schaden | Radius | Projektile/Schuss | **Gesamtschaden** |
+|:------|-----------:|--------:|-------:|-------------------|-------------------|
+| M72 LAW | 30 | 3.6 | 5.5 m | 1 | **3.6** |
+| RPG-7 | 30 | 4.0 | 6.0 m | 1 | **4.0** |
+| M2 Carl Gustav | 50 | 5.2 | 6.0 m | 1 | **5.2** |
+| SMAW | 70 | 6.0 | 5.5 m | 1 | **6.0** |
+| Javelin | 100 | **8.7** | 5.0 m | 1 | **8.7** |
+| M202 Flash | 200 | 3.0 ×4 | 4.5 m | 4 | **12.0** |
+
+**Kurz:**  
+- **Schaden relativ (Javelin = 100%):** M72 ~41 %, RPG-7 ~46 %, Carl Gustav ~60 %, SMAW ~69 %, M202 ~138 % (4 Raketen).  
+- **Bester Preis/Schaden:** RPG-7 (7.5 RP/Schaden), dann M72 (8.3), Carl Gustav (9.6).  
+- **Empfehlung:** Budget 30 → RPG-7; Mittelklasse 50–70 → Carl Gustav / SMAW; Premium Einzelschuss → Javelin; Max. Schaden → M202 (12.0, teuer).
+
+---
+
+## 6. Kurzüberblick: Stärkster Wert pro Metrik (nur kampfrelevante Panzer)
 
 | Metrik | Stärkster | Wert |
 |--------|-----------|------|
@@ -82,7 +103,7 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 
 ---
 
-## 6. Stärken-Matrix Heavy-Pool
+## 7. Stärken-Matrix Heavy-Pool
 
 | Fahrzeug | Stärken (kampfrelevant) | Trade-off |
 |----------|-------------------------|-----------|
@@ -103,4 +124,4 @@ Wenn du **max_health** (Leben) eines Fahrzeugs änderst, solltest du in derselbe
 
 ---
 
-*Stand: Aus Mod- und Vanilla-.vehicle-, .weapon- und .projectile-Dateien. Leben = physics max_health. Proj. Speed = projectile_speed der Hauptkanone (.weapon). Damage/Radius = result class="blast" im Hauptprojektil (.projectile). „–“ = nicht als Einzel-Blast definiert (z. B. M528 HMG).*
+*Stand: Mod- und Vanilla-.vehicle-, .weapon-, .projectile-Dateien. Fahrzeuge: Leben = physics max_health; Proj. Speed = projectile_speed (.weapon); Damage/Radius = result class="blast" (.projectile). AT: Schaden/Radius aus jeweiligen `.projectile`; „–“ = kein Einzel-Blast (z. B. M528 HMG).*
