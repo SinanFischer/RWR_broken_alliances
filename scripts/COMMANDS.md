@@ -17,6 +17,10 @@ Alle **eingebundenen** Chat-Commands des Mods. Ausgenommen: Reinforcement-Pool-T
 | `/bane_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match | **Admin** | Wie oben, mit Paradrop (Höhe). |
 | `/test_defender_tank` | `trackers/defender_tank_help.as` | **nur Invasion** | **Admin** | Simuliert Panzer-Spawn für Verteidiger (Test). |
 
+### Vehicle-Command (Kurz)
+
+**`/vehicle`** (ohne Argument) ist ein **Status-Command** für alle Spieler. Er zeigt nur die **eigene Fraktion**: Restzeiten in Sekunden bis zum nächsten Spawn für **light**, **medium** und **heavy**. Überschrift: *Upcoming vehicle spawns*. Ist die eigene Fraktion führend (meiste Basen), steht bei heavy **blocked (leading faction)** – dann gibt es keinen Schwer-Spawn für euch. **`/vehicle test`** spawnt sofort ein Leicht-Fahrzeug und ist **nur für Admins**.
+
 ---
 
 ## 2. Commands aus eingebundenen Vanilla-Skripten

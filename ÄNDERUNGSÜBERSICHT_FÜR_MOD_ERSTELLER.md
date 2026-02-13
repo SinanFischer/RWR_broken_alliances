@@ -36,7 +36,9 @@
 
 ### 1b. Vehicle Interval Spawn – Intervalle, Führende Fraktion, Fahrzeuglisten (Detail)
 
-**Intervalle:** Pro Fraktion eigene Timer. Leicht alle **2–4 min**, Mittel **5–8 min**, Schwer **12–15 min**. Spawn an zufälliger eigener Basis (Mittelpunkt + Offset). Commands: `/vehicle`, `/vehicle_spawn`, `/fahrzeug` (Status), `/vehicle test` (sofort Leicht-Spawn für eigene Fraktion).
+**Intervalle:** Pro Fraktion eigene Timer. Leicht alle **2–4 min**, Mittel **5–8 min**, Schwer **12–15 min**. Spawn an zufälliger eigener Basis (Mittelpunkt + Offset).
+
+**Vehicle-Command:** `/vehicle`, `/vehicle_spawn` oder `/fahrzeug` (für alle Spieler) zeigt den Status **nur für die eigene Fraktion**: Restzeiten in Sekunden bis zum nächsten Spawn (light, medium, heavy). Überschrift: *Upcoming vehicle spawns*. Ist die Fraktion führend, erscheint bei heavy *blocked (leading faction)*. **`/vehicle test`** spawnt sofort ein Leicht-Fahrzeug und ist **nur für Admins**.
 
 **Führende Fraktion erhält keinen Schwer-Spawn:** Die Fraktion mit den **meisten Basen** gilt als führend. Läuft der Schwer-Timer für diese Fraktion ab, wird **kein** Heavy-Fahrzeug gespawnt – der Timer wird nur neu gestartet (12–15 min). Nur die zurückliegenden Fraktionen bekommen Schwer-Verstärkung; verhindert Snowballing und hält die Wertigkeit „Call-Panzer = Premium, Intervall-Schwer = für Underdogs“.
 
