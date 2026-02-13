@@ -4,9 +4,9 @@
     <!-- 5.56mm, ~850 rpm; leicht, Referenz M249/MG4 -->
     <specification 
   retrigger_time="0.072" 
-  accuracy_factor="0.86" 
-  sustained_fire_grow_step="0.10" 
-  sustained_fire_diminish_rate="0.80" 
+  accuracy_factor="0.85" 
+  sustained_fire_grow_step="0.45" 
+  sustained_fire_diminish_rate="0.86" 
   magazine_size="150" 
   can_shoot_standing="0" 
   can_shoot_crouching="0" 
@@ -41,15 +41,6 @@
     <projectile file="bullet.projectile">
         <result class="hit" kill_probability="0.58" kill_decay_start_time="0.08" kill_decay_end_time="1.8" />
     </projectile>
-
-    <stance state_key="running" accuracy="0.22" />
-    <stance state_key="walking" accuracy="0.32" />
-    <stance state_key="crouch_moving" accuracy="0.42" />
-    <stance state_key="prone_moving" accuracy="0.52" />
-
-    <stance state_key="standing" accuracy="0.62" />
-    <stance state_key="crouching" accuracy="0.86" />
-    <stance state_key="prone" accuracy="0.94" />
 
     <modifier class="speed" value="-0.095" /> 
 </weapon>

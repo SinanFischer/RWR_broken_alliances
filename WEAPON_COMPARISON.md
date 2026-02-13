@@ -68,12 +68,13 @@
 | **mag** | 100 | **130** | 60 |
 | **com** | 0.05 | 0.05 | 0.05 |
 | **sight** | 1.2 | 1.2 | 1.2 |
-| **standing** | 0.60 | 0.60 | **0.64** |
-| **crouching** | **0.85** | **0.85** | 0.84 |
-| **prone** | **0.95** | **0.95** | 0.92 |
+| **acc_factor** | 0.84 | 0.84 | 0.84 |
+| **grow** | **0.50** | 0.55 | 0.48 |
+| **diminish** | 0.85 | 0.85 | 0.85 |
+| **Stances** | base (0.85/0.9/0.95) | base | base |
 | **Preis** | 80 | 80 | 80 |
 
-→ **Balance:** EU MG4 schnellstes MG (0.075), US M249 höchste kill. MG4/M249 gleiche Stance-Accuracy; RPK-74M etwas bessere standing (0.64), geringere prone (0.92). **Sight-Bonus 1.2** für alle Leicht-MG (nur Liegen).
+→ **Balance:** EU MG4 schnellstes MG (0.075), US M249 höchste kill. **Vanilla-Approach:** Stances aus base_primary; grow 0.48–0.55 = Dauerfeuer wird leicht ungenauer; diminish 0.85 = schnelle Erholung. **Sight-Bonus 1.2** für alle Leicht-MG (nur Liegen).
 
 ---
 
@@ -86,12 +87,13 @@
 | **mag** | **150** | 90 | 100 |
 | **com** | 0.028 | 0.029 | **0.031** |
 | **sight** | 1.2 | 1.2 | 1.2 |
-| **standing** | **0.62** | – | 0.58 |
-| **crouching** | 0.86 | **0.87** | **0.87** |
-| **prone** | 0.94 | **1.0** | **1.0** |
+| **acc_factor** | **0.85** | **0.86** | **0.86** |
+| **grow** | **0.45** | 0.40 | 0.40 |
+| **diminish** | **0.86** | 0.82 | 0.82 |
+| **Stances** | base (0.85/0.9/0.95) | base (nur prone) | base (nur prone) |
 | **Preis** | 60 | 60 | **50** |
 
-→ **Balance:** US M240 mit Abstand höchste kill (0.89). M240/PKM nur crouch/prone (kein Stehend). EU Negev einziger mit standing (0.62); M240/PKM beste prone (1.0). **Sight-Bonus 1.2** für alle Schwer-MG (nur Liegen).
+→ **Balance:** US M240 mit Abstand höchste kill (0.89). M240/PKM nur crouch/prone (kein Stehend). **Vanilla-Approach:** Stances aus base_primary; grow 0.40–0.45 = Dauerfeuer ungenauer; diminish 0.82–0.86. **Sight-Bonus 1.2** für alle Schwer-MG (nur Liegen).
 
 ---
 
