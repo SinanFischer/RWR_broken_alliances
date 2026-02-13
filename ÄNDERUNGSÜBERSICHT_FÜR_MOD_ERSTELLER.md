@@ -1,5 +1,7 @@
 # Änderungsübersicht – Modifikationen am RWR Total Conversion Mod
 
+**Hinweis:** Diese Datei dient als **genereller Mod-Überblick** – alle wesentlichen Änderungen und Systeme an einem Ort.
+
 **Basis & Assets:** Dieser Mod baut auf dem **RWR Total Conversion Mod** auf und nutzt Assets aus **Project Apocalypse**. Der Mod-Ersteller ist ausschließlich Programmierer, kein Designer – es wurden keine eigenen Assets erstellt oder in Auftrag gegeben. Die Arbeit beschränkt sich auf die Implementierung, Anpassung und Erweiterung von **Logik** (Scripts, Balancing, Konfiguration).
 
 **Zweck:** Anfrage an den Mod-Ersteller um Erlaubnis zur Veröffentlichung mit prominenten Credits.
@@ -15,7 +17,7 @@
 | **Respawn Slot Delay / Slot-Block-System** | Jeder Tod blockiert X Capacity-Slots für X Sekunden; starke Fraktionen verlieren mehr Slots pro Kill; Underdog-Bonus (siehe Abschnitt 1a) |
 | **Faction Alive HUD** | HUD-Anzeige lebender Soldaten pro Fraktion (inkl. 100m/150m/200m Radius) |
 | **Stats Command** | In-Game-Befehl für Fraktions-Statistiken (Alive, Capacity, Blocked Slots) |
-| **Vehicle Interval Spawn** | Intervall-basierter Fahrzeug-Spawn statt rein zufällig |
+| **Vehicle Interval Spawn** | Intervall-basierter Fahrzeug-Spawn (Leicht 2–4 min, Mittel 5–8 min, Schwer 12–15 min); **führende Fraktion (meiste Basen) erhält keinen Schwer-Spawn** – siehe Abschnitt 1b |
 | **Defender Tank** | Verteidiger erhalten Panzer bei 2 Basenverlust |
 | **Squad Equipment Kit** | Ausrüstungskit für Trupps |
 | **Bullet Flyby Effect** | Akustischer Effekt bei nahen Projektilen |
@@ -31,6 +33,22 @@
 **Underdog-Vorteil:** Die schwächste Fraktion (weniger Basen, weniger lebende Truppen) erhält kürzere Slot-Blockaden und verliert weniger Slots pro Tod – sie hat eine bessere Chance, sich zu erholen und zurückzuschlagen.
 
 **Wert des Systems:** Anders als „begrenzte Soldaten“ (die oft zu leerer Map und Frust führen) erzeugt das Slot-Block-System eine **temporäre Schwächephase** statt endgültiger Niederlage. Kills schaffen echte Zeitfenster zum Sturm – kein sofortiger Nachspawn. Medics werden **kriegsentscheidend**, da Revives die Slot-Blockade vermeiden. Underdog-Bonus verhindert Snowballing. Ergebnis: taktischer Flow, belohnende Kills, Survival-Anstrich ohne harten Frust.
+
+### 1b. Vehicle Interval Spawn – Intervalle, Führende Fraktion, Fahrzeuglisten (Detail)
+
+**Intervalle:** Pro Fraktion eigene Timer. Leicht alle **2–4 min**, Mittel **5–8 min**, Schwer **12–15 min**. Spawn an zufälliger eigener Basis (Mittelpunkt + Offset). Commands: `/vehicle`, `/vehicle_spawn`, `/fahrzeug` (Status), `/vehicle test` (sofort Leicht-Spawn für eigene Fraktion).
+
+**Führende Fraktion erhält keinen Schwer-Spawn:** Die Fraktion mit den **meisten Basen** gilt als führend. Läuft der Schwer-Timer für diese Fraktion ab, wird **kein** Heavy-Fahrzeug gespawnt – der Timer wird nur neu gestartet (12–15 min). Nur die zurückliegenden Fraktionen bekommen Schwer-Verstärkung; verhindert Snowballing und hält die Wertigkeit „Call-Panzer = Premium, Intervall-Schwer = für Underdogs“.
+
+**Fahrzeuge pro Intervall (vollständige Liste – Auswahl aus Zufallspool):**
+
+| Intervall | Zeit | Fahrzeuge (alle) |
+|-----------|------|------------------|
+| **Leicht** | 2–4 min | Humvee, Jeep, Jeep 1, Jeep 2, VFS Sport, Willys MB, Wiesel TOW, Wiesel MK20, ATV Base, ATV Armory (Quad), VFS Base, Truck, Truck 1, Truck 2 |
+| **Mittel** | 5–8 min | Humvee, Wiesel TOW, Wiesel MK20, APC, APC 1, APC 2, Vulcan Tank, Noxe, Hovercraft, Cargo Truck, SEV90, Radio Jammer |
+| **Schwer** | 12–15 min | Tank Alt, Tank 1 Alt, Tank 2 Alt, M551 (Sheriff), FV101 (Scorpion), Legion, M528, Flamer Tank (Croc) |
+
+*(Call-Panzer tank/tank_1/tank_2 bleiben exklusiv über Calls – erscheinen nicht im Intervall-Spawn.)*
 
 ---
 
@@ -53,9 +71,11 @@
 
 ---
 
-## 3. NEUE FAHRZEUGE
+## 3. FAHRZEUGE & FAHRZEUG-ANPASSUNGEN
 
 - **Fahrzeug-Despawn:** Zerstörte Fahrzeuge bleiben **20 Minuten** sichtbar, bevor sie despawnen (Vanilla: 40 s). Über `vehicle_base.vehicle` mit `time_to_live_unsteerable="1200"` – mehr Trümmer auf dem Schlachtfeld, bessere Orientierung.
+
+**Neue/übernommene Fahrzeuge (Auswahl):**
 
 | Fahrzeug | Beschreibung |
 |----------|--------------|
@@ -65,6 +85,16 @@
 | **Guntruck (VFS)** | Bewaffneter LKW |
 | **Coastal Gun** | Küstengeschütz (Bofors) |
 | **Dogcrate** | Fallschirm-Dogcrate |
+
+**Weitere Fahrzeug-/Command-Anpassungen:**
+
+| Anpassung | Beschreibung |
+|-----------|--------------|
+| **Alt-Tanks (tank_alt, tank_1_alt, tank_2_alt)** | Eigene Mod-Definitionen **ohne** `access_tag supporter` – alle Spieler können einsteigen (nicht nur Supporter-DLC). Erben von Mod-Panzern, nutzen Alt-Kanonen und Alt-Skins. |
+| **Alt-Tank-Kanonen** | Vanilla-Alt-Kanonen im Mod übernommen; **Blast/Damage/Push verdoppelt** (Radius 7, Damage 6,02, Push 2). Bleiben schwächer als Call-Panzer-Kanonen (Radius 8, Damage 10), klare Wertigkeit: Auto-Spawn-Alt vs. Call-Premium. |
+| **Cargo Truck (/cargo)** | `cargo_truck.vehicle` in `all_vehicles.xml` aktiviert (zuvor auskommentiert) – Command `/cargo` spawnt nun den Cargo-LKW. |
+| **Truck-Commands (/truck, /1truck, /2truck)** | Alias-Fahrzeuge `truck.vehicle`, `truck_1.vehicle`, `truck_2.vehicle` hinzugefügt (erben von transport_truck*), in `all_vehicles.xml` eingetragen – Vanilla-Command `/truck` funktioniert. |
+| **Noxe MG (Passagier)** | Schwenkbereich des MG-Turms auf **linke Fahrzeugseite** begrenzt (Rotation −1,57 rad, Range 1,57 rad) – von hinten-links bis vorne-links, nicht über Fahrzeugmitte nach rechts. |
 
 ---
 
