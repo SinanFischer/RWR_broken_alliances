@@ -1,4 +1,4 @@
-<!-- Mod: M528 – max_health 18 (Vanilla 8.4), Health-Effekte skaliert, Despawn 20 min -->
+<!-- Mod: M528 – max_health 19.2 (Vanilla 8.4), Health-Effekte skaliert, Despawn 20 min -->
 <vehicle file="vehicle_base.vehicle" name="M528" key="m528.vehicle" respawn_time="120" time_to_live_unsteerable="1200" map_view_atlas_index="44" minimum_fill_requirement="0.35" max_character_collision_speed_on_normal="8.0" character_leave_request_mode="friendly" reserves_spawn_point="1" >
 	<tag name="metal_heavy" />
     <tag name="heavy_combat" />    
@@ -20,7 +20,7 @@
 	max_limiter_speed="6.0" />
 
 	<physics 
-	max_health="18" 
+	max_health="19.2" 
 	blast_damage_threshold="0.17" 
 	TODO_blast_damage_threshold="1.02" 
 	mass="100.0"
@@ -80,9 +80,9 @@
 	<effect event_key="drive" type="splat_map" surface_tag="dirt" size="1.0" atlas_index="2" layer="1" />
 	<effect event_key="drive" type="particle" key="terrain" surface_tag="dirt" ref="Burst" use_surface_color="1" />
   
-	<effect event_key="health" value="4.5" ref="SmallSmokeVehicle" offset="0.0 1.92 -2.64" />  
-	<effect event_key="health" value="0.9" ref="SmallSmokeVehicle" offset="0.0 1.92 -2.64" /> 
-	<effect event_key="health" value="0.9" ref="BrokenSparkle" post_processing="0" offset="0.0 1.8 -2.64" />    
+	<effect event_key="health" value="4.8" ref="SmallSmokeVehicle" offset="0.0 1.92 -2.64" />  
+	<effect event_key="health" value="0.96" ref="SmallSmokeVehicle" offset="0.0 1.92 -2.64" /> 
+	<effect event_key="health" value="0.96" ref="BrokenSparkle" post_processing="0" offset="0.0 1.8 -2.64" />    
   <effect event_key="destroyed" ref="SmallSmokeVehicle" offset="0.0 1.92 -2.48" />
   <effect event_key="destroyed" ref="SmallSmokeVehicle" offset="-0.64 2.0 -2.48" />  
   <effect event_key="destroyed" ref="MediumSmokeVehicle" offset="0.0 2.56 0.4" />  

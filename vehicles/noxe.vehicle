@@ -14,7 +14,7 @@
 	steer_smoothening="0.7" />
 
 	<physics 
-	max_health="7" 
+	max_health="14.8" 
 	blast_damage_threshold="0.17" 
 	TODO_blast_damage_threshold="1.02" 
 	mass="11.0"
@@ -69,9 +69,9 @@
 	<effect event_key="slide" type="splat_map" surface_tag="dirt" size="1.0" atlas_index="2" layer="1" />
 	<effect event_key="slide" type="particle" key="terrain" surface_tag="dirt" ref="Burst" use_surface_color="1" />
   
-	<effect event_key="health" value="1.8" ref="SmallSmokeVehicle" offset="-0.0 2.3 -2.7" />
-  <effect event_key="health" value="0.36" ref="SmallSmokeVehicle" offset="-0.0 2.3 -2.7" />
-  <effect event_key="health" value="0.36" ref="BrokenSparkle" post_processing="0" offset="-0.0 1.8 -2.7" />
+	<effect event_key="health" value="3.81" ref="SmallSmokeVehicle" offset="-0.0 2.3 -2.7" />
+  <effect event_key="health" value="0.76" ref="SmallSmokeVehicle" offset="-0.0 2.3 -2.7" />
+  <effect event_key="health" value="0.76" ref="BrokenSparkle" post_processing="0" offset="-0.0 1.8 -2.7" />
   <effect event_key="destroyed" ref="SmallSmokeVehicle" offset="-0.0 3.2 0.5" />
   <effect event_key="destroyed" ref="MediumSmokeVehicle" offset="-0.0 2.3 -2.7" />  
   <effect event_key="destroyed" ref="SmallFireRepeat" offset="0.0 2.6 0.5" />
