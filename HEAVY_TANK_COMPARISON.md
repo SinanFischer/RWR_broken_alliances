@@ -2,7 +2,7 @@
 
 **Zweck:** Balance prüfen – pro Zeile ist der **stärkste** Wert **fett**.  
 **Metriken:** **Leben** = max_health (Fahrzeug-HP) | **Proj. Speed** = projectile_speed der Hauptkanone | **Damage** = Blast-Damage des Projektils | **Radius** = Blast-Radius (m).  
-Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Vanilla für M551, FV101, Legion, M528, Flamer.
+Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV101, Legion, M528, FT-CROC (Leben/Health-Effekte/Despawn).
 
 ---
 
@@ -25,18 +25,18 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Vanilla für M551, FV101, L
 
 | Metrik | tank_alt | tank_1_alt | tank_2_alt | M551 Sheriff | FV101 Scorpio | Legion | M528 | FT-CROC (Flamer) |
 |--------|----------|------------|-------------|--------------|---------------|--------|------|------------------|
-| **Leben** | 25.35 | 26.2 | 25.95 | 9.6 | 8.8 | **34** | 8.4 | 6.4 |
+| **Leben** | 25.35 | 26.2 | 25.95 | 20 | 15 | **34** | 18 | 15.5 |
 | **Proj. Speed** | **226** | 175 | 165 | 42 | 55 | 40 | 90 (HMG) | 140 |
 | **Damage** | 6.02 | 6.02 | 6.02 | 4.01 | 2.01 | **12** | – (HMG) | 0.02 |
 | **Radius** | 7 | 7 | 7 | 4.5 | 3.3 | **10** | – | 1.8 |
 
 → **Hinweise:**  
 - **Alt-Tanks** (tank_alt, tank_1_alt, tank_2_alt): Gleiche Leben wie normale Tanks, schwächeres Projektil (6.02 / 7) als Haupttanks (10 / 8).  
-- **M551:** Vanilla-Werte (42 speed, 4.01 damage, 4.5 radius); geringes Leben (9.6).  
-- **FV101 Scorpio:** Leichtes Leben (8.8), niedrigster Schaden (2.01), Radius 3.3.  
+- **M551 Sheriff:** Mod-Override Leben 20 (Vanilla 9.6); 42 speed, 4.01 damage, 4.5 radius.  
+- **FV101 Scorpio:** Mod-Override Leben 15 (Vanilla 8.8); niedrigster Schaden (2.01), Radius 3.3.  
 - **Legion:** **Höchstes Leben (34)**, **stärkster Schaden (12)** und **größter Radius (10)** im Heavy-Pool (Mod-Override); langsames Projektil (40).  
-- **M528:** HMG (speed 90) + AP-Submunitionen (kein Einzel-Blast; Sub 0.16/2.5). Damage/Radius für „Hauptwaffe“ nicht vergleichbar → „–“.  
-- **FT-CROC:** Flamethrower (speed 140, viele Treffer); Einzel-Blast 0.02 / 1.8; niedrigstes Leben (6.4).
+- **M528:** Mod-Override Leben 18 (Vanilla 8.4); HMG (speed 90) + AP-Submunitionen (kein Einzel-Blast) → „–“.  
+- **FT-CROC:** Mod-Override Leben 15.5 (Vanilla 6.4); Flamethrower (speed 140); Einzel-Blast 0.02 / 1.8.
 
 ---
 
@@ -88,15 +88,18 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Vanilla für M551, FV101, L
 |----------|-------------------------|-----------|
 | **tank_alt / tank_1_alt / tank_2_alt** | Höchstes Leben (25–26), schnellste/schnelle Projektile (165–226), guter Radius (7), Damage 6.02 | Weniger Damage/Radius als normale Mod-Tanks |
 | **Legion** | Höchstes Leben (34), stärkster Damage (12), größter Radius (10) | Langsamstes Projektil (40) |
-| **M551** | Mittlerer Vanilla-Schaden (4.01), Radius 4.5 | Geringes Leben (9.6), langsames Projektil (42) |
-| **FV101** | Schnelleres Projektil (55) als M551/Legion | Niedrigster Schaden (2.01), geringes Leben (8.8) |
-| **M528** | HMG speed 90, AP-Submunitionen | Kein klassischer Blast; Leben 8.4 |
-| **FT-CROC** | Höchste Projektil-Geschwindigkeit unter Vanilla (140), Flamethrower | Sehr niedriges Leben (6.4), Einzel-Blast minimal (0.02/1.8) |
+| **M551** | Leben 20 (Mod), Schaden 4.01, Radius 4.5 | Langsames Projektil (42) |
+| **FV101** | Leben 15 (Mod), schnelleres Projektil (55) | Niedrigster Schaden (2.01) |
+| **M528** | Leben 18 (Mod), HMG speed 90, AP-Submunitionen | Kein klassischer Blast |
+| **FT-CROC** | Leben 15.5 (Mod), Flamethrower speed 140 | Einzel-Blast minimal (0.02/1.8) |
 
 ---
 
 **Hinweis für Mod-Ersteller (Health/Leben anpassen):**  
-Wenn du **max_health** (Leben) eines Fahrzeugs änderst, solltest du in derselben `.vehicle`-Datei auch die **Health-Effekt-Schwellen** anpassen. Diese legen fest, ab welchem verbleibenden Leben Schadens-Partikel (Rauch, Funken) angezeigt werden – z. B. `<effect event_key="health" value="12.5" ref="SmallSmokeVehicle" />`. Die `value`-Werte sind **absolute** Lebenspunkte (nicht Prozent). Pass sie an das neue max_health an, damit „leicht beschädigt“ / „stark beschädigt“ optisch zum neuen Leben passen (z. B. proportional skalieren: alter_value × neues_max_health / altes_max_health). Beispiel: Legion mit max_health 34 nutzt u. a. 12.5, 7.7, 3.7 für SmallSmokeVehicle und BrokenSparkle.
+Wenn du **max_health** (Leben) eines Fahrzeugs änderst, solltest du in derselben `.vehicle`-Datei auch die **Health-Effekt-Schwellen** anpassen. Diese legen fest, ab welchem verbleibenden Leben Schadens-Partikel (Rauch, Funken) angezeigt werden – z. B. `<effect event_key="health" value="12.5" ref="SmallSmokeVehicle" />`. Die `value`-Werte sind **absolute** Lebenspunkte (nicht Prozent). Pass sie an das neue max_health an, damit „leicht beschädigt“ / „stark beschädigt“ optisch zum neuen Leben passen (z. B. proportional skalieren: **alter_value × neues_max_health / altes_max_health**). Beispiele: Legion (34) nutzt 12.5, 7.7, 3.7; M528 (18), FV101 (15), M551 (20), FT-CROC (15.5) haben in den Mod-Overrides skalierte Werte.
+
+**Hinweis für Mod-Ersteller (Despawn defekter Fahrzeuge):**  
+**Alle** Fahrzeuge sollen, wenn sie defekt/zerstört sind, erst nach **20 Minuten** automatisch despawnen. Dafür in der `.vehicle`-Datei **time_to_live_unsteerable="1200"** setzen (1200 Sekunden = 20 Min). Die Mod-Basis `vehicle_base.vehicle` hat bereits 1200; Fahrzeuge, die das Attribut überschreiben (z. B. Legion, Noxe, M528, FV101, M551, FT-CROC), müssen explizit **1200** verwenden, damit sie nicht früher verschwinden.
 
 ---
 

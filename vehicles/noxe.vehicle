@@ -1,4 +1,4 @@
-<vehicle file="vehicle_base.vehicle" name="NOXE Ghost" key="noxe.vehicle" respawn_time="100" time_to_live_unsteerable="95" map_view_atlas_index="43" minimum_fill_requirement="0.25" existence="one_per_faction" character_leave_request_mode="friendly" reserves_spawn_point="1">
+<vehicle file="vehicle_base.vehicle" name="NOXE Ghost" key="noxe.vehicle" respawn_time="100" time_to_live_unsteerable="1200" map_view_atlas_index="43" minimum_fill_requirement="0.25" existence="one_per_faction" character_leave_request_mode="friendly" reserves_spawn_point="1">
 	<tag name="metal_thin" />
 
 	<tire_set offset="1.20 0.0 1.46" radius="0.68" />

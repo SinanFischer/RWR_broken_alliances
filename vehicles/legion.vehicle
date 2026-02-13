@@ -3,7 +3,7 @@
 <vehicle file="vehicle_base.vehicle" 
 	name="Legion" key="legion.vehicle" 
 	respawn_time="180" 
-	time_to_live_unsteerable="175" 
+	time_to_live_unsteerable="1200" 
 	map_view_atlas_index="42" 
 	minimum_fill_requirement="1.0" 
 	max_character_collision_speed_on_normal="7.0" 
