@@ -27,13 +27,13 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 |--------|----------|------------|-------------|--------------|---------------|--------|------|------------------|
 | **Leben** | 25.35 | 26.2 | 25.95 | 20 | 15 | **34** | 18 | 15.5 |
 | **Proj. Speed** | **226** | 175 | 165 | 42 | 55 | 40 | 90 (HMG) | 140 |
-| **Damage** | 6.02 | 6.02 | 6.02 | 4.01 | 2.01 | **12** | – (HMG) | 0.02 |
-| **Radius** | 7 | 7 | 7 | 4.5 | 3.3 | **10** | – | 1.8 |
+| **Damage** | 6.02 | 6.02 | 6.02 | 4.01 | **3.01** | **12** | – (HMG) | 0.02 |
+| **Radius** | 7 | 7 | 7 | 4.5 | **4** | **10** | – | 1.8 |
 
 → **Hinweise:**  
 - **Alt-Tanks** (tank_alt, tank_1_alt, tank_2_alt): Gleiche Leben wie normale Tanks, schwächeres Projektil (6.02 / 7) als Haupttanks (10 / 8).  
 - **M551 Sheriff:** Mod-Override Leben 20 (Vanilla 9.6); 42 speed, 4.01 damage, 4.5 radius.  
-- **FV101 Scorpio:** Mod-Override Leben 15 (Vanilla 8.8); niedrigster Schaden (2.01), Radius 3.3.  
+- **FV101 Scorpio:** Mod-Override Leben 15, **Damage 3.01**, **Radius 4** (eher anti-Person; Vanilla 2.01 / 3.3).  
 - **Legion:** **Höchstes Leben (34)**, **stärkster Schaden (12)** und **größter Radius (10)** im Heavy-Pool (Mod-Override); langsames Projektil (40).  
 - **M528:** Mod-Override Leben 18 (Vanilla 8.4); HMG (speed 90) + AP-Submunitionen (kein Einzel-Blast) → „–“.  
 - **FT-CROC:** Mod-Override Leben 15.5 (Vanilla 6.4); Flamethrower (speed 140); Einzel-Blast 0.02 / 1.8.
@@ -89,7 +89,7 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 | **tank_alt / tank_1_alt / tank_2_alt** | Höchstes Leben (25–26), schnellste/schnelle Projektile (165–226), guter Radius (7), Damage 6.02 | Weniger Damage/Radius als normale Mod-Tanks |
 | **Legion** | Höchstes Leben (34), stärkster Damage (12), größter Radius (10) | Langsamstes Projektil (40) |
 | **M551** | Leben 20 (Mod), Schaden 4.01, Radius 4.5 | Langsames Projektil (42) |
-| **FV101** | Leben 15 (Mod), schnelleres Projektil (55) | Niedrigster Schaden (2.01) |
+| **FV101** | Leben 15, Damage 3.01, Radius 4 (anti-Person), Projektil 55 | Leichter als andere Heavies |
 | **M528** | Leben 18 (Mod), HMG speed 90, AP-Submunitionen | Kein klassischer Blast |
 | **FT-CROC** | Leben 15.5 (Mod), Flamethrower speed 140 | Einzel-Blast minimal (0.02/1.8) |
 
