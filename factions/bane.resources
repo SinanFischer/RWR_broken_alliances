@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Bane-Ressourcen: SF-Weste oder EOD, eigene Waffen (inkl. Javelin Bane) -->
 <resources clear_weapons="1" clear_vehicles="1" clear_grenades="1" clear_carry_items="1">
-
 	<weapon key='dl44.weapon' />
 	<weapon key='wa2000.weapon' />
 	<weapon key='fn_evolys.weapon' />
-<!-- 这里的标枪是产生护甲用的，千万别换，伤害12设定上2发爆主战	 -->
 	<weapon key='javelin_bane.weapon' />
-
-	<carry_item key='vest_bane.carry_item' />
+	<carry_item key='sf_suit.carry_item' enabled="1" />
+	<carry_item key='eodvest_ai.carry_item' enabled="1" />
 </resources>

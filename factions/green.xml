@@ -518,11 +518,11 @@
 	</soldier>    
 
 	<!-- -------------- -->
-	<!-- Bane (Special Unit) – Import aus Apocalypse -->
+	<!-- Bane (Leader, orange) – Import aus Apocalypse, SF/EOD Weste -->
 	<!-- -------------- -->
 	<soldier name="bane" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="bane_firstname.txt" lastnames_file="bane_lastname.txt">
 		<character filename="default_miniboss_male.character" />
-		<ai filename="sniper.ai" />
+		<ai filename="bane_leader.ai" />
 		<model filename="soldier_bane.xml" />
 		<resources file="bane.resources" />
 		<item_class_existence_config>
@@ -535,11 +535,11 @@
 	</soldier>
 
 	<!-- -------------- -->
-	<!-- Terminator (Bodyguard) – Import aus Apocalypse -->
+	<!-- Terminator (Bodyguard) – General + Nachname, EOD, Premium-Waffen, Slot 1: Flash/Javelin/MGL -->
 	<!-- -------------- -->
-	<soldier name="terminator" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="terminator_firstname.txt" lastnames_file="terminator_lastname.txt">
+	<soldier name="terminator" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="general_firstname.txt" lastnames_file="german_lastnames.txt">
 		<character filename="default_miniboss_male.character" />
-		<ai filename="elite.ai" />
+		<ai filename="bodyguard.ai" />
 		<model filename="soldier_terminator.xml" />
 		<resources file="terminator.resources" />
 		<item_class_existence_config>

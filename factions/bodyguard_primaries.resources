@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Bodyguard-Ressourcen: EOD-Weste, Premium-Primaries (AUG, FAMAS, MG42 etc.), Slot 1: Flash/Javelin/MGL -->
-<resources clear_weapons="1" clear_vehicles="1" clear_grenades="1" clear_carry_items="1">
+<!-- Bodyguard-Waffenpool: Premium-Assault + MG, keine Sniper, ggf. Premium-Shotgun -->
+<resources clear_weapons="1">
 	<weapon key='steyr_aug.weapon' />
 	<weapon key='famasg1.weapon' />
 	<weapon key='mg42.weapon' />
@@ -12,8 +12,4 @@
 	<weapon key='mg4.weapon' />
 	<weapon key='caws.weapon' />
 	<weapon key='uts15.weapon' />
-	<weapon key='javelin.weapon' />
-	<weapon key='m202_flash.weapon' />
-	<weapon key='mgl_flasher.weapon' />
-	<carry_item key='eodvest_ai.carry_item' enabled="1" />
 </resources>

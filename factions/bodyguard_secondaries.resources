@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bodyguard Slot 1: Flash, Javelin, MGL Flasher, AT-Granaten -->
+<resources>
+	<weapon key='javelin.weapon' />
+	<weapon key='m202_flash.weapon' />
+	<weapon key='mgl_flasher.weapon' />
+</resources>

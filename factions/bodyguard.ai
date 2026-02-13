@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bodyguard AI: erweitert default_soldiers.ai – bewacht Leader (Bane), starke Reaktion, Defend-fokussiert -->
+<ai filename="default_soldiers.ai">
+	<!-- Sicht: erhöht für frühe Zielerfassung -->
+	<parameter class="max_sight_range_with_muzzle" value="55.0" />
+	<parameter class="leader_sight_range" value="48.0" />
+	<parameter class="team_member_sight_range" value="48.0" />
+	<parameter class="monitor_enemies_max_dot_range" value="2.2" />
+
+	<!-- Reaktionszeiten: schnell -->
+	<parameter class="day_reaction_time_to_fight_min" value="0.5" />
+	<parameter class="day_reaction_time_to_fight_max" value="0.7" />
+	<parameter class="night_reaction_time_to_fight_min" value="0.6" />
+	<parameter class="night_reaction_time_to_fight_max" value="0.9" />
+	<parameter class="choose_enemy_time" value="0.5" />
+	<parameter class="monitor_enemies_time" value="0.55" />
+
+	<!-- Defend / Guard: Bodyguards bewachen den Leader -->
+	<parameter class="active_guarding_probability" value="0.85" />
+	<parameter class="willingness_to_guard" value="0.9" />
+	<parameter class="defending_authority_offset_to_join_squad" value="0.15" />
+	<parameter class="value_increase_required_to_join_defend_squad" value="0.05" />
+	<parameter class="guard_range_from_leader_margin" value="12.0" />
+	<parameter class="guard_range_from_leader_step" value="25.0" />
+	<parameter class="guard_wait_time_min" value="3.0" />
+	<parameter class="guard_wait_time_max" value="8.0" />
+	<parameter class="guard_steps" value="2" />
+	<parameter class="max_leader_authority_willing_to_join_another_squad" value="0.2" />
+
+	<!-- Genauigkeit -->
+	<parameter class="accuracy_offset" value="0.02" />
+	<parameter class="accuracy_penalty_range" value="0.06" />
+</ai>

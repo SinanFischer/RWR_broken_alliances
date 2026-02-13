@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bane AI: Leader, erweitert default_soldiers.ai – wird von Bodyguards bewacht -->
+<ai filename="default_soldiers.ai">
+	<!-- Sicht: Leader-Sicht erhöht -->
+	<parameter class="max_sight_range_with_muzzle" value="58.0" />
+	<parameter class="leader_sight_range" value="50.0" />
+	<parameter class="team_member_sight_range" value="48.0" />
+	<parameter class="monitor_enemies_max_dot_range" value="2.3" />
+
+	<!-- Reaktionszeiten: sehr schnell (Elite) -->
+	<parameter class="day_reaction_time_to_fight_min" value="0.45" />
+	<parameter class="day_reaction_time_to_fight_max" value="0.65" />
+	<parameter class="night_reaction_time_to_fight_min" value="0.55" />
+	<parameter class="night_reaction_time_to_fight_max" value="0.8" />
+	<parameter class="choose_enemy_time" value="0.45" />
+	<parameter class="monitor_enemies_time" value="0.5" />
+
+	<!-- Leader: wird bewacht, niedrigere Guard-Wahrscheinlichkeit -->
+	<parameter class="active_guarding_probability" value="0.05" />
+	<parameter class="willingness_to_guard" value="0.25" />
+	<parameter class="leading_inspect_alarm_spread_out_distance" value="40.0" />
+	<parameter class="leading_inspect_alarm_min_distance" value="50.0" />
+
+	<!-- Genauigkeit -->
+	<parameter class="accuracy_offset" value="0.01" />
+	<parameter class="accuracy_penalty_range" value="0.05" />
+</ai>
