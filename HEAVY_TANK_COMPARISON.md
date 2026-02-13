@@ -47,9 +47,9 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 
 | Metrik | Humvee | Jeep | Jeep_1 | Jeep_2 | VFS Sport | Willys MB | Wiesel TOW | Wiesel Mk20 | ATV Base | ATV Armory | VFS Base | Truck | Truck_1 | Truck_2 |
 |--------|--------|------|--------|--------|-----------|------------|------------|-------------|----------|------------|----------|-------|--------|--------|
-| **Leben** | **7.2** | 2.4 | 2.4 | 2.4 | 4.2 | 2.4 | **11** | **11** | 5.5 | 5.5 | 4.2 | 6.8 | 6.8 | 6.8 |
+| **Leben** | **7.2** | 2.4 | 2.4 | 2.4 | 4.2 | 2.4 | **9.5** | **9.5** | 5.5 | 5.5 | 4.2 | 6.8 | 6.8 | 6.8 |
 
-→ **Hinweise:** Leichte Fahrzeuge haben keine Blast-Kanonen; Bewaffnung ist MG (Humvee, VFS, Willys), TOW-Rakete (Wiesel TOW), Mk20 (Wiesel Mk20) oder keine (Jeep, Truck, ATV). Vergleich nur über **Leben** sinnvoll. **Höchstes Leben:** Wiesel TOW/Mk20 (11, Mod), danach Humvee (7.2), Truck-Varianten (6.8). **Niedrigstes:** Jeep/Varianten und Willys (2.4).
+→ **Hinweise:** Leichte Fahrzeuge haben keine Blast-Kanonen; Bewaffnung ist MG (Humvee, VFS, Willys), TOW-Rakete (Wiesel TOW), Mk20 (Wiesel Mk20) oder keine (Jeep, Truck, ATV). Vergleich nur über **Leben** sinnvoll. **Höchstes Leben:** Wiesel TOW/Mk20 (9.5, Mod), danach Humvee (7.2), Truck-Varianten (6.8). **Niedrigstes:** Jeep/Varianten und Willys (2.4).
 
 ---
 
@@ -59,11 +59,11 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 |--------|--------------------|------|
 | **Leben** | Humvee | **7.2** |
 | **Leben (ohne MG)** | Truck / Truck_1 / Truck_2 | **6.8** |
-| **Leben (Kampfleicht)** | Wiesel TOW / Wiesel Mk20 | **11** (Mod) |
+| **Leben (Kampfleicht)** | Wiesel TOW / Wiesel Mk20 | **9.5** (Mod) |
 
 | Fahrzeugtyp | Stärken (Leicht) | Trade-off |
 |-------------|-------------------|-----------|
-| **Wiesel TOW / Mk20** | **Höchstes Leben (11**, Mod), TOW/Mk20-Bewaffnung | Leicht gepanzert |
+| **Wiesel TOW / Mk20** | **Höchstes Leben (9.5**, Mod), TOW/Mk20-Bewaffnung | Leicht gepanzert |
 | **Humvee** | Leben 7.2, MG | Langsamere Klasse als Jeeps |
 | **Truck / Truck_1 / Truck_2** | Hohes Leben (6.8), Transport | Unbewaffnet |
 | **ATV Base / Armory** | Leben 5.5, mobil | Unbewaffnet / Armory |
@@ -74,7 +74,7 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 
 ## 5. Anti-Tank-Waffen (direkter Vergleich zu Panzer-Leben)
 
-*Zum Abgleich: z. B. Legion (34 Leben) ≈ 4× Javelin (8.7) oder 3× M202 (12.0); FV101 (15) ≈ 2× Javelin; Wiesel (11) ≈ 1–2× Javelin.*
+*Zum Abgleich: z. B. Legion (34 Leben) ≈ 4× Javelin (8.7) oder 3× M202 (12.0); FV101 (15) ≈ 2× Javelin; Wiesel (9.5) ≈ 1–2× Javelin.*
 
 | Waffe | Preis (RP) | Schaden | Radius | Projektile/Schuss | **Gesamtschaden** |
 |:------|-----------:|--------:|-------:|-------------------|-------------------|
