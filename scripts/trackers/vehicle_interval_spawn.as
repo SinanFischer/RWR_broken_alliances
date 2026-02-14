@@ -74,6 +74,11 @@ class VehicleIntervalSpawn : Tracker {
 	protected dictionary m_vehicleIntelFaction;
 	protected dictionary m_vehicleIntelJoinTime;
 
+	// Cargo+Captain: Captain-Message 2 s nach Vehicle-Message (Ort schon in Standard-Meldung)
+	protected int m_pendingCargoCaptainFactionId = -1;
+	protected float m_pendingCargoCaptainTimer = 0.0f;
+	protected float CARGO_CAPTAIN_MSG_DELAY = 2.0f;
+
 	VehicleIntervalSpawn(Metagame@ metagame, CaptainSpawnCommandTracker@ captainTracker = null) {
 		@m_metagame = @metagame;
 		@m_captainTracker = @captainTracker;
@@ -123,6 +128,15 @@ class VehicleIntervalSpawn : Tracker {
 		m_metagameTime += time;
 		tryInitFactions(); // Lazy-init if start() was too early (Quick Match)
 		if (m_numFactions == 0) return;
+
+		// Cargo+Captain: Captain-Message 2 s nach Vehicle-Meldung
+		if (m_pendingCargoCaptainFactionId >= 0) {
+			m_pendingCargoCaptainTimer -= time;
+			if (m_pendingCargoCaptainTimer <= 0.0f) {
+				sendCargoCaptainEventMessages(m_pendingCargoCaptainFactionId);
+				m_pendingCargoCaptainFactionId = -1;
+			}
+		}
 
 		// DEBUG: 5 s after start, commander message
 		if (DEBUG_ANNOUNCE_LOADED && !m_debugAnnounced) {
@@ -304,10 +318,11 @@ class VehicleIntervalSpawn : Tracker {
 
 		_log("VehicleIntervalSpawn: " + vehicleKey + " for faction " + factionId + " at " + baseName + " (" + pos.toString() + ")", 1);
 
-		// Cargo Truck: Captain-Team am selben Ort spawnen + Faction-Messages
+		// Cargo Truck: Captain-Team am selben Ort spawnen + Faction-Messages (2 s Verzögerung)
 		if (vehicleKey == CARGO_TRUCK_KEY && m_captainTracker !is null) {
 			m_captainTracker.spawnCaptainSquadAt(factionId, pos);
-			sendCargoCaptainEventMessages(factionId, baseName);
+			m_pendingCargoCaptainFactionId = factionId;
+			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_MSG_DELAY;
 		}
 	}
 
@@ -320,9 +335,9 @@ class VehicleIntervalSpawn : Tracker {
 		return factions[factionId].getStringAttribute("key");
 	}
 
-	// Nachrichten bei Cargo+Captain-Event: eigene Fraktion + alle Feinde
-	protected void sendCargoCaptainEventMessages(int factionId, const string &in baseName) {
-		string ownMsg = "Captain has reinforced our base at " + baseName + " - he arrived with the supply convoy and will defend our position.";
+	// Nachrichten bei Cargo+Captain-Event: eigene Fraktion + alle Feinde (2 s nach Vehicle-Meldung)
+	protected void sendCargoCaptainEventMessages(int factionId) {
+		string ownMsg = "Captain arrived with the supply convoy and will defend our position.";
 		sendFactionMessage(m_metagame, factionId, ownMsg, 1.5f);
 
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
@@ -371,7 +386,8 @@ class VehicleIntervalSpawn : Tracker {
 
 		if (m_captainTracker !is null) {
 			m_captainTracker.spawnCaptainSquadAt(factionId, pos);
-			sendCargoCaptainEventMessages(factionId, baseName);
+			m_pendingCargoCaptainFactionId = factionId;
+			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_MSG_DELAY;
 		}
 
 		_log("VehicleIntervalSpawn: cargo_captain_test - Cargo + Captain at " + baseName + " for faction " + factionId, 1);

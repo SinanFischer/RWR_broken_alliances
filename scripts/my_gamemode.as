@@ -5,6 +5,7 @@
 #include "trackers/bullet_flyby_effect.as"
 #include "trackers/defender_tank_help.as"
 #include "trackers/vehicle_interval_spawn.as"
+#include "trackers/captain_spawn_command_tracker.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // --------------------------------------------
@@ -19,7 +20,9 @@ class MyGameMode : GameModeCampaign {
 		GameModeCampaign::postBeginMatch();
 		addTracker(BulletFlybyEffect(this));
 		addTracker(DefenderTankHelp(this));
-		addTracker(VehicleIntervalSpawn(this)); // Fahrzeug-Spawn alle 2-4 min (simple) / 5-8 min (medium)
+		CaptainSpawnCommandTracker@ captainTr = CaptainSpawnCommandTracker(this);
+		addTracker(captainTr);  // /captain_spawn, Cargo-Truck+Captain-Event
+		addTracker(VehicleIntervalSpawn(this, captainTr)); // Fahrzeug-Spawn; bei Cargo-Truck: Captain+Bodyguards
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 	}
 
