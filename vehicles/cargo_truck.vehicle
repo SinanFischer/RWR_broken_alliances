@@ -1,4 +1,4 @@
-<vehicle file="vehicle_base.vehicle" name="Cargo truck" key="cargo_truck.vehicle" respawn_time="180" existence="one_per_faction" protectors="5" soldier_capacity_offset="5" map_view_atlas_index="6" should_be_destroyed="0">
+<vehicle file="vehicle_base.vehicle" name="Cargo truck" key="cargo_truck.vehicle" respawn_time="180" existence="one_per_faction" protectors="5" soldier_capacity_offset="5" map_view_atlas_index="6" should_be_destroyed="0" allow_ai_to_use="0">
 	<tag name="metal_thin" />
   <tire_set offset="1.4 0.0 3.36" radius="0.8" />
 	<tire_set offset="1.4 0.0 -1.56" radius="0.8" />
