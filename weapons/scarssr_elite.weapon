@@ -3,6 +3,7 @@
 <weapon file="scarssr.weapon" key="scarssr_elite.weapon">
     <commonness value="0.05" can_respawn_with="0" in_stock="0" />
        <specification 
+       	name="SCAR SSR Elite" 
 	retrigger_time="0.62" 
 	accuracy_factor="1.0" 
 	sight_range_modifier="2.0" 
