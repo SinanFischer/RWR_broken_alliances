@@ -1,12 +1,13 @@
-// Fahrzeug-Intervall-Spawn: Leicht 2-4 min, Mittel 5-8 min, Schwer 12-15 min.
-// Pro Fraktion eigener Timer; zufälliges Intervall; Spawn an zufälliger Basis im Basenmittelpunkt + Offset.
-// Führende Fraktion (meiste Basen) erhält keinen Heavy-Spawn - Timer wird nur zurückgesetzt.
+// Vehicle interval spawn: Light 2-4 min, Medium 5-8 min, Heavy 12-15 min.
+// Per-faction timers; random interval; spawn at random owned base (center + offset).
+// Leading faction (most bases) gets no Heavy spawn - timer reset only.
 //
-// Fraktionen: dynamisch aus getFactions() (wie faction_alive_hud_tracker) - keine festen IDs.
-// Fahrzeug-Keys: oben konfigurierbar (Simple/Medium/Heavy).
+// Factions: from getFactions() - no fixed IDs.
+// Vehicle keys: configurable above (Simple/Medium/Heavy).
 //
-// /vehicle, /vehicle_spawn, /fahrzeug: Status nur für eigene Fraktion (Light/Medium/Heavy + Zeiten).
-// /vehicle test: sofort Test-Spawn (nur Admins).
+// /vehicle, /vehicle_spawn, /fahrzeug: status for own faction only (light/medium/heavy + times).
+// Status access only if player has been in faction for at least 4 min (otherwise commander: access denied + time remaining).
+// /vehicle test: instant test spawn (admins only).
 
 #include "tracker.as"
 #include "helpers.as"
@@ -15,24 +16,27 @@
 #include "admin_manager.as"
 
 // =============================================================================
-// KONFIGURATION - Fahrzeug-Keys pro Kategorie (Index = Fraktions-Index)
-// Leicht: Humvee, Jeep, ATV, Quad, VFS, Trucks, Wiesel, …
-// Mittel: APC, Noxe, Hovercraft, Cargo Truck, Vulcan, SEV90, Radio Jammer, …
-// Schwer: Alt-Tanks, Sheriff (M551), Scorpion, Legion, M528, Croc (Flammenpanzer)
+// CONFIG - vehicle keys per category (index = faction index)
+// Light: Humvee, Jeep, ATV, Quad, VFS, Trucks, Wiesel, ...
+// Medium: APC, Noxe, Hovercraft, Cargo Truck, Vulcan, SEV90, Radio Jammer, ...
+// Heavy: Alt-Tanks, Sheriff (M551), Scorpion, Legion, M528, Croc (Flamethrower tank)
 // =============================================================================
 const string SIMPLE_VEHICLE_KEYS = "humvee.vehicle,jeep.vehicle,jeep_1.vehicle,jeep_2.vehicle,vfs_sport.vehicle,willys_mb.vehicle,wiesel_tow.vehicle,wiesel_mk20.vehicle,atv_base.vehicle,atv_armory.vehicle,vfs_base.vehicle,truck.vehicle,truck_1.vehicle,truck_2.vehicle";
 
 const string MEDIUM_VEHICLE_KEYS = "humvee.vehicle,wiesel_mk20.vehicle,apc.vehicle,apc_1.vehicle,apc_2.vehicle,vulcan_tank.vehicle,noxe.vehicle,hovercraft.vehicle,cargo_truck.vehicle,sev90.vehicle,radio_jammer.vehicle";
 const string HEAVY_VEHICLE_KEYS = "tank_alt.vehicle,tank_1_alt.vehicle,tank_2_alt.vehicle,m551.vehicle,fv101.vehicle,legion.vehicle,m528.vehicle,flamer_tank.vehicle";
 
-// DEBUG: 5 s nach Start Commander-Meldung mit nächstem Spawn
+// DEBUG: 5 s after start, commander message with next spawn
 const bool DEBUG_ANNOUNCE_LOADED = true;
 const float DEBUG_ANNOUNCE_DELAY = 5.0f;
+
+// Min time in faction (seconds) to see /vehicle status - prevents faction switch to read intel
+const float VEHICLE_INTEL_MIN_FACTION_TIME_SEC = 240.0f;
 
 class VehicleIntervalSpawn : Tracker {
 	protected Metagame@ m_metagame;
 
-	// Intervall-Range (Sekunden): Leicht 2-4 min, Mittel 5-8 min, Schwer 12-15 min
+	// Interval range (seconds): Light 2-4 min, Medium 5-8 min, Heavy 12-15 min
 	protected int SIMPLE_INTERVAL_MIN = 120;
 	protected int SIMPLE_INTERVAL_MAX = 240;
 	protected int MEDIUM_INTERVAL_MIN = 300;
@@ -40,26 +44,32 @@ class VehicleIntervalSpawn : Tracker {
 	protected int HEAVY_INTERVAL_MIN = 720;
 	protected int HEAVY_INTERVAL_MAX = 900;
 
-	// Spawn-Offset vom Basenmittelpunkt (m): X/Z damit nicht übereinander, Y für Boden
+	// Spawn offset from base center (m): X/Z to spread, Y for ground
 	protected float OFFSET_XZ = 8.0f;
 	protected float OFFSET_Y = 5.0f;
 
-	// Fahrzeug-Keys pro Kategorie (aus Config-Strings geparst)
+	// Vehicle keys per category (parsed from config strings)
 	protected array<string> m_simpleKeys;
 	protected array<string> m_mediumKeys;
 	protected array<string> m_heavyKeys;
 
-	// Pro Fraktion: Timer und nächste Spawn-Zeit (Index = Fraktions-Index aus getFactions)
+	// Per faction: timers (index = faction index from getFactions)
 	protected array<float> m_simpleTimer;
 	protected array<float> m_mediumTimer;
 	protected array<float> m_heavyTimer;
 
-	// Anzahl Fraktionen (dynamisch)
+	// Number of factions (dynamic)
 	protected uint m_numFactions = 0;
 
-	// DEBUG: Einmalige Meldung 5 s nach Start
+	// DEBUG: one-time message 5 s after start
 	protected float m_debugAccum = 0.0f;
 	protected bool m_debugAnnounced = false;
+
+	// Running game time (seconds) for 4-min check
+	protected float m_metagameTime = 0.0f;
+	// Per player: last known faction and "join" time (first /vehicle or faction switch)
+	protected dictionary m_vehicleIntelFaction;
+	protected dictionary m_vehicleIntelJoinTime;
 
 	VehicleIntervalSpawn(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -69,7 +79,7 @@ class VehicleIntervalSpawn : Tracker {
 		m_metagame.getComms().send("<command class='set_metagame_event' name='chat_event' enabled='1' />");
 	}
 
-	// Komma-separierte Keys parsen
+	// Parse comma-separated keys
 	protected array<string> parseKeys(const string &in csv) {
 		array<string> result;
 		int start = 0;
@@ -87,7 +97,7 @@ class VehicleIntervalSpawn : Tracker {
 		tryInitFactions();
 	}
 
-	// Lazy-Init: wie faction_alive_hud_tracker - getFactions() kann bei Quick Match erst später Daten liefern
+	// Lazy-Init: getFactions() may not be ready at start (Quick Match)
 	protected void tryInitFactions() {
 		if (m_numFactions > 0) return;
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
@@ -102,14 +112,15 @@ class VehicleIntervalSpawn : Tracker {
 			m_mediumTimer[i] = float(rand(MEDIUM_INTERVAL_MIN, MEDIUM_INTERVAL_MAX));
 			m_heavyTimer[i] = float(rand(HEAVY_INTERVAL_MIN, HEAVY_INTERVAL_MAX));
 		}
-		_log("VehicleIntervalSpawn: Gestartet mit " + m_numFactions + " Fraktionen (Leicht/Mittel/Schwer).", 1);
+		_log("VehicleIntervalSpawn: Started with " + m_numFactions + " factions (Light/Medium/Heavy).", 1);
 	}
 
 	void update(float time) {
-		tryInitFactions(); // Lazy-Init falls start() zu früh war (Quick Match)
+		m_metagameTime += time;
+		tryInitFactions(); // Lazy-init if start() was too early (Quick Match)
 		if (m_numFactions == 0) return;
 
-		// DEBUG: 5 s nach Start Commander-Meldung
+		// DEBUG: 5 s after start, commander message
 		if (DEBUG_ANNOUNCE_LOADED && !m_debugAnnounced) {
 			m_debugAccum += time;
 			if (m_debugAccum >= DEBUG_ANNOUNCE_DELAY) {
@@ -135,7 +146,7 @@ class VehicleIntervalSpawn : Tracker {
 
 			m_heavyTimer[i] -= time;
 			if (m_heavyTimer[i] <= 0.0f) {
-				// Führende Fraktion (meiste Basen) erhält keinen Heavy-Spawn - nur Timer neu starten
+				// Leading faction (most bases) gets no Heavy spawn - timer reset only
 				if (factionId == getLeadingFactionId()) {
 					m_heavyTimer[i] = float(rand(HEAVY_INTERVAL_MIN, HEAVY_INTERVAL_MAX));
 				} else {
@@ -146,7 +157,7 @@ class VehicleIntervalSpawn : Tracker {
 		}
 	}
 
-	// Führende Fraktion = Fraktion mit den meisten Basen (Gleichstand: niedrigere ID gewinnt)
+	// Leading faction = faction with most bases (tie: lower ID wins)
 	protected int getLeadingFactionId() {
 		if (m_numFactions == 0) return -1;
 		int leadingId = 0;
@@ -161,9 +172,9 @@ class VehicleIntervalSpawn : Tracker {
 		return leadingId;
 	}
 
-	// DEBUG: Skript geladen + nächster Spawn pro Fraktion (Sekunden, Basis-Name)
+	// DEBUG: script loaded + next spawn per faction (seconds, base name)
 	protected void runDebugAnnounce() {
-		string msg = "VehicleIntervalSpawn: Script loaded.";
+		string msg = "VehicleIntervalSpawn: script loaded.";
 		sendFactionMessage(m_metagame, 0, msg, 0.95);
 
 		array<const XmlElement@>@ bases = getBases(m_metagame);
@@ -172,7 +183,7 @@ class VehicleIntervalSpawn : Tracker {
 		for (uint i = 0; i < m_numFactions; ++i) {
 			int factionId = int(i);
 
-			// Nächster Spawn: Kategorie mit kleinstem Timer (0=Leicht, 1=Mittel, 2=Schwer)
+			// Next spawn: category with smallest timer (0=Light, 1=Medium, 2=Heavy)
 			int nextCat = 0;
 			float nextSec = m_simpleTimer[i];
 			if (m_mediumTimer[i] < nextSec) { nextSec = m_mediumTimer[i]; nextCat = 1; }
@@ -180,7 +191,7 @@ class VehicleIntervalSpawn : Tracker {
 			string vehicleKey = getVehicleKeyForFaction(factionId, nextCat);
 			string vehicleName = getVehicleDisplayName(vehicleKey);
 
-			// Basis-Name: wo wird gespawnt? (Predict: nächste Basis, die Fraktion gehört)
+			// Base name: where spawn will be (predict: one of faction's bases)
 			array<int> ownedIndices;
 			for (uint b = 0; b < bases.size(); ++b) {
 				if (bases[b].getIntAttribute("owner_id") == factionId)
@@ -200,7 +211,7 @@ class VehicleIntervalSpawn : Tracker {
 		}
 	}
 
-	// Fahrzeug-Key je Fraktion; category: 0=Leicht, 1=Mittel, 2=Schwer
+	// Vehicle key per faction; category: 0=Light, 1=Medium, 2=Heavy
 	protected string getVehicleKeyForFaction(int factionId, int category) {
 		array<string>@ keys = category == 0 ? m_simpleKeys : (category == 1 ? m_mediumKeys : m_heavyKeys);
 		if (keys.size() == 0) return category == 0 ? "jeep.vehicle" : (category == 1 ? "apc.vehicle" : "tank.vehicle");
@@ -208,7 +219,7 @@ class VehicleIntervalSpawn : Tracker {
 		return keys[idx];
 	}
 
-	// Anzeigename aus Vehicle-Definition (name-Attribut) - z. B. "Humvee", "SIK-AP APC", "Leopold II Tank"
+	// Display name from vehicle definition (name attribute), e.g. "Humvee", "APC", "Tank"
 	protected string getVehicleDisplayName(const string &in vehicleKey) {
 		if (vehicleKey.length() == 0) return "vehicle";
 		string name = getResourceName(m_metagame, vehicleKey, "vehicle");
@@ -219,14 +230,14 @@ class VehicleIntervalSpawn : Tracker {
 		return base.length() > 0 ? base : "vehicle";
 	}
 
-	// Anzeige: >= 60s nur Minuten ("Xmin"), unter 60s Sekunden ("Xs")
+	// Display: >= 60s minutes only ("Xmin"), under 60s seconds ("Xs")
 	protected string formatTimerSeconds(float sec) {
 		int s = int(sec);
 		if (s < 60) return "" + s + "s";
 		return "" + (s / 60) + "min";
 	}
 
-	// Ein Basisname für Anzeige (zufällige Basis, die die Fraktion aktuell besitzt). Bei Spawn wird erneut zufällig gewählt - bei Basisverlust erscheint beim nächsten /vehicle eine andere Basis.
+	// One base name for display (random base faction currently owns). Spawn picks random at spawn time; if base is lost, next /vehicle shows another.
 	protected string getOneBaseNameForFaction(int factionId) {
 		array<const XmlElement@>@ bases = getBases(m_metagame);
 		if (bases is null) return "?";
@@ -255,11 +266,11 @@ class VehicleIntervalSpawn : Tracker {
 			}
 		}
 		if (ownedIndices.size() == 0) {
-			_log("VehicleIntervalSpawn: Fraktion " + factionId + " hat keine Basis - kein Spawn", 1);
+			_log("VehicleIntervalSpawn: Faction " + factionId + " has no base - no spawn", 1);
 			return;
 		}
 
-		// Zufällige Basis wählen
+		// Pick random base
 		int idx = rand(0, ownedIndices.size() - 1);
 		const XmlElement@ base = bases[ownedIndices[idx]];
 		string posStr = base.getStringAttribute("position");
@@ -283,17 +294,17 @@ class VehicleIntervalSpawn : Tracker {
 			"' instance_class='vehicle' instance_key='" + vehicleKey + "' />";
 		m_metagame.getComms().send(cmd);
 
-		// Commander-Meldung: Verstärkung, Basis-Name, Fahrzeug-Name
+		// Commander message: reinforcement, base name, vehicle name
 		string msg = "Reinforcement arrived: " + vehicleName + " at " + baseName + ".";
 		sendFactionMessage(m_metagame, factionId, msg, 0.95);
 
-		_log("VehicleIntervalSpawn: " + vehicleKey + " für Fraktion " + factionId + " an " + baseName + " (" + pos.toString() + ")", 1);
+		_log("VehicleIntervalSpawn: " + vehicleKey + " for faction " + factionId + " at " + baseName + " (" + pos.toString() + ")", 1);
 	}
 
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
 
-	// /vehicle oder /vehicle_spawn: Status + nächste Spawns. /vehicle test: sofort Spawn für deine Fraktion.
+	// /vehicle or /vehicle_spawn: status + next spawns. /vehicle test: instant spawn for your faction.
 	protected void handleChatEvent(const XmlElement@ event) {
 		string message = event.getStringAttribute("message");
 		if (!startsWith(message, "/")) return;
@@ -306,46 +317,65 @@ class VehicleIntervalSpawn : Tracker {
 		if (space >= 0 && space + 1 < int(message.length()))
 			arg = message.substr(space + 1, message.length() - space - 1);
 
-		// /vehicle test: sofort Spawn - nur Admins
+		// /vehicle test: instant spawn - admins only
 		if (arg.length() > 0 && arg.toLowerCase() == "test") {
 			if (!m_metagame.getAdminManager().isAdmin(event.getStringAttribute("player_name"), event.getIntAttribute("player_id"))) {
-				sendPrivateMessage(m_metagame, senderId, "Nur für Admins.");
+				sendPrivateMessage(m_metagame, senderId, "Admin only.");
 				return;
 			}
 			const XmlElement@ player = getPlayerInfo(m_metagame, senderId);
 			if (player is null) {
-				sendPrivateMessage(m_metagame, senderId, "Player nicht gefunden.");
+				sendPrivateMessage(m_metagame, senderId, "Player not found.");
 				return;
 			}
 			int factionId = player.getIntAttribute("faction_id");
 			if (factionId < 0) {
-				sendPrivateMessage(m_metagame, senderId, "Du hast keine Fraktion (Beobachter?).");
+				sendPrivateMessage(m_metagame, senderId, "You have no faction (spectator?).");
 				return;
 			}
 			spawnVehicle(factionId, 0);
-			sendPrivateMessage(m_metagame, senderId, "Test-Spawn: Leicht-Fahrzeug für Fraktion " + factionId + " gespawnt.");
+			sendPrivateMessage(m_metagame, senderId, "Test spawn: light vehicle for faction " + factionId + " spawned.");
 			return;
 		}
 
-		// Status: nur eigene Fraktion - Light / Medium / Heavy (Heavy ggf. "blocked (leading)")
+		// Status: own faction only - light / medium / heavy (heavy may show "blocked (leading)")
 		tryInitFactions();
 		if (m_numFactions == 0) {
-			sendPrivateMessage(m_metagame, senderId, "Noch keine Fraktionen. Nach Match-Start /vehicle erneut.");
+			sendPrivateMessage(m_metagame, senderId, "No factions yet. Try /vehicle after match start.");
 			return;
 		}
 
 		const XmlElement@ player = getPlayerInfo(m_metagame, senderId);
 		if (player is null) {
-			sendPrivateMessage(m_metagame, senderId, "Spieler nicht gefunden.");
+			sendPrivateMessage(m_metagame, senderId, "Player not found.");
 			return;
 		}
 		int factionId = player.getIntAttribute("faction_id");
 		if (factionId < 0 || uint(factionId) >= m_numFactions) {
-			sendPrivateMessage(m_metagame, senderId, "Du hast keine Fraktion (Beobachter?).");
+			sendPrivateMessage(m_metagame, senderId, "You have no faction (spectator?).");
 			return;
 		}
 
-		// Basis pro Zeile: jeweils eine aktuell besessene Basis (zufällig). Wird eine Basis eingenommen, zeigt der nächste /vehicle-Aufruf eine andere besessene Basis.
+		// 4-min check: access only if player has been in this faction for at least 4 min (prevents faction switch to read intel)
+		string key = "" + senderId;
+		bool hasRecord = m_vehicleIntelFaction.exists(key);
+		int storedFaction = hasRecord ? int(m_vehicleIntelFaction[key]) : -1;
+		if (!hasRecord || storedFaction != factionId) {
+			m_vehicleIntelFaction[key] = factionId;
+			m_vehicleIntelJoinTime[key] = m_metagameTime;
+		}
+		float joinTime = float(m_vehicleIntelJoinTime[key]);
+		float elapsed = m_metagameTime - joinTime;
+		if (elapsed < VEHICLE_INTEL_MIN_FACTION_TIME_SEC) {
+			int remaining = int(VEHICLE_INTEL_MIN_FACTION_TIME_SEC - elapsed);
+			string playerName = event.getStringAttribute("player_name");
+			if (playerName.length() == 0) playerName = "Player";
+			// Only commander message (player sees it as faction member; no separate private message)
+			sendFactionMessage(m_metagame, factionId, "Vehicle intel access denied. " + playerName + " must be in faction for 4 min. " + formatTimerSeconds(float(remaining)) + " remaining.", 0.95);
+			return;
+		}
+
+		// Per line: one currently owned base (random). If a base is lost, next /vehicle shows another owned base.
 		string lightStr = "light:  " + formatTimerSeconds(m_simpleTimer[factionId]) + "  at " + getOneBaseNameForFaction(factionId) + " - " + getVehicleDisplayName(getVehicleKeyForFaction(factionId, 0));
 		string mediumStr = "medium: " + formatTimerSeconds(m_mediumTimer[factionId]) + "  at " + getOneBaseNameForFaction(factionId) + " - " + getVehicleDisplayName(getVehicleKeyForFaction(factionId, 1));
 		string heavyStr;
