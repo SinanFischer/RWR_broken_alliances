@@ -38,7 +38,9 @@
 
 **Intervalle:** Pro Fraktion eigene Timer. Leicht alle **2–4 min**, Mittel **5–8 min**, Schwer **12–15 min**. Spawn an zufälliger eigener Basis (Mittelpunkt + Offset).
 
-**Vehicle-Command:** `/vehicle`, `/vehicle_spawn` oder `/fahrzeug` (für alle Spieler) zeigt den Status **nur für die eigene Fraktion**: Restzeiten in Sekunden bis zum nächsten Spawn (light, medium, heavy). Überschrift: *Upcoming vehicle spawns*. Ist die Fraktion führend, erscheint bei heavy *blocked (leading faction)*. **`/vehicle test`** spawnt sofort ein Leicht-Fahrzeug und ist **nur für Admins**.
+**Vehicle-Command:** `/vehicle`, `/vehicle_spawn` oder `/fahrzeug` (für alle Spieler) zeigt den Status **nur für die eigene Fraktion**: Restzeiten (ab 60 s in Minuten, darunter in Sekunden) bis zum nächsten Spawn inkl. Basis- und Fahrzeugname (light, medium, heavy). Überschrift: *Upcoming vehicle spawns*. Ist die Fraktion führend, erscheint bei heavy *blocked (leading faction)*. **`/vehicle test`** spawnt sofort ein Leicht-Fahrzeug und ist **nur für Admins**.
+
+**Spionage-Sicherheit:** Zugriff auf den Vehicle-Status ist nur möglich, wenn der Spieler **mindestens 4 Minuten** in der aktuellen Fraktion kämpft. Wechselt jemand die Fraktion und ruft sofort `/vehicle` ab, wird der Zugriff verwehrt; die **gesamte Fraktion** erhält eine Commander-Meldung (*Vehicle intel access denied. [Name] must be in faction for 4 min. X remaining.*). So sieht das Team, dass jemand den Intel abrufen wollte, und schnelles Ausspähen durch Fraktionswechsel wird verhindert.
 
 **Führende Fraktion erhält keinen Schwer-Spawn:** Die Fraktion mit den **meisten Basen** gilt als führend. Läuft der Schwer-Timer für diese Fraktion ab, wird **kein** Heavy-Fahrzeug gespawnt – der Timer wird nur neu gestartet (12–15 min). Nur die zurückliegenden Fraktionen bekommen Schwer-Verstärkung; verhindert Snowballing und hält die Wertigkeit „Call-Panzer = Premium, Intervall-Schwer = für Underdogs“.
 

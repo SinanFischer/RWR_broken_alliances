@@ -6,7 +6,7 @@
 // Vehicle keys: configurable above (Simple/Medium/Heavy).
 //
 // /vehicle, /vehicle_spawn, /fahrzeug: status for own faction only (light/medium/heavy + times).
-// Status access only if player has been in faction for at least 4 min (otherwise commander: access denied + time remaining).
+// Status access only if player has been in faction for at least 3 min (otherwise: private message access denied + time remaining).
 // /vehicle test: instant test spawn (admins only).
 
 #include "tracker.as"
@@ -31,7 +31,7 @@ const bool DEBUG_ANNOUNCE_LOADED = true;
 const float DEBUG_ANNOUNCE_DELAY = 5.0f;
 
 // Min time in faction (seconds) to see /vehicle status - prevents faction switch to read intel
-const float VEHICLE_INTEL_MIN_FACTION_TIME_SEC = 240.0f;
+const float VEHICLE_INTEL_MIN_FACTION_TIME_SEC = 180.0f;
 
 class VehicleIntervalSpawn : Tracker {
 	protected Metagame@ m_metagame;
@@ -356,7 +356,7 @@ class VehicleIntervalSpawn : Tracker {
 			return;
 		}
 
-		// 4-min check: access only if player has been in this faction for at least 4 min (prevents faction switch to read intel)
+		// 3-min check: access only if player has been in this faction for at least 3 min (prevents faction switch to read intel)
 		string key = "" + senderId;
 		bool hasRecord = m_vehicleIntelFaction.exists(key);
 		int storedFaction = hasRecord ? int(m_vehicleIntelFaction[key]) : -1;
@@ -368,10 +368,7 @@ class VehicleIntervalSpawn : Tracker {
 		float elapsed = m_metagameTime - joinTime;
 		if (elapsed < VEHICLE_INTEL_MIN_FACTION_TIME_SEC) {
 			int remaining = int(VEHICLE_INTEL_MIN_FACTION_TIME_SEC - elapsed);
-			string playerName = event.getStringAttribute("player_name");
-			if (playerName.length() == 0) playerName = "Player";
-			// Only commander message (player sees it as faction member; no separate private message)
-			sendFactionMessage(m_metagame, factionId, "Vehicle intel access denied. " + playerName + " must be in faction for 4 min. " + formatTimerSeconds(float(remaining)) + " remaining.", 0.95);
+			sendPrivateMessage(m_metagame, senderId, "Negative. Vehicle status is need-to-know. Stay with us another " + formatTimerSeconds(float(remaining)) + " and we'll brief you.");
 			return;
 		}
 
