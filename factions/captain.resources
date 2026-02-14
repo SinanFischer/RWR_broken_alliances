@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Captain-Ressourcen: SF-Weste oder EOD, nur Mod-Waffen (keine PA-Abhängigkeiten) -->
+<!-- Captain-Ressourcen: SF-Weste oder EOD, Elite-Waffen mit gleicher commonness für ausgewogene Spawn-Verteilung -->
 <resources clear_weapons="1" clear_vehicles="1" clear_grenades="1" clear_carry_items="1">
-	<weapon key='steyr_aug.weapon' />
-	<weapon key='famasg1.weapon' />
-	<weapon key='mg42.weapon' />
-	<weapon key='microgun.weapon' />
-	<weapon key='minigun_ai.weapon' />
-	<weapon key='honey_badger.weapon' />
-	<weapon key='stoner_lmg.weapon' />
+	<weapon key='steyr_aug_elite.weapon' />
+	<weapon key='famasg1_elite.weapon' />
+	<weapon key='mg42_elite.weapon' />
+	<weapon key='microgun_elite.weapon' />
+	<weapon key='honey_badger_elite.weapon' />
+	<weapon key='stoner_lmg_elite.weapon' />
 	<carry_item key='sf_suit.carry_item' enabled="1" />
 	<carry_item key='eodvest_ai.carry_item' enabled="1" />
 </resources>

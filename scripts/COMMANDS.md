@@ -112,3 +112,27 @@ Alle Chat-Commands, die ein **Fahrzeug** bei der Spielerposition spawnen. Mit `/
 | `/snowman` | snowman.vehicle | Event (Faktion 1) |
 | `/vehicle test` | (zufälliges Leicht-Fahrzeug) | **Mod**, Admin only |
 | `/captain_spawn` | (1 Captain + 3 orange_bodyguards) | **Mod**, Quick Match, Admin only |
+
+---
+
+## 6. Debug-Mode (RWR mit debugmode starten)
+
+Wenn du RWR im **Debug-Mode** startest, stehen zusätzliche **Tastenkombinationen** und **Optionen** zur Verfügung (Engine-Features, unabhängig vom Mod).
+
+**Starten:** In Steam → RWR → Rechtsklick → *Eigenschaften* → *Startoptionen* → eintragen: **`debugmode`**. Spiel starten.  
+**Hinweis:** Im Debug-Mode kannst du **kein Multiplayer** verbinden.
+
+### Tastenkombinationen im Debug-Mode
+
+| Taste / Kombination | Funktion |
+|--------------------|----------|
+| **F4** | Freie Kamera (umherfliegen). **Umschalt (Links)** gedrückt halten = schneller fliegen. |
+| **F5** | Erweiterte Sichtweite, weißes Licht, kein Nebel (Rendering-Check). |
+| **F6** | Tageslicht erzwingen. |
+| **F8** | Live-Reload von Ressourcen (z. B. XML-Änderungen im laufenden Spiel nachladen). |
+| **Strg+F8** | Live-Reload (Alternative). |
+| **F9** | Performance- und Zustandsdaten anzeigen. |
+| **1–0** (Ziffern) | Grafikelemente nach Gruppen ein-/ausblenden (Einfluss auf Performance prüfen). |
+| **Strg+1** bis **Strg+0** | KI-Debug-Visuals ein-/ausblenden (z. B. Sichtbereiche, Squad-Zugehörigkeit). |
+
+*Quelle: [RWR Wiki – Debugmode](https://runningwithrifles.fandom.com/wiki/Debugmode), [Command line switches](https://runningwithrifles.fandom.com/wiki/Command_line_switches).*

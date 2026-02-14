@@ -186,7 +186,7 @@
 		<ai filename="captain.ai" />
 		<model filename="soldier_orange_bodyguards.xml" />
 		<resources file="captain.resources" />
-		<attribute_config class="xp"><attribute weight="1" min="500" max="2000" /></attribute_config>
+		<attribute_config class="xp"><attribute weight="1.0" min="100.0" max="100.0" /></attribute_config>
 		<attribute_config class="rp"><attribute weight="1.0" min="1000.0" max="2000.0" /></attribute_config>
 	</soldier>
 	<soldier name="orange_bodyguards" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="general_firstname.txt" lastnames_file="german_lastnames.txt">
@@ -194,7 +194,7 @@
 		<ai filename="bodyguard.ai" />
 		<model filename="soldier_captain.xml" />
 		<resources file="orange_bodyguards.resources" />
-		<attribute_config class="xp"><attribute weight="1" min="100" max="400" /></attribute_config>
+		<attribute_config class="xp"><attribute weight="1.0" min="1.0" max="2.0" /></attribute_config>
 		<attribute_config class="rp"><attribute weight="1.0" min="500.0" max="1000.0" /></attribute_config>
 	</soldier>
 

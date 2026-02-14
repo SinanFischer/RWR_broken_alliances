@@ -152,7 +152,14 @@
   
   <weapon file="apr.weapon" />   
   <weapon file="beretta_93r.weapon" />
-  <weapon file="steyr_aug.weapon" />  
+  <weapon file="steyr_aug.weapon" />
+  <weapon file="steyr_aug_elite.weapon" />
+  <weapon file="famasg1_elite.weapon" />
+  <weapon file="mg42_elite.weapon" />
+  <weapon file="microgun_elite.weapon" />
+  <weapon file="honey_badger_elite.weapon" />
+  <weapon file="stoner_lmg_elite.weapon" />
+  <weapon file="scarssr_elite.weapon" />
   
 	<weapon file="claymore_resource.weapon" />  
 	<weapon file="mp7.weapon" />  

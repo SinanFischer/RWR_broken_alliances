@@ -16,13 +16,18 @@
 	<parameter class="choose_enemy_time" value="0.45" />
 	<parameter class="monitor_enemies_time" value="0.5" />
 
-	<!-- Basis verteidigen – 100% Guard, nicht an die Front laufen -->
+	<!-- Basis verteidigen – 100% Guard, NICHT zu Alarmen/angreifenden Zielen laufen (Dog/Chicken-Pattern) -->
 	<parameter class="active_guarding_probability" value="1.0" />
 	<parameter class="willingness_to_guard" value="1.0" />
 	<parameter class="willingness_to_charge" value="0.0" />
 	<parameter class="fighting_favor_helping_probability" value="0.0" />
+	<parameter class="check_need_for_help_range" value="0.0" />
+	<!-- Stay-in-base: 1.0 = reagiert nur auf Alarme direkt am Standort, läuft nicht los -->
 	<parameter class="leading_inspect_alarm_spread_out_distance" value="1.0" />
 	<parameter class="leading_inspect_alarm_min_distance" value="1.0" />
+	<parameter class="fighting_approach_alarm_spread_max_range" value="1.0" />
+	<parameter class="fighting_approach_alarm_max_soldiers" value="1" />
+	<parameter class="check_alert_time" value="100.0" />
 
 	<!-- Genauigkeit -->
 	<parameter class="accuracy_offset" value="0.01" />

@@ -27,7 +27,7 @@ const string MEDIUM_VEHICLE_KEYS = "humvee.vehicle,wiesel_mk20.vehicle,apc.vehic
 const string HEAVY_VEHICLE_KEYS = "tank_alt.vehicle,tank_1_alt.vehicle,tank_2_alt.vehicle,m551.vehicle,fv101.vehicle,legion.vehicle,m528.vehicle,flamer_tank.vehicle";
 
 // DEBUG: 5 s after start, commander message with next spawn
-const bool DEBUG_ANNOUNCE_LOADED = true;
+const bool DEBUG_ANNOUNCE_LOADED = false;  // was for debugging: "Next spawn: ... at ..." per faction; use /vehicle for status
 const float DEBUG_ANNOUNCE_DELAY = 5.0f;
 
 // Min time in faction (seconds) to see /vehicle status - prevents faction switch to read intel

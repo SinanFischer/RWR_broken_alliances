@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Bodyguard-Ressourcen: EOD-Weste, Premium-Primaries (AUG, FAMAS, MG42 etc.), Slot 1: Flash/Javelin/MGL -->
+<!-- Bodyguard-Ressourcen: EOD-Weste, Elite-Waffen mit gleicher commonness für ausgewogene Spawn-Verteilung -->
 <resources clear_weapons="1" clear_vehicles="1" clear_grenades="1" clear_carry_items="1">
-	<weapon key='steyr_aug.weapon' />
-	<weapon key='famasg1.weapon' />
-	<weapon key='mg42.weapon' />
-	<weapon key='microgun.weapon' />
-	<weapon key='minigun_ai.weapon' />
-	<weapon key='honey_badger.weapon' />
-	<weapon key='stoner_lmg.weapon' />
-	<!-- <weapon key='m249.weapon' /> -->
-	<!-- <weapon key='m240.weapon' /> -->
-	<!-- <weapon key='hk416.weapon' /> -->
-	<weapon key='scarssr.weapon' />
-	<!-- <weapon key='imi_negev.weapon' /> -->
-	<!-- <weapon key='mg4.weapon' /> -->
-	<!-- <weapon key='caws.weapon' /> -->
-	<!-- <weapon key='uts15.weapon' /> -->
-	<!-- <weapon key='javelin.weapon' /> -->
+	<weapon key='steyr_aug_elite.weapon' />
+	<weapon key='famasg1_elite.weapon' />
+	<weapon key='mg42_elite.weapon' />
+	<weapon key='microgun_elite.weapon' />
+	<weapon key='honey_badger_elite.weapon' />
+	<weapon key='stoner_lmg_elite.weapon' />
+	<weapon key='scarssr_elite.weapon' />
 	<weapon key='m202_flash.weapon' />
 	<weapon key='mgl_flasher.weapon' />
 	<carry_item key='eodvest_ai.carry_item' enabled="1" />

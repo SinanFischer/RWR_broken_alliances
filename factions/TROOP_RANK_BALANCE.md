@@ -98,6 +98,8 @@ Aktuelle Verteilung:
 | **Elite** | 0.4 – 1.4 | Staff Sgt 1st → Lt Colonel | specialforces |
 | **Leader/Miniboss** | 1.2 – 50.0 | Major → General | miniboss, miniboss_female |
 | **Leader (starke Truppe)** | 1.6 – 3.7 | Captain → Major General | eod (Stürmer führen mit) |
+| **Captain (Spielfigur)** | 100.0 (fix) | General of the Army | captain |
+| **Bodyguards** | 1.0 – 2.0 | Captain → Colonel | orange_bodyguards |
 
 ---
 

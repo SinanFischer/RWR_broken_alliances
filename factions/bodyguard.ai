@@ -15,19 +15,26 @@
 	<parameter class="choose_enemy_time" value="0.5" />
 	<parameter class="monitor_enemies_time" value="0.55" />
 
-	<!-- Defend / Guard: Bodyguards bewachen den Leader – 100% Basis verteidigen -->
+	<!-- Defend / Guard: Bodyguards bewachen den Leader – 100% Basis verteidigen, NICHT loslaufen -->
 	<parameter class="active_guarding_probability" value="1.0" />
 	<parameter class="willingness_to_guard" value="1.0" />
 	<parameter class="willingness_to_charge" value="0.0" />
-	<parameter class="defending_authority_offset_to_join_squad" value="0.15" />
-	<parameter class="value_increase_required_to_join_defend_squad" value="0.05" />
+	<!-- Stay-in-base: 1.0 = reagiert nur auf Alarme direkt am Standort -->
+	<parameter class="leading_inspect_alarm_spread_out_distance" value="1.0" />
+	<parameter class="leading_inspect_alarm_min_distance" value="1.0" />
+	<parameter class="fighting_approach_alarm_spread_max_range" value="1.0" />
+	<parameter class="fighting_approach_alarm_max_soldiers" value="1" />
+	<parameter class="check_alert_time" value="100.0" />
+	<!-- Squad-Join: Bodyguards (XP 1–2) sollen sofort in den Squad des Generals (XP 100) gehen -->
+	<parameter class="max_leader_authority_willing_to_join_another_squad" value="10.0" />
+	<parameter class="defending_authority_offset_to_join_squad" value="0.6" />
+	<parameter class="value_increase_required_to_join_defend_squad" value="0.02" />
 	<parameter class="guard_range_from_leader_margin" value="12.0" />
 	<parameter class="guard_range_from_leader_step" value="25.0" />
 	<parameter class="guard_wait_time_min" value="3.0" />
 	<parameter class="guard_wait_time_max" value="8.0" />
 	<parameter class="guard_steps" value="2" />
 	<parameter class="fighting_favor_helping_probability" value="0.0" />
-	<parameter class="max_leader_authority_willing_to_join_another_squad" value="1"/>
 
 	<!-- Genauigkeit -->
 	<parameter class="accuracy_offset" value="0.02" />
