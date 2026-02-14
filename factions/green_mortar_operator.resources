@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources clear_weapons="1" clear_projectiles="1" clear_grenades="1">
-	<!-- Mortar Operator: wenig Waffen – Granatwerfer, MP, ein Basis-Sturmgewehr; Slot 1 = Mörser Deploy. -->
+	<!-- Mortar Operator: wenig Waffen - Granatwerfer, MP, ein Basis-Sturmgewehr; Slot 1 = Mörser Deploy. -->
 	<weapon key='m79.weapon' />
 	<weapon key='mp7.weapon' />
 	<weapon key='m16a4.weapon' />

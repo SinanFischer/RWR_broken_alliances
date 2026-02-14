@@ -1,4 +1,4 @@
-# Captain/Bodyguard – AngelScript-API für RWR
+# Captain/Bodyguard - AngelScript-API für RWR
 
 Referenz für Captain-Spawn, Befehle, Instanz-Tracking und Tod-Events.
 
@@ -19,7 +19,7 @@ Gibt einem Soldaten ein Ziel:
 
 **Bekannte objectives:** `defend`, `protect`
 
-**Beispiel – Basis verteidigen:**
+**Beispiel - Basis verteidigen:**
 ```cpp
 m_metagame.getComms().send(
   "<command class='soldier_objective' character_id='" + characterId + 
@@ -39,7 +39,7 @@ array<int> m_bodyguardIds;
 
 ### ID nach Spawn ermitteln
 
-**Option A – character_spawn-Event** (create_instance mit `event='1'`):
+**Option A - character_spawn-Event** (create_instance mit `event='1'`):
 
 ```xml
 <command class='create_instance' instance_class='soldier' instance_key='captain' 
@@ -48,7 +48,7 @@ array<int> m_bodyguardIds;
 
 Dann `handleCharacterSpawnEvent` überschreiben und `character_id` auslesen.
 
-**Option B – Query nach Spawn** (wie kill_commander):
+**Option B - Query nach Spawn** (wie kill_commander):
 
 ```cpp
 array<const XmlElement@>@ characters = getCharacters(m_metagame, factionId);
@@ -80,7 +80,7 @@ protected void handleCharacterDieEvent(const XmlElement@ event) {
   
   if (deadId == m_captainId) {
     m_captainId = -1;
-    // Captain gestorben – Respawn, Nachricht etc.
+    // Captain gestorben - Respawn, Nachricht etc.
   }
   for (uint i = 0; i < m_bodyguardIds.length(); ++i) {
     if (m_bodyguardIds[i] == deadId) {
@@ -104,9 +104,9 @@ Es gibt **keinen** expliziten `join_squad`-Befehl. **Kill_commander-Pattern:** p
 
 **Ablauf im captain_spawn_command_tracker:**
 
-1. **m_captainSpawnPosition** – beim Spawn speichern; Captain erhält `defend` darauf
-2. **findBodyguardsNearCaptain(pos)** – `getCharactersNearPosition` (105m Radius) + Filter `soldier_group_name == "orange_bodyguards"`
-3. **setBodyguardsOnDefend(captainPosition, "defend")** – für jede lebende ID: `soldier_objective ... objective='defend' target=Captain-Position`
+1. **m_captainSpawnPosition** - beim Spawn speichern; Captain erhält `defend` darauf
+2. **findBodyguardsNearCaptain(pos)** - `getCharactersNearPosition` (105m Radius) + Filter `soldier_group_name == "orange_bodyguards"`
+3. **setBodyguardsOnDefend(captainPosition, "defend")** - für jede lebende ID: `soldier_objective ... objective='defend' target=Captain-Position`
 4. Alle 5 s: `setCaptainObjective(m_captainSpawnPosition, "defend")` + `setBodyguardsOnDefend(captainPos, "defend")`
 
 **Marker bei Captain-Tod entfernen:** `handleCharacterKillEvent` → wenn `target.id == m_captainId`, `cleanupOnCaptainGone()` (Marker aus, State zurückgesetzt).
@@ -137,11 +137,11 @@ Analog: `evil_commander_base.character`, `easterbunny.character`, `snowman.chara
 
 ## 7. Enemy-Sighting → Marker für Feinde
 
-**Einschränkung:** Die RWR AngelScript-API bietet **kein Event** für „Spieler hat Gegner mit Mauszeiger gesichtet“. Es gibt u.a. `character_spawn`, `character_die`, `character_kill` – kein `character_spotted` oder `target_changed`.
+**Einschränkung:** Die RWR AngelScript-API bietet **kein Event** für „Spieler hat Gegner mit Mauszeiger gesichtet“. Es gibt u.a. `character_spawn`, `character_die`, `character_kill` - kein `character_spotted` oder `target_changed`.
 
 **Folge:** Ein Marker, der **nur nach Sichtung** für die entdeckende Fraktion erscheint, ist per Script **nicht umsetzbar**.
 
-**Möglicher Workaround:** Zusätzlichen Marker mit `faction_id = Feindfraktion` und `atlas_index = 18` (Enemy Commander) setzen – der Captain wäre dann **dauerhaft** auf der Feindkarte sichtbar, nicht erst nach Sichtung.
+**Möglicher Workaround:** Zusätzlichen Marker mit `faction_id = Feindfraktion` und `atlas_index = 18` (Enemy Commander) setzen - der Captain wäre dann **dauerhaft** auf der Feindkarte sichtbar, nicht erst nach Sichtung.
 
 ---
 

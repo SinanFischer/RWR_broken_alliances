@@ -1,4 +1,4 @@
-# Respawn-Slot-Delay & Slots-per-Death – aktuelles System
+# Respawn-Slot-Delay & Slots-per-Death - aktuelles System
 
 ---
 
@@ -17,15 +17,15 @@ Pro Tod einer Fraktion werden **so viele** Slots für die Dauer des Delays als �
 | Eigene Capacity der Fraktion (sterbend) | Slots pro Tod (Basis) |
 |----------------------------------------|------------------------|
 | &lt; 70 | 1 |
-| 70 – 120 | 2 |
-| 121 – 200 | 3 |
-| 201 – 250 | 4 |
-| 251 – 299 | 5 |
+| 70 - 120 | 2 |
+| 121 - 200 | 3 |
+| 201 - 250 | 4 |
+| 251 - 299 | 5 |
 | ≥ 300 | 6 |
 
 **Führer-Bonus:** Führende Fraktion (ermittelt alle 15 s via Alive-Zahl) +2 Slots → verliert pro Tod 2 Slots mehr als die Tabelle.
 
-- **Beispiel 99 vs 250, 250 ist führend:** 250er-Fraktion: 4 + 2 = 6 Slots pro Tod; 99er-Fraktion (70–120): 2 Slots (ohne Führer).
+- **Beispiel 99 vs 250, 250 ist führend:** 250er-Fraktion: 4 + 2 = 6 Slots pro Tod; 99er-Fraktion (70-120): 2 Slots (ohne Führer).
 - **Implementierung:** `getSlotsPerDeathForCapacity(factionCap)`; in `flushPendingDeaths()` Basis + ggf. `+2` wenn `fid == m_leaderFactionId`.
 
 ---
@@ -34,7 +34,7 @@ Pro Tod einer Fraktion werden **so viele** Slots für die Dauer des Delays als �
 
 - **Basis (pro Fraktion):** Die **Basis-Dauer** der Blockade hängt von der **Anzahl Basen** der Fraktion ab (nur für diese Fraktion):  
   **1 Basis** → 2 s, **2 Basen** → 5 s, **3+ Basen** → `RESPAWN_SLOT_DELAY` (z. B. 15 s).  
-  So haben stark unterlegene Fraktionen (nur noch 1–2 Basen) kürzeres Respawn-Delay.
+  So haben stark unterlegene Fraktionen (nur noch 1-2 Basen) kürzeres Respawn-Delay.
 - **Extra bei Überlegenheit:** Alle 15 s wird pro Fraktion ermittelt, ob sie mehr lebende Truppen hat als die zweitstärkste. Wenn ja:  
   `extraDelay = (Vorsprung / TROOPS_PER_EXTRA_BLOCK) × EXTRA_SECONDS_PER_BLOCK`  
   (z. B. alle 25 Truppen Vorsprung = 4 s länger).  
@@ -54,7 +54,7 @@ Pro Tod einer Fraktion werden **so viele** Slots für die Dauer des Delays als �
 ## 4. Ablauf (kurz)
 
 1. **character_die** → `addPendingDeath(factionId)` (Zähler pro Fraktion).
-2. **Jedes update:** `flushPendingDeaths()` – pro Fraktion mit Toden: `slotsPerDeath = getSlotsPerDeathForCapacity(rawCap)`; wenn Fraktion = Führer, `slotsPerDeath += 2`; für jeden Tod werden `slotsPerDeath` viele Zeitstempel angehängt.
+2. **Jedes update:** `flushPendingDeaths()` - pro Fraktion mit Toden: `slotsPerDeath = getSlotsPerDeathForCapacity(rawCap)`; wenn Fraktion = Führer, `slotsPerDeath += 2`; für jeden Tod werden `slotsPerDeath` viele Zeitstempel angehängt.
 3. **Alle 15 s:** Alive-Zahlen pro Fraktion; Führer = erste Fraktion mit max Alive (`m_leaderFactionId`); für jede Fraktion mit mehr Alive als die zweitstärkste wird `extraDelaySeconds` gesetzt.
 4. **Alle 1 s:** `getReservedSlots(fid)` = Anzahl Zeitstempel mit `(now - t) ≤ RESPAWN_SLOT_DELAY + getExtraDelaySeconds(fid)`; dann `effective = rawCap − reserved`, `capacity_multiplier = effective/rawCap` → `change_game_settings`.
 5. **Prune:** Alte Zeitstempel außerhalb des effektiven Delays werden periodisch entfernt, damit die Liste nicht unbegrenzt wächst.

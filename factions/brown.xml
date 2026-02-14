@@ -386,7 +386,7 @@
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
 			<item_class_existence class="projectile" slot="0" probability="1.0" />
-			<!-- Weste Stufe 1–4 oder keine (85 % Weste, 15 % ohne) -->
+			<!-- Weste Stufe 1-4 oder keine (85 % Weste, 15 % ohne) -->
 			<item_class_existence class="carry_item" slot="1" probability="0.85" />
 		</item_class_existence_config>
 
@@ -488,7 +488,7 @@
 	</soldier>    
 
 	<!-- -------------- -->
-	<!-- Captain (Leader vorne, orange) – SF/EOD Weste -->
+	<!-- Captain (Leader vorne, orange) - SF/EOD Weste -->
 	<!-- -------------- -->
 	<soldier name="captain" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="captain_firstname.txt" lastnames_file="captain_lastname.txt">
 		<character filename="captain.character" />
@@ -505,7 +505,7 @@
 	</soldier>
 
 	<!-- -------------- -->
-	<!-- orange_bodyguards (Bodyguard) – Captain bis Colonel (Rang 1.0–2.0) -->
+	<!-- orange_bodyguards (Bodyguard) - Captain bis Colonel (Rang 1.0-2.0) -->
 	<!-- -------------- -->
 	<soldier name="orange_bodyguards" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="general_firstname.txt" lastnames_file="german_lastnames.txt">
 		<character filename="default_miniboss_male.character" />
@@ -522,7 +522,7 @@
 	</soldier>
 
 	<!-- -------------- -->
-	<!-- Dog (Kampfhund, Vanilla-Assets) – spawn_score 0.04 (~4%) für alle Fraktionen -->
+	<!-- Dog (Kampfhund, Vanilla-Assets) - spawn_score 0.04 (~4%) für alle Fraktionen -->
 	<!-- -------------- -->
 	<soldier name="dog" spawn_score="0.04" squad_size_xp_cap="0.0" firstnames_file="dog_firstnames.txt" lastnames_file="dog_lastnames.txt">
 		<character filename="dog.character" />

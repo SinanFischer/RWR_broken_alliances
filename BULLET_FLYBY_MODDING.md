@@ -2,7 +2,7 @@
 
 ## Kurzfassung
 
-- **Bullet-Flyby-Sound bei Treffer:** Umgesetzt – bei `player_wound` wird ein Zusatz-Sound an der Spielerposition abgespielt (`scripts/trackers/bullet_flyby_effect.as`).
+- **Bullet-Flyby-Sound bei Treffer:** Umgesetzt - bei `player_wound` wird ein Zusatz-Sound an der Spielerposition abgespielt (`scripts/trackers/bullet_flyby_effect.as`).
 - **Echter Near-Miss (Kugel fliegt vorbei, kein Treffer):** **Nicht möglich** mit der aktuellen RWR-Script-API. Die Engine sendet kein Event für „Projektil kam Spieler nah, ohne zu treffen“.
 - **Kamera-Shake:** In Vanilla-Scripts und -Comms gibt es **keinen** Befehl wie `camera_shake` oder `screen_effect`. Ohne Engine-Änderung oder undokumentierten Client-Befehl ist Shake per Mod derzeit nicht umsetzbar.
 

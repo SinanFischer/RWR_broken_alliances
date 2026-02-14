@@ -1,6 +1,6 @@
 // Bullet-Flyby-Effekt: Bei Spieler-Treffer (player_wound) Zusatz-Sound an Spielerposition.
 // Echter "Near-Miss" (Kugel fliegt vorbei ohne Treffer) ist mit der aktuellen Script-API nicht
-// möglich – die Engine sendet kein Event für nahe vorbeifliegende Projektile.
+// möglich - die Engine sendet kein Event für nahe vorbeifliegende Projektile.
 
 #include "tracker.as"
 #include "helpers.as"

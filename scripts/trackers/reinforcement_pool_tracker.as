@@ -1,5 +1,5 @@
 // =============================================================================
-// *** INAKTIV – DIESER TRACKER WIRD NICHT GENUTZT ***
+// *** INAKTIV - DIESER TRACKER WIRD NICHT GENUTZT ***
 // Der ReinforcementPoolTracker ist in allen Gamemodes auskommentiert und wird
 // nirgends eingebunden (gamemode_invasion.as, gamemode_quick_match.as, my_gamemode.as).
 // Die Logik in dieser Datei hat aktuell keine Wirkung im Spiel.
@@ -7,7 +7,7 @@
 //
 // Reinforcement-Pool-Tracker: Nachschub begrenzt pro Fraktion; bei 0 kein Spawn mehr.
 // Pool-Abzug bei jedem Tod (character_die, inkl. Artillerie/Umwelt), nicht bei Spawn.
-// Eroberungs-Bonus: sofort voll (25/50/100) – kein 5-Min-Puffer mehr.
+// Eroberungs-Bonus: sofort voll (25/50/100) - kein 5-Min-Puffer mehr.
 // Haltungsbonus: nur während Spawn AUS alle 10 s pro Basis in Akkumulator (Side 0.2, Outpost 0.4, HQ 1.0); beim Öffnen (AUS→AN) in Pool + Commander-Meldung. Pool mit Kommarest (z. B. 15.2 → 15 ausgeben, 0.2 bleibt).
 
 // =============================================================================
@@ -32,15 +32,15 @@ const float DEFENDER_TRICKLE_MEDIUM = 2.56f; // Outpost: 2.56 pro 10 s
 const float DEFENDER_TRICKLE_STRONG = 4.8f;  // HQ: 4.8 pro 10 s
 // AUS-Phase direkt nach MajorAttack: 5.6x Trickle (3.5 * 1.6).
 const float TRICKLE_MULTIPLIER_AFTER_MAJOR_ATTACK = 5.6f;
-// Basis-Verlust: Nachschub-Penalty zufaellig, gleiche Bereiche wie Eroberungs-Bonus (Side 5–10, Medium 10–20, HQ 20–30).
+// Basis-Verlust: Nachschub-Penalty zufaellig, gleiche Bereiche wie Eroberungs-Bonus (Side 5-10, Medium 10-20, HQ 20-30).
 const int LOSS_PENALTY_SIDE_MIN = 5;
 const int LOSS_PENALTY_SIDE_MAX = 10;
 const int LOSS_PENALTY_MEDIUM_MIN = 10;
 const int LOSS_PENALTY_MEDIUM_MAX = 20;
 const int LOSS_PENALTY_STRONG_MIN = 20;
 const int LOSS_PENALTY_STRONG_MAX = 30;
-// Fahrzeug-Verlust: Angreifer (Besitzer) verliet Nachschub – Ausgleich wenn Panzer/APC alles niedermähen.
-const int VEHICLE_PENALTY_TANK_BIG = 10;   // tank_1, tank_2: 5–15, hier Mittelwert 10 (Variante: rand(5,15))
+// Fahrzeug-Verlust: Angreifer (Besitzer) verliet Nachschub - Ausgleich wenn Panzer/APC alles niedermähen.
+const int VEHICLE_PENALTY_TANK_BIG = 10;   // tank_1, tank_2: 5-15, hier Mittelwert 10 (Variante: rand(5,15))
 const int VEHICLE_PENALTY_TANK = 10;        // tank (ohne _1/_2)
 const int VEHICLE_PENALTY_VULCAN = 5;
 const int VEHICLE_PENALTY_APC = 4;
@@ -51,7 +51,7 @@ const string REINFORCEMENT_POOL_SAVE_LOCATION = "savegame";  // "savegame" = pro
 const float REINFORCEMENT_POOL_SAVE_INTERVAL = 60.0f;       // alle 60 s speichern
 // Marker auf der Karte: Base-Wert (Side/Medium/Strong) an Basis-Position. ID-Bereich 40000+ baseId (Intel nutzt 5000+).
 const int BASE_VALUE_MARKER_ID_OFFSET = 40000;
-// Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query – max. 2×/s, damit Killstreaks schneller sichtbar sind.
+// Score-Anzeige bei Kills throttlen: getCharacters() pro Fraktion ist eine Engine-Query - max. 2×/s, damit Killstreaks schneller sichtbar sind.
 const float SCORE_DISPLAY_THROTTLE = 0.5f;
 // Alle 60 s: getCharacters() fuer alle Fraktionen, Anzeige neu setzen (Recheck falls Zahl nicht stimmt).
 const float SCORE_RECHECK_INTERVAL = 60.0f;
@@ -80,7 +80,7 @@ const float CAPACITY_NERF_ABOVE_AVG = 0.65f;
 // Max Verhaeltnis staerkste zu schwaechster Fraktion (Cap auf dem Schlachtfeld). 1.25 = ca. 55/45, verhindert 220 vs 70.
 // minEffective aus ALLEN Fraktionen (nicht nur canSpawn), damit Kappung auch gilt wenn schwache Fraktion keinen Nachschub mehr hat.
 const float CAPACITY_MAX_VS_MIN_RATIO = 1.25f;
-// Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512–1536; bei kleineren Maps Marker evtl. am Rand.
+// Status-Marker auf der Karte (rechte obere Ecke): Weltposition "x y z". Typische Map-Groesse 512-1536; bei kleineren Maps Marker evtl. am Rand.
 const int STATUS_MARKER_ID_BASE = 45000;
 const string STATUS_MARKER_POSITION = "1500 0 50";
 class ReinforcementPoolTracker : Tracker {
@@ -150,8 +150,8 @@ class ReinforcementPoolTracker : Tracker {
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
 
-	// Bonus nach Schwierigkeit (Key lowercase). Ergebnis pro baseId cachen – Basis-Key ändert sich nicht.
-	// Reine Key-Logik aus Map-Daten – keine dynamische Anpassung (z. B. "letzte Basis = Strong").
+	// Bonus nach Schwierigkeit (Key lowercase). Ergebnis pro baseId cachen - Basis-Key ändert sich nicht.
+	// Reine Key-Logik aus Map-Daten - keine dynamische Anpassung (z. B. "letzte Basis = Strong").
 	int getBaseBonus(const XmlElement@ base) {
 		if (base is null) return BASE_BONUS_DEFAULT;
 		string key = base.getStringAttribute("key").toLowerCase();
@@ -238,7 +238,7 @@ class ReinforcementPoolTracker : Tracker {
 		return bonus;
 	}
 
-	// Eroberungs-Bonus zufaellig, verdoppelt: Side 10–20, Medium 20–40, HQ 40–60 (Verlust nutzt LOSS_PENALTY_*).
+	// Eroberungs-Bonus zufaellig, verdoppelt: Side 10-20, Medium 20-40, HQ 40-60 (Verlust nutzt LOSS_PENALTY_*).
 	int getCaptureBonusRandom(int baseId, const XmlElement@ base) {
 		int cat = getBaseBonusCached(baseId, base);
 		if (cat >= BASE_BONUS_STRONG) return rand(40, 60);
@@ -246,7 +246,7 @@ class ReinforcementPoolTracker : Tracker {
 		return rand(10, 20);
 	}
 
-	// Haltungsbonus: pro gehaltener Basis alle 10 s (nur während Spawn AUS) – Beitrag zum Akkumulator.
+	// Haltungsbonus: pro gehaltener Basis alle 10 s (nur während Spawn AUS) - Beitrag zum Akkumulator.
 	float getDefenderTricklePer10s(int bonusCategory) {
 		if (bonusCategory == BASE_BONUS_STRONG) return DEFENDER_TRICKLE_STRONG;
 		if (bonusCategory == BASE_BONUS_MEDIUM) return DEFENDER_TRICKLE_MEDIUM;
@@ -349,7 +349,7 @@ class ReinforcementPoolTracker : Tracker {
 		m_baseGrantedOwner[baseGrantedKey(baseId) + "_owner"] = ownerId;
 	}
 
-	// AUS-Dauer aus Capacity: 200 Soldaten = 90 s, +0.5 s pro Soldat darueber, Clamp 60–180 s. Einmal berechnet.
+	// AUS-Dauer aus Capacity: 200 Soldaten = 90 s, +0.5 s pro Soldat darueber, Clamp 60-180 s. Einmal berechnet.
 	float getSpawnClosedDuration() {
 		if (m_spawnClosedDuration >= 0.0f) return m_spawnClosedDuration;
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
@@ -381,14 +381,14 @@ class ReinforcementPoolTracker : Tracker {
 				m_scoreDisplayDirty = true;
 			}
 		}
-		// Score-Anzeige (Lebend · Nachschub): bei Kill/Die-Events dirty, dann alle 0,5 s getCharacters() – lebend = immer aktuelle Engine-Abfrage, kein Cache
+		// Score-Anzeige (Lebend · Nachschub): bei Kill/Die-Events dirty, dann alle 0,5 s getCharacters() - lebend = immer aktuelle Engine-Abfrage, kein Cache
 		m_scoreDisplayAccum += time;
 		if (m_scoreDisplayDirty && m_scoreDisplayAccum >= SCORE_DISPLAY_THROTTLE) {
 			m_scoreDisplayAccum = 0.0f;
 			m_scoreDisplayDirty = false;
 			updateScoreDisplay();
 		}
-		// Alle 60 s: Recheck – getCharacters() fuer alle Fraktionen, Anzeige neu setzen (Zahl kann nachziehen).
+		// Alle 60 s: Recheck - getCharacters() fuer alle Fraktionen, Anzeige neu setzen (Zahl kann nachziehen).
 		if (m_initialAnnounceDone) {
 			m_recheckAccum += time;
 			if (m_recheckAccum >= SCORE_RECHECK_INTERVAL) {
@@ -446,7 +446,7 @@ class ReinforcementPoolTracker : Tracker {
 			m_capacityReapplyAccum = 0.0f;
 			applySpawnWindowState(m_spawnWindowOpen, m_grossangriffActive, true);
 		}
-		// Spawn-Fenster: 30 s an, dann AUS (72–192 s). Alle 4 Zyklen = Großangriff (30 s mit 2x Kapazität + Commander-Meldung).
+		// Spawn-Fenster: 30 s an, dann AUS (72-192 s). Alle 4 Zyklen = Großangriff (30 s mit 2x Kapazität + Commander-Meldung).
 		m_spawnWindowAccum += time;
 		if (!m_spawnWindowStateApplied) {
 			m_spawnWindowStateApplied = true;
@@ -577,7 +577,7 @@ class ReinforcementPoolTracker : Tracker {
 		}
 	}
 
-	// Farbe für Score-Anzeige: 1) Faction-XML color, 2) anhand Name/Key (green/grey/brown) – immer fraktionsbezogen, nie nur Slot.
+	// Farbe für Score-Anzeige: 1) Faction-XML color, 2) anhand Name/Key (green/grey/brown) - immer fraktionsbezogen, nie nur Slot.
 	string getScoreDisplayColor(const XmlElement@ faction, int factionId) {
 		if (faction !is null) {
 			string color = faction.getStringAttribute("color");
@@ -906,7 +906,7 @@ class ReinforcementPoolTracker : Tracker {
 				updateScoreDisplay();
 				announceThreshold(previousOwnerId, int(newPool));
 				sendFactionMessage(m_metagame, previousOwnerId, "We lost " + baseName + ". -" + penalty + " reinforcements.", 0.95);
-				_log("ReinforcementPool: Basis " + baseId + " verloren – Faction " + previousOwnerId + " -" + penalty + " Nachschub (verbleibend " + int(newPool) + ").", 0);
+				_log("ReinforcementPool: Basis " + baseId + " verloren - Faction " + previousOwnerId + " -" + penalty + " Nachschub (verbleibend " + int(newPool) + ").", 0);
 				if (newPool <= 0 && !isSpawnDisabled(previousOwnerId)) {
 					disableSpawnForFaction(previousOwnerId);
 					setSpawnDisabled(previousOwnerId);
@@ -921,12 +921,12 @@ class ReinforcementPoolTracker : Tracker {
 			setBaseGranted(baseId, float(bonus));
 			setBaseGrantedOwner(baseId, newOwnerId);
 			updateScoreDisplay();
-			_log("ReinforcementPool: Base " + baseId + " erobert – Faction " + newOwnerId + " +" + bonus + " sofort.", 0);
+			_log("ReinforcementPool: Base " + baseId + " erobert - Faction " + newOwnerId + " +" + bonus + " sofort.", 0);
 			sendFactionMessage(m_metagame, newOwnerId, "We captured " + baseName + ". +" + bonus + " reinforcements.", 0.95);
 			// Spawn wieder aktivieren, wenn Fraktion sich von 0 hochspielt
 			if (getPoolForFaction(newOwnerId) > 0 && isSpawnDisabled(newOwnerId)) {
 				enableSpawnForFaction(newOwnerId);
-				_log("ReinforcementPool: Faction " + newOwnerId + " – Spawn wieder aktiviert (Pool > 0 nach Eroberung).", 0);
+				_log("ReinforcementPool: Faction " + newOwnerId + " - Spawn wieder aktiviert (Pool > 0 nach Eroberung).", 0);
 			}
 		}
 
@@ -948,12 +948,12 @@ class ReinforcementPoolTracker : Tracker {
 		setPoolForFaction(ownerId, newPool);
 		updateScoreDisplay();
 		announceThreshold(ownerId, int(newPool));
-		_log("ReinforcementPool: Fahrzeug " + vehicleKey + " zerstört – Faction " + ownerId + " -" + penalty + " Nachschub (verbleibend " + int(newPool) + ").", 0);
+		_log("ReinforcementPool: Fahrzeug " + vehicleKey + " zerstört - Faction " + ownerId + " -" + penalty + " Nachschub (verbleibend " + int(newPool) + ").", 0);
 		if (newPool <= 0 && !isSpawnDisabled(ownerId)) {
 			disableSpawnForFaction(ownerId);
 			setSpawnDisabled(ownerId);
 		}
-		// Meldung an Zerstörer-Fraktion (wenn anders als Besitzer): „We destroyed tank.“ – gleiche Anzeige wie „Spiel gespeichert“/Commander (Engine legt Position fest).
+		// Meldung an Zerstörer-Fraktion (wenn anders als Besitzer): „We destroyed tank.“ - gleiche Anzeige wie „Spiel gespeichert“/Commander (Engine legt Position fest).
 		if (killerFactionId >= 0 && killerFactionId != ownerId) {
 			string vehicleName = getVehicleDisplayName(vehicleKey);
 			sendFactionMessage(m_metagame, killerFactionId, "We destroyed " + vehicleName + ".", 0.9);
@@ -991,7 +991,7 @@ class ReinforcementPoolTracker : Tracker {
 		updateScoreDisplay();
 	}
 
-	// Spawn: Nachschub wird nicht mehr abgezogen – Abzug nur bei Tod (character_die).
+	// Spawn: Nachschub wird nicht mehr abgezogen - Abzug nur bei Tod (character_die).
 	protected void handleCharacterSpawnEvent(const XmlElement@ event) {
 		m_scoreDisplayDirty = true;
 		updateScoreDisplay();
@@ -1117,7 +1117,7 @@ class ReinforcementPoolTracker : Tracker {
 		m_metagame.getComms().send(command);
 		if (!silent) {
 			if (grossangriff && open)
-				_log("ReinforcementPool: MajorAttack – Spawn 30 s mit 2x Kapazität.", 0);
+				_log("ReinforcementPool: MajorAttack - Spawn 30 s mit 2x Kapazität.", 0);
 			else
 				_log("ReinforcementPool: Spawn-Fenster " + (open ? "AN (5x)" : "AUS") + ".", 0);
 		}
@@ -1132,10 +1132,10 @@ class ReinforcementPoolTracker : Tracker {
 	}
 
 	// Spawn für Fraktion abschalten. Immer vollen Zustand für ALLE Fraktionen senden (wie applySpawnWindowState),
-	// damit die Engine keine leeren <faction/>-Elemente bekommt – die können den Basis-Capture-Timer zurücksetzen.
+	// damit die Engine keine leeren <faction/>-Elemente bekommt - die können den Basis-Capture-Timer zurücksetzen.
 	void disableSpawnForFaction(int factionId) {
 		setSpawnDisabled(factionId);
 		applySpawnWindowState(m_spawnWindowOpen);
-		_log("ReinforcementPool: Faction " + factionId + " – Nachschub aufgebraucht, Spawn deaktiviert.", 0);
+		_log("ReinforcementPool: Faction " + factionId + " - Nachschub aufgebraucht, Spawn deaktiviert.", 0);
 	}
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Captain AI: Leader vorne, startet mit Guard – wird von orange_bodyguards bewacht -->
+<!-- Captain AI: Leader vorne, startet mit Guard - wird von orange_bodyguards bewacht -->
 <ai filename="default_soldiers.ai">
 	<parameter class="force_as_leader" value="1" />
 	<!-- Sicht: Leader-Sicht erhöht -->
@@ -16,7 +16,7 @@
 	<parameter class="choose_enemy_time" value="0.45" />
 	<parameter class="monitor_enemies_time" value="0.5" />
 
-	<!-- Basis verteidigen – 100% Guard, NICHT zu Alarmen/angreifenden Zielen laufen (Dog/Chicken-Pattern) -->
+	<!-- Basis verteidigen - 100% Guard, NICHT zu Alarmen/angreifenden Zielen laufen (Dog/Chicken-Pattern) -->
 	<parameter class="active_guarding_probability" value="1.0" />
 	<parameter class="willingness_to_guard" value="1.0" />
 	<parameter class="willingness_to_charge" value="0.0" />

@@ -4,9 +4,9 @@ Jede Fraktion hat **1 Leicht-MG** (5.56/5.45) und **1 Schwer-MG** (7.62). EU hat
 
 ---
 
-## Tabelle 1 – Leichtes MG (5.56 / 5.45)
+## Tabelle 1 - Leichtes MG (5.56 / 5.45)
 
-| Eigenschaft        | **EU – MG4**   | **US – M249 Para** | **RU – RPK-74M**   |
+| Eigenschaft        | **EU - MG4**   | **US - M249 Para** | **RU - RPK-74M**   |
 |--------------------|----------------|--------------------|--------------------|
 | **Kaliber**        | 5.56×45        | 5.56×45            | 5.45×39            |
 | **retrigger_time** | **0.075**      | 0.092              | 0.10               |
@@ -24,20 +24,20 @@ Jede Fraktion hat **1 Leicht-MG** (5.56/5.45) und **1 Schwer-MG** (7.62). EU hat
 
 ---
 
-## Tabelle 2 – Schweres MG (7.62)
+## Tabelle 2 - Schweres MG (7.62)
 
-| Eigenschaft        | **EU**      | **US – M240** | **RU – PKP Pecheneg** |
+| Eigenschaft        | **EU**      | **US - M240** | **RU - PKP Pecheneg** |
 |--------------------|------------|---------------|------------------------|
-| **Kaliber**        | –          | 7.62 NATO     | 7.62×54R               |
-| **retrigger_time** | –          | 0.12          | 0.12                   |
-| **Kadenz (rpm)**   | –          | ~500          | ~500                   |
-| **accuracy_factor**| –          | 0.90          | 0.90                   |
-| **magazine_size**  | –          | 90            | 100                    |
-| **kill_probability** | –        | **0.89**      | 0.82                   |
-| **projectile_speed** | –        | 108           | 108                    |
-| **encumbrance**    | –          | **13**        | **9**                   |
-| **speed modifier** | –          | **-0.16**     | **-0.11**               |
-| **prone accuracy** | –          | 1.0           | 1.0                    |
+| **Kaliber**        | -          | 7.62 NATO     | 7.62×54R               |
+| **retrigger_time** | -          | 0.12          | 0.12                   |
+| **Kadenz (rpm)**   | -          | ~500          | ~500                   |
+| **accuracy_factor**| -          | 0.90          | 0.90                   |
+| **magazine_size**  | -          | 90            | 100                    |
+| **kill_probability** | -        | **0.89**      | 0.82                   |
+| **projectile_speed** | -        | 108           | 108                    |
+| **encumbrance**    | -          | **13**        | **9**                   |
+| **speed modifier** | -          | **-0.16**     | **-0.11**               |
+| **prone accuracy** | -          | 1.0           | 1.0                    |
 
 **Gefühl:** M240 ist **deutlich schwerer** (enc 13, **-16 % Lauf**) und bremst stark; PKP leichter (enc 9, -11 % Lauf) und mobiler. M240 hat **mehr Kill-Wahrscheinlichkeit** (0.89 vs. 0.82), PKP größeres Magazin (100 vs. 90). EU hat im Mod kein eigenes 7.62-MG.
 

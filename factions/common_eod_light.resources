@@ -2,7 +2,7 @@
 <resources clear_weapons="1">
 	<!-- EOD Light: eigener Waffen-Pool (kein common/faction-Pool), nur diese Waffen -->
 	<weapon key="medikit.weapon" />
-	<!-- Slot 1 (Zweitwaffen): Panzerabwehr priorisiert – Javelin, M72 LAW, RPG-7, SMAW + 2 Support-Optionen -->
+	<!-- Slot 1 (Zweitwaffen): Panzerabwehr priorisiert - Javelin, M72 LAW, RPG-7, SMAW + 2 Support-Optionen -->
 	<weapon key="javelin.weapon" />
 	<weapon key="m72_law.weapon" />
 	<weapon key="rpg-7.weapon" />
@@ -10,7 +10,7 @@
 	<weapon key="gl_resource.weapon" />
 	<weapon key="mg_resource.weapon" />
 	<weapon key="mgl_flasher.weapon" />
-	<!-- Slot 0 (Primaries) – Basis + Brown: Dragunov, RPK, PKM, AUG, SG552, APR, Pecheneg, SV98, Saiga -->
+	<!-- Slot 0 (Primaries) - Basis + Brown: Dragunov, RPK, PKM, AUG, SG552, APR, Pecheneg, SV98, Saiga -->
 	<weapon key="honey_badger.weapon" />
 	<weapon key="f2000.weapon" />
 	<weapon key="vss_vintorez.weapon" />
@@ -47,7 +47,7 @@
 	<weapon key="caws.weapon" />
 	<!-- Wurf-Slot 0: Mit Chance Wiesel-Flare (Wiesel-Drop) -->
 	<projectile key="wiesel_flare.projectile" />
-	<!-- Alle Westen (1–4) + Möglichkeit auf keine (über probability in item_class_existence) -->
+	<!-- Alle Westen (1-4) + Möglichkeit auf keine (über probability in item_class_existence) -->
 	<carry_item key="vest1.carry_item" />
 	<carry_item key="vest2.carry_item" />
 	<carry_item key="vest3.carry_item" />

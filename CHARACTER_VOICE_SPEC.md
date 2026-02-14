@@ -1,8 +1,8 @@
-# Character Voice & Redeweisen – Spezifikation
+# Character Voice & Redeweisen - Spezifikation
 
-**Ziel:** Truppenspezifische, immersive Kommentare für Russland, USA und Europa – einheitlich nach Typen und Stilen strukturiert.
+**Ziel:** Truppenspezifische, immersive Kommentare für Russland, USA und Europa - einheitlich nach Typen und Stilen strukturiert.
 
-**Sprachregel:** Grundsätzlich **Englisch** für alle Fraktionen. Russische/EU-Wörter nur **gelegentlich** als Würze (z.B. Cyka, Blyat, NEIN, Scheiße) – so dass englischsprachige Spieler es verstehen oder zumindest den Ton erfassen.
+**Sprachregel:** Grundsätzlich **Englisch** für alle Fraktionen. Russische/EU-Wörter nur **gelegentlich** als Würze (z.B. Cyka, Blyat, NEIN, Scheiße) - so dass englischsprachige Spieler es verstehen oder zumindest den Ton erfassen.
 
 ---
 
@@ -80,7 +80,7 @@
 
 ---
 
-## Politisch/Insider – Kategorie 8 (Beispiele, nicht vollständig)
+## Politisch/Insider - Kategorie 8 (Beispiele, nicht vollständig)
 
 ### Russland
 - Putin, Mobilisierung, "Special Military Operation"
@@ -103,7 +103,7 @@
 - "Another emergency summit"
 - Bürokratie-Witze
 
-**Hinweis:** Anspielungen dezent halten – verständlich für Insider, aber nicht aufdringlich. Humor > Polemik.
+**Hinweis:** Anspielungen dezent halten - verständlich für Insider, aber nicht aufdringlich. Humor > Polemik.
 
 ---
 
@@ -111,7 +111,7 @@
 
 | Typ | Anteil | Begründung |
 |-----|--------|------------|
-| Militärisch | 25% | Kerngameplay – klar, funktional |
+| Militärisch | 25% | Kerngameplay - klar, funktional |
 | Brutal/Panisch | 25% | Immersion, Realismus |
 | Kameradschaftlich | 15% | Emotionale Tiefe |
 | Kulturell | 10% | Fraktions-Flair |
@@ -144,7 +144,7 @@
 1. **Phase 1:** Medic! und I feel good! pro Fraktion nach dieser Spec überarbeiten
 2. **Phase 2:** Hold on!, Reloading, enemy seen ergänzen
 3. **Phase 3:** Restliche Keys nach Priorität
-4. **Phase 4:** Balancing – zu viele Insider? Zu wenig Kultur? Testen & feintunen
+4. **Phase 4:** Balancing - zu viele Insider? Zu wenig Kultur? Testen & feintunen
 
 ---
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Zusaetzliche Westen fuer die Waffenkammer (Default-Gruppe).
      Kein clear_carry_items: wird NACH default_vests.resources geladen, ergaenzt also den Slot-1-Pool.
-     Default-Soldaten spawnen weiter nur vest_default, da vest1–4 etc. commonness="0.0" haben. -->
+     Default-Soldaten spawnen weiter nur vest_default, da vest1-4 etc. commonness="0.0" haben. -->
 <resources>
 	<carry_item key="vest1.carry_item" enabled="1" />
 	<carry_item key="vest2.carry_item" enabled="1" />

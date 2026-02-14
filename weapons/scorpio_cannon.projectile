@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mod: FV101 Scorpio – radius 4, damage 3.01 (Vanilla 3.3 / 2.01); eher anti-Person -->
+<!-- Mod: FV101 Scorpio - radius 4, damage 3.01 (Vanilla 3.3 / 2.01); eher anti-Person -->
 <projectile class="grenade" name="Scorpio 76mm HESH" slot="1" pulldown_in_air="8.0" key="scorpio_cannon.projectile">
     <tag name="rocket"/>
     <result class="blast" 

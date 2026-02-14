@@ -1,4 +1,4 @@
-# Sustained-Fire-Analyse – Total Conversion Mod
+# Sustained-Fire-Analyse - Total Conversion Mod
 
 ## Parameter-Erklärung
 
@@ -7,7 +7,7 @@
 
 ## Burst-Kontext
 
-Typische AI-Bursts: **0,3–1,5 Sekunden**. In 1 Sekunde:
+Typische AI-Bursts: **0,3-1,5 Sekunden**. In 1 Sekunde:
 - G36 (RT 0,088): ~11 Schüsse
 - M16A4 (RT 0,115): ~9 Schüsse
 - Kriss Vector (RT 0,071): ~14 Schüsse
@@ -27,13 +27,13 @@ Typische AI-Bursts: **0,3–1,5 Sekunden**. In 1 Sekunde:
 | Kriss Vector | alle | 0,82 | 3,0 | ~14 | grow hoch (SMG) |
 | MP7 | alle | 0,7 | 2,0 | ~13 | grow hoch |
 | VSS Vintorez | RU | **3,0** | 3,0 | ~5 | **grow extrem** |
-| G28 | EU | 1,65 | 1,0 | ~2 | DMR – OK |
-| M14 EBR | US | 1,65 | 1,0 | ~2 | DMR – OK |
+| G28 | EU | 1,65 | 1,0 | ~2 | DMR - OK |
+| M14 EBR | US | 1,65 | 1,0 | ~2 | DMR - OK |
 | Dragunov SVD | RU | 2,8 | 0,74 | ~2 | diminish niedrig |
 
 ## Anpassungsstrategie (umgesetzt)
 
-**Nur folgende Waffen angepasst – grow_step/diminish_rate gesenkt:**
+**Nur folgende Waffen angepasst - grow_step/diminish_rate gesenkt:**
 
 | Waffe | grow alt→neu | diminish alt→neu |
 |-------|--------------|------------------|
@@ -45,5 +45,5 @@ Typische AI-Bursts: **0,3–1,5 Sekunden**. In 1 Sekunde:
 | G36 (EU) | 0.43→0.40 | 1.62→1.55 |
 | HK416 (EU) | 0.29→0.27 | 1.15→1.08 |
 
-**DMRs (G28, M14 EBR, Dragunov SVD):** Unverändert – waren OK.
-**MGs/LMGs:** Unverändert – keine Erhöhung.
+**DMRs (G28, M14 EBR, Dragunov SVD):** Unverändert - waren OK.
+**MGs/LMGs:** Unverändert - keine Erhöhung.

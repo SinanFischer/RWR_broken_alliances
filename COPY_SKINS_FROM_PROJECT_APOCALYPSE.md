@@ -25,7 +25,7 @@ Im RWR-Mod teilen sich **dieselbe Skin-Liste** (`.models`-Dateien) alle Soldaten
 | **eod**         | soldier_b1eod.xml | soldier_a1eod.xml | soldier_c1eod.xml  |
 | **specialforces**| gerops.xml        | (blackops)        | rusops.xml        |
 | **miniboss**    | ger_office.xml    | (miniboss)        | (miniboss)        |
-| **miniboss_female** | soldier_elite_b2.xml | –              | –                 |
+| **miniboss_female** | soldier_elite_b2.xml | -              | -                 |
 | **prisoner**    | soldier_prison.xml (ein Skin für alle) | | |
 
 **Wichtig:** Es gibt **keine** getrennte Skin-Liste pro Einheitstyp. Mehr Abwechslung = mehr Modelle in `*_default_basic.models` und `*_default.models` pro Fraktion. Die Engine wählt anhand **Rank** und **getragener Weste/Ausrüstung** (carry_item) ein Model aus. Farbkonsistenz: **Nur** Grey-Skins in Grey-Fraktion, **nur** Green-Skins in Green-Fraktion, **nur** Brown-Skins in Brown-Fraktion.
@@ -70,7 +70,7 @@ Alle Dateien 1:1 in den **Ziel-**`models\`-Ordner kopieren (bestehende gleiche N
 
 ## Liste der zu kopierenden Dateien
 
-### Pflicht (Basis + Varianten + High-Rank) – 18 Stück
+### Pflicht (Basis + Varianten + High-Rank) - 18 Stück
 
 **Grey (EU):** soldier_b1.xml, soldier_b2.xml, soldier_b3.xml, soldier_b3_vest.xml, soldier_b1_camo_vest.xml, soldier_fm_grey.xml  
 
@@ -88,7 +88,7 @@ Alle Dateien 1:1 in den **Ziel-**`models\`-Ordner kopieren (bestehende gleiche N
 
 ### EOD (optional überschreiben)
 
-soldier_b1eod.xml, soldier_a1eod.xml, soldier_c1eod.xml – im Mod bereits referenziert; mit PA-Version überschreiben für einheitlichen Look.
+soldier_b1eod.xml, soldier_a1eod.xml, soldier_c1eod.xml - im Mod bereits referenziert; mit PA-Version überschreiben für einheitlichen Look.
 
 ### Bewusst nicht übernehmen (Stil/Thema/Farbe)
 
@@ -139,14 +139,14 @@ Aktuell verweisen eure **basic**-Dateien im Mod auf **andere** Dateinamen als PA
 
 Damit die **PA-Skins** genutzt werden, müsst ihr eine der beiden Wege gehen:
 
-**Option A – .models auf PA-Namen umstellen (empfohlen für maximale Abwechslung):**
+**Option A - .models auf PA-Namen umstellen (empfohlen für maximale Abwechslung):**
 
 - In `grey_default_basic.models`: Einträge ersetzen durch `soldier_b1.xml`, `soldier_b2.xml`, `soldier_b3.xml`.
 - In `green_default_basic.models`: ersetzen durch `soldier_a1.xml`, `soldier_a2.xml`, `soldier_a3.xml`.
 - In `brown_default_basic.models`: ersetzen durch `soldier_c1.xml`, `soldier_c2.xml`, `soldier_c3.xml` (damit Brown ebenfalls 3 Basis-Varianten hat).
 - In `*_default.models`: Vest-/Tarn-/EOD-/BlackOps-/HighRank-Referenzen von ger_army_1_3 / us_army_1_bak_camo / rus_army_1_bak_* auf die PA-Pendants umstellen (z. B. soldier_b3_vest, soldier_b_vest_t3 für Grey; soldier_a1_vest / us_army-Varianten für Green; soldier_c1_vest, rus_army-Varianten für Brown). Nur Einträge anpassen, deren carry_item/Keys ihr im Mod habt (vest2, vest3, vest4, camouflage_suit, eod, blackops, rank).
 
-**Option B – PA-Dateien unter euren bestehenden Namen kopieren:**
+**Option B - PA-Dateien unter euren bestehenden Namen kopieren:**
 
 - PA `soldier_b1.xml` zusätzlich als `ger_army_1.xml` kopieren, `soldier_b2.xml` als `ger_army_1_1.xml`, `soldier_b3.xml` als `ger_army_1_2.xml` (analog Green/Brown). Dann bleiben eure .models unverändert; ihr nutzt aber nur je einen PA-Skin pro Slot (keine echte b2/b3-Vielfalt unter verschiedenen Namen).
 
@@ -160,4 +160,4 @@ Wenn ihr für **Support** oder **Supporter** eigene Looks wollt, könnt ihr neue
 - [ ] Optional: Vest-T3- und EOD-XMLs kopiert, falls gewünscht
 - [ ] soldier_animations.xml **nicht** überschrieben
 - [ ] Faction-.models angepasst: entweder auf PA-Namen umgestellt (Option A) oder PA-Dateien unter bestehenden Namen kopiert (Option B)
-- [ ] Spiel testen (Grey/Green/Brown; Default, Support, Mortar, Cover, Grenadier) – farblich keine Mischung zwischen Fraktionen
+- [ ] Spiel testen (Grey/Green/Brown; Default, Support, Mortar, Cover, Grenadier) - farblich keine Mischung zwischen Fraktionen

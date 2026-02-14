@@ -1,8 +1,8 @@
-# Sniper/DMR – Balance-Referenz
+# Sniper/DMR - Balance-Referenz
 
 **retrigger_time** = Sekunden zwischen Schüssen (höher = langsamer).  
 **sight_range_modifier** = Faktor für Sichtreichweite (höher = weiter sehen).  
-**accuracy_factor** = Genauigkeit (0–1); Stances (stehend/kniend/liegend) in `base_primary_sniper.weapon`.
+**accuracy_factor** = Genauigkeit (0-1); Stances (stehend/kniend/liegend) in `base_primary_sniper.weapon`.
 
 ## Nach Balance-Anpassung (Stand)
 

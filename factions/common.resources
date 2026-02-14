@@ -149,7 +149,7 @@
 	<vehicle key="dumpster.vehicle" />
 	<vehicle key="tractor.vehicle" />
 	<vehicle key="flare_checkpoint.vehicle" />
-	<!-- Spawn-Vehicles für Flares (Jackal, VFS, Guntruck, Knochen) – müssen hier stehen, damit Spawn beim Aufschlag funktioniert -->
+	<!-- Spawn-Vehicles für Flares (Jackal, VFS, Guntruck, Knochen) - müssen hier stehen, damit Spawn beim Aufschlag funktioniert -->
 	<vehicle key="willys_mb_spawn.vehicle" />
 	<vehicle key="vfs_spawn.vehicle" />
 	<vehicle key="guntruck_spawn.vehicle" />

@@ -1,5 +1,5 @@
 // Panzer-Spawn bei 2 Basen in Folge: Wenn die Verteidiger-Fraktion (faction 0) zwei
-// aufeinanderfolgende Basen verliert, spawnt ein Panzer an deren Hauptbasis – immer
+// aufeinanderfolgende Basen verliert, spawnt ein Panzer an deren Hauptbasis - immer
 // für die Fraktion, die gerade verloren hat (damit die Verteidiger unterstützt werden).
 
 #include "tracker.as"
@@ -12,7 +12,7 @@ class DefenderTankHelp : Tracker {
 
 	// Anzahl Verluste in Folge, um Panzer-Spawn auszulösen (AngelScript: kein const für Klasseneigenschaften)
 	protected uint CONSECUTIVE_LOSSES_TRIGGER = 2;
-	// Cooldown in Sekunden (10 Min) – verhindert Spam bei schnellem Base-Rush
+	// Cooldown in Sekunden (10 Min) - verhindert Spam bei schnellem Base-Rush
 	protected float COOLDOWN_SECONDS = 600.0f;
 
 	protected uint m_consecutiveLosses = 0;
@@ -22,7 +22,7 @@ class DefenderTankHelp : Tracker {
 	protected int DEFENDER_FACTION_ID = 0;
 
 	// Fraktionsspezifische Panzer (green_default→tank, grey_default→tank_1, brown_default→tank_2)
-	// Metagame hat kein getFactionConfigs() – nutze getFactionInfo() aus query_helpers (file- oder name-Attribut)
+	// Metagame hat kein getFactionConfigs() - nutze getFactionInfo() aus query_helpers (file- oder name-Attribut)
 	protected string getTankKeyForDefenderFaction() {
 		const XmlElement@ faction = getFactionInfo(m_metagame, DEFENDER_FACTION_ID);
 		if (faction is null) return "tank.vehicle";
@@ -47,7 +47,7 @@ class DefenderTankHelp : Tracker {
 	protected void handleBaseOwnerChangeEvent(const XmlElement@ event) {
 		// Engine sendet previous_owner_id und owner_id (neuer Besitzer)
 		if (!event.hasAttribute("previous_owner_id")) {
-			_log("DefenderTankHelp: base_owner_change_event ohne previous_owner_id – Event wird ignoriert", 1);
+			_log("DefenderTankHelp: base_owner_change_event ohne previous_owner_id - Event wird ignoriert", 1);
 			return;
 		}
 		int previousOwnerId = event.getIntAttribute("previous_owner_id");
@@ -59,7 +59,7 @@ class DefenderTankHelp : Tracker {
 			return;
 		}
 
-		// Base ging an andere Fraktion – Verteidiger haben verloren
+		// Base ging an andere Fraktion - Verteidiger haben verloren
 		m_consecutiveLosses++;
 		_log("DefenderTankHelp: Basis verloren (0 -> " + newOwnerId + "), Verluste in Folge=" + m_consecutiveLosses + " (Trigger=" + CONSECUTIVE_LOSSES_TRIGGER + ")", 1);
 
@@ -69,7 +69,7 @@ class DefenderTankHelp : Tracker {
 
 		// Cooldown prüfen
 		if (m_cooldownTimer > 0.0f) {
-			_log("DefenderTankHelp: Trigger erreicht, aber Cooldown aktiv (" + uint(m_cooldownTimer) + "s verbleibend) – kein Panzer-Spawn", 1);
+			_log("DefenderTankHelp: Trigger erreicht, aber Cooldown aktiv (" + uint(m_cooldownTimer) + "s verbleibend) - kein Panzer-Spawn", 1);
 			return;
 		}
 
@@ -94,7 +94,7 @@ class DefenderTankHelp : Tracker {
 
 		string position = base.getStringAttribute("position");
 		if (position == "") {
-			_log("DefenderTankHelp: Basis hat kein position-Attribut – kein Panzer-Spawn", 1);
+			_log("DefenderTankHelp: Basis hat kein position-Attribut - kein Panzer-Spawn", 1);
 			return;
 		}
 

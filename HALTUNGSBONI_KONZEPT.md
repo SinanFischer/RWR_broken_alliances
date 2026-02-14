@@ -1,4 +1,4 @@
-# Haltungsbonus – Konzept (Trickle nur AUS + Auszahlung beim Öffnen)
+# Haltungsbonus - Konzept (Trickle nur AUS + Auszahlung beim Öffnen)
 
 ## Übersicht
 
@@ -48,7 +48,7 @@ Konstanten in `reinforcement_pool_tracker.as`:
 
 **Nach MajorAttack (5,6×):** pro 10 s = 17,92 × 5,6 = **~100**; z. B. 72 s AUS → **~700** in dieser einen Phase.
 
-*AUS-Dauer hängt von der Kapazität ab (72–252 s, siehe `SPAWN_CLOSED_DURATION.md`).*
+*AUS-Dauer hängt von der Kapazität ab (72-252 s, siehe `SPAWN_CLOSED_DURATION.md`).*
 
 ---
 

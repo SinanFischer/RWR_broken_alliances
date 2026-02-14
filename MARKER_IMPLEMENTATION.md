@@ -8,9 +8,9 @@ Anleitung zur Implementierung von Live-Update-Markern auf der Karte (z.B. Captai
 
 Der Befehl **`set_marker`** setzt oder aktualisiert einen Marker. Um einen Marker zu verfolgen (z.B. einer Figur):
 
-1. **Marker setzen** – mit Position, Symbol, Fraktion
-2. **`update()` nutzen** – jeden Frame die Position abfragen und `set_marker` erneut senden
-3. **Marker entfernen** – wenn die Figur stirbt oder nicht mehr relevant ist
+1. **Marker setzen** - mit Position, Symbol, Fraktion
+2. **`update()` nutzen** - jeden Frame die Position abfragen und `set_marker` erneut senden
+3. **Marker entfernen** - wenn die Figur stirbt oder nicht mehr relevant ist
 
 ---
 
@@ -39,7 +39,7 @@ Der Befehl **`set_marker`** setzt oder aktualisiert einen Marker. Um einen Marke
 | **id** | int | Eindeutige Marker-ID im Spiel (z.B. 70001, 70002) |
 | **faction_id** | int | Fraktion, die den Marker **sieht**. Nur diese Fraktion sieht ihn auf der Karte |
 | **atlas_index** | int | Symbol-Index im Atlas (siehe Tabelle unten) |
-| **position** | string | `"x y z"` – wird bei jedem Update neu gesetzt |
+| **position** | string | `"x y z"` - wird bei jedem Update neu gesetzt |
 | **text** | string | Label (z.B. "Captain", "Ziel") |
 | **enabled** | 0/1 | 0 = Marker ausblenden, 1 = anzeigen |
 | **show_in_map_view** | bool | Auf der Karte sichtbar |
@@ -52,8 +52,8 @@ Der Befehl **`set_marker`** setzt oder aktualisiert einen Marker. Um einen Marke
 |-------------|------------|
 | 3 | Santa reward |
 | 4 | A10 / Gunship |
-| 6–9 | Mortar, Cluster, Artillery |
-| 10–14 | Paradrop, Humvee, Supply, Tank |
+| 6-9 | Mortar, Cluster, Artillery |
+| 10-14 | Paradrop, Humvee, Supply, Tank |
 | 16 | VIP (Spieler-Symbol) |
 | 17 | **VIP-Ziel** |
 | 18 | Enemy Commander |
@@ -72,7 +72,7 @@ protected int m_factionId = -1;          // Fraktion (für Sichtbarkeit)
 protected bool m_tracking = false;       // Ob gerade getrackt wird
 ```
 
-### Schritt 2: update() – Position aktualisieren
+### Schritt 2: update() - Position aktualisieren
 
 ```cpp
 void update(float time) {
@@ -174,10 +174,11 @@ Verwende **eindeutige IDs** pro Marker-Typ, um Konflikte zu vermeiden:
 
 | ID-Bereich | Verwendung |
 |------------|------------|
-| 20000–20001 | VIP Manager (Vanilla) |
+| 20000-20001 | VIP Manager (Vanilla) |
 | 70000 | Kill Commander (Vanilla) |
-| 70001 | Captain (Mod) |
-| 70002+ | Weitere Mod-Marker |
+| 70001 | Captain (Mod) - VIP-Ziel für eigene Fraktion |
+| 70010+ | Captain-Feind-Marker (70010 + factionId) - Enemy Commander für spotternde Fraktion |
+| 70020+ | Weitere Mod-Marker |
 
 ---
 

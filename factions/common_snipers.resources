@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- Sniper rifles only – shared pool for all factions -->
+	<!-- Sniper rifles only - shared pool for all factions -->
 	<weapon key='scarssr.weapon' />
 	<weapon key='sv98.weapon' />
 	<weapon key='dragunov_svd.weapon' />

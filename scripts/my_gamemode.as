@@ -19,7 +19,7 @@ class MyGameMode : GameModeCampaign {
 		GameModeCampaign::postBeginMatch();
 		addTracker(BulletFlybyEffect(this));
 		addTracker(DefenderTankHelp(this));
-		addTracker(VehicleIntervalSpawn(this)); // Fahrzeug-Spawn alle 2–4 min (simple) / 5–8 min (medium)
+		addTracker(VehicleIntervalSpawn(this)); // Fahrzeug-Spawn alle 2-4 min (simple) / 5-8 min (medium)
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 	}
 

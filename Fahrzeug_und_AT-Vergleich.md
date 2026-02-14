@@ -1,13 +1,13 @@
 # Fahrzeug- & AT-Vergleich: Light, Medium, Heavy, Panzerfäuste
 
-**Zweck:** Balance prüfen – Panzer vs. Anti-Tank in einer Datei. Pro Zeile ist der **stärkste** Wert **fett**.  
+**Zweck:** Balance prüfen - Panzer vs. Anti-Tank in einer Datei. Pro Zeile ist der **stärkste** Wert **fett**.  
 **Metriken (Fahrzeuge):** **Leben** = max_health | **Proj. Speed** = projectile_speed der Hauptkanone | **Damage** = Blast-Damage | **Radius** = Blast-Radius (m).  
 **Metriken (AT):** **Preis** (RP) | **Schaden** | **Radius** | **Gesamtschaden** (bei Mehrfach-Projektilen).  
 Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV101, Legion, M528, FT-CROC, Wiesel (Leben/Health-Effekte/Despawn).
 
 ---
 
-## 1. Light (Leicht-Pool, Intervall-Spawn 2–4 min)
+## 1. Light (Leicht-Pool, Intervall-Spawn 2-4 min)
 
 *Light-Keys aus `vehicle_interval_spawn.as`: humvee, jeep, jeep_1, jeep_2, vfs_sport, willys_mb, wiesel_tow, wiesel_mk20, atv_base, atv_armory, vfs_base, truck, truck_1, truck_2.*
 
@@ -19,7 +19,7 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 
 ---
 
-### 1b. Leicht-Pool – Kurzüberblick & Stärken
+### 1b. Leicht-Pool - Kurzüberblick & Stärken
 
 | Metrik | Stärkster (Leicht) | Wert |
 |--------|--------------------|------|
@@ -38,20 +38,20 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 
 ---
 
-## 2. Medium-Pool (Mittel-Intervall-Spawn 5–8 min)
+## 2. Medium-Pool (Mittel-Intervall-Spawn 5-8 min)
 
 *Nur Fahrzeuge, die **nicht** schon im Light-Pool sind. Medium-Keys gesamt: Humvee, Wiesel TOW, Wiesel Mk20 (→ siehe Abschnitt 1), plus unten.*
 
 | Metrik | APC (SIK-AP) | APC 1 (GT-C) | APC 2 (BTX) | SEV90 | Noxe | Vulcan Tank | Radio Jammer | Hovercraft | Cargo Truck |
 |--------|--------------|--------------|--------------|-------|------|-------------|--------------|------------|--------------|
 | **Leben** | **15.2** | **15.7** | **15.6** | **14.8** | **14.8** | **12.4** | **12.0** | **12** | 4.8 |
-| **Bewaffnung** | HMG | HMG | HMG | 40mm (0.45/3.4) | Dual + HMG | HMG | – | MG | – |
+| **Bewaffnung** | HMG | HMG | HMG | 40mm (0.45/3.4) | Dual + HMG | HMG | - | MG | - |
 
 → **APC / APC 1 / APC 2:** Gepanzerte Truppentransporter, HMG-Turm (kein Einzel-Blast). **SEV90** (Mod): Leben 14.8 (Vanilla 8), 40-mm-Autokanone, Speed 100, 0.45/3.4 m. **Noxe** (Mod): Leben 14.8, Fallschirm, Dual-Waffe + HMG. **Vulcan Tank:** 12.4, HMG. **Radio Jammer:** 12 Leben, unbewaffnet. **Hovercraft** (Mod): Leben 12 (Vanilla 5.7), Wasser/Land, MG. **Cargo Truck:** 4.8, Transport.
 
 ---
 
-## 3. Heavy (Normale Tanks + Heavy-Intervall-Spawn 12–15 min)
+## 3. Heavy (Normale Tanks + Heavy-Intervall-Spawn 12-15 min)
 
 ### 3a. Normale Tanks (Fraktions-Hauptpanzer)
 
@@ -72,22 +72,22 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 |--------|----------|------------|-------------|--------------|---------------|--------|------|------------------|
 | **Leben** | 25.35 | 26.2 | 25.95 | 20 | 15 | **34** | 19.2 | 17.8 |
 | **Proj. Speed** | **226** | 175 | 165 | 42 | 55 | 40 | 90 (HMG) | 140 |
-| **Damage** | 6.02 | 6.02 | 6.02 | 4.01 | **3.01** | **12** | – (HMG) | 0.02 |
-| **Radius** | 7 | 7 | 7 | 4.5 | **4** | **10** | – | 1.8 |
+| **Damage** | 6.02 | 6.02 | 6.02 | 4.01 | **3.01** | **12** | - (HMG) | 0.02 |
+| **Radius** | 7 | 7 | 7 | 4.5 | **4** | **10** | - | 1.8 |
 
 → **Hinweise:**  
 - **Alt-Tanks** (tank_alt, tank_1_alt, tank_2_alt): Gleiche Leben wie normale Tanks, schwächeres Projektil (6.02 / 7) als Haupttanks (10 / 8).  
 - **M551 Sheriff:** Mod-Override Leben 20 (Vanilla 9.6); 42 speed, 4.01 damage, 4.5 radius.  
 - **FV101 Scorpio:** Mod-Override Leben 15, **Damage 3.01**, **Radius 4** (eher anti-Person; Vanilla 2.01 / 3.3).  
 - **Legion:** **Höchstes Leben (34)**, **stärkster Schaden (12)** und **größter Radius (10)** im Heavy-Pool (Mod-Override); langsames Projektil (40).  
-- **M528:** Mod-Override Leben 19.2 (Vanilla 8.4); HMG (speed 90) + AP-Submunitionen (kein Einzel-Blast) → „–“.  
+- **M528:** Mod-Override Leben 19.2 (Vanilla 8.4); HMG (speed 90) + AP-Submunitionen (kein Einzel-Blast) → „-“.  
 - **FT-CROC:** Mod-Override Leben 17.8 (Vanilla 6.4); Flamethrower (speed 140); Einzel-Blast 0.02 / 1.8.
 
 ---
 
 ## 4. Anti-Tank-Waffen (direkter Vergleich zu Panzer-Leben)
 
-*Zum Abgleich: z. B. Legion (34) ≈ 4× Javelin (8.7); FV101 (15) ≈ 2× Javelin; SEV90/Noxe (14.8) ≈ 2× Javelin; M528 (19.2) ≈ 2–3× Javelin; FT-CROC (17.8) ≈ 2× Javelin; Wiesel (9.5) ≈ 1–2× Javelin; Hovercraft (12) ≈ 1–2× Javelin.*
+*Zum Abgleich: z. B. Legion (34) ≈ 4× Javelin (8.7); FV101 (15) ≈ 2× Javelin; SEV90/Noxe (14.8) ≈ 2× Javelin; M528 (19.2) ≈ 2-3× Javelin; FT-CROC (17.8) ≈ 2× Javelin; Wiesel (9.5) ≈ 1-2× Javelin; Hovercraft (12) ≈ 1-2× Javelin.*
 
 | Waffe | Preis (RP) | Schaden | Radius | Projektile/Schuss | **Gesamtschaden** |
 |:------|-----------:|--------:|-------:|-------------------|-------------------|
@@ -101,7 +101,7 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 **Kurz:**  
 - **Schaden relativ (Javelin = 100%):** M72 ~41 %, RPG-7 ~46 %, Carl Gustav ~60 %, SMAW ~69 %, M202 ~138 % (4 Raketen).  
 - **Bester Preis/Schaden:** RPG-7 (7.5 RP/Schaden), dann M72 (8.3), Carl Gustav (9.6).  
-- **Empfehlung:** Budget 30 → RPG-7; Mittelklasse 50–70 → Carl Gustav / SMAW; Premium Einzelschuss → Javelin; Max. Schaden → M202 (12.0, teuer).
+- **Empfehlung:** Budget 30 → RPG-7; Mittelklasse 50-70 → Carl Gustav / SMAW; Premium Einzelschuss → Javelin; Max. Schaden → M202 (12.0, teuer).
 
 ---
 
@@ -120,7 +120,7 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 
 | Fahrzeug | Stärken (kampfrelevant) | Trade-off |
 |----------|-------------------------|-----------|
-| **tank_alt / tank_1_alt / tank_2_alt** | Höchstes Leben (25–26), schnellste/schnelle Projektile (165–226), guter Radius (7), Damage 6.02 | Weniger Damage/Radius als normale Mod-Tanks |
+| **tank_alt / tank_1_alt / tank_2_alt** | Höchstes Leben (25-26), schnellste/schnelle Projektile (165-226), guter Radius (7), Damage 6.02 | Weniger Damage/Radius als normale Mod-Tanks |
 | **Legion** | Höchstes Leben (34), stärkster Damage (12), größter Radius (10) | Langsamstes Projektil (40) |
 | **M551** | Leben 20 (Mod), Schaden 4.01, Radius 4.5 | Langsames Projektil (42) |
 | **FV101** | Leben 15, Damage 3.01, Radius 4 (anti-Person), Projektil 55 | Leichter als andere Heavies |
@@ -130,11 +130,11 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 ---
 
 **Hinweis für Mod-Ersteller (Health/Leben anpassen):**  
-Wenn du **max_health** (Leben) eines Fahrzeugs änderst, solltest du in derselben `.vehicle`-Datei auch die **Health-Effekt-Schwellen** anpassen. Diese legen fest, ab welchem verbleibenden Leben Schadens-Partikel (Rauch, Funken) angezeigt werden – z. B. `<effect event_key="health" value="12.5" ref="SmallSmokeVehicle" />`. Die `value`-Werte sind **absolute** Lebenspunkte (nicht Prozent). Pass sie an das neue max_health an, damit „leicht beschädigt“ / „stark beschädigt“ optisch zum neuen Leben passen (z. B. proportional skalieren: **alter_value × neues_max_health / altes_max_health**). Beispiele: Legion (34), M528 (19.2), FV101 (15), M551 (20), FT-CROC (17.8), SEV90 (14.8), Noxe (14.8), Hovercraft (12) haben in den Mod-Overrides skalierte Werte.
+Wenn du **max_health** (Leben) eines Fahrzeugs änderst, solltest du in derselben `.vehicle`-Datei auch die **Health-Effekt-Schwellen** anpassen. Diese legen fest, ab welchem verbleibenden Leben Schadens-Partikel (Rauch, Funken) angezeigt werden - z. B. `<effect event_key="health" value="12.5" ref="SmallSmokeVehicle" />`. Die `value`-Werte sind **absolute** Lebenspunkte (nicht Prozent). Pass sie an das neue max_health an, damit „leicht beschädigt“ / „stark beschädigt“ optisch zum neuen Leben passen (z. B. proportional skalieren: **alter_value × neues_max_health / altes_max_health**). Beispiele: Legion (34), M528 (19.2), FV101 (15), M551 (20), FT-CROC (17.8), SEV90 (14.8), Noxe (14.8), Hovercraft (12) haben in den Mod-Overrides skalierte Werte.
 
 **Hinweis für Mod-Ersteller (Despawn defekter Fahrzeuge):**  
 **Alle** Fahrzeuge sollen, wenn sie defekt/zerstört sind, erst nach **20 Minuten** automatisch despawnen. Dafür in der `.vehicle`-Datei **time_to_live_unsteerable="1200"** setzen (1200 Sekunden = 20 Min). Die Mod-Basis `vehicle_base.vehicle` hat bereits 1200; Fahrzeuge, die das Attribut überschreiben (z. B. Legion, Noxe, M528, FV101, M551, FT-CROC), müssen explizit **1200** verwenden, damit sie nicht früher verschwinden.
 
 ---
 
-*Stand: Mod- und Vanilla-.vehicle-, .weapon-, .projectile-Dateien. Fahrzeuge: Leben = physics max_health; Proj. Speed = projectile_speed (.weapon); Damage/Radius = result class="blast" (.projectile). AT: Schaden/Radius aus jeweiligen `.projectile`; „–“ = kein Einzel-Blast (z. B. M528 HMG).*
+*Stand: Mod- und Vanilla-.vehicle-, .weapon-, .projectile-Dateien. Fahrzeuge: Leben = physics max_health; Proj. Speed = projectile_speed (.weapon); Damage/Radius = result class="blast" (.projectile). AT: Schaden/Radius aus jeweiligen `.projectile`; „-“ = kein Einzel-Blast (z. B. M528 HMG).*

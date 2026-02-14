@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Support (MG): aggressiver aus Deckung schießen – längere Feuerstöße, länger in Deckung bleiben. -->
+<!-- Support (MG): aggressiver aus Deckung schießen - längere Feuerstöße, länger in Deckung bleiben. -->
 <ai filename="default_soldiers.ai">
   <parameter class="max_sight_range_with_muzzle" value="55.0" />
   <parameter class="leader_sight_range" value="50.0" />

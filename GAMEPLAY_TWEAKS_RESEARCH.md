@@ -8,7 +8,7 @@
 
 ---
 
-## 1. WOUNDED STATE – Verlängerung der Zeit, in der ein Soldat Hilfe braucht
+## 1. WOUNDED STATE - Verlängerung der Zeit, in der ein Soldat Hilfe braucht
 
 ### Gefundene Parameter
 
@@ -39,14 +39,14 @@
 
 ---
 
-## 2. FAHRZEUG-DESPAWN – Dauer bis kaputte Fahrzeuge verschwinden
+## 2. FAHRZEUG-DESPAWN - Dauer bis kaputte Fahrzeuge verschwinden
 
 ### Gefundene Parameter
 
 | Parameter | Datei | Vanilla-Wert | Bedeutung |
 |-----------|-------|--------------|-----------|
 | `time_to_live_unsteerable` | `vanilla/vehicles/vehicle_base.vehicle` | **40** | Sekunden, die ein zerstörtes Fahrzeug sichtbar bleibt, bevor es despawned |
-| `time_to_live_unsteerable` | Einzelne Fahrzeuge (z.B. m551.vehicle) | 85–105 | Fahrzeugspezifische Overrides |
+| `time_to_live_unsteerable` | Einzelne Fahrzeuge (z.B. m551.vehicle) | 85-105 | Fahrzeugspezifische Overrides |
 
 ### Referenz-Dateien
 
@@ -59,7 +59,7 @@
 
 ### Implementierung
 
-**Option A – Global für alle Fahrzeuge:**  
+**Option A - Global für alle Fahrzeuge:**  
 Eine eigene `vehicle_base.vehicle` im Mod mit höherem Wert:
 
 ```xml
@@ -68,18 +68,18 @@ Eine eigene `vehicle_base.vehicle` im Mod mit höherem Wert:
 </vehicle>
 ```
 
-**Option B – Pro Fahrzeug:**  
+**Option B - Pro Fahrzeug:**  
 In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setzen:
 
 ```xml
 <vehicle file="vehicle_base.vehicle" time_to_live_unsteerable="180" ... />
 ```
 
-**RWR_total_conversion_mod:** `vehicles/vehicle_base.vehicle` mit `time_to_live_unsteerable="1200"` (20 Min) – **implementiert**.
+**RWR_total_conversion_mod:** `vehicles/vehicle_base.vehicle` mit `time_to_live_unsteerable="1200"` (20 Min) - **implementiert**.
 
 ---
 
-## 3. WOUNDED BLEEDING – Blutpartikel bei liegenden Verwundeten
+## 3. WOUNDED BLEEDING - Blutpartikel bei liegenden Verwundeten
 
 ### Aktueller Stand
 
@@ -97,15 +97,15 @@ In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setze
 
 ### Versuch: AngelScript-Tracker (entfernt)
 
-- **Implementiert war:** `WoundedBleedingTracker` + `wounded_bleed.projectile` – Tracker lauschte auf `player_wound`, spawnte alle 10 Sek ein Projektil mit BloodSplat-Effekten.
+- **Implementiert war:** `WoundedBleedingTracker` + `wounded_bleed.projectile` - Tracker lauschte auf `player_wound`, spawnte alle 10 Sek ein Projektil mit BloodSplat-Effekten.
 - **Problem:** Funktionierte nicht zuverlässig (z.B. in Quickmatches kein sichtbares Bluten); `player_wound`/create_instance-Logik passte nicht zum gewünschten Verhalten.
-- **Status:** Feature entfernt – Script, Projektil und alle Tracker-Referenzen gelöscht.
+- **Status:** Feature entfernt - Script, Projektil und alle Tracker-Referenzen gelöscht.
 
 **Fazit:** „Wounded-Bleeding“ über AngelScript ist theoretisch möglich, aber die aktuelle Mod-API liefert kein zuverlässiges Ergebnis. Empfehlung: RWR-Wiki/Forum oder Modding-Discord prüfen.
 
 ---
 
-## 4. LEICHEN-LIMIT (Corpse Limit) – Über UI-Maximum hinaus
+## 4. LEICHEN-LIMIT (Corpse Limit) - Über UI-Maximum hinaus
 
 ### Gefundene Referenzen
 
@@ -128,9 +128,9 @@ In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setze
 ### Mögliche Ansätze
 
 1. **rwr_config.exe:** Prüfen, ob es dort eine Option oder eine Config-Datei gibt.
-2. **Spieler-Config:** Typischer Ort: `%USERPROFILE%\Documents\RunningWithRifles\` oder `%ProgramData%\` – nach XML/INI mit „bodies“, „corpse“, „threshold“ suchen.
-3. **Command-Line:** Laut RWR-Wiki gibt es Switches wie `debugmode`, `no_simulation` – ob einer davon das Leichen-Limit beeinflusst, ist unklar.
-4. **Community:** RWR-Forum, Steam-Discussion, Modding-Discord – nach Feature-Request oder Engine-Hack fragen.
+2. **Spieler-Config:** Typischer Ort: `%USERPROFILE%\Documents\RunningWithRifles\` oder `%ProgramData%\` - nach XML/INI mit „bodies“, „corpse“, „threshold“ suchen.
+3. **Command-Line:** Laut RWR-Wiki gibt es Switches wie `debugmode`, `no_simulation` - ob einer davon das Leichen-Limit beeinflusst, ist unklar.
+4. **Community:** RWR-Forum, Steam-Discussion, Modding-Discord - nach Feature-Request oder Engine-Hack fragen.
 
 **Fazit:** Weder über Mod-Pakete noch über AngelScript lässt sich das Leichen-Limit über das UI-Maximum hinaus erhöhen. Die Logik liegt in der Engine; die Mod-API stellt dafür keine Schnittstelle bereit.
 
@@ -154,7 +154,7 @@ In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setze
 | Pfad | Inhalt |
 |------|--------|
 | `vanilla/vehicles/vehicle_base.vehicle` | `time_to_live_unsteerable="40"` |
-| `vanilla/vehicles/m551.vehicle`, `fv101.vehicle`, `vfs_base.vehicle` | Höhere Overrides (85–105) |
+| `vanilla/vehicles/m551.vehicle`, `fv101.vehicle`, `vfs_base.vehicle` | Höhere Overrides (85-105) |
 | `RWR_total_conversion_mod/vehicles/vehicle_base.vehicle` | `time_to_live_unsteerable="1200"` (20 Min) |
 
 ### Blood / Effects
@@ -170,7 +170,7 @@ In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setze
 | Pfad | Inhalt |
 |------|--------|
 | `vanilla/languages/*/ui.xml` | Text-Key „Clear bodies threshold“ |
-| Keine Mod-Konfiguration gefunden | – |
+| Keine Mod-Konfiguration gefunden | - |
 
 ### Scripts (Wounded-Referenzen)
 
@@ -188,15 +188,15 @@ In jeder `.vehicle`-Datei, die `vehicle_base.vehicle` nutzt, den Parameter setze
 |-------|------------------|----------------------------------|
 | **1. Wounded-Zeit verlängern** | Ja | ✓ `default_base.character` mit 90 Sek |
 | **2. Fahrzeug-Despawn verlängern** | Ja | ✓ `vehicle_base.vehicle` mit 1200 Sek (20 Min) |
-| **3. Wounded-Bleeding (Blut über Zeit)** | Nein (zuverlässig) | ✗ Versuch entfernt – AngelScript-Ansatz funktionierte nicht |
+| **3. Wounded-Bleeding (Blut über Zeit)** | Nein (zuverlässig) | ✗ Versuch entfernt - AngelScript-Ansatz funktionierte nicht |
 | **4. Leichen-Limit erhöhen** | Nein | Engine/Config; keine Mod-API |
 
 ---
 
 ## 7. Mögliche Quellen für weitere Infos
 
-- [RWR Wiki – Handling mods](https://runningwithrifles.fandom.com/wiki/Handling_mods)
-- [RWR Wiki – Command line switches](https://runningwithrifles.fandom.com/wiki/Command_line_switches)
-- [RWR Wiki – Manual](https://runningwithrifles.fandom.com/wiki/Manual)
+- [RWR Wiki - Handling mods](https://runningwithrifles.fandom.com/wiki/Handling_mods)
+- [RWR Wiki - Command line switches](https://runningwithrifles.fandom.com/wiki/Command_line_switches)
+- [RWR Wiki - Manual](https://runningwithrifles.fandom.com/wiki/Manual)
 - RWR-Forum / Steam-Discussion für Modding
 - Spieler-Config in `%USERPROFILE%\Documents\` oder unter Steam-Installation

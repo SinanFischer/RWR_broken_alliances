@@ -14,6 +14,7 @@
 #include "log.as"
 #include "query_helpers.as"
 #include "admin_manager.as"
+#include "captain_spawn_command_tracker.as"
 
 // =============================================================================
 // CONFIG - vehicle keys per category (index = faction index)
@@ -24,6 +25,7 @@
 const string SIMPLE_VEHICLE_KEYS = "humvee.vehicle,jeep.vehicle,jeep_1.vehicle,jeep_2.vehicle,vfs_sport.vehicle,willys_mb.vehicle,wiesel_tow.vehicle,wiesel_mk20.vehicle,atv_base.vehicle,atv_armory.vehicle,vfs_base.vehicle,truck.vehicle,truck_1.vehicle,truck_2.vehicle";
 
 const string MEDIUM_VEHICLE_KEYS = "humvee.vehicle,wiesel_mk20.vehicle,apc.vehicle,apc_1.vehicle,apc_2.vehicle,vulcan_tank.vehicle,noxe.vehicle,hovercraft.vehicle,cargo_truck.vehicle,sev90.vehicle,radio_jammer.vehicle";
+const string CARGO_TRUCK_KEY = "cargo_truck.vehicle";
 const string HEAVY_VEHICLE_KEYS = "tank_alt.vehicle,tank_1_alt.vehicle,tank_2_alt.vehicle,m551.vehicle,fv101.vehicle,legion.vehicle,m528.vehicle,flamer_tank.vehicle";
 
 // DEBUG: 5 s after start, commander message with next spawn
@@ -35,6 +37,7 @@ const float VEHICLE_INTEL_MIN_FACTION_TIME_SEC = 180.0f;
 
 class VehicleIntervalSpawn : Tracker {
 	protected Metagame@ m_metagame;
+	protected CaptainSpawnCommandTracker@ m_captainTracker;
 
 	// Interval range (seconds): Light 2-4 min, Medium 5-8 min, Heavy 12-15 min
 	protected int SIMPLE_INTERVAL_MIN = 120;
@@ -71,8 +74,9 @@ class VehicleIntervalSpawn : Tracker {
 	protected dictionary m_vehicleIntelFaction;
 	protected dictionary m_vehicleIntelJoinTime;
 
-	VehicleIntervalSpawn(Metagame@ metagame) {
+	VehicleIntervalSpawn(Metagame@ metagame, CaptainSpawnCommandTracker@ captainTracker = null) {
 		@m_metagame = @metagame;
+		@m_captainTracker = @captainTracker;
 		m_simpleKeys = parseKeys(SIMPLE_VEHICLE_KEYS);
 		m_mediumKeys = parseKeys(MEDIUM_VEHICLE_KEYS);
 		m_heavyKeys = parseKeys(HEAVY_VEHICLE_KEYS);
@@ -211,11 +215,11 @@ class VehicleIntervalSpawn : Tracker {
 		}
 	}
 
-	// Vehicle key per faction; category: 0=Light, 1=Medium, 2=Heavy
+	// Vehicle key: zufällig aus Kategorie - jede Fraktion hat gleiche Chance auf jedes Fahrzeug
 	protected string getVehicleKeyForFaction(int factionId, int category) {
 		array<string>@ keys = category == 0 ? m_simpleKeys : (category == 1 ? m_mediumKeys : m_heavyKeys);
 		if (keys.size() == 0) return category == 0 ? "jeep.vehicle" : (category == 1 ? "apc.vehicle" : "tank.vehicle");
-		uint idx = uint(factionId) % keys.size();
+		uint idx = rand(0, int(keys.size()) - 1);
 		return keys[idx];
 	}
 
@@ -299,18 +303,117 @@ class VehicleIntervalSpawn : Tracker {
 		sendFactionMessage(m_metagame, factionId, msg, 0.95);
 
 		_log("VehicleIntervalSpawn: " + vehicleKey + " for faction " + factionId + " at " + baseName + " (" + pos.toString() + ")", 1);
+
+		// Cargo Truck: Captain-Team am selben Ort spawnen + Faction-Messages
+		if (vehicleKey == CARGO_TRUCK_KEY && m_captainTracker !is null) {
+			m_captainTracker.spawnCaptainSquadAt(factionId, pos);
+			sendCargoCaptainEventMessages(factionId, baseName);
+		}
+	}
+
+	// Faction-Namen aus getFactions (name oder key)
+	protected string getFactionName(int factionId) {
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null || factionId < 0 || uint(factionId) >= factions.size()) return "Faction " + factionId;
+		string n = factions[factionId].getStringAttribute("name");
+		if (n.length() > 0) return n;
+		return factions[factionId].getStringAttribute("key");
+	}
+
+	// Nachrichten bei Cargo+Captain-Event: eigene Fraktion + alle Feinde
+	protected void sendCargoCaptainEventMessages(int factionId, const string &in baseName) {
+		string ownMsg = "Captain has reinforced our base at " + baseName + " - he arrived with the supply convoy and will defend our position.";
+		sendFactionMessage(m_metagame, factionId, ownMsg, 1.5f);
+
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null) return;
+		string enemyName = getFactionName(factionId);
+		string enemyMsg = "Enemy " + enemyName + " Cargo truck reported - escorted by a Captain. Find and eliminate him for valuable intel!";
+		for (uint i = 0; i < factions.size(); ++i) {
+			if (int(i) == factionId) continue;
+			sendFactionMessage(m_metagame, int(i), enemyMsg, 1.5f);
+		}
+	}
+
+	/** Admin-Test: Cargo Truck + Captain an zufälliger Basis der Spieler-Fraktion spawnen. */
+	protected bool spawnCargoTruckWithCaptain(int factionId) {
+		array<const XmlElement@>@ bases = getBases(m_metagame);
+		if (bases is null) return false;
+
+		array<int> ownedIndices;
+		for (uint i = 0; i < bases.size(); ++i) {
+			if (bases[i].getIntAttribute("owner_id") == factionId)
+				ownedIndices.insertLast(int(i));
+		}
+		if (ownedIndices.size() == 0) return false;
+
+		int idx = rand(0, ownedIndices.size() - 1);
+		const XmlElement@ base = bases[ownedIndices[idx]];
+		string posStr = base.getStringAttribute("position");
+		if (posStr.length() == 0) return false;
+
+		string baseName = base.getStringAttribute("name");
+		if (baseName.length() == 0) baseName = base.getStringAttribute("key");
+		if (baseName.length() == 0) baseName = "Base " + base.getIntAttribute("id");
+
+		Vector3 pos = stringToVector3(posStr);
+		float angle = float(idx) * 1.047f;
+		pos.m_values[0] += OFFSET_XZ * cos(angle);
+		pos.m_values[1] += OFFSET_Y;
+		pos.m_values[2] += OFFSET_XZ * sin(angle);
+
+		string cmd = "<command class='create_instance' faction_id='" + factionId +
+			"' position='" + pos.toString() +
+			"' instance_class='vehicle' instance_key='" + CARGO_TRUCK_KEY + "' />";
+		m_metagame.getComms().send(cmd);
+
+		sendFactionMessage(m_metagame, factionId, "Reinforcement arrived: Cargo Truck at " + baseName + ".", 0.95);
+
+		if (m_captainTracker !is null) {
+			m_captainTracker.spawnCaptainSquadAt(factionId, pos);
+			sendCargoCaptainEventMessages(factionId, baseName);
+		}
+
+		_log("VehicleIntervalSpawn: cargo_captain_test - Cargo + Captain at " + baseName + " for faction " + factionId, 1);
+		return true;
 	}
 
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
 
-	// /vehicle or /vehicle_spawn: status + next spawns. /vehicle test: instant spawn for your faction.
+	// /vehicle or /vehicle_spawn: status + next spawns. /vehicle test: instant spawn. /cargo_captain_test: Cargo+Captain (Admin).
 	protected void handleChatEvent(const XmlElement@ event) {
 		string message = event.getStringAttribute("message");
 		if (!startsWith(message, "/")) return;
-		if (!checkCommand(message, "vehicle") && !checkCommand(message, "vehicle_spawn") && !checkCommand(message, "fahrzeug")) return;
 
 		int senderId = event.getIntAttribute("player_id");
+
+		// /cargo_captain_test oder /test_cargo_captain: Admin - Cargo Truck + Captain an zufälliger Basis
+		if (checkCommand(message, "cargo_captain_test") || checkCommand(message, "test_cargo_captain")) {
+			if (!m_metagame.getAdminManager().isAdmin(event.getStringAttribute("player_name"), event.getIntAttribute("player_id"))) {
+				sendPrivateMessage(m_metagame, senderId, "Admin only.");
+				return;
+			}
+			tryInitFactions();
+			const XmlElement@ player = getPlayerInfo(m_metagame, senderId);
+			if (player is null) {
+				sendPrivateMessage(m_metagame, senderId, "Player not found.");
+				return;
+			}
+			int factionId = player.getIntAttribute("faction_id");
+			if (factionId < 0) {
+				sendPrivateMessage(m_metagame, senderId, "You have no faction (spectator?).");
+				return;
+			}
+			if (spawnCargoTruckWithCaptain(factionId)) {
+				sendPrivateMessage(m_metagame, senderId, "Cargo Captain test: Cargo Truck + Captain spawned at random owned base.");
+			} else {
+				sendPrivateMessage(m_metagame, senderId, "Cargo Captain test failed - faction " + factionId + " has no base.");
+			}
+			return;
+		}
+
+		if (!checkCommand(message, "vehicle") && !checkCommand(message, "vehicle_spawn") && !checkCommand(message, "fahrzeug")) return;
 
 		int space = message.findFirst(" ");
 		string arg = "";

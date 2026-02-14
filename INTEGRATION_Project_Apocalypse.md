@@ -1,70 +1,70 @@
-# Project Apocalypse als Vorbild – Integration in RWR Total Conversion Mod
+# Project Apocalypse als Vorbild - Integration in RWR Total Conversion Mod
 
 ## Was hat Project Apocalypse, was wir nicht haben?
 
 ### Calls (Funkunterstützung)
 | PA hat | Wir haben |
 |--------|-----------|
-| **cluster_bomb.call** | – |
-| **bm21.call** (Raketenwerfer-Salve) | – |
-| **supply_quad.call** (Nachschub-Quad per Fallschirm) | – |
-| **a10_gun_run.call** | – |
-| **gunship_run.call** / **gunship_run2.call** | – |
-| **legion.call** | – |
-| **paratroopers_medic.call** (Fallschirmjäger mit Medics) | – |
-| **gps.call** | – |
-| **tracer_dart.call** (als Call; PA nutzt es teils als Waffe) | – |
-| **experimental_calls.xml** (u.a. weitere A10/Gunship-Varianten) | – |
+| **cluster_bomb.call** | - |
+| **bm21.call** (Raketenwerfer-Salve) | - |
+| **supply_quad.call** (Nachschub-Quad per Fallschirm) | - |
+| **a10_gun_run.call** | - |
+| **gunship_run.call** / **gunship_run2.call** | - |
+| **legion.call** | - |
+| **paratroopers_medic.call** (Fallschirmjäger mit Medics) | - |
+| **gps.call** | - |
+| **tracer_dart.call** (als Call; PA nutzt es teils als Waffe) | - |
+| **experimental_calls.xml** (u.a. weitere A10/Gunship-Varianten) | - |
 | artillery2 (in PA aktiv) | artillery2-Datei vorhanden, nicht in all_calls |
 | rubber_boat, buggy (in PA aktiv) | Dateien bei uns da, nicht in all_calls |  
-| – | **heavy_mortar, heavy_artillery, railway_artillery, tactical_strike, vulcan_tank, paratroopers3/4, apc, tank_1/2, tow_drop, minig_drop, mg_drop, mines** (haben wir, PA nicht) |
+| - | **heavy_mortar, heavy_artillery, railway_artillery, tactical_strike, vulcan_tank, paratroopers3/4, apc, tank_1/2, tow_drop, minig_drop, mg_drop, mines** (haben wir, PA nicht) |
 
 ### Soldier-Typen (KI / Spieler)
 | PA hat | Wir haben |
 |--------|-----------|
 | **default** (nur Spieler, spawn_score 0) | default (auch KI, spawn 1.0) |
-| **default_ai** (eigener KI-Standard) | – (ein default für alle) |
+| **default_ai** (eigener KI-Standard) | - (ein default für alle) |
 | **IUS Sergeant** / Master-Sergeant-Äquivalent | **support** (MG) |
-| **rambo** (sehr selten) | – |
-| **ncr_ranger** (Ranger mit SMAW, Gunship-Call) | – |
-| **snake** (Infiltrator) | – |
-| **supply_medic** | – |
-| **sniper** (eigener Typ + sniper.ai) | – (nur common_snipers.resources, kein eigener Soldier) |
-| **lonewolf** (copy_from sniper) | – |
-| **medic2** | – |
-| **para** (Fallschirmjäger-Loadout) | – |
+| **rambo** (sehr selten) | - |
+| **ncr_ranger** (Ranger mit SMAW, Gunship-Call) | - |
+| **snake** (Infiltrator) | - |
+| **supply_medic** | - |
+| **sniper** (eigener Typ + sniper.ai) | - (nur common_snipers.resources, kein eigener Soldier) |
+| **lonewolf** (copy_from sniper) | - |
+| **medic2** | - |
+| **para** (Fallschirmjäger-Loadout) | - |
 | **grenadier** | **grenadier** ✓ |
-| **chicken** (Gag) | – |
-| **dog** (Hund-Einheit) | – |
-| **elite ripper** | – |
-| **skeleton** | – |
+| **chicken** (Gag) | - |
+| **dog** (Hund-Einheit) | - |
+| **elite ripper** | - |
+| **skeleton** | - |
 | **eod** | **eod** ✓ |
 | **miniboss, medic, prisoner, supply** | **miniboss, medic, prisoner, supply** ✓ |
-| – | **specialforces, miniboss_female** (haben wir, PA anders benannt/strukturiert) |
+| - | **specialforces, miniboss_female** (haben wir, PA anders benannt/strukturiert) |
 
 ### AI-Dateien
 | PA hat | Wir haben |
 |--------|-----------|
 | **grenadier.ai** | **grenadier.ai** ✓ (übernommen) |
-| **ranger.ai** | – |
-| **lonewolf.ai** | – |
-| **medic.ai** | – |
-| **sniper.ai** | – |
-| **dog.ai** | – |
-| **chicken.ai** | – |
-| **infected.ai** | – |
-| **grinch.ai** | – |
-| **bomber.ai** | – |
-| **default_pvp.ai** | – |
+| **ranger.ai** | - |
+| **lonewolf.ai** | - |
+| **medic.ai** | - |
+| **sniper.ai** | - |
+| **dog.ai** | - |
+| **chicken.ai** | - |
+| **infected.ai** | - |
+| **grinch.ai** | - |
+| **bomber.ai** | - |
+| **default_pvp.ai** | - |
 
 ### Fahrzeuge
-- PA: **atv_armory_para.vehicle** (Fallschirm-Quad für supply_quad) – wir haben nur atv_armory.
+- PA: **atv_armory_para.vehicle** (Fallschirm-Quad für supply_quad) - wir haben nur atv_armory.
 - PA: deutlich mehr Vehicle-Varianten (270+ .vehicle), wir ~58.
-- Wir: **vulcan_tank, tow, deployable_minig**, etc. – PA teils andere Namen/Listen.
+- Wir: **vulcan_tank, tow, deployable_minig**, etc. - PA teils andere Namen/Listen.
 
 ### Items (Carry Items)
-- PA: **160+** carry_items (Vesten, Kostüme, Gags, Belohnungen: captain_vest, camo_vest, dog, gift_box_1–7, costume_*, dollars, gold_bar, …).
-- Wir: **6** in items/, Rest aus common.resources (vest1–3, costume_were/clown/santa, eodvest_ai, …).
+- PA: **160+** carry_items (Vesten, Kostüme, Gags, Belohnungen: captain_vest, camo_vest, dog, gift_box_1-7, costume_*, dollars, gold_bar, …).
+- Wir: **6** in items/, Rest aus common.resources (vest1-3, costume_were/clown/santa, eodvest_ai, …).
 
 ### Scripts (AngelScript)
 - PA: **115** Scripts (Campaign: difficulty_tracker, map_rotator_campaign, stage_configurator, world_marker; Invasion: vehicle_delivery, stage_invasion, …; Tracker: a10_gun_run, gunship_run, gps_laptop, prison_break_objective, …).
@@ -114,7 +114,7 @@ Gewünschte Dateien aus PA in deinen Mod kopieren und ggf. Referenzen anpassen (
 
 ---
 
-## Empfohlene Integration (Kopieren) – nach Priorität
+## Empfohlene Integration (Kopieren) - nach Priorität
 
 ### 1. Grenadier-AI (sofort nutzbar)
 
@@ -131,7 +131,7 @@ PA hat eine **grenadier.ai**, die nur wenige Parameter überschreibt.
 - **In deinem Mod:**
   - `vehicles/all_vehicles.xml`: `<vehicle file="atv_armory_para.vehicle" />` eintragen (falls noch nicht vorhanden).
   - `calls/all_calls.xml`: `<call file="supply_quad.call" />` eintragen.
-- **Abhängigkeiten:** `atv_armory_para` spawnt beim Zerstören `atv_armory.vehicle` – das hast du schon. Er braucht `chute_medium.weapon` (oft Vanilla) und gleiche Meshes wie `atv_armory` (atv_armory_body.mesh, atv.png) – prüfen, ob bei dir vorhanden.
+- **Abhängigkeiten:** `atv_armory_para` spawnt beim Zerstören `atv_armory.vehicle` - das hast du schon. Er braucht `chute_medium.weapon` (oft Vanilla) und gleiche Meshes wie `atv_armory` (atv_armory_body.mesh, atv.png) - prüfen, ob bei dir vorhanden.
 
 ### 3. Cluster-Bomb-Call
 
@@ -146,9 +146,9 @@ PA hat eine **grenadier.ai**, die nur wenige Parameter überschreibt.
 
 ### 5. Weitere Soldier-Typen (Ranger, Sniper, Para, …)
 
-- **Ranger:** PA hat `common_ranger.resources` (u.a. SMAW, tracer_dart_ai, gunship_run2). Du hast bereits Specialforces mit SMAW; Ranger wäre ein zusätzlicher Typ mit eigener AI (`ranger.ai`) und eigenen Resources – aufwendiger, weil Calls/Waffen abgeglichen werden müssen.
+- **Ranger:** PA hat `common_ranger.resources` (u.a. SMAW, tracer_dart_ai, gunship_run2). Du hast bereits Specialforces mit SMAW; Ranger wäre ein zusätzlicher Typ mit eigener AI (`ranger.ai`) und eigenen Resources - aufwendiger, weil Calls/Waffen abgeglichen werden müssen.
 - **Sniper:** PA hat dedizierte `*_sniper.resources` und `sniper.ai`. Du hast `common_snipers.resources`; optional könntest du eine eigene Sniper-Soldier-Definition + sniper.ai aus PA übernehmen.
-- **Para:** Fallschirmjäger-Loadout; eigene Resources in PA – gleiche Vorgehensweise: Resources + Soldier-Block kopieren, Referenzen prüfen.
+- **Para:** Fallschirmjäger-Loadout; eigene Resources in PA - gleiche Vorgehensweise: Resources + Soldier-Block kopieren, Referenzen prüfen.
 
 ### 6. Weitere Calls aus PA
 
@@ -171,6 +171,6 @@ PA hat eine **grenadier.ai**, die nur wenige Parameter überschreibt.
 1. Aus PA kopieren: `factions/grenadier.ai` → dein `factions/grenadier.ai`.
 2. In `grey.xml`, `green.xml`, `brown.xml` beim Soldier `name="grenadier"` ersetzen:  
    `<ai filename="default.ai" />` → `<ai filename="grenadier.ai" />`
-3. Fertig – Grenadiere nutzen dann die PA-Grenadier-AI (etwas andere Autorität/Genauigkeit).
+3. Fertig - Grenadiere nutzen dann die PA-Grenadier-AI (etwas andere Autorität/Genauigkeit).
 
 Wenn du möchtest, können wir als Nächstes **Supply-Quad** oder **Cluster-Bomb** Schritt für Schritt (mit genauen Dateinamen und Zeilen) durchgehen.

@@ -42,8 +42,9 @@ class GameModeQuickMatch : Metagame {
 		} else {
 			addTracker(FactionAliveHudTracker(this)); // HUD: nur Einheiten in 200m
 		}
-		addTracker(VehicleIntervalSpawn(this)); // Fahrzeug-Spawn alle 2–4 min (simple) / 5–8 min (medium)
-		addTracker(CaptainSpawnCommandTracker(this)); // /captain_spawn – 1 Captain + 1 orange_bodyguards
+		CaptainSpawnCommandTracker@ captainTr = CaptainSpawnCommandTracker(this);
+		addTracker(captainTr);  // /captain_spawn - 1 Captain + 3 orange_bodyguards; auch bei Cargo-Truck-Spawn
+		addTracker(VehicleIntervalSpawn(this, captainTr));  // Fahrzeug-Spawn; bei Cargo-Truck: Captain-Team mit
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 
 		const XmlElement@ player = getPlayerInfo(this, 0);

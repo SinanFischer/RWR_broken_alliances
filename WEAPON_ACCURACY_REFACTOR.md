@@ -1,6 +1,6 @@
 # Accuracy-Refaktor: Vanilla-nahe Logik (factor + grow/diminish, weniger Stances)
 
-**Ziel:** Wie Vanilla – accuracy_factor höher (0.95–1.0), sustained_fire_grow/diminish für Differenzierung, Stance-Overrides nur bei Spezialwaffen entfernen.
+**Ziel:** Wie Vanilla - accuracy_factor höher (0.95-1.0), sustained_fire_grow/diminish für Differenzierung, Stance-Overrides nur bei Spezialwaffen entfernen.
 
 ---
 
@@ -74,7 +74,7 @@
 | **Stance-Overrides** | **0** | **0** | **0** |
 
 **Logik:**
-- **HK416:** Faktor 0.96, mäßiger grow (0.20), gute diminish (1.20) – präziser Pool-AR.
+- **HK416:** Faktor 0.96, mäßiger grow (0.20), gute diminish (1.20) - präziser Pool-AR.
 - **M4A1:** Faktor 0.98, grow 0.24 (M4 neigt zu Streuung bei Dauerfeuer), diminish 1.35 = stärkste Erholung.
 - **AKS-74U:** Faktor 0.92 (Kurzkarabin), grow 0.24, diminish 1.12; Stärke = Kadenz + Mag 38.
 

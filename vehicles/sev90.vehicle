@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mod: SEV90 – max_health 14.8 (Vanilla 8), Health-Effekte skaliert, Despawn 20 min -->
+<!-- Mod: SEV90 - max_health 14.8 (Vanilla 8), Health-Effekte skaliert, Despawn 20 min -->
 <vehicle file="vehicle_base.vehicle" 
 name="SEV-90" 
 key="sev90.vehicle" 

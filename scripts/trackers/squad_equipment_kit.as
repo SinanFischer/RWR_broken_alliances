@@ -6,7 +6,7 @@
 #include "query_helpers2.as"
 
 //Author: Unit G17
-// Integrated into RWR Total Conversion Mod – costume list limited to items present in mod
+// Integrated into RWR Total Conversion Mod - costume list limited to items present in mod
 
 	// --------------------------------------------
 class SquadEquipmentKit : Tracker {

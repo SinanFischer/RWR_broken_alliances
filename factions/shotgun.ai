@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Shotgun-AI: nur Abweichungen zu default.ai – Nahkampf, kürzere Sicht, aggressiver Charge. -->
+<!-- Shotgun-AI: nur Abweichungen zu default.ai - Nahkampf, kürzere Sicht, aggressiver Charge. -->
 <ai>
   <parameter class="vehicle_stuck_short_time" value="10.0" />
   <parameter class="check_vehicles_interval" value="2.0" />

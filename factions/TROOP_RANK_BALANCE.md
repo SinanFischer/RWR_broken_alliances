@@ -1,4 +1,4 @@
-# Troop Rank Balance – Übersicht & Anpassungshilfe
+# Troop Rank Balance - Übersicht & Anpassungshilfe
 
 **Ziel:** Elite-Truppen/Specialforces/Minibosses sollen durch höheren Spawn-XP oft **Squad-Leader** werden.  
 Stürmer (EOD), reguläre Soldaten und Unterstützungseinheiten sollen **Follower-Ränge** haben.
@@ -9,7 +9,7 @@ Stürmer (EOD), reguläre Soldaten und Unterstützungseinheiten sollen **Followe
 
 | Konzept | Erklärung |
 |--------|-----------|
-| **xp** | `attribute_config class="xp"` – XP-Wert bei Spawn. Bestimmt direkt den **Rang**. |
+| **xp** | `attribute_config class="xp"` - XP-Wert bei Spawn. Bestimmt direkt den **Rang**. |
 | **Rank** | Wird aus XP über die `<rank xp="…" name="…">`-Tabelle in der Faction-XML ermittelt. |
 | **Squad Leader** | Der KI-Soldat mit dem **höchsten XP** in der Nähe wird bevorzugt zum Anführer gewählt. |
 
@@ -70,7 +70,7 @@ XP     0.0    0.2    0.4    0.6    0.8    1.0    1.2    1.4    2.0    5.0+
        │      │      │      │      │      │      │      │      │      │
 Rank   Pvt    Sgt    SSgt1  Lt     Capt   Maj    Col    ...
        ├──────┼──────┼──────┼──────┼──────┼──────┼──────┼──────┼──────┤
-       │ Follower-Bereich (0.0–0.5)        │ Leader-Bereich (0.6+)    │
+       │ Follower-Bereich (0.0-0.5)        │ Leader-Bereich (0.6+)    │
        └─────────────────────────────────┴─────────────────────────┘
 
 Aktuelle Verteilung:
@@ -92,20 +92,20 @@ Aktuelle Verteilung:
 
 | Kategorie | XP-Bereich | Typischer Rang | Truppentyp |
 |-----------|------------|----------------|------------|
-| **Follower** | 0.0 – 1.0 | Private bis Captain | default, shotgun, sniper, medic, mortar, cover_troop |
-| **Follower (MG)** | 0.2 – 0.6 | Sergeant bis 2nd Lt | support |
-| **Follower (bis Major)** | 0.2 – 1.2 | Sergeant bis Major | eod_light |
-| **Elite** | 0.4 – 1.4 | Staff Sgt 1st → Lt Colonel | specialforces |
-| **Leader/Miniboss** | 1.2 – 50.0 | Major → General | miniboss, miniboss_female |
-| **Leader (starke Truppe)** | 1.6 – 3.7 | Captain → Major General | eod (Stürmer führen mit) |
+| **Follower** | 0.0 - 1.0 | Private bis Captain | default, shotgun, sniper, medic, mortar, cover_troop |
+| **Follower (MG)** | 0.2 - 0.6 | Sergeant bis 2nd Lt | support |
+| **Follower (bis Major)** | 0.2 - 1.2 | Sergeant bis Major | eod_light |
+| **Elite** | 0.4 - 1.4 | Staff Sgt 1st → Lt Colonel | specialforces |
+| **Leader/Miniboss** | 1.2 - 50.0 | Major → General | miniboss, miniboss_female |
+| **Leader (starke Truppe)** | 1.6 - 3.7 | Captain → Major General | eod (Stürmer führen mit) |
 | **Captain (Spielfigur)** | 100.0 (fix) | General of the Army | captain |
-| **Bodyguards** | 1.0 – 2.0 | Captain → Colonel | orange_bodyguards |
+| **Bodyguards** | 1.0 - 2.0 | Captain → Colonel | orange_bodyguards |
 
 ---
 
 ## 6. XP anpassen in den Faction-XMLs
 
-Beispiel für **specialforces** (0.4–1.4):
+Beispiel für **specialforces** (0.4-1.4):
 
 ```xml
 <attribute_config class="xp">
@@ -142,11 +142,11 @@ Beispiel für **specialforces** (0.4–1.4):
 ## 8. Checkliste für Balance-Iteration
 
 - [x] Follower (default, mortar, cover) max Captain (XP 1.0)
-- [x] support: 0.2–0.6 (MG-Schützen eher Follower)
+- [x] support: 0.2-0.6 (MG-Schützen eher Follower)
 - [x] Medic max Sergeant (XP 0.2)
-- [x] eod_light: Sergeant bis Major (0.2–1.2)
-- [x] specialforces: 0.4–1.4 (Staff Sgt 1st bis Lt Colonel)
-- [x] miniboss: Major bis General (1.2–50.0), ohne squad_size_xp_cap
-- [x] eod: unverändert (1.6–3.7), starke Truppe führt mit
+- [x] eod_light: Sergeant bis Major (0.2-1.2)
+- [x] specialforces: 0.4-1.4 (Staff Sgt 1st bis Lt Colonel)
+- [x] miniboss: Major bis General (1.2-50.0), ohne squad_size_xp_cap
+- [x] eod: unverändert (1.6-3.7), starke Truppe führt mit
 - [x] Änderungen in allen drei Faction-XMLs (brown, green, grey) konsistent
 - [x] Squad-Settings: max_leader_authority 0.45, defending_offset 0.3, authority_margin 0.05, medic favor_joining 0.55

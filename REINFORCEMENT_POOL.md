@@ -80,7 +80,7 @@ Kurzbeschreibung des in `scripts/trackers/reinforcement_pool_tracker.as` impleme
 
 ## 8. Visual Payoff (Eroberungs-Bonus)
 
-- Während der **Eroberungs-Bonus** pro Basis läuft (über 5 Min), erscheinen **grüne "+1"-Popups** (bzw. "+2"/"+3" je nach gutgeschriebenem Chunk) **über der Basis-Flagge** – ähnlich XP-Popups.
+- Während der **Eroberungs-Bonus** pro Basis läuft (über 5 Min), erscheinen **grüne "+1"-Popups** (bzw. "+2"/"+3" je nach gutgeschriebenem Chunk) **über der Basis-Flagge** - ähnlich XP-Popups.
 - **Throttle:** Maximal alle **3 Sekunden** pro Basis ein Popup (`PAYOFF_INTERVAL_PER_BASE`), damit es nicht flimmert.
 - **Technik:** Es wird der Engine-Befehl **`add_visual_payoff`** mit `position` (Basis-Position + Y-Offset 3 m), `text` (z. B. "+1") und `color` (grün) gesendet. Falls die Engine einen anderen Befehl oder andere Attribute nutzt, in `sendVisualPayoffAtBase()` in `reinforcement_pool_tracker.as` anpassen.
 

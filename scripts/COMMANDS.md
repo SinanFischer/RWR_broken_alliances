@@ -11,15 +11,17 @@ Alle **eingebundenen** Chat-Commands des Mods. Ausgenommen: Reinforcement-Pool-T
 | Command | Quelle | Gamemode | Zugriff | Beschreibung |
 |--------|--------|----------|---------|--------------|
 | `/stats` oder `/stat` | `trackers/stats_command_tracker.as` | Quick Match | Alle | Statistik pro Fraktion: A-K-D, C-B, B(s). |
-| `/vehicle`, `/vehicle_spawn`, `/fahrzeug` | `trackers/vehicle_interval_spawn.as` | Quick Match, Invasion | Alle | Status: eigene Fraktion – light / medium / heavy (Zeiten in s); heavy zeigt „blocked (leading faction)“ wenn führend. |
+| `/vehicle`, `/vehicle_spawn`, `/fahrzeug` | `trackers/vehicle_interval_spawn.as` | Quick Match, Invasion | Alle | Status: eigene Fraktion - light / medium / heavy (Zeiten in s); heavy zeigt „blocked (leading faction)“ wenn führend. |
 | `/vehicle test`, `/vehicle_spawn test`, `/fahrzeug test` | wie oben | Quick Match, Invasion | **Admin** | Sofort-Spawn eines Leicht-Fahrzeugs für die eigene Fraktion. |
 | `/captain_spawn` | `trackers/captain_spawn_command_tracker.as` | Quick Match | **Admin** | Spawnt 1 Captain + 3 orange_bodyguards bei Spielerposition (eigene Fraktion). |
 | `/captain_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match | **Admin** | Wie oben, mit Paradrop (Höhe). |
+| `/cargo_captain_test` oder `/test_cargo_captain` | `trackers/vehicle_interval_spawn.as` | Quick Match | **Admin** | Test: Spawnt Cargo Truck + Captain an zufälliger Basis deiner Fraktion. Simuliert das Cargo+Captain-Event. |
+| *Cargo-Truck-Spawn* | `vehicle_interval_spawn` + `captain_spawn` | Quick Match | automatisch | Wenn zufällig ein Cargo Truck spawnt (Medium, ~9 % Chance): Captain-Team spawnt mit. Nachrichten an alle Fraktionen. |
 | `/test_defender_tank` | `trackers/defender_tank_help.as` | **nur Invasion** | **Admin** | Simuliert Panzer-Spawn für Verteidiger (Test). |
 
 ### Vehicle-Command (Kurz)
 
-**`/vehicle`** (ohne Argument) ist ein **Status-Command** für alle Spieler. Er zeigt nur die **eigene Fraktion**: Restzeiten in Sekunden bis zum nächsten Spawn für **light**, **medium** und **heavy**. Überschrift: *Upcoming vehicle spawns*. Ist die eigene Fraktion führend (meiste Basen), steht bei heavy **blocked (leading faction)** – dann gibt es keinen Schwer-Spawn für euch. **`/vehicle test`** spawnt sofort ein Leicht-Fahrzeug und ist **nur für Admins**.
+**`/vehicle`** (ohne Argument) ist ein **Status-Command** für alle Spieler. Er zeigt nur die **eigene Fraktion**: Restzeiten in Sekunden bis zum nächsten Spawn für **light**, **medium** und **heavy**. Überschrift: *Upcoming vehicle spawns*. Ist die eigene Fraktion führend (meiste Basen), steht bei heavy **blocked (leading faction)** - dann gibt es keinen Schwer-Spawn für euch. **`/vehicle test`** spawnt sofort ein Leicht-Fahrzeug und ist **nur für Admins**.
 
 ---
 
@@ -41,7 +43,7 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 
 *(Vollständige Liste siehe Vanilla: `scripts/trackers/basic_command_handler.as`.)*
 
-### 2.2 SupporterCommandHandler (Vanilla) – nur Invasion
+### 2.2 SupporterCommandHandler (Vanilla) - nur Invasion
 
 - **Nur Invasion**, nur für Spieler mit Supporter-DLC.
 - Emotes/Animationen: `sit`, `hi`, `salute`, `handstand`, `push`, `yay1`, `yay2`, `dance1`, `dance2`, `dance3`.
@@ -50,7 +52,7 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 
 ## 3. Nicht aufgeführt (bewusst ausgenommen)
 
-- **Reinforcement-Pool-Tracker:** `/nachschub`, `/pool` – Script ist im Mod auskommentiert (nicht eingebunden).
+- **Reinforcement-Pool-Tracker:** `/nachschub`, `/pool` - Script ist im Mod auskommentiert (nicht eingebunden).
 - Alle Scripte, die in keinem aktiven Gamemode (Quick Match / Invasion) per `addTracker()` oder Include eingebunden sind.
 
 ---
@@ -59,10 +61,37 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 
 | Gamemode | Mod-Commands | BasicCommandHandler | SupporterCommandHandler | DefenderTankHelp |
 |----------|----------------|---------------------|--------------------------|------------------|
-| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/captain_spawn` | ja | nein | nein |
+| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/captain_spawn`, `/cargo_captain_test` | ja | nein | nein |
 | **Invasion**   | `/vehicle`, `/fahrzeug`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
 
-*Hinweis: `/captain_spawn` ist nur in Quick Match eingebunden.*
+*Hinweis: `/captain_spawn` und `/cargo_captain_test` sind nur in Quick Match eingebunden.*
+
+---
+
+## 4.1 Cargo+Captain-Event - Ablauf & Nachrichten
+
+**Quelle:** `vehicle_interval_spawn.as` + `captain_spawn_command_tracker.as`
+
+### Auslöser
+
+1. **Zufällig:** Medium-Fahrzeug-Spawn (alle 5-8 Min pro Fraktion) wählt zufällig ein Fahrzeug - ~9 % Chance auf Cargo Truck.
+2. **Test:** `/cargo_captain_test` oder `/test_cargo_captain` (Admin) - erzwingt Cargo Truck + Captain an einer zufälligen Basis deiner Fraktion.
+
+### Ablauf
+
+| Schritt | Aktion | Ort |
+|---------|--------|-----|
+| 1 | Zufällige Basis der Fraktion (die gerade spawnt) auswählen | `spawnVehicle()` / `spawnCargoTruckWithCaptain()` |
+| 2 | Cargo Truck an Basis-Position spawnen | `create_instance` |
+| 3 | Captain + 3 Bodyguards an derselben Position spawnen | `CaptainSpawnCommandTracker.spawnCaptainSquadAt()` |
+| 4 | **Eigene Fraktion:** Commander-Message | „Captain has reinforced our base at [Basis] - he arrived with the supply convoy and will defend our position.“ |
+| 5 | **Feind-Fraktionen:** Commander-Message | „Enemy [Fraktionsname] Cargo truck reported - escorted by a Captain. Find and eliminate him for valuable intel!“ (ohne Basisdaten) |
+| 6 | Captain-Marker (VIP-Ziel, atlas 17) für eigene Fraktion | `update()` in Captain-Tracker |
+| 7 | Feind spottet Cargo Truck → Feind-Marker (Enemy Commander, atlas 18) | `vehicle_spot_event` |
+
+### Command für Test
+
+- **`/cargo_captain_test`** oder **`/test_cargo_captain`** - in `vehicle_interval_spawn.as`, `handleChatEvent()`, ca. Zeile 385.
 
 ---
 
@@ -132,7 +161,7 @@ Wenn du RWR im **Debug-Mode** startest, stehen zusätzliche **Tastenkombinatione
 | **F8** | Live-Reload von Ressourcen (z. B. XML-Änderungen im laufenden Spiel nachladen). |
 | **Strg+F8** | Live-Reload (Alternative). |
 | **F9** | Performance- und Zustandsdaten anzeigen. |
-| **1–0** (Ziffern) | Grafikelemente nach Gruppen ein-/ausblenden (Einfluss auf Performance prüfen). |
+| **1-0** (Ziffern) | Grafikelemente nach Gruppen ein-/ausblenden (Einfluss auf Performance prüfen). |
 | **Strg+1** bis **Strg+0** | KI-Debug-Visuals ein-/ausblenden (z. B. Sichtbereiche, Squad-Zugehörigkeit). |
 
-*Quelle: [RWR Wiki – Debugmode](https://runningwithrifles.fandom.com/wiki/Debugmode), [Command line switches](https://runningwithrifles.fandom.com/wiki/Command_line_switches).*
+*Quelle: [RWR Wiki - Debugmode](https://runningwithrifles.fandom.com/wiki/Debugmode), [Command line switches](https://runningwithrifles.fandom.com/wiki/Command_line_switches).*

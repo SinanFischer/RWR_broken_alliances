@@ -26,22 +26,22 @@
 
 ### 3.1 Pflichtattribute pro Eintrag
 
-- **key** – Eindeutige ID, z. B. `meine_vest.carry_item` oder `meine_vest_2` (Zustände).
-- **name** – Anzeigename (wird für Sprachkeys genutzt, z. B. `"Vest, type II"`).
-- **slot="1"** – Immer **1** für Westen (Vest-Slot).
-- **transform_on_consume** – Nächster Zustand nach „Verbrauch“ (ein Treffer); letzter Zustand hat kein `transform_on_consume`.
-- **time_to_live_out_in_the_open** – Sekunden, wie lange die Weste am Boden liegt (z. B. 120.0).
+- **key** - Eindeutige ID, z. B. `meine_vest.carry_item` oder `meine_vest_2` (Zustände).
+- **name** - Anzeigename (wird für Sprachkeys genutzt, z. B. `"Vest, type II"`).
+- **slot="1"** - Immer **1** für Westen (Vest-Slot).
+- **transform_on_consume** - Nächster Zustand nach „Verbrauch“ (ein Treffer); letzter Zustand hat kein `transform_on_consume`.
+- **time_to_live_out_in_the_open** - Sekunden, wie lange die Weste am Boden liegt (z. B. 120.0).
 
 **Quelle:**  
 `Project_Apocalypse/items/vest2.carry_item` (Zeilen 3, 23, 42), `camo_vest.carry_item` (Zeilen 3, 24, 46, 66, 86), `ss_vest.carry_item` (Zeilen 3, 21, 43, …).
 
 ### 3.2 Typische Kindelemente
 
-- **`<hud_icon filename="hud_vest.png" />`** – Icon in der HUD.
-- **`<capacity value="1" source="rank" source_value="0.0" />`** (evtl. mehrere) – Wer darf es tragen (Rank).
-- **`<inventory encumbrance="…" price="…" />`** – Erschwernis, Preis (Armory); optional `buy_price`/`sell_price`.
-- **`<model mesh_filename="vest.xml" />`** – 3D-Modell (relativ zu `models/`).
-- **`<commonness value="…" in_stock="…" can_respawn_with="…" />`** – Gewichtung/Spawn/Respawn.
+- **`<hud_icon filename="hud_vest.png" />`** - Icon in der HUD.
+- **`<capacity value="1" source="rank" source_value="0.0" />`** (evtl. mehrere) - Wer darf es tragen (Rank).
+- **`<inventory encumbrance="…" price="…" />`** - Erschwernis, Preis (Armory); optional `buy_price`/`sell_price`.
+- **`<model mesh_filename="vest.xml" />`** - 3D-Modell (relativ zu `models/`).
+- **`<commonness value="…" in_stock="…" can_respawn_with="…" />`** - Gewichtung/Spawn/Respawn.
 
 **Quelle:**  
 `Project_Apocalypse/items/vest2.carry_item`, `camo_vest.carry_item`, `ss_vest.carry_item`.
@@ -50,9 +50,9 @@
 
 Bestimmen, was bei **projectile_hit**, **projectile_blast** und **melee_hit** passiert:
 
-- **input_character_state** – Ausgangszustand: `death`, `wound`, `stun`.
-- **output_character_state** – Ergebnis: `none` (Treffer absorbiert), `stun`, `wound`, `death`.
-- **consumes_item="0"** – Weste wird bei diesem Treffer nicht „verbraucht“ (Zustand wechselt nicht).
+- **input_character_state** - Ausgangszustand: `death`, `wound`, `stun`.
+- **output_character_state** - Ergebnis: `none` (Treffer absorbiert), `stun`, `wound`, `death`.
+- **consumes_item="0"** - Weste wird bei diesem Treffer nicht „verbraucht“ (Zustand wechselt nicht).
 
 Klassische Kette (3-Stufen-Weste):
 
@@ -61,15 +61,15 @@ Klassische Kette (3-Stufen-Weste):
 3. **Kaputt:** `death` → `wound` (nächster Treffer = verwundet).
 
 **Quelle:**  
-`Project_Apocalypse/items/vest2.carry_item` (Zeilen 13–19, 33–38, 53–55), `camo_vest.carry_item` (analog), `ss_vest.carry_item`, `vest_snake.carry_item` (z. B. Zeilen 12–17, 133–137, 155–159).
+`Project_Apocalypse/items/vest2.carry_item` (Zeilen 13-19, 33-38, 53-55), `camo_vest.carry_item` (analog), `ss_vest.carry_item`, `vest_snake.carry_item` (z. B. Zeilen 12-17, 133-137, 155-159).
 
 ### 3.4 Optionale Modifier
 
-- **`<modifier class="speed" value="-0.05" />`** – Bewegungsmalus.
-- **`<modifier class="detectability" value="-0.20" />`** – Tarnung (camo_vest, vest_snake).
+- **`<modifier class="speed" value="-0.05" />`** - Bewegungsmalus.
+- **`<modifier class="detectability" value="-0.20" />`** - Tarnung (camo_vest, vest_snake).
 
 **Quelle:**  
-`Project_Apocalypse/items/vest2.carry_item` (Zeile 20), `camo_vest.carry_item` (Zeilen 21, 43, 64, 83), `vest_snake.carry_item` (Zeilen 18–19).
+`Project_Apocalypse/items/vest2.carry_item` (Zeile 20), `camo_vest.carry_item` (Zeilen 21, 43, 64, 83), `vest_snake.carry_item` (Zeilen 18-19).
 
 ---
 
@@ -87,7 +87,7 @@ Beispiele:
 - **camo_vest:** 5 Stufen (camo_vest.carry_item → camo_1 → camo_2 → camo_3 → camo_4).  
   **Quelle:** `Project_Apocalypse/items/camo_vest.carry_item`.
 - **vest_snake:** 10 Stufen (vest_snake.carry_item → snake1 … → snakedeath).  
-  **Quelle:** `Project_Apocalypse/items/vest_snake.carry_item` (Zeilen 4–176).
+  **Quelle:** `Project_Apocalypse/items/vest_snake.carry_item` (Zeilen 4-176).
 - **ss_vest:** 8 Stufen (ss_vest.carry_item → ss_vest_1 … → ss_vest_death).  
   **Quelle:** `Project_Apocalypse/items/ss_vest.carry_item`.
 
@@ -106,15 +106,15 @@ Welche Westen eine Fraktion nutzen kann, steht in **`.resources`**:
 - **Eigene Fraktion (nur bestimmte Weste):** `clear_carry_items="1"` und dann nur die gewünschten carry_items angeben.
 
 **Quelle:**  
-`Project_Apocalypse/factions/supply_common.resources` (Zeilen 75–83), `ss.resources` (Zeilen 2, 8–9), `orange_bodyguards.resources` (Zeilen 2, 5–6), `rambo.resources` (Zeilen 2, 5–6).
+`Project_Apocalypse/factions/supply_common.resources` (Zeilen 75-83), `ss.resources` (Zeilen 2, 8-9), `orange_bodyguards.resources` (Zeilen 2, 5-6), `rambo.resources` (Zeilen 2, 5-6).
 
 ---
 
 ## 6. Eigene Optik: Modell und HUD-Icon
 
-- **Modell:** `<model mesh_filename="meine_vest.xml" />` – Datei unter `models/meine_vest.xml`.  
+- **Modell:** `<model mesh_filename="meine_vest.xml" />` - Datei unter `models/meine_vest.xml`.  
   Vanilla-Modelle sind Voxel-XML (z. B. `vanilla/models/vest.xml`). Du kannst ein bestehendes Modell kopieren und anpassen oder ein neues erstellen.
-- **HUD-Icon:** `<hud_icon filename="hud_meine_vest.png" />` – Icon z. B. in `textures/` oder dem vom Spiel erwarteten Pfad für HUD-Icons.
+- **HUD-Icon:** `<hud_icon filename="hud_meine_vest.png" />` - Icon z. B. in `textures/` oder dem vom Spiel erwarteten Pfad für HUD-Icons.
 
 **Quelle:**  
 `Project_Apocalypse/items/vest2.carry_item` (mesh `vest.xml`), `camo_vest.carry_item` (`camo_vest.xml`), `vest_snake.carry_item` (`vest_snake.xml`), `vest_ss_spawn.carry_item` (`vest_ss.xml`, `hud_ss_vest.png`).
@@ -130,7 +130,7 @@ Wenn ein **getragener Gegenstand** beim Tod eine **frische Weste** droppen soll 
   `class="spawn"`, `instance_class="carry_item"`, `instance_key="ss_vest.carry_item"`, `min_amount="1" max_amount="1"`.
 
 **Quelle:**  
-`Project_Apocalypse/items/vest_ss_spawn.carry_item`: erbt von `base_valuable.carry_item`, key `vest_ss_spawn.carry_item`, spawnt `ss_vest.carry_item` (Zeilen 2–15, 12–14).
+`Project_Apocalypse/items/vest_ss_spawn.carry_item`: erbt von `base_valuable.carry_item`, key `vest_ss_spawn.carry_item`, spawnt `ss_vest.carry_item` (Zeilen 2-15, 12-14).
 
 Für eine eigene Weste: analog ein „meine_vest_spawn.carry_item“ anlegen, das bei Tod `meine_vest.carry_item` spawnt, und dieses Spawn-Item in der Fraktion führen.
 
@@ -146,7 +146,7 @@ Der **name** im carry_item wird als **key** für Übersetzungen verwendet. In z.
 ```
 
 **Quelle:**  
-`Project_Apocalypse/languages/ru/misc_text_vanilla.xml` (Zeilen 82–84, 90–94, 302–303, 411, 448–451).
+`Project_Apocalypse/languages/ru/misc_text_vanilla.xml` (Zeilen 82-84, 90-94, 302-303, 411, 448-451).
 
 ---
 
@@ -156,9 +156,9 @@ Der **name** im carry_item wird als **key** für Übersetzungen verwendet. In z.
 2. **Modell:** `models/meine_vest.xml` (von `vest.xml` oder `camo_vest.xml` kopieren/anpassen) und in jedem Zustand `mesh_filename="meine_vest.xml"` referenzieren.
 3. **HUD-Icon:** `hud_meine_vest.png` bereitstellen und in jedem Zustand `<hud_icon filename="hud_meine_vest.png" />` (evtl. pro Stufe andere Icons).
 4. **Fraktion:** In den gewünschten `factions/*.resources` eintragen: `<carry_item key='meine_vest.carry_item' enabled="1" />`.
-5. **Optional – Spawn-Item:** Eigenes carry_item (z. B. `meine_vest_spawn.carry_item`) mit `drop_on_death_result` → spawn `meine_vest.carry_item`; nur dieses Spawn-Item in der Fraktion führen, wenn Soldaten beim Tod die Weste droppen sollen.
-6. **Optional – Sprache:** In `languages/<lang>/misc_text_vanilla.xml` Einträge für jeden `name`-Wert der Westen-Zustände hinzufügen.
-7. **Optional – Invasion/Gamemode:** Wenn dein Mod einen eigenen `item_delivery_configurator` oder ähnliches hat, dort die neue Weste als `ScoredResource("meine_vest.carry_item", "carry_item", …)` eintragen, damit sie in Crates/Armory vorkommt (siehe z. B. `Project_Apocalypse/scripts/gamemodes/invasion/item_delivery_configurator_invasion.as` für camo_vest, vest3, vest_exo).
+5. **Optional - Spawn-Item:** Eigenes carry_item (z. B. `meine_vest_spawn.carry_item`) mit `drop_on_death_result` → spawn `meine_vest.carry_item`; nur dieses Spawn-Item in der Fraktion führen, wenn Soldaten beim Tod die Weste droppen sollen.
+6. **Optional - Sprache:** In `languages/<lang>/misc_text_vanilla.xml` Einträge für jeden `name`-Wert der Westen-Zustände hinzufügen.
+7. **Optional - Invasion/Gamemode:** Wenn dein Mod einen eigenen `item_delivery_configurator` oder ähnliches hat, dort die neue Weste als `ScoredResource("meine_vest.carry_item", "carry_item", …)` eintragen, damit sie in Crates/Armory vorkommt (siehe z. B. `Project_Apocalypse/scripts/gamemodes/invasion/item_delivery_configurator_invasion.as` für camo_vest, vest3, vest_exo).
 
 ---
 
@@ -168,7 +168,7 @@ Der **name** im carry_item wird als **key** für Übersetzungen verwendet. In z.
 |-------|----------------------------|
 | Einfache 3-Stufen-Weste | `items/vest2.carry_item` |
 | Weste mit Tarnung + 5 Stufen | `items/camo_vest.carry_item` |
-| Viele Stufen (8–10), Sonderverhalten | `items/ss_vest.carry_item`, `items/vest_snake.carry_item` |
+| Viele Stufen (8-10), Sonderverhalten | `items/ss_vest.carry_item`, `items/vest_snake.carry_item` |
 | Spawn-Item (drop bei Tod) | `items/vest_ss_spawn.carry_item` |
 | Fraktion nur mit einer Weste | `factions/ss.resources`, `factions/orange_bodyguards.resources` |
 | Fraktion mit mehreren Westen | `factions/supply_common.resources` (carry_item-Zeilen) |
@@ -181,13 +181,13 @@ Der **name** im carry_item wird als **key** für Übersetzungen verwendet. In z.
 Im Total-Conversion-Mod ist eine **Default-Weste** (`vest_default.carry_item`) integriert:
 
 - **Verhalten:** Fängt keinen Schuss ab. Beim **ersten** tödlichen Treffer (Projektil, Explosion, Nahkampf) geht der Soldat in den **wounded**-Zustand (Medic kann heilen); die Weste wechselt in den Zustand „verbraucht“. Beim nächsten Treffer stirbt er.
-- **Wer bekommt sie:** Alle Default-Soldaten (Brown, Grey, Green) haben Slot 1 mit Wahrscheinlichkeit **1.0** und nutzen `default_vests.resources`, in dem nur `vest_default.carry_item` im Pool ist – also bekommt jeder diese Weste, sofern keine andere (bessere) Weste aus einem anderen Soldier-Typ gewählt wird.
+- **Wer bekommt sie:** Alle Default-Soldaten (Brown, Grey, Green) haben Slot 1 mit Wahrscheinlichkeit **1.0** und nutzen `default_vests.resources`, in dem nur `vest_default.carry_item` im Pool ist - also bekommt jeder diese Weste, sofern keine andere (bessere) Weste aus einem anderen Soldier-Typ gewählt wird.
 - **Relevante Dateien:**
-  - `items/vest_default.carry_item` – Definition (2 Zustände: `vest_default.carry_item` → `vest_default_used`)
-  - `factions/default_vests.resources` – Pool nur mit vest_default
-  - `factions/brown.xml`, `grey.xml`, `green.xml` – `item_class_existence` für Slot 1 mit probability 1.0 für default/default_ai
-  - `factions/brown_default.models`, `grey_default.models`, `green_default.models` – Modellzuordnung für vest_default/vest_default_used (soldier_c1_vest / ger_army_1_3 / soldier_a1_vest)
-  - `items/all_carry_items.xml`, `items/invasion_all_carry_items.xml` – Eintrag `vest_default.carry_item` für das Laden
+  - `items/vest_default.carry_item` - Definition (2 Zustände: `vest_default.carry_item` → `vest_default_used`)
+  - `factions/default_vests.resources` - Pool nur mit vest_default
+  - `factions/brown.xml`, `grey.xml`, `green.xml` - `item_class_existence` für Slot 1 mit probability 1.0 für default/default_ai
+  - `factions/brown_default.models`, `grey_default.models`, `green_default.models` - Modellzuordnung für vest_default/vest_default_used (soldier_c1_vest / ger_army_1_3 / soldier_a1_vest)
+  - `items/all_carry_items.xml`, `items/invasion_all_carry_items.xml` - Eintrag `vest_default.carry_item` für das Laden
 
 ---
 
@@ -203,14 +203,14 @@ Mit diesem Aufbau und den genannten Dateien kannst du eine eigene Weste definier
 
 **Lösung:**
 
-1. **`factions/armory_vests.resources`** – Liste aller Westen (vest1–4, eodvest, camouflage_suit, sf_suit, vest_blackops) **ohne** `clear_carry_items`, damit der Pool ergänzt wird.
+1. **`factions/armory_vests.resources`** - Liste aller Westen (vest1-4, eodvest, camouflage_suit, sf_suit, vest_blackops) **ohne** `clear_carry_items`, damit der Pool ergänzt wird.
 2. **Fraktionen (green/brown/grey.xml):** In der **default-** und **default_ai-**Soldatengruppe **nach** `default_vests.resources` einbinden: `<resources file="armory_vests.resources" />`.
-3. **Spawn-Verhalten:** In den Mod-`carry_item`-Dateien (vest1–4, camouflage_suit, sf_suit) für den **ersten Zustand** `commonness value="0.0"` und `in_stock="1"` setzen. So erscheinen die Westen in der Waffenkammer, werden aber für Default-Spawns nicht gewichtet (nur vest_default mit commonness 1.0 wird gezogen).
+3. **Spawn-Verhalten:** In den Mod-`carry_item`-Dateien (vest1-4, camouflage_suit, sf_suit) für den **ersten Zustand** `commonness value="0.0"` und `in_stock="1"` setzen. So erscheinen die Westen in der Waffenkammer, werden aber für Default-Spawns nicht gewichtet (nur vest_default mit commonness 1.0 wird gezogen).
 4. **sf_suit:** Zusätzlich `in_stock="1"` setzen (vorher 0), damit die Weste in der Waffenkammer angeboten wird.
 
 ---
 
-## 13. Erkenntnisse – Wichtig für zukünftige Implementierungen
+## 13. Erkenntnisse - Wichtig für zukünftige Implementierungen
 
 Diese Punkte fassen Wissen aus der Mod-Entwicklung zusammen (Waffenkammer, Anzeige, Spawn). Bei neuen Westen oder Änderungen an der Armory-Anzeige darauf achten.
 
@@ -218,9 +218,9 @@ Diese Punkte fassen Wissen aus der Mod-Entwicklung zusammen (Waffenkammer, Anzei
 
 | Quelle | Wird für Waffenkammer genutzt? |
 |--------|--------------------------------|
-| **Ressourcen der Default-Soldatengruppe** (default / default_ai) aus den in der Fraktion-XML geladenen `.resources`-Dateien | **Ja** – das ist die maßgebliche Quelle. |
-| supply-Soldatengruppe (z. B. `supply_common.resources`) | **Nein** – erscheint nicht in der Waffenkammer-Liste. |
-| Per Script gesendete `faction_resources`-Befehle (`getFriendlyFactionResourceChanges()` etc.) | **Nein** – die Waffenkammer-UI baut die Liste offenbar beim initialen Laden der Fraktion (XML/Resources); nachträgliche Script-Befehle reichen nicht für die Anzeige. |
+| **Ressourcen der Default-Soldatengruppe** (default / default_ai) aus den in der Fraktion-XML geladenen `.resources`-Dateien | **Ja** - das ist die maßgebliche Quelle. |
+| supply-Soldatengruppe (z. B. `supply_common.resources`) | **Nein** - erscheint nicht in der Waffenkammer-Liste. |
+| Per Script gesendete `faction_resources`-Befehle (`getFriendlyFactionResourceChanges()` etc.) | **Nein** - die Waffenkammer-UI baut die Liste offenbar beim initialen Laden der Fraktion (XML/Resources); nachträgliche Script-Befehle reichen nicht für die Anzeige. |
 
 **Folgerung:** Damit eine Weste in der Waffenkammer erscheint, muss sie in einer `.resources`-Datei stehen, die von der **default-** bzw. **default_ai-**Soldatengruppe der Spielerfraktion geladen wird (z. B. `armory_vests.resources` nach `default_vests.resources`).
 

@@ -1,6 +1,6 @@
-# Gewicht (Encumbrance) & Speed – Abgleich
+# Gewicht (Encumbrance) & Speed - Abgleich
 
-**Regel:** Encumbrance ≈ realistisches Gewicht (kg). Speed-Malus skaliert mit Gewicht – **ca. 1,2 % Laufverlust pro kg** (bezogen auf Soldat 70–90 kg). Schwere Waffen bremsen spürbar.
+**Regel:** Encumbrance ≈ realistisches Gewicht (kg). Speed-Malus skaliert mit Gewicht - **ca. 1,2 % Laufverlust pro kg** (bezogen auf Soldat 70-90 kg). Schwere Waffen bremsen spürbar.
 
 ---
 
@@ -14,7 +14,7 @@
 | M16A4     | 4,0      | 4   | -0.05  | ~5 %          |
 | HK416     | 4,0      | 4   | -0.05  | ~5 %          |
 
-**AK so leicht?** Ja – die **AK-74M** (5.45×39) wiegt leer ~3,4 kg, mit Magazin ~3,8 kg und gehört zu den leichteren Sturmgewehren. Die alte AK-47 (7.62×39) wäre ~4,3 kg; im Mod ist es die 74M.
+**AK so leicht?** Ja - die **AK-74M** (5.45×39) wiegt leer ~3,4 kg, mit Magazin ~3,8 kg und gehört zu den leichteren Sturmgewehren. Die alte AK-47 (7.62×39) wäre ~4,3 kg; im Mod ist es die 74M.
 
 ---
 
@@ -49,7 +49,7 @@
 | PKP Pecheneg     | 8,2      | 9   | -0.11   | ~11 %           |
 | M240             | 12,5     | 13  | **-0.16** | **~16 %**     |
 
-**12,5 kg Waffe, Soldat 70–90 kg:** 12,5 kg sind ~15–18 % des Körpergewichts → **16 %** Laufverlust ist plausibel (vorher 10 % war zu wenig).
+**12,5 kg Waffe, Soldat 70-90 kg:** 12,5 kg sind ~15-18 % des Körpergewichts → **16 %** Laufverlust ist plausibel (vorher 10 % war zu wenig).
 
 ---
 

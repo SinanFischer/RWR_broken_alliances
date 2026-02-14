@@ -6,7 +6,7 @@
 #include "query_helpers2.as"
 
 //Author: Unit G17
-// Integrated into RWR Total Conversion Mod – Navy kit gives vest3 (no vest_navy in mod); costume list fixed
+// Integrated into RWR Total Conversion Mod - Navy kit gives vest3 (no vest_navy in mod); costume list fixed
 
 	// --------------------------------------------
 class SquadEquipmentKitNavy : Tracker {
@@ -76,7 +76,7 @@ class SquadEquipmentKitNavy : Tracker {
 								int vestAmount = equipment[4].getIntAttribute("amount");
 								string vestKey = equipment[4].getStringAttribute("key");
 
-								// RWR mod: no vest_navy – treat like standard kit, give vest3
+								// RWR mod: no vest_navy - treat like standard kit, give vest3
 								if (vestAmount == 0 || (vestAmount == 1 && (vestKey == "vest2.carry_item" || vestKey == "vest2_2" || vestKey == "vest2_3" || vestKey == "vest1.carry_item" || vestKey == "vest1_2" || vestKey == "vest3_2" || vestKey == "vest3_3" || vestKey == "vest3_4" || vestKey == "vest4_1" || vestKey == "vest4_2"))) {
 									string newVest = "vest3.carry_item";
 

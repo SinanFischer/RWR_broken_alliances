@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mod: Legion – max_health 34 (Vanilla: 14) -->
+<!-- Mod: Legion - max_health 34 (Vanilla: 14) -->
 <vehicle file="vehicle_base.vehicle" 
 	name="Legion" key="legion.vehicle" 
 	respawn_time="180" 
