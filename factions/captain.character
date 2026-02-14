@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Captain/VIP: darf keine Fahrzeuge benutzen (bleibt zu Fuß) -->
+<character filename="default_miniboss_male.character">
+	<parameter class="can_use_vehicles" value="0" />
+</character>

@@ -521,7 +521,7 @@
 	<!-- Captain (Leader vorne, orange) – SF/EOD Weste -->
 	<!-- -------------- -->
 	<soldier name="captain" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="captain_firstname.txt" lastnames_file="captain_lastname.txt">
-		<character filename="default_miniboss_male.character" />
+		<character filename="captain.character" />
 		<ai filename="captain.ai" />
 		<model filename="soldier_orange_bodyguards.xml" />
 		<resources file="captain.resources" />

@@ -96,41 +96,56 @@ protected void handleCharacterDieEvent(const XmlElement@ event) {
 
 ---
 
-## 4. Bodyguards dem Captain folgen lassen („Squad ohne expliziten Join“)
+## 4. Bodyguards dem Captain folgen lassen (wie kill_commander)
 
-Es gibt **keinen** expliziten `join_squad`-Befehl. Stattdessen: periodisch `soldier_objective` mit `objective='protect'` und `target = Captain-Position` senden (wie in kill_commander).
+Es gibt **keinen** expliziten `join_squad`-Befehl. **Kill_commander-Pattern:** periodisch `soldier_objective` mit `objective='defend'` senden:
+- **Captain:** `target = Spawn-Position` → bleibt in Base
+- **Bodyguards:** `target = Captain-Position` → folgen ihm
 
 **Ablauf im captain_spawn_command_tracker:**
 
-1. **findBodyguardsNearCaptain(pos)** – `getCharactersNearPosition` + Filter `soldier_group_name == "orange_bodyguards"` → IDs in `m_bodyguardIds`
-2. **setBodyguardsToProtectCaptain(captainPosition)** – für jede lebende ID: `soldier_objective character_id=X target=... objective='protect'`; tote IDs entfernen
-3. **updateBodyguardObjectives(pos, deltaTime)** – alle ~5 s Timer, dann findBodyguards (falls leer) + setBodyguardsToProtectCaptain
+1. **m_captainSpawnPosition** – beim Spawn speichern; Captain erhält `defend` darauf
+2. **findBodyguardsNearCaptain(pos)** – `getCharactersNearPosition` (105m Radius) + Filter `soldier_group_name == "orange_bodyguards"`
+3. **setBodyguardsOnDefend(captainPosition, "defend")** – für jede lebende ID: `soldier_objective ... objective='defend' target=Captain-Position`
+4. Alle 5 s: `setCaptainObjective(m_captainSpawnPosition, "defend")` + `setBodyguardsOnDefend(captainPos, "defend")`
 
-```cpp
-// Alle 5 Sekunden:
-void setBodyguardsToProtectCaptain(string captainPosition) {
-  for (int i = int(m_bodyguardIds.length()) - 1; i >= 0; --i) {
-    const XmlElement@ info = getCharacterInfo2(m_metagame, m_bodyguardIds[i]);
-    if (info is null) { m_bodyguardIds.removeAt(uint(i)); continue; }
-    // soldier_objective character_id=X target=... objective='protect'
-  }
-}
+**Marker bei Captain-Tod entfernen:** `handleCharacterKillEvent` → wenn `target.id == m_captainId`, `cleanupOnCaptainGone()` (Marker aus, State zurückgesetzt).
+
+---
+
+## 5. Implementierung für captain_spawn_command_tracker (kill_commander-Pattern)
+
+1. **character_kill** aktivieren (Constructor)
+2. Nach Spawn: `findCaptain()` (Query), `m_captainSpawnPosition` speichern
+3. **Captain:** alle 5 s `soldier_objective defend` auf Spawn-Position (bleibt in Base)
+4. **Bodyguards:** alle 5 s `soldier_objective defend` auf Captain-Position (folgen)
+5. `handleCharacterKillEvent`: bei Captain-Tod → `cleanupOnCaptainGone()` (Marker weg)
+
+---
+
+## 6. Captain darf kein Fahrzeug benutzen
+
+In `captain.character` (vererbt von `default_miniboss_male`):
+
+```xml
+<parameter class="can_use_vehicles" value="0" />
 ```
 
----
-
-## 5. Implementierung für captain_spawn_command_tracker
-
-1. Events aktivieren: `character_spawn` und/oder `character_die`
-2. Nach Spawn: `event='1'` oder `findCommander`-Logik nutzen
-3. IDs speichern: Captain + Bodyguards in Member-Variablen
-4. `soldier_objective` direkt nach Spawn mit `target = Basis-Position`, `objective = "defend"`
-5. Bodyguards: `updateBodyguardObjectives` mit `protect` auf Captain-Position (siehe §4)
-6. `handleCharacterDieEvent` implementieren für Tod-Benachrichtigung/Respawn
+Analog: `evil_commander_base.character`, `easterbunny.character`, `snowman.character`.
 
 ---
 
-## 6. Vanilla-Referenzen
+## 7. Enemy-Sighting → Marker für Feinde
+
+**Einschränkung:** Die RWR AngelScript-API bietet **kein Event** für „Spieler hat Gegner mit Mauszeiger gesichtet“. Es gibt u.a. `character_spawn`, `character_die`, `character_kill` – kein `character_spotted` oder `target_changed`.
+
+**Folge:** Ein Marker, der **nur nach Sichtung** für die entdeckende Fraktion erscheint, ist per Script **nicht umsetzbar**.
+
+**Möglicher Workaround:** Zusätzlichen Marker mit `faction_id = Feindfraktion` und `atlas_index = 18` (Enemy Commander) setzen – der Captain wäre dann **dauerhaft** auf der Feindkarte sichtbar, nicht erst nach Sichtung.
+
+---
+
+## 8. Vanilla-Referenzen
 
 | Datei | Inhalt |
 |-------|--------|
