@@ -29,6 +29,12 @@
 	<parameter class="fighting_approach_alarm_max_soldiers" value="1" />
 	<parameter class="check_alert_time" value="100.0" />
 
+	<!-- BURST-->
+	<parameter class="burst_time" value="4" />
+ 	<parameter class="burst_time_variance" value="1" />
+ 	<parameter class="longer_burst_time" value="5.0" />
+ 	<parameter class="longer_burst_time_variance" value="2" />
+
 	<!-- Genauigkeit -->
 	<parameter class="accuracy_offset" value="0.01" />
 	<parameter class="accuracy_penalty_range" value="0.05" />

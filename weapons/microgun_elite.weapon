@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Elite-Variante für Captain/Bodyguard: gleiche commonness für ausgewogene Spawn-Verteilung -->
 <weapon file="microgun.weapon" key="microgun_elite.weapon">
-    <commonness value="0.05" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.05" can_respawn_with="0" in_stock="0" />
+        <specification 
+  retrigger_time="0.032" 
+  accuracy_factor="0.50" 
+  sustained_fire_grow_step="1.5" 
+  sustained_fire_diminish_rate="0.7" 
+  magazine_size="400" 
+  can_shoot_standing="1" 
+  can_shoot_crouching="1" 
+  name="WB-II Microgun Elite" 
+ />
 </weapon>
