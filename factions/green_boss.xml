@@ -179,18 +179,18 @@
 		</attribute_config>
 	</soldier>
 
-	<!-- Vanguard (Leader) + General (Bodyguard) -->
-	<soldier name="bane" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="vanguard_firstname.txt" lastnames_file="german_lastnames.txt">
+	<!-- Captain (Leader) + orange_bodyguards (Bodyguard) -->
+	<soldier name="captain" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="captain_firstname.txt" lastnames_file="captain_lastname.txt">
 		<character filename="default_miniboss_male.character" />
-		<ai filename="bane_leader.ai" />
-		<model filename="soldier_bane.xml" />
-		<resources file="bane.resources" />
+		<ai filename="captain.ai" />
+		<model filename="soldier_orange_bodyguards.xml" />
+		<resources file="captain.resources" />
 	</soldier>
-	<soldier name="terminator" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="general_firstname.txt" lastnames_file="german_lastnames.txt">
+	<soldier name="orange_bodyguards" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="general_firstname.txt" lastnames_file="german_lastnames.txt">
 		<character filename="default_miniboss_male.character" />
 		<ai filename="bodyguard.ai" />
-		<model filename="soldier_terminator.xml" />
-		<resources file="terminator.resources" />
+		<model filename="soldier_captain.xml" />
+		<resources file="orange_bodyguards.resources" />
 	</soldier>
 
 </faction>

@@ -128,6 +128,7 @@
 	<weapon file="tank_mg_2.weapon" />  
 
 	<weapon file="microgun.weapon"/>
+	<weapon file="minigun_ai.weapon" />
   <weapon file="binoculars.weapon" />
   <weapon file="steyr_tmp.weapon" />
   <weapon file="mini_uzi.weapon" />                 
@@ -136,6 +137,10 @@
   <weapon file="buggy_mg.weapon" />   
 	<weapon file="kriss_vector.weapon" /> 
 	<weapon file="javelin.weapon" />
+	<weapon file="javelin_captain.weapon" />
+	<weapon file="dl44.weapon" />
+	<weapon file="wa2000.weapon" />
+	<weapon file="fn_evolys.weapon" />
 	<weapon file="musket.weapon" />
 	<weapon file="benelli_m4_supp.weapon" /> 
   <weapon file="m712.weapon" /> 

@@ -106,7 +106,7 @@ Welche Westen eine Fraktion nutzen kann, steht in **`.resources`**:
 - **Eigene Fraktion (nur bestimmte Weste):** `clear_carry_items="1"` und dann nur die gewünschten carry_items angeben.
 
 **Quelle:**  
-`Project_Apocalypse/factions/supply_common.resources` (Zeilen 75–83), `ss.resources` (Zeilen 2, 8–9), `terminator.resources` (Zeilen 2, 5–6), `rambo.resources` (Zeilen 2, 5–6).
+`Project_Apocalypse/factions/supply_common.resources` (Zeilen 75–83), `ss.resources` (Zeilen 2, 8–9), `orange_bodyguards.resources` (Zeilen 2, 5–6), `rambo.resources` (Zeilen 2, 5–6).
 
 ---
 
@@ -170,7 +170,7 @@ Der **name** im carry_item wird als **key** für Übersetzungen verwendet. In z.
 | Weste mit Tarnung + 5 Stufen | `items/camo_vest.carry_item` |
 | Viele Stufen (8–10), Sonderverhalten | `items/ss_vest.carry_item`, `items/vest_snake.carry_item` |
 | Spawn-Item (drop bei Tod) | `items/vest_ss_spawn.carry_item` |
-| Fraktion nur mit einer Weste | `factions/ss.resources`, `factions/terminator.resources` |
+| Fraktion nur mit einer Weste | `factions/ss.resources`, `factions/orange_bodyguards.resources` |
 | Fraktion mit mehreren Westen | `factions/supply_common.resources` (carry_item-Zeilen) |
 | Vest-Repair (Reparatur-Werkzeug) | `weapons/vest_repair.weapon`; Referenzen in `factions/supply_*.resources` und `scripts/.../item_delivery_configurator_invasion.as` |
 

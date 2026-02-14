@@ -63,7 +63,7 @@
 - Wir: **vulcan_tank, tow, deployable_minig**, etc. – PA teils andere Namen/Listen.
 
 ### Items (Carry Items)
-- PA: **160+** carry_items (Vesten, Kostüme, Gags, Belohnungen: bane_vest, camo_vest, dog, gift_box_1–7, costume_*, dollars, gold_bar, …).
+- PA: **160+** carry_items (Vesten, Kostüme, Gags, Belohnungen: captain_vest, camo_vest, dog, gift_box_1–7, costume_*, dollars, gold_bar, …).
 - Wir: **6** in items/, Rest aus common.resources (vest1–3, costume_were/clown/santa, eodvest_ai, …).
 
 ### Scripts (AngelScript)

@@ -13,8 +13,8 @@ Alle **eingebundenen** Chat-Commands des Mods. Ausgenommen: Reinforcement-Pool-T
 | `/stats` oder `/stat` | `trackers/stats_command_tracker.as` | Quick Match | Alle | Statistik pro Fraktion: A-K-D, C-B, B(s). |
 | `/vehicle`, `/vehicle_spawn`, `/fahrzeug` | `trackers/vehicle_interval_spawn.as` | Quick Match, Invasion | Alle | Status: eigene Fraktion – light / medium / heavy (Zeiten in s); heavy zeigt „blocked (leading faction)“ wenn führend. |
 | `/vehicle test`, `/vehicle_spawn test`, `/fahrzeug test` | wie oben | Quick Match, Invasion | **Admin** | Sofort-Spawn eines Leicht-Fahrzeugs für die eigene Fraktion. |
-| `/bane_spawn` | `trackers/bane_spawn_command_tracker.as` | Quick Match | **Admin** | Spawnt 1 Bane + 2 Terminators bei Spielerposition (eigene Fraktion). |
-| `/bane_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match | **Admin** | Wie oben, mit Paradrop (Höhe). |
+| `/captain_spawn` | `trackers/captain_spawn_command_tracker.as` | Quick Match | **Admin** | Spawnt 1 Captain + 3 orange_bodyguards bei Spielerposition (eigene Fraktion). |
+| `/captain_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match | **Admin** | Wie oben, mit Paradrop (Höhe). |
 | `/test_defender_tank` | `trackers/defender_tank_help.as` | **nur Invasion** | **Admin** | Simuliert Panzer-Spawn für Verteidiger (Test). |
 
 ### Vehicle-Command (Kurz)
@@ -59,10 +59,10 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 
 | Gamemode | Mod-Commands | BasicCommandHandler | SupporterCommandHandler | DefenderTankHelp |
 |----------|----------------|---------------------|--------------------------|------------------|
-| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/bane_spawn` | ja | nein | nein |
+| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/captain_spawn` | ja | nein | nein |
 | **Invasion**   | `/vehicle`, `/fahrzeug`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
 
-*Hinweis: `/bane_spawn` ist nur in Quick Match eingebunden.*
+*Hinweis: `/captain_spawn` ist nur in Quick Match eingebunden.*
 
 ---
 
@@ -111,4 +111,4 @@ Alle Chat-Commands, die ein **Fahrzeug** bei der Spielerposition spawnen. Mit `/
 | `/ecat` | darkcat.vehicle | Darkcat (Faktion 1) |
 | `/snowman` | snowman.vehicle | Event (Faktion 1) |
 | `/vehicle test` | (zufälliges Leicht-Fahrzeug) | **Mod**, Admin only |
-| `/bane_spawn` | (1 Bane + 2 Terminators) | **Mod**, Quick Match, Admin only |
+| `/captain_spawn` | (1 Captain + 3 orange_bodyguards) | **Mod**, Quick Match, Admin only |

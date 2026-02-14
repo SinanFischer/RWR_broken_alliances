@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Bane-Ressourcen: SF-Weste oder EOD, eigene Waffen (inkl. Javelin Bane) -->
+<!-- Captain-Ressourcen: SF-Weste oder EOD, eigene Waffen (inkl. Javelin Captain) -->
 <resources clear_weapons="1" clear_vehicles="1" clear_grenades="1" clear_carry_items="1">
 	<weapon key='dl44.weapon' />
 	<weapon key='wa2000.weapon' />
 	<weapon key='fn_evolys.weapon' />
-	<weapon key='javelin_bane.weapon' />
+	<weapon key='javelin_captain.weapon' />
 	<carry_item key='sf_suit.carry_item' enabled="1" />
 	<carry_item key='eodvest_ai.carry_item' enabled="1" />
 </resources>
