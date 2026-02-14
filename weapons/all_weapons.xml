@@ -138,9 +138,6 @@
 	<weapon file="kriss_vector.weapon" /> 
 	<weapon file="javelin.weapon" />
 	<weapon file="javelin_captain.weapon" />
-	<weapon file="dl44.weapon" />
-	<weapon file="wa2000.weapon" />
-	<weapon file="fn_evolys.weapon" />
 	<weapon file="musket.weapon" />
 	<weapon file="benelli_m4_supp.weapon" /> 
   <weapon file="m712.weapon" /> 
