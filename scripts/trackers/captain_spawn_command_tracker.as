@@ -1,6 +1,7 @@
 // Captain Spawn Command Tracker
 // /captain_spawn [paradrop] – spawnt 1 Captain (vorne) + 3 orange_bodyguards bei Spielerposition
 // Admin only. Captain-Position wird mit VIP-Ziel-Symbol (atlas 17) auf der Karte angezeigt, nur für eigene Fraktion.
+// Bodyguards erhalten periodisch soldier_objective 'protect' auf Captain-Position → folgen ihm effektiv.
 // Import aus Project Apocalypse.
 
 #include "tracker.as"
@@ -16,6 +17,9 @@ const float SPAWN_OFFSET_SIDE = 4.0f;
 const float PARADROP_HEIGHT = 50.0f;
 const int MARKER_ID_CAPTAIN = 70001;
 const int MARKER_ATLAS_VIP_OBJECTIVE = 17;
+const float BODYGUARD_OBJECTIVE_INTERVAL = 5.0f;   // wie kill_commander: alle 5 s neu setzen
+const float BODYGUARD_SEARCH_RADIUS = 50.0f;       // Radius um Captain, in dem Bodyguards gesucht werden
+const string SOLDIER_GROUP_BODYGUARD = "orange_bodyguards";
 
 // --------------------------------------------
 class CaptainSpawnCommandTracker : Tracker {
@@ -24,6 +28,8 @@ class CaptainSpawnCommandTracker : Tracker {
 	protected int m_captainId = -1;
 	protected int m_captainFactionId = -1;
 	protected bool m_captainSpawned = false;
+	protected array<int> m_bodyguardIds;
+	protected float m_bodyguardObjectiveTimer = 0.0f;
 
 	CaptainSpawnCommandTracker(Metagame@ metagame) {
 		@m_metagame = metagame;
@@ -45,12 +51,64 @@ class CaptainSpawnCommandTracker : Tracker {
 		if (info is null) {
 			removeCaptainMarker();
 			m_captainId = -1;
+			m_bodyguardIds.resize(0);
 			m_captainSpawned = false;
 			return;
 		}
 
 		string pos = info.getStringAttribute("position");
 		addCaptainMarker(pos);
+
+		// Bodyguards periodisch auf Captain-Position ausrichten („Folgen/Schützen“)
+		updateBodyguardObjectives(pos, time);
+	}
+
+	/** Bodyguards bekommen soldier_objective 'protect' auf aktuelle Captain-Position – alle BODYGUARD_OBJECTIVE_INTERVAL Sek. */
+	void updateBodyguardObjectives(string captainPosition, float deltaTime) {
+		m_bodyguardObjectiveTimer -= deltaTime;
+		if (m_bodyguardObjectiveTimer > 0.0f) return;
+		m_bodyguardObjectiveTimer = BODYGUARD_OBJECTIVE_INTERVAL;
+
+		if (m_bodyguardIds.length() == 0) {
+			findBodyguardsNearCaptain(captainPosition);
+		}
+		setBodyguardsToProtectCaptain(captainPosition);
+	}
+
+	/** Sucht orange_bodyguards in Reichweite des Captains und speichert deren IDs. */
+	void findBodyguardsNearCaptain(string captainPosition) {
+		m_bodyguardIds.resize(0);
+		Vector3 pos = stringToVector3(captainPosition);
+		array<const XmlElement@>@ chars = getCharactersNearPosition(m_metagame, pos, m_captainFactionId, BODYGUARD_SEARCH_RADIUS);
+		if (chars is null) return;
+		for (uint i = 0; i < chars.length(); ++i) {
+			int charId = chars[i].getIntAttribute("id");
+			const XmlElement@ ci = getCharacterInfo(m_metagame, charId);
+			if (ci !is null && ci.getStringAttribute("soldier_group_name") == SOLDIER_GROUP_BODYGUARD) {
+				m_bodyguardIds.insertLast(charId);
+			}
+		}
+		if (m_bodyguardIds.length() > 0) {
+			_log("CaptainSpawnCommandTracker: " + m_bodyguardIds.length() + " Bodyguards gefunden", 1);
+		}
+	}
+
+	/** Sendet soldier_objective 'protect' an alle lebenden Bodyguards mit Ziel = Captain-Position. Entfernt tote IDs. */
+	void setBodyguardsToProtectCaptain(string captainPosition) {
+		for (int i = int(m_bodyguardIds.length()) - 1; i >= 0; --i) {
+			int id = m_bodyguardIds[i];
+			const XmlElement@ info = getCharacterInfo2(m_metagame, id);
+			if (info is null) {
+				m_bodyguardIds.removeAt(uint(i));
+				continue;
+			}
+			XmlElement c("command");
+			c.setStringAttribute("class", "soldier_objective");
+			c.setIntAttribute("character_id", id);
+			c.setStringAttribute("objective", "protect");
+			c.setStringAttribute("target", captainPosition);
+			m_metagame.getComms().send(c);
+		}
 	}
 
 	void findCaptain() {
@@ -81,7 +139,7 @@ class CaptainSpawnCommandTracker : Tracker {
 		c.setStringAttribute("type_key", "default");
 		c.setBoolAttribute("show_in_map_view", true);
 		c.setBoolAttribute("show_in_game_view", false);
-		c.setBoolAttribute("show_at_screen_edge", true);
+		c.setBoolAttribute("show_at_screen_edge", false);
 		m_metagame.getComms().send(c);
 	}
 
@@ -147,6 +205,8 @@ class CaptainSpawnCommandTracker : Tracker {
 		m_captainId = -1;
 		m_captainFactionId = factionId;
 		m_captainSpawned = true;
+		m_bodyguardIds.resize(0);
+		m_bodyguardObjectiveTimer = 0.0f;  // erste setBodyguardsToProtectCaptain nach findBodyguards beim ersten Update
 
 		return true;
 	}

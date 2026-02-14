@@ -96,17 +96,41 @@ protected void handleCharacterDieEvent(const XmlElement@ event) {
 
 ---
 
-## 4. Implementierung für captain_spawn_command_tracker
+## 4. Bodyguards dem Captain folgen lassen („Squad ohne expliziten Join“)
+
+Es gibt **keinen** expliziten `join_squad`-Befehl. Stattdessen: periodisch `soldier_objective` mit `objective='protect'` und `target = Captain-Position` senden (wie in kill_commander).
+
+**Ablauf im captain_spawn_command_tracker:**
+
+1. **findBodyguardsNearCaptain(pos)** – `getCharactersNearPosition` + Filter `soldier_group_name == "orange_bodyguards"` → IDs in `m_bodyguardIds`
+2. **setBodyguardsToProtectCaptain(captainPosition)** – für jede lebende ID: `soldier_objective character_id=X target=... objective='protect'`; tote IDs entfernen
+3. **updateBodyguardObjectives(pos, deltaTime)** – alle ~5 s Timer, dann findBodyguards (falls leer) + setBodyguardsToProtectCaptain
+
+```cpp
+// Alle 5 Sekunden:
+void setBodyguardsToProtectCaptain(string captainPosition) {
+  for (int i = int(m_bodyguardIds.length()) - 1; i >= 0; --i) {
+    const XmlElement@ info = getCharacterInfo2(m_metagame, m_bodyguardIds[i]);
+    if (info is null) { m_bodyguardIds.removeAt(uint(i)); continue; }
+    // soldier_objective character_id=X target=... objective='protect'
+  }
+}
+```
+
+---
+
+## 5. Implementierung für captain_spawn_command_tracker
 
 1. Events aktivieren: `character_spawn` und/oder `character_die`
 2. Nach Spawn: `event='1'` oder `findCommander`-Logik nutzen
 3. IDs speichern: Captain + Bodyguards in Member-Variablen
 4. `soldier_objective` direkt nach Spawn mit `target = Basis-Position`, `objective = "defend"`
-5. `handleCharacterDieEvent` implementieren für Tod-Benachrichtigung/Respawn
+5. Bodyguards: `updateBodyguardObjectives` mit `protect` auf Captain-Position (siehe §4)
+6. `handleCharacterDieEvent` implementieren für Tod-Benachrichtigung/Respawn
 
 ---
 
-## 5. Vanilla-Referenzen
+## 6. Vanilla-Referenzen
 
 | Datei | Inhalt |
 |-------|--------|
