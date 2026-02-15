@@ -51,7 +51,7 @@
 | Intervall | Zeit | Fahrzeuge (alle) |
 |-----------|------|------------------|
 | **Leicht** | 2-4 min | Humvee, Jeep, Jeep 1, Jeep 2, VFS Sport, Willys MB, Wiesel TOW, Wiesel MK20, ATV Base, ATV Armory (Quad), VFS Base, Truck, Truck 1, Truck 2 |
-| **Mittel** | 5-8 min | Humvee, Wiesel TOW, Wiesel MK20, APC, APC 1, APC 2, Vulcan Tank, Noxe, Hovercraft, Cargo Truck, SEV90, Radio Jammer |
+| **Mittel** | 5-8 min | Humvee, Wiesel MK20, APC, APC 1, APC 2, Vulcan Tank, Noxe, Hovercraft, Cargo Truck, SEV90, Radio Jammer, FST ACAV, Mortar Tank |
 | **Schwer** | 12-15 min | Tank Alt, Tank 1 Alt, Tank 2 Alt, M551 (Sheriff), FV101 (Scorpion), Legion, M528, Flamer Tank (Croc) |
 
 *(Call-Panzer tank/tank_1/tank_2 bleiben exklusiv über Calls - erscheinen nicht im Intervall-Spawn.)*
@@ -136,6 +136,7 @@
 | **Cargo Truck (/cargo)** | `cargo_truck.vehicle` in `all_vehicles.xml` aktiviert (zuvor auskommentiert) - Command `/cargo` spawnt nun den Cargo-LKW. |
 | **Truck-Commands (/truck, /1truck, /2truck)** | Alias-Fahrzeuge `truck.vehicle`, `truck_1.vehicle`, `truck_2.vehicle` hinzugefügt (erben von transport_truck*), in `all_vehicles.xml` eingetragen - Vanilla-Command `/truck` funktioniert. |
 | **Noxe MG (Passagier)** | Schwenkbereich des MG-Turms auf **linke Fahrzeugseite** begrenzt (Rotation −1,57 rad, Range 1,57 rad) - von hinten-links bis vorne-links, nicht über Fahrzeugmitte nach rechts. |
+| **FST ACAV, Mortar Tank** | Im Intervall-Spawn (Mittel) ergänzt. `m113_tank_acav.vehicle` in `common.resources` aktiviert; `m113_tank_mortar.vehicle` war bereits aktiv. |
 
 ---
 
@@ -150,6 +151,7 @@
 | **Coastal Gun** | Küstengeschütz als Waffe |
 | **Squad Equipment Kit** | Trupp-Ausrüstung |
 | **Dogbone** | Hundefutter (Gimmick) |
+| **Ordnance Shovel** | In Waffenkammer kaufbar (Preis 100 RP), links neben Cover Sack. Platziert **permanente** Sandsäcke (wie Cover – kein Despawn). Kann **nicht** mit Respawn gestartet werden. Mod-override von `sandbag_cover.vehicle`: `time_to_live` entfernt – Sandsäcke bleiben dauerhaft. |
 
 ---
 
@@ -163,9 +165,11 @@
 
 | Erhalt | Beschreibung |
 |--------|--------------|
-| **Item-/Fahrzeug-Abgabe** | Laptop, Aktenkoffer oder Cargo Truck an Waffenkammer abgeben → zufälliges Item freischalten (u.a. vest_blackops3). Gleichverteilung unter allen noch nicht freigeschalteten Unlocks. **Campaign:** Laptop, Briefcase, Cargo Truck. **Quick Match:** Laptop, Briefcase. |
+| **Item-/Fahrzeug-Abgabe** | Laptop, Aktenkoffer oder Cargo Truck an Waffenkammer abgeben → zufälliges Item freischalten. Gleichverteilung unter allen noch nicht freigeschalteten Unlocks. **Campaign:** Laptop, Briefcase, Cargo Truck. **Quick Match:** Laptop, Briefcase. **Fraktions-Korrektur:** `PlayerFactionResourceUnlocker` nutzt die Fraktion des liefernden Charakters – Unlocks landen bei EU/UN-Maps bei der richtigen Fraktion (nicht mehr bei faction_id 0). |
 | **Captain** | Der Captain trägt die **EOD-Weste** im Slot 1 (Loadout in `factions/captain.resources`). Beim Tod droppt sie automatisch. |
-| **Admin-Command** | **`/blackops3`** (nur Admins): Spawnt eine Black-Ops-Veste III bei der Spielerposition – zum Testen. |
+| **Admin-Command** | **`/blackops3`** (nur Admins): Spawnt eine Black-Ops-Veste III bei der Spielerposition – zum Testen. Vanilla: **`/laptop`**, **`/briefcase`** spawnen Laptop/Aktenkoffer zum Testen der Item-Abgabe. |
+
+**Unlock-Liste (Quick Match – Laptop/Briefcase):** MG42, Black-Ops-Vest III, Hornet Deploy (Raketenwerfer-Emplacement), TOW Deploy (TOW-Geschütz). TOW Deploy und Hornet Deploy sind standardmäßig deaktiviert – nur nach Abgabe freischaltbar.
 
 ---
 
@@ -219,4 +223,5 @@
 Dokumentation zu Konzepten und Balancing (intern, nicht zwingend für Veröffentlichung):
 - CAPACITY_UND_SLOTS_PER_DEATH_KONZEPT, RESPAWN_SLOT_DELAY_SYSTEM
 - WEAPON_COMPARISON, WEAPON_ACCURACY_REFACTOR, ANTITANK_COMPARISON
-- WESTEN_MODDING, VEHICLE_BALANCING_RULES, TROOP_RANK_BALANCE, etc.
+- WESTEN_MODDING, VEHICLE_BALANCING_RULES, TROOP_RANK_BALANCE
+- **scripts/delivery_unlocks/ITEM_UNLOCK_DOKUMENTATION.md** – Checkliste für neue Unlock-Items (Laptop/Briefcase), Fallstricke, Resource-Typen

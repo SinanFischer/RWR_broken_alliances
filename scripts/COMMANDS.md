@@ -18,6 +18,7 @@ Alle **eingebundenen** Chat-Commands des Mods. Ausgenommen: Reinforcement-Pool-T
 | `/captain_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match | **Admin** | Wie oben, mit Paradrop (Höhe). |
 | `/cargo_captain_test` oder `/test_cargo_captain` | `trackers/vehicle_interval_spawn.as` | Quick Match | **Admin** | Test: Spawnt Cargo Truck + Captain an zufälliger Basis deiner Fraktion. Simuliert das Cargo+Captain-Event. |
 | `/test_enemy_cargo_captain` oder `/enemy_cargo_captain_test` | wie oben | Quick Match | **Admin** | Test: Spawnt Cargo Truck + Captain an zufälliger Basis einer **Feind-Fraktion**. Prüft die Feind-Meldung; Private Message nennt Spawn-Ort + Feind-Intel (nach 2 s). **Nicht** `/cargo_*` – BasicCommandHandler würde sonst zusätzlich Truck für eigene Fraktion spawnen. |
+| `/spawn_enemy_cargo` oder `/enemy_cargo_spawn` | wie oben | Quick Match, Invasion | **Admin** | Spawnt einen **feindlichen** Cargo Truck neben der Spielerposition (zum Testen der Cargo-Delivery-Belohnung: in Waffenkammer bringen → RP + Fahrzeug-Spawn). |
 | *Cargo-Truck-Spawn* | `vehicle_interval_spawn` + `captain_spawn` | Quick Match | automatisch | Wenn zufällig ein Cargo Truck spawnt (Medium, ~9 % Chance): Captain-Team spawnt mit. Nachrichten an alle Fraktionen. |
 | `/test_defender_tank` | `trackers/defender_tank_help.as` | **nur Invasion** | **Admin** | Simuliert Panzer-Spawn für Verteidiger (Test). |
 
@@ -63,10 +64,10 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 
 | Gamemode | Mod-Commands | BasicCommandHandler | SupporterCommandHandler | DefenderTankHelp |
 |----------|----------------|---------------------|--------------------------|------------------|
-| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/captain_spawn`, `/cargo_captain_test`, `/test_enemy_cargo_captain` | ja | nein | nein |
-| **Invasion**   | `/vehicle`, `/fahrzeug`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
+| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/captain_spawn`, `/cargo_captain_test`, `/test_enemy_cargo_captain`, `/spawn_enemy_cargo` | ja | nein | nein |
+| **Invasion**   | `/vehicle`, `/fahrzeug`, `/spawn_enemy_cargo`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
 
-*Hinweis: `/captain_spawn` und `/cargo_captain_test` sind nur in Quick Match eingebunden.*
+*Hinweis: `/captain_spawn` und `/cargo_captain_test` sind nur in Quick Match eingebunden. `/spawn_enemy_cargo` (feindlicher Cargo neben Spieler) in Quick Match und Invasion.*
 
 ---
 
@@ -120,6 +121,7 @@ Wie in Invasion/Kampagne: Feind-Basen werden als „to investigate“ markiert. 
 
 - **`/cargo_captain_test`** oder **`/test_cargo_captain`** – eigene Basis (vehicle_interval_spawn.as).
 - **`/test_enemy_cargo_captain`** oder **`/enemy_cargo_captain_test`** – Feind-Basis. **Nicht** `/cargo_*` verwenden – Vanilla BasicCommandHandler spawnt sonst zusätzlich einen Truck für die eigene Fraktion.
+- **`/spawn_enemy_cargo`** oder **`/enemy_cargo_spawn`** – feindlicher Cargo Truck **neben Spielerposition** (Quick Match + Invasion). Zum Testen der Cargo-Delivery-Belohnung: in Waffenkammer fahren → RP + Fahrzeug-Spawn.
 
 ---
 
@@ -169,6 +171,7 @@ Alle Chat-Commands, die ein **Fahrzeug** bei der Spielerposition spawnen. Mit `/
 | `/snowman` | snowman.vehicle | Event (Faktion 1) |
 | `/vehicle test` | (zufälliges Leicht-Fahrzeug) | **Mod**, Admin only |
 | `/captain_spawn` | (1 Captain + 3 orange_bodyguards) | **Mod**, Quick Match, Admin only |
+| `/spawn_enemy_cargo` oder `/enemy_cargo_spawn` | cargo_truck.vehicle (Feind-Fraktion) neben Spieler | **Mod**, Quick Match + Invasion, Admin only |
 
 ---
 

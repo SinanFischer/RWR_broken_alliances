@@ -1,13 +1,15 @@
-// Cargo-Delivery-Belohnung: Feind-Cargo-Truck in eigene Waffenkammer gebracht → Medium- oder Heavy-Fahrzeug an dieser Basis spawnen.
-// Hört auf vehicle_spawn (cargo_truck, Feind), trackt Armory-Hitboxen; bei hitbox_event → Belohnung via VehicleIntervalSpawn.
-// Für Quick Match (und ggf. Invasion, wenn Tracker eingebunden).
-// VehicleIntervalSpawn muss vor diesem Script eingebunden sein (z.B. in gamemode_quick_match.as).
+// Cargo-Delivery-Belohnung: Feind-Cargo-Truck in eigene Waffenkammer gebracht →
+// RP für Fahrer, Objective-Sound, Fahrzeug sperren/entfernen, Medium- oder Heavy-Spawn an Basis.
+// Keine Item-Freischaltung. Logik angelehnt an vanilla VehicleDeliveryToArmory.
+// VehicleIntervalSpawn muss vor diesem Script eingebunden sein.
 #include "tracker.as"
 #include "log.as"
 #include "query_helpers.as"
 
 const string CARGO_TRUCK_KEY = "cargo_truck.vehicle";
 const int PLAYER_FACTION_ID = 0;
+// RP-Belohnung für Fahrer (angelehnt an vanilla fallbackRewardIfNothingToUnlock ~400–800)
+const float CARGO_DELIVERY_RP_REWARD = 600.0f;
 
 // Pro getracktes Fahrzeug: vehicleId + Hitbox-IDs zum Aufräumen
 class TrackedCargo {
@@ -32,7 +34,7 @@ class CargoDeliveryRewardTracker : Tracker {
 
 	void start() {
 		enableEvents();
-		_log("CargoDeliveryRewardTracker: started (enemy cargo truck → armory = reward spawn at base).", 1);
+		_log("CargoDeliveryRewardTracker: started (enemy cargo truck → armory = RP + vehicle reward at base).", 1);
 	}
 
 	void enableEvents() {
@@ -77,25 +79,43 @@ class CargoDeliveryRewardTracker : Tracker {
 		for (uint i = 0; i < m_tracked.size(); ++i) {
 			if (m_tracked[i].m_vehicleId != instanceId) continue;
 
-			// Delivery complete: Fahrzeug in Waffenkammer
+			// Delivery complete
 			clearHitboxAssociations(m_metagame, "vehicle", instanceId, m_tracked[i].m_hitboxIds);
 			m_tracked.erase(i);
 
-			// Basis ermitteln (Fahrzeugposition → nächste Basis der Spielerfraktion)
 			const XmlElement@ vehicleInfo = getVehicleInfo(m_metagame, instanceId);
 			if (vehicleInfo is null) return;
+
+			// Fahrer finden und RP geben (wie vanilla VehicleDelivery)
+			int driverId = -1;
+			array<const XmlElement@> characterList = vehicleInfo.getElementsByTagName("character");
+			for (uint c = 0; c < characterList.size(); ++c) {
+				const XmlElement@ character = characterList[c];
+				if (character.getIntAttribute("slot_type") == 0) { // driver
+					driverId = character.getIntAttribute("id");
+					break;
+				}
+			}
+			if (driverId >= 0 && CARGO_DELIVERY_RP_REWARD > 0.0f) {
+				m_metagame.getComms().send("<command class='rp_reward' character_id='" + driverId + "' reward='" + CARGO_DELIVERY_RP_REWARD + "' />");
+			}
+
+			playObjectiveCompleteSound(m_metagame, PLAYER_FACTION_ID);
+			lockVehicle(m_metagame, instanceId);
+			destroyVehicle(m_metagame, instanceId);
+
+			// Basis: Fahrzeugposition → nächste Basis der Spielerfraktion
 			Vector3 pos = stringToVector3(vehicleInfo.getStringAttribute("position"));
 			float dist = 0.0f;
 			const XmlElement@ base = getClosestBase(m_metagame, pos, dist, PLAYER_FACTION_ID);
-			if (base is null) return;
-			int baseId = base.getIntAttribute("id");
-
-			// Belohnung: Medium oder Heavy an dieser Basis (50/50)
-			if (m_vehicleSpawn !is null)
-				m_vehicleSpawn.spawnRewardVehicleAtBase(PLAYER_FACTION_ID, baseId, rand(0, 1) == 1);
+			if (base !is null) {
+				int baseId = base.getIntAttribute("id");
+				if (m_vehicleSpawn !is null)
+					m_vehicleSpawn.spawnRewardVehicleAtBase(PLAYER_FACTION_ID, baseId, rand(0, 1) == 1);
+			}
 
 			sendFactionMessage(m_metagame, PLAYER_FACTION_ID, "Enemy cargo truck delivered. Reinforcement vehicle dispatched.", 1.0f);
-			_log("CargoDeliveryRewardTracker: delivery reward spawned at base " + baseId, 1);
+			_log("CargoDeliveryRewardTracker: delivery reward (RP + vehicle) at base.", 1);
 			return;
 		}
 	}

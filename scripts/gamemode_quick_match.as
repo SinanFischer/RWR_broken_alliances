@@ -10,7 +10,7 @@
 #include "trackers/capacity_debug_hud_tracker.as"
 #include "trackers/stats_command_tracker.as"
 #include "trackers/vehicle_interval_spawn.as"
-#include "trackers/cargo_delivery_reward_tracker.as"
+#include "events/cargo_delivery_reward_tracker.as"
 #include "events/captain_spawn_command_tracker.as"
 #include "events/intel_manager_quickmatch.as"
 #include "commands/blackops3_vest_command_tracker.as"

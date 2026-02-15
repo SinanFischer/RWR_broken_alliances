@@ -195,6 +195,15 @@
 			<attribute weight="1.0" min="0.0" max="1.0" />
 		</attribute_config>
 	</soldier>
+
+	<!-- -------------- -->
+	<!-- lonewolf sniper (1 % Spawn; flankiert, fokussiert wichtige Ziele) -->
+	<!-- -------------- -->
+	<soldier name="lonewolf" spawn_score="0.01" squad_size_xp_cap="0.0" copy_from="sniper">
+		<ai filename="lonewolf.ai" />
+		<resources file="lonewolf_sniper.resources" />
+		<resources file="grey_lonewolf.resources" />
+	</soldier>
 	
 	<!-- -------------- -->
 	<!-- support group (MGs) -->

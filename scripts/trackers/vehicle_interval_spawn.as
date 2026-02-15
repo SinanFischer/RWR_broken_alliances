@@ -619,6 +619,44 @@ class VehicleIntervalSpawn : Tracker {
 			return;
 		}
 
+		// /spawn_enemy_cargo oder /enemy_cargo_spawn: Admin - feindlicher Cargo Truck neben Spielerposition (zum Testen der Cargo-Delivery-Belohnung)
+		if (checkCommand(message, "spawn_enemy_cargo") || checkCommand(message, "enemy_cargo_spawn")) {
+			if (!m_metagame.getAdminManager().isAdmin(event.getStringAttribute("player_name"), event.getIntAttribute("player_id"))) {
+				sendPrivateMessage(m_metagame, senderId, "Admin only.");
+				return;
+			}
+			const XmlElement@ player = getPlayerInfo(m_metagame, senderId);
+			if (player is null) {
+				sendPrivateMessage(m_metagame, senderId, "Player not found.");
+				return;
+			}
+			int playerFactionId = player.getIntAttribute("faction_id");
+			if (playerFactionId < 0) playerFactionId = 0;
+			const XmlElement@ charInfo = getCharacterInfo(m_metagame, player.getIntAttribute("character_id"));
+			if (charInfo is null) {
+				sendPrivateMessage(m_metagame, senderId, "No character (dead/spectating?).");
+				return;
+			}
+			tryInitFactions();
+			if (m_numFactions < 2) {
+				sendPrivateMessage(m_metagame, senderId, "Need at least 2 factions for enemy cargo truck.");
+				return;
+			}
+			int enemyFactionId = (playerFactionId == 0) ? 1 : 0;
+			for (uint i = 0; i < m_numFactions; ++i) {
+				if (int(i) != playerFactionId) { enemyFactionId = int(i); break; }
+			}
+			Vector3 pos = stringToVector3(charInfo.getStringAttribute("position"));
+			pos.m_values[0] += 6.0f;  // etwas vor dem Spieler
+			pos.m_values[1] += 2.0f;   // Boden
+			string cmd = "<command class='create_instance' faction_id='" + enemyFactionId +
+				"' position='" + pos.toString() +
+				"' instance_class='vehicle' instance_key='" + CARGO_TRUCK_KEY + "' />";
+			m_metagame.getComms().send(cmd);
+			sendPrivateMessage(m_metagame, senderId, "Enemy cargo truck spawned next to you (faction " + enemyFactionId + "). Deliver to armory for reward.");
+			return;
+		}
+
 		if (!checkCommand(message, "vehicle") && !checkCommand(message, "vehicle_spawn") && !checkCommand(message, "fahrzeug")) return;
 
 		int space = message.findFirst(" ");
