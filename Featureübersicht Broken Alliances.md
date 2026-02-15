@@ -70,7 +70,7 @@
 **Auslöser:** Beim Mittel-Fahrzeug-Spawn (~9 % Chance) spawnt ein **Cargo Truck** zusammen mit einem **Captain** und 3 Bodyguards an derselben Basis. Admin-Command: **`/captain_spawn`** bzw. **`/captain_spawn paradrop`** spawnt 1 Captain + 3 Bodyguards bei Spielerposition. Test-Commands: `/cargo_captain_test`, `/test_enemy_cargo_captain`.
 
 - **Eigene Fraktion:** Captain-Marker (VIP-Ziel, atlas 17) auf der Karte; Commander: „Captain arrived with the supply convoy and will defend our position.“
-- **Feind-Fraktionen:** Commander: „Enemy [Fraktionsname] Cargo truck reported - escorted by a Captain. Find and eliminate him for valuable intel!“
+- **Feind-Fraktionen:** Commander: „Enemy [Fraktionsname] Cargo truck reported - escorted by a Captain. Take him out; he's carrying high-value weapons.“
 - **Enemy Commander Marker:** Erscheint für eine Fraktion, sobald sie den feindlichen Captain „spottet“ (siehe unten). Atlas 18, am Bildschirmrand.
 - **Pro Fraktion:** Jede Fraktion kann einen Captain haben; bis zu 8 Fraktionen parallel getrackt.
 
@@ -159,11 +159,12 @@
 - **Synergie mit Slot-Block:** Ein Verwundeter blockiert bereits den Capacity-Slot (kein Nachspawn, solange er am Boden liegt). Stirbt er, blockiert der Tod **noch mehr** Slots für X Sekunden. **Lazarett-Dilemma:** 10 Verwundete = 10 fehlen an der Front UND verhindern 10 frische Soldaten. **Double-Punish:** Retten → Slot sofort frei, Soldat kampfbereit. Ignorieren → Slot blockiert während Verbluten, danach dicke Blockade durch Tod. Erzeugt Dringlichkeit: „Wenn ich den da nicht hole, bricht unsere Verstärkung zusammen!“ - Combat-Sim-Feeling.
 - Westen in Waffenkammer für alle Fraktionen
 
-**Black Ops Vest III** (`vest_blackops3.carry_item`): Mod-eigene Weste, **3× so stark** wie die Vanilla Black-Ops-Weste (3 Treffer absorbiert statt 1). Gleiche Modifier (speed, Tarnung). **Nicht in der Waffenkammer** erhältlich.
+**Black Ops Vest III** (`vest_blackops3.carry_item`): Mod-eigene Weste, **3× so stark** wie die Vanilla Black-Ops-Weste (3 Treffer absorbiert statt 1). **Geschwindigkeits-Bonus:** +0,075 in den vollen/beschädigten Stufen (die Hälfte der Captain-/Cargo-Weste), Tarnung wie Vanilla Black Ops. **Nicht direkt in der Waffenkammer kaufbar** – nur per Zufalls-Unlock.
 
 | Erhalt | Beschreibung |
 |--------|--------------|
-| **Captain** | Der Captain trägt die **EOD-Weste** im Slot 1 (Loadout in `factions/captain.resources`). Beim Tod droppt sie automatisch. 
+| **Item-/Fahrzeug-Abgabe** | Laptop, Aktenkoffer oder Cargo Truck an Waffenkammer abgeben → zufälliges Item freischalten (u.a. vest_blackops3). Gleichverteilung unter allen noch nicht freigeschalteten Unlocks. **Campaign:** Laptop, Briefcase, Cargo Truck. **Quick Match:** Laptop, Briefcase. |
+| **Captain** | Der Captain trägt die **EOD-Weste** im Slot 1 (Loadout in `factions/captain.resources`). Beim Tod droppt sie automatisch. |
 | **Admin-Command** | **`/blackops3`** (nur Admins): Spawnt eine Black-Ops-Veste III bei der Spielerposition – zum Testen. |
 
 ---

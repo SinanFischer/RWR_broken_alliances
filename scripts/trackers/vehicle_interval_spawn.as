@@ -401,7 +401,7 @@ class VehicleIntervalSpawn : Tracker {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null) return;
 		string enemyName = getFactionName(factionId);
-		string enemyMsg = "Enemy " + enemyName + " Cargo truck reported - escorted by a Captain. Find and eliminate him for valuable intel!";
+		string enemyMsg = "Enemy " + enemyName + " Cargo truck reported - escorted by a Captain. Take him out; he's carrying high-value weapons.";
 		for (uint i = 0; i < factions.size(); ++i) {
 			if (int(i) == factionId) continue;
 			sendFactionMessage(m_metagame, int(i), enemyMsg, 1.5f);

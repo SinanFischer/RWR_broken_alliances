@@ -17,11 +17,13 @@ Vergleich **Vanilla Black Ops** (`vest_blackops`) und **Black Ops III** (`vest_b
 
 ## Modifier (Voll / erste Stufe)
 
-| Modifier | Black Ops (Voll) | Black Ops III (Voll) |
-|----------|------------------|----------------------|
-| **speed** | +0.02 | +0.02 |
+| Modifier | Black Ops (Voll) | Black Ops III (Voll / Stufe 1+2) |
+|----------|------------------|----------------------------------|
+| **speed** | +0.02 | **+0.075** (Hälfte der Captain-/Cargo-Weste) |
 | **hit_success_probability** | -0.08 | -0.08 |
 | **night_detectability** | -0.25 | -0.25 |
+
+*Black Ops III Stufe 3+4 (stark beschädigt/kaputt): speed -0.04.*
 
 ---
 
@@ -39,5 +41,6 @@ Vergleich **Vanilla Black Ops** (`vest_blackops`) und **Black Ops III** (`vest_b
 
 ## Kurzfassung
 
-- **Black Ops III** ist in der Treffer-Logik **3× so stark** (3 absorbierte Treffer statt 1), sonst gleiche Modifier und Optik.
-- **Black Ops III** ist nur per **`/blackops3`** (Admin) spawnbar, nicht in der Waffenkammer kaufbar.
+- **Black Ops III** ist in der Treffer-Logik **3× so stark** (3 absorbierte Treffer statt 1).
+- **Speed:** Black Ops III hat in den vollen Stufen **+0,075** (die Hälfte der Captain-/Cargo-Weste), Vanilla Black Ops nur +0,02. Tarnung und hit_success wie Vanilla.
+- **Black Ops III** ist nur per **`/blackops3`** (Admin) bzw. per Unlock-Abgabe spawnbar, nicht direkt in der Waffenkammer kaufbar.

@@ -1,9 +1,9 @@
-// IntelManager für Quick Match
+// Aufklärungs-Manager für Quick Match (IntelManager)
 // Basis: Vanilla IntelManager (Invasion). Angepasst für Metagame.
 //
 // Pro Fraktion: Jede Fraktion kann Feind-Basen scouten. Feind-Base = owner_id != eigene Fraktion.
 // Scout = Einheit im center_block oder Fadenkreuz nahe Basis → Commander meldet Stärke.
-// Stale-Reset: Nach 5 Min wird Intel als veraltet gewertet → Basis zurück auf "to investigate".
+// Stale-Reset: Nach 5 Min gelten Aufklärungsdaten als veraltet → Basis zurück auf "to investigate".
 // Marker-ID: 5000 + factionId * 256 + baseId (max 8 Fraktionen, ~256 Basen).
 
 #include "tracker.as"
@@ -13,7 +13,7 @@
 #include "events/captain_spawn_command_tracker.as"
 
 const float INVESTIGATION_COMPLETE_CHECK_INTERVAL_TIME = 5.0;
-const float INVESTIGATION_STALE_SECONDS = 300.0;  // Nach 5 Min: Intel veraltet → neu scouten
+const float INVESTIGATION_STALE_SECONDS = 300.0;  // Nach 5 Min: Aufklärungsdaten veraltet → neu scouten
 const int INTEL_MAX_FACTIONS = 8;
 const int MARKER_ID_STRIDE = 256;
 

@@ -13,6 +13,7 @@
 #include "events/captain_spawn_command_tracker.as"
 #include "events/intel_manager_quickmatch.as"
 #include "commands/blackops3_vest_command_tracker.as"
+#include "delivery_unlocks/item_delivery_configurator_quickmatch.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)
@@ -20,6 +21,7 @@ const bool CAPACITY_DEBUG_HUD = false;
 
 // --------------------------------------------
 class GameModeQuickMatch : Metagame {
+	protected ItemDeliveryOrganizer@ m_itemDeliveryOrganizer;
 	// --------------------------------------------
 	GameModeQuickMatch(const XmlElement@ settings) {
 		super(settings.getStringAttribute("log_level"));
@@ -35,6 +37,13 @@ class GameModeQuickMatch : Metagame {
 	// --------------------------------------------
 	void postBeginMatch() {
 		Metagame::postBeginMatch();
+
+		// Laptop/Briefcase-Unlocks: wie Campaign – abgeben → zufälliges Item freischalten (inkl. vest_blackops3)
+		ItemDeliveryConfiguratorQuickMatch configurator(this);
+		@m_itemDeliveryOrganizer = ItemDeliveryOrganizer(this, configurator);
+		m_itemDeliveryOrganizer.init();
+		m_itemDeliveryOrganizer.matchStarted();
+
 		addTracker(BlackOps3VestCommandTracker(this));
 		addTracker(BasicCommandHandler(this));
 		RespawnSlotDelayTracker@ respawnTr = RespawnSlotDelayTracker(this);

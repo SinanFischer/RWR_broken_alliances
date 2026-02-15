@@ -104,7 +104,7 @@ Wie in Invasion/Kampagne: Feind-Basen werden als „to investigate“ markiert. 
 | 2 | Cargo Truck an Basis-Position spawnen | `create_instance` |
 | 3 | Captain + 3 Bodyguards an derselben Position spawnen | `CaptainSpawnCommandTracker.spawnCaptainSquadAt()` |
 | 4 | **Eigene Fraktion:** Commander-Message (2 s nach Vehicle-Meldung) | „Captain arrived with the supply convoy and will defend our position.“ (Ort bereits in Standard-Vehicle-Meldung) |
-| 5 | **Feind-Fraktionen:** Commander-Message | „Enemy [Fraktionsname] Cargo truck reported - escorted by a Captain. Find and eliminate him for valuable intel!“ (ohne Basisdaten) |
+| 5 | **Feind-Fraktionen:** Commander-Message | „Enemy [Fraktionsname] Cargo truck reported - escorted by a Captain. Take him out; he's carrying high-value weapons.“ (ohne Basisdaten) |
 | 6 | Captain-Marker (VIP-Ziel, atlas 17) für eigene Fraktion | `update()` in Captain-Tracker |
 | 7 | Feind spottet Cargo Truck → Feind-Marker (Enemy Commander, atlas 18) | `vehicle_spot_event` |
 

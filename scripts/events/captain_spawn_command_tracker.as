@@ -38,7 +38,7 @@ const int MARKER_ATLAS_ENEMY_COMMANDER = 18;
 const float OBJECTIVE_INTERVAL = 1.5f;
 const float BODYGUARD_SEARCH_RADIUS = 105.0f;
 const float SCOUT_CAPTAIN_RADIUS = 120.0f;  // Basis-Position: Captain in diesem Radius = "entdeckt"
-const float CAPTAIN_SPOT_AIM_RADIUS = 25.0f; // Fadenkreuz (aim_target) innerhalb 25m der Captain-Position = gespottet (wie Intel-Basis)
+const float CAPTAIN_SPOT_AIM_RADIUS = 25.0f; // Fadenkreuz (aim_target) innerhalb 25m der Captain-Position = gespottet (wie Basis-Aufklärung)
 const string SOLDIER_GROUP_BODYGUARD = "orange_bodyguards";
 const string SOLDIER_GROUP_CAPTAIN = "captain";
 const int MAX_FACTIONS = 8;
@@ -123,7 +123,7 @@ class CaptainSpawnCommandTracker : Tracker {
 		}
 	}
 
-	// Feindlicher Spieler zielt mit Fadenkreuz (aim_target) auf/nah am Captain → Enemy Commander gespottet (wie Intel-Basis 25m).
+	// Feindlicher Spieler zielt mit Fadenkreuz (aim_target) auf/nah am Captain → Enemy Commander gespottet (wie Basis-Aufklärung 25m).
 	void checkSpotterAimAtCaptain(int ownerFactionId, const string &in captainPositionStr) {
 		array<const XmlElement@>@ players = getPlayers(m_metagame);
 		if (players is null) return;
@@ -211,7 +211,7 @@ class CaptainSpawnCommandTracker : Tracker {
 		_log("CaptainSpawnCommandTracker: Captain Fraktion " + factionId + " weg, Marker entfernt", 1);
 	}
 
-	/** Wird von IntelManager aufgerufen: Basis gescoutet oder Hauptangriffsziel → wenn dort Captain, zeigt Spotter den Enemy Commander. */
+	/** Wird von Aufklärungs-Manager aufgerufen: Basis gescoutet oder Hauptangriffsziel → wenn dort Captain, zeigt Spotter den Enemy Commander. */
 	void notifyCaptainDiscoveredAtBase(int baseId, int baseOwnerFactionId, int spotterFactionId, const Vector3 &in basePosition) {
 		if (baseOwnerFactionId < 0 || baseOwnerFactionId >= MAX_FACTIONS) return;
 		if (spotterFactionId == baseOwnerFactionId) return;
