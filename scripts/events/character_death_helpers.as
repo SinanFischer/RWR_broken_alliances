@@ -1,6 +1,6 @@
 // character_death_helpers.as
 // Hilfsfunktionen für Todes-Events (character_kill, character_die).
-// Engine kann "target" oder "character" als Kind verwenden – beide abdecken für robuste Erkennung.
+// Engine can use "target" or "character" as child - cover both for robust detection.
 // Vorbild: vanilla respawn_slot_delay_tracker, stats_command_tracker (character/target Fallback).
 
 #include "log.as"

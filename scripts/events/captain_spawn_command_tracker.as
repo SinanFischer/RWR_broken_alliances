@@ -38,6 +38,7 @@ const int MARKER_ATLAS_ENEMY_COMMANDER = 18;
 const float OBJECTIVE_INTERVAL = 1.5f;
 const float BODYGUARD_SEARCH_RADIUS = 105.0f;
 const float SCOUT_CAPTAIN_RADIUS = 120.0f;  // Basis-Position: Captain in diesem Radius = "entdeckt"
+const float CAPTAIN_SPOT_AIM_RADIUS = 25.0f; // Fadenkreuz (aim_target) innerhalb 25m der Captain-Position = gespottet (wie Intel-Basis)
 const string SOLDIER_GROUP_BODYGUARD = "orange_bodyguards";
 const string SOLDIER_GROUP_CAPTAIN = "captain";
 const int MAX_FACTIONS = 8;
@@ -118,6 +119,35 @@ class CaptainSpawnCommandTracker : Tracker {
 				findBodyguardsNearCaptain(factionId, captainPos);
 			}
 			setBodyguardsOnDefend(factionId, captainPos, "defend");
+			checkSpotterAimAtCaptain(factionId, captainPos);
+		}
+	}
+
+	// Feindlicher Spieler zielt mit Fadenkreuz (aim_target) auf/nah am Captain → Enemy Commander gespottet (wie Intel-Basis 25m).
+	void checkSpotterAimAtCaptain(int ownerFactionId, const string &in captainPositionStr) {
+		array<const XmlElement@>@ players = getPlayers(m_metagame);
+		if (players is null) return;
+		Vector3 captainPos = stringToVector3(captainPositionStr);
+
+		for (uint k = 0; k < players.size(); ++k) {
+			const XmlElement@ player = players[k];
+			int spotterFactionId = player.getIntAttribute("faction_id");
+			if (spotterFactionId == ownerFactionId) continue;
+			if (spotterFactionId < 0 || spotterFactionId >= MAX_FACTIONS) continue;
+			if (!player.hasAttribute("aim_target")) continue;
+
+			Vector3 aimTarget = stringToVector3(player.getStringAttribute("aim_target"));
+			if (!checkRange(aimTarget, captainPos, CAPTAIN_SPOT_AIM_RADIUS)) continue;
+
+			array<int>@ spotted = m_enemyFactionsSpottedByFaction[ownerFactionId];
+			bool already = false;
+			for (uint i = 0; i < spotted.length(); ++i)
+				if (spotted[i] == spotterFactionId) { already = true; break; }
+			if (already) continue;
+
+			spotted.insertLast(spotterFactionId);
+			sendFactionMessage(m_metagame, spotterFactionId, "Enemy Commander spotted. Eliminate him - the reward is worth it!", 1.5f);
+			_log("CaptainSpawnCommandTracker: Captain (Fraktion " + ownerFactionId + ") von Fraktion " + spotterFactionId + " per Fadenkreuz gespottet", 1);
 		}
 	}
 
@@ -144,7 +174,7 @@ class CaptainSpawnCommandTracker : Tracker {
 			}
 		}
 		if (bg.length() > 0) {
-			_log("CaptainSpawnCommandTracker: Fraktion " + factionId + " - " + bg.length() + " Bodyguards gefunden", 1);
+			_log("CaptainSpawnCommandTracker: Faction " + factionId + " - " + bg.length() + " bodyguards found", 1);
 		}
 	}
 
@@ -259,7 +289,7 @@ class CaptainSpawnCommandTracker : Tracker {
 			onCaptainDeath(fid, dead.getIntAttribute("id"), event, true);
 			return;
 		}
-		// Verspätetes character_kill (Cleanup lief schon z. B. aus Update) – trotzdem Killer-Meldung + RP
+		// Late character_kill (cleanup already ran e.g. from Update) - still send killer message + RP
 		if (dead.getStringAttribute("soldier_group_name") != SOLDIER_GROUP_CAPTAIN) return;
 		int deadFactionId = dead.getIntAttribute("faction_id");
 		sendKillerRewardAndMessage(event, deadFactionId);
