@@ -31,6 +31,20 @@ Spieler liefert Laptop/Briefcase in Waffenkammer
 
 ---
 
+## Erkenntnisse / Fallstricke (nicht erneut machen)
+
+1. **`in_stock="0"` in carry_item**: Weste wird per faction_resources freigeschaltet, Unlock-Meldung erscheint – aber die Weste **nicht** in der Waffenkammer. Ursache: Die Engine filtert Items mit `in_stock="0"` aus der Waffenkammer-Anzeige. Fix: `in_stock="1"` in der `.carry_item`-Datei.
+
+2. **`MultiGroupResource` mit "supply"**: Waffenkammer nutzt nur die Gruppe `"default"`. Unlock für "supply" allein führt nicht zur Anzeige. Fix: `Resource` verwenden (nur default).
+
+3. **green_boss / grey_boss ohne armory_vests**: Quick Match nutzt diese Fraktionen. Ohne `default_vests` und `armory_vests` in der default-Gruppe kennt die Waffenkammer die Westen nicht.
+
+4. **Ähnliche IDs (vest_blackops vs vest_blackops3)**: Sind verschiedene IDs – kein Konflikt. Beide können dasselbe Mesh nutzen (`vest_black.xml`).
+
+5. **Falsche Fraktion (EU/UN-Maps)**: Unlock landete bei faction_id=0 – bei mehreren Fraktionen (EU, UN, …) ist 0 oft nicht die Spielerfraktion. Fix: `PlayerFactionResourceUnlocker` nutzt die Fraktion des liefernden Charakters (`getCharacterInfo` → `faction_id`).
+
+---
+
 ## Neue Items integrieren – Checkliste
 
 ### 1. AngelScript: Unlock-Liste erweitern
@@ -92,7 +106,28 @@ Ohne Eintrag in `common.resources` kann die Fraktion das Item nicht erhalten.
 
 ---
 
-### 5. Westen: green_boss.xml und grey_boss.xml (Quick Match)
+### 5. Westen: in_stock in der carry_item-Definition ⚠️ KRITISCH
+
+**Häufiger Fehler:** Weste wird freigeschaltet (Meldung kommt), erscheint aber **nicht** in der Waffenkammer.
+
+**Ursache:** In der `*.carry_item`-Datei steht `in_stock="0"`. Die Engine blendet damit Items aus der Waffenkammer aus – unabhängig davon, ob die Fraktion sie besitzt.
+
+**Lösung:** In der Westen-Definition (z.B. `items/vest_blackops3.carry_item`) muss stehen:
+
+```xml
+<commonness value="0.0" in_stock="1" can_respawn_with="0" />
+```
+
+- `in_stock="0"` → **nie** in Waffenkammer anzeigen (z.B. Admin-Only, Drops)
+- `in_stock="1"` → in Waffenkammer anzeigen, **wenn** die Fraktion die Weste hat
+
+**Bei Transform-States** (z.B. vest_blackops3 → bo3_2 → bo3_3 → bo3_4): Alle Einträge in derselben Datei auf `in_stock="1"` setzen, falls die Basis-Weste in der Waffenkammer erscheinen soll. Die Transform-States werden nicht einzeln ausgewählt – nur die Basis-Weste.
+
+**Beispiel Fall:** vest_blackops3 hatte ursprünglich `in_stock="0"` (für Admin-Test-Spawns gedacht) → nach Unlock erschien sie nicht in der Waffenkammer. Fix: `in_stock="1"`.
+
+---
+
+### 6. Westen: green_boss.xml und grey_boss.xml (Quick Match)
 
 Die **default**-Soldatengruppe muss `default_vests` und `armory_vests` laden, sonst kennt die Waffenkammer die Westen nicht:
 
@@ -105,7 +140,7 @@ Die **default**-Soldatengruppe muss `default_vests` und `armory_vests` laden, so
 
 ---
 
-### 6. Waffen: all_weapons.xml
+### 7. Waffen: all_weapons.xml
 
 Mod-Waffen müssen geladen werden:
 
@@ -117,10 +152,10 @@ Falls die Waffe auskommentiert war, Zeile aktivieren.
 
 ---
 
-### 7. Waffen-Definition (falls neu)
+### 8. Waffen-Definition (falls neu)
 
 Neue Waffe: `weapons/mein_item.weapon` anlegen, in `all_weapons.xml` referenzieren.  
-Neue Weste: `carry_items/mein_vest.carry_item` anlegen, in `armory_vests.resources` und `common.resources` eintragen.
+Neue Weste: `items/mein_vest.carry_item` anlegen, in `armory_vests.resources` und `common.resources` eintragen. **Nicht vergessen:** `in_stock="1"` in `<commonness>`.
 
 ---
 
@@ -160,6 +195,9 @@ factions/
 
 weapons/
 └── all_weapons.xml                            # Zu ladende Waffen
+
+items/
+└── *.carry_item                               # Westen-Definitionen (in_stock=1 für Waffenkammer!)
 ```
 
 ---
@@ -169,29 +207,42 @@ weapons/
 | Problem | Ursache | Lösung |
 |---------|---------|--------|
 | Unlock-Meldung, Item nicht in Waffenkammer | `MultiGroupResource` mit "supply" | `Resource` (nur default) verwenden |
+| **Weste: Unlock-Meldung, aber nicht in Waffenkammer** | **`in_stock="0"` in carry_item-Definition** | **`in_stock="1"` in `items/xxx.carry_item` setzen** |
 | Weste erscheint nie | `armory_vests` nicht in green_boss/grey_boss | `default_vests` + `armory_vests` in default-Gruppe laden |
 | Waffe erscheint nie | Waffe nicht in all_weapons.xml | `<weapon file="id.weapon" />` aktivieren |
 | Item nicht im Pool | Fehlender Eintrag in common.resources | Eintrag mit `enabled="0"` hinzufügen |
+| **Unlock bei falscher Fraktion (EU liefert, UN bekommt)** | **Hardcoded faction_id=0** | **`PlayerFactionResourceUnlocker` statt `ResourceUnlocker` (nutzt Charakter-Fraktion)** |
 
 ---
 
 ## Schnellreferenz: Neues Unlock-Item hinzufügen
 
-1. **item_delivery_configurator_quickmatch.as**: `m_laptopUnlockList` oder `m_briefcaseUnlockList` erweitern:
+### Waffe
+
+1. **item_delivery_configurator_quickmatch.as**: `m_laptopUnlockList` oder `m_briefcaseUnlockList`:
    ```angelscript
    m_laptopUnlockList.push_back(Resource("id.weapon", "weapon"));
    ```
+2. **common.resources**: `<weapon key='id.weapon' enabled="0" />`
+3. **all_weapons.xml**: `<weapon file="id.weapon" />` (falls neue Waffe: Definition anlegen)
 
-2. **common.resources**: Eintrag mit `enabled="0"`:
-   ```xml
-   <weapon key='id.weapon' enabled="0" />
-   ```
+### Weste (alle Schritte erforderlich)
 
-3. **Falls Weste**: `armory_vests.resources`:
-   ```xml
-   <carry_item key="id.carry_item" enabled="0" />
-   ```
+1. **item_delivery_configurator_quickmatch.as**: Unlock-Liste erweitern (s.o.)
+2. **common.resources**: `<carry_item key='id.carry_item' enabled="0" />`
+3. **armory_vests.resources**: `<carry_item key="id.carry_item" enabled="0" />`
+4. **green_boss.xml / grey_boss.xml**: `default_vests` + `armory_vests` in default-Gruppe laden (falls noch nicht vorhanden)
+5. **items/id.carry_item**: `in_stock="1"` in `<commonness>` – **sonst erscheint die Weste trotz Unlock nicht in der Waffenkammer**
 
-4. **Falls Weste + Quick Match**: Prüfen, ob green_boss/grey_boss `armory_vests` laden.
+---
 
-5. **Falls neue Waffe**: `all_weapons.xml` und Waffen-Definition anlegen/aktivieren.
+## Vorgehensweise im Überblick
+
+| Schritt | Waffe | Weste |
+|---------|-------|-------|
+| Unlock-Liste (AngelScript) | ✓ | ✓ |
+| common.resources, enabled=0 | ✓ | ✓ |
+| armory_vests.resources | – | ✓ |
+| green_boss/grey_boss: armory_vests | – | ✓ (Quick Match) |
+| all_weapons.xml | ✓ | – |
+| **carry_item: in_stock=1** | – | **✓** |

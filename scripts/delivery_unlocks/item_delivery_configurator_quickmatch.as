@@ -15,6 +15,10 @@ class NotifyingUnlockListener : UnlockListener {
 		m_factionId = factionId;
 	}
 
+	void setFactionId(int factionId) {
+		m_factionId = factionId;
+	}
+
 	void itemUnlocked(const Resource@ resource) {
 		string name = getResourceName(m_metagame, resource.m_key, resource.m_type);
 		if (name == "") {
@@ -41,6 +45,29 @@ class NotifyingUnlockListener : UnlockListener {
 	}
 }
 
+// ResourceUnlocker der die Fraktion des liefernden Spielers verwendet (character_id) –
+// sonst landet der Unlock bei faction 0 (z.B. UN statt EU).
+class PlayerFactionResourceUnlocker : ResourceUnlocker {
+	PlayerFactionResourceUnlocker(Metagame@ metagame, const dictionary@ unlockList, UnlockListener@ listener, string customStatTag = "", string thanks = "")
+		: ResourceUnlocker(metagame, 0, unlockList, listener, customStatTag, thanks) {}
+
+	bool handleItemDeliveryCompleted(const Resource@ item, int characterId = -1, int playerId = -1) {
+		int factionId = 0;
+		if (characterId >= 0) {
+			const XmlElement@ chr = getCharacterInfo(m_metagame, characterId);
+			if (chr !is null) {
+				factionId = chr.getIntAttribute("faction_id");
+			}
+		}
+		m_factionId = factionId;
+
+		NotifyingUnlockListener@ nl = cast<NotifyingUnlockListener>(m_listener);
+		if (nl !is null) nl.setFactionId(factionId);
+
+		return ResourceUnlocker::handleItemDeliveryCompleted(item, characterId, playerId);
+	}
+}
+
 // ------------------------------------------------------------------------------------------------
 class ItemDeliveryConfiguratorQuickMatch : ItemDeliveryConfigurator {
 	protected Metagame@ m_metagame;
@@ -59,18 +86,11 @@ class ItemDeliveryConfiguratorQuickMatch : ItemDeliveryConfigurator {
 
 	// --------------------------------------------
 	void buildUnlockLists() {
-		// Laptop: Items die in Quick Match oft noch nicht in der Fraktion sind
-		// Resource (nur "default") wie xm25 – MultiGroupResource mit "supply" schlug fehl (Waffenkammer liest nur default)
+		// Nur MG42 und Black-Ops-Vest III freischaltbar (Laptop oder Aktenkoffer)
+		m_laptopUnlockList.push_back(Resource("mg42.weapon", "weapon"));
 		m_laptopUnlockList.push_back(Resource("vest_blackops3.carry_item", "carry_item"));
-		m_laptopUnlockList.push_back(Resource("mk23.weapon", "weapon"));
-		m_laptopUnlockList.push_back(Resource("xm25.weapon", "weapon"));
-		m_laptopUnlockList.push_back(Resource("ares_shrike.weapon", "weapon"));
 
 		m_briefcaseUnlockList.push_back(Resource("mg42.weapon", "weapon"));
-		m_briefcaseUnlockList.push_back(Resource("aa-12.weapon", "weapon"));
-		m_briefcaseUnlockList.push_back(Resource("musket.weapon", "weapon"));
-		m_briefcaseUnlockList.push_back(Resource("desert_eagle.weapon", "weapon"));
-		m_briefcaseUnlockList.push_back(Resource("m712.weapon", "weapon"));
 		m_briefcaseUnlockList.push_back(Resource("vest_blackops3.carry_item", "carry_item"));
 	}
 
@@ -96,7 +116,7 @@ class ItemDeliveryConfiguratorQuickMatch : ItemDeliveryConfigurator {
 		unlockList.set("laptop.carry_item", @m_laptopUnlockList);
 
 		string thanks = "item objective thanks";
-		ResourceUnlocker unlocker(m_metagame, 0, unlockList, @m_unlockListener, "", thanks);
+		PlayerFactionResourceUnlocker unlocker(m_metagame, unlockList, @m_unlockListener, "", thanks);
 
 		string instructions = "item objective instruction";
 		string mapText = "item objective map text";
@@ -116,7 +136,7 @@ class ItemDeliveryConfiguratorQuickMatch : ItemDeliveryConfigurator {
 		unlockList.set("suitcase.carry_item", @m_briefcaseUnlockList);
 
 		string thanks = "item objective thanks";
-		ResourceUnlocker unlocker(m_metagame, 0, unlockList, @m_unlockListener, "", thanks);
+		PlayerFactionResourceUnlocker unlocker(m_metagame, unlockList, @m_unlockListener, "", thanks);
 
 		string instructions = "item objective instruction";
 		string mapText = "item objective map text";

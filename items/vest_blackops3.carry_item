@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Black Ops Vest III: 3x so stark wie vest_blackops = 3 Treffer absorbieren (4 Zustände). Nicht in Waffenkammer (in_stock=0). -->
+<!-- Black Ops Vest III: 3x so stark wie vest_blackops = 3 Treffer absorbieren (4 Zustände). in_stock=1 damit Waffenkammer sie nach Unlock anzeigt. -->
 <carry_items>
     <carry_item key="vest_blackops3.carry_item" name="black ops vest III" slot="1" transform_on_consume="bo3_2" time_to_live_out_in_the_open="120.0" player_death_drop_owner_lock_time="45.0">
         <hud_icon filename="hud_blackops.png" />
@@ -9,7 +9,7 @@
 
         <model mesh_filename="vest_black.xml" />
 
-        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+        <commonness value="0.0" in_stock="1" can_respawn_with="0" />
 
         <!-- Stufe 1: death -> none (1. Treffer absorbiert) -->
         <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun" />
@@ -33,7 +33,7 @@
 
         <model mesh_filename="vest_black.xml" />
 
-        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+        <commonness value="0.0" in_stock="1" can_respawn_with="0" />
 
         <!-- Stufe 2: 2. Treffer absorbiert -->
         <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun" />
@@ -57,7 +57,7 @@
 
         <model mesh_filename="vest_black.xml" />
 
-        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+        <commonness value="0.0" in_stock="1" can_respawn_with="0" />
 
         <!-- Stufe 3: 3. Treffer -> stun (wie Black Ops nach 1. Treffer) -->
         <modifier class="projectile_blast_result" input_character_state="death" output_character_state="stun" />
@@ -81,7 +81,7 @@
 
         <model mesh_filename="vest_black.xml" />
 
-        <commonness value="0.0" in_stock="0" can_respawn_with="0" />
+        <commonness value="0.0" in_stock="1" can_respawn_with="0" />
 
         <!-- Stufe 4 (Ende): death -> wound, nächster Treffer tötet -->
         <modifier class="projectile_blast_result" input_character_state="death" output_character_state="death" />
