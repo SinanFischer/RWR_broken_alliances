@@ -52,7 +52,7 @@
 
     <hud_icon filename="hud_shovel.png" />
     <commonness value="0.0" can_respawn_with="0" in_stock="1"/>
-    <inventory encumbrance="5.0" price="100.0" />
+    <inventory encumbrance="5.0" price="70.0" />
 
     <modifier class="speed" value="-0.12" />
 
