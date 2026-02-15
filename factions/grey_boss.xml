@@ -69,6 +69,8 @@
 			<weapon key='famasg1.weapon' />
 		</resources>
 		<resources file="grey_default.resources" />
+		<resources file="default_vests.resources" />
+		<resources file="armory_vests.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->

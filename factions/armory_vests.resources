@@ -11,6 +11,6 @@
 	<carry_item key="camouflage_suit.carry_item" enabled="1" />
 	<carry_item key="sf_suit.carry_item" enabled="1" />
 	<carry_item key="vest_blackops.carry_item" enabled="1" />
-	<!-- Laptop/Briefcase-Unlock: dynamisch per faction_resources eingeblendet -->
+	<!-- Laptop/Briefcase-Unlock: in Liste (Armory); enabled=0 = Fraktion hat es erst nach faction_resources-Unlock -->
 	<carry_item key="vest_blackops3.carry_item" enabled="0" />
 </resources>

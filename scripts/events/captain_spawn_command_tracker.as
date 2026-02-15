@@ -43,11 +43,13 @@ const string SOLDIER_GROUP_BODYGUARD = "orange_bodyguards";
 const string SOLDIER_GROUP_CAPTAIN = "captain";
 const int MAX_FACTIONS = 8;
 const int CAPTAIN_KILL_RP_REWARD = 250;  // RP fuer Spieler, der den feindlichen Captain erledigt
+const float CAPTAIN_SPOT_BASE_DELAY = 2.0f; // Enemy-Commander-Meldung erst 2s nach Basis-Scout-Meldung (nur bei Entdeckung ueber Basis)
 
 // --------------------------------------------
 class CaptainSpawnCommandTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected bool m_started = false;
+	protected float m_metagameTime = 0.0f;
 
 	// Pro Fraktion (index = factionId, max MAX_FACTIONS)
 	protected array<int> m_captainIds;
@@ -56,6 +58,11 @@ class CaptainSpawnCommandTracker : Tracker {
 	protected array<array<int>> m_bodyguardIdsByFaction;
 	protected array<array<int>> m_enemyFactionsSpottedByFaction;
 	protected array<float> m_objectiveTimersByFaction;
+
+	// Verzögerte "Enemy Commander spotted" bei Basis-Scout: (ownerFactionId, spotterFactionId) → triggerTime
+	protected array<int> m_pendingSpotOwner;
+	protected array<int> m_pendingSpotter;
+	protected array<float> m_pendingSpotTriggerTime;
 
 	CaptainSpawnCommandTracker(Metagame@ metagame) {
 		@m_metagame = metagame;
@@ -80,6 +87,8 @@ class CaptainSpawnCommandTracker : Tracker {
 	}
 
 	void update(float time) {
+		m_metagameTime += time;
+		processPendingBaseSpotNotifications();
 		for (int fid = 0; fid < MAX_FACTIONS; ++fid) {
 			updateFactionCaptain(fid, time);
 		}
@@ -211,7 +220,7 @@ class CaptainSpawnCommandTracker : Tracker {
 		_log("CaptainSpawnCommandTracker: Captain Fraktion " + factionId + " weg, Marker entfernt", 1);
 	}
 
-	/** Wird von Aufklärungs-Manager aufgerufen: Basis gescoutet oder Hauptangriffsziel → wenn dort Captain, zeigt Spotter den Enemy Commander. */
+	/** Wird von Aufklärungs-Manager aufgerufen: Basis gescoutet oder Hauptangriffsziel → wenn dort Captain, Spot-Meldung 2s verzögert (nach Basis-Meldung). */
 	void notifyCaptainDiscoveredAtBase(int baseId, int baseOwnerFactionId, int spotterFactionId, const Vector3 &in basePosition) {
 		if (baseOwnerFactionId < 0 || baseOwnerFactionId >= MAX_FACTIONS) return;
 		if (spotterFactionId == baseOwnerFactionId) return;
@@ -231,9 +240,32 @@ class CaptainSpawnCommandTracker : Tracker {
 		for (uint i = 0; i < spotted.length(); ++i) {
 			if (spotted[i] == spotterFactionId) return;
 		}
-		spotted.insertLast(spotterFactionId);
-		sendFactionMessage(m_metagame, spotterFactionId, "Enemy Commander spotted. Eliminate him - the reward is worth it!", 1.5f);
-		_log("CaptainSpawnCommandTracker: Captain an Basis " + baseId + " (Fraktion " + baseOwnerFactionId + ") von Fraktion " + spotterFactionId + " entdeckt (Scout/Attack) - Enemy Commander Marker", 1);
+		for (uint i = 0; i < m_pendingSpotOwner.length(); ++i) {
+			if (m_pendingSpotOwner[i] == baseOwnerFactionId && m_pendingSpotter[i] == spotterFactionId) return;
+		}
+		m_pendingSpotOwner.insertLast(baseOwnerFactionId);
+		m_pendingSpotter.insertLast(spotterFactionId);
+		m_pendingSpotTriggerTime.insertLast(m_metagameTime + CAPTAIN_SPOT_BASE_DELAY);
+	}
+
+	void processPendingBaseSpotNotifications() {
+		for (int i = int(m_pendingSpotTriggerTime.length()) - 1; i >= 0; --i) {
+			if (m_pendingSpotTriggerTime[i] > m_metagameTime) continue;
+			int ownerFactionId = m_pendingSpotOwner[i];
+			int spotterFactionId = m_pendingSpotter[i];
+			m_pendingSpotOwner.removeAt(i);
+			m_pendingSpotter.removeAt(i);
+			m_pendingSpotTriggerTime.removeAt(i);
+			if (ownerFactionId < 0 || ownerFactionId >= MAX_FACTIONS || spotterFactionId == ownerFactionId) continue;
+			if (m_captainSpawnPositions[ownerFactionId].length() == 0) continue; // Captain bereits weg
+			array<int>@ spotted = m_enemyFactionsSpottedByFaction[ownerFactionId];
+			bool already = false;
+			for (uint k = 0; k < spotted.length(); ++k) { if (spotted[k] == spotterFactionId) { already = true; break; } }
+			if (already) continue;
+			spotted.insertLast(spotterFactionId);
+			sendFactionMessage(m_metagame, spotterFactionId, "Enemy Commander spotted. Eliminate him - the reward is worth it!", 1.5f);
+			_log("CaptainSpawnCommandTracker: Captain (Fraktion " + ownerFactionId + ") von Fraktion " + spotterFactionId + " entdeckt (Scout/Attack, 2s verzögert) - Enemy Commander Marker", 1);
+		}
 	}
 
 	// Einheitliche Tod-Behandlung: nur einmal Cleanup/Nachricht pro Tod (erstes ankommendes Event gewinnt).

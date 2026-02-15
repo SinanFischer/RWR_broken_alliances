@@ -69,6 +69,8 @@
 			<weapon key='l85a2.weapon' />
 		</resources>
 		<resources file="green_default.resources" />
+		<resources file="default_vests.resources" />
+		<resources file="armory_vests.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->

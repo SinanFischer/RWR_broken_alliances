@@ -60,8 +60,9 @@ class ItemDeliveryConfiguratorQuickMatch : ItemDeliveryConfigurator {
 	// --------------------------------------------
 	void buildUnlockLists() {
 		// Laptop: Items die in Quick Match oft noch nicht in der Fraktion sind
-		m_laptopUnlockList.push_back(MultiGroupResource("vest_blackops3.carry_item", "carry_item", array<string> = {"default", "supply"}));
-		m_laptopUnlockList.push_back(MultiGroupResource("mk23.weapon", "weapon", array<string> = {"default", "supply"}));
+		// Resource (nur "default") wie xm25 – MultiGroupResource mit "supply" schlug fehl (Waffenkammer liest nur default)
+		m_laptopUnlockList.push_back(Resource("vest_blackops3.carry_item", "carry_item"));
+		m_laptopUnlockList.push_back(Resource("mk23.weapon", "weapon"));
 		m_laptopUnlockList.push_back(Resource("xm25.weapon", "weapon"));
 		m_laptopUnlockList.push_back(Resource("ares_shrike.weapon", "weapon"));
 
@@ -70,7 +71,7 @@ class ItemDeliveryConfiguratorQuickMatch : ItemDeliveryConfigurator {
 		m_briefcaseUnlockList.push_back(Resource("musket.weapon", "weapon"));
 		m_briefcaseUnlockList.push_back(Resource("desert_eagle.weapon", "weapon"));
 		m_briefcaseUnlockList.push_back(Resource("m712.weapon", "weapon"));
-		m_briefcaseUnlockList.push_back(MultiGroupResource("vest_blackops3.carry_item", "carry_item", array<string> = {"default", "supply"}));
+		m_briefcaseUnlockList.push_back(Resource("vest_blackops3.carry_item", "carry_item"));
 	}
 
 	// --------------------------------------------
