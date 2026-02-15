@@ -64,6 +64,7 @@
 	<weapon file="spas-12.weapon" />  
 	<weapon file="qcw-05.weapon" />
 
+	<weapon file="shovel.weapon" />
 	<weapon file="cover_resource.weapon" />
   
 	<weapon file="humvee_mg.weapon" />

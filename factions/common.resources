@@ -5,6 +5,7 @@
 	<weapon key='squad_equipment_kit.weapon' />
 	<weapon key='squad_equipment_kit_navy.weapon' />
 	<weapon key='riot_shield.weapon' />
+	<weapon key='shovel.weapon' />
 	<weapon key='cover_resource.weapon' />
 	<weapon key='mg_resource.weapon' />
 	<weapon key='minig_resource.weapon' />
