@@ -32,6 +32,12 @@
 	<weapon key='honey_badger.weapon' /> 
 	<weapon key='m60e4.weapon' />   
 	<weapon key='mk23.weapon' enabled="0" />   
+	<weapon key='xm25.weapon' enabled="0" />
+	<weapon key='mg42.weapon' enabled="0" />
+	<weapon key='aa-12.weapon' enabled="0" />
+	<weapon key='musket.weapon' enabled="0" />
+	<weapon key='desert_eagle.weapon' enabled="0" />
+	<weapon key='m712.weapon' enabled="0" />
 	<weapon key='jackhammer.weapon' />   
 	<weapon key='uts15.weapon' />  
 	<weapon key='paw20.weapon' />    
@@ -53,6 +59,7 @@
 	<carry_item key='costume_clown.carry_item' />
 	<carry_item key='costume_santa.carry_item' />
 	<carry_item key='vest_blackops.carry_item' enabled="0" />
+	<carry_item key='vest_blackops3.carry_item' enabled="0" />
 
 <!--  <weapon key="bandage.weapon" /> -->
 	<projectile key="shuriken.projectile" enabled="0" />

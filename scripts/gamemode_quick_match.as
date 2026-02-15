@@ -22,6 +22,7 @@ const bool CAPACITY_DEBUG_HUD = false;
 // --------------------------------------------
 class GameModeQuickMatch : Metagame {
 	protected ItemDeliveryOrganizer@ m_itemDeliveryOrganizer;
+	protected ItemDeliveryConfiguratorQuickMatch@ m_itemDeliveryConfigurator;
 	// --------------------------------------------
 	GameModeQuickMatch(const XmlElement@ settings) {
 		super(settings.getStringAttribute("log_level"));
@@ -39,8 +40,8 @@ class GameModeQuickMatch : Metagame {
 		Metagame::postBeginMatch();
 
 		// Laptop/Briefcase-Unlocks: wie Campaign – abgeben → zufälliges Item freischalten (inkl. vest_blackops3)
-		ItemDeliveryConfiguratorQuickMatch configurator(this);
-		@m_itemDeliveryOrganizer = ItemDeliveryOrganizer(this, configurator);
+		@m_itemDeliveryConfigurator = ItemDeliveryConfiguratorQuickMatch(this);
+		@m_itemDeliveryOrganizer = ItemDeliveryOrganizer(this, m_itemDeliveryConfigurator);
 		m_itemDeliveryOrganizer.init();
 		m_itemDeliveryOrganizer.matchStarted();
 

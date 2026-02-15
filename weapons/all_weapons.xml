@@ -114,7 +114,7 @@
 	<weapon file="tank2_missile_launcher.weapon" />        
 -->
 
-<!-- <weapon file="xm25.weapon" /> -->
+<weapon file="xm25.weapon" />
 
 	<weapon file="apc_hmg_1.weapon" />
 	<weapon file="apc_hmg_2.weapon" /> 
