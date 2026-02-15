@@ -211,7 +211,9 @@
   <weapon file="dragons_breath.weapon" />
   <weapon file="enforcer.weapon" />
   <weapon file="gps_laptop.weapon" />
-  <weapon file="hornet.weapon" />
+	<weapon file="hornet.weapon" />
+	<weapon file="hornet_resource.weapon" />
+	<weapon file="tow_resource.weapon" />
   <weapon file="repair_crane_0.weapon" />
   <weapon file="repair_crane_1.weapon" />
   <weapon file="repair_crane_2.weapon" />

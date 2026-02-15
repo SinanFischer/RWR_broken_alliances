@@ -15,7 +15,7 @@
 	<weapon key='barrett_m107.weapon' />
 	<weapon key='mortar_resource.weapon' />
 	<weapon key='minig_resource.weapon' />
-	<weapon key='tow_resource.weapon' />
+	<weapon key='tow_resource.weapon' enabled="0" />
 	<weapon key="flamethrower.weapon" />
 	<weapon key='javelin.weapon' />  
 	<weapon key='lahti_l39.weapon' />  
@@ -34,6 +34,7 @@
 	<weapon key='mk23.weapon' enabled="0" />   
 	<weapon key='xm25.weapon' enabled="0" />
 	<weapon key='mg42.weapon' enabled="0" />
+	<weapon key='hornet_resource.weapon' enabled="0" />
 	<weapon key='aa-12.weapon' enabled="0" />
 	<weapon key='musket.weapon' enabled="0" />
 	<weapon key='desert_eagle.weapon' enabled="0" />
@@ -47,7 +48,7 @@
 	<!-- note, we have faction specific bazookas, therefore not included here -->
 	<weapon key='minig_resource.weapon' /> 
 	<weapon key='mortar_resource.weapon' /> 
-	<weapon key='tow_resource.weapon' />  
+	<weapon key='tow_resource.weapon' enabled="0" />  
 	<weapon key='gl_resource.weapon' /> 
 	<weapon key='humvee_gl.weapon' />
 	<weapon key='coastal_gun_resource.weapon' />    

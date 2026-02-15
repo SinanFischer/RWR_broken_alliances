@@ -87,12 +87,16 @@ class ItemDeliveryConfiguratorQuickMatch : ItemDeliveryConfigurator {
 
 	// --------------------------------------------
 	void buildUnlockLists() {
-		// Nur MG42 und Black-Ops-Vest III freischaltbar (Laptop oder Aktenkoffer)
+		// MG42, Black-Ops-Vest III, Hornet Deploy, TOW Deploy (Laptop oder Aktenkoffer)
 		m_laptopUnlockList.push_back(Resource("mg42.weapon", "weapon"));
 		m_laptopUnlockList.push_back(Resource("vest_blackops3.carry_item", "carry_item"));
+		m_laptopUnlockList.push_back(Resource("hornet_resource.weapon", "weapon"));
+		m_laptopUnlockList.push_back(Resource("tow_resource.weapon", "weapon"));
 
 		m_briefcaseUnlockList.push_back(Resource("mg42.weapon", "weapon"));
 		m_briefcaseUnlockList.push_back(Resource("vest_blackops3.carry_item", "carry_item"));
+		m_briefcaseUnlockList.push_back(Resource("hornet_resource.weapon", "weapon"));
+		m_briefcaseUnlockList.push_back(Resource("tow_resource.weapon", "weapon"));
 	}
 
 	// --------------------------------------------

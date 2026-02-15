@@ -71,7 +71,8 @@ void buildUnlockLists() {
 
 | Typ          | Key-Format           | Beispiel                 |
 |-------------|----------------------|--------------------------|
-| Waffe       | `id.weapon`          | `mk23.weapon`, `xm25.weapon` |
+| Waffe       | `id.weapon`          | `mk23.weapon`, `xm25.weapon`, `tow_resource.weapon` |
+| Deploy      | `id_resource.weapon` | `hornet_resource.weapon`, `tow_resource.weapon` |
 | Weste/Item  | `id.carry_item`      | `vest_blackops3.carry_item`  |
 | Granate     | `id.grenade`         | (falls verwendet)            |
 
@@ -215,9 +216,18 @@ items/
 
 ---
 
+## Aktuelle Unlock-Liste (Quick Match)
+
+- **MG42** (`mg42.weapon`)
+- **Black-Ops-Vest III** (`vest_blackops3.carry_item`)
+- **Hornet Deploy** (`hornet_resource.weapon`) – Raketenwerfer-Emplacement platzieren
+- **TOW Deploy** (`tow_resource.weapon`) – TOW-Geschütz platzieren
+
+---
+
 ## Schnellreferenz: Neues Unlock-Item hinzufügen
 
-### Waffe
+### Waffe / Deploy-Waffe
 
 1. **item_delivery_configurator_quickmatch.as**: `m_laptopUnlockList` oder `m_briefcaseUnlockList`:
    ```angelscript
