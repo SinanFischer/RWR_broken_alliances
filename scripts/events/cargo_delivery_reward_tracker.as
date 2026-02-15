@@ -6,7 +6,7 @@
 #include "log.as"
 #include "query_helpers.as"
 
-const string CARGO_TRUCK_KEY = "cargo_truck.vehicle";
+// CARGO_TRUCK_KEY kommt aus vehicle_interval_spawn.as (muss vor diesem Script inkludiert sein)
 const int PLAYER_FACTION_ID = 0;
 // RP-Belohnung für Fahrer (angelehnt an vanilla fallbackRewardIfNothingToUnlock ~400–800)
 const float CARGO_DELIVERY_RP_REWARD = 600.0f;
