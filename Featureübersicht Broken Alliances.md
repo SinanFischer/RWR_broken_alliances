@@ -1,4 +1,4 @@
-# Änderungsübersicht - Modifikationen am RWR Total Conversion Mod
+# Featureübersicht Broken Alliances
 
 **Hinweis:** Diese Datei dient als **genereller Mod-Überblick** - alle wesentlichen Änderungen und Systeme an einem Ort.
 
@@ -63,16 +63,32 @@
 - **Pro Fraktion:** Gray, Brown etc. können jeweils ihre Feind-Basen scouten (symmetrisch).
 - **Stale-Reset:** Nach 5 Min wird Intel verworfen → Basis zurück auf „to investigate“ (neu scouten).
 - **Besitzerwechsel:** `base_owner_change_event` verwirft Intel, Marker werden neu gesetzt.
-- **Marker-Text:** Gescoutete Basen zeigen bei Hover Stärke + „X min ago“ (z. B. „weak, 3 min ago“). Aktualisierung alle 5 s.
+- **Marker-Text:** Gescoutete Basen zeigen bei Hover Stärke + „X min ago“ (z. B. „weak, 3 min ago“). Aktualisierung alle 5 s.
 
 ### 1d. Captain & VIP-System (Cargo Truck + Captain)
 
-**Auslöser:** Beim Mittel-Fahrzeug-Spawn (~9 % Chance) spawnt ein **Cargo Truck** zusammen mit einem **Captain** und 3 Bodyguards an derselben Basis. Test-Commands: `/cargo_captain_test`, `/test_enemy_cargo_captain`.
+**Auslöser:** Beim Mittel-Fahrzeug-Spawn (~9 % Chance) spawnt ein **Cargo Truck** zusammen mit einem **Captain** und 3 Bodyguards an derselben Basis. Admin-Command: **`/captain_spawn`** bzw. **`/captain_spawn paradrop`** spawnt 1 Captain + 3 Bodyguards bei Spielerposition. Test-Commands: `/cargo_captain_test`, `/test_enemy_cargo_captain`.
 
 - **Eigene Fraktion:** Captain-Marker (VIP-Ziel, atlas 17) auf der Karte; Commander: „Captain arrived with the supply convoy and will defend our position.“
 - **Feind-Fraktionen:** Commander: „Enemy [Fraktionsname] Cargo truck reported - escorted by a Captain. Find and eliminate him for valuable intel!“
-- **Enemy Commander Marker:** Wenn eine Fraktion den Cargo Truck des Gegners spottet (`vehicle_spot_event`), erscheint der Enemy-Commander-Marker (atlas 18) für die spotternde Fraktion.
+- **Enemy Commander Marker:** Erscheint für eine Fraktion, sobald sie den feindlichen Captain „spottet“ (siehe unten). Atlas 18, am Bildschirmrand.
 - **Pro Fraktion:** Jede Fraktion kann einen Captain haben; bis zu 8 Fraktionen parallel getrackt.
+
+**Spotting des Enemy Commander (drei Wege):**
+
+| Weg | Bedingung |
+|-----|-----------|
+| **Basis gescoutet** | IntelManager: Feind-Basis wird gescoutet (Spieler in center_block oder Fadenkreuz auf Basis 25 m); Captain steht an dieser Basis oder innerhalb 120 m → Spot. |
+| **Hauptangriffsziel** | Angreifer setzt diese Basis als Attack-Target; Captain dort (baseId oder 120 m) → Spot. |
+| **Fadenkreuz auf Captain** | Spieler zielt mit dem **Fadenkreuz** (aim_target) auf den Captain: Fadenkreuz-Position innerhalb **25 m** der Captain-Position in der Welt → Spot. Prüfung alle 1,5 s; keine Engine-FOV-API – „Ziel auf Captain“ als Sicht-Proxy. |
+
+**Tod-Erkennung & Meldungen (Events-System):**
+
+- **Struktur:** Captain- und Intel-Logik liegen in **`scripts/events/`** (captain_spawn_command_tracker, intel_manager_quickmatch, character_death_helpers). Gemeinsame Helper für Todes-Events (character_kill / character_die).
+- **Doppelte Tod-Erkennung:** Es werden **character_kill** (Killer bekannt) und **character_die** (jeder Tod, z. B. Artillerie/Umwelt) abonniert. Toter Charakter wird einheitlich aus dem Event gelesen (Tag `<character>` oder `<target>` wie in Vanilla).
+- **Ein Cleanup, eine Nachricht:** Zentraler Pfad `onCaptainDeath`: nur einmal Cleanup + „Our Commander has been eliminated!“ pro Tod. Wenn der Tod zuerst im **Update** erkannt wird (getCharacterInfo2 = dead), wird die Fraktionsnachricht ebenfalls gesendet.
+- **Killer-Meldung immer:** Die Fraktion, die den Captain getötet hat, erhält „Excellent work! Enemy Commander eliminated!“ und der Spieler 250 RP. Auch wenn **character_kill** erst nach dem Cleanup (z. B. aus dem Update) ankommt – verspätetes character_kill löst weiterhin Killer-Nachricht + RP aus.
+- **Logging:** Pro Captain-Tod eine Log-Zeile mit Event-Typ, dead_id, dead_faction_id, soldier_group_name, bei character_kill zusätzlich killer_id/killer_faction_id/killer_player_id.
 
 ---
 

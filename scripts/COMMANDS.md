@@ -13,6 +13,7 @@ Alle **eingebundenen** Chat-Commands des Mods. Ausgenommen: Reinforcement-Pool-T
 | `/stats` oder `/stat` | `trackers/stats_command_tracker.as` | Quick Match | Alle | Statistik pro Fraktion: A-K-D, C-B, B(s). |
 | `/vehicle`, `/vehicle_spawn`, `/fahrzeug` | `trackers/vehicle_interval_spawn.as` | Quick Match, Invasion | Alle | Status: eigene Fraktion - light / medium / heavy (Zeiten in s); heavy zeigt „blocked (leading faction)“ wenn führend. |
 | `/vehicle test`, `/vehicle_spawn test`, `/fahrzeug test` | wie oben | Quick Match, Invasion | **Admin** | Sofort-Spawn eines Leicht-Fahrzeugs für die eigene Fraktion. |
+| `/blackops3` | `commands/blackops3_vest_command_tracker.as` | Quick Match | **Admin** | Spawnt Black-Ops-Veste III (vest_blackops3) bei Spielerposition; nur zum Testen, nicht in Waffenkammer. |
 | `/captain_spawn` | `trackers/captain_spawn_command_tracker.as` | Quick Match | **Admin** | Spawnt 1 Captain + 3 orange_bodyguards bei Spielerposition (eigene Fraktion). |
 | `/captain_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match | **Admin** | Wie oben, mit Paradrop (Höhe). |
 | `/cargo_captain_test` oder `/test_cargo_captain` | `trackers/vehicle_interval_spawn.as` | Quick Match | **Admin** | Test: Spawnt Cargo Truck + Captain an zufälliger Basis deiner Fraktion. Simuliert das Cargo+Captain-Event. |

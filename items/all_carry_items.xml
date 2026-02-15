@@ -55,7 +55,8 @@
 	<carry_item file="costume_clown.carry_item" />
 	<carry_item file="costume_santa.carry_item" />
   
-	<carry_item file="vest_blackops.carry_item" />	
+	<carry_item file="vest_blackops.carry_item" />
+	<carry_item file="vest_blackops3.carry_item" />	
 	<carry_item file="laptop.carry_item" />
   
 	<carry_item file="gift_box_1.carry_item" />  

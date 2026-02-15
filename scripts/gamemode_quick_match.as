@@ -12,6 +12,7 @@
 #include "trackers/vehicle_interval_spawn.as"
 #include "events/captain_spawn_command_tracker.as"
 #include "events/intel_manager_quickmatch.as"
+#include "commands/blackops3_vest_command_tracker.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)
@@ -34,6 +35,7 @@ class GameModeQuickMatch : Metagame {
 	// --------------------------------------------
 	void postBeginMatch() {
 		Metagame::postBeginMatch();
+		addTracker(BlackOps3VestCommandTracker(this));
 		addTracker(BasicCommandHandler(this));
 		RespawnSlotDelayTracker@ respawnTr = RespawnSlotDelayTracker(this);
 		addTracker(respawnTr);
