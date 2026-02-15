@@ -69,7 +69,24 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 
 ---
 
-## 4.1 Cargo+Captain-Event - Ablauf & Nachrichten
+## 4.1 IntelManager (Quick Match) – Basis-Aufklärung
+
+**Quelle:** `trackers/intel_manager_quickmatch.as` (angepasst aus Vanilla Invasion)
+
+Wie in Invasion/Kampagne: Feind-Basen werden als „to investigate“ markiert. Wenn ein Spieler eine Feind-Basis scoutet (Einheit im center_block oder Fadenkreuz nahe Basis) → Commander meldet die Stärke (very weak / weak / medium / heavy) und RP-Belohnung.
+
+| Verhalten | Beschreibung |
+|-----------|--------------|
+| Start | Pro Fraktion: alle capturable Feind-Basen (owner_id ≠ eigene Fraktion) mit „investigate“-Marker |
+| Scout | Spieler geht in Basis oder zielt mit Fadenkreuz auf Basis (25 m) |
+| Report | Commander meldet Stärke; bei Spieler zusätzlich Privatnachricht mit Taktik-Tipp |
+| **Stale-Reset** | Nach 5 Min wird Intel verworfen → Basis zurück auf „to investigate" (neu scouten) |
+| **Besitzerwechsel** | base_owner_change_event → Intel verworfen, Marker neu gesetzt |
+| **Pro Fraktion** | Gray, Brown usw. können jeweils Feind-Basen scouten (symmetrisch) |
+
+---
+
+## 4.2 Cargo+Captain-Event – Ablauf & Nachrichten
 
 **Quelle:** `vehicle_interval_spawn.as` + `captain_spawn_command_tracker.as`
 

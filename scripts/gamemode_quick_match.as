@@ -11,6 +11,7 @@
 #include "trackers/stats_command_tracker.as"
 #include "trackers/vehicle_interval_spawn.as"
 #include "trackers/captain_spawn_command_tracker.as"
+#include "trackers/intel_manager_quickmatch.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)
@@ -45,6 +46,7 @@ class GameModeQuickMatch : Metagame {
 		CaptainSpawnCommandTracker@ captainTr = CaptainSpawnCommandTracker(this);
 		addTracker(captainTr);  // /captain_spawn - 1 Captain + 3 orange_bodyguards; auch bei Cargo-Truck-Spawn
 		addTracker(VehicleIntervalSpawn(this, captainTr));  // Fahrzeug-Spawn; bei Cargo-Truck: Captain-Team mit
+		addTracker(IntelManagerQuickMatch(this));  // Basis-Intel: Feind-Basen scouten → Commander meldet Stärke (wie Invasion)
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 
 		const XmlElement@ player = getPlayerInfo(this, 0);

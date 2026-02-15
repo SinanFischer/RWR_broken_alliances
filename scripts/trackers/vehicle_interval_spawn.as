@@ -70,9 +70,11 @@ class VehicleIntervalSpawn : Tracker {
 
 	// Running game time (seconds) for 4-min check
 	protected float m_metagameTime = 0.0f;
-	// Per player: last known faction and "join" time (first /vehicle or faction switch)
+	// Per player: last known faction and join time = when we first saw them in that faction (set in update(), not on first /vehicle)
 	protected dictionary m_vehicleIntelFaction;
 	protected dictionary m_vehicleIntelJoinTime;
+	protected float m_vehicleIntelSyncAccum = 0.0f;
+	protected float VEHICLE_INTEL_SYNC_INTERVAL = 1.0f;
 
 	// Cargo+Captain: Captain-Message 2 s nach Vehicle-Message (Ort schon in Standard-Meldung)
 	protected int m_pendingCargoCaptainFactionId = -1;
@@ -135,6 +137,13 @@ class VehicleIntervalSpawn : Tracker {
 		m_metagameTime += time;
 		tryInitFactions(); // Lazy-init if start() was too early (Quick Match)
 		if (m_numFactions == 0) return;
+
+		// Join-Zeit pro Spieler: sobald wir ihn in einer Fraktion sehen (nicht erst beim ersten /vehicle)
+		m_vehicleIntelSyncAccum += time;
+		if (m_vehicleIntelSyncAccum >= VEHICLE_INTEL_SYNC_INTERVAL) {
+			m_vehicleIntelSyncAccum = 0.0f;
+			updateVehicleIntelFactionTimes();
+		}
 
 		// Cargo+Captain: Captain-Message 2 s nach Vehicle-Meldung
 		if (m_pendingCargoCaptainFactionId >= 0) {
@@ -208,6 +217,24 @@ class VehicleIntervalSpawn : Tracker {
 			m_cachedLeadingFactionTime = m_metagameTime;
 		}
 		return m_cachedLeadingFactionId;
+	}
+
+	// Setzt Join-Zeit, sobald Spieler in einer Fraktion sichtbar sind (nicht erst beim ersten /vehicle)
+	protected void updateVehicleIntelFactionTimes() {
+		array<const XmlElement@>@ players = getPlayers(m_metagame);
+		if (players is null) return;
+		for (uint i = 0; i < players.size(); ++i) {
+			int playerId = players[i].getIntAttribute("player_id");
+			int factionId = players[i].getIntAttribute("faction_id");
+			if (factionId < 0) continue;
+			string key = "" + playerId;
+			bool hasRecord = m_vehicleIntelFaction.exists(key);
+			int storedFaction = hasRecord ? int(m_vehicleIntelFaction[key]) : -1;
+			if (!hasRecord || storedFaction != factionId) {
+				m_vehicleIntelFaction[key] = factionId;
+				m_vehicleIntelJoinTime[key] = m_metagameTime;
+			}
+		}
 	}
 
 	// DEBUG: script loaded + next spawn per faction (seconds, base name)
@@ -588,10 +615,9 @@ class VehicleIntervalSpawn : Tracker {
 		}
 
 		// 3-min check: access only if player has been in this faction for at least 3 min (prevents faction switch to read intel)
+		// Join-Zeit wird in update() gesetzt (updateVehicleIntelFactionTimes); hier nur Fallback falls Sync noch nicht gelaufen
 		string key = "" + senderId;
-		bool hasRecord = m_vehicleIntelFaction.exists(key);
-		int storedFaction = hasRecord ? int(m_vehicleIntelFaction[key]) : -1;
-		if (!hasRecord || storedFaction != factionId) {
+		if (!m_vehicleIntelFaction.exists(key) || int(m_vehicleIntelFaction[key]) != factionId) {
 			m_vehicleIntelFaction[key] = factionId;
 			m_vehicleIntelJoinTime[key] = m_metagameTime;
 		}
