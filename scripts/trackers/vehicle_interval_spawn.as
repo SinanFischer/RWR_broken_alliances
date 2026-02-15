@@ -310,6 +310,43 @@ class VehicleIntervalSpawn : Tracker {
 		return "" + (s / 60) + "min";
 	}
 
+	/** Von außen aufrufbar (z.B. CargoDeliveryRewardTracker): Belohnungs-Spawn Medium oder Heavy an gegebener Basis.
+	 *  preferHeavy = true → 50% Heavy/50% Medium; false → 50% Medium/50% Heavy. */
+	void spawnRewardVehicleAtBase(int factionId, int baseId, bool preferHeavy = true) {
+		array<const XmlElement@>@ bases = getBases(m_metagame);
+		if (bases is null) return;
+		const XmlElement@ base = getBase(m_metagame, baseId);
+		if (base is null) return;
+		if (base.getIntAttribute("owner_id") != factionId) return;
+
+		string posStr = base.getStringAttribute("position");
+		if (posStr.length() == 0) return;
+
+		string baseName = base.getStringAttribute("name");
+		if (baseName.length() == 0) baseName = base.getStringAttribute("key");
+		if (baseName.length() == 0) baseName = "Base " + base.getIntAttribute("id");
+
+		Vector3 pos = stringToVector3(posStr);
+		float angle = float(rand(0, 5)) * 1.047f;
+		pos.m_values[0] += OFFSET_XZ * cos(angle);
+		pos.m_values[1] += OFFSET_Y;
+		pos.m_values[2] += OFFSET_XZ * sin(angle);
+
+		// Medium (1) oder Heavy (2): preferHeavy → 50/50, sonst 50/50
+		int category = (preferHeavy && rand(0, 1) == 1) ? 2 : 1;
+		string vehicleKey = getVehicleKeyForFaction(factionId, category);
+		string vehicleName = getVehicleDisplayName(vehicleKey);
+
+		string cmd = "<command class='create_instance' faction_id='" + factionId +
+			"' position='" + pos.toString() +
+			"' instance_class='vehicle' instance_key='" + vehicleKey + "' />";
+		m_metagame.getComms().send(cmd);
+
+		string msg = "Reinforcement arrived: " + vehicleName + " at " + baseName + " (cargo delivery reward).";
+		sendFactionMessage(m_metagame, factionId, msg, 0.95);
+		_log("VehicleIntervalSpawn: reward spawn " + vehicleKey + " for faction " + factionId + " at " + baseName, 1);
+	}
+
 	// One base name for display (random base faction currently owns). Spawn picks random at spawn time; if base is lost, next /vehicle shows another.
 	protected string getOneBaseNameForFaction(int factionId) {
 		array<const XmlElement@>@ bases = getBases(m_metagame);
