@@ -90,6 +90,14 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 | 6 | Captain-Marker (VIP-Ziel, atlas 17) für eigene Fraktion | `update()` in Captain-Tracker |
 | 7 | Feind spottet Cargo Truck → Feind-Marker (Enemy Commander, atlas 18) | `vehicle_spot_event` |
 
+**Pro Fraktion:** Gray und Brown können gleichzeitig jeweils einen Captain haben. Das System trackt bis zu 8 Fraktionen parallel.
+
+### Troubleshooting: Kein Enemy Commander / keine Commander-Meldung
+
+- **Commander-Meldung:** Erscheint 2 s nach dem Vehicle-Spawn. Bitte warten.
+- **vehicle_spot_event:** Wird ausgelöst, wenn eine Fraktion den Cargo Truck des Gegners **erstmals** spottet (Fog-of-War / Karte). Im F5-Debug-Modus kann das Event ausbleiben.
+- **Log prüfen:** In `captain_spawn_command_tracker.as` ist `DEBUG_VEHICLE_SPOT = true` – bei aktivem Log wird jeder Cargo-Truck-Spot geloggt (`vehicle_spot_event cargo_truck owner=X spotter=Y`).
+
 ### Commands für Test
 
 - **`/cargo_captain_test`** oder **`/test_cargo_captain`** – eigene Basis (vehicle_interval_spawn.as).
