@@ -1,7 +1,7 @@
 // Quick-Match-Einstieg: Wird von der Engine aufgerufen, wenn mit diesem Mod
 // „Schnelles Spiel“ / Quick Match gestartet wird (quick_match_entry_script in package_config.xml).
 #include "path://media/packages/vanilla/scripts"
-#include "path://media/packages/RWR_total_conversion_mod/scripts"
+#include "path://media/packages/broken_alliances/scripts"
 
 #include "gamemode_quick_match.as"
 

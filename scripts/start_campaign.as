@@ -2,7 +2,7 @@
 // --------------------------------------------
 // TODO: replace with your package's script folder here
 // --------------------------------------------
-#include "path://media/packages/RWR_total_conversion_mod/scripts"
+#include "path://media/packages/broken_alliances/scripts"
 
 #include "my_gamemode.as"
 
@@ -16,10 +16,10 @@ void main(dictionary@ inputData) {
 	settings.print();
 
 	// --------------------------------------------
-	// TODO: RWR_total_conversion_mod
+	// TODO: broken_alliances
 	// --------------------------------------------
 	array<string> overlays = {
-                "media/packages/RWR_total_conversion_mod"
+                "media/packages/broken_alliances"
         };
         settings.m_overlayPaths = overlays;
 
