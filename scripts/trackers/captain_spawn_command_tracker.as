@@ -5,7 +5,6 @@
 // Bodyguards erhalten soldier_objective 'defend' an Captain-Position → folgen ihm.
 //
 // PRO FRAKTION: Jede Fraktion kann eigenen Captain haben (Cargo Truck). Gray + Brown = 2 Captains parallel.
-// vehicle_spot_event: Wenn Feind Cargo Truck spottet → Enemy Commander Marker für spotternde Fraktion.
 //
 // Import aus Project Apocalypse.
 
@@ -30,9 +29,6 @@ const float BODYGUARD_SEARCH_RADIUS = 105.0f;
 const float SCOUT_CAPTAIN_RADIUS = 120.0f;  // Basis-Position: Captain in diesem Radius = "entdeckt"
 const string SOLDIER_GROUP_BODYGUARD = "orange_bodyguards";
 const int MAX_FACTIONS = 8;
-
-// Debug: vehicle_spot_event Logging (setze auf true um Event-Empfang zu prüfen)
-const bool DEBUG_VEHICLE_SPOT = true;
 
 // --------------------------------------------
 class CaptainSpawnCommandTracker : Tracker {
@@ -62,7 +58,6 @@ class CaptainSpawnCommandTracker : Tracker {
 			m_objectiveTimersByFaction[i] = 0.0f;
 		}
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
-		m_metagame.getComms().send("<command class='set_metagame_event' name='vehicle_spot_event' enabled='1' />");
 	}
 
 	void start() {
@@ -193,31 +188,8 @@ class CaptainSpawnCommandTracker : Tracker {
 			if (spotted[i] == spotterFactionId) return;
 		}
 		spotted.insertLast(spotterFactionId);
-		sendFactionMessage(m_metagame, spotterFactionId, "Feindlicher Captain entdeckt. Eliminiert ihn für wertvolle Intel!", 1.5f);
+		sendFactionMessage(m_metagame, spotterFactionId, "Feindlicher Captain entdeckt. Eliminiert ihn fuer wertvolle Intel!", 1.5f);
 		_log("CaptainSpawnCommandTracker: Captain an Basis " + baseId + " (Fraktion " + baseOwnerFactionId + ") von Fraktion " + spotterFactionId + " entdeckt (Scout/Attack) - Enemy Commander Marker", 1);
-	}
-
-	protected void handleVehicleSpotEvent(const XmlElement@ event) {
-		string vehicleKey = event.getStringAttribute("vehicle_key");
-		if (vehicleKey.findFirst("cargo_truck") < 0) return;
-
-		int ownerId = event.getIntAttribute("owner_id");
-		int spotterFactionId = event.getIntAttribute("faction_id");
-
-		if (DEBUG_VEHICLE_SPOT) {
-			_log("CaptainSpawnCommandTracker: vehicle_spot_event cargo_truck owner=" + ownerId + " spotter=" + spotterFactionId, 1);
-		}
-
-		if (ownerId < 0 || ownerId >= MAX_FACTIONS) return;
-		if (m_captainSpawnPositions[ownerId].length() == 0) return;  // Kein Captain bei Owner-Fraktion
-		if (spotterFactionId == ownerId) return;
-
-		array<int>@ spotted = m_enemyFactionsSpottedByFaction[ownerId];
-		for (uint i = 0; i < spotted.length(); ++i) {
-			if (spotted[i] == spotterFactionId) return;
-		}
-		spotted.insertLast(spotterFactionId);
-		_log("CaptainSpawnCommandTracker: Cargo-Truck Fraktion " + ownerId + " von Fraktion " + spotterFactionId + " gespottet - Enemy Commander Marker", 1);
 	}
 
 	protected void handleCharacterKillEvent(const XmlElement@ event) {
@@ -227,6 +199,18 @@ class CaptainSpawnCommandTracker : Tracker {
 
 		for (int fid = 0; fid < MAX_FACTIONS; ++fid) {
 			if (m_captainIds[fid] == deadId) {
+				// Fraktion, die den Captain verloren hat: immer benachrichtigen
+				sendFactionMessage(m_metagame, fid, "Our Commander has been eliminated!", 1.5f);
+
+				// Killer-Fraktion (wenn vorhanden und != Captain-Fraktion): benachrichtigen
+				const XmlElement@ killer = event.getFirstElementByTagName("killer");
+				if (killer !is null) {
+					int killerFactionId = killer.getIntAttribute("faction_id");
+					if (killerFactionId >= 0 && killerFactionId < MAX_FACTIONS && killerFactionId != fid) {
+						sendFactionMessage(m_metagame, killerFactionId, "Excellent work! Enemy Commander eliminated!", 1.5f);
+					}
+				}
+
 				cleanupOnCaptainGone(fid);
 				return;
 			}
@@ -350,25 +334,25 @@ class CaptainSpawnCommandTracker : Tracker {
 		int senderId = event.getIntAttribute("player_id");
 		if (!trySpawnCaptainSquad(senderId, paradrop)) return;
 
-		sendPrivateMessage(m_metagame, senderId, "Squad gespawnt (1 Captain, 3 orange_bodyguards)" + (paradrop ? " mit Paradrop" : ""));
+		sendPrivateMessage(m_metagame, senderId, "Squad spawned (1 Captain, 3 orange_bodyguards)" + (paradrop ? " with paradrop" : ""));
 	}
 
 	bool trySpawnCaptainSquad(int senderId, bool paradrop) {
 		const XmlElement@ player = getPlayerInfo(m_metagame, senderId);
 		if (player is null) {
-			sendPrivateMessage(m_metagame, senderId, "Spieler nicht gefunden.");
+			sendPrivateMessage(m_metagame, senderId, "Player not found.");
 			return false;
 		}
 		int factionId = player.getIntAttribute("faction_id");
 		if (factionId < 0) factionId = 0;
 		if (factionId >= MAX_FACTIONS) {
-			sendPrivateMessage(m_metagame, senderId, "Fraktion " + factionId + " außerhalb Bereich (max " + MAX_FACTIONS + ").");
+			sendPrivateMessage(m_metagame, senderId, "Faction " + factionId + " out of range (max " + MAX_FACTIONS + ").");
 			return false;
 		}
 
 		const XmlElement@ charInfo = getCharacterInfo(m_metagame, player.getIntAttribute("character_id"));
 		if (charInfo is null) {
-			sendPrivateMessage(m_metagame, senderId, "Kein Charakter (tot/spectating?).");
+			sendPrivateMessage(m_metagame, senderId, "No character (dead/spectating?).");
 			return false;
 		}
 

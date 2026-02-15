@@ -330,9 +330,31 @@ class IntelManagerQuickMatch : Tracker {
 			m_timer = INVESTIGATION_COMPLETE_CHECK_INTERVAL_TIME;
 			checkProximityCompletion();
 			checkStaleReset();
+			checkCaptainDiscoveryAtInvestigatedBases();
 			// Marker-Text aktualisieren (z.B. „X min ago“)
 			for (uint fid = 0; fid < m_numFactions; ++fid)
 				setBaseMarkersForFaction(int(fid));
+		}
+	}
+
+	/** Alle 5 Sek: Gescoutete Basen prüfen – wenn Captain dort spawnt (z.B. Cargo Truck), sofort als Enemy Commander entdecken. */
+	protected void checkCaptainDiscoveryAtInvestigatedBases() {
+		if (m_captainTracker is null) return;
+		array<const XmlElement@>@ bases = getBases(m_metagame);
+		if (bases is null) return;
+
+		for (uint fid = 0; fid < m_numFactions; ++fid) {
+			int spotterFactionId = int(fid);
+			for (uint i = 0; i < bases.size(); ++i) {
+				const XmlElement@ base = bases[i];
+				int baseId = base.getIntAttribute("id");
+				int ownerId = base.getIntAttribute("owner_id");
+				if (ownerId == spotterFactionId || ownerId < 0 || !base.getBoolAttribute("capturable")) continue;
+				if (getInvestigatedTimestamp(baseId, spotterFactionId) < -900.0f) continue;
+
+				Vector3 pos = stringToVector3(base.getStringAttribute("position"));
+				m_captainTracker.notifyCaptainDiscoveredAtBase(baseId, ownerId, spotterFactionId, pos);
+			}
 		}
 	}
 

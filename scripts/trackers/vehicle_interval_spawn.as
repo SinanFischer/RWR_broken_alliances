@@ -398,7 +398,7 @@ class VehicleIntervalSpawn : Tracker {
 			sendFactionMessage(m_metagame, int(i), enemyMsg, 1.5f);
 		}
 		if (notifyPlayerId >= 0)
-			sendPrivateMessage(m_metagame, notifyPlayerId, "[Test] Deine Fraktion erhält: " + enemyMsg);
+			sendPrivateMessage(m_metagame, notifyPlayerId, "[Test] Your faction receives: " + enemyMsg);
 	}
 
 	/** Admin-Test: Cargo Truck + Captain an zufälliger Basis einer Feind-Fraktion spawnen. Gibt (success, baseName, factionName) zurück. */
@@ -564,7 +564,7 @@ class VehicleIntervalSpawn : Tracker {
 			string baseName, enemyFactionName;
 			if (spawnCargoTruckWithCaptainForEnemy(playerFactionId, baseName, enemyFactionName)) {
 				m_pendingCargoCaptainNotifyPlayerId = senderId;
-				sendPrivateMessage(m_metagame, senderId, "Cargo Captain test (enemy): Spawned at " + baseName + " (" + enemyFactionName + "). In 2 s: Fraktions-Meldung + Private Message mit Feind-Intel.");
+				sendPrivateMessage(m_metagame, senderId, "Cargo Captain test (enemy): Spawned at " + baseName + " (" + enemyFactionName + "). In 2 s: faction message and private message with enemy intel.");
 			} else {
 				sendPrivateMessage(m_metagame, senderId, "Cargo Captain test (enemy) failed - no enemy faction with bases.");
 			}

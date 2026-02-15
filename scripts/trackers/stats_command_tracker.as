@@ -32,7 +32,7 @@ class StatsCommandTracker : Tracker {
 
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) {
-			sendPrivateMessage(m_metagame, senderId, "Keine Fraktionen.");
+			sendPrivateMessage(m_metagame, senderId, "No factions.");
 			return;
 		}
 

@@ -95,21 +95,20 @@ Die Bezeichnung richtet sich nach der **Anzahl feindlicher Einheiten im 60-m-Rad
 ### Wann wird der Enemy Commander angezeigt?
 
 - Wenn die scoutende/angreifende Fraktion den Captain an der Basis **entdeckt** hat (durch Scout oder Hauptangriffsziel).
-- Der Enemy Commander-Marker wird nur für diese Fraktion(en) gesetzt und zeigt die aktuelle Captain-Position.
+- **Periodische Prüfung (alle 5 Sek):** Gescoutete Basen werden regelmäßig geprüft – spawnt ein Captain erst danach (z. B. per Cargo Truck), wird er beim nächsten Lauf erkannt und sofort als Enemy Commander markiert.
+- Der Enemy Commander-Marker wird nur für die betreffende Fraktion gesetzt und zeigt die aktuelle Captain-Position.
 - Der Captain bleibt sichtbar, solange er lebt; nach seinem Tod werden die Marker entfernt.
 
----
+### Commander erledigt (Kill-Meldungen)
 
-## 6. Weitere Captain-Entdeckung: Cargo Truck Spotting
-
-- Wenn eine Fraktion einen **feindlichen Cargo Truck** spottet (Spiel-Event):
-  - Der Captain dieser Fraktion gilt als entdeckt.
-  - Die spotternde Fraktion sieht den Enemy Commander auf der Karte.
-- Dies ist unabhängig vom Basis-Scout und greift zusätzlich.
+- **Captain-Fraktion (Verlierer):** „Our Commander has been eliminated!“
+- **Killer-Fraktion:** „Enemy Commander eliminated!“
+- Beide Meldungen erscheinen gleichzeitig als Commander-Nachricht.
+- Bei Umgebungstod (Artillerie, Sturz etc.) erhält nur die Captain-Fraktion die Meldung.
 
 ---
 
-## 7. Marker-System (Übersicht)
+## 6. Marker-System (Übersicht)
 
 | Marker-Typ        | Zweck                               | Sichtbarkeit                    |
 |-------------------|-------------------------------------|---------------------------------|
@@ -122,7 +121,7 @@ Die Bezeichnung richtet sich nach der **Anzahl feindlicher Einheiten im 60-m-Rad
 
 ---
 
-## 8. Regeln im Überblick
+## 7. Regeln im Überblick
 
 | Regel                          | Verhalten                                              |
 |--------------------------------|--------------------------------------------------------|
