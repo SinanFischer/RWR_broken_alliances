@@ -212,6 +212,7 @@
 	<vehicle key="radar_tank.vehicle" />
 
 	<vehicle key="vulcan_tank.vehicle" />
+	<vehicle key="m113_tank_acav.vehicle" />
 	<vehicle key="buggy.vehicle" />
 
 	<!-- Wiesel (Project Apocalypse) -->

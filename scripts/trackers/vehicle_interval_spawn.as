@@ -24,7 +24,7 @@
 // =============================================================================
 const string SIMPLE_VEHICLE_KEYS = "humvee.vehicle,jeep.vehicle,jeep_1.vehicle,jeep_2.vehicle,vfs_sport.vehicle,willys_mb.vehicle,wiesel_tow.vehicle,wiesel_mk20.vehicle,atv_base.vehicle,atv_armory.vehicle,vfs_base.vehicle,truck.vehicle,truck_1.vehicle,truck_2.vehicle";
 
-const string MEDIUM_VEHICLE_KEYS = "humvee.vehicle,wiesel_mk20.vehicle,apc.vehicle,apc_1.vehicle,apc_2.vehicle,vulcan_tank.vehicle,noxe.vehicle,hovercraft.vehicle,cargo_truck.vehicle,sev90.vehicle,radio_jammer.vehicle";
+const string MEDIUM_VEHICLE_KEYS = "humvee.vehicle,wiesel_mk20.vehicle,apc.vehicle,apc_1.vehicle,apc_2.vehicle,vulcan_tank.vehicle,noxe.vehicle,hovercraft.vehicle,cargo_truck.vehicle,sev90.vehicle,radio_jammer.vehicle,m113_tank_acav.vehicle,m113_tank_mortar.vehicle";
 const string CARGO_TRUCK_KEY = "cargo_truck.vehicle";
 const string HEAVY_VEHICLE_KEYS = "tank_alt.vehicle,tank_1_alt.vehicle,tank_2_alt.vehicle,m551.vehicle,fv101.vehicle,legion.vehicle,m528.vehicle,flamer_tank.vehicle";
 
