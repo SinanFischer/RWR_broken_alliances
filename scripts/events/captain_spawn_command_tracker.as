@@ -9,6 +9,15 @@
 // Tod-Erkennung: character_kill (Killer bekannt) + character_die (jeder Tod, z. B. Artillerie/Umwelt).
 // Gemeinsame Match-Logik, ein Cleanup, ein Log pro Tod.
 
+/**
+Logs: 
+12:43:43: SCRIPT:  received: TagName=character_kill key=heavy_artillery_shell.projectile method_hint=blast     TagName=killer block=26 23 dead=0 faction_id=1 id=756 leader=1 name=Maik Schumacher player_id=0 position=902.466 21.4706 801.127 rp=5228 soldier_group_name=default squad_size=0 wounded=0 xp=1     TagName=target block=26 23 dead=0 faction_id=0 id=737 leader=1 name= player_id=-1 position=914.498 27.0706 795.033 rp=1293 soldier_group_name=captain squad_size=0 wounded=1 xp=100 
+12:43:43: SCRIPT:  received: TagName=character_die character_id=737     TagName=character block=26 23 dead=1 faction_id=0 id=737 leader=1 name= player_id=-1 position=914.498 27.0706 795.033 rp=1293 soldier_group_name=captain squad_size=0 wounded=1 xp=100 
+12:43:44: SCRIPT:  received: TagName=query_result query_id=11831     TagName=character block=26 23 dead=1 faction_id=0 id=737 leader=0 name= player_id=-1 position=911.854 27.1221 797.874 rp=1293 soldier_group_name=captain squad_size=0 wounded=1 xp=100     TagName=item amount=0 index=119 key=microgun_elite.weapon slot=0     TagName=item amount=0 index=-1 key= slot=1     TagName=item amount=0 index=-1 key= slot=2     TagName=item amount=0 index=-1 key= slot=4     TagName=item amount=0 index=112 key=eod_ai_6 slot=5 
+
+*/
+
+
 #include "tracker.as"
 #include "helpers.as"
 #include "admin_manager.as"
@@ -85,10 +94,12 @@ class CaptainSpawnCommandTracker : Tracker {
 
 		const XmlElement@ info = getCharacterInfo2(m_metagame, m_captainIds[factionId]);
 		if (info is null) {
+			sendFactionMessage(m_metagame, factionId, "Our Commander has been eliminated!", 1.5f);
 			cleanupOnCaptainGone(factionId);
 			return;
 		}
 		if (info.getIntAttribute("dead") != 0) {
+			sendFactionMessage(m_metagame, factionId, "Our Commander has been eliminated!", 1.5f);
 			cleanupOnCaptainGone(factionId);
 			return;
 		}
@@ -207,18 +218,20 @@ class CaptainSpawnCommandTracker : Tracker {
 		cleanupOnCaptainGone(factionId);
 		sendFactionMessage(m_metagame, factionId, "Our Commander has been eliminated!", 1.5f);
 
-		if (fromKillEvent) {
-			const XmlElement@ killer = event.getFirstElementByTagName("killer");
-			if (killer !is null) {
-				int killerFactionId = killer.getIntAttribute("faction_id");
-				if (killerFactionId >= 0 && killerFactionId < MAX_FACTIONS && killerFactionId != factionId) {
-					sendFactionMessage(m_metagame, killerFactionId, "Excellent work! Enemy Commander eliminated!", 1.5f);
-					if (killer.getIntAttribute("player_id") != -1) {
-						int killerCharId = killer.getIntAttribute("id");
-						m_metagame.getComms().send("<command class='rp_reward' character_id='" + killerCharId + "' reward='" + CAPTAIN_KILL_RP_REWARD + "' />");
-					}
-				}
-			}
+		if (fromKillEvent)
+			sendKillerRewardAndMessage(event, factionId);
+	}
+
+	// Killer-Fraktion Nachricht + RP (auch bei verspätetem character_kill, wenn Cleanup schon aus Update lief).
+	void sendKillerRewardAndMessage(const XmlElement@ event, int captainFactionId) {
+		const XmlElement@ killer = event.getFirstElementByTagName("killer");
+		if (killer is null) return;
+		int killerFactionId = killer.getIntAttribute("faction_id");
+		if (killerFactionId < 0 || killerFactionId >= MAX_FACTIONS || killerFactionId == captainFactionId) return;
+		sendFactionMessage(m_metagame, killerFactionId, "Excellent work! Enemy Commander eliminated!", 1.5f);
+		if (killer.getIntAttribute("player_id") != -1) {
+			int killerCharId = killer.getIntAttribute("id");
+			m_metagame.getComms().send("<command class='rp_reward' character_id='" + killerCharId + "' reward='" + CAPTAIN_KILL_RP_REWARD + "' />");
 		}
 	}
 
@@ -242,9 +255,14 @@ class CaptainSpawnCommandTracker : Tracker {
 		if (dead is null) return;
 
 		int fid = matchCaptainFaction(dead);
-		if (fid < 0) return;
-
-		onCaptainDeath(fid, dead.getIntAttribute("id"), event, true);
+		if (fid >= 0) {
+			onCaptainDeath(fid, dead.getIntAttribute("id"), event, true);
+			return;
+		}
+		// Verspätetes character_kill (Cleanup lief schon z. B. aus Update) – trotzdem Killer-Meldung + RP
+		if (dead.getStringAttribute("soldier_group_name") != SOLDIER_GROUP_CAPTAIN) return;
+		int deadFactionId = dead.getIntAttribute("faction_id");
+		sendKillerRewardAndMessage(event, deadFactionId);
 	}
 
 	protected void handleCharacterDieEvent(const XmlElement@ event) {
