@@ -40,7 +40,7 @@
 
 **Vehicle-Command:** `/vehicle`, `/vehicle_spawn` oder `/fahrzeug` (für alle Spieler) zeigt den Status **nur für die eigene Fraktion**: Restzeiten (ab 60 s in Minuten, darunter in Sekunden) bis zum nächsten Spawn inkl. Basis- und Fahrzeugname (light, medium, heavy). Überschrift: *Upcoming vehicle spawns*. Ist die Fraktion führend, erscheint bei heavy *blocked (leading faction)*. **`/vehicle test`** spawnt sofort ein Leicht-Fahrzeug und ist **nur für Admins**.
 
-**Spionage-Sicherheit:** Zugriff auf den Vehicle-Status ist nur möglich, wenn der Spieler **mindestens 4 Minuten** in der aktuellen Fraktion kämpft. Wechselt jemand die Fraktion und ruft sofort `/vehicle` ab, wird der Zugriff verwehrt; die **gesamte Fraktion** erhält eine Commander-Meldung (*Vehicle intel access denied. [Name] must be in faction for 4 min. X remaining.*). So sieht das Team, dass jemand den Intel abrufen wollte, und schnelles Ausspähen durch Fraktionswechsel wird verhindert.
+**Spionage-Sicherheit:** Zugriff auf den Vehicle-Status ist nur möglich, wenn der Spieler **mindestens 3 Minuten** in der aktuellen Fraktion kämpft. Die Join-Zeit wird **ab Fraktionsbeitritt** gezählt (Sync alle 1 s via `getPlayers`), nicht erst beim ersten `/vehicle` – dadurch startet der Countdown sofort nach Beitritt. Wechselt jemand die Fraktion und ruft sofort `/vehicle` ab, wird der Zugriff verwehrt (Private Message mit verbleibender Zeit). Schnelles Ausspähen durch Fraktionswechsel wird so verhindert.
 
 **Führende Fraktion erhält keinen Schwer-Spawn:** Die Fraktion mit den **meisten Basen** gilt als führend. Läuft der Schwer-Timer für diese Fraktion ab, wird **kein** Heavy-Fahrzeug gespawnt - der Timer wird nur neu gestartet (12-15 min). Nur die zurückliegenden Fraktionen bekommen Schwer-Verstärkung; verhindert Snowballing und hält die Wertigkeit „Call-Panzer = Premium, Intervall-Schwer = für Underdogs“.
 
@@ -67,7 +67,7 @@
 | **Shotgun** | Schrotflinten-Trupp |
 | **Sniper** | Sniper-Einheit (nur liegend/wand) |
 | **Support** | Unterstützungstrupp |
-| **Medic AI** | Überarbeitete Medic-Logik, folgt Spieler; deutlich wertvoller durch Slot-Block-System (Revive vermeidet temporäre Slot-Deaktivierung) |
+| **Medic AI** | Überarbeitete Medic-Logik, folgt Spieler; deutlich wertvoller durch Slot-Block-System (Revive vermeidet temporäre Slot-Deaktivierung). **Medic-Medpacks:** 2–5 Stück je nach Rang (mod-eigene `weapons/medikit.weapon`, capacity rank-abhängig: 0.0→2 bis 0.15→5). |
 | **Hunde** | Im Total Conversion Mod deaktiviert - **wieder aktiviert**. Spawnen für alle Fraktionen (Spieler + Feinde) mit ~4 % Chance (spawn_score 0,04). Vanilla-Assets (dog.ai, dog.character, dog.weapon, dog_heal.weapon, dog.carry_item). |
 
 **AI-Anpassungen:** Erhöhte Aggression, Sichtweite, Reaktionsfähigkeit; größere Squads; Minibosse führen volle Trupps; **MGs nur in Prone-Stellung** - ideal für Deckungsfeuer, sehr tödlich; Nachteil: Hinlegen nötig, eingeschränkte Beweglichkeit.

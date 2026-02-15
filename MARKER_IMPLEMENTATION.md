@@ -52,6 +52,8 @@ Der Befehl **`set_marker`** setzt oder aktualisiert einen Marker. Um einen Marke
 |-------------|------------|
 | 3 | Santa reward |
 | 4 | A10 / Gunship |
+| 5 | Intel: „to investigate" (zu scouten) |
+| 15 | Intel: „capture" (gescoutet) – kein Lupe-Index in RWR |
 | 6-9 | Mortar, Cluster, Artillery |
 | 10-14 | Paradrop, Humvee, Supply, Tank |
 | 16 | VIP (Spieler-Symbol) |

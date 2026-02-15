@@ -13,7 +13,7 @@
 
 const float INVESTIGATION_COMPLETE_CHECK_INTERVAL_TIME = 5.0;
 const float INVESTIGATION_STALE_SECONDS = 300.0;  // Nach 5 Min: Intel veraltet → neu scouten
-const int MAX_FACTIONS = 8;
+const int INTEL_MAX_FACTIONS = 8;
 const int MARKER_ID_STRIDE = 256;
 
 // --------------------------------------------
@@ -56,7 +56,7 @@ class IntelManagerQuickMatch : Tracker {
 		if (factions is null || factions.size() == 0) return;
 
 		m_numFactions = factions.size();
-		if (m_numFactions > MAX_FACTIONS) m_numFactions = MAX_FACTIONS;
+		if (m_numFactions > INTEL_MAX_FACTIONS) m_numFactions = INTEL_MAX_FACTIONS;
 
 		m_basesToInvestigateByFaction.resize(m_numFactions);
 		m_investigatedTimestampByFaction.resize(m_numFactions);
@@ -274,8 +274,12 @@ class IntelManagerQuickMatch : Tracker {
 				clearInvestigated(baseId, factionId);
 				int charId = -1, playerId = -1;
 				if (checkProximity(base, players, factionId, charId, playerId)) {
+					int enemy = base.getIntAttribute("owner_id");
+					Vector3 pos = stringToVector3(base.getStringAttribute("position"));
+					array<const XmlElement@>@ enemies = getCharactersNearPosition(m_metagame, pos, enemy, 60.0f);
+					setLastReportedEnemyCount(baseId, factionId, enemies !is null ? int(enemies.size()) : 0);
 					setInvestigated(baseId, factionId);
-					setBaseMarker(base, factionId, "capture");
+					setBaseMarker(base, factionId, "capture", getScoutedMarkerText(baseId, factionId));
 				} else {
 					setBaseToInvestigate(base, factionId);
 				}
@@ -295,9 +299,13 @@ class IntelManagerQuickMatch : Tracker {
 
 		const XmlElement@ base = getBase(m_metagame, baseId);
 		if (base !is null) {
+			int enemy = base.getIntAttribute("owner_id");
+			Vector3 pos = stringToVector3(base.getStringAttribute("position"));
+			array<const XmlElement@>@ enemies = getCharactersNearPosition(m_metagame, pos, enemy, 60.0f);
+			setLastReportedEnemyCount(baseId, attackingFactionId, enemies !is null ? int(enemies.size()) : 0);
 			clearBaseToInvestigate(baseId, attackingFactionId);
 			setInvestigated(baseId, attackingFactionId);
-			setBaseMarker(base, attackingFactionId, "capture");
+			setBaseMarker(base, attackingFactionId, "capture", getScoutedMarkerText(baseId, attackingFactionId));
 		}
 	}
 
@@ -313,6 +321,9 @@ class IntelManagerQuickMatch : Tracker {
 			m_timer = INVESTIGATION_COMPLETE_CHECK_INTERVAL_TIME;
 			checkProximityCompletion();
 			checkStaleReset();
+			// Marker-Text aktualisieren (z.B. „X min ago“)
+			for (uint fid = 0; fid < m_numFactions; ++fid)
+				setBaseMarkersForFaction(int(fid));
 		}
 	}
 
@@ -421,9 +432,10 @@ class IntelManagerQuickMatch : Tracker {
 		m_metagame.getComms().send(c);
 
 		int otherEnemy = (enemy == 1 && factionId == 0) || (enemy == 0 && factionId == 1) ? 2 : ((enemy == 2 || factionId == 2) ? 1 : -1);
-		if (otherEnemy >= 0 && otherEnemy < int(m_metagame.getFactions().size())) {
-			const Faction@ faction = m_metagame.getFactions()[otherEnemy];
-			if (faction.isNeutral()) otherEnemy = -1;
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (otherEnemy >= 0 && factions !is null && otherEnemy < int(factions.size())) {
+			const XmlElement@ factionEl = factions[otherEnemy];
+			if (factionEl !is null && factionEl.getStringAttribute("name") == "Neutral") otherEnemy = -1;
 		}
 		int otherEnemyCount = 0;
 		if (otherEnemy >= 0) {
