@@ -39,6 +39,12 @@ name="MG-42"
     <projectile file="bullet.projectile">
         <result class="hit" kill_probability="0.68" kill_decay_start_time="0.35" kill_decay_end_time="0.75" />
     </projectile>
+
+    <!-- Hocke deutlich ungenauer; Liegen unverändert (Streckfeuer) -->
+    <stance state_key="crouching" accuracy="0.32" />
+    <stance state_key="crouch_moving" accuracy="0.26" />
+    <stance state_key="prone" accuracy="0.72" />
+    <stance state_key="prone_moving" accuracy="0.65" />
     
 	  <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.6" />    

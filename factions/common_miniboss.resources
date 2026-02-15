@@ -16,6 +16,7 @@
 	<carry_item key='vest1.carry_item' enabled="0" />			
 	<carry_item key='vest2.carry_item' enabled="0" />
 	<carry_item key='vest4.carry_item' enabled="1" />
+	<carry_item key='vest_blackops3.carry_item' enabled="1" />
 	<carry_item key='eodvest.carry_item' enabled="0" />  
 
 </resources>

@@ -48,8 +48,9 @@ class NotifyingUnlockListener : UnlockListener {
 // ResourceUnlocker der die Fraktion des liefernden Spielers verwendet (character_id) –
 // sonst landet der Unlock bei faction 0 (z.B. UN statt EU).
 class PlayerFactionResourceUnlocker : ResourceUnlocker {
-	PlayerFactionResourceUnlocker(Metagame@ metagame, const dictionary@ unlockList, UnlockListener@ listener, string customStatTag = "", string thanks = "")
-		: ResourceUnlocker(metagame, 0, unlockList, listener, customStatTag, thanks) {}
+	PlayerFactionResourceUnlocker(Metagame@ metagame, const dictionary@ unlockList, UnlockListener@ listener, string customStatTag = "", string thanks = "") {
+		super(metagame, 0, unlockList, listener, customStatTag, thanks);
+	}
 
 	bool handleItemDeliveryCompleted(const Resource@ item, int characterId = -1, int playerId = -1) {
 		int factionId = 0;
