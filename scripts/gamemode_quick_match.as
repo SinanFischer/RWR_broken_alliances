@@ -10,8 +10,8 @@
 #include "trackers/capacity_debug_hud_tracker.as"
 #include "trackers/stats_command_tracker.as"
 #include "trackers/vehicle_interval_spawn.as"
-#include "trackers/captain_spawn_command_tracker.as"
-#include "trackers/intel_manager_quickmatch.as"
+#include "events/captain_spawn_command_tracker.as"
+#include "events/intel_manager_quickmatch.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)

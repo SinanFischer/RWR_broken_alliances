@@ -6,7 +6,8 @@
 //
 // PRO FRAKTION: Jede Fraktion kann eigenen Captain haben (Cargo Truck). Gray + Brown = 2 Captains parallel.
 //
-// Import aus Project Apocalypse.
+// Tod-Erkennung: character_kill (Killer bekannt) + character_die (jeder Tod, z. B. Artillerie/Umwelt).
+// Gemeinsame Match-Logik, ein Cleanup, ein Log pro Tod.
 
 #include "tracker.as"
 #include "helpers.as"
@@ -14,6 +15,7 @@
 #include "log.as"
 #include "query_helpers.as"
 #include "query_helpers2.as"
+#include "events/character_death_helpers.as"
 
 const string CMD_CAPTAIN_SPAWN = "captain_spawn";
 const float SPAWN_OFFSET_FWD = 5.0f;
@@ -28,6 +30,7 @@ const float OBJECTIVE_INTERVAL = 1.5f;
 const float BODYGUARD_SEARCH_RADIUS = 105.0f;
 const float SCOUT_CAPTAIN_RADIUS = 120.0f;  // Basis-Position: Captain in diesem Radius = "entdeckt"
 const string SOLDIER_GROUP_BODYGUARD = "orange_bodyguards";
+const string SOLDIER_GROUP_CAPTAIN = "captain";
 const int MAX_FACTIONS = 8;
 const int CAPTAIN_KILL_RP_REWARD = 250;  // RP fuer Spieler, der den feindlichen Captain erledigt
 
@@ -59,6 +62,7 @@ class CaptainSpawnCommandTracker : Tracker {
 			m_objectiveTimersByFaction[i] = 0.0f;
 		}
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
+		m_metagame.getComms().send("<command class='set_metagame_event' name='character_die' enabled='1' />");
 	}
 
 	void start() {
@@ -166,8 +170,7 @@ class CaptainSpawnCommandTracker : Tracker {
 		_log("CaptainSpawnCommandTracker: Captain Fraktion " + factionId + " weg, Marker entfernt", 1);
 	}
 
-	/** Wird von IntelManager aufgerufen: Basis gescoutet oder Hauptangriffsziel → wenn dort Captain, zeigt Spotter den Enemy Commander.
-	 *  Prüfung: (1) exakte baseId-Übereinstimmung ODER (2) Captain-Position innerhalb baseRadius (120m) der Basis-Position. */
+	/** Wird von IntelManager aufgerufen: Basis gescoutet oder Hauptangriffsziel → wenn dort Captain, zeigt Spotter den Enemy Commander. */
 	void notifyCaptainDiscoveredAtBase(int baseId, int baseOwnerFactionId, int spotterFactionId, const Vector3 &in basePosition) {
 		if (baseOwnerFactionId < 0 || baseOwnerFactionId >= MAX_FACTIONS) return;
 		if (spotterFactionId == baseOwnerFactionId) return;
@@ -177,7 +180,6 @@ class CaptainSpawnCommandTracker : Tracker {
 		if (m_captainBaseIds[baseOwnerFactionId] == baseId) {
 			match = true;
 		} else {
-			// Fallback: Captain im Umkreis von basePosition? (z.B. wenn baseId abweicht oder Captain neben Base steht)
 			Vector3 captainPos = stringToVector3(m_captainSpawnPositions[baseOwnerFactionId]);
 			if (checkRange(captainPos, basePosition, SCOUT_CAPTAIN_RADIUS))
 				match = true;
@@ -193,39 +195,66 @@ class CaptainSpawnCommandTracker : Tracker {
 		_log("CaptainSpawnCommandTracker: Captain an Basis " + baseId + " (Fraktion " + baseOwnerFactionId + ") von Fraktion " + spotterFactionId + " entdeckt (Scout/Attack) - Enemy Commander Marker", 1);
 	}
 
-	protected void handleCharacterKillEvent(const XmlElement@ event) {
-		const XmlElement@ target = event.getFirstElementByTagName("target");
-		if (target is null) return;
-		int deadId = target.getIntAttribute("id");
-		int deadFactionId = target.getIntAttribute("faction_id");
-		bool isCaptain = (target.getStringAttribute("soldier_group_name") == "captain");
+	// Einheitliche Tod-Behandlung: nur einmal Cleanup/Nachricht pro Tod (erstes ankommendes Event gewinnt).
+	void onCaptainDeath(int factionId, int deadId, const XmlElement@ event, bool fromKillEvent) {
+		if (factionId < 0 || factionId >= MAX_FACTIONS) return;
+		if (!(m_captainIds[factionId] >= 0 || m_captainSpawnPositions[factionId].length() > 0))
+			return; // bereits bereinigt (z. B. anderes Event zuerst)
 
-		for (int fid = 0; fid < MAX_FACTIONS; ++fid) {
-			// Match: entweder bekannte Captain-ID ODER Captain-Typ + Fraktion hat Captain-Spawn (Fallback falls findCaptain noch nicht lief)
-			bool match = (m_captainIds[fid] == deadId) ||
-				(isCaptain && deadFactionId == fid && m_captainSpawnPositions[fid].length() > 0);
-			if (match) {
-				// Fraktion, die den Captain verloren hat: immer benachrichtigen
-				sendFactionMessage(m_metagame, fid, "Our Commander has been eliminated!", 1.5f);
+		const XmlElement@ dead = getDeadCharacterFromDeathEvent(event);
+		logCaptainDeathEventPayload(event, fromKillEvent ? "character_kill" : "character_die", dead);
 
-				// Killer-Fraktion (wenn vorhanden und != Captain-Fraktion): benachrichtigen + RP an Spieler
-				const XmlElement@ killer = event.getFirstElementByTagName("killer");
-				if (killer !is null) {
-					int killerFactionId = killer.getIntAttribute("faction_id");
-					if (killerFactionId >= 0 && killerFactionId < MAX_FACTIONS && killerFactionId != fid) {
-						sendFactionMessage(m_metagame, killerFactionId, "Excellent work! Enemy Commander eliminated!", 1.5f);
-						// Spieler-Killer erkennt man an player_id != -1 (AI hat -1)
-						if (killer.getIntAttribute("player_id") != -1) {
-							int killerCharId = killer.getIntAttribute("id");
-							m_metagame.getComms().send("<command class='rp_reward' character_id='" + killerCharId + "' reward='" + CAPTAIN_KILL_RP_REWARD + "' />");
-						}
+		cleanupOnCaptainGone(factionId);
+		sendFactionMessage(m_metagame, factionId, "Our Commander has been eliminated!", 1.5f);
+
+		if (fromKillEvent) {
+			const XmlElement@ killer = event.getFirstElementByTagName("killer");
+			if (killer !is null) {
+				int killerFactionId = killer.getIntAttribute("faction_id");
+				if (killerFactionId >= 0 && killerFactionId < MAX_FACTIONS && killerFactionId != factionId) {
+					sendFactionMessage(m_metagame, killerFactionId, "Excellent work! Enemy Commander eliminated!", 1.5f);
+					if (killer.getIntAttribute("player_id") != -1) {
+						int killerCharId = killer.getIntAttribute("id");
+						m_metagame.getComms().send("<command class='rp_reward' character_id='" + killerCharId + "' reward='" + CAPTAIN_KILL_RP_REWARD + "' />");
 					}
 				}
-
-				cleanupOnCaptainGone(fid);
-				return;
 			}
 		}
+	}
+
+	// Gibt die Fraktion zurück, zu der der tote Charakter als Captain gehört (-1 = keiner).
+	int matchCaptainFaction(const XmlElement@ dead) {
+		if (dead is null) return -1;
+		int deadId = dead.getIntAttribute("id");
+		int deadFactionId = dead.getIntAttribute("faction_id");
+		bool isCaptain = (dead.getStringAttribute("soldier_group_name") == SOLDIER_GROUP_CAPTAIN);
+
+		for (int fid = 0; fid < MAX_FACTIONS; ++fid) {
+			bool match = (m_captainIds[fid] == deadId) ||
+				(isCaptain && deadFactionId == fid && m_captainSpawnPositions[fid].length() > 0);
+			if (match) return fid;
+		}
+		return -1;
+	}
+
+	protected void handleCharacterKillEvent(const XmlElement@ event) {
+		const XmlElement@ dead = getDeadCharacterFromDeathEvent(event);
+		if (dead is null) return;
+
+		int fid = matchCaptainFaction(dead);
+		if (fid < 0) return;
+
+		onCaptainDeath(fid, dead.getIntAttribute("id"), event, true);
+	}
+
+	protected void handleCharacterDieEvent(const XmlElement@ event) {
+		const XmlElement@ dead = getDeadCharacterFromDeathEvent(event);
+		if (dead is null) return;
+
+		int fid = matchCaptainFaction(dead);
+		if (fid < 0) return;
+
+		onCaptainDeath(fid, dead.getIntAttribute("id"), event, false);
 	}
 
 	void findCaptain(int factionId) {
@@ -234,7 +263,7 @@ class CaptainSpawnCommandTracker : Tracker {
 		for (uint i = 0; i < characters.length(); ++i) {
 			int charId = characters[i].getIntAttribute("id");
 			const XmlElement@ info = getCharacterInfo(m_metagame, charId);
-			if (info !is null && info.getStringAttribute("soldier_group_name") == "captain") {
+			if (info !is null && info.getStringAttribute("soldier_group_name") == SOLDIER_GROUP_CAPTAIN) {
 				m_captainIds[factionId] = charId;
 				_log("CaptainSpawnCommandTracker: Captain Fraktion " + factionId + " gefunden, ID " + charId, 1);
 				return;
@@ -310,7 +339,6 @@ class CaptainSpawnCommandTracker : Tracker {
 	void spawnCaptainSquadAt(int factionId, const Vector3 &in pos, int baseId = -1) {
 		if (factionId < 0 || factionId >= MAX_FACTIONS) return;
 
-		// Alten Captain dieser Fraktion entfernen
 		if (m_captainIds[factionId] >= 0 || m_captainSpawnPositions[factionId].length() > 0) {
 			removeCaptainMarker(factionId);
 			removeEnemyMarkers(factionId);
@@ -377,7 +405,7 @@ class CaptainSpawnCommandTracker : Tracker {
 			m_enemyFactionsSpottedByFaction[factionId].resize(0);
 		}
 		m_captainSpawnPositions[factionId] = pos.toString();
-		m_captainBaseIds[factionId] = -1;  // Admin-Spawn: keine Basis-Referenz
+		m_captainBaseIds[factionId] = -1;
 
 		sendSpawnSoldier("captain", pos, factionId);
 		pos.m_values[0] -= SPAWN_OFFSET_SIDE;

@@ -2,7 +2,7 @@
 # Einmal ausfuehren (Rechtklick -> Mit PowerShell ausfuehren oder: powershell -ExecutionPolicy Bypass -File copy_wiesel_assets.ps1)
 
 $PA  = "C:\Program Files (x86)\Steam\steamapps\workshop\content\270150\3238197561\media\packages\Project_Apocalypse"
-$RWR = "C:\Program Files (x86)\Steam\steamapps\common\RunningWithRifles\media\packages\broken_alliances"
+$RWR = "C:\Program Files (x86)\Steam\steamapps\common\RunningWithRifles\media\packages\RWR_broken_alliances"
 
 $models = @(
     "wiesel_body.mesh", "wiesel_body_broken.mesh", "wiesel_tow.mesh", "wiesel_mg3.mesh", "wiesel_track.mesh",

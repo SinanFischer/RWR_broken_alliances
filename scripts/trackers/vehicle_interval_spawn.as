@@ -14,7 +14,7 @@
 #include "log.as"
 #include "query_helpers.as"
 #include "admin_manager.as"
-#include "captain_spawn_command_tracker.as"
+#include "events/captain_spawn_command_tracker.as"
 
 // =============================================================================
 // CONFIG - vehicle keys per category (index = faction index)

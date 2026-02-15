@@ -10,7 +10,7 @@
 #include "log.as"
 #include "query_helpers.as"
 #include "announce_task.as"
-#include "captain_spawn_command_tracker.as"
+#include "events/captain_spawn_command_tracker.as"
 
 const float INVESTIGATION_COMPLETE_CHECK_INTERVAL_TIME = 5.0;
 const float INVESTIGATION_STALE_SECONDS = 300.0;  // Nach 5 Min: Intel veraltet → neu scouten
@@ -76,15 +76,12 @@ class IntelManagerQuickMatch : Tracker {
 		m_timer = INVESTIGATION_COMPLETE_CHECK_INTERVAL_TIME;
 		tryInitFactions();
 
-		// base_owner_change_event benötigt für Besitzerwechsel-Reaktion (Marker-Update)
 		m_metagame.getComms().send("<command class='set_metagame_event' name='base_owner_change_event' enabled='1' />");
-		// attack_change_event: Hauptangriffsziel setzen → Intel + ggf. Captain entdeckt
 		m_metagame.getComms().send("<command class='set_metagame_event' name='attack_change_event' enabled='1' />");
 
 		doBasesInit();
 	}
 
-	// Basen-Init – kann verzögert laufen falls Factions beim ersten start() noch nicht bereit
 	protected void doBasesInit() {
 		if (m_basesInitialized) return;
 		array<const XmlElement@>@ bases = getBases(m_metagame);
@@ -110,7 +107,6 @@ class IntelManagerQuickMatch : Tracker {
 		return 5000 + factionId * MARKER_ID_STRIDE + baseId;
 	}
 
-	// atlas 5 = "investigate" (zu scouten), 15 = "capture" (gescoutet/Ziel) – RWR hat keinen Lupe-Index
 	// ----------------------------------------------------
 	protected void setBaseMarker(const XmlElement@ base, int factionId, string style, string text = "") {
 		int baseId = base.getIntAttribute("id");
@@ -226,7 +222,6 @@ class IntelManagerQuickMatch : Tracker {
 		m_lastReportedEnemyCountByFaction[factionId].set(key, count);
 	}
 
-	// Text für gescouteten Marker: Stärke + „vor X Min“ (für Hover/Label)
 	protected string getScoutedMarkerText(int baseId, int factionId) const {
 		float ts = getInvestigatedTimestamp(baseId, factionId);
 		if (ts < -900.0f) return "";
@@ -275,7 +270,6 @@ class IntelManagerQuickMatch : Tracker {
 				clearBaseToInvestigate(baseId, factionId);
 				clearInvestigated(baseId, factionId);
 			} else if (newOwner >= 0) {
-				// Feind-Basis für uns – bei Besitzerwechsel Intel verwerfen, neu scouten
 				clearInvestigated(baseId, factionId);
 				int charId = -1, playerId = -1;
 				if (checkProximity(base, players, factionId, charId, playerId)) {
@@ -312,7 +306,6 @@ class IntelManagerQuickMatch : Tracker {
 			setInvestigated(baseId, attackingFactionId);
 			setBaseMarker(base, attackingFactionId, "capture", getScoutedMarkerText(baseId, attackingFactionId));
 
-			// Hauptangriffsziel: Basis mit Captain → Enemy Commander für angreifende Fraktion
 			if (m_captainTracker !is null)
 				m_captainTracker.notifyCaptainDiscoveredAtBase(baseId, enemy, attackingFactionId, pos);
 		}
@@ -322,7 +315,7 @@ class IntelManagerQuickMatch : Tracker {
 	void update(float time) {
 		m_metagameTime += time;
 		tryInitFactions();
-		doBasesInit();  // Verzögert falls Factions beim start() noch nicht bereit
+		doBasesInit();
 		if (m_numFactions == 0) return;
 
 		m_timer -= time;
@@ -331,13 +324,11 @@ class IntelManagerQuickMatch : Tracker {
 			checkProximityCompletion();
 			checkStaleReset();
 			checkCaptainDiscoveryAtInvestigatedBases();
-			// Marker-Text aktualisieren (z.B. „X min ago“)
 			for (uint fid = 0; fid < m_numFactions; ++fid)
 				setBaseMarkersForFaction(int(fid));
 		}
 	}
 
-	/** Alle 5 Sek: Gescoutete Basen prüfen – wenn Captain dort spawnt (z.B. Cargo Truck), sofort als Enemy Commander entdecken. */
 	protected void checkCaptainDiscoveryAtInvestigatedBases() {
 		if (m_captainTracker is null) return;
 		array<const XmlElement@>@ bases = getBases(m_metagame);
@@ -358,7 +349,6 @@ class IntelManagerQuickMatch : Tracker {
 		}
 	}
 
-	// Stale-Reset: Nach 5 Min Intel veraltet → Basis zurück auf "to investigate"
 	protected void checkStaleReset() {
 		array<const XmlElement@>@ bases = getBases(m_metagame);
 		if (bases is null) return;
@@ -459,7 +449,6 @@ class IntelManagerQuickMatch : Tracker {
 		setLastReportedEnemyCount(baseId, factionId, enemyCount);
 		setBaseMarker(base, factionId, "capture", getScoutedMarkerText(baseId, factionId));
 
-		// Scout-Logik mit Captain verknüpfen: Basis gescoutet → wenn Captain dort (baseId oder 120m Radius), Enemy Commander
 		if (m_captainTracker !is null)
 			m_captainTracker.notifyCaptainDiscoveredAtBase(baseId, enemy, factionId, position);
 
@@ -479,7 +468,6 @@ class IntelManagerQuickMatch : Tracker {
 		}
 
 		if (otherEnemyCount >= 2 || otherEnemyCount > enemyCount) {
-			// two enemy factions present, skip
 		} else {
 			string range = "";
 			int veryWeak = 4, weak = 10, medium = 15;
@@ -518,10 +506,6 @@ class IntelManagerQuickMatch : Tracker {
 			if (playerId >= 0) {
 				m_metagame.getTaskSequencer().add(AnnouncePrivateTask(m_metagame, 2.0f, playerId, ""));
 				m_metagame.getTaskSequencer().add(AnnouncePrivateTask(m_metagame, 4.0f, playerId, commanderKey));
-				// "Vergiss nicht Verstaerkung oder Luftschlag" deaktiviert
-				// if (enemyCount > weak && hasCallAvailable(m_requiredCallForHint, factionId) && hasEnoughXP(characterId, m_requiredXPForHint)) {
-				// 	m_metagame.getTaskSequencer().add(AnnouncePrivateTask(m_metagame, 4.0f, playerId, "intel radio reminder"));
-				// }
 			}
 		}
 	}

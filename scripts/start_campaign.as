@@ -2,7 +2,7 @@
 // --------------------------------------------
 // TODO: replace with your package's script folder here
 // --------------------------------------------
-#include "path://media/packages/broken_alliances/scripts"
+#include "path://media/packages/RWR_broken_alliances/scripts"
 
 #include "my_gamemode.as"
 
@@ -16,10 +16,10 @@ void main(dictionary@ inputData) {
 	settings.print();
 
 	// --------------------------------------------
-	// TODO: broken_alliances
+	// TODO: RWR_broken_alliances
 	// --------------------------------------------
 	array<string> overlays = {
-                "media/packages/broken_alliances"
+                "media/packages/RWR_broken_alliances"
         };
         settings.m_overlayPaths = overlays;
 
