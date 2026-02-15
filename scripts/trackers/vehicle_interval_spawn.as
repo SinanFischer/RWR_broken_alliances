@@ -76,10 +76,12 @@ class VehicleIntervalSpawn : Tracker {
 	protected float m_vehicleIntelSyncAccum = 0.0f;
 	protected float VEHICLE_INTEL_SYNC_INTERVAL = 1.0f;
 
-	// Cargo+Captain: Captain-Message 2 s nach Vehicle-Message (Ort schon in Standard-Meldung)
+	// Cargo+Captain: Captain+Bodyguards 2 s NACH Cargo Truck spawnen (verhindert Spawn-Kill), Messages gleichzeitig
 	protected int m_pendingCargoCaptainFactionId = -1;
 	protected float m_pendingCargoCaptainTimer = 0.0f;
-	protected float CARGO_CAPTAIN_MSG_DELAY = 2.0f;
+	protected float CARGO_CAPTAIN_SPAWN_DELAY = 2.0f;  // Captain 2 s nach Cargo Truck = weniger Spawn-Kills
+	protected string m_pendingCargoCaptainPos = "";
+	protected int m_pendingCargoCaptainBaseId = -1;
 	// Bei Admin-Test (enemy): Private Message mit Feind-Intel an diesen Spieler
 	protected int m_pendingCargoCaptainNotifyPlayerId = -1;
 
@@ -145,12 +147,18 @@ class VehicleIntervalSpawn : Tracker {
 			updateVehicleIntelFactionTimes();
 		}
 
-		// Cargo+Captain: Captain-Message 2 s nach Vehicle-Meldung
-		if (m_pendingCargoCaptainFactionId >= 0) {
+		// Cargo+Captain: Captain+Bodyguards + Messages 2 s nach Cargo Truck (verhindert Spawn-Kill)
+		if (m_pendingCargoCaptainFactionId >= 0 && m_pendingCargoCaptainPos.length() > 0) {
 			m_pendingCargoCaptainTimer -= time;
 			if (m_pendingCargoCaptainTimer <= 0.0f) {
+				if (m_captainTracker !is null) {
+					Vector3 pos = stringToVector3(m_pendingCargoCaptainPos);
+					m_captainTracker.spawnCaptainSquadAt(m_pendingCargoCaptainFactionId, pos, m_pendingCargoCaptainBaseId);
+				}
 				sendCargoCaptainEventMessages(m_pendingCargoCaptainFactionId, m_pendingCargoCaptainNotifyPlayerId);
 				m_pendingCargoCaptainFactionId = -1;
+				m_pendingCargoCaptainPos = "";
+				m_pendingCargoCaptainBaseId = -1;
 				m_pendingCargoCaptainNotifyPlayerId = -1;
 			}
 		}
@@ -365,12 +373,13 @@ class VehicleIntervalSpawn : Tracker {
 
 		_log("VehicleIntervalSpawn: " + vehicleKey + " for faction " + factionId + " at " + baseName + " (" + pos.toString() + ")", 1);
 
-		// Cargo Truck: Captain-Team am selben Ort spawnen + Faction-Messages (2 s Verzögerung)
+		// Cargo Truck: Captain+Bodyguards 2 s spaeter spawnen (verhindert Spawn-Kill) + Faction-Messages
 		if (vehicleKey == CARGO_TRUCK_KEY && m_captainTracker !is null) {
 			int baseId = base.getIntAttribute("id");
-			m_captainTracker.spawnCaptainSquadAt(factionId, pos, baseId);
 			m_pendingCargoCaptainFactionId = factionId;
-			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_MSG_DELAY;
+			m_pendingCargoCaptainPos = pos.toString();
+			m_pendingCargoCaptainBaseId = baseId;
+			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_SPAWN_DELAY;
 		}
 	}
 
@@ -455,9 +464,10 @@ class VehicleIntervalSpawn : Tracker {
 
 		if (m_captainTracker !is null) {
 			int baseId = base.getIntAttribute("id");
-			m_captainTracker.spawnCaptainSquadAt(enemyId, pos, baseId);
 			m_pendingCargoCaptainFactionId = enemyId;
-			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_MSG_DELAY;
+			m_pendingCargoCaptainPos = pos.toString();
+			m_pendingCargoCaptainBaseId = baseId;
+			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_SPAWN_DELAY;
 		}
 
 		_log("VehicleIntervalSpawn: test_enemy_cargo_captain - Cargo + Captain at " + baseName + " for enemy faction " + enemyId, 1);
@@ -500,9 +510,10 @@ class VehicleIntervalSpawn : Tracker {
 
 		if (m_captainTracker !is null) {
 			int baseId = base.getIntAttribute("id");
-			m_captainTracker.spawnCaptainSquadAt(factionId, pos, baseId);
 			m_pendingCargoCaptainFactionId = factionId;
-			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_MSG_DELAY;
+			m_pendingCargoCaptainPos = pos.toString();
+			m_pendingCargoCaptainBaseId = baseId;
+			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_SPAWN_DELAY;
 		}
 
 		_log("VehicleIntervalSpawn: cargo_captain_test - Cargo + Captain at " + baseName + " for faction " + factionId, 1);

@@ -1223,6 +1223,8 @@
   <comment key="respond medium defense" text="Proceed to capture the base if you estimate it possible." />
   <comment key="report heavy defense" text="%base_name intel report, heavy defense, has to be %enemy_range soldiers here." />
   <comment key="respond heavy defense" text="Proceed to capture only if you know what you're doing." />
+  <comment key="report very heavy defense" text="%base_name intel report, very heavy defense, at least %enemy_range soldiers here." />
+  <comment key="respond very heavy defense" text="Extreme caution! Proceed only if heavily reinforced." />
 
   <comment key="base captured, clear victory, attack break" text="Secure the base perimeter and regroup. Standby for further instructions." />
   <comment key="base captured, defend it" text="Secure the base perimeter and defend it!" />

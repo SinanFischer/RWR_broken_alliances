@@ -232,7 +232,7 @@ class IntelManagerQuickMatch : Tracker {
 		if (ts < -900.0f) return "";
 		int count = getLastReportedEnemyCount(baseId, factionId);
 		float mins = (m_metagameTime - ts) / 60.0f;
-		string strength = (count < 0) ? "scouted" : (count <= 4 ? "very weak" : (count <= 10 ? "weak" : (count <= 15 ? "medium" : "heavy")));
+		string strength = (count < 0) ? "scouted" : (count <= 4 ? "very weak" : (count <= 10 ? "weak" : (count <= 15 ? "medium" : (count <= 20 ? "heavy" : "very heavy"))));
 		return strength + ", " + formatInt(int(mins)) + " min ago";
 	}
 
@@ -496,12 +496,14 @@ class IntelManagerQuickMatch : Tracker {
 				intelKey = "report medium defense";
 				commanderKey = "respond medium defense";
 				range = "10-15";
-			} else {
+			} else if (enemyCount <= 20) {
 				intelKey = "report heavy defense";
 				commanderKey = "respond heavy defense";
-				int step = enemyCount < 20 ? 5 : (enemyCount < 40 ? 10 : 20);
-				int lo = int(enemyCount / step) * step;
-				range = formatInt(lo) + "-" + formatInt(lo + step);
+				range = "16-20";
+			} else {
+				intelKey = "report very heavy defense";
+				commanderKey = "respond very heavy defense";
+				range = "20+";
 			}
 
 			dictionary a = {
@@ -516,9 +518,10 @@ class IntelManagerQuickMatch : Tracker {
 			if (playerId >= 0) {
 				m_metagame.getTaskSequencer().add(AnnouncePrivateTask(m_metagame, 2.0f, playerId, ""));
 				m_metagame.getTaskSequencer().add(AnnouncePrivateTask(m_metagame, 4.0f, playerId, commanderKey));
-				if (enemyCount > weak && hasCallAvailable(m_requiredCallForHint, factionId) && hasEnoughXP(characterId, m_requiredXPForHint)) {
-					m_metagame.getTaskSequencer().add(AnnouncePrivateTask(m_metagame, 4.0f, playerId, "intel radio reminder"));
-				}
+				// "Vergiss nicht Verstaerkung oder Luftschlag" deaktiviert
+				// if (enemyCount > weak && hasCallAvailable(m_requiredCallForHint, factionId) && hasEnoughXP(characterId, m_requiredXPForHint)) {
+				// 	m_metagame.getTaskSequencer().add(AnnouncePrivateTask(m_metagame, 4.0f, playerId, "intel radio reminder"));
+				// }
 			}
 		}
 	}

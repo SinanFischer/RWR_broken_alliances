@@ -1225,6 +1225,8 @@
   <comment key="respond medium defense" text="Schuetzen Sie selbst die Lage vor Ort ein und fahren Sie, falls moeglich, mit dem Angriff fort." />
   <comment key="report heavy defense" text="Geheimdienstbericht: %base_name massiv verteidigt, ca. %enemy_range feindliche Truppen gemeldet." />
   <comment key="respond heavy defense" text="Einleiten eines Angriffs nur wenn Sie wissen was Sie tun!" />
+  <comment key="report very heavy defense" text="Geheimdienstbericht: %base_name extrem stark verteidigt, mindestens %enemy_range feindliche Truppen." />
+  <comment key="respond very heavy defense" text="Hoechste Vorsicht! Nur mit massiver Unterstuetzung angreifen!" />
 
   <comment key="base captured, clear victory, attack break" text="Umgebung sichern und neu gruppieren. Warten Sie auf neue Anweisungen." />
   <comment key="base captured, defend it" text="Umgebung sichern und diese verteidigen!" />

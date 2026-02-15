@@ -49,7 +49,8 @@ Die Bezeichnung richtet sich nach der **Anzahl feindlicher Einheiten im 60-m-Rad
 | 0–4         | very weak        | „sehr leicht verteidigt“  | 0–4 Truppen      |
 | 5–10        | weak             | „leicht verteidigt“       | 5–10 Truppen     |
 | 11–15       | medium           | „mittel verteidigt“       | 11–15 Truppen    |
-| 16+         | heavy            | „stark verteidigt“        | 16+ Truppen      |
+| 16–20       | heavy            | „stark verteidigt“        | 16–20 Truppen    |
+| 21+         | very heavy       | „extrem stark verteidigt“ | 20+ Truppen      |
 
 - Die Truppenanzahl bezieht sich ausschließlich auf Einheiten der **Basisbesitzer-Fraktion** im 60-m-Umkreis.
 - Bei mehreren Feindfraktionen in derselben Basis (mind. 2 Fraktionen oder stärkere andere Fraktion) wird **keine** Meldung abgegeben.
@@ -98,6 +99,11 @@ Die Bezeichnung richtet sich nach der **Anzahl feindlicher Einheiten im 60-m-Rad
 - **Periodische Prüfung (alle 5 Sek):** Gescoutete Basen werden regelmäßig geprüft – spawnt ein Captain erst danach (z. B. per Cargo Truck), wird er beim nächsten Lauf erkannt und sofort als Enemy Commander markiert.
 - Der Enemy Commander-Marker wird nur für die betreffende Fraktion gesetzt und zeigt die aktuelle Captain-Position.
 - Der Captain bleibt sichtbar, solange er lebt; nach seinem Tod werden die Marker entfernt.
+
+### Cargo Truck und Spawn-Kill-Schutz
+
+- Captain und Bodyguards spawnen **2 Sekunden nach** dem Cargo Truck, nicht gleichzeitig.
+- Reduziert die Chance, dass der Truck auf dem Captain spawnt und ihn dabei tötet.
 
 ### Commander erledigt (Kill-Meldungen)
 

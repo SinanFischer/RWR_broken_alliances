@@ -29,6 +29,7 @@ const float BODYGUARD_SEARCH_RADIUS = 105.0f;
 const float SCOUT_CAPTAIN_RADIUS = 120.0f;  // Basis-Position: Captain in diesem Radius = "entdeckt"
 const string SOLDIER_GROUP_BODYGUARD = "orange_bodyguards";
 const int MAX_FACTIONS = 8;
+const int CAPTAIN_KILL_RP_REWARD = 250;  // RP fuer Spieler, der den feindlichen Captain erledigt
 
 // --------------------------------------------
 class CaptainSpawnCommandTracker : Tracker {
@@ -188,7 +189,7 @@ class CaptainSpawnCommandTracker : Tracker {
 			if (spotted[i] == spotterFactionId) return;
 		}
 		spotted.insertLast(spotterFactionId);
-		sendFactionMessage(m_metagame, spotterFactionId, "Feindlicher Captain entdeckt. Eliminiert ihn fuer wertvolle Intel!", 1.5f);
+		sendFactionMessage(m_metagame, spotterFactionId, "Enemy Commander spotted. Eliminate him - the reward is worth it!", 1.5f);
 		_log("CaptainSpawnCommandTracker: Captain an Basis " + baseId + " (Fraktion " + baseOwnerFactionId + ") von Fraktion " + spotterFactionId + " entdeckt (Scout/Attack) - Enemy Commander Marker", 1);
 	}
 
@@ -196,18 +197,28 @@ class CaptainSpawnCommandTracker : Tracker {
 		const XmlElement@ target = event.getFirstElementByTagName("target");
 		if (target is null) return;
 		int deadId = target.getIntAttribute("id");
+		int deadFactionId = target.getIntAttribute("faction_id");
+		bool isCaptain = (target.getStringAttribute("soldier_group_name") == "captain");
 
 		for (int fid = 0; fid < MAX_FACTIONS; ++fid) {
-			if (m_captainIds[fid] == deadId) {
+			// Match: entweder bekannte Captain-ID ODER Captain-Typ + Fraktion hat Captain-Spawn (Fallback falls findCaptain noch nicht lief)
+			bool match = (m_captainIds[fid] == deadId) ||
+				(isCaptain && deadFactionId == fid && m_captainSpawnPositions[fid].length() > 0);
+			if (match) {
 				// Fraktion, die den Captain verloren hat: immer benachrichtigen
 				sendFactionMessage(m_metagame, fid, "Our Commander has been eliminated!", 1.5f);
 
-				// Killer-Fraktion (wenn vorhanden und != Captain-Fraktion): benachrichtigen
+				// Killer-Fraktion (wenn vorhanden und != Captain-Fraktion): benachrichtigen + RP an Spieler
 				const XmlElement@ killer = event.getFirstElementByTagName("killer");
 				if (killer !is null) {
 					int killerFactionId = killer.getIntAttribute("faction_id");
 					if (killerFactionId >= 0 && killerFactionId < MAX_FACTIONS && killerFactionId != fid) {
 						sendFactionMessage(m_metagame, killerFactionId, "Excellent work! Enemy Commander eliminated!", 1.5f);
+						// Spieler-Killer erkennt man an player_id != -1 (AI hat -1)
+						if (killer.getIntAttribute("player_id") != -1) {
+							int killerCharId = killer.getIntAttribute("id");
+							m_metagame.getComms().send("<command class='rp_reward' character_id='" + killerCharId + "' reward='" + CAPTAIN_KILL_RP_REWARD + "' />");
+						}
 					}
 				}
 
