@@ -81,6 +81,11 @@ class VehicleIntervalSpawn : Tracker {
 	// Bei Admin-Test (enemy): Private Message mit Feind-Intel an diesen Spieler
 	protected int m_pendingCargoCaptainNotifyPlayerId = -1;
 
+	// Leading faction cache (getBases-Queries pro Frame reduzieren)
+	protected int m_cachedLeadingFactionId = -1;
+	protected float m_cachedLeadingFactionTime = -999.0f;
+	protected float LEADING_FACTION_CACHE_SEC = 5.0f;
+
 	VehicleIntervalSpawn(Metagame@ metagame, CaptainSpawnCommandTracker@ captainTracker = null) {
 		@m_metagame = @metagame;
 		@m_captainTracker = @captainTracker;
@@ -150,6 +155,9 @@ class VehicleIntervalSpawn : Tracker {
 			}
 		}
 
+		// Leading faction 1x pro Frame + Cache: Reduziert getBases-Queries (sonst m_numFactions^2 pro Frame)
+		int leadingFactionId = getLeadingFactionIdCached();
+
 		for (uint i = 0; i < m_numFactions; ++i) {
 			int factionId = int(i);
 
@@ -168,7 +176,7 @@ class VehicleIntervalSpawn : Tracker {
 			m_heavyTimer[i] -= time;
 			if (m_heavyTimer[i] <= 0.0f) {
 				// Leading faction (most bases) gets no Heavy spawn - timer reset only
-				if (factionId == getLeadingFactionId()) {
+				if (factionId == leadingFactionId) {
 					m_heavyTimer[i] = float(rand(HEAVY_INTERVAL_MIN, HEAVY_INTERVAL_MAX));
 				} else {
 					spawnVehicle(factionId, 2);
@@ -191,6 +199,15 @@ class VehicleIntervalSpawn : Tracker {
 			}
 		}
 		return leadingId;
+	}
+
+	// Cached: Refresh every LEADING_FACTION_CACHE_SEC (Basis-Eroberungen sind selten)
+	protected int getLeadingFactionIdCached() {
+		if (m_metagameTime - m_cachedLeadingFactionTime >= LEADING_FACTION_CACHE_SEC) {
+			m_cachedLeadingFactionId = getLeadingFactionId();
+			m_cachedLeadingFactionTime = m_metagameTime;
+		}
+		return m_cachedLeadingFactionId;
 	}
 
 	// DEBUG: script loaded + next spawn per faction (seconds, base name)
