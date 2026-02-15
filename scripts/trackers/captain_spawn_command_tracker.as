@@ -27,6 +27,7 @@ const int MARKER_ATLAS_VIP_OBJECTIVE = 17;
 const int MARKER_ATLAS_ENEMY_COMMANDER = 18;
 const float OBJECTIVE_INTERVAL = 1.5f;
 const float BODYGUARD_SEARCH_RADIUS = 105.0f;
+const float SCOUT_CAPTAIN_RADIUS = 120.0f;  // Basis-Position: Captain in diesem Radius = "entdeckt"
 const string SOLDIER_GROUP_BODYGUARD = "orange_bodyguards";
 const int MAX_FACTIONS = 8;
 
@@ -41,6 +42,7 @@ class CaptainSpawnCommandTracker : Tracker {
 	// Pro Fraktion (index = factionId, max MAX_FACTIONS)
 	protected array<int> m_captainIds;
 	protected array<string> m_captainSpawnPositions;
+	protected array<int> m_captainBaseIds;  // Basis, an der Captain gespawnt ist (-1 = unbekannt)
 	protected array<array<int>> m_bodyguardIdsByFaction;
 	protected array<array<int>> m_enemyFactionsSpottedByFaction;
 	protected array<float> m_objectiveTimersByFaction;
@@ -49,12 +51,14 @@ class CaptainSpawnCommandTracker : Tracker {
 		@m_metagame = metagame;
 		m_captainIds.resize(MAX_FACTIONS);
 		m_captainSpawnPositions.resize(MAX_FACTIONS);
+		m_captainBaseIds.resize(MAX_FACTIONS);
 		m_bodyguardIdsByFaction.resize(MAX_FACTIONS);
 		m_enemyFactionsSpottedByFaction.resize(MAX_FACTIONS);
 		m_objectiveTimersByFaction.resize(MAX_FACTIONS);
 		for (int i = 0; i < MAX_FACTIONS; ++i) {
 			m_captainIds[i] = -1;
 			m_captainSpawnPositions[i] = "";
+			m_captainBaseIds[i] = -1;
 			m_objectiveTimersByFaction[i] = 0.0f;
 		}
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
@@ -162,7 +166,35 @@ class CaptainSpawnCommandTracker : Tracker {
 		m_captainIds[factionId] = -1;
 		m_bodyguardIdsByFaction[factionId].resize(0);
 		m_captainSpawnPositions[factionId] = "";
+		m_captainBaseIds[factionId] = -1;
 		_log("CaptainSpawnCommandTracker: Captain Fraktion " + factionId + " weg, Marker entfernt", 1);
+	}
+
+	/** Wird von IntelManager aufgerufen: Basis gescoutet oder Hauptangriffsziel → wenn dort Captain, zeigt Spotter den Enemy Commander.
+	 *  Prüfung: (1) exakte baseId-Übereinstimmung ODER (2) Captain-Position innerhalb baseRadius (120m) der Basis-Position. */
+	void notifyCaptainDiscoveredAtBase(int baseId, int baseOwnerFactionId, int spotterFactionId, const Vector3 &in basePosition) {
+		if (baseOwnerFactionId < 0 || baseOwnerFactionId >= MAX_FACTIONS) return;
+		if (spotterFactionId == baseOwnerFactionId) return;
+		if (m_captainSpawnPositions[baseOwnerFactionId].length() == 0) return;
+
+		bool match = false;
+		if (m_captainBaseIds[baseOwnerFactionId] == baseId) {
+			match = true;
+		} else {
+			// Fallback: Captain im Umkreis von basePosition? (z.B. wenn baseId abweicht oder Captain neben Base steht)
+			Vector3 captainPos = stringToVector3(m_captainSpawnPositions[baseOwnerFactionId]);
+			if (checkRange(captainPos, basePosition, SCOUT_CAPTAIN_RADIUS))
+				match = true;
+		}
+		if (!match) return;
+
+		array<int>@ spotted = m_enemyFactionsSpottedByFaction[baseOwnerFactionId];
+		for (uint i = 0; i < spotted.length(); ++i) {
+			if (spotted[i] == spotterFactionId) return;
+		}
+		spotted.insertLast(spotterFactionId);
+		sendFactionMessage(m_metagame, spotterFactionId, "Feindlicher Captain entdeckt. Eliminiert ihn für wertvolle Intel!", 1.5f);
+		_log("CaptainSpawnCommandTracker: Captain an Basis " + baseId + " (Fraktion " + baseOwnerFactionId + ") von Fraktion " + spotterFactionId + " entdeckt (Scout/Attack) - Enemy Commander Marker", 1);
 	}
 
 	protected void handleVehicleSpotEvent(const XmlElement@ event) {
@@ -279,8 +311,8 @@ class CaptainSpawnCommandTracker : Tracker {
 		}
 	}
 
-	/** Öffentlich: Spawn bei Position (z.B. von VehicleIntervalSpawn bei Cargo-Truck). Pro Fraktion - ersetzt nur Captain dieser Fraktion. */
-	void spawnCaptainSquadAt(int factionId, const Vector3 &in pos) {
+	/** Öffentlich: Spawn bei Position (z.B. von VehicleIntervalSpawn bei Cargo-Truck). baseId = Basis, an der gespawnt wird (-1 bei /captain_spawn). */
+	void spawnCaptainSquadAt(int factionId, const Vector3 &in pos, int baseId = -1) {
 		if (factionId < 0 || factionId >= MAX_FACTIONS) return;
 
 		// Alten Captain dieser Fraktion entfernen
@@ -291,6 +323,7 @@ class CaptainSpawnCommandTracker : Tracker {
 		}
 
 		m_captainSpawnPositions[factionId] = pos.toString();
+		m_captainBaseIds[factionId] = baseId;
 		Vector3 p = pos;
 		sendSpawnSoldier("captain", p, factionId);
 		p.m_values[0] -= SPAWN_OFFSET_SIDE;
@@ -349,6 +382,7 @@ class CaptainSpawnCommandTracker : Tracker {
 			m_enemyFactionsSpottedByFaction[factionId].resize(0);
 		}
 		m_captainSpawnPositions[factionId] = pos.toString();
+		m_captainBaseIds[factionId] = -1;  // Admin-Spawn: keine Basis-Referenz
 
 		sendSpawnSoldier("captain", pos, factionId);
 		pos.m_values[0] -= SPAWN_OFFSET_SIDE;

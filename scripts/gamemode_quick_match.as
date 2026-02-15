@@ -46,7 +46,7 @@ class GameModeQuickMatch : Metagame {
 		CaptainSpawnCommandTracker@ captainTr = CaptainSpawnCommandTracker(this);
 		addTracker(captainTr);  // /captain_spawn - 1 Captain + 3 orange_bodyguards; auch bei Cargo-Truck-Spawn
 		addTracker(VehicleIntervalSpawn(this, captainTr));  // Fahrzeug-Spawn; bei Cargo-Truck: Captain-Team mit
-		addTracker(IntelManagerQuickMatch(this));  // Basis-Intel: Feind-Basen scouten → Commander meldet Stärke (wie Invasion)
+		addTracker(IntelManagerQuickMatch(this, 100.0, "paratroopers1.call", 0.15f, captainTr));  // Basis-Intel + Captain-Scout-Verknüpfung
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 
 		const XmlElement@ player = getPlayerInfo(this, 0);

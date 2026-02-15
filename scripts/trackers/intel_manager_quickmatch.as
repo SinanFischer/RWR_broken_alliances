@@ -10,6 +10,7 @@
 #include "log.as"
 #include "query_helpers.as"
 #include "announce_task.as"
+#include "captain_spawn_command_tracker.as"
 
 const float INVESTIGATION_COMPLETE_CHECK_INTERVAL_TIME = 5.0;
 const float INVESTIGATION_STALE_SECONDS = 300.0;  // Nach 5 Min: Intel veraltet → neu scouten
@@ -35,10 +36,12 @@ class IntelManagerQuickMatch : Tracker {
 	protected array<dictionary> m_lastReportedEnemyCountByFaction;
 	protected uint m_numFactions;
 	protected bool m_basesInitialized;
+	protected CaptainSpawnCommandTracker@ m_captainTracker;
 
 	// ----------------------------------------------------
-	IntelManagerQuickMatch(Metagame@ metagame, float reward = 100.0, string requiredCallForHint = "paratroopers1.call", float requiredXPForHint = 0.150) {
+	IntelManagerQuickMatch(Metagame@ metagame, float reward = 100.0, string requiredCallForHint = "paratroopers1.call", float requiredXPForHint = 0.150, CaptainSpawnCommandTracker@ captainTracker = null) {
 		@m_metagame = metagame;
+		@m_captainTracker = captainTracker;
 		m_started = false;
 		m_timer = -1.0f;
 		m_metagameTime = 0.0f;
@@ -75,6 +78,8 @@ class IntelManagerQuickMatch : Tracker {
 
 		// base_owner_change_event benötigt für Besitzerwechsel-Reaktion (Marker-Update)
 		m_metagame.getComms().send("<command class='set_metagame_event' name='base_owner_change_event' enabled='1' />");
+		// attack_change_event: Hauptangriffsziel setzen → Intel + ggf. Captain entdeckt
+		m_metagame.getComms().send("<command class='set_metagame_event' name='attack_change_event' enabled='1' />");
 
 		doBasesInit();
 	}
@@ -227,7 +232,7 @@ class IntelManagerQuickMatch : Tracker {
 		if (ts < -900.0f) return "";
 		int count = getLastReportedEnemyCount(baseId, factionId);
 		float mins = (m_metagameTime - ts) / 60.0f;
-		string strength = (count < 0) ? "scouted" : (count <= 1 ? "very weak" : (count <= 4 ? "weak" : (count <= 9 ? "medium" : "heavy")));
+		string strength = (count < 0) ? "scouted" : (count <= 4 ? "very weak" : (count <= 10 ? "weak" : (count <= 15 ? "medium" : "heavy")));
 		return strength + ", " + formatInt(int(mins)) + " min ago";
 	}
 
@@ -306,6 +311,10 @@ class IntelManagerQuickMatch : Tracker {
 			clearBaseToInvestigate(baseId, attackingFactionId);
 			setInvestigated(baseId, attackingFactionId);
 			setBaseMarker(base, attackingFactionId, "capture", getScoutedMarkerText(baseId, attackingFactionId));
+
+			// Hauptangriffsziel: Basis mit Captain → Enemy Commander für angreifende Fraktion
+			if (m_captainTracker !is null)
+				m_captainTracker.notifyCaptainDiscoveredAtBase(baseId, enemy, attackingFactionId, pos);
 		}
 	}
 
@@ -428,6 +437,10 @@ class IntelManagerQuickMatch : Tracker {
 		setLastReportedEnemyCount(baseId, factionId, enemyCount);
 		setBaseMarker(base, factionId, "capture", getScoutedMarkerText(baseId, factionId));
 
+		// Scout-Logik mit Captain verknüpfen: Basis gescoutet → wenn Captain dort (baseId oder 120m Radius), Enemy Commander
+		if (m_captainTracker !is null)
+			m_captainTracker.notifyCaptainDiscoveredAtBase(baseId, enemy, factionId, position);
+
 		string c = "<command class='rp_reward' character_id='" + characterId + "' reward='" + m_reward + "' />";
 		m_metagame.getComms().send(c);
 
@@ -447,20 +460,20 @@ class IntelManagerQuickMatch : Tracker {
 			// two enemy factions present, skip
 		} else {
 			string range = "";
-			int veryWeak = 1, weak = 4, medium = 9;
+			int veryWeak = 4, weak = 10, medium = 15;
 			string intelKey, commanderKey;
 			if (enemyCount <= veryWeak) {
 				intelKey = "report very weak defense";
 				commanderKey = "respond very weak defense";
-				range = "0";
+				range = "0-4";
 			} else if (enemyCount <= weak) {
 				intelKey = "report weak defense";
 				commanderKey = "respond weak defense";
-				range = "2-4";
+				range = "5-10";
 			} else if (enemyCount <= medium) {
 				intelKey = "report medium defense";
 				commanderKey = "respond medium defense";
-				range = "5-10";
+				range = "10-15";
 			} else {
 				intelKey = "report heavy defense";
 				commanderKey = "respond heavy defense";

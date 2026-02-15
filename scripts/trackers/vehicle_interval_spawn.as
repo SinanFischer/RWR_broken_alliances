@@ -367,7 +367,8 @@ class VehicleIntervalSpawn : Tracker {
 
 		// Cargo Truck: Captain-Team am selben Ort spawnen + Faction-Messages (2 s Verzögerung)
 		if (vehicleKey == CARGO_TRUCK_KEY && m_captainTracker !is null) {
-			m_captainTracker.spawnCaptainSquadAt(factionId, pos);
+			int baseId = base.getIntAttribute("id");
+			m_captainTracker.spawnCaptainSquadAt(factionId, pos, baseId);
 			m_pendingCargoCaptainFactionId = factionId;
 			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_MSG_DELAY;
 		}
@@ -453,7 +454,8 @@ class VehicleIntervalSpawn : Tracker {
 		sendFactionMessage(m_metagame, enemyId, "Reinforcement arrived: Cargo Truck at " + baseName + ".", 0.95);
 
 		if (m_captainTracker !is null) {
-			m_captainTracker.spawnCaptainSquadAt(enemyId, pos);
+			int baseId = base.getIntAttribute("id");
+			m_captainTracker.spawnCaptainSquadAt(enemyId, pos, baseId);
 			m_pendingCargoCaptainFactionId = enemyId;
 			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_MSG_DELAY;
 		}
@@ -497,7 +499,8 @@ class VehicleIntervalSpawn : Tracker {
 		sendFactionMessage(m_metagame, factionId, "Reinforcement arrived: Cargo Truck at " + baseName + ".", 0.95);
 
 		if (m_captainTracker !is null) {
-			m_captainTracker.spawnCaptainSquadAt(factionId, pos);
+			int baseId = base.getIntAttribute("id");
+			m_captainTracker.spawnCaptainSquadAt(factionId, pos, baseId);
 			m_pendingCargoCaptainFactionId = factionId;
 			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_MSG_DELAY;
 		}
