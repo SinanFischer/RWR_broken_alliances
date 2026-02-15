@@ -297,7 +297,17 @@ class CaptainSpawnCommandTracker : Tracker {
 
 	protected void handleCharacterDieEvent(const XmlElement@ event) {
 		const XmlElement@ dead = getDeadCharacterFromDeathEvent(event);
-		if (dead is null) return;
+		// Bei manchen Todesarten (z. B. Artillerie) enthält character_die nur character_id, kein <character>-Kind.
+		if (dead is null) {
+			int charId = event.getIntAttribute("character_id");
+			if (charId < 0) return;
+			const XmlElement@ info = getCharacterInfo(m_metagame, charId);
+			if (info is null) return;
+			int fid = matchCaptainFaction(info);
+			if (fid < 0) return;
+			onCaptainDeath(fid, charId, event, false);
+			return;
+		}
 
 		int fid = matchCaptainFaction(dead);
 		if (fid < 0) return;

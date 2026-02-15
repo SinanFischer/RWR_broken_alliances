@@ -159,6 +159,13 @@
 - **Synergie mit Slot-Block:** Ein Verwundeter blockiert bereits den Capacity-Slot (kein Nachspawn, solange er am Boden liegt). Stirbt er, blockiert der Tod **noch mehr** Slots für X Sekunden. **Lazarett-Dilemma:** 10 Verwundete = 10 fehlen an der Front UND verhindern 10 frische Soldaten. **Double-Punish:** Retten → Slot sofort frei, Soldat kampfbereit. Ignorieren → Slot blockiert während Verbluten, danach dicke Blockade durch Tod. Erzeugt Dringlichkeit: „Wenn ich den da nicht hole, bricht unsere Verstärkung zusammen!“ - Combat-Sim-Feeling.
 - Westen in Waffenkammer für alle Fraktionen
 
+**Black Ops Vest III** (`vest_blackops3.carry_item`): Mod-eigene Weste, **3× so stark** wie die Vanilla Black-Ops-Weste (3 Treffer absorbiert statt 1). Gleiche Modifier (speed, Tarnung). **Nicht in der Waffenkammer** erhältlich.
+
+| Erhalt | Beschreibung |
+|--------|--------------|
+| **Captain** | Der Captain trägt die **EOD-Weste** im Slot 1 (Loadout in `factions/captain.resources`). Beim Tod droppt sie automatisch. 
+| **Admin-Command** | **`/blackops3`** (nur Admins): Spawnt eine Black-Ops-Veste III bei der Spielerposition – zum Testen. |
+
 ---
 
 ## 6. WAFFEN-BALANCING
