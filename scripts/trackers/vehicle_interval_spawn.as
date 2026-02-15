@@ -78,6 +78,8 @@ class VehicleIntervalSpawn : Tracker {
 	protected int m_pendingCargoCaptainFactionId = -1;
 	protected float m_pendingCargoCaptainTimer = 0.0f;
 	protected float CARGO_CAPTAIN_MSG_DELAY = 2.0f;
+	// Bei Admin-Test (enemy): Private Message mit Feind-Intel an diesen Spieler
+	protected int m_pendingCargoCaptainNotifyPlayerId = -1;
 
 	VehicleIntervalSpawn(Metagame@ metagame, CaptainSpawnCommandTracker@ captainTracker = null) {
 		@m_metagame = @metagame;
@@ -133,8 +135,9 @@ class VehicleIntervalSpawn : Tracker {
 		if (m_pendingCargoCaptainFactionId >= 0) {
 			m_pendingCargoCaptainTimer -= time;
 			if (m_pendingCargoCaptainTimer <= 0.0f) {
-				sendCargoCaptainEventMessages(m_pendingCargoCaptainFactionId);
+				sendCargoCaptainEventMessages(m_pendingCargoCaptainFactionId, m_pendingCargoCaptainNotifyPlayerId);
 				m_pendingCargoCaptainFactionId = -1;
+				m_pendingCargoCaptainNotifyPlayerId = -1;
 			}
 		}
 
@@ -336,7 +339,8 @@ class VehicleIntervalSpawn : Tracker {
 	}
 
 	// Nachrichten bei Cargo+Captain-Event: eigene Fraktion + alle Feinde (2 s nach Vehicle-Meldung)
-	protected void sendCargoCaptainEventMessages(int factionId) {
+	// notifyPlayerId >= 0: Zusätzlich Private Message mit Feind-Intel (Admin-Test)
+	protected void sendCargoCaptainEventMessages(int factionId, int notifyPlayerId = -1) {
 		string ownMsg = "Captain arrived with the supply convoy and will defend our position.";
 		sendFactionMessage(m_metagame, factionId, ownMsg, 1.5f);
 
@@ -348,6 +352,70 @@ class VehicleIntervalSpawn : Tracker {
 			if (int(i) == factionId) continue;
 			sendFactionMessage(m_metagame, int(i), enemyMsg, 1.5f);
 		}
+		if (notifyPlayerId >= 0)
+			sendPrivateMessage(m_metagame, notifyPlayerId, "[Test] Deine Fraktion erhält: " + enemyMsg);
+	}
+
+	/** Admin-Test: Cargo Truck + Captain an zufälliger Basis einer Feind-Fraktion spawnen. Gibt (success, baseName, factionName) zurück. */
+	protected bool spawnCargoTruckWithCaptainForEnemy(int playerFactionId, string &out baseName, string &out enemyFactionName) {
+		tryInitFactions();
+		if (m_numFactions == 0) return false;
+		array<const XmlElement@>@ bases = getBases(m_metagame);
+		if (bases is null) return false;
+
+		// Feind-Fraktionen mit mindestens einer Basis
+		array<int> enemyFactionIds;
+		for (uint i = 0; i < m_numFactions; ++i) {
+			int fid = int(i);
+			if (fid == playerFactionId) continue;
+			bool hasBase = false;
+			for (uint b = 0; b < bases.size(); ++b) {
+				if (bases[b].getIntAttribute("owner_id") == fid) { hasBase = true; break; }
+			}
+			if (hasBase) enemyFactionIds.insertLast(fid);
+		}
+		if (enemyFactionIds.size() == 0) return false;
+
+		int enemyId = enemyFactionIds[rand(0, int(enemyFactionIds.size()) - 1)];
+		enemyFactionName = getFactionName(enemyId);
+
+		array<int> ownedIndices;
+		for (uint i = 0; i < bases.size(); ++i) {
+			if (bases[i].getIntAttribute("owner_id") == enemyId)
+				ownedIndices.insertLast(int(i));
+		}
+		if (ownedIndices.size() == 0) return false;
+
+		int idx = rand(0, ownedIndices.size() - 1);
+		const XmlElement@ base = bases[ownedIndices[idx]];
+		string posStr = base.getStringAttribute("position");
+		if (posStr.length() == 0) return false;
+
+		baseName = base.getStringAttribute("name");
+		if (baseName.length() == 0) baseName = base.getStringAttribute("key");
+		if (baseName.length() == 0) baseName = "Base " + base.getIntAttribute("id");
+
+		Vector3 pos = stringToVector3(posStr);
+		float angle = float(idx) * 1.047f;
+		pos.m_values[0] += OFFSET_XZ * cos(angle);
+		pos.m_values[1] += OFFSET_Y;
+		pos.m_values[2] += OFFSET_XZ * sin(angle);
+
+		string cmd = "<command class='create_instance' faction_id='" + enemyId +
+			"' position='" + pos.toString() +
+			"' instance_class='vehicle' instance_key='" + CARGO_TRUCK_KEY + "' />";
+		m_metagame.getComms().send(cmd);
+
+		sendFactionMessage(m_metagame, enemyId, "Reinforcement arrived: Cargo Truck at " + baseName + ".", 0.95);
+
+		if (m_captainTracker !is null) {
+			m_captainTracker.spawnCaptainSquadAt(enemyId, pos);
+			m_pendingCargoCaptainFactionId = enemyId;
+			m_pendingCargoCaptainTimer = CARGO_CAPTAIN_MSG_DELAY;
+		}
+
+		_log("VehicleIntervalSpawn: test_enemy_cargo_captain - Cargo + Captain at " + baseName + " for enemy faction " + enemyId, 1);
+		return true;
 	}
 
 	/** Admin-Test: Cargo Truck + Captain an zufälliger Basis der Spieler-Fraktion spawnen. */
@@ -425,6 +493,33 @@ class VehicleIntervalSpawn : Tracker {
 				sendPrivateMessage(m_metagame, senderId, "Cargo Captain test: Cargo Truck + Captain spawned at random owned base.");
 			} else {
 				sendPrivateMessage(m_metagame, senderId, "Cargo Captain test failed - faction " + factionId + " has no base.");
+			}
+			return;
+		}
+
+		// /test_enemy_cargo_captain oder /enemy_cargo_captain_test: Admin - Cargo Truck + Captain an Feind-Basis
+		// NICHT /cargo_* verwenden - BasicCommandHandler matcht checkCommand("cargo") und spawnt zusätzlich Truck für eigene Fraktion!
+		if (checkCommand(message, "test_enemy_cargo_captain") || checkCommand(message, "enemy_cargo_captain_test")) {
+			if (!m_metagame.getAdminManager().isAdmin(event.getStringAttribute("player_name"), event.getIntAttribute("player_id"))) {
+				sendPrivateMessage(m_metagame, senderId, "Admin only.");
+				return;
+			}
+			const XmlElement@ player = getPlayerInfo(m_metagame, senderId);
+			if (player is null) {
+				sendPrivateMessage(m_metagame, senderId, "Player not found.");
+				return;
+			}
+			int playerFactionId = player.getIntAttribute("faction_id");
+			if (playerFactionId < 0) {
+				sendPrivateMessage(m_metagame, senderId, "You have no faction (spectator?).");
+				return;
+			}
+			string baseName, enemyFactionName;
+			if (spawnCargoTruckWithCaptainForEnemy(playerFactionId, baseName, enemyFactionName)) {
+				m_pendingCargoCaptainNotifyPlayerId = senderId;
+				sendPrivateMessage(m_metagame, senderId, "Cargo Captain test (enemy): Spawned at " + baseName + " (" + enemyFactionName + "). In 2 s: Fraktions-Meldung + Private Message mit Feind-Intel.");
+			} else {
+				sendPrivateMessage(m_metagame, senderId, "Cargo Captain test (enemy) failed - no enemy faction with bases.");
 			}
 			return;
 		}
