@@ -18,6 +18,8 @@
 | **Faction Alive HUD** | HUD-Anzeige lebender Soldaten pro Fraktion (inkl. 100m/150m/200m Radius) |
 | **Stats Command** | In-Game-Befehl für Fraktions-Statistiken (Alive, Capacity, Blocked Slots) |
 | **Vehicle Interval Spawn** | Intervall-basierter Fahrzeug-Spawn (Leicht 2-4 min, Mittel 5-8 min, Schwer 12-15 min); **führende Fraktion (meiste Basen) erhält keinen Schwer-Spawn** - siehe Abschnitt 1b |
+| **IntelManager (Quick Match)** | Basis-Aufklärung: Feind-Basen scouten → Commander meldet Stärke; Stale-Reset nach 5 Min; Pro-Fraktion; Marker-Text mit Stärke + Scout-Zeit (siehe 1c) |
+| **Captain & VIP-System** | Cargo-Truck-Spawn mit Captain + Bodyguards; VIP-Marker für eigene Fraktion; Enemy-Commander-Marker bei Feind-Spotting; Pro Fraktion (siehe 1d) |
 | **Defender Tank** | Verteidiger erhalten Panzer bei 2 Basenverlust |
 | **Squad Equipment Kit** | Ausrüstungskit für Trupps |
 | **Bullet Flyby Effect** | Akustischer Effekt bei nahen Projektilen |
@@ -53,6 +55,24 @@
 | **Schwer** | 12-15 min | Tank Alt, Tank 1 Alt, Tank 2 Alt, M551 (Sheriff), FV101 (Scorpion), Legion, M528, Flamer Tank (Croc) |
 
 *(Call-Panzer tank/tank_1/tank_2 bleiben exklusiv über Calls - erscheinen nicht im Intervall-Spawn.)*
+
+### 1c. IntelManager – Basis-Aufklärung (Quick Match)
+
+**Angepasst aus Vanilla Invasion.** Feind-Basen werden auf der Karte als „to investigate“ markiert. Scout = Spieler geht in Basis (center_block) oder zielt mit Fadenkreuz auf Basis (25 m) → Commander meldet Stärke (very weak / weak / medium / heavy), RP-Belohnung, Privatnachricht mit Taktik-Tipp.
+
+- **Pro Fraktion:** Gray, Brown etc. können jeweils ihre Feind-Basen scouten (symmetrisch).
+- **Stale-Reset:** Nach 5 Min wird Intel verworfen → Basis zurück auf „to investigate“ (neu scouten).
+- **Besitzerwechsel:** `base_owner_change_event` verwirft Intel, Marker werden neu gesetzt.
+- **Marker-Text:** Gescoutete Basen zeigen bei Hover Stärke + „X min ago“ (z. B. „weak, 3 min ago“). Aktualisierung alle 5 s.
+
+### 1d. Captain & VIP-System (Cargo Truck + Captain)
+
+**Auslöser:** Beim Mittel-Fahrzeug-Spawn (~9 % Chance) spawnt ein **Cargo Truck** zusammen mit einem **Captain** und 3 Bodyguards an derselben Basis. Test-Commands: `/cargo_captain_test`, `/test_enemy_cargo_captain`.
+
+- **Eigene Fraktion:** Captain-Marker (VIP-Ziel, atlas 17) auf der Karte; Commander: „Captain arrived with the supply convoy and will defend our position.“
+- **Feind-Fraktionen:** Commander: „Enemy [Fraktionsname] Cargo truck reported - escorted by a Captain. Find and eliminate him for valuable intel!“
+- **Enemy Commander Marker:** Wenn eine Fraktion den Cargo Truck des Gegners spottet (`vehicle_spot_event`), erscheint der Enemy-Commander-Marker (atlas 18) für die spotternde Fraktion.
+- **Pro Fraktion:** Jede Fraktion kann einen Captain haben; bis zu 8 Fraktionen parallel getrackt.
 
 ---
 
