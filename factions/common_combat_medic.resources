@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources clear_weapons="1" clear_carry_items="1">
-	<!-- Defibrillator/Trauma-Kit Pool -->
+	<!-- Medic-Zweitwaffe: Medikit oder Taser-Medic -->
 	<weapon key="medikit_ai.weapon" />
 	<weapon key="taser_medic.weapon" />
 

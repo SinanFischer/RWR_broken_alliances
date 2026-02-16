@@ -52,7 +52,8 @@ class GameModeQuickMatch : Metagame {
 			ENABLE_QUICKMATCH_EVENT_SYSTEMS,
 			100.0f,
 			"paratroopers1.call",
-			0.15f
+			0.15f,
+			false // Single-Base-VIP global deaktiviert
 		);
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 

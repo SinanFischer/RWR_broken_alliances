@@ -432,13 +432,13 @@ class VehicleIntervalSpawn : Tracker {
 	// Nachrichten bei Cargo+Captain-Event: eigene Fraktion + alle Feinde (2 s nach Vehicle-Meldung)
 	// notifyPlayerId >= 0: Zusätzlich Private Message mit Feind-Intel (Admin-Test)
 	protected void sendCargoCaptainEventMessages(int factionId, int notifyPlayerId = -1) {
-		string ownMsg = "Captain arrived with the supply convoy and will defend our position.";
+		string ownMsg = "[ALERT] Captain arrived with the supply convoy and will defend our position.";
 		sendFactionMessage(m_metagame, factionId, ownMsg, 1.5f);
 
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null) return;
 		string enemyName = getFactionName(factionId);
-		string enemyMsg = "Enemy " + enemyName + " Cargo truck reported - escorted by a Captain. Take him out; he's carrying high-value weapons.";
+		string enemyMsg = "[ALERT] Enemy " + enemyName + " Cargo truck reported - escorted by a Captain. Take him out; he's carrying high-value weapons.";
 		for (uint i = 0; i < factions.size(); ++i) {
 			if (int(i) == factionId) continue;
 			sendFactionMessage(m_metagame, int(i), enemyMsg, 1.5f);

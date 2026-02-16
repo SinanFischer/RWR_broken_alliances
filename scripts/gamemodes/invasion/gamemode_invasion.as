@@ -364,7 +364,8 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 			INVASION_ENABLE_EVENT_SYSTEMS,
 			100.0f,
 			"paratroopers1.call",
-			0.15f
+			0.15f,
+			false // Single-Base-VIP global deaktiviert
 		);
 		@m_spawnCapacityApi = m_systemsRegistry.getSpawnCapacityApi();
 		

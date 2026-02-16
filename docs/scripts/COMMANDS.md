@@ -17,6 +17,7 @@ Alle **eingebundenen** Chat-Commands des Mods. Ausgenommen: Reinforcement-Pool-T
 | `/captain_spawn` | `events/captain_spawn_command_tracker.as` | Quick Match, Invasion, Campaign | **Admin** | Spawnt 1 Captain + 3 orange_bodyguards bei Spielerposition (eigene Fraktion). |
 | `/captain_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match, Invasion, Campaign | **Admin** | Wie oben, mit Paradrop (Höhe). |
 | `/platoon` | `systems/platoon_spawn/platoon_spawn_command_tracker.as` | Quick Match, Invasion, Campaign | **Admin** | Spawnt Platoon-Squad: 1 Miniboss + 4 `default_ai` als Fallschirm-Einflug nahe Spielerposition. |
+| `/combatmedics` (oder `/combatmedic`) | `systems/platoon_spawn/platoon_spawn_command_tracker.as` | Quick Match, Invasion, Campaign | **Admin** | Spawnt 4 `combat_medic` als Fallschirm-Einflug nahe Spielerposition. |
 | `/cargo_captain_test` oder `/test_cargo_captain` | `trackers/vehicle_interval_spawn.as` | Quick Match, Invasion, Campaign | **Admin** | Test: Spawnt Cargo Truck + Captain an zufälliger Basis deiner Fraktion. Simuliert das Cargo+Captain-Event. |
 | `/test_enemy_cargo_captain` oder `/enemy_cargo_captain_test` | wie oben | Quick Match, Invasion, Campaign | **Admin** | Test: Spawnt Cargo Truck + Captain an zufälliger Basis einer **Feind-Fraktion**. Prüft die Feind-Meldung; Private Message nennt Spawn-Ort + Feind-Intel (nach 2 s). **Nicht** `/cargo_*` – BasicCommandHandler würde sonst zusätzlich Truck für eigene Fraktion spawnen. |
 | `/spawn_enemy_cargo` oder `/enemy_cargo_spawn` | wie oben | Quick Match, Invasion, Campaign | **Admin** | Spawnt einen **feindlichen** Cargo Truck neben der Spielerposition (zum Testen der Cargo-Delivery-Belohnung: in Waffenkammer bringen → RP + Fahrzeug-Spawn). |
@@ -65,9 +66,9 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 
 | Gamemode | Mod-Commands | BasicCommandHandler | SupporterCommandHandler | DefenderTankHelp |
 |----------|----------------|---------------------|--------------------------|------------------|
-| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/cargo_captain_test`, `/test_enemy_cargo_captain`, `/spawn_enemy_cargo` | ja | nein | nein |
-| **Invasion**   | `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/spawn_enemy_cargo`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
-| **Campaign**   | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/spawn_enemy_cargo` | nein | nein | ja |
+| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/combatmedics`, `/cargo_captain_test`, `/test_enemy_cargo_captain`, `/spawn_enemy_cargo` | ja | nein | nein |
+| **Invasion**   | `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/combatmedics`, `/spawn_enemy_cargo`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
+| **Campaign**   | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/combatmedics`, `/spawn_enemy_cargo` | nein | nein | ja |
 
 *Hinweis: Die Mod-Commands werden zentral über `GameSystemsRegistry` installiert. Aktivierung erfolgt pro Modus über die Flags im jeweiligen Gamemode-Script.*
 

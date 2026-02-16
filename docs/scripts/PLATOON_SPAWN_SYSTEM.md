@@ -4,10 +4,11 @@
 
 ## Ziel
 
-Ein modulares Command-System bereitstellen, das per Chat-Command ein vordefiniertes Squad spawnt.
+Ein modulares Command-System bereitstellen, das per Chat-Command vordefinierte Squads spawnt.
 
-- Command: `/platoon`
-- Squad: `1x miniboss` + `4x default_ai`
+- Commands:
+  - `/platoon` -> `1x miniboss` + `4x default_ai`
+  - `/combatmedics` (oder `/combatmedic`) -> `4x combat_medic`
 - Spawnart: Fallschirm-Einflug (Spawn mit Hoehenoffset)
 
 ---
@@ -27,13 +28,13 @@ Ein modulares Command-System bereitstellen, das per Chat-Command ein vordefinier
 
 ## Ablauf
 
-1. Spieler sendet `/platoon`.
+1. Spieler sendet `/platoon` oder `/combatmedics`.
 2. Tracker prueft Zugriff (default: Admin-only).
 3. Spieler- und Charakterdaten werden geladen.
 4. Spawnposition = Spielerposition + Vorwaerts-Offset + Hoehenoffset.
 5. Squad wird als `create_instance` gespawnt:
-   - 1 Miniboss vorne
-   - 4 Default-AI in kleiner Formation
+   - `/platoon`: 1 Miniboss vorne + 4 Default-AI in kleiner Formation
+   - `/combatmedics`: 4 Combat Medics in kleiner Formation
 
 ---
 
@@ -42,6 +43,8 @@ Ein modulares Command-System bereitstellen, das per Chat-Command ein vordefinier
 - `PLATOON_MINIBOSS_KEY = "miniboss"`
 - `PLATOON_DEFAULT_SOLDIER_KEY = "default_ai"`
 - `PLATOON_DEFAULT_COUNT = 4`
+- `COMBAT_MEDIC_SOLDIER_KEY = "combat_medic"`
+- `COMBAT_MEDIC_COUNT = 4`
 - `PLATOON_SPAWN_HEIGHT = 55.0f`
 - `PLATOON_SPAWN_OFFSET_FWD = 6.0f`
 - `PLATOON_SPAWN_SPACING = 4.0f`

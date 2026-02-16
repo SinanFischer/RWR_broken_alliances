@@ -1,6 +1,8 @@
 // Platoon Spawn Command Tracker
-// Command: /platoon
-// Effekt: Spawnt 1 Miniboss + 4 Default-AI als Fallschirm-Einflug nahe Spielerposition.
+// Commands:
+// - /platoon: 1 Miniboss + 4 Default-AI
+// - /combatmedics: 4 Combat Medics
+// Beide als Fallschirm-Einflug nahe Spielerposition.
 
 #include "tracker.as"
 #include "helpers.as"
@@ -9,12 +11,20 @@
 #include "log.as"
 
 const string CMD_PLATOON_SPAWN = "platoon";
+const string CMD_COMBAT_MEDICS_SPAWN = "combatmedics";
+const string CMD_COMBAT_MEDIC_SPAWN = "combatmedic";
 const string PLATOON_MINIBOSS_KEY = "miniboss";
 const string PLATOON_DEFAULT_SOLDIER_KEY = "default_ai";
 const int PLATOON_DEFAULT_COUNT = 4;
+const string COMBAT_MEDIC_SOLDIER_KEY = "combat_medic";
+const int COMBAT_MEDIC_COUNT = 4;
 const float PLATOON_SPAWN_OFFSET_FWD = 6.0f;
 const float PLATOON_SPAWN_HEIGHT = 55.0f;
 const float PLATOON_SPAWN_SPACING = 4.0f;
+
+const int SQUAD_TYPE_NONE = 0;
+const int SQUAD_TYPE_PLATOON = 1;
+const int SQUAD_TYPE_COMBAT_MEDICS = 2;
 
 class PlatoonSpawnCommandTracker : Tracker {
 	protected Metagame@ m_metagame;
@@ -31,7 +41,8 @@ class PlatoonSpawnCommandTracker : Tracker {
 	protected void handleChatEvent(const XmlElement@ event) {
 		string message = event.getStringAttribute("message");
 		if (!startsWith(message, "/")) return;
-		if (!checkCommand(message, CMD_PLATOON_SPAWN)) return;
+		int squadType = resolveSquadType(message);
+		if (squadType == SQUAD_TYPE_NONE) return;
 
 		int senderId = event.getIntAttribute("player_id");
 		string senderName = event.getStringAttribute("player_name");
@@ -44,8 +55,20 @@ class PlatoonSpawnCommandTracker : Tracker {
 		Vector3 spawnPos;
 		if (!tryResolvePlayerSpawn(senderId, factionId, spawnPos)) return;
 
-		spawnPlatoonSquad(factionId, spawnPos);
-		sendPrivateMessage(m_metagame, senderId, "Platoon deployed: 1 miniboss + 4 default_ai (paradrop).");
+		if (squadType == SQUAD_TYPE_PLATOON) {
+			spawnPlatoonSquad(factionId, spawnPos);
+			sendPrivateMessage(m_metagame, senderId, "Platoon deployed: 1 miniboss + 4 default_ai (paradrop).");
+		} else if (squadType == SQUAD_TYPE_COMBAT_MEDICS) {
+			spawnCombatMedicSquad(factionId, spawnPos);
+			sendPrivateMessage(m_metagame, senderId, "Combat medics deployed: 4 combat_medic (paradrop).");
+		}
+	}
+
+	protected int resolveSquadType(const string &in message) {
+		if (checkCommand(message, CMD_PLATOON_SPAWN)) return SQUAD_TYPE_PLATOON;
+		if (checkCommand(message, CMD_COMBAT_MEDICS_SPAWN)) return SQUAD_TYPE_COMBAT_MEDICS;
+		if (checkCommand(message, CMD_COMBAT_MEDIC_SPAWN)) return SQUAD_TYPE_COMBAT_MEDICS;
+		return SQUAD_TYPE_NONE;
 	}
 
 	protected bool tryResolvePlayerSpawn(int playerId, int &out factionId, Vector3 &out spawnPos) {
@@ -85,6 +108,19 @@ class PlatoonSpawnCommandTracker : Tracker {
 		}
 
 		_log("PlatoonSpawnCommandTracker: platoon spawned for faction " + factionId + " at " + basePos.toString(), 1);
+	}
+
+	protected void spawnCombatMedicSquad(int factionId, const Vector3 &in basePos) {
+		for (int i = 0; i < COMBAT_MEDIC_COUNT; ++i) {
+			Vector3 p = basePos;
+			float xOffset = (i % 2 == 0) ? -PLATOON_SPAWN_SPACING : PLATOON_SPAWN_SPACING;
+			float zOffset = (i < 2) ? PLATOON_SPAWN_SPACING : -PLATOON_SPAWN_SPACING;
+			p.m_values[0] += xOffset;
+			p.m_values[2] += zOffset;
+			sendSpawnSoldier(COMBAT_MEDIC_SOLDIER_KEY, p, factionId);
+		}
+
+		_log("PlatoonSpawnCommandTracker: combat medics spawned for faction " + factionId + " at " + basePos.toString(), 1);
 	}
 
 	protected void sendSpawnSoldier(const string &in soldierKey, const Vector3 &in pos, int factionId) {

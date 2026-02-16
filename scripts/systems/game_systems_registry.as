@@ -46,10 +46,10 @@ class GameSystemsRegistry {
 
 	// Installiert QuickMatch-Events zentral ueber die Registry:
 	// - Captain-Command (/captain_spawn)
-	// - Single-Base-VIP (optional abschaltbar pro Modus)
+	// - Single-Base-VIP (default AUS: Captain/Escort nur noch ueber Cargo-Truck-Event)
 	// - VehicleIntervalSpawn (inkl. Captain-Integration bei Cargo-Truck)
 	// - IntelManagerQuickMatch
-	void installQuickMatchEventSystems(bool enabled, float intelReward = 100.0f, const string &in intelRequiredCall = "paratroopers1.call", float intelRequiredXP = 0.15f, bool enableSingleBaseVip = true) {
+	void installQuickMatchEventSystems(bool enabled, float intelReward = 100.0f, const string &in intelRequiredCall = "paratroopers1.call", float intelRequiredXP = 0.15f, bool enableSingleBaseVip = false) {
 		if (!enabled) return;
 		if (m_quickMatchEventSystemsInstalled) return;
 
