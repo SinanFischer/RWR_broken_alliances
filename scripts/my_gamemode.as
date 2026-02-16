@@ -10,6 +10,7 @@ const bool CAMPAIGN_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
 const bool CAMPAIGN_ENABLE_EVENT_SYSTEMS = true;
 const bool CAMPAIGN_ENABLE_SPAWN_CAPACITY_SYSTEM = true;
 const bool CAMPAIGN_CAPACITY_DEBUG_HUD = false;
+const bool CAMPAIGN_ENABLE_FACTION_POINTS_SYSTEM = true;
 
 // --------------------------------------------
 class MyGameMode : GameModeCampaign {
@@ -32,7 +33,13 @@ class MyGameMode : GameModeCampaign {
 		m_gameSystemsRegistry.installSpawnCapacitySystem(
 			CAMPAIGN_ENABLE_SPAWN_CAPACITY_SYSTEM,
 			CAMPAIGN_CAPACITY_DEBUG_HUD,
-			true // ohne Debug-HUD: Standard-Alive-HUD aktiv
+			false // Alive-HUD deaktiviert, da FP-HUD aktiv ist
+		);
+		m_gameSystemsRegistry.installFactionPointsSystem(
+			CAMPAIGN_ENABLE_FACTION_POINTS_SYSTEM,
+			true,   // HUD aktiv
+			false,  // Debug-Commands vorerst aus
+			true
 		);
 		m_gameSystemsRegistry.installQuickMatchEventSystems(
 			CAMPAIGN_ENABLE_EVENT_SYSTEMS,

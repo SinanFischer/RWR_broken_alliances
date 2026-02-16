@@ -10,6 +10,7 @@
 #include "trackers/vehicle_interval_spawn.as"
 #include "commands/blackops3_vest_command_tracker.as"
 #include "delivery_unlocks/item_delivery_configurator_quickmatch.as"
+#include "systeme/fraktionspunkte_system/faction_points_system.as"
 
 class GameSystemsRegistry {
 	protected Metagame@ m_metagame;
@@ -24,6 +25,8 @@ class GameSystemsRegistry {
 	protected ItemDeliveryConfiguratorQuickMatch@ m_sharedItemDeliveryConfigurator;
 	protected ItemDeliveryOrganizer@ m_sharedItemDeliveryOrganizer;
 	protected bool m_sharedCommandDeliverySystemsInstalled = false;
+	protected FactionPointsApi@ m_factionPointsApi;
+	protected bool m_factionPointsSystemInstalled = false;
 
 	GameSystemsRegistry(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -100,7 +103,23 @@ class GameSystemsRegistry {
 		m_sharedCommandDeliverySystemsInstalled = true;
 	}
 
+	// Installiert das Fraktionspunkte-System (FP = gemeinsame Team-Punkte je Fraktion).
+	// - core: Event/Tick-Verarbeitung + Persistenz
+	// - hud: Anzeige unten per update_score_display
+	// - debugCommands: /fp-Commands (aktuell Scaffold)
+	void installFactionPointsSystem(bool enabled, bool installHud = true, bool installDebugCommands = false, bool debugCommandsAdminOnly = true) {
+		if (!enabled) return;
+		if (m_factionPointsSystemInstalled) return;
+
+		@m_factionPointsApi = FactionPointsApi(m_metagame);
+		m_factionPointsApi.installCore(true);
+		m_factionPointsApi.installHud(installHud);
+		m_factionPointsApi.installDebugCommands(installDebugCommands, debugCommandsAdminOnly);
+		m_factionPointsSystemInstalled = true;
+	}
+
 	SpawnCapacityApi@ getSpawnCapacityApi() { return m_spawnCapacityApi; }
 	PlatoonSpawnApi@ getPlatoonSpawnApi() { return m_platoonSpawnApi; }
 	CaptainSpawnCommandTracker@ getQuickMatchCaptainTracker() { return m_quickMatchCaptainTracker; }
+	FactionPointsApi@ getFactionPointsApi() { return m_factionPointsApi; }
 }

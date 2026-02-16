@@ -1,4 +1,5 @@
 #include "metagame.as"
+#include "query_helpers.as"
 
 #include "systeme/fraktionspunkte_system/faction_points_store.as"
 #include "systeme/fraktionspunkte_system/faction_points_tracker.as"
@@ -23,7 +24,10 @@ class FactionPointsApi {
 		@m_metagame = @metagame;
 
 		@m_persistence = FactionPointsPersistenceAdapter(m_metagame);
-		@m_store = FactionPointsStore(m_metagame.getFactionCount(), m_persistence);
+		int factionCount = 0;
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions !is null) factionCount = int(factions.size());
+		@m_store = FactionPointsStore(factionCount, m_persistence);
 		m_store.load();
 	}
 

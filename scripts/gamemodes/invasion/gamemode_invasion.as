@@ -68,6 +68,7 @@ const bool INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM = false;
 const bool INVASION_CAPACITY_DEBUG_HUD = false;
 const bool INVASION_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
 const bool INVASION_ENABLE_EVENT_SYSTEMS = true;
+const bool INVASION_ENABLE_FACTION_POINTS_SYSTEM = true;
 
 // --------------------------------------------
 class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
@@ -359,6 +360,12 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 			INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM,
 			INVASION_CAPACITY_DEBUG_HUD,
 			false // Invasion nutzt kein zusaetzliches Alive-HUD aus diesem System
+		);
+		m_systemsRegistry.installFactionPointsSystem(
+			INVASION_ENABLE_FACTION_POINTS_SYSTEM,
+			true,   // HUD aktiv
+			false,  // Debug-Commands vorerst aus
+			true
 		);
 		m_systemsRegistry.installQuickMatchEventSystems(
 			INVASION_ENABLE_EVENT_SYSTEMS,

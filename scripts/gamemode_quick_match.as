@@ -13,6 +13,7 @@ const bool CAPACITY_DEBUG_HUD = false;
 const bool ENABLE_SPAWN_CAPACITY_SYSTEM = true;
 const bool ENABLE_QUICKMATCH_EVENT_SYSTEMS = true;
 const bool ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
+const bool ENABLE_FACTION_POINTS_SYSTEM = true;
 
 // --------------------------------------------
 class GameModeQuickMatch : Metagame {
@@ -45,7 +46,13 @@ class GameModeQuickMatch : Metagame {
 		m_systemsRegistry.installSpawnCapacitySystem(
 			ENABLE_SPAWN_CAPACITY_SYSTEM,
 			CAPACITY_DEBUG_HUD,
-			true // ohne Debug-HUD: Standard-Alive-HUD aktiv
+			false // Alive-HUD deaktiviert, da FP-HUD aktiv ist
+		);
+		m_systemsRegistry.installFactionPointsSystem(
+			ENABLE_FACTION_POINTS_SYSTEM,
+			true,   // HUD aktiv
+			false,  // Debug-Commands vorerst aus
+			true
 		);
 		@m_spawnCapacityApi = m_systemsRegistry.getSpawnCapacityApi();
 		m_systemsRegistry.installQuickMatchEventSystems(

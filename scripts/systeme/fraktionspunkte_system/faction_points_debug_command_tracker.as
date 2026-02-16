@@ -1,10 +1,19 @@
 #include "tracker.as"
 #include "metagame.as"
+#include "helpers.as"
+#include "admin_manager.as"
+#include "query_helpers.as"
+#include "log.as"
 #include "systeme/fraktionspunkte_system/faction_points_store.as"
 
+const string FP_CMD_SHOW = "fp";
+const string FP_CMD_ADD = "fp_add";
+const string FP_CMD_SET = "fp_set";
+
 // Debug-Command-Tracker:
-// Schritt 3 Scaffold, damit API/Installation vollstaendig ist.
-// Fachliche Command-Logik (/fp, /fp_add, /fp_set) folgt in Schritt 7.
+// - /fp
+// - /fp_add <faction_id> <amount>
+// - /fp_set <faction_id> <amount>
 class FactionPointsDebugCommandTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected FactionPointsStore@ m_store;
@@ -19,8 +28,104 @@ class FactionPointsDebugCommandTracker : Tracker {
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
 
-	void update(float time) {
-		// no-op bis Schritt 7
+	protected void handleChatEvent(const XmlElement@ event) {
+		if (event is null || m_store is null) return;
+
+		string message = event.getStringAttribute("message");
+		if (!startsWith(message, "/")) return;
+		if (!isFpCommand(message)) return;
+
+		int senderId = event.getIntAttribute("player_id");
+		string senderName = event.getStringAttribute("player_name");
+
+		if (m_adminOnly && !m_metagame.getAdminManager().isAdmin(senderName, senderId)) {
+			sendPrivateMessage(m_metagame, senderId, "FP command locked: admin only.");
+			return;
+		}
+
+		if (checkCommand(message, FP_CMD_SHOW)) {
+			handleShow(senderId);
+			return;
+		}
+
+		array<string>@ tokens = tokenize(message);
+		if (tokens.size() < 3) {
+			sendUsage(senderId);
+			return;
+		}
+
+		int factionId;
+		int amount;
+		if (!tryParseInt(tokens[1], factionId) || !tryParseInt(tokens[2], amount)) {
+			sendPrivateMessage(m_metagame, senderId, "Invalid args. Use integers: /fp_add <faction_id> <amount>.");
+			return;
+		}
+
+		if (factionId < 0 || factionId >= m_store.getFactionCount()) {
+			sendPrivateMessage(m_metagame, senderId, "Invalid faction_id.");
+			return;
+		}
+
+		if (checkCommand(message, FP_CMD_ADD)) {
+			int nextValue = m_store.add(factionId, amount, true);
+			sendPrivateMessage(m_metagame, senderId, "FP updated: faction " + factionId + " = " + nextValue + ".");
+			return;
+		}
+
+		if (checkCommand(message, FP_CMD_SET)) {
+			int nextValue = m_store.set(factionId, amount, true);
+			sendPrivateMessage(m_metagame, senderId, "FP set: faction " + factionId + " = " + nextValue + ".");
+		}
+	}
+
+	protected bool isFpCommand(const string &in message) const {
+		if (checkCommand(message, FP_CMD_SHOW)) return true;
+		if (checkCommand(message, FP_CMD_ADD)) return true;
+		if (checkCommand(message, FP_CMD_SET)) return true;
+		return false;
+	}
+
+	protected void handleShow(int playerId) {
+		if (m_store is null) return;
+
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		int factionCount = (factions is null) ? 0 : int(factions.size());
+		if (factionCount > m_store.getFactionCount()) {
+			m_store.ensureFactionCount(factionCount);
+		}
+
+		string msg = "FP | ";
+		for (int i = 0; i < m_store.getFactionCount(); ++i) {
+			if (i > 0) msg += " | ";
+			msg += "F" + i + ": " + m_store.get(i);
+		}
+		sendPrivateMessage(m_metagame, playerId, msg);
+	}
+
+	protected void sendUsage(int playerId) {
+		sendPrivateMessage(m_metagame, playerId, "Usage: /fp | /fp_add <faction_id> <amount> | /fp_set <faction_id> <amount>");
+	}
+
+	protected bool tryParseInt(const string &in s, int &out value) {
+		if (s.length() == 0) return false;
+		for (uint i = 0; i < s.length(); ++i) {
+			string c = s.substr(i, 1);
+			if (i == 0 && c == "-") continue;
+			if (c < "0" || c > "9") return false;
+		}
+		value = parseInt(s);
+		return true;
+	}
+
+	protected array<string>@ tokenize(const string &in input) {
+		array<string>@ raw = input.split(" ");
+		array<string>@ cleaned = array<string>();
+		for (uint i = 0; i < raw.size(); ++i) {
+			string t = raw[i];
+			if (t.length() == 0) continue;
+			cleaned.insertLast(t);
+		}
+		return cleaned;
 	}
 }
 

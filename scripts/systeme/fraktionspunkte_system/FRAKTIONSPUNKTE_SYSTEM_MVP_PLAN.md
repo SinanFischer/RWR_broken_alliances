@@ -86,11 +86,11 @@ Hinweis:
 | 1 | Systemordner + Dateigeruest anlegen | Leere, kompilierbare Struktur mit Includes | **Ja** - Ordner + Plan-Doku erstellt |
 | 2 | FP-Store bauen | `get/set/add/spend/canSpend` mit Guards und Invarianten | **Ja** - `faction_points_store.as` + `faction_points_persistence_adapter.as` angelegt |
 | 3 | API + idempotente Installation | `installCore()`, `installHud()`, `installDebug()` | **Ja** - `faction_points_api.as` inkl. idempotenter Install-Flags; Tracker-Scaffold angelegt |
-| 4 | FP-Tracker (MVP-Quellen) | Basiseroberung + Basishalten erzeugt FP-Deltas | **Nein** - offen |
-| 5 | FP-HUD-Tracker | Anzeige FP statt Alive-Count via `update_score_display` | **Nein** - offen |
-| 6 | Alte HUD-Anzeige deaktivieren | `faction_alive_hud_tracker` nicht mehr registrieren | **Nein** - offen |
-| 7 | Debug-Commands fuer Tests | `/fp`, `/fp_add`, `/fp_set` (Admin-only) | **Nein** - offen |
-| 8 | Registry-Integration | Einbindung in `game_systems_registry.as` + Startpfade | **Nein** - offen |
+| 4 | FP-Tracker (MVP-Quellen) | Basiseroberung + Basishalten erzeugt FP-Deltas | **Ja** - in `faction_points_tracker.as` umgesetzt (Capture-Event + Hold-Tick) |
+| 5 | FP-HUD-Tracker | Anzeige FP statt Alive-Count via `update_score_display` | **Ja** - `faction_points_hud_tracker.as` aktiv (dynamisch, max. 3, Text `FP <wert>`) |
+| 6 | Alte HUD-Anzeige deaktivieren | `faction_alive_hud_tracker` nicht mehr registrieren | **Ja** - SpawnCapacity-Fallback-HUD in QuickMatch/Campaign deaktiviert (`defaultAliveHudWhenNoDebug=false`) |
+| 7 | Debug-Commands fuer Tests | `/fp`, `/fp_add`, `/fp_set` (Admin-only) | **Ja** - in `faction_points_debug_command_tracker.as` umgesetzt (Guards + Usage + Save) |
+| 8 | Registry-Integration | Einbindung in `game_systems_registry.as` + Startpfade | **Ja** - `installFactionPointsSystem(...)` in Registry + Aufruf in QuickMatch/Campaign/Invasion |
 | 9 | MVP-Validierung | Reproduzierbare Testfaelle + Logging-Check | **Nein** - offen |
 | 10 | Erweiterungs-Hooks | klare Schnittstellen fuer Last Defense/VIP/Sabotage | **Nein** - offen |
 
