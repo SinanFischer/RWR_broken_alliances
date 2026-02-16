@@ -5,6 +5,7 @@
 #include "query_helpers.as"
 #include "log.as"
 #include "systeme/fraktionspunkte_system/faction_points_store.as"
+#include "systeme/fraktionspunkte_system/events/faction_points_event_registry.as"
 
 const string FP_CMD_SHOW = "fp";
 const string FP_CMD_ADD = "fp_add";
@@ -17,11 +18,13 @@ const string FP_CMD_SET = "fp_set";
 class FactionPointsDebugCommandTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected FactionPointsStore@ m_store;
+	protected FactionPointsEventRegistry@ m_eventRegistry;
 	protected bool m_adminOnly = true;
 
 	FactionPointsDebugCommandTracker(Metagame@ metagame, FactionPointsStore@ store, bool adminOnly = true) {
 		@m_metagame = @metagame;
 		@m_store = @store;
+		@m_eventRegistry = FactionPointsEventRegistry(m_metagame, m_store);
 		m_adminOnly = adminOnly;
 	}
 
@@ -33,7 +36,12 @@ class FactionPointsDebugCommandTracker : Tracker {
 
 		string message = event.getStringAttribute("message");
 		if (!startsWith(message, "/")) return;
-		if (!isFpCommand(message)) return;
+		array<string>@ tokens = tokenize(message);
+		if (tokens.size() == 0) return;
+		string commandToken = normalizeCommandToken(tokens[0]);
+		bool isFpCmd = isFpCommandToken(commandToken);
+		bool isEventCmd = (m_eventRegistry !is null) && m_eventRegistry.isEventCommandToken(commandToken);
+		if (!isFpCmd && !isEventCmd) return;
 
 		int senderId = event.getIntAttribute("player_id");
 		string senderName = event.getStringAttribute("player_name");
@@ -43,12 +51,18 @@ class FactionPointsDebugCommandTracker : Tracker {
 			return;
 		}
 
-		if (checkCommand(message, FP_CMD_SHOW)) {
+		if (isEventCmd) {
+			string eventResponse;
+			m_eventRegistry.tryExecute(commandToken, senderId, eventResponse);
+			sendPrivateMessage(m_metagame, senderId, eventResponse);
+			return;
+		}
+
+		if (commandToken == FP_CMD_SHOW) {
 			handleShow(senderId);
 			return;
 		}
 
-		array<string>@ tokens = tokenize(message);
 		if (tokens.size() < 3) {
 			sendUsage(senderId);
 			return;
@@ -66,23 +80,30 @@ class FactionPointsDebugCommandTracker : Tracker {
 			return;
 		}
 
-		if (checkCommand(message, FP_CMD_ADD)) {
+		if (commandToken == FP_CMD_ADD) {
 			int nextValue = m_store.add(factionId, amount, true);
 			sendPrivateMessage(m_metagame, senderId, "FP updated: faction " + factionId + " = " + nextValue + ".");
 			return;
 		}
 
-		if (checkCommand(message, FP_CMD_SET)) {
+		if (commandToken == FP_CMD_SET) {
 			int nextValue = m_store.set(factionId, amount, true);
 			sendPrivateMessage(m_metagame, senderId, "FP set: faction " + factionId + " = " + nextValue + ".");
 		}
 	}
 
-	protected bool isFpCommand(const string &in message) const {
-		if (checkCommand(message, FP_CMD_SHOW)) return true;
-		if (checkCommand(message, FP_CMD_ADD)) return true;
-		if (checkCommand(message, FP_CMD_SET)) return true;
+	protected bool isFpCommandToken(const string &in token) const {
+		if (token == FP_CMD_SHOW) return true;
+		if (token == FP_CMD_ADD) return true;
+		if (token == FP_CMD_SET) return true;
 		return false;
+	}
+
+	protected string normalizeCommandToken(const string &in rawToken) const {
+		if (rawToken.length() == 0) return "";
+		string token = rawToken.toLowerCase();
+		if (startsWith(token, "/")) token = token.substr(1);
+		return token;
 	}
 
 	protected void handleShow(int playerId) {
@@ -103,7 +124,9 @@ class FactionPointsDebugCommandTracker : Tracker {
 	}
 
 	protected void sendUsage(int playerId) {
-		sendPrivateMessage(m_metagame, playerId, "Usage: /fp | /fp_add <faction_id> <amount> | /fp_set <faction_id> <amount>");
+		string usage = "Usage: /fp | /fp_add <faction_id> <amount> | /fp_set <faction_id> <amount>";
+		if (m_eventRegistry !is null) usage += " | " + m_eventRegistry.getUsage();
+		sendPrivateMessage(m_metagame, playerId, usage);
 	}
 
 	protected bool tryParseInt(const string &in s, int &out value) {

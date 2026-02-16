@@ -43,7 +43,7 @@ class FactionPointsHudTracker : Tracker {
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
 			cmd.setIntAttribute("id", slotIndex);
-			cmd.setStringAttribute("text", "FP " + points);
+			cmd.setStringAttribute("text", "" + points);
 			cmd.setStringAttribute("color", color);
 			m_metagame.getComms().send(cmd);
 		}
