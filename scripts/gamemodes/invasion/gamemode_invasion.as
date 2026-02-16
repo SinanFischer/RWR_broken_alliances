@@ -64,6 +64,10 @@
 #include "trackers/defender_tank_help.as"
 #include "trackers/vehicle_interval_spawn.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // auskommentiert: Reinforcement-Pool-Tracker deaktiviert
+#include "systems/game_systems.as"
+
+const bool INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM = false;
+const bool INVASION_CAPACITY_DEBUG_HUD = false;
 
 // --------------------------------------------
 class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
@@ -74,6 +78,8 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 	protected ItemDeliveryOrganizer@ m_itemDeliveryOrganizer;
 	protected PenaltyManager@ m_penaltyManager; 
 	protected LocalBanManager@ m_localBanManager;
+	protected GameSystemsRegistry@ m_systemsRegistry;
+	protected SpawnCapacityApi@ m_spawnCapacityApi;
 	
 	protected TestingToolsTracker@ m_testingToolsTracker;
 	
@@ -343,6 +349,13 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		addTracker(AutoSaver(this));
 		addTracker(BasicCommandHandler(this));
 		addTracker(SBLTracker(this));
+		@m_systemsRegistry = GameSystemsRegistry(this);
+		m_systemsRegistry.installSpawnCapacitySystem(
+			INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM,
+			INVASION_CAPACITY_DEBUG_HUD,
+			false // Invasion nutzt kein zusaetzliches Alive-HUD aus diesem System
+		);
+		@m_spawnCapacityApi = m_systemsRegistry.getSpawnCapacityApi();
 		
 		setupExperimentalFeatures();
 		setupIcecreamReport();

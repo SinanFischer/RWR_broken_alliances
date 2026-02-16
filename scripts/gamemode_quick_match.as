@@ -4,8 +4,8 @@
 #include "log.as"
 #include "query_helpers.as"
 #include "basic_command_handler.as"
-// Spawn-Capacity-System (Slotblock + Stats + optionales Debug-HUD) als zentrales Modul.
-#include "systems/spawn_capacity/spawn_capacity_system.as"
+// Globales Bundle fuer mode-uebergreifende eigene Systeme.
+#include "systems/game_systems.as"
 #include "trackers/vehicle_interval_spawn.as"
 #include "events/captain_spawn_command_tracker.as"
 #include "events/single_base_vip_tracker.as"
@@ -16,11 +16,13 @@
 
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)
 const bool CAPACITY_DEBUG_HUD = false;
+const bool ENABLE_SPAWN_CAPACITY_SYSTEM = true;
 
 // --------------------------------------------
 class GameModeQuickMatch : Metagame {
 	protected ItemDeliveryOrganizer@ m_itemDeliveryOrganizer;
 	protected ItemDeliveryConfiguratorQuickMatch@ m_itemDeliveryConfigurator;
+	protected GameSystemsRegistry@ m_systemsRegistry;
 	protected SpawnCapacityApi@ m_spawnCapacityApi;
 	// --------------------------------------------
 	GameModeQuickMatch(const XmlElement@ settings) {
@@ -46,14 +48,14 @@ class GameModeQuickMatch : Metagame {
 
 		addTracker(BlackOps3VestCommandTracker(this));
 		addTracker(BasicCommandHandler(this));
-		// Spawn-Capacity-System ueber stabile API aufsetzen.
-		@m_spawnCapacityApi = SpawnCapacityApi(this);
-		m_spawnCapacityApi.installCoreTrackers(); // Slotblock + /stats
-		if (CAPACITY_DEBUG_HUD) {
-			m_spawnCapacityApi.installDebugHud();
-		} else {
-			m_spawnCapacityApi.installDefaultAliveHud(); // HUD: nur Einheiten in 200m
-		}
+		// Spawn-Capacity-System ueber globale Registry aufsetzen.
+		@m_systemsRegistry = GameSystemsRegistry(this);
+		m_systemsRegistry.installSpawnCapacitySystem(
+			ENABLE_SPAWN_CAPACITY_SYSTEM,
+			CAPACITY_DEBUG_HUD,
+			true // ohne Debug-HUD: Standard-Alive-HUD aktiv
+		);
+		@m_spawnCapacityApi = m_systemsRegistry.getSpawnCapacityApi();
 		CaptainSpawnCommandTracker@ captainTr = CaptainSpawnCommandTracker(this);
 		addTracker(captainTr);  // /captain_spawn - 1 Captain + 3 orange_bodyguards; auch bei Cargo-Truck-Spawn
 		addTracker(SingleBaseVipTracker(this, captainTr));  // Bei nur 1 Base: VIP + Escort + 60s Hold, dann Release
