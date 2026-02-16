@@ -51,7 +51,7 @@ class GameModeQuickMatch : Metagame {
 		m_systemsRegistry.installFactionPointsSystem(
 			ENABLE_FACTION_POINTS_SYSTEM,
 			true,   // HUD aktiv
-			false,  // Debug-Commands vorerst aus
+			true,   // Debug-Commands aktiv
 			true
 		);
 		@m_spawnCapacityApi = m_systemsRegistry.getSpawnCapacityApi();

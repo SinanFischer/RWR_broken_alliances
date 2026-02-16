@@ -364,7 +364,7 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		m_systemsRegistry.installFactionPointsSystem(
 			INVASION_ENABLE_FACTION_POINTS_SYSTEM,
 			true,   // HUD aktiv
-			false,  // Debug-Commands vorerst aus
+			true,   // Debug-Commands aktiv
 			true
 		);
 		m_systemsRegistry.installQuickMatchEventSystems(

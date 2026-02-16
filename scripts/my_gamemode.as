@@ -38,7 +38,7 @@ class MyGameMode : GameModeCampaign {
 		m_gameSystemsRegistry.installFactionPointsSystem(
 			CAMPAIGN_ENABLE_FACTION_POINTS_SYSTEM,
 			true,   // HUD aktiv
-			false,  // Debug-Commands vorerst aus
+			true,   // Debug-Commands aktiv
 			true
 		);
 		m_gameSystemsRegistry.installQuickMatchEventSystems(
