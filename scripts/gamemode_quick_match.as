@@ -5,10 +5,8 @@
 #include "query_helpers.as"
 #include "basic_command_handler.as"
 #include "trackers/faction_alive_hud_tracker.as"
-// Capacity-Debug: HUD zeigt "Alive/Capacity" pro Fraktion. RespawnSlotDelayTracker muss vor capacity_debug_hud eingebunden sein.
-#include "trackers/respawn_slot_delay_tracker.as"
-#include "trackers/capacity_debug_hud_tracker.as"
-#include "trackers/stats_command_tracker.as"
+// Spawn-Capacity-System (Slotblock + Stats + optionales Debug-HUD) als zentrales Modul.
+#include "systems/spawn_capacity/spawn_capacity_system.as"
 #include "trackers/vehicle_interval_spawn.as"
 #include "events/captain_spawn_command_tracker.as"
 #include "events/single_base_vip_tracker.as"
