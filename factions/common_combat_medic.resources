@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources clear_weapons="1">
+<resources clear_weapons="1" clear_carry_items="1">
 	<!-- Defibrillator/Trauma-Kit Pool -->
 	<weapon key="medikit_ai.weapon" />
 	<weapon key="taser_medic.weapon" />
@@ -8,4 +8,12 @@
 	<weapon key="steyr_aug.weapon" />
 	<weapon key="famasg1.weapon" />
 	<weapon key="xm8.weapon" />
+
+	<!-- Combat-Medic Westenpool -->
+	<carry_item key="vest1.carry_item" enabled="1" />
+	<carry_item key="vest2.carry_item" enabled="1" />
+	<carry_item key="vest3.carry_item" enabled="1" />
+	<carry_item key="vest4.carry_item" enabled="1" />
+	<carry_item key="vest_blackops.carry_item" enabled="1" />
+	<carry_item key="vest_blackops3.carry_item" enabled="1" />
 </resources>

@@ -10,15 +10,16 @@ Alle **eingebundenen** Chat-Commands des Mods. Ausgenommen: Reinforcement-Pool-T
 
 | Command | Quelle | Gamemode | Zugriff | Beschreibung |
 |--------|--------|----------|---------|--------------|
-| `/stats` oder `/stat` | `trackers/stats_command_tracker.as` | Quick Match | Alle | Statistik pro Fraktion: A-K-D, C-B, B(s). |
-| `/vehicle`, `/vehicle_spawn`, `/fahrzeug` | `trackers/vehicle_interval_spawn.as` | Quick Match, Invasion | Alle | Status: eigene Fraktion - light / medium / heavy (Zeiten in s); heavy zeigt „blocked (leading faction)“ wenn führend. |
-| `/vehicle test`, `/vehicle_spawn test`, `/fahrzeug test` | wie oben | Quick Match, Invasion | **Admin** | Sofort-Spawn eines Leicht-Fahrzeugs für die eigene Fraktion. |
-| `/blackops3` | `commands/blackops3_vest_command_tracker.as` | Quick Match | **Admin** | Spawnt Black-Ops-Veste III (vest_blackops3) bei Spielerposition; nur zum Testen, nicht in Waffenkammer. |
-| `/captain_spawn` | `trackers/captain_spawn_command_tracker.as` | Quick Match | **Admin** | Spawnt 1 Captain + 3 orange_bodyguards bei Spielerposition (eigene Fraktion). |
-| `/captain_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match | **Admin** | Wie oben, mit Paradrop (Höhe). |
-| `/cargo_captain_test` oder `/test_cargo_captain` | `trackers/vehicle_interval_spawn.as` | Quick Match | **Admin** | Test: Spawnt Cargo Truck + Captain an zufälliger Basis deiner Fraktion. Simuliert das Cargo+Captain-Event. |
-| `/test_enemy_cargo_captain` oder `/enemy_cargo_captain_test` | wie oben | Quick Match | **Admin** | Test: Spawnt Cargo Truck + Captain an zufälliger Basis einer **Feind-Fraktion**. Prüft die Feind-Meldung; Private Message nennt Spawn-Ort + Feind-Intel (nach 2 s). **Nicht** `/cargo_*` – BasicCommandHandler würde sonst zusätzlich Truck für eigene Fraktion spawnen. |
-| `/spawn_enemy_cargo` oder `/enemy_cargo_spawn` | wie oben | Quick Match, Invasion | **Admin** | Spawnt einen **feindlichen** Cargo Truck neben der Spielerposition (zum Testen der Cargo-Delivery-Belohnung: in Waffenkammer bringen → RP + Fahrzeug-Spawn). |
+| `/stats` oder `/stat` | `trackers/stats_command_tracker.as` | Quick Match, Campaign | Alle | Statistik pro Fraktion: A-K-D, C-B, B(s). |
+| `/vehicle`, `/vehicle_spawn`, `/fahrzeug` | `trackers/vehicle_interval_spawn.as` | Quick Match, Invasion, Campaign | Alle | Status: eigene Fraktion - light / medium / heavy (Zeiten in s); heavy zeigt „blocked (leading faction)“ wenn führend. |
+| `/vehicle test`, `/vehicle_spawn test`, `/fahrzeug test` | wie oben | Quick Match, Invasion, Campaign | **Admin** | Sofort-Spawn eines Leicht-Fahrzeugs für die eigene Fraktion. |
+| `/blackops3` | `commands/blackops3_vest_command_tracker.as` | Quick Match, Invasion, Campaign | **Admin** | Spawnt Black-Ops-Veste III (vest_blackops3) bei Spielerposition; nur zum Testen, nicht in Waffenkammer. |
+| `/captain_spawn` | `events/captain_spawn_command_tracker.as` | Quick Match, Invasion, Campaign | **Admin** | Spawnt 1 Captain + 3 orange_bodyguards bei Spielerposition (eigene Fraktion). |
+| `/captain_spawn paradrop` (oder `para`, `1`) | wie oben | Quick Match, Invasion, Campaign | **Admin** | Wie oben, mit Paradrop (Höhe). |
+| `/platoon` | `systems/platoon_spawn/platoon_spawn_command_tracker.as` | Quick Match, Invasion, Campaign | **Admin** | Spawnt Platoon-Squad: 1 Miniboss + 4 `default_ai` als Fallschirm-Einflug nahe Spielerposition. |
+| `/cargo_captain_test` oder `/test_cargo_captain` | `trackers/vehicle_interval_spawn.as` | Quick Match, Invasion, Campaign | **Admin** | Test: Spawnt Cargo Truck + Captain an zufälliger Basis deiner Fraktion. Simuliert das Cargo+Captain-Event. |
+| `/test_enemy_cargo_captain` oder `/enemy_cargo_captain_test` | wie oben | Quick Match, Invasion, Campaign | **Admin** | Test: Spawnt Cargo Truck + Captain an zufälliger Basis einer **Feind-Fraktion**. Prüft die Feind-Meldung; Private Message nennt Spawn-Ort + Feind-Intel (nach 2 s). **Nicht** `/cargo_*` – BasicCommandHandler würde sonst zusätzlich Truck für eigene Fraktion spawnen. |
+| `/spawn_enemy_cargo` oder `/enemy_cargo_spawn` | wie oben | Quick Match, Invasion, Campaign | **Admin** | Spawnt einen **feindlichen** Cargo Truck neben der Spielerposition (zum Testen der Cargo-Delivery-Belohnung: in Waffenkammer bringen → RP + Fahrzeug-Spawn). |
 | *Cargo-Truck-Spawn* | `vehicle_interval_spawn` + `captain_spawn` | Quick Match | automatisch | Wenn zufällig ein Cargo Truck spawnt (Medium, ~9 % Chance): Captain-Team spawnt mit. Nachrichten an alle Fraktionen. |
 | `/test_defender_tank` | `trackers/defender_tank_help.as` | **nur Invasion** | **Admin** | Simuliert Panzer-Spawn für Verteidiger (Test). |
 
@@ -64,10 +65,11 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 
 | Gamemode | Mod-Commands | BasicCommandHandler | SupporterCommandHandler | DefenderTankHelp |
 |----------|----------------|---------------------|--------------------------|------------------|
-| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/cargo_captain_test`, `/test_enemy_cargo_captain`, `/spawn_enemy_cargo` | ja | nein | nein |
-| **Invasion**   | `/vehicle`, `/fahrzeug`, `/spawn_enemy_cargo`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
+| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/cargo_captain_test`, `/test_enemy_cargo_captain`, `/spawn_enemy_cargo` | ja | nein | nein |
+| **Invasion**   | `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/spawn_enemy_cargo`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
+| **Campaign**   | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/spawn_enemy_cargo` | nein | nein | ja |
 
-*Hinweis: `/captain_spawn` und `/cargo_captain_test` sind nur in Quick Match eingebunden. `/blackops3` (Admin-Spawn bei Spieler) nur Quick Match. `/spawn_enemy_cargo` (feindlicher Cargo neben Spieler) in Quick Match und Invasion.*
+*Hinweis: Die Mod-Commands werden zentral über `GameSystemsRegistry` installiert. Aktivierung erfolgt pro Modus über die Flags im jeweiligen Gamemode-Script.*
 
 ---
 
