@@ -20,6 +20,7 @@ const float ALIVE_CHECK_INTERVAL = 15.0f; // Alle 15 s: Alive-Zahlen prüfen, Ex
 const int   TROOPS_PER_EXTRA_BLOCK = 25;  // Alle 25 Truppen Vorsprung …
 const float EXTRA_SECONDS_PER_BLOCK = 4.0f; // … = 2 Sekunden länger Slot-Delay
 // Slots per Death: <70→1, 70-120→2, 121-200→3, 201-250→4, 251-299→5, >=300→6; Führer +2 (getSlotsPerDeathForCapacity).
+// Schwächste Fraktion: Wenn eine Fraktion die wenigsten Basen hat UND ≤2 Basen, wird für sie der Slotblock deaktiviert (Vanilla-Spawn).
 const float APPLY_INTERVAL = 1.0f;        // Alle 1 s an Engine senden (genauerer Delay-Effekt)
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f;  // Min-Mult, damit Engine Fraktion nicht als „tot“ sieht
 //
@@ -220,9 +221,28 @@ class RespawnSlotDelayTracker : Tracker {
 		else m_deathTimestamps.delete(key);
 	}
 
+	// true, wenn diese Fraktion die wenigsten Basen hat und ≤2 Basen → Slotblock aus (Vanilla-Spawn).
+	bool isWeakestFactionSlotBlockDisabled(int factionId, int minBases) {
+		string key = "" + factionId;
+		if (!m_basesPerFaction.exists(key)) return false;
+		int bases = int(m_basesPerFaction[key]);
+		return (bases <= 2 && bases == minBases);
+	}
+
 	void applyCapacityWithReservedSlots() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
+
+		// Min-Basen über alle Fraktionen (für „schwächste Fraktion“)
+		int minBases = 999;
+		for (uint i = 0; i < factions.size(); ++i) {
+			string key = "" + int(i);
+			if (m_basesPerFaction.exists(key)) {
+				int b = int(m_basesPerFaction[key]);
+				if (b < minBases) minBases = b;
+			}
+		}
+		if (minBases == 999) minBases = 0;
 
 		XmlElement command("command");
 		command.setStringAttribute("class", "change_game_settings");
@@ -231,12 +251,17 @@ class RespawnSlotDelayTracker : Tracker {
 			int rawCap = factions[i].getIntAttribute("soldier_capacity");
 			if (rawCap < 0) rawCap = 0;
 			int reserved = getReservedSlots(fid);
-			float effective = float(rawCap) - float(reserved);
-			if (effective < 0.0f) effective = 0.0f;
-			float mult = (rawCap > 0) ? (effective / float(rawCap)) : CAPACITY_MULTIPLIER_NEAR_ZERO;
-			if (mult < CAPACITY_MULTIPLIER_NEAR_ZERO) mult = CAPACITY_MULTIPLIER_NEAR_ZERO;
+			float mult;
+			if (isWeakestFactionSlotBlockDisabled(fid, minBases)) {
+				mult = 1.0f;  // Schwächste Fraktion (≤2 Basen): kein Slotblock, Vanilla-Spawn
+			} else {
+				float effective = float(rawCap) - float(reserved);
+				if (effective < 0.0f) effective = 0.0f;
+				mult = (rawCap > 0) ? (effective / float(rawCap)) : CAPACITY_MULTIPLIER_NEAR_ZERO;
+				if (mult < CAPACITY_MULTIPLIER_NEAR_ZERO) mult = CAPACITY_MULTIPLIER_NEAR_ZERO;
+			}
 
-			if (reserved > 0)
+			if (reserved > 0 && mult < 1.0f)
 				_log("RespawnSlotDelay: fid=" + fid + " reserved=" + reserved + " mult=" + mult, 1);
 
 			XmlElement faction("faction");
@@ -250,11 +275,19 @@ class RespawnSlotDelayTracker : Tracker {
 	}
 
 	// Für Debug-HUD: effektive Capacity (rawCap - reserved), die die Engine für Spawn-Limit nutzt.
+	// Schwächste Fraktion (≤2 Basen): Slotblock aus → effective = rawCap.
 	int getEffectiveCapacityForFaction(int factionId) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factionId < 0 || uint(factionId) >= factions.size()) return 0;
 		int rawCap = factions[factionId].getIntAttribute("soldier_capacity");
 		if (rawCap < 0) rawCap = 0;
+		int minBases = 999;
+		for (uint i = 0; i < factions.size(); ++i) {
+			string k = "" + int(i);
+			if (m_basesPerFaction.exists(k)) { int b = int(m_basesPerFaction[k]); if (b < minBases) minBases = b; }
+		}
+		if (minBases == 999) minBases = 0;
+		if (isWeakestFactionSlotBlockDisabled(factionId, minBases)) return rawCap;
 		int reserved = getReservedSlots(factionId);
 		int effective = rawCap - reserved;
 		return (effective > 0) ? effective : 0;
