@@ -8,6 +8,11 @@ const int FP_EVENT2_COST = 1200;
 const string FP_EVENT2_PLATOON_CALL_KEY = "paratroopers2.call";
 const int FP_EVENT2_PLATOON_COUNT = 2;
 const float FP_EVENT2_OUTSIDE_RADIUS = 42.0f;
+const float FP_EVENT2_ANNOUNCEMENT_DELAY = 60.0f;
+const string FP_EVENT2_FRIENDLY_ANNOUNCEMENT = "Company assault assigned. Strike package launches in 60 seconds.";
+const string FP_EVENT2_FRIENDLY_EXECUTION = "Strike package deployed. Push the objective and hold pressure.";
+const string FP_EVENT2_ENEMY_ANNOUNCEMENT = "Hostile company assault detected. Impact in 60 seconds.";
+const string FP_EVENT2_ENEMY_EXECUTION = "Hostile strike package has entered your sector.";
 
 // Event2 (AI Event):
 // Bedingung: gueltige Zielbasis vorhanden.
@@ -23,6 +28,11 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 	string getDisplayName() const { return FP_EVENT2_NAME; }
 	int getCost() const { return FP_EVENT2_COST; }
 	bool isPlayerEvent() const { return false; }
+	float getAnnouncementDelaySeconds() const { return FP_EVENT2_ANNOUNCEMENT_DELAY; }
+	string getFriendlyAnnouncementText() const { return FP_EVENT2_FRIENDLY_ANNOUNCEMENT; }
+	string getFriendlyExecutionText() const { return FP_EVENT2_FRIENDLY_EXECUTION; }
+	string getEnemyAnnouncementText() const { return FP_EVENT2_ENEMY_ANNOUNCEMENT; }
+	string getEnemyExecutionText() const { return FP_EVENT2_ENEMY_EXECUTION; }
 
 	bool canExecute(int playerId, int factionId, string &out reason) {
 		Vector3 refPos;

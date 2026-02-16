@@ -12,6 +12,8 @@ Ein zentraler Ueberblick ueber alle Fraktionspunkte-Events (FP-Events), deren Be
 
 ## Technischer Aufbau
 
+- `docs/ueberblick/COMMANDER_TONALITAET.md`  
+  Verbindliche Sprach- und Tonregeln fuer Commander-Meldungen (abgeleitet aus `docs/ueberblick/ERA_STORY.md`).
 - `faction_points_event_interface.as`  
   Vertrag fuer Events: `getCost`, `canExecute`, `execute`.
 - `faction_points_event_registry.as`  
@@ -29,7 +31,7 @@ Ein zentraler Ueberblick ueber alle Fraktionspunkte-Events (FP-Events), deren Be
 
 | Event | Typ | Command | Kosten (FP) | Bedingung | Aktion | Simulierbar | Status |
 |---|---|---|---:|---|---|---|---|
-| Event1 Support-Ausflug | PlayerEvent | `/event1` | 250 | `squad_size <= 2` beim ausloesenden Spieler | `paratroopers_medic.call` an Spielerposition | Ja (Admin-only) | Aktiv |
+| Event1 Support-Ausflug | PlayerEvent | `/event1` | 250 | `squad_size <= 2` beim ausloesenden Spieler | `paratroopers1.call` nahe Spielerposition | Ja (Admin-only) | Aktiv |
 | Event2 Company-Angriff | AI Event | `/event2` | 1200 | Gegnerbasis vorhanden + genug FP | 2x `paratroopers2.call` seitlich/ausserhalb der gegnerischen Basis | Ja (Admin-only) | Aktiv |
 | Event3 Defense-Response | AI Event | `/event3` | 700 | Fraktion hat kuerzlich eine Basis verloren + genug FP | 3x `paratroopers1.call` seitlich/ausserhalb der verlorenen Basis | Ja (`/event3_sim`) | Aktiv |
 
@@ -40,22 +42,25 @@ Ein zentraler Ueberblick ueber alle Fraktionspunkte-Events (FP-Events), deren Be
 ### Event1
 
 - `FP_EVENT1_COST = 250`
-- `FP_EVENT1_CALL_KEY = paratroopers_medic.call`
+- `FP_EVENT1_CALL_KEY = paratroopers1.call`
 - `FP_EVENT1_SQUAD_HALF_THRESHOLD = 2`
+- `FP_EVENT1_ANNOUNCEMENT_DELAY = 0`
 
 ### Event2
 
 - `FP_EVENT2_COST = 1200`
 - `FP_EVENT2_PLATOON_CALL_KEY = paratroopers2.call`
 - `FP_EVENT2_PLATOON_COUNT = 2`
-- `FP_EVENT2_OUTSIDE_RADIUS = 24.0`
+- `FP_EVENT2_OUTSIDE_RADIUS = 42.0`
+- `FP_EVENT2_ANNOUNCEMENT_DELAY = 60`
 
 ### Event3
 
 - `FP_EVENT3_COST = 700`
 - `FP_EVENT3_CALL_KEY = paratroopers1.call`
 - `FP_EVENT3_CALL_COUNT = 3`
-- `FP_EVENT3_RING_RADIUS = 22.0`
+- `FP_EVENT3_RING_RADIUS = 42.0`
+- `FP_EVENT3_ANNOUNCEMENT_DELAY = 20`
 
 ---
 
@@ -65,8 +70,10 @@ Ein zentraler Ueberblick ueber alle Fraktionspunkte-Events (FP-Events), deren Be
 2. Registry resolved Event-Strategy und unterscheidet `PlayerEvent` vs. `AI Event`.
 3. `canExecute(...)` prueft Bedingung im passenden Kontext (mit/ohne `player_id`).
 4. FP-Konto prueft `canSpend(...)`.
-5. Event fuehrt Aktion aus.
-6. FP-Abzug via `spend(...)` + Save.
+5. Friendly + Enemy Commander-Ankuendigung wird gesendet.
+6. Bei Delay > 0 wird Event in Queue eingeplant, sonst sofort ausgefuehrt.
+7. Nach Ablauf startet der Spawn und es folgt die zweite Commander-Meldung.
+8. FP-Abzug via `spend(...)` + Save.
 
 ---
 

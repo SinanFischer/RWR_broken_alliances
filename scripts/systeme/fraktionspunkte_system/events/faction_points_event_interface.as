@@ -6,6 +6,11 @@ interface FactionPointsEvent {
 	string getDisplayName() const;
 	int getCost() const;
 	bool isPlayerEvent() const;
+	float getAnnouncementDelaySeconds() const;
+	string getFriendlyAnnouncementText() const;
+	string getFriendlyExecutionText() const;
+	string getEnemyAnnouncementText() const;
+	string getEnemyExecutionText() const;
 
 	// reason = Fehlergrund bei false
 	bool canExecute(int playerId, int factionId, string &out reason);

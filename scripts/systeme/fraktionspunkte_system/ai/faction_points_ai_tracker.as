@@ -25,6 +25,9 @@ class FactionPointsAiTracker : Tracker {
 	bool hasStarted() const { return true; }
 
 	void update(float time) {
+		if (m_eventRegistry !is null) {
+			m_eventRegistry.update(time);
+		}
 		if (m_planner is null) return;
 		m_decisionTimer -= time;
 		if (m_decisionTimer > 0.0f) return;

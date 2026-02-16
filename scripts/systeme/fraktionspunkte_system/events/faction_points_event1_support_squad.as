@@ -6,6 +6,11 @@ const string FP_EVENT1_TOKEN = "event1";
 const string FP_EVENT1_NAME = "Support-Ausflug";
 const int FP_EVENT1_COST = 250;
 const string FP_EVENT1_CALL_KEY = "paratroopers1.call";
+const float FP_EVENT1_ANNOUNCEMENT_DELAY = 0.0f;
+const string FP_EVENT1_FRIENDLY_ANNOUNCEMENT = "Your squad is below combat strength. Dispatching a support team to you soldier.";
+const string FP_EVENT1_FRIENDLY_EXECUTION = "Support team has reached your sector. Good luck!";
+const string FP_EVENT1_ENEMY_ANNOUNCEMENT = "";
+const string FP_EVENT1_ENEMY_EXECUTION = "";
 const int FP_EVENT1_SQUAD_HALF_THRESHOLD = 2;
 const float FP_EVENT1_PLAYER_OFFSET_X = 6.0f;
 const float FP_EVENT1_PLAYER_OFFSET_Z = 3.0f;
@@ -24,6 +29,11 @@ class FactionPointsEvent1SupportSquad : FactionPointsEvent {
 	string getDisplayName() const { return FP_EVENT1_NAME; }
 	int getCost() const { return FP_EVENT1_COST; }
 	bool isPlayerEvent() const { return true; }
+	float getAnnouncementDelaySeconds() const { return FP_EVENT1_ANNOUNCEMENT_DELAY; }
+	string getFriendlyAnnouncementText() const { return FP_EVENT1_FRIENDLY_ANNOUNCEMENT; }
+	string getFriendlyExecutionText() const { return FP_EVENT1_FRIENDLY_EXECUTION; }
+	string getEnemyAnnouncementText() const { return FP_EVENT1_ENEMY_ANNOUNCEMENT; }
+	string getEnemyExecutionText() const { return FP_EVENT1_ENEMY_EXECUTION; }
 
 	bool canExecute(int playerId, int factionId, string &out reason) {
 		if (playerId < 0) {

@@ -10,6 +10,11 @@ const int FP_EVENT3_COST = 700;
 const string FP_EVENT3_CALL_KEY = "paratroopers1.call";
 const int FP_EVENT3_CALL_COUNT = 3;
 const float FP_EVENT3_RING_RADIUS = 42.0f;
+const float FP_EVENT3_ANNOUNCEMENT_DELAY = 20.0f;
+const string FP_EVENT3_FRIENDLY_ANNOUNCEMENT = "Defense response authorized. Reinforcements arrive in 20 seconds.";
+const string FP_EVENT3_FRIENDLY_EXECUTION = "Defense response deployed at lost base perimeter.";
+const string FP_EVENT3_ENEMY_ANNOUNCEMENT = "Enemy defense reinforcements preparing near a lost base.";
+const string FP_EVENT3_ENEMY_EXECUTION = "Enemy defense reinforcements have deployed.";
 
 // Event3 (AI Event):
 // Bedingung: Fraktion hat kuerzlich eine Basis verloren.
@@ -25,6 +30,11 @@ class FactionPointsEvent3DefenseResponse : FactionPointsEvent {
 	string getDisplayName() const { return FP_EVENT3_NAME; }
 	int getCost() const { return FP_EVENT3_COST; }
 	bool isPlayerEvent() const { return false; }
+	float getAnnouncementDelaySeconds() const { return FP_EVENT3_ANNOUNCEMENT_DELAY; }
+	string getFriendlyAnnouncementText() const { return FP_EVENT3_FRIENDLY_ANNOUNCEMENT; }
+	string getFriendlyExecutionText() const { return FP_EVENT3_FRIENDLY_EXECUTION; }
+	string getEnemyAnnouncementText() const { return FP_EVENT3_ENEMY_ANNOUNCEMENT; }
+	string getEnemyExecutionText() const { return FP_EVENT3_ENEMY_EXECUTION; }
 
 	bool canExecute(int playerId, int factionId, string &out reason) {
 		int lostBaseId = -1;

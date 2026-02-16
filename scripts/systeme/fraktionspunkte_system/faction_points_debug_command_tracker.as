@@ -36,6 +36,11 @@ class FactionPointsDebugCommandTracker : Tracker {
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
 
+	void update(float time) {
+		if (m_eventRegistry is null) return;
+		m_eventRegistry.update(time);
+	}
+
 	protected void handleChatEvent(const XmlElement@ event) {
 		if (event is null || m_store is null) return;
 
