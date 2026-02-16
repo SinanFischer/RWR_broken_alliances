@@ -8,7 +8,7 @@ Die FP-AI entscheidet periodisch pro Fraktion, ob FP sofort ausgegeben oder gesp
 
 1. `FactionPointsAiTracker` startet alle `FP_AI_DECISION_INTERVAL` Sekunden einen Tick.
 2. `FactionPointsAiPlanner` baut pro Fraktion einen `DecisionContext`.
-3. `FactionPointsAiScorer` berechnet Utility-Scores fuer bekannte Events (`event1`, `event2`).
+3. `FactionPointsAiScorer` berechnet Utility-Scores fuer bekannte Events (`event1`, `event2`, `event3`).
 4. Planner waehlt das beste Event oberhalb Schwellwert und fuehrt es ueber `FactionPointsEventRegistry` aus.
 
 ## Event-Typen
@@ -20,7 +20,7 @@ Die FP-AI entscheidet periodisch pro Fraktion, ob FP sofort ausgegeben oder gesp
 
 - `FP_AI_MIN_POINTS_RESERVE`: Sicherheitsreserve, die nach Ausgaben verbleiben muss.
 - `FP_AI_MIN_UTILITY_TO_SPEND`: Mindest-Score zum Ausloesen.
-- `FP_AI_EVENT1_IMPORTANCE`, `FP_AI_EVENT2_IMPORTANCE`: Prioritaetsgewichte.
+- `FP_AI_EVENT1_IMPORTANCE`, `FP_AI_EVENT2_IMPORTANCE`, `FP_AI_EVENT3_IMPORTANCE`: Prioritaetsgewichte.
 - `FP_AI_EVENT2_SAVE_TARGET`: Sparziel fuer Angriffs-Event.
 
 ## Debug-Kommandos

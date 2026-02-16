@@ -7,7 +7,7 @@ const string FP_EVENT2_NAME = "Company-Angriff";
 const int FP_EVENT2_COST = 1200;
 const string FP_EVENT2_PLATOON_CALL_KEY = "paratroopers2.call";
 const int FP_EVENT2_PLATOON_COUNT = 2;
-const float FP_EVENT2_CALL_SPACING = 8.0f;
+const float FP_EVENT2_OUTSIDE_RADIUS = 42.0f;
 
 // Event2 (AI Event):
 // Bedingung: gueltige Zielbasis vorhanden.
@@ -53,9 +53,25 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 		}
 
 		Vector3 basePos = stringToVector3(targetBase.getStringAttribute("position"));
+		float dx = basePos.m_values[0] - refPos.m_values[0];
+		float dz = basePos.m_values[2] - refPos.m_values[2];
+		float length2d = sqrt(dx * dx + dz * dz);
+		float dirX = 1.0f;
+		float dirZ = 0.0f;
+		if (length2d > 0.01f) {
+			dirX = dx / length2d;
+			dirZ = dz / length2d;
+		}
+		float sideX = -dirZ;
+		float sideZ = dirX;
+
 		for (int i = 0; i < FP_EVENT2_PLATOON_COUNT; ++i) {
 			Vector3 callPos = basePos;
-			callPos.m_values[0] += (i == 0) ? -FP_EVENT2_CALL_SPACING : FP_EVENT2_CALL_SPACING;
+			float sideMul = (i == 0) ? -1.0f : 1.0f;
+			callPos.m_values[0] += sideX * (FP_EVENT2_OUTSIDE_RADIUS * sideMul);
+			callPos.m_values[2] += sideZ * (FP_EVENT2_OUTSIDE_RADIUS * sideMul);
+			callPos.m_values[0] += dirX * FP_EVENT2_OUTSIDE_RADIUS;
+			callPos.m_values[2] += dirZ * FP_EVENT2_OUTSIDE_RADIUS;
 
 			string cmd = "<command class='create_instance' instance_class='call' instance_key='" + FP_EVENT2_PLATOON_CALL_KEY +
 				"' position='" + callPos.toString() + "' faction_id='" + factionId + "' />";

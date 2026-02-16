@@ -10,6 +10,9 @@ class FactionPointsAiScorer {
 		if (token == "event2") {
 			return scoreEvent2(ctx);
 		}
+		if (token == "event3") {
+			return scoreEvent3(ctx);
+		}
 		return 0.0f;
 	}
 
@@ -37,6 +40,15 @@ class FactionPointsAiScorer {
 			score *= 0.75f;
 		}
 		return clamp01(score);
+	}
+
+	protected float scoreEvent3(const FactionPointsAiDecisionContext &in ctx) const {
+		// Defense hat Vorrang, wenn die Fraktion wenige Basen haelt.
+		float pressure = 0.35f;
+		if (ctx.m_basesOwned <= 1) pressure = 1.0f;
+		else if (ctx.m_basesOwned == 2) pressure = 0.85f;
+		else if (ctx.m_basesOwned == 3) pressure = 0.65f;
+		return clamp01(FP_AI_EVENT3_IMPORTANCE * pressure);
 	}
 
 	protected float clamp01(float value) const {

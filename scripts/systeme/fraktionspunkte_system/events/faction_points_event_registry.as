@@ -3,6 +3,7 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event1_support_squad.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event2_company_attack.as"
+#include "systeme/fraktionspunkte_system/events/faction_points_event3_defense_response.as"
 
 // Event-Registry (Registry = zentrale Event-Verwaltung und Lookup).
 class FactionPointsEventRegistry {
@@ -10,18 +11,25 @@ class FactionPointsEventRegistry {
 	protected FactionPointsStore@ m_store;
 	protected FactionPointsEvent1SupportSquad@ m_event1;
 	protected FactionPointsEvent2CompanyAttack@ m_event2;
+	protected FactionPointsEvent3DefenseResponse@ m_event3;
 
 	FactionPointsEventRegistry(Metagame@ metagame, FactionPointsStore@ store) {
 		@m_metagame = @metagame;
 		@m_store = @store;
 		@m_event1 = FactionPointsEvent1SupportSquad(m_metagame);
 		@m_event2 = FactionPointsEvent2CompanyAttack(m_metagame);
+		@m_event3 = FactionPointsEvent3DefenseResponse(m_metagame);
 	}
 
 	bool isEventCommandToken(const string &in token) const {
 		if (token == m_event1.getCommandToken()) return true;
 		if (token == m_event2.getCommandToken()) return true;
+		if (token == m_event3.getCommandToken()) return true;
 		return false;
+	}
+
+	bool isSimulationCommandToken(const string &in token) const {
+		return token == FP_EVENT3_SIM_TOKEN;
 	}
 
 	bool isPlayerEventToken(const string &in token) const {
@@ -31,7 +39,8 @@ class FactionPointsEventRegistry {
 	}
 
 	string getUsage() const {
-		return "Events: /event1 (cost " + m_event1.getCost() + "), /event2 (cost " + m_event2.getCost() + ")";
+		return "Events: /event1 (cost " + m_event1.getCost() + "), /event2 (cost " + m_event2.getCost() +
+			"), /event3 (cost " + m_event3.getCost() + "), /event3_sim (simulation)";
 	}
 
 	int getCostByToken(const string &in token) const {
@@ -69,6 +78,26 @@ class FactionPointsEventRegistry {
 
 		// AI-Event aus Player-Kontext: Fraktion aus Sender ableiten, Player-Kontext ignorieren.
 		return tryExecuteForFaction(token, factionId, response);
+	}
+
+	bool tryExecuteSimulation(const string &in token, int playerId, string &out response) {
+		if (!isSimulationCommandToken(token)) {
+			response = "Unbekannter Simulation-Command.";
+			return false;
+		}
+
+		const XmlElement@ playerInfo = getPlayerInfo(m_metagame, playerId);
+		if (playerInfo is null) {
+			response = "Player nicht gefunden.";
+			return false;
+		}
+		int factionId = playerInfo.getIntAttribute("faction_id");
+		if (factionId < 0) {
+			response = "Ungueltige Fraktion.";
+			return false;
+		}
+
+		return m_event3.simulateAtFriendlyBase(factionId, response);
 	}
 
 	bool tryExecuteForFaction(const string &in token, int factionId, string &out response) {
@@ -127,6 +156,7 @@ class FactionPointsEventRegistry {
 	protected FactionPointsEvent@ getEventByToken(const string &in token) const {
 		if (token == m_event1.getCommandToken()) return m_event1;
 		if (token == m_event2.getCommandToken()) return m_event2;
+		if (token == m_event3.getCommandToken()) return m_event3;
 		return null;
 	}
 

@@ -20,6 +20,8 @@ Ein zentraler Ueberblick ueber alle Fraktionspunkte-Events (FP-Events), deren Be
   Support-Ausflug (`/event1`).
 - `faction_points_event2_company_attack.as`  
   Company-Angriff (`/event2`).
+- `faction_points_event3_defense_response.as`  
+  Defense-Response (`/event3`, `/event3_sim`).
 
 ---
 
@@ -28,7 +30,8 @@ Ein zentraler Ueberblick ueber alle Fraktionspunkte-Events (FP-Events), deren Be
 | Event | Typ | Command | Kosten (FP) | Bedingung | Aktion | Simulierbar | Status |
 |---|---|---|---:|---|---|---|---|
 | Event1 Support-Ausflug | PlayerEvent | `/event1` | 250 | `squad_size <= 2` beim ausloesenden Spieler | `paratroopers_medic.call` an Spielerposition | Ja (Admin-only) | Aktiv |
-| Event2 Company-Angriff | AI Event | `/event2` | 1200 | Gegnerbasis vorhanden + genug FP | 2x `paratroopers2.call` an naechster gegnerischer Basis | Ja (Admin-only) | Aktiv |
+| Event2 Company-Angriff | AI Event | `/event2` | 1200 | Gegnerbasis vorhanden + genug FP | 2x `paratroopers2.call` seitlich/ausserhalb der gegnerischen Basis | Ja (Admin-only) | Aktiv |
+| Event3 Defense-Response | AI Event | `/event3` | 700 | Fraktion hat kuerzlich eine Basis verloren + genug FP | 3x `paratroopers1.call` seitlich/ausserhalb der verlorenen Basis | Ja (`/event3_sim`) | Aktiv |
 
 ---
 
@@ -45,13 +48,20 @@ Ein zentraler Ueberblick ueber alle Fraktionspunkte-Events (FP-Events), deren Be
 - `FP_EVENT2_COST = 1200`
 - `FP_EVENT2_PLATOON_CALL_KEY = paratroopers2.call`
 - `FP_EVENT2_PLATOON_COUNT = 2`
-- `FP_EVENT2_CALL_SPACING = 8.0`
+- `FP_EVENT2_OUTSIDE_RADIUS = 24.0`
+
+### Event3
+
+- `FP_EVENT3_COST = 700`
+- `FP_EVENT3_CALL_KEY = paratroopers1.call`
+- `FP_EVENT3_CALL_COUNT = 3`
+- `FP_EVENT3_RING_RADIUS = 22.0`
 
 ---
 
 ## Ablauf (Engine-Datenfluss)
 
-1. Admin triggert `/event1` oder `/event2` (fuer Tests) oder AI triggert intern.
+1. Admin triggert `/event1`, `/event2`, `/event3` oder `/event3_sim` (fuer Tests) oder AI triggert intern.
 2. Registry resolved Event-Strategy und unterscheidet `PlayerEvent` vs. `AI Event`.
 3. `canExecute(...)` prueft Bedingung im passenden Kontext (mit/ohne `player_id`).
 4. FP-Konto prueft `canSpend(...)`.

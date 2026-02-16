@@ -46,7 +46,8 @@ class FactionPointsDebugCommandTracker : Tracker {
 		string commandToken = normalizeCommandToken(tokens[0]);
 		bool isFpCmd = isFpCommandToken(commandToken);
 		bool isEventCmd = (m_eventRegistry !is null) && m_eventRegistry.isEventCommandToken(commandToken);
-		if (!isFpCmd && !isEventCmd) return;
+		bool isSimulationCmd = (m_eventRegistry !is null) && m_eventRegistry.isSimulationCommandToken(commandToken);
+		if (!isFpCmd && !isEventCmd && !isSimulationCmd) return;
 
 		int senderId = event.getIntAttribute("player_id");
 		string senderName = event.getStringAttribute("player_name");
@@ -60,6 +61,12 @@ class FactionPointsDebugCommandTracker : Tracker {
 			string eventResponse;
 			m_eventRegistry.tryExecute(commandToken, senderId, eventResponse);
 			sendPrivateMessage(m_metagame, senderId, eventResponse);
+			return;
+		}
+		if (isSimulationCmd) {
+			string simulationResponse;
+			m_eventRegistry.tryExecuteSimulation(commandToken, senderId, simulationResponse);
+			sendPrivateMessage(m_metagame, senderId, simulationResponse);
 			return;
 		}
 

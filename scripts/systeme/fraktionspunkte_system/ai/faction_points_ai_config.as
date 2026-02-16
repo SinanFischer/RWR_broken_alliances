@@ -8,6 +8,7 @@ const bool FP_AI_VERBOSE_LOG = false;
 // Prioritaetsindex (Importance Index = relative strategische Wichtigkeit).
 const float FP_AI_EVENT1_IMPORTANCE = 0.60f;
 const float FP_AI_EVENT2_IMPORTANCE = 0.90f;
+const float FP_AI_EVENT3_IMPORTANCE = 1.00f;
 
 // Sparziel (Save Target = FP-Wert, auf den aktiv hingespart wird).
 const int FP_AI_EVENT2_SAVE_TARGET = 1200;

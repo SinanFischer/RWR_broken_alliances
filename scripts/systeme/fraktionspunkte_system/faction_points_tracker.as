@@ -3,6 +3,7 @@
 #include "log.as"
 #include "query_helpers.as"
 #include "systeme/fraktionspunkte_system/faction_points_store.as"
+#include "systeme/fraktionspunkte_system/events/faction_points_defense_state.as"
 
 const float FP_AUTOSAVE_INTERVAL = 30.0f;
 const float FP_HOLD_TICK_INTERVAL = 20.0f;
@@ -54,6 +55,8 @@ class FactionPointsTracker : Tracker {
 
 		int newOwnerId = event.getIntAttribute("owner_id");
 		int previousOwnerId = event.getIntAttribute("previous_owner_id");
+		int baseId = event.getIntAttribute("base_id");
+		if (baseId < 0) baseId = event.getIntAttribute("id");
 		if (newOwnerId < 0) return;
 		if (newOwnerId == previousOwnerId) return;
 
@@ -63,6 +66,8 @@ class FactionPointsTracker : Tracker {
 		// deltaPoints = Aenderungswert der FP-Bilanz durch dieses Event.
 		int deltaPoints = FP_CAPTURE_REWARD;
 		int nextPoints = m_store.add(newOwnerId, deltaPoints, false);
+
+		if (previousOwnerId >= 0 && baseId >= 0) fpDefenseMarkBaseLost(previousOwnerId, baseId);
 
 		_log("FactionPoints: base capture -> faction " + newOwnerId + " +" + deltaPoints + " FP (total " + nextPoints + ").", 0);
 	}

@@ -5,8 +5,10 @@
 const string FP_EVENT1_TOKEN = "event1";
 const string FP_EVENT1_NAME = "Support-Ausflug";
 const int FP_EVENT1_COST = 250;
-const string FP_EVENT1_CALL_KEY = "paratroopers_medic.call";
+const string FP_EVENT1_CALL_KEY = "paratroopers1.call";
 const int FP_EVENT1_SQUAD_HALF_THRESHOLD = 2;
+const float FP_EVENT1_PLAYER_OFFSET_X = 6.0f;
+const float FP_EVENT1_PLAYER_OFFSET_Z = 3.0f;
 
 // Event1 (PlayerEvent):
 // Bedingung: Spieler hat squad_size <= 2 (als "haelfte gefuellt").
@@ -67,11 +69,14 @@ class FactionPointsEvent1SupportSquad : FactionPointsEvent {
 		}
 
 		Vector3 pos = stringToVector3(characterInfo.getStringAttribute("position"));
+		pos.m_values[0] += FP_EVENT1_PLAYER_OFFSET_X;
+		pos.m_values[2] += FP_EVENT1_PLAYER_OFFSET_Z;
+
 		string cmd = "<command class='create_instance' instance_class='call' instance_key='" + FP_EVENT1_CALL_KEY +
 			"' position='" + pos.toString() + "' faction_id='" + factionId + "' />";
 		m_metagame.getComms().send(cmd);
 
-		result = "Event1 ausgefuehrt: Support-Call bei Spielerposition.";
+		result = "Event1 ausgefuehrt: Support-Call nahe Spielerposition.";
 		return true;
 	}
 }
