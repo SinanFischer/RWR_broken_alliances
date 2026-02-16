@@ -1,0 +1,95 @@
+// Platoon Spawn Command Tracker
+// Command: /platoon
+// Effekt: Spawnt 1 Miniboss + 4 Default-AI als Fallschirm-Einflug nahe Spielerposition.
+
+#include "tracker.as"
+#include "helpers.as"
+#include "admin_manager.as"
+#include "query_helpers.as"
+#include "log.as"
+
+const string CMD_PLATOON_SPAWN = "platoon";
+const string PLATOON_MINIBOSS_KEY = "miniboss";
+const string PLATOON_DEFAULT_SOLDIER_KEY = "default_ai";
+const int PLATOON_DEFAULT_COUNT = 4;
+const float PLATOON_SPAWN_OFFSET_FWD = 6.0f;
+const float PLATOON_SPAWN_HEIGHT = 55.0f;
+const float PLATOON_SPAWN_SPACING = 4.0f;
+
+class PlatoonSpawnCommandTracker : Tracker {
+	protected Metagame@ m_metagame;
+	protected bool m_adminOnly;
+
+	PlatoonSpawnCommandTracker(Metagame@ metagame, bool adminOnly = true) {
+		@m_metagame = @metagame;
+		m_adminOnly = adminOnly;
+	}
+
+	bool hasEnded() const { return false; }
+	bool hasStarted() const { return true; }
+
+	protected void handleChatEvent(const XmlElement@ event) {
+		string message = event.getStringAttribute("message");
+		if (!startsWith(message, "/")) return;
+		if (!checkCommand(message, CMD_PLATOON_SPAWN)) return;
+
+		int senderId = event.getIntAttribute("player_id");
+		string senderName = event.getStringAttribute("player_name");
+		if (m_adminOnly && !m_metagame.getAdminManager().isAdmin(senderName, senderId)) {
+			sendPrivateMessage(m_metagame, senderId, "Command locked: admin only.");
+			return;
+		}
+
+		int factionId;
+		Vector3 spawnPos;
+		if (!tryResolvePlayerSpawn(senderId, factionId, spawnPos)) return;
+
+		spawnPlatoonSquad(factionId, spawnPos);
+		sendPrivateMessage(m_metagame, senderId, "Platoon deployed: 1 miniboss + 4 default_ai (paradrop).");
+	}
+
+	protected bool tryResolvePlayerSpawn(int playerId, int &out factionId, Vector3 &out spawnPos) {
+		const XmlElement@ player = getPlayerInfo(m_metagame, playerId);
+		if (player is null) {
+			sendPrivateMessage(m_metagame, playerId, "Player not found.");
+			return false;
+		}
+
+		int charId = player.getIntAttribute("character_id");
+		const XmlElement@ character = getCharacterInfo(m_metagame, charId);
+		if (character is null) {
+			sendPrivateMessage(m_metagame, playerId, "No character (dead/spectating?).");
+			return false;
+		}
+
+		factionId = player.getIntAttribute("faction_id");
+		if (factionId < 0) factionId = 0;
+		spawnPos = stringToVector3(character.getStringAttribute("position"));
+		spawnPos.m_values[0] += PLATOON_SPAWN_OFFSET_FWD;
+		spawnPos.m_values[1] += PLATOON_SPAWN_HEIGHT;
+		return true;
+	}
+
+	protected void spawnPlatoonSquad(int factionId, const Vector3 &in basePos) {
+		// Miniboss vorne
+		sendSpawnSoldier(PLATOON_MINIBOSS_KEY, basePos, factionId);
+
+		// 4 Default-Soldaten in einfacher 2x2-Formation
+		for (int i = 0; i < PLATOON_DEFAULT_COUNT; ++i) {
+			Vector3 p = basePos;
+			float xOffset = (i % 2 == 0) ? -PLATOON_SPAWN_SPACING : PLATOON_SPAWN_SPACING;
+			float zOffset = (i < 2) ? PLATOON_SPAWN_SPACING : -PLATOON_SPAWN_SPACING;
+			p.m_values[0] += xOffset;
+			p.m_values[2] += zOffset;
+			sendSpawnSoldier(PLATOON_DEFAULT_SOLDIER_KEY, p, factionId);
+		}
+
+		_log("PlatoonSpawnCommandTracker: platoon spawned for faction " + factionId + " at " + basePos.toString(), 1);
+	}
+
+	protected void sendSpawnSoldier(const string &in soldierKey, const Vector3 &in pos, int factionId) {
+		m_metagame.getComms().send(
+			"<command class='create_instance' instance_class='soldier' instance_key='" + soldierKey +
+			"' position='" + pos.toString() + "' faction_id='" + factionId + "' />");
+	}
+}

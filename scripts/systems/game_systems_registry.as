@@ -3,6 +3,7 @@
 // Ziel: Pro Modus nur eine Einbindung + klarer Installationspunkt.
 
 #include "systems/spawn_capacity/spawn_capacity_system.as"
+#include "systems/platoon_spawn/platoon_spawn_system.as"
 #include "events/captain_spawn_command_tracker.as"
 #include "events/single_base_vip_tracker.as"
 #include "events/intel_manager_quickmatch.as"
@@ -13,6 +14,7 @@
 class GameSystemsRegistry {
 	protected Metagame@ m_metagame;
 	protected SpawnCapacityApi@ m_spawnCapacityApi;
+	protected PlatoonSpawnApi@ m_platoonSpawnApi;
 	protected CaptainSpawnCommandTracker@ m_quickMatchCaptainTracker;
 	protected SingleBaseVipTracker@ m_quickMatchSingleBaseVipTracker;
 	protected VehicleIntervalSpawn@ m_quickMatchVehicleSpawnTracker;
@@ -74,9 +76,9 @@ class GameSystemsRegistry {
 		m_quickMatchEventSystemsInstalled = true;
 	}
 
-	// Globale Shared-Systeme aus commands/ und delivery_unlocks.
+	// Globale Shared-Systeme aus commands/, delivery_unlocks und systems/platoon_spawn.
 	// Achtung: ItemDeliveryConfiguratorQuickMatch wird bewusst mode-uebergreifend aktiviert.
-	void installSharedCommandAndDeliverySystems(bool enabled, bool enableBlackOps3VestCommand = true, bool enableQuickmatchStyleDelivery = true) {
+	void installSharedCommandAndDeliverySystems(bool enabled, bool enableBlackOps3VestCommand = true, bool enableQuickmatchStyleDelivery = true, bool enablePlatoonSpawnCommand = true, bool platoonAdminOnly = true) {
 		if (!enabled) return;
 		if (m_sharedCommandDeliverySystemsInstalled) return;
 
@@ -92,9 +94,13 @@ class GameSystemsRegistry {
 			m_sharedItemDeliveryOrganizer.matchStarted();
 		}
 
+		@m_platoonSpawnApi = PlatoonSpawnApi(m_metagame);
+		m_platoonSpawnApi.installCommand(enablePlatoonSpawnCommand, platoonAdminOnly);
+
 		m_sharedCommandDeliverySystemsInstalled = true;
 	}
 
 	SpawnCapacityApi@ getSpawnCapacityApi() { return m_spawnCapacityApi; }
+	PlatoonSpawnApi@ getPlatoonSpawnApi() { return m_platoonSpawnApi; }
 	CaptainSpawnCommandTracker@ getQuickMatchCaptainTracker() { return m_quickMatchCaptainTracker; }
 }

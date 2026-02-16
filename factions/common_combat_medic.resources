@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources clear_weapons="1">
+	<!-- Defibrillator/Trauma-Kit Pool -->
+	<weapon key="medikit_ai.weapon" />
+	<weapon key="taser_medic.weapon" />
+
+	<!-- Combat-Medic Primaries -->
+	<weapon key="steyr_aug.weapon" />
+	<weapon key="famasg1.weapon" />
+	<weapon key="xm8.weapon" />
+</resources>

@@ -314,6 +314,25 @@
 		</attribute_config>
 	</soldier>
 
+	<!-- -------------- -->
+	<!-- combat medic group (4 % Spawn; Defibrillator/Trauma-Kit + AUG/FAMAS/XM8) -->
+	<!-- -------------- -->
+	<soldier name="combat_medic" spawn_score="0.04" copy_from="default">
+		<ai filename="medic.ai" />
+		<model filename="soldier_fm_brown.xml" />
+		<resources file="common_combat_medic.resources" />
+
+		<item_class_existence_config>
+			<item_class_existence class="weapon" slot="1" probability="1.0" />
+			<item_class_existence class="carry_item" slot="1" probability="0.02" />
+			<item_class_existence class="carry_item" slot="0" probability="0.03" />
+		</item_class_existence_config>
+
+		<attribute_config class="xp">
+			<attribute weight="1.0" min="0.0" max="0.2" />
+		</attribute_config>
+	</soldier>
+
 
 
 	<!-- -------------- -->
@@ -531,9 +550,9 @@
 	</soldier>
 
 	<!-- -------------- -->
-	<!-- Dog (Kampfhund, Vanilla-Assets) - spawn_score 0.125 (1/8 = 12.5%) für alle Fraktionen -->
+	<!-- Dog (Kampfhund, Vanilla-Assets) - spawn_score 0.067 (~4% P = score/Summe) -->
 	<!-- -------------- -->
-	<soldier name="dog" spawn_score="0.125" squad_size_xp_cap="0.0" firstnames_file="dog_firstnames.txt" lastnames_file="dog_lastnames.txt">
+	<soldier name="dog" spawn_score="0.067" squad_size_xp_cap="0.0" firstnames_file="dog_firstnames.txt" lastnames_file="dog_lastnames.txt">
 		<character filename="dog.character" />
 		<ai filename="dog.ai" />
 		<models>
