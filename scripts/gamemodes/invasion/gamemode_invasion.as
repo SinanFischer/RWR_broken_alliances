@@ -60,7 +60,6 @@
 #include "snowman.as"
 #include "converter.as"
 #include "xmas_trap.as"
-#include "trackers/bullet_flyby_effect.as"
 #include "trackers/defender_tank_help.as"
 #include "trackers/vehicle_interval_spawn.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // auskommentiert: Reinforcement-Pool-Tracker deaktiviert
@@ -394,7 +393,6 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		addTracker(Converter(this));
 		addTracker(DancingGrenade(this));
 		addTracker(XmasTrap(this));
-		addTracker(BulletFlybyEffect(this));
 		addTracker(DefenderTankHelp(this));
 		VehicleIntervalSpawn@ vehicleSpawnTr = VehicleIntervalSpawn(this);
 		addTracker(vehicleSpawnTr);

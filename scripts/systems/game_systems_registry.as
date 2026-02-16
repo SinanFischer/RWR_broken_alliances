@@ -2,7 +2,7 @@
 // Zentrale Verwaltung eigener, mode-uebergreifender Systeme.
 // Ziel: Pro Modus nur eine Einbindung + klarer Installationspunkt.
 
-#include "spawn_capacity/spawn_capacity_system.as"
+#include "systems/spawn_capacity/spawn_capacity_system.as"
 
 class GameSystemsRegistry {
 	protected Metagame@ m_metagame;

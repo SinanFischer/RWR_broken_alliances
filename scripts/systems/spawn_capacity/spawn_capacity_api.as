@@ -2,10 +2,10 @@
 // Kleine, stabile Oberflaeche fuer die Einbindung des Spawn-Capacity-Systems.
 // Ziel: Aufrufer koppeln nur an diese API, nicht an Tracker-Interna.
 
-#include "../../trackers/faction_alive_hud_tracker.as"
-#include "../../trackers/respawn_slot_delay_tracker.as"
-#include "../../trackers/stats_command_tracker.as"
-#include "../../trackers/capacity_debug_hud_tracker.as"
+#include "trackers/faction_alive_hud_tracker.as"
+#include "trackers/respawn_slot_delay_tracker.as"
+#include "trackers/stats_command_tracker.as"
+#include "trackers/capacity_debug_hud_tracker.as"
 
 class SpawnCapacityApi {
 	protected Metagame@ m_metagame;

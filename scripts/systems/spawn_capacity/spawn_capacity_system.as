@@ -5,4 +5,4 @@
 // API-Einstieg:
 // - SpawnCapacityApi: stabile Einbindung von Core-Trackern und optionalen HUDs
 
-#include "spawn_capacity_api.as"
+#include "systems/spawn_capacity/spawn_capacity_api.as"

@@ -2,7 +2,6 @@
 #include "my_stage_configurator.as"
 #include "delivery_unlocks/item_delivery_configurator.as"
 #include "delivery_unlocks/vehicle_delivery_configurator.as"
-#include "trackers/bullet_flyby_effect.as"
 #include "trackers/defender_tank_help.as"
 #include "trackers/vehicle_interval_spawn.as"
 #include "trackers/captain_spawn_command_tracker.as"
@@ -18,7 +17,6 @@ class MyGameMode : GameModeCampaign {
 	// --------------------------------------------
 	void postBeginMatch() {
 		GameModeCampaign::postBeginMatch();
-		addTracker(BulletFlybyEffect(this));
 		addTracker(DefenderTankHelp(this));
 		CaptainSpawnCommandTracker@ captainTr = CaptainSpawnCommandTracker(this);
 		addTracker(captainTr);  // /captain_spawn, Cargo-Truck+Captain-Event
