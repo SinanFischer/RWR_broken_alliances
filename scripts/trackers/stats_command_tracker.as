@@ -1,6 +1,12 @@
-// /stats-Command: Kompaktes Format pro Fraktion:
-// EU: A-K-D: 50-100-80 C-B: 65-5 B(s): 150
-// A-K-D = Alive-Kills-Deaths, C-B = Capacity-Blocked, B(s) = blocked_s (Slot-Sekunden)
+// /stats und /stat: Kompaktes Format pro Fraktion.
+// Beispiel: EU: A-K-D: 50-100-80 C-B: 65-5 B(s): 150
+//
+// Legende:
+//   A-K-D   = Alive, Kills, Deaths (Kills/Deaths = Fraktions-Stat)
+//   C       = effektive Capacity (Spawn-Slots; mit RespawnSlotDelay: raw minus blockierte Slots)
+//   B       = aktuell blockierte Slots (wie viele Slots gerade durch Respawn-Delay reserviert sind, nicht die Anzahl Toter)
+//   B(s)    = kumulierte Slot-Sekunden (Impact: Summe aller durch Tode blockierten Slot×Sekunden dieser Fraktion)
+// Ohne RespawnSlotDelayTracker: C = Raw-Capacity, B=0, B(s)=0.
 
 #include "tracker.as"
 #include "log.as"
@@ -58,10 +64,7 @@ class StatsCommandTracker : Tracker {
 		if (killer is null) return;
 		int fid = killer.getIntAttribute("faction_id");
 		if (fid < 0) return;
-		string key = "" + fid;
-		int v = 0;
-		if (m_killsPerFaction.exists(key)) v = int(m_killsPerFaction[key]);
-		m_killsPerFaction[key] = v + 1;
+		incrementFactionDict(m_killsPerFaction, fid);
 	}
 
 	protected void handleCharacterDieEvent(const XmlElement@ event) {
@@ -70,10 +73,7 @@ class StatsCommandTracker : Tracker {
 		if (target is null) return;
 		int fid = target.getIntAttribute("faction_id");
 		if (fid < 0) return;
-		string key = "" + fid;
-		int v = 0;
-		if (m_deathsPerFaction.exists(key)) v = int(m_deathsPerFaction[key]);
-		m_deathsPerFaction[key] = v + 1;
+		incrementFactionDict(m_deathsPerFaction, fid);
 	}
 
 	string getFactionShortName(const XmlElement@ faction, int factionId) {
@@ -98,14 +98,23 @@ class StatsCommandTracker : Tracker {
 	}
 
 	int getKillsForFaction(int factionId) {
-		string key = "" + factionId;
-		if (!m_killsPerFaction.exists(key)) return 0;
-		return int(m_killsPerFaction[key]);
+		return getFactionDictInt(m_killsPerFaction, factionId);
 	}
 
 	int getDeathsForFaction(int factionId) {
-		string key = "" + factionId;
-		if (!m_deathsPerFaction.exists(key)) return 0;
-		return int(m_deathsPerFaction[key]);
+		return getFactionDictInt(m_deathsPerFaction, factionId);
+	}
+
+	private string factionKey(int factionId) { return "" + factionId; }
+
+	private void incrementFactionDict(dictionary@ dict, int factionId) {
+		string key = factionKey(factionId);
+		int v = dict.exists(key) ? int(dict[key]) : 0;
+		dict[key] = v + 1;
+	}
+
+	private int getFactionDictInt(const dictionary@ dict, int factionId) {
+		string key = factionKey(factionId);
+		return dict.exists(key) ? int(dict[key]) : 0;
 	}
 }
