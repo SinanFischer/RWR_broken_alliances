@@ -64,10 +64,10 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 
 | Gamemode | Mod-Commands | BasicCommandHandler | SupporterCommandHandler | DefenderTankHelp |
 |----------|----------------|---------------------|--------------------------|------------------|
-| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/captain_spawn`, `/cargo_captain_test`, `/test_enemy_cargo_captain`, `/spawn_enemy_cargo` | ja | nein | nein |
+| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/cargo_captain_test`, `/test_enemy_cargo_captain`, `/spawn_enemy_cargo` | ja | nein | nein |
 | **Invasion**   | `/vehicle`, `/fahrzeug`, `/spawn_enemy_cargo`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
 
-*Hinweis: `/captain_spawn` und `/cargo_captain_test` sind nur in Quick Match eingebunden. `/spawn_enemy_cargo` (feindlicher Cargo neben Spieler) in Quick Match und Invasion.*
+*Hinweis: `/captain_spawn` und `/cargo_captain_test` sind nur in Quick Match eingebunden. `/blackops3` (Admin-Spawn bei Spieler) nur Quick Match. `/spawn_enemy_cargo` (feindlicher Cargo neben Spieler) in Quick Match und Invasion.*
 
 ---
 

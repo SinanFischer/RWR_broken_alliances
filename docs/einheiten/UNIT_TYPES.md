@@ -72,4 +72,17 @@
 
 ---
 
-*Quelle: factions/grey.xml, green.xml, brown.xml, grey_boss.xml, green_boss.xml, brown_boss.xml*
+## Sniper / Lonewolf – Waffen (Resources)
+
+**Wo die Waffen festgelegt werden:** In den **factions**-Resource-Dateien. Sniper und Lonewolf nutzen einen **eigenen** Waffen-Pool (kein `common.resources`).
+
+| Datei | Inhalt | Verwendung |
+|-------|--------|------------|
+| `common_sniper_weapons.resources` | Primärwaffen: vss_vintorez, barrett_m107, lahti_l39, apr, scarssr | Sniper + Lonewolf |
+| `common_sniper_secondary.resources` | Zweitwaffen (SMG/PDW): mp5sd, mini_uzi, p90, aks74u, mp7, kriss_vector, scorpion-evo, steyr_tmp, qcw-05 | Sniper + Lonewolf |
+| `grey_sniper.resources` / `green_sniper.resources` / `brown_sniper.resources` | Fraktions-Primaries: Grey psg90, g28; Green m24_a2, m14_ebr; Brown dragunov_svd, sv98 | nur Sniper (Lonewolf erbt sie) |
+| `lonewolf_sniper.resources` | Zusatz für Lonewolf: gepard_m6_lynx, Calls (mortar1, paratroopers_medic). **Ohne** clear_weapons → voller Sniper-Pool bleibt aktiv. | nur Lonewolf |
+
+**Aktivierung:** In diesen Sniper-Ressourcen gibt es **keine** `enabled="0"`-Einträge – alle genannten Waffen sind im Mod aktiv. Die in `common.resources` deaktivierten Waffen (z. B. mk23, desert_eagle, xm25) gelten nur für andere Unit-Typen (default, etc.), nicht für Sniper/Lonewolf.
+
+*Quelle: factions/grey.xml, green.xml, brown.xml; factions/common_sniper_*.resources, *_sniper.resources, lonewolf_sniper.resources*

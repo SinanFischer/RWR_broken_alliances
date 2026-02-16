@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lonewolf: erbt Sniper-Pool (common_sniper_weapons + faction _sniper). Kein clear_weapons – alle Sniper-Waffen bleiben aktiv. Zusätzlich Gepard M6 Lynx. -->
+<resources>
+	<weapon key="gepard_m6_lynx.weapon" />
+	<call key="mortar1.call" />
+	<call key="paratroopers_medic.call" />
+</resources>
