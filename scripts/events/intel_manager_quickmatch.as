@@ -12,10 +12,10 @@
 #include "announce_task.as"
 #include "events/captain_spawn_command_tracker.as"
 
-const float INVESTIGATION_COMPLETE_CHECK_INTERVAL_TIME = 5.0;
-const float INVESTIGATION_STALE_SECONDS = 300.0;  // Nach 5 Min: Aufklärungsdaten veraltet → neu scouten
-const int INTEL_MAX_FACTIONS = 8;
-const int MARKER_ID_STRIDE = 256;
+const float QM_INTEL_CHECK_INTERVAL_SECONDS = 5.0;
+const float QM_INTEL_STALE_SECONDS = 300.0;  // Nach 5 Min: Aufklärungsdaten veraltet → neu scouten
+const int QM_INTEL_MAX_FACTIONS = 8;
+const int QM_INTEL_MARKER_ID_STRIDE = 256;
 
 // --------------------------------------------
 class IntelManagerQuickMatch : Tracker {
@@ -59,7 +59,7 @@ class IntelManagerQuickMatch : Tracker {
 		if (factions is null || factions.size() == 0) return;
 
 		m_numFactions = factions.size();
-		if (m_numFactions > INTEL_MAX_FACTIONS) m_numFactions = INTEL_MAX_FACTIONS;
+		if (m_numFactions > QM_INTEL_MAX_FACTIONS) m_numFactions = QM_INTEL_MAX_FACTIONS;
 
 		m_basesToInvestigateByFaction.resize(m_numFactions);
 		m_investigatedTimestampByFaction.resize(m_numFactions);
@@ -73,7 +73,7 @@ class IntelManagerQuickMatch : Tracker {
 	// ----------------------------------------------------
 	void start() {
 		m_started = true;
-		m_timer = INVESTIGATION_COMPLETE_CHECK_INTERVAL_TIME;
+		m_timer = QM_INTEL_CHECK_INTERVAL_SECONDS;
 		tryInitFactions();
 
 		m_metagame.getComms().send("<command class='set_metagame_event' name='base_owner_change_event' enabled='1' />");
@@ -104,7 +104,7 @@ class IntelManagerQuickMatch : Tracker {
 
 	// ----------------------------------------------------
 	protected int getMarkerId(int baseId, int factionId) const {
-		return 5000 + factionId * MARKER_ID_STRIDE + baseId;
+		return 5000 + factionId * QM_INTEL_MARKER_ID_STRIDE + baseId;
 	}
 
 	// ----------------------------------------------------
@@ -320,7 +320,7 @@ class IntelManagerQuickMatch : Tracker {
 
 		m_timer -= time;
 		if (m_timer < 0.0) {
-			m_timer = INVESTIGATION_COMPLETE_CHECK_INTERVAL_TIME;
+			m_timer = QM_INTEL_CHECK_INTERVAL_SECONDS;
 			checkProximityCompletion();
 			checkStaleReset();
 			checkCaptainDiscoveryAtInvestigatedBases();
@@ -365,7 +365,7 @@ class IntelManagerQuickMatch : Tracker {
 				if (isBaseToInvestigate(baseId, int(fid))) continue;
 
 				float ts = getInvestigatedTimestamp(baseId, int(fid));
-				if (ts > -900.0f && (m_metagameTime - ts) >= INVESTIGATION_STALE_SECONDS) {
+				if (ts > -900.0f && (m_metagameTime - ts) >= QM_INTEL_STALE_SECONDS) {
 					clearInvestigated(baseId, int(fid));
 					setBaseToInvestigate(base, int(fid));
 				}

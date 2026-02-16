@@ -61,12 +61,13 @@
 #include "converter.as"
 #include "xmas_trap.as"
 #include "trackers/defender_tank_help.as"
-#include "trackers/vehicle_interval_spawn.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // auskommentiert: Reinforcement-Pool-Tracker deaktiviert
 #include "systems/game_systems.as"
 
 const bool INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM = false;
 const bool INVASION_CAPACITY_DEBUG_HUD = false;
+const bool INVASION_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
+const bool INVASION_ENABLE_EVENT_SYSTEMS = true;
 
 // --------------------------------------------
 class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
@@ -349,10 +350,21 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		addTracker(BasicCommandHandler(this));
 		addTracker(SBLTracker(this));
 		@m_systemsRegistry = GameSystemsRegistry(this);
+		m_systemsRegistry.installSharedCommandAndDeliverySystems(
+			INVASION_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS,
+			true,
+			true
+		);
 		m_systemsRegistry.installSpawnCapacitySystem(
 			INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM,
 			INVASION_CAPACITY_DEBUG_HUD,
 			false // Invasion nutzt kein zusaetzliches Alive-HUD aus diesem System
+		);
+		m_systemsRegistry.installQuickMatchEventSystems(
+			INVASION_ENABLE_EVENT_SYSTEMS,
+			100.0f,
+			"paratroopers1.call",
+			0.15f
 		);
 		@m_spawnCapacityApi = m_systemsRegistry.getSpawnCapacityApi();
 		
@@ -394,8 +406,6 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		addTracker(DancingGrenade(this));
 		addTracker(XmasTrap(this));
 		addTracker(DefenderTankHelp(this));
-		VehicleIntervalSpawn@ vehicleSpawnTr = VehicleIntervalSpawn(this);
-		addTracker(vehicleSpawnTr);
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 	}
 

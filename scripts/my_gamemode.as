@@ -1,14 +1,15 @@
 #include "gamemode_campaign.as"
 #include "my_stage_configurator.as"
 #include "delivery_unlocks/item_delivery_configurator.as"
-#include "delivery_unlocks/vehicle_delivery_configurator.as"
+#include "delivery_unlocks/my_vehicle_delivery_configurator.as"
 #include "trackers/defender_tank_help.as"
-#include "trackers/vehicle_interval_spawn.as"
-#include "trackers/captain_spawn_command_tracker.as"
+#include "systems/game_systems.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // --------------------------------------------
 class MyGameMode : GameModeCampaign {
+	protected GameSystemsRegistry@ m_gameSystemsRegistry;
+
 	// --------------------------------------------
 	MyGameMode(UserSettings@ settings) {
 		super(settings);
@@ -17,10 +18,10 @@ class MyGameMode : GameModeCampaign {
 	// --------------------------------------------
 	void postBeginMatch() {
 		GameModeCampaign::postBeginMatch();
+		@m_gameSystemsRegistry = GameSystemsRegistry(this);
+		m_gameSystemsRegistry.installSharedCommandAndDeliverySystems(true, true, true);
+		m_gameSystemsRegistry.installQuickMatchEventSystems(true, 100.0f, "paratroopers1.call", 0.15f);
 		addTracker(DefenderTankHelp(this));
-		CaptainSpawnCommandTracker@ captainTr = CaptainSpawnCommandTracker(this);
-		addTracker(captainTr);  // /captain_spawn, Cargo-Truck+Captain-Event
-		addTracker(VehicleIntervalSpawn(this, captainTr)); // Fahrzeug-Spawn; bei Cargo-Truck: Captain+Bodyguards
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 	}
 

@@ -6,22 +6,16 @@
 #include "basic_command_handler.as"
 // Globales Bundle fuer mode-uebergreifende eigene Systeme.
 #include "systems/game_systems.as"
-#include "trackers/vehicle_interval_spawn.as"
-#include "events/captain_spawn_command_tracker.as"
-#include "events/single_base_vip_tracker.as"
-#include "events/intel_manager_quickmatch.as"
-#include "commands/blackops3_vest_command_tracker.as"
-#include "delivery_unlocks/item_delivery_configurator_quickmatch.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)
 const bool CAPACITY_DEBUG_HUD = false;
 const bool ENABLE_SPAWN_CAPACITY_SYSTEM = true;
+const bool ENABLE_QUICKMATCH_EVENT_SYSTEMS = true;
+const bool ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
 
 // --------------------------------------------
 class GameModeQuickMatch : Metagame {
-	protected ItemDeliveryOrganizer@ m_itemDeliveryOrganizer;
-	protected ItemDeliveryConfiguratorQuickMatch@ m_itemDeliveryConfigurator;
 	protected GameSystemsRegistry@ m_systemsRegistry;
 	protected SpawnCapacityApi@ m_spawnCapacityApi;
 	// --------------------------------------------
@@ -40,28 +34,26 @@ class GameModeQuickMatch : Metagame {
 	void postBeginMatch() {
 		Metagame::postBeginMatch();
 
-		// Laptop/Briefcase-Unlocks: wie Campaign – abgeben → zufälliges Item freischalten (inkl. vest_blackops3)
-		@m_itemDeliveryConfigurator = ItemDeliveryConfiguratorQuickMatch(this);
-		@m_itemDeliveryOrganizer = ItemDeliveryOrganizer(this, m_itemDeliveryConfigurator);
-		m_itemDeliveryOrganizer.init();
-		m_itemDeliveryOrganizer.matchStarted();
-
-		addTracker(BlackOps3VestCommandTracker(this));
 		addTracker(BasicCommandHandler(this));
 		// Spawn-Capacity-System ueber globale Registry aufsetzen.
 		@m_systemsRegistry = GameSystemsRegistry(this);
+		m_systemsRegistry.installSharedCommandAndDeliverySystems(
+			ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS,
+			true,
+			true
+		);
 		m_systemsRegistry.installSpawnCapacitySystem(
 			ENABLE_SPAWN_CAPACITY_SYSTEM,
 			CAPACITY_DEBUG_HUD,
 			true // ohne Debug-HUD: Standard-Alive-HUD aktiv
 		);
 		@m_spawnCapacityApi = m_systemsRegistry.getSpawnCapacityApi();
-		CaptainSpawnCommandTracker@ captainTr = CaptainSpawnCommandTracker(this);
-		addTracker(captainTr);  // /captain_spawn - 1 Captain + 3 orange_bodyguards; auch bei Cargo-Truck-Spawn
-		addTracker(SingleBaseVipTracker(this, captainTr));  // Bei nur 1 Base: VIP + Escort + 60s Hold, dann Release
-		VehicleIntervalSpawn@ vehicleSpawnTr = VehicleIntervalSpawn(this, captainTr);
-		addTracker(vehicleSpawnTr);  // Fahrzeug-Spawn; bei Cargo-Truck: Captain-Team mit
-		addTracker(IntelManagerQuickMatch(this, 100.0, "paratroopers1.call", 0.15f, captainTr));  // Basis-Intel + Captain-Scout-Verknüpfung
+		m_systemsRegistry.installQuickMatchEventSystems(
+			ENABLE_QUICKMATCH_EVENT_SYSTEMS,
+			100.0f,
+			"paratroopers1.call",
+			0.15f
+		);
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 
 		const XmlElement@ player = getPlayerInfo(this, 0);

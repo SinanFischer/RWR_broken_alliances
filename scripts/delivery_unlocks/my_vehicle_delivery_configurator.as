@@ -1,5 +1,5 @@
 // Vehicle-Delivery-Unlocks (Cargo Truck) – Broken Alliances.
-// Cargo Truck an Waffenkammer abliefern → zufälliges Item freischalten (inkl. vest_blackops3).
+// Cargo Truck an Waffenkammer abliefern -> zufaelliges Item freischalten (inkl. vest_blackops3).
 #include "vehicle_delivery_configurator_invasion.as"
 
 // ------------------------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ class MyVehicleDeliveryConfigurator : VehicleDeliveryConfiguratorInvasion {
 	}
 
 	// --------------------------------------------
-	// Cargo Truck → Unlocks
+	// Cargo Truck -> Unlocks
 	protected array<Resource@>@ getUnlockItemList() const {
 		array<Resource@> list;
 
