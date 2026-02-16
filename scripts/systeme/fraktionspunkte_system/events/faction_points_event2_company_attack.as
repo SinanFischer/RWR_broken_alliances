@@ -9,7 +9,7 @@ const string FP_EVENT2_PLATOON_CALL_KEY = "paratroopers2.call";
 const int FP_EVENT2_PLATOON_COUNT = 2;
 const float FP_EVENT2_CALL_SPACING = 8.0f;
 
-// Event2:
+// Event2 (AI Event):
 // Bedingung: gueltige Zielbasis vorhanden.
 // Aktion: 2x Platoon-Call an naechster gegnerischer Basis.
 class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
@@ -22,22 +22,16 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 	string getCommandToken() const { return FP_EVENT2_TOKEN; }
 	string getDisplayName() const { return FP_EVENT2_NAME; }
 	int getCost() const { return FP_EVENT2_COST; }
+	bool isPlayerEvent() const { return false; }
 
 	bool canExecute(int playerId, int factionId, string &out reason) {
-		const XmlElement@ playerInfo = getPlayerInfo(m_metagame, playerId);
-		if (playerInfo is null) {
-			reason = "Player nicht gefunden.";
+		Vector3 refPos;
+		if (!getReferencePositionForFaction(factionId, refPos)) {
+			reason = "Keine Referenzposition fuer Fraktion gefunden.";
 			return false;
 		}
 
-		const XmlElement@ characterInfo = getCharacterInfo(m_metagame, playerInfo.getIntAttribute("character_id"));
-		if (characterInfo is null) {
-			reason = "Kein Character (tot/spectator).";
-			return false;
-		}
-
-		Vector3 playerPos = stringToVector3(characterInfo.getStringAttribute("position"));
-		const XmlElement@ targetBase = getClosestEnemyBase(factionId, playerPos);
+		const XmlElement@ targetBase = getClosestEnemyBase(factionId, refPos);
 		if (targetBase is null) {
 			reason = "Keine gegnerische Basis gefunden.";
 			return false;
@@ -46,20 +40,13 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 	}
 
 	bool execute(int playerId, int factionId, string &out result) {
-		const XmlElement@ playerInfo = getPlayerInfo(m_metagame, playerId);
-		if (playerInfo is null) {
-			result = "Player nicht gefunden.";
+		Vector3 refPos;
+		if (!getReferencePositionForFaction(factionId, refPos)) {
+			result = "Keine Referenzposition fuer Fraktion gefunden.";
 			return false;
 		}
 
-		const XmlElement@ characterInfo = getCharacterInfo(m_metagame, playerInfo.getIntAttribute("character_id"));
-		if (characterInfo is null) {
-			result = "Kein Character (tot/spectator).";
-			return false;
-		}
-
-		Vector3 playerPos = stringToVector3(characterInfo.getStringAttribute("position"));
-		const XmlElement@ targetBase = getClosestEnemyBase(factionId, playerPos);
+		const XmlElement@ targetBase = getClosestEnemyBase(factionId, refPos);
 		if (targetBase is null) {
 			result = "Keine gegnerische Basis gefunden.";
 			return false;
@@ -107,6 +94,28 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 		}
 
 		return best;
+	}
+
+	protected bool getReferencePositionForFaction(int factionId, Vector3 &out outPos) {
+		array<const XmlElement@>@ bases = getBases(m_metagame);
+		if (bases is null || bases.size() == 0) return false;
+
+		for (uint i = 0; i < bases.size(); ++i) {
+			const XmlElement@ base = bases[i];
+			if (base is null) continue;
+			if (base.getIntAttribute("owner_id") != factionId) continue;
+			outPos = stringToVector3(base.getStringAttribute("position"));
+			return true;
+		}
+
+		for (uint i = 0; i < bases.size(); ++i) {
+			const XmlElement@ base = bases[i];
+			if (base is null) continue;
+			outPos = stringToVector3(base.getStringAttribute("position"));
+			return true;
+		}
+
+		return false;
 	}
 }
 

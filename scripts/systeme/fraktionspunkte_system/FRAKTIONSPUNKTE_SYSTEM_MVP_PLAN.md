@@ -104,6 +104,7 @@ Hinweis:
 | L-002 | FP-Ausgabe erster Usecase | Ersten echten FP-Verbrauch mit `canSpend`/`spend` aktivieren | **Erledigt** | **Ja** - Event-Framework + `/event1` + `/event2` mit Kostenabzug implementiert |
 | L-003 | MVP-Validierung | Reproduzierbare Tests und Log-Check dokumentieren | **Todo** | **Nein** - folgt nach Event-Playtests |
 | L-004 | Event-Katalog | Event-Details (Kosten, Bedingungen, Parameter) zentral dokumentieren | **Erledigt** | **Ja** - `events/EVENTS_KATALOG.md` erstellt |
+| L-005 | FP-AI Unterordner | Utility-AI als modulares Untermodul mit Konfiguration und Planner | **Erledigt** | **Ja** - `ai/` mit Tracker, Planner, Scorer, Config und `AI_SYSTEM.md` integriert |
 
 Hinweis:
 - Diese Tabelle ist fuer laufende Live-Erweiterungen gedacht und wird bei neuen Anforderungen fortgeschrieben.

@@ -25,10 +25,10 @@ Ein zentraler Ueberblick ueber alle Fraktionspunkte-Events (FP-Events), deren Be
 
 ## Event-Definitionen
 
-| Event | Command | Kosten (FP) | Bedingung | Aktion | Simulierbar | Status |
-|---|---|---:|---|---|---|---|
-| Event1 Support-Ausflug | `/event1` | 250 | `squad_size <= 2` beim ausloesenden Spieler | `paratroopers_medic.call` an Spielerposition | Ja (Admin-only) | Aktiv |
-| Event2 Company-Angriff | `/event2` | 1200 | Gegnerbasis vorhanden + genug FP | 2x `paratroopers2.call` an naechster gegnerischer Basis | Ja (Admin-only) | Aktiv |
+| Event | Typ | Command | Kosten (FP) | Bedingung | Aktion | Simulierbar | Status |
+|---|---|---|---:|---|---|---|---|
+| Event1 Support-Ausflug | PlayerEvent | `/event1` | 250 | `squad_size <= 2` beim ausloesenden Spieler | `paratroopers_medic.call` an Spielerposition | Ja (Admin-only) | Aktiv |
+| Event2 Company-Angriff | AI Event | `/event2` | 1200 | Gegnerbasis vorhanden + genug FP | 2x `paratroopers2.call` an naechster gegnerischer Basis | Ja (Admin-only) | Aktiv |
 
 ---
 
@@ -51,9 +51,9 @@ Ein zentraler Ueberblick ueber alle Fraktionspunkte-Events (FP-Events), deren Be
 
 ## Ablauf (Engine-Datenfluss)
 
-1. Admin triggert `/event1` oder `/event2`.
-2. Registry resolved Event-Strategy.
-3. `canExecute(...)` prueft Bedingung.
+1. Admin triggert `/event1` oder `/event2` (fuer Tests) oder AI triggert intern.
+2. Registry resolved Event-Strategy und unterscheidet `PlayerEvent` vs. `AI Event`.
+3. `canExecute(...)` prueft Bedingung im passenden Kontext (mit/ohne `player_id`).
 4. FP-Konto prueft `canSpend(...)`.
 5. Event fuehrt Aktion aus.
 6. FP-Abzug via `spend(...)` + Save.

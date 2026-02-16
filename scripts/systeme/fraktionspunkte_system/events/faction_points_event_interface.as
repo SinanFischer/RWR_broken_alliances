@@ -5,6 +5,7 @@ interface FactionPointsEvent {
 	string getCommandToken() const;
 	string getDisplayName() const;
 	int getCost() const;
+	bool isPlayerEvent() const;
 
 	// reason = Fehlergrund bei false
 	bool canExecute(int playerId, int factionId, string &out reason);

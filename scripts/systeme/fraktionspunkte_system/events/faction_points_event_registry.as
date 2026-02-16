@@ -24,13 +24,31 @@ class FactionPointsEventRegistry {
 		return false;
 	}
 
+	bool isPlayerEventToken(const string &in token) const {
+		FactionPointsEvent@ ev = getEventByToken(token);
+		if (ev is null) return false;
+		return ev.isPlayerEvent();
+	}
+
 	string getUsage() const {
 		return "Events: /event1 (cost " + m_event1.getCost() + "), /event2 (cost " + m_event2.getCost() + ")";
+	}
+
+	int getCostByToken(const string &in token) const {
+		FactionPointsEvent@ ev = getEventByToken(token);
+		if (ev is null) return -1;
+		return ev.getCost();
 	}
 
 	bool tryExecute(const string &in token, int playerId, string &out response) {
 		if (m_store is null) {
 			response = "FP-Store nicht verfuegbar.";
+			return false;
+		}
+
+		FactionPointsEvent@ ev = getEventByToken(token);
+		if (ev is null) {
+			response = "Unbekanntes Event.";
 			return false;
 		}
 
@@ -45,15 +63,41 @@ class FactionPointsEventRegistry {
 			return false;
 		}
 
-		ensureFactionCountFromWorld();
-		if (factionId >= m_store.getFactionCount()) {
-			response = "Fraktionsindex ausserhalb des FP-Stores.";
+		if (ev.isPlayerEvent()) {
+			return tryExecuteEvent(ev, playerId, factionId, response);
+		}
+
+		// AI-Event aus Player-Kontext: Fraktion aus Sender ableiten, Player-Kontext ignorieren.
+		return tryExecuteForFaction(token, factionId, response);
+	}
+
+	bool tryExecuteForFaction(const string &in token, int factionId, string &out response) {
+		if (m_store is null) {
+			response = "FP-Store nicht verfuegbar.";
 			return false;
 		}
 
 		FactionPointsEvent@ ev = getEventByToken(token);
 		if (ev is null) {
 			response = "Unbekanntes Event.";
+			return false;
+		}
+		if (ev.isPlayerEvent()) {
+			response = ev.getDisplayName() + " ist ein Player-Event und benoetigt player_id.";
+			return false;
+		}
+		if (factionId < 0) {
+			response = "Ungueltige Fraktion.";
+			return false;
+		}
+
+		return tryExecuteEvent(ev, -1, factionId, response);
+	}
+
+	protected bool tryExecuteEvent(FactionPointsEvent@ ev, int playerId, int factionId, string &out response) {
+		ensureFactionCountFromWorld();
+		if (factionId >= m_store.getFactionCount()) {
+			response = "Fraktionsindex ausserhalb des FP-Stores.";
 			return false;
 		}
 

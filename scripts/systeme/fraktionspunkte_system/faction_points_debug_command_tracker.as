@@ -6,10 +6,13 @@
 #include "log.as"
 #include "systeme/fraktionspunkte_system/faction_points_store.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event_registry.as"
+#include "systeme/fraktionspunkte_system/ai/faction_points_ai_tracker.as"
 
 const string FP_CMD_SHOW = "fp";
 const string FP_CMD_ADD = "fp_add";
 const string FP_CMD_SET = "fp_set";
+const string FP_CMD_AI_STATUS = "fp_ai";
+const string FP_CMD_AI_TICK = "fp_ai_tick";
 
 // Debug-Command-Tracker:
 // - /fp
@@ -19,11 +22,13 @@ class FactionPointsDebugCommandTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected FactionPointsStore@ m_store;
 	protected FactionPointsEventRegistry@ m_eventRegistry;
+	protected FactionPointsAiTracker@ m_aiTracker;
 	protected bool m_adminOnly = true;
 
-	FactionPointsDebugCommandTracker(Metagame@ metagame, FactionPointsStore@ store, bool adminOnly = true) {
+	FactionPointsDebugCommandTracker(Metagame@ metagame, FactionPointsStore@ store, FactionPointsAiTracker@ aiTracker = null, bool adminOnly = true) {
 		@m_metagame = @metagame;
 		@m_store = @store;
+		@m_aiTracker = @aiTracker;
 		@m_eventRegistry = FactionPointsEventRegistry(m_metagame, m_store);
 		m_adminOnly = adminOnly;
 	}
@@ -62,6 +67,14 @@ class FactionPointsDebugCommandTracker : Tracker {
 			handleShow(senderId);
 			return;
 		}
+		if (commandToken == FP_CMD_AI_STATUS) {
+			handleAiStatus(senderId);
+			return;
+		}
+		if (commandToken == FP_CMD_AI_TICK) {
+			handleAiTick(senderId);
+			return;
+		}
 
 		if (tokens.size() < 3) {
 			sendUsage(senderId);
@@ -96,6 +109,8 @@ class FactionPointsDebugCommandTracker : Tracker {
 		if (token == FP_CMD_SHOW) return true;
 		if (token == FP_CMD_ADD) return true;
 		if (token == FP_CMD_SET) return true;
+		if (token == FP_CMD_AI_STATUS) return true;
+		if (token == FP_CMD_AI_TICK) return true;
 		return false;
 	}
 
@@ -124,9 +139,32 @@ class FactionPointsDebugCommandTracker : Tracker {
 	}
 
 	protected void sendUsage(int playerId) {
-		string usage = "Usage: /fp | /fp_add <faction_id> <amount> | /fp_set <faction_id> <amount>";
+		string usage = "Usage: /fp | /fp_add <faction_id> <amount> | /fp_set <faction_id> <amount> | /fp_ai | /fp_ai_tick";
 		if (m_eventRegistry !is null) usage += " | " + m_eventRegistry.getUsage();
 		sendPrivateMessage(m_metagame, playerId, usage);
+	}
+
+	protected void handleAiStatus(int playerId) {
+		if (m_aiTracker is null) {
+			sendPrivateMessage(m_metagame, playerId, "FP-AI: not installed.");
+			return;
+		}
+
+		float secs = m_aiTracker.getSecondsUntilNextTick();
+		int secsRounded = int(secs + 0.5f);
+		string msg = "FP-AI: next tick in " + secsRounded + "s | last: " + m_aiTracker.getLastSummary();
+		sendPrivateMessage(m_metagame, playerId, msg);
+	}
+
+	protected void handleAiTick(int playerId) {
+		if (m_aiTracker is null) {
+			sendPrivateMessage(m_metagame, playerId, "FP-AI: not installed.");
+			return;
+		}
+
+		string result;
+		m_aiTracker.forceTick(result);
+		sendPrivateMessage(m_metagame, playerId, "FP-AI tick: " + result);
 	}
 
 	protected bool tryParseInt(const string &in s, int &out value) {

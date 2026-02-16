@@ -5,6 +5,7 @@
 #include "systeme/fraktionspunkte_system/faction_points_tracker.as"
 #include "systeme/fraktionspunkte_system/faction_points_hud_tracker.as"
 #include "systeme/fraktionspunkte_system/faction_points_debug_command_tracker.as"
+#include "systeme/fraktionspunkte_system/ai/faction_points_ai_tracker.as"
 
 // API (Fassade = stabiler Einstiegspunkt) fuer das Fraktionspunkte-System.
 class FactionPointsApi {
@@ -13,12 +14,14 @@ class FactionPointsApi {
 	protected FactionPointsStore@ m_store;
 
 	protected FactionPointsTracker@ m_coreTracker;
+	protected FactionPointsAiTracker@ m_aiTracker;
 	protected FactionPointsHudTracker@ m_hudTracker;
 	protected FactionPointsDebugCommandTracker@ m_debugTracker;
 
 	protected bool m_coreInstalled = false;
 	protected bool m_hudInstalled = false;
 	protected bool m_debugInstalled = false;
+	protected bool m_aiInstalled = false;
 
 	FactionPointsApi(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -38,6 +41,8 @@ class FactionPointsApi {
 		@m_coreTracker = FactionPointsTracker(m_metagame, m_store);
 		m_metagame.addTracker(m_coreTracker);
 		m_coreInstalled = true;
+
+		installAi(FP_AI_ENABLED_BY_DEFAULT);
 	}
 
 	void installHud(bool enabled = true) {
@@ -55,13 +60,24 @@ class FactionPointsApi {
 		if (m_debugInstalled) return;
 		if (!m_coreInstalled) installCore(true);
 
-		@m_debugTracker = FactionPointsDebugCommandTracker(m_metagame, m_store, adminOnly);
+		@m_debugTracker = FactionPointsDebugCommandTracker(m_metagame, m_store, m_aiTracker, adminOnly);
 		m_metagame.addTracker(m_debugTracker);
 		m_debugInstalled = true;
 	}
 
+	void installAi(bool enabled = true) {
+		if (!enabled) return;
+		if (m_aiInstalled) return;
+		if (!m_coreInstalled) return;
+
+		@m_aiTracker = FactionPointsAiTracker(m_metagame, m_store);
+		m_metagame.addTracker(m_aiTracker);
+		m_aiInstalled = true;
+	}
+
 	FactionPointsStore@ getStore() { return m_store; }
 	bool hasCoreInstalled() const { return m_coreInstalled; }
+	bool hasAiInstalled() const { return m_aiInstalled; }
 	bool hasHudInstalled() const { return m_hudInstalled; }
 	bool hasDebugInstalled() const { return m_debugInstalled; }
 }
