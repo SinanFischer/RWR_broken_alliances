@@ -11,4 +11,5 @@ Dokumentation des Broken-Alliances-Mods, sortiert nach Themenbereichen.
 | **spawn_capacity** | Spawn, Respawn, Capacity, Nachschub, Haltungsboni |
 | **scripts** | Commands, Item-Unlocks |
 | **implementation** | Technische Implementierung (Marker, Fire Mission, Westen-Modding) |
+| **umsetzungen** | Umsetzungswissen, Entscheidungen, operative Notizen fuer spaetere Erweiterungen |
 | **konzepte** | Design, Research, Integration, Voice-Spec |

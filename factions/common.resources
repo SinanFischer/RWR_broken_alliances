@@ -28,6 +28,7 @@
 	<weapon key='claymore_resource.weapon' /> 
 	<weapon key='apr.weapon' />   
 	<weapon key='wrench.weapon' />   
+	<weapon key='vest_repair.weapon' />
 	<weapon key='scarssr.weapon' />
 	<weapon key='steyr_aug.weapon' />
 	<weapon key='honey_badger.weapon' /> 
