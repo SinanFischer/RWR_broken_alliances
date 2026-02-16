@@ -310,7 +310,7 @@ class VehicleIntervalSpawn : Tracker {
 		return "" + (s / 60) + "min";
 	}
 
-	/** Von außen aufrufbar (z.B. CargoDeliveryRewardTracker): Belohnungs-Spawn Medium oder Heavy an gegebener Basis.
+	/** Von außen aufrufbar: Belohnungs-Spawn Medium oder Heavy an gegebener Basis.
 	 *  preferHeavy = true → 50% Heavy/50% Medium; false → 50% Medium/50% Heavy. */
 	void spawnRewardVehicleAtBase(int factionId, int baseId, bool preferHeavy = true) {
 		array<const XmlElement@>@ bases = getBases(m_metagame);

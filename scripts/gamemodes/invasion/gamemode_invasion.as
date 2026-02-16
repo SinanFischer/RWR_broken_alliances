@@ -63,7 +63,7 @@
 #include "trackers/bullet_flyby_effect.as"
 #include "trackers/defender_tank_help.as"
 #include "trackers/vehicle_interval_spawn.as"
-#include "events/cargo_delivery_reward_tracker.as"
+#include "radio_delay/cover_drop_test_tracker.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // auskommentiert: Reinforcement-Pool-Tracker deaktiviert
 
 // --------------------------------------------
@@ -359,6 +359,7 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		/* moved out of experimental 18/06/25 */
 		
 		addTracker(GpsLaptop(this));
+		addTracker(CoverDropTestTracker(this));  // Test 1: Schatten-Call cover_drop → call_event + Player-Info
 		addTracker(EmpGrenade(this));
 		addTracker(RepairCrane(this));
 		addTracker(RepairTankAuto(this));
@@ -386,7 +387,6 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		addTracker(DefenderTankHelp(this));
 		VehicleIntervalSpawn@ vehicleSpawnTr = VehicleIntervalSpawn(this);
 		addTracker(vehicleSpawnTr);
-		addTracker(CargoDeliveryRewardTracker(this, vehicleSpawnTr));  // Feind-Cargo in Waffenkammer → RP + Fahrzeug-Belohnung (keine Item-Unlocks)
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 	}
 

@@ -10,11 +10,11 @@
 #include "trackers/capacity_debug_hud_tracker.as"
 #include "trackers/stats_command_tracker.as"
 #include "trackers/vehicle_interval_spawn.as"
-#include "events/cargo_delivery_reward_tracker.as"
 #include "events/captain_spawn_command_tracker.as"
 #include "events/intel_manager_quickmatch.as"
 #include "commands/blackops3_vest_command_tracker.as"
 #include "delivery_unlocks/item_delivery_configurator_quickmatch.as"
+#include "radio_delay/cover_drop_test_tracker.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)
@@ -48,6 +48,7 @@ class GameModeQuickMatch : Metagame {
 
 		addTracker(BlackOps3VestCommandTracker(this));
 		addTracker(BasicCommandHandler(this));
+		addTracker(CoverDropTestTracker(this));  // Test 1: Schatten-Call cover_drop → call_event + Player-Info
 		RespawnSlotDelayTracker@ respawnTr = RespawnSlotDelayTracker(this);
 		addTracker(respawnTr);
 		addTracker(StatsCommandTracker(this, respawnTr)); // /stats für alle, sofort
@@ -60,7 +61,6 @@ class GameModeQuickMatch : Metagame {
 		addTracker(captainTr);  // /captain_spawn - 1 Captain + 3 orange_bodyguards; auch bei Cargo-Truck-Spawn
 		VehicleIntervalSpawn@ vehicleSpawnTr = VehicleIntervalSpawn(this, captainTr);
 		addTracker(vehicleSpawnTr);  // Fahrzeug-Spawn; bei Cargo-Truck: Captain-Team mit
-		addTracker(CargoDeliveryRewardTracker(this, vehicleSpawnTr));  // Feind-Cargo in Waffenkammer → Belohnungs-Spawn (Medium/Heavy) an Basis
 		addTracker(IntelManagerQuickMatch(this, 100.0, "paratroopers1.call", 0.15f, captainTr));  // Basis-Intel + Captain-Scout-Verknüpfung
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 
