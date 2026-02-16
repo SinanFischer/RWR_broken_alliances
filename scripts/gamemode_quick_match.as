@@ -4,7 +4,6 @@
 #include "log.as"
 #include "query_helpers.as"
 #include "basic_command_handler.as"
-#include "trackers/faction_alive_hud_tracker.as"
 // Spawn-Capacity-System (Slotblock + Stats + optionales Debug-HUD) als zentrales Modul.
 #include "systems/spawn_capacity/spawn_capacity_system.as"
 #include "trackers/vehicle_interval_spawn.as"
@@ -22,6 +21,7 @@ const bool CAPACITY_DEBUG_HUD = false;
 class GameModeQuickMatch : Metagame {
 	protected ItemDeliveryOrganizer@ m_itemDeliveryOrganizer;
 	protected ItemDeliveryConfiguratorQuickMatch@ m_itemDeliveryConfigurator;
+	protected SpawnCapacityApi@ m_spawnCapacityApi;
 	// --------------------------------------------
 	GameModeQuickMatch(const XmlElement@ settings) {
 		super(settings.getStringAttribute("log_level"));
@@ -46,13 +46,13 @@ class GameModeQuickMatch : Metagame {
 
 		addTracker(BlackOps3VestCommandTracker(this));
 		addTracker(BasicCommandHandler(this));
-		RespawnSlotDelayTracker@ respawnTr = RespawnSlotDelayTracker(this);
-		addTracker(respawnTr);
-		addTracker(StatsCommandTracker(this, respawnTr)); // /stats für alle, sofort
+		// Spawn-Capacity-System ueber stabile API aufsetzen.
+		@m_spawnCapacityApi = SpawnCapacityApi(this);
+		m_spawnCapacityApi.installCoreTrackers(); // Slotblock + /stats
 		if (CAPACITY_DEBUG_HUD) {
-			addTracker(CapacityDebugHudTracker(this, respawnTr));
+			m_spawnCapacityApi.installDebugHud();
 		} else {
-			addTracker(FactionAliveHudTracker(this)); // HUD: nur Einheiten in 200m
+			m_spawnCapacityApi.installDefaultAliveHud(); // HUD: nur Einheiten in 200m
 		}
 		CaptainSpawnCommandTracker@ captainTr = CaptainSpawnCommandTracker(this);
 		addTracker(captainTr);  // /captain_spawn - 1 Captain + 3 orange_bodyguards; auch bei Cargo-Truck-Spawn

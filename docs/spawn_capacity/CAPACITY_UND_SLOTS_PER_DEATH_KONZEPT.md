@@ -160,6 +160,7 @@ EU: A-K-D: 50-100-80 C-B: 65-5 B(s): 150
 | Datei | Zweck |
 |-------|-------|
 | `scripts/systems/spawn_capacity/spawn_capacity_system.as` | Zentrale Include-Fassade fuer das Spawn-Capacity-System |
+| `scripts/systems/spawn_capacity/spawn_capacity_api.as` | Stabile API fuer Einbindung (Core-Tracker/HUD) ohne direkte Tracker-Kopplung |
 | `scripts/trackers/respawn_slot_delay_tracker.as` | Hauptlogik: Slot-Delay, Capacity-Multiplier |
 | `scripts/trackers/stats_command_tracker.as` | `/stats`-Command: zeigt A-K-D, C-B, B(s) |
 | `scripts/trackers/capacity_debug_hud_tracker.as` | Debug-HUD: Alive/Capacity pro Fraktion (optional) |
