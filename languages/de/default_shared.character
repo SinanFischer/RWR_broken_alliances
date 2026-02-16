@@ -6,7 +6,6 @@
     <parameter class="player_fov_max_dot_range" value="1.5" />
     <parameter class="player_fov_min_dot_range_offset" value="1.0" />
     <!-- <comment key="Hmm, no signal" /> -->
-
 	<comment key="Driver, abandon vehicle" text="Fahrer, verlassen Sie das Fahrzeug" />
   <comment key="Driver, abandon vehicle" text="Fahrer, verlassen Sie das Fahrzeug" />  
 	<comment key="Gunner, abandon vehicle" text="Schuetze, verlassen Sie das Fahrzeug" />

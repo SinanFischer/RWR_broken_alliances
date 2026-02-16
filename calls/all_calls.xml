@@ -14,7 +14,6 @@
 	<call file="apc.call" />
 	<call file="tank.call" />
 	<call file="paratroopers4.call" />
-	<call file="cover_drop.call" />
 	<!-- 10 Snipers, Kosten 100 (ersetzt eod_light troop) -->
 	<!-- <call file="sniper_drop.call" /> -->
 	<call file="tank_1.call" />

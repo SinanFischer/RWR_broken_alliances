@@ -16,7 +16,6 @@
   		<result class="faction_resources" affect_enemies="1">
 			<call key="paratroopers1.call" enabled="0" />
 			<call key="paratroopers2.call" enabled="0" />
-			<call key="cover_drop.call" enabled="0" />
 			<call key="humvee.call" enabled="0" />
 			<call key="rubber_boat.call" enabled="0" />
 			<call key="tank.call" enabled="0" />
@@ -28,7 +27,6 @@
   		<result class="faction_resources" affect_enemies="1">
 			<call key="paratroopers1.call" enabled="1" />
 			<call key="paratroopers2.call" enabled="1" />
-			<call key="cover_drop.call" enabled="1" />
 			<call key="humvee.call" enabled="1" />
 			<call key="rubber_boat.call" enabled="1" />
 			<call key="tank.call" enabled="1" />

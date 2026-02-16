@@ -14,7 +14,6 @@
 #include "events/intel_manager_quickmatch.as"
 #include "commands/blackops3_vest_command_tracker.as"
 #include "delivery_unlocks/item_delivery_configurator_quickmatch.as"
-#include "radio_delay/cover_drop_test_tracker.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)
@@ -48,7 +47,6 @@ class GameModeQuickMatch : Metagame {
 
 		addTracker(BlackOps3VestCommandTracker(this));
 		addTracker(BasicCommandHandler(this));
-		addTracker(CoverDropTestTracker(this));  // Test 1: Schatten-Call cover_drop → call_event + Player-Info
 		RespawnSlotDelayTracker@ respawnTr = RespawnSlotDelayTracker(this);
 		addTracker(respawnTr);
 		addTracker(StatsCommandTracker(this, respawnTr)); // /stats für alle, sofort

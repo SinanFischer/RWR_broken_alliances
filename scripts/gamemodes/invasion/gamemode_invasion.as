@@ -63,7 +63,6 @@
 #include "trackers/bullet_flyby_effect.as"
 #include "trackers/defender_tank_help.as"
 #include "trackers/vehicle_interval_spawn.as"
-#include "radio_delay/cover_drop_test_tracker.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // auskommentiert: Reinforcement-Pool-Tracker deaktiviert
 
 // --------------------------------------------
@@ -359,7 +358,6 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		/* moved out of experimental 18/06/25 */
 		
 		addTracker(GpsLaptop(this));
-		addTracker(CoverDropTestTracker(this));  // Test 1: Schatten-Call cover_drop → call_event + Player-Info
 		addTracker(EmpGrenade(this));
 		addTracker(RepairCrane(this));
 		addTracker(RepairTankAuto(this));
@@ -716,7 +714,6 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 			CallMarkerConfig("supply_quad_alt.call", "call_marker_drop", 13, 0.5),
 			CallMarkerConfig("tank.call", "call_marker_drop", 12, 0.5),
 			CallMarkerConfig("tank_alt.call", "call_marker_drop", 12, 0.5),
-			CallMarkerConfig("cover_drop.call", "call_marker_drop", 13, 0.5),
 			CallMarkerConfig("sniper_drop.call", "call_marker_drop", 15, 0.5),
             //CallMarkerConfig("a10_gun_run.call", "call_marker", 4, 0.5) //handled in a10_gun_run.as
             CallMarkerConfig("gunship_run.call", "call_marker", 4, 0.5, 58),
