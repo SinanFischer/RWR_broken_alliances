@@ -84,8 +84,8 @@ Hinweis:
 | Schritt | Ziel | Ergebnis/Artefakt | Integriert (Ja/Nein + Info) |
 |---|---|---|---|
 | 1 | Systemordner + Dateigeruest anlegen | Leere, kompilierbare Struktur mit Includes | **Ja** - Ordner + Plan-Doku erstellt |
-| 2 | FP-Store bauen | `get/set/add/spend/canSpend` mit Guards und Invarianten | **Nein** - offen |
-| 3 | API + idempotente Installation | `installCore()`, `installHud()`, `installDebug()` | **Nein** - offen |
+| 2 | FP-Store bauen | `get/set/add/spend/canSpend` mit Guards und Invarianten | **Ja** - `faction_points_store.as` + `faction_points_persistence_adapter.as` angelegt |
+| 3 | API + idempotente Installation | `installCore()`, `installHud()`, `installDebug()` | **Ja** - `faction_points_api.as` inkl. idempotenter Install-Flags; Tracker-Scaffold angelegt |
 | 4 | FP-Tracker (MVP-Quellen) | Basiseroberung + Basishalten erzeugt FP-Deltas | **Nein** - offen |
 | 5 | FP-HUD-Tracker | Anzeige FP statt Alive-Count via `update_score_display` | **Nein** - offen |
 | 6 | Alte HUD-Anzeige deaktivieren | `faction_alive_hud_tracker` nicht mehr registrieren | **Nein** - offen |
@@ -109,8 +109,8 @@ Hinweis:
 
 ## Offene Architekturentscheidungen (vor Implementierung klaeren)
 
-1. **Quick-Win vs. robust:**  
-   Soll der MVP ohne Persistenz (nur Match-Runtime) bleiben oder direkt mit Persistenz-Adapter starten?
+1. **Persistenz-Strategie (entschieden):**  
+   Robuste Variante aktiv: Persistenz-Adapter von Anfang an (`save_data`/`saved_data`).
 2. **FP-Quellen im MVP:**  
    Nur Base-Capture/Hold oder zusaetzlich Kills und Item-Verkauf schon in Phase 1?
 3. **Budget-Regeln:**  
