@@ -87,9 +87,15 @@ Beim Tod wird **nicht** der Todeszeitpunkt gespeichert, sondern der **Ablaufzeit
 - Spätere Delay-Änderungen (durch Basenverlust/-gewinn) beeinflussen bestehende Slots **nicht**.
 - Kein "Zombie-Timestamp"-Problem: Ein Slot, der nach 2 s verfallen sollte, bleibt auch bei Delay-Erhöhung weg.
 
-### Capacity-Cache
+### Capacity-Cache (robust)
 
-Die Basis-Capacity (`soldier_capacity` aus Config) wird **einmal beim Start gecacht**. Die Engine liefert nach Anwendung des `capacity_multiplier` ggf. bereits reduzierte Werte — der Cache verhindert, dass wir doppelt runterrechnen.
+Die Basis-Capacity (`soldier_capacity` aus Config) wird als **höchster beobachteter Wert** pro Fraktion gecacht (monoton steigend, nie nach unten überschrieben):
+
+- Startwert wird früh gesetzt (Fallback/Live-Read möglich).
+- Bei späteren Map-/Stage-Anhebungen wird der Cache automatisch nach oben korrigiert.
+- Reduzierte Laufzeitwerte durch `capacity_multiplier` überschreiben den Basiswert **nicht**.
+
+Damit bleibt `Cap` in `/stats` stabil korrekt (z.B. 250 statt festhängend bei 30).
 
 ### Schwächste Fraktion
 
@@ -162,6 +168,6 @@ EU: A-K-D: 50-100-80 C-B: 65-5 B(s): 150
 
 ## 8. Behobene Bugs (Changelog)
 
-1. **Capacity = 0 Bug:** Engine liefert nach Multiplier bereits reduzierte `soldier_capacity`. Fix: Basis-Capacity einmal beim Start gecacht (`m_baseCapacity`).
+1. **Capacity-Auslese driftete nach unten (z.B. 250 → 30):** Zu frühes/zu statisches Caching konnte zu niedrige Basiswerte festhalten. Fix: `m_baseCapacity` wird als Maximum pro Fraktion geführt (nur nach oben aktualisiert), inkl. Fallback-Live-Read.
 2. **Zombie-Timestamps:** Delay-Änderung (z.B. Basenverlust) konnte abgelaufene Timestamps wiederbeleben. Fix: Gespeichert wird jetzt `expireTime` (Ablaufzeitpunkt), nicht Todeszeitpunkt.
 3. **Schwächste Fraktion sammelte Timestamps:** Obwohl `mult = 1.0` gesetzt wurde, wurden Timestamps gespeichert. Bei Basis-Rückeroberung (3+ Basen) wurden alle plötzlich aktiv → massiver Capacity-Drop. Fix: `flushPendingDeaths()` speichert keine Timestamps für schwächste Fraktion.
