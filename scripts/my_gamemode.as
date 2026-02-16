@@ -6,6 +6,11 @@
 #include "systems/game_systems.as"
 // #include "trackers/reinforcement_pool_tracker.as"  // aus: Reinforcement-Pool deaktiviert
 
+const bool CAMPAIGN_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
+const bool CAMPAIGN_ENABLE_EVENT_SYSTEMS = true;
+const bool CAMPAIGN_ENABLE_SPAWN_CAPACITY_SYSTEM = true;
+const bool CAMPAIGN_CAPACITY_DEBUG_HUD = false;
+
 // --------------------------------------------
 class MyGameMode : GameModeCampaign {
 	protected GameSystemsRegistry@ m_gameSystemsRegistry;
@@ -19,8 +24,23 @@ class MyGameMode : GameModeCampaign {
 	void postBeginMatch() {
 		GameModeCampaign::postBeginMatch();
 		@m_gameSystemsRegistry = GameSystemsRegistry(this);
-		m_gameSystemsRegistry.installSharedCommandAndDeliverySystems(true, true, true);
-		m_gameSystemsRegistry.installQuickMatchEventSystems(true, 100.0f, "paratroopers1.call", 0.15f);
+		m_gameSystemsRegistry.installSharedCommandAndDeliverySystems(
+			CAMPAIGN_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS,
+			true,
+			true
+		);
+		m_gameSystemsRegistry.installSpawnCapacitySystem(
+			CAMPAIGN_ENABLE_SPAWN_CAPACITY_SYSTEM,
+			CAMPAIGN_CAPACITY_DEBUG_HUD,
+			true // ohne Debug-HUD: Standard-Alive-HUD aktiv
+		);
+		m_gameSystemsRegistry.installQuickMatchEventSystems(
+			CAMPAIGN_ENABLE_EVENT_SYSTEMS,
+			100.0f,
+			"paratroopers1.call",
+			0.15f,
+			false // Campaign: Single-Base-VIP deaktiviert
+		);
 		addTracker(DefenderTankHelp(this));
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 	}

@@ -44,18 +44,20 @@ class GameSystemsRegistry {
 
 	// Installiert QuickMatch-Events zentral ueber die Registry:
 	// - Captain-Command (/captain_spawn)
-	// - Single-Base-VIP
+	// - Single-Base-VIP (optional abschaltbar pro Modus)
 	// - VehicleIntervalSpawn (inkl. Captain-Integration bei Cargo-Truck)
 	// - IntelManagerQuickMatch
-	void installQuickMatchEventSystems(bool enabled, float intelReward = 100.0f, const string &in intelRequiredCall = "paratroopers1.call", float intelRequiredXP = 0.15f) {
+	void installQuickMatchEventSystems(bool enabled, float intelReward = 100.0f, const string &in intelRequiredCall = "paratroopers1.call", float intelRequiredXP = 0.15f, bool enableSingleBaseVip = true) {
 		if (!enabled) return;
 		if (m_quickMatchEventSystemsInstalled) return;
 
 		@m_quickMatchCaptainTracker = CaptainSpawnCommandTracker(m_metagame);
 		m_metagame.addTracker(m_quickMatchCaptainTracker);
 
-		@m_quickMatchSingleBaseVipTracker = SingleBaseVipTracker(m_metagame, m_quickMatchCaptainTracker);
-		m_metagame.addTracker(m_quickMatchSingleBaseVipTracker);
+		if (enableSingleBaseVip) {
+			@m_quickMatchSingleBaseVipTracker = SingleBaseVipTracker(m_metagame, m_quickMatchCaptainTracker);
+			m_metagame.addTracker(m_quickMatchSingleBaseVipTracker);
+		}
 
 		@m_quickMatchVehicleSpawnTracker = VehicleIntervalSpawn(m_metagame, m_quickMatchCaptainTracker);
 		m_metagame.addTracker(m_quickMatchVehicleSpawnTracker);
