@@ -561,9 +561,9 @@
 	</soldier>
 
 	<!-- -------------- -->
-	<!-- Dog (Kampfhund, Vanilla-Assets) - spawn_score 0.04 (~4%) für alle Fraktionen -->
+	<!-- Dog (Kampfhund, Vanilla-Assets) - spawn_score 0.25 (1/4 = 25%) für alle Fraktionen -->
 	<!-- -------------- -->
-	<soldier name="dog" spawn_score="0.04" squad_size_xp_cap="0.0" firstnames_file="dog_firstnames.txt" lastnames_file="dog_lastnames.txt">
+	<soldier name="dog" spawn_score="0.25" squad_size_xp_cap="0.0" firstnames_file="dog_firstnames.txt" lastnames_file="dog_lastnames.txt">
 		<character filename="dog.character" />
 		<ai filename="dog.ai" />
 		<models>

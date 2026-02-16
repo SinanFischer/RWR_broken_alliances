@@ -1,68 +1,167 @@
-# Respawn-Slot-Delay & Slots-per-Death - aktuelles System
+# Respawn-Slot-Delay & Slots-per-Death
 
 ---
 
-## Überblick
+## Ziel
 
-- **Effekt:** Jeder Tod einer Fraktion „blockiert“ für eine begrenzte Zeit mehrere Capacity-Slots dieser Fraktion. Effektive Capacity = `rawCap − reserved`; die Engine erhält das über `capacity_multiplier` (alle 1 s). Kills und Revives haben dadurch spürbaren Einfluss.
-- **Slots pro Tod** hängen von der **eigenen** soldier_capacity der **sterbenden** Fraktion ab (starke Fraktion verliert mehr pro Tod; Underdog kann den Führenden pro Kill stärker ausbluten).
-- **Zusätzlicher Delay bei Truppenüberlegenheit:** Hat eine Fraktion mehr lebende Truppen als die zweitstärkste, verlängert sich die Slot-Blockade für ihre Tode um eine berechnete Extra-Zeit.
+Kills sollen im Spiel **spürbare Auswirkungen** haben. In Vanilla spawnen getötete Soldaten sofort nach, wenn Capacity frei ist — ein Kill bringt fast keinen taktischen Vorteil. Dieses System macht jeden Kill wertvoll:
 
----
-
-## 1. Slots pro Tod (nach eigener Capacity + Führer-Bonus)
-
-Pro Tod einer Fraktion werden **so viele** Slots für die Dauer des Delays als „reserviert“ gezählt, wie die folgende Tabelle für die **eigene** soldier_capacity dieser Fraktion angibt. **Zusätzlich:** Die **führende** Fraktion (meiste lebende Truppen) erhält **+2 Slots** pro Tod.
-
-| Eigene Capacity der Fraktion (sterbend) | Slots pro Tod (Basis) |
-|----------------------------------------|------------------------|
-| &lt; 70 | 1 |
-| 70 - 120 | 2 |
-| 121 - 200 | 3 |
-| 201 - 250 | 4 |
-| 251 - 299 | 5 |
-| ≥ 300 | 6 |
-
-**Führer-Bonus:** Führende Fraktion (ermittelt alle 15 s via Alive-Zahl) +2 Slots → verliert pro Tod 2 Slots mehr als die Tabelle.
-
-- **Beispiel 99 vs 250, 250 ist führend:** 250er-Fraktion: 4 + 2 = 6 Slots pro Tod; 99er-Fraktion (70-120): 2 Slots (ohne Führer).
-- **Implementierung:** `getSlotsPerDeathForCapacity(factionCap)`; in `flushPendingDeaths()` Basis + ggf. `+2` wenn `fid == m_leaderFactionId`.
+- Getötete Einheiten **blockieren** ihre Spawn-Slots für eine begrenzte Zeit.
+- Stärkere Fraktionen verlieren pro Tod **mehr Slots** und werden **länger** blockiert.
+- Schwächere Fraktionen (≤2 Basen) sind **komplett vom Slotblock befreit** (Vanilla-Spawn).
+- Medic-Revives verhindern den Tod → kein Slot wird blockiert → Revives werden wichtiger.
 
 ---
 
-## 2. Slot-Blockade (Delay)
+## Spielverhalten
 
-- **Basis (pro Fraktion):** Die **Basis-Dauer** der Blockade hängt von der **Anzahl Basen** der Fraktion ab (nur für diese Fraktion):  
-  **1 Basis** → 2 s, **2 Basen** → 5 s, **3+ Basen** → `RESPAWN_SLOT_DELAY` (z. B. 15 s).  
-  So haben stark unterlegene Fraktionen (nur noch 1-2 Basen) kürzeres Respawn-Delay.
-- **Extra bei Überlegenheit:** Alle 15 s wird pro Fraktion ermittelt, ob sie mehr lebende Truppen hat als die zweitstärkste. Wenn ja:  
-  `extraDelay = (Vorsprung / TROOPS_PER_EXTRA_BLOCK) × EXTRA_SECONDS_PER_BLOCK`  
-  (z. B. alle 25 Truppen Vorsprung = 4 s länger).  
-  Die **effektive** Blockade-Dauer pro Slot ist dann `getBaseDelaySeconds(factionId) + getExtraDelaySeconds(factionId)` (Basis aus Basenanzahl, alle 15 s gecacht).
-- **Reserved Slots:** Anzahl der Zeitstempel (pro Tod × slotsPerDeath) die innerhalb dieser effektiven Dauer vor „now“ liegen. Diese Anzahl wird von der raw Capacity abgezogen.
+### Was passiert wenn ein Soldat stirbt?
 
----
+1. Die **sterbende Fraktion** verliert für X Sekunden mehrere Capacity-Slots.
+2. Die Engine sieht weniger verfügbare Capacity → weniger/keine Spawns bis Slots frei werden.
+3. Nach Ablauf des Delays werden die Slots automatisch freigegeben.
 
-## 3. Anwendung auf die Engine
+### Was sieht der Spieler?
 
-- **Effektive Capacity:** `effective = max(0, rawCap − reserved)`.
-- **capacity_multiplier:** `effective / rawCap` (bzw. Mindestwert nahe 0, damit die Fraktion nicht als tot gilt).
-- **Intervall:** Alle 1 s (`APPLY_INTERVAL`) wird `change_game_settings` mit den capacity_multipliern pro Fraktion gesendet.
+- Spawns dauern nach großen Verlusten spürbar länger.
+- `/stats` zeigt pro Fraktion: **C** (verfügbare Capacity) und **B** (aktuell blockierte Slots).
+- Eine Fraktion mit vielen Toden in kurzer Zeit hat deutlich reduzierte Capacity.
 
----
+### Schwächste Fraktion (Underdog-Schutz)
 
-## 4. Ablauf (kurz)
-
-1. **character_die** → `addPendingDeath(factionId)` (Zähler pro Fraktion).
-2. **Jedes update:** `flushPendingDeaths()` - pro Fraktion mit Toden: `slotsPerDeath = getSlotsPerDeathForCapacity(rawCap)`; wenn Fraktion = Führer, `slotsPerDeath += 2`; für jeden Tod werden `slotsPerDeath` viele Zeitstempel angehängt.
-3. **Alle 15 s:** Alive-Zahlen pro Fraktion; Führer = erste Fraktion mit max Alive (`m_leaderFactionId`); für jede Fraktion mit mehr Alive als die zweitstärkste wird `extraDelaySeconds` gesetzt.
-4. **Alle 1 s:** `getReservedSlots(fid)` = Anzahl Zeitstempel mit `(now - t) ≤ RESPAWN_SLOT_DELAY + getExtraDelaySeconds(fid)`; dann `effective = rawCap − reserved`, `capacity_multiplier = effective/rawCap` → `change_game_settings`.
-5. **Prune:** Alte Zeitstempel außerhalb des effektiven Delays werden periodisch entfernt, damit die Liste nicht unbegrenzt wächst.
+Wenn eine Fraktion die **wenigsten Basen** hat **UND ≤2 Basen** besitzt:
+- **Kein Slotblock** — volle Capacity, Vanilla-Spawn.
+- Keine Timestamps werden gespeichert (auch keine versteckten).
+- Sobald sie eine 3. Base erobert, greift das Slot-System wieder.
 
 ---
 
-## 5. Relevante Dateien / Konstanten
+## 1. Slots pro Tod
 
-- **Tracker:** `scripts/trackers/respawn_slot_delay_tracker.as`
-- **Konstanten (Auszug):** `RESPAWN_SLOT_DELAY`, `ALIVE_CHECK_INTERVAL`, `TROOPS_PER_EXTRA_BLOCK`, `EXTRA_SECONDS_PER_BLOCK`, `APPLY_INTERVAL`, `CAPACITY_MULTIPLIER_NEAR_ZERO`
-- **Debug-HUD (optional):** `scripts/trackers/capacity_debug_hud_tracker.as` zeigt pro Fraktion Alive / effektive Capacity; Einbindung über `gamemode_quick_match.as` (`CAPACITY_DEBUG_HUD`).
+Pro Tod werden **so viele Slots** blockiert, wie die Tabelle für die **eigene** soldier_capacity angibt:
+
+| Capacity der sterbenden Fraktion | Slots pro Tod (Basis) |
+|----------------------------------|----------------------|
+| < 70                             | 1                    |
+| 70 – 120                         | 2                    |
+| 121 – 200                        | 3                    |
+| 201 – 250                        | 4                    |
+| 251 – 299                        | 5                    |
+| ≥ 300                            | 6                    |
+
+**Führer-Bonus:** Die Fraktion mit den meisten lebenden Truppen (ermittelt alle 15 s) verliert **+2 Slots zusätzlich** pro Tod.
+
+**Beispiel:** Fraktion mit Capacity 250 (Führer): `4 + 2 = 6 Slots` pro Tod blockiert.
+
+---
+
+## 2. Dauer der Blockade (Delay)
+
+Wie lange jeder Slot blockiert bleibt, hängt von der **Basenanzahl der sterbenden Fraktion** ab:
+
+| Basen der Fraktion | Basis-Delay |
+|--------------------|-------------|
+| 1 Basis            | 2 s         |
+| 2 Basen            | 5 s         |
+| 3+ Basen           | 15 s        |
+
+**Extra-Delay bei Truppenüberlegenheit:** Hat eine Fraktion mehr lebende Truppen als die zweitstärkste:
+
+```
+extraDelay = (Vorsprung / 25) × 4 s
+```
+
+Beispiel: 50 Truppen Vorsprung → +8 s extra → effektives Delay = 15 + 8 = 23 s.
+
+**Effektives Delay** = Basis-Delay + Extra-Delay. Wird zum Todeszeitpunkt festgelegt und ändert sich nachträglich nicht (Ablaufzeitpunkt wird gespeichert).
+
+---
+
+## 3. Technische Umsetzung
+
+### Timestamps = Ablaufzeitpunkte
+
+Beim Tod wird **nicht** der Todeszeitpunkt gespeichert, sondern der **Ablaufzeitpunkt** (`expireTime = now + effectiveDelay`). Dadurch:
+
+- Slots verfallen exakt nach dem Delay, das zum Todeszeitpunkt galt.
+- Spätere Delay-Änderungen (durch Basenverlust/-gewinn) beeinflussen bestehende Slots **nicht**.
+- Kein "Zombie-Timestamp"-Problem: Ein Slot, der nach 2 s verfallen sollte, bleibt auch bei Delay-Erhöhung weg.
+
+### Capacity-Cache
+
+Die Basis-Capacity (`soldier_capacity` aus Config) wird **einmal beim Start gecacht**. Die Engine liefert nach Anwendung des `capacity_multiplier` ggf. bereits reduzierte Werte — der Cache verhindert, dass wir doppelt runterrechnen.
+
+### Schwächste Fraktion
+
+In `flushPendingDeaths()` wird geprüft: Hat diese Fraktion die wenigsten Basen UND ≤2 Basen? Wenn ja:
+- `pendingDeaths` werden gelöscht, aber **keine Timestamps** erzeugt.
+- `totalSlotSecondsBlocked` wird nicht erhöht.
+- `applyCapacityWithReservedSlots()` setzt `mult = 1.0` (volle Capacity).
+
+---
+
+## 4. Ablauf (pro Frame/Update)
+
+1. **`character_die`-Event** → `addPendingDeath(factionId)` (Zähler pro Fraktion).
+2. **Jedes update** → `flushPendingDeaths()`:
+   - Schwächste Fraktion: pendingDeaths löschen, **keine Timestamps**.
+   - Sonst: `slotsPerDeath` berechnen (Tabelle + Führer-Bonus), `expireTime = now + effectiveDelay`, pro Tod × slotsPerDeath viele Expire-Einträge speichern.
+3. **Alle 15 s** → `refreshAliveBasedExtraDelay()`:
+   - Alive-Zahlen, Basen, Extra-Delay pro Fraktion aktualisieren.
+   - Führer-Fraktion (meiste Alive) bestimmen.
+4. **Alle 1 s** → `applyCapacityWithReservedSlots()`:
+   - Pro Fraktion: `reserved = Anzahl Expire-Einträge mit expireTime > now`.
+   - `effective = baseCapacity − reserved`, `mult = effective / baseCapacity`.
+   - `change_game_settings` mit `capacity_multiplier` pro Fraktion an Engine senden.
+   - Abgelaufene Einträge entfernen (Prune).
+
+---
+
+## 5. /stats-Anzeige
+
+```
+EU: A-K-D: 50-100-80 C-B: 65-5 B(s): 150
+```
+
+| Kürzel | Bedeutung |
+|--------|-----------|
+| A      | Alive (lebende Einheiten) |
+| K      | Kills (durch diese Fraktion getötet) |
+| D      | Deaths (Tode dieser Fraktion) |
+| C      | Effektive Capacity (baseCapacity − B) |
+| B      | Aktuell blockierte Slots (Summe; ein Tod = 1–8 Slots je nach Capacity + Führer) |
+| B(s)   | Kumulierte Slot-Sekunden (Impact über die Runde: Summe aller Slots × Delay) |
+
+---
+
+## 6. Konfiguration (Konstanten)
+
+| Konstante | Wert | Bedeutung |
+|-----------|------|-----------|
+| `RESPAWN_SLOT_DELAY` | 15 s | Basis-Delay bei 3+ Basen |
+| `RESPAWN_SLOT_DELAY_2_BASES` | 5 s | Basis-Delay bei 2 Basen |
+| `RESPAWN_SLOT_DELAY_1_BASE` | 2 s | Basis-Delay bei 1 Basis |
+| `ALIVE_CHECK_INTERVAL` | 15 s | Wie oft Alive/Basen/Extra-Delay aktualisiert |
+| `TROOPS_PER_EXTRA_BLOCK` | 25 | Pro 25 Truppen Vorsprung … |
+| `EXTRA_SECONDS_PER_BLOCK` | 4 s | … +4 s Extra-Delay |
+| `APPLY_INTERVAL` | 1 s | Wie oft capacity_multiplier gesendet wird |
+| `CAPACITY_MULTIPLIER_NEAR_ZERO` | 0.00001 | Min-Mult (Engine ignoriert 0.0) |
+
+---
+
+## 7. Relevante Dateien
+
+| Datei | Zweck |
+|-------|-------|
+| `scripts/trackers/respawn_slot_delay_tracker.as` | Hauptlogik: Slot-Delay, Capacity-Multiplier |
+| `scripts/trackers/stats_command_tracker.as` | `/stats`-Command: zeigt A-K-D, C-B, B(s) |
+| `scripts/trackers/capacity_debug_hud_tracker.as` | Debug-HUD: Alive/Capacity pro Fraktion (optional) |
+| `scripts/gamemode_quick_match.as` | Einbindung aller Tracker |
+
+---
+
+## 8. Behobene Bugs (Changelog)
+
+1. **Capacity = 0 Bug:** Engine liefert nach Multiplier bereits reduzierte `soldier_capacity`. Fix: Basis-Capacity einmal beim Start gecacht (`m_baseCapacity`).
+2. **Zombie-Timestamps:** Delay-Änderung (z.B. Basenverlust) konnte abgelaufene Timestamps wiederbeleben. Fix: Gespeichert wird jetzt `expireTime` (Ablaufzeitpunkt), nicht Todeszeitpunkt.
+3. **Schwächste Fraktion sammelte Timestamps:** Obwohl `mult = 1.0` gesetzt wurde, wurden Timestamps gespeichert. Bei Basis-Rückeroberung (3+ Basen) wurden alle plötzlich aktiv → massiver Capacity-Drop. Fix: `flushPendingDeaths()` speichert keine Timestamps für schwächste Fraktion.

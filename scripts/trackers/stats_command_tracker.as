@@ -1,12 +1,17 @@
 // /stats und /stat: Kompaktes Format pro Fraktion.
-// Beispiel: EU: A-K-D: 50-100-80 C-B: 65-5 B(s): 150
+// Beispiel: EU: A-K-D: 50-100-80 Cap: 200 C-B: 72-128 B(s): 150
+// Schwächste Fraktion (Slotblock AUS): EU: A-K-D: 50-100-80 Cap: 200 [no block]
 //
 // Legende:
-//   A-K-D   = Alive, Kills, Deaths (Kills/Deaths = Fraktions-Stat)
-//   C       = effektive Capacity (Spawn-Slots; mit RespawnSlotDelay: raw minus blockierte Slots)
-//   B       = aktuell blockierte Slots (wie viele Slots gerade durch Respawn-Delay reserviert sind, nicht die Anzahl Toter)
-//   B(s)    = kumulierte Slot-Sekunden (Impact: Summe aller durch Tode blockierten Slot×Sekunden dieser Fraktion)
-// Ohne RespawnSlotDelayTracker: C = Raw-Capacity, B=0, B(s)=0.
+//   A       = Alive (lebende Einheiten dieser Fraktion)
+//   K       = Kills (durch diese Fraktion getötet, Fraktions-Gesamt)
+//   D       = Deaths (Tode dieser Fraktion, Fraktions-Gesamt)
+//   Cap     = Basis-Capacity (Config-Wert, gecacht; Grundlage für Multiplier-Berechnung)
+//   C       = effektive Capacity (Cap minus B; was die Engine zum Spawnen nutzt)
+//   B       = aktuell blockierte Slots (Summe; ein Tod = 1–8 Slots je nach Cap + Führer)
+//   B(s)    = kumulierte Slot-Sekunden (Impact über die Runde: Summe aller Slots × Delay)
+//   [no block] = Slotblock deaktiviert (schwächste Fraktion, ≤2 Basen → volle Capacity)
+// Ohne RespawnSlotDelayTracker: Cap/C = Engine-Capacity, B=0, B(s)=0.
 
 #include "tracker.as"
 #include "log.as"
@@ -14,14 +19,16 @@
 
 class StatsCommandTracker : Tracker {
 	protected Metagame@ m_metagame;
-	protected RespawnSlotDelayTracker@ m_respawnTracker; // optional: für effektive Capacity + blocked
-	protected dictionary m_killsPerFaction;  // key = "0","1",... value = Anzahl Kills
-	protected dictionary m_deathsPerFaction; // key = "0","1",... value = Anzahl Tode (sterbende Fraktion)
+	protected RespawnSlotDelayTracker@ m_respawnTracker;
+	protected dictionary m_killsPerFaction;
+	protected dictionary m_deathsPerFaction;
 
 	StatsCommandTracker(Metagame@ metagame, RespawnSlotDelayTracker@ respawnTracker = null) {
 		@m_metagame = metagame;
 		@m_respawnTracker = respawnTracker;
+		// Beide Events aktivieren, damit Kills UND Deaths auch ohne RespawnSlotDelayTracker gezählt werden.
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
+		m_metagame.getComms().send("<command class='set_metagame_event' name='character_die' enabled='1' />");
 	}
 
 	bool hasEnded() const { return false; }
@@ -31,7 +38,6 @@ class StatsCommandTracker : Tracker {
 		string message = event.getStringAttribute("message");
 		if (message.length() < 5 || message.substr(0, 5).toLowerCase() != "/stat")
 			return;
-		// /stats oder /stat
 		if (message.length() > 5 && message.substr(5, 1) != "s" && message.substr(5, 1) != " ")
 			return;
 		int senderId = event.getIntAttribute("player_id");
@@ -49,12 +55,26 @@ class StatsCommandTracker : Tracker {
 			int alive = getAliveCountGlobal(fid);
 			int kills = getKillsForFaction(fid);
 			int deaths = getDeathsForFaction(fid);
-			int capacity = (m_respawnTracker !is null) ? m_respawnTracker.getEffectiveCapacityForFaction(fid) : getRawCapacity(fid);
-			int blocked = (m_respawnTracker !is null) ? m_respawnTracker.getReservedSlots(fid) : 0;
-			int blockedS = (m_respawnTracker !is null) ? int(m_respawnTracker.getTotalSlotSecondsBlocked(fid)) : 0;
 
 			if (block.length() > 0) block += "\n";
-			block += shortName + ": A-K-D: " + alive + "-" + kills + "-" + deaths + " C-B: " + capacity + "-" + blocked + " B(s): " + blockedS;
+
+			if (m_respawnTracker !is null) {
+				int baseCap = m_respawnTracker.getBaseCapacity(fid);
+				int minBases = m_respawnTracker.getMinBasesOverFactions();
+				bool noBlock = m_respawnTracker.isWeakestFactionSlotBlockDisabled(fid, minBases);
+				if (noBlock) {
+					// Schwächste Fraktion: kein Slotblock → nur A-K-D und Cap zeigen, deutlich markieren
+					block += shortName + ": A-K-D: " + alive + "-" + kills + "-" + deaths + " Cap: " + baseCap + " [no block]";
+				} else {
+					int capacity = m_respawnTracker.getEffectiveCapacityForFaction(fid);
+					int blocked = m_respawnTracker.getReservedSlots(fid);
+					int blockedS = int(m_respawnTracker.getTotalSlotSecondsBlocked(fid));
+					block += shortName + ": A-K-D: " + alive + "-" + kills + "-" + deaths + " Cap: " + baseCap + " C-B: " + capacity + "-" + blocked + " B(s): " + blockedS;
+				}
+			} else {
+				int rawCap = getRawCapacity(fid);
+				block += shortName + ": A-K-D: " + alive + "-" + kills + "-" + deaths + " Cap: " + rawCap;
+			}
 		}
 		sendPrivateMessage(m_metagame, senderId, block);
 	}

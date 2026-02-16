@@ -25,6 +25,7 @@ Logs:
 #include "query_helpers.as"
 #include "query_helpers2.as"
 #include "events/character_death_helpers.as"
+#include "events/spawn_event_helpers.as"
 
 const string CMD_CAPTAIN_SPAWN = "captain_spawn";
 const float SPAWN_OFFSET_FWD = 5.0f;
@@ -58,6 +59,8 @@ class CaptainSpawnCommandTracker : Tracker {
 	protected array<array<int>> m_bodyguardIdsByFaction;
 	protected array<array<int>> m_enemyFactionsSpottedByFaction;
 	protected array<float> m_objectiveTimersByFaction;
+	// Hold-Phase: nach Ablauf keine defend-Objectives mehr (Release). -1 = dauerhaft halten.
+	protected array<float> m_holdUntilTimeByFaction;
 
 	// Verzögerte "Enemy Commander spotted" bei Basis-Scout: (ownerFactionId, spotterFactionId) → triggerTime
 	protected array<int> m_pendingSpotOwner;
@@ -72,11 +75,13 @@ class CaptainSpawnCommandTracker : Tracker {
 		m_bodyguardIdsByFaction.resize(MAX_FACTIONS);
 		m_enemyFactionsSpottedByFaction.resize(MAX_FACTIONS);
 		m_objectiveTimersByFaction.resize(MAX_FACTIONS);
+		m_holdUntilTimeByFaction.resize(MAX_FACTIONS);
 		for (int i = 0; i < MAX_FACTIONS; ++i) {
 			m_captainIds[i] = -1;
 			m_captainSpawnPositions[i] = "";
 			m_captainBaseIds[i] = -1;
 			m_objectiveTimersByFaction[i] = 0.0f;
+			m_holdUntilTimeByFaction[i] = -1.0f;
 		}
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_die' enabled='1' />");
@@ -121,14 +126,39 @@ class CaptainSpawnCommandTracker : Tracker {
 		m_objectiveTimersByFaction[factionId] -= time;
 		if (m_objectiveTimersByFaction[factionId] <= 0.0f) {
 			m_objectiveTimersByFaction[factionId] = OBJECTIVE_INTERVAL;
-			if (m_captainSpawnPositions[factionId].length() > 0) {
-				setCaptainObjective(m_captainIds[factionId], m_captainSpawnPositions[factionId], "defend");
+			bool released = m_holdUntilTimeByFaction[factionId] >= 0.0f && m_metagameTime >= m_holdUntilTimeByFaction[factionId];
+			if (released) m_holdUntilTimeByFaction[factionId] = -1.0f;
+			bool inHoldPhase = m_holdUntilTimeByFaction[factionId] >= 0.0f && m_metagameTime < m_holdUntilTimeByFaction[factionId];
+
+			if (!released) {
+				if (m_captainSpawnPositions[factionId].length() > 0) {
+					setCaptainObjective(m_captainIds[factionId], m_captainSpawnPositions[factionId], "defend");
+				}
+				if (m_bodyguardIdsByFaction[factionId].length() == 0) {
+					findBodyguardsNearCaptain(factionId, captainPos);
+				}
+				setBodyguardsOnDefend(factionId, captainPos, "defend");
+				if (inHoldPhase) setDefendForCharactersInRadius(factionId, captainPos, 50.0f);
 			}
-			if (m_bodyguardIdsByFaction[factionId].length() == 0) {
-				findBodyguardsNearCaptain(factionId, captainPos);
-			}
-			setBodyguardsOnDefend(factionId, captainPos, "defend");
 			checkSpotterAimAtCaptain(factionId, captainPos);
+		}
+	}
+
+	/** Setzt defend-Objective für alle Fraktions-Charaktere in Radius (z. B. 5 Soldaten + Miniboss beim Single-Base-VIP). */
+	void setDefendForCharactersInRadius(int factionId, const string &in captainPositionStr, float radius) {
+		Vector3 pos = stringToVector3(captainPositionStr);
+		array<const XmlElement@>@ chars = getCharactersNearPosition(m_metagame, pos, factionId, radius);
+		if (chars is null) return;
+		int captainId = m_captainIds[factionId];
+		array<int>@ bg = m_bodyguardIdsByFaction[factionId];
+		for (uint i = 0; i < chars.length(); ++i) {
+			int id = chars[i].getIntAttribute("id");
+			if (id == captainId) continue;
+			bool isBodyguard = false;
+			for (uint j = 0; j < bg.length(); ++j) { if (bg[j] == id) { isBodyguard = true; break; } }
+			if (isBodyguard) continue;
+			if (chars[i].getIntAttribute("dead") != 0) continue;
+			setDefendObjective(m_metagame, id, captainPositionStr);
 		}
 	}
 
@@ -217,6 +247,7 @@ class CaptainSpawnCommandTracker : Tracker {
 		m_bodyguardIdsByFaction[factionId].resize(0);
 		m_captainSpawnPositions[factionId] = "";
 		m_captainBaseIds[factionId] = -1;
+		m_holdUntilTimeByFaction[factionId] = -1.0f;
 		_log("CaptainSpawnCommandTracker: Captain Fraktion " + factionId + " weg, Marker entfernt", 1);
 	}
 
@@ -425,18 +456,18 @@ class CaptainSpawnCommandTracker : Tracker {
 		}
 	}
 
-	/** Öffentlich: Spawn bei Position (z.B. von VehicleIntervalSpawn bei Cargo-Truck). baseId = Basis, an der gespawnt wird (-1 bei /captain_spawn). */
-	void spawnCaptainSquadAt(int factionId, const Vector3 &in pos, int baseId = -1) {
+	/** Zentrale Spawn-Logik: 1 Captain + 3 Bodyguards. holdDurationSeconds > 0 = nach Ablauf Release (keine defend mehr). */
+	void performCaptainSquadSpawn(int factionId, const Vector3 &in pos, int baseId, float holdDurationSeconds = -1.0f) {
 		if (factionId < 0 || factionId >= MAX_FACTIONS) return;
-
 		if (m_captainIds[factionId] >= 0 || m_captainSpawnPositions[factionId].length() > 0) {
 			removeCaptainMarker(factionId);
 			removeEnemyMarkers(factionId);
 			m_enemyFactionsSpottedByFaction[factionId].resize(0);
 		}
-
 		m_captainSpawnPositions[factionId] = pos.toString();
 		m_captainBaseIds[factionId] = baseId;
+		m_holdUntilTimeByFaction[factionId] = (holdDurationSeconds > 0.0f) ? (m_metagameTime + holdDurationSeconds) : -1.0f;
+
 		Vector3 p = pos;
 		sendSpawnSoldier("captain", p, factionId);
 		p.m_values[0] -= SPAWN_OFFSET_SIDE;
@@ -449,7 +480,27 @@ class CaptainSpawnCommandTracker : Tracker {
 		m_captainIds[factionId] = -1;
 		m_bodyguardIdsByFaction[factionId].resize(0);
 		m_objectiveTimersByFaction[factionId] = 0.0f;
+	}
+
+	/** Öffentlich: Spawn bei Position (z.B. von VehicleIntervalSpawn bei Cargo-Truck). baseId = Basis, an der gespawnt wird (-1 bei /captain_spawn). */
+	void spawnCaptainSquadAt(int factionId, const Vector3 &in pos, int baseId = -1) {
+		performCaptainSquadSpawn(factionId, pos, baseId);
 		_log("CaptainSpawnCommandTracker: Squad bei Cargo-Truck " + pos.toString() + " für Fraktion " + factionId + " (pro Fraktion - andere Captains unverändert)", 1);
+	}
+
+	/** Single-Base-VIP: Captain + 3 Bodyguards + 5 Soldaten + 1 Miniboss, 60s an Base halten, dann Release. */
+	void spawnSingleBaseVipSquadAt(int factionId, const Vector3 &in basePos, int baseId) {
+		if (factionId < 0 || factionId >= MAX_FACTIONS) return;
+		performCaptainSquadSpawn(factionId, basePos, baseId, 60.0f);
+		Vector3 extraPos = basePos;
+		extraPos.m_values[0] -= 8.0f;
+		extraPos.m_values[2] += 6.0f;
+		array<string> extra;
+		for (int i = 0; i < 5; ++i) extra.insertLast("default_ai");
+		extra.insertLast("miniboss");
+		spawnSoldiersAt(m_metagame, extraPos, factionId, extra);
+		sendFactionMessage(m_metagame, factionId, "VIP and escort deployed at base. Hold the line for 60 seconds!", 2.0f);
+		_log("CaptainSpawnCommandTracker: Single-Base-VIP Squad Fraktion " + factionId + " bei Base " + baseId + ", Hold 60s", 1);
 	}
 
 	protected void handleChatEvent(const XmlElement@ event) {
@@ -478,40 +529,18 @@ class CaptainSpawnCommandTracker : Tracker {
 			sendPrivateMessage(m_metagame, senderId, "Faction " + factionId + " out of range (max " + MAX_FACTIONS + ").");
 			return false;
 		}
-
 		const XmlElement@ charInfo = getCharacterInfo(m_metagame, player.getIntAttribute("character_id"));
 		if (charInfo is null) {
 			sendPrivateMessage(m_metagame, senderId, "No character (dead/spectating?).");
 			return false;
 		}
-
 		Vector3 pos = stringToVector3(charInfo.getStringAttribute("position"));
 		pos.m_values[0] += SPAWN_OFFSET_FWD;
 		if (paradrop) pos.m_values[1] += PARADROP_HEIGHT;
 
-		if (m_captainIds[factionId] >= 0 || m_captainSpawnPositions[factionId].length() > 0) {
-			removeCaptainMarker(factionId);
-			removeEnemyMarkers(factionId);
-			m_enemyFactionsSpottedByFaction[factionId].resize(0);
-		}
-		m_captainSpawnPositions[factionId] = pos.toString();
-		m_captainBaseIds[factionId] = -1;
-
-		sendSpawnSoldier("captain", pos, factionId);
-		pos.m_values[0] -= SPAWN_OFFSET_SIDE;
-		sendSpawnSoldier("orange_bodyguards", pos, factionId);
-		pos.m_values[2] += SPAWN_OFFSET_SIDE;
-		sendSpawnSoldier("orange_bodyguards", pos, factionId);
-		pos.m_values[2] -= SPAWN_OFFSET_SIDE * 2.0f;
-		sendSpawnSoldier("orange_bodyguards", pos, factionId);
-
+		performCaptainSquadSpawn(factionId, pos, -1);
 		sendFactionMessage(m_metagame, factionId, "Captain + 3 orange_bodyguards deployed!", 1.5f);
 		_log("CaptainSpawnCommandTracker: Squad bei " + pos.toString() + " Fraktion " + factionId, 1);
-
-		m_captainIds[factionId] = -1;
-		m_bodyguardIdsByFaction[factionId].resize(0);
-		m_objectiveTimersByFaction[factionId] = 0.0f;
-
 		return true;
 	}
 

@@ -11,6 +11,7 @@
 #include "trackers/stats_command_tracker.as"
 #include "trackers/vehicle_interval_spawn.as"
 #include "events/captain_spawn_command_tracker.as"
+#include "events/single_base_vip_tracker.as"
 #include "events/intel_manager_quickmatch.as"
 #include "commands/blackops3_vest_command_tracker.as"
 #include "delivery_unlocks/item_delivery_configurator_quickmatch.as"
@@ -57,6 +58,7 @@ class GameModeQuickMatch : Metagame {
 		}
 		CaptainSpawnCommandTracker@ captainTr = CaptainSpawnCommandTracker(this);
 		addTracker(captainTr);  // /captain_spawn - 1 Captain + 3 orange_bodyguards; auch bei Cargo-Truck-Spawn
+		addTracker(SingleBaseVipTracker(this, captainTr));  // Bei nur 1 Base: VIP + Escort + 60s Hold, dann Release
 		VehicleIntervalSpawn@ vehicleSpawnTr = VehicleIntervalSpawn(this, captainTr);
 		addTracker(vehicleSpawnTr);  // Fahrzeug-Spawn; bei Cargo-Truck: Captain-Team mit
 		addTracker(IntelManagerQuickMatch(this, 100.0, "paratroopers1.call", 0.15f, captainTr));  // Basis-Intel + Captain-Scout-Verknüpfung
