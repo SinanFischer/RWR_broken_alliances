@@ -12,9 +12,9 @@ const int FP_EVENT3_CALL_COUNT = 3;
 const float FP_EVENT3_RING_RADIUS = 42.0f;
 const float FP_EVENT3_ANNOUNCEMENT_DELAY = 20.0f;
 const string FP_EVENT3_FRIENDLY_ANNOUNCEMENT = "Defense response authorized. Reinforcements arrive in 20 seconds.";
-const string FP_EVENT3_FRIENDLY_EXECUTION = "Defense response deployed at lost base perimeter.";
-const string FP_EVENT3_ENEMY_ANNOUNCEMENT = "Enemy defense reinforcements preparing near a lost base.";
-const string FP_EVENT3_ENEMY_EXECUTION = "Enemy defense reinforcements have deployed.";
+const string FP_EVENT3_FRIENDLY_EXECUTION = "Defense response is active. Hold the perimeter.";
+const string FP_EVENT3_ENEMY_ANNOUNCEMENT = "Prepare to defend. Enemy reinforcements expected in 20 seconds.";
+const string FP_EVENT3_ENEMY_EXECUTION = "Prepare to defend. Enemy reinforcements have arrived.";
 
 // Event3 (AI Event):
 // Bedingung: Fraktion hat kuerzlich eine Basis verloren.
@@ -94,6 +94,18 @@ class FactionPointsEvent3DefenseResponse : FactionPointsEvent {
 		if (baseName.length() == 0) baseName = "friendly base";
 		result = "Event3 Simulation: 3 Defense-Squads bei Basis " + baseName + ".";
 		return true;
+	}
+
+	bool tryGetLostBaseName(int factionId, string &out baseName) {
+		baseName = "";
+		int lostBaseId = -1;
+		if (!fpDefensePeekLostBase(factionId, lostBaseId)) return false;
+		const XmlElement@ lostBase = getBase(m_metagame, lostBaseId);
+		if (lostBase is null) return false;
+
+		baseName = lostBase.getStringAttribute("name");
+		if (baseName.length() == 0) baseName = lostBase.getStringAttribute("key");
+		return baseName.length() > 0;
 	}
 
 	protected void spawnDefenseCallsAroundBase(const Vector3 &in basePos, int factionId) {

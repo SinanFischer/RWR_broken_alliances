@@ -25,14 +25,13 @@ Grundlage ist das Szenario aus `docs/ueberblick/ERA_STORY.md` (Großer Konflikt 
 
 ## Stilbeispiele
 
-- **Gut:** `Your squad is below combat strength. Dispatching a support team to you soldier.`
-- **Gut:** `Support team has reached your sector. Good luck!`
-- **Gut:** `Enemy company assault incoming. Impact in 60 seconds.`
+- **Gut:** `Your squad is below combat strength. Dispatching a support team now.`
+- **Gut:** `Enemy company assault incoming. Impact at {base} in 60 seconds.`
 - **Schlecht:** lange RP-Texte, Witze, uebertrieben heroische Sprueche, unklare Passiv-Formulierungen.
 
 ## Review-Check vor Merge
 
-1. Passen die Meldungen zur Kriegsstimmung aus `docs/ueberblick/ERA_STORY.md`?
+1. Passen die Meldungen zur Kriegsstimmung aus `ERA_STORY.md`?
 2. Sind die Saetze kurz, klar und operativ?
 3. Sind Friendly und Enemy Meldungen logisch getrennt?
 4. Endet jede gesendete Meldung korrekt mit `(-N FP)`?

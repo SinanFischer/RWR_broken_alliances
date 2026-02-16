@@ -34,6 +34,16 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 	string getEnemyAnnouncementText() const { return FP_EVENT2_ENEMY_ANNOUNCEMENT; }
 	string getEnemyExecutionText() const { return FP_EVENT2_ENEMY_EXECUTION; }
 
+	bool tryGetTargetBaseName(int factionId, string &out baseName) {
+		baseName = "";
+		Vector3 refPos;
+		if (!getReferencePositionForFaction(factionId, refPos)) return false;
+		const XmlElement@ targetBase = getClosestEnemyBase(factionId, refPos);
+		if (targetBase is null) return false;
+		baseName = getBaseLabel(targetBase);
+		return baseName.length() > 0;
+	}
+
 	bool canExecute(int playerId, int factionId, string &out reason) {
 		Vector3 refPos;
 		if (!getReferencePositionForFaction(factionId, refPos)) {
@@ -88,9 +98,7 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 			m_metagame.getComms().send(cmd);
 		}
 
-		string baseName = targetBase.getStringAttribute("name");
-		if (baseName.length() == 0) baseName = targetBase.getStringAttribute("key");
-		if (baseName.length() == 0) baseName = "target base";
+		string baseName = getBaseLabel(targetBase);
 
 		result = "Event2 ausgefuehrt: 2 Platoons an Basis " + baseName + ".";
 		return true;
@@ -142,6 +150,14 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 		}
 
 		return false;
+	}
+
+	protected string getBaseLabel(const XmlElement@ base) const {
+		if (base is null) return "target base";
+		string baseName = base.getStringAttribute("name");
+		if (baseName.length() == 0) baseName = base.getStringAttribute("key");
+		if (baseName.length() == 0) baseName = "target base";
+		return baseName;
 	}
 }
 

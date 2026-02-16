@@ -11,6 +11,7 @@ class FactionPointsPendingExecution {
 	int m_factionId = -1;
 	int m_cost = 0;
 	float m_remainingSeconds = 0.0f;
+	string m_location = "";
 }
 
 // Event-Registry (Registry = zentrale Event-Verwaltung und Lookup).
@@ -171,21 +172,22 @@ class FactionPointsEventRegistry {
 			return false;
 		}
 
+		string location = resolveLocationForEvent(ev, factionId);
 		m_store.spend(factionId, cost, true);
-		sendFriendlyAnnouncement(ev, factionId, cost);
-		sendEnemyAnnouncement(ev, factionId, cost);
+		sendFriendlyAnnouncement(ev, factionId, cost, location);
+		sendEnemyAnnouncement(ev, factionId, cost, location);
 
 		float delay = ev.getAnnouncementDelaySeconds();
 		if (delay < 0.0f) delay = 0.0f;
 
 		if (delay > 0.0f) {
-			queueExecution(ev, playerId, factionId, cost, delay);
+			queueExecution(ev, playerId, factionId, cost, delay, location);
 			response = ev.getDisplayName() + " scheduled in " + int(delay) + "s " + formatCostSuffix(cost) + " (remaining " + m_store.get(factionId) + ").";
 			return true;
 		}
 
 		string immediateResponse;
-		bool ok = executeImmediateEvent(ev, playerId, factionId, cost, immediateResponse);
+		bool ok = executeImmediateEvent(ev, playerId, factionId, cost, location, immediateResponse);
 		if (!ok) {
 			m_store.add(factionId, cost, true);
 			response = ev.getDisplayName() + " aborted: " + immediateResponse + " (refund +" + cost + " FP).";
@@ -196,25 +198,26 @@ class FactionPointsEventRegistry {
 		return true;
 	}
 
-	protected void queueExecution(FactionPointsEvent@ ev, int playerId, int factionId, int cost, float delaySeconds) {
+	protected void queueExecution(FactionPointsEvent@ ev, int playerId, int factionId, int cost, float delaySeconds, const string &in location) {
 		FactionPointsPendingExecution@ pending = FactionPointsPendingExecution();
 		@pending.m_event = @ev;
 		pending.m_playerId = playerId;
 		pending.m_factionId = factionId;
 		pending.m_cost = cost;
 		pending.m_remainingSeconds = delaySeconds;
+		pending.m_location = location;
 		m_pendingExecutions.insertLast(pending);
 	}
 
-	protected bool executeImmediateEvent(FactionPointsEvent@ ev, int playerId, int factionId, int cost, string &out response) {
+	protected bool executeImmediateEvent(FactionPointsEvent@ ev, int playerId, int factionId, int cost, const string &in location, string &out response) {
 		string result;
 		if (!ev.execute(playerId, factionId, result)) {
 			response = result;
 			return false;
 		}
 
-		sendFriendlyExecution(ev, factionId, cost);
-		sendEnemyExecution(ev, factionId, cost);
+		sendFriendlyExecution(ev, factionId, cost, location);
+		sendEnemyExecution(ev, factionId, cost, location);
 		response = result;
 		return true;
 	}
@@ -229,6 +232,7 @@ class FactionPointsEventRegistry {
 			pending.m_playerId,
 			pending.m_factionId,
 			pending.m_cost,
+			pending.m_location,
 			executionResponse
 		);
 		if (ok) {
@@ -244,44 +248,62 @@ class FactionPointsEventRegistry {
 		response = executionResponse;
 	}
 
-	protected void sendFriendlyAnnouncement(FactionPointsEvent@ ev, int factionId, int cost) {
+	protected void sendFriendlyAnnouncement(FactionPointsEvent@ ev, int factionId, int cost, const string &in location) {
 		if (ev is null) return;
 		string txt = ev.getFriendlyAnnouncementText();
-		sendFactionMessageIfText(factionId, "Commander: ", txt, cost);
+		sendFactionMessageIfText(factionId, "Commander: ", txt, cost, location);
 	}
 
-	protected void sendFriendlyExecution(FactionPointsEvent@ ev, int factionId, int cost) {
+	protected void sendFriendlyExecution(FactionPointsEvent@ ev, int factionId, int cost, const string &in location) {
 		if (ev is null) return;
 		string txt = ev.getFriendlyExecutionText();
-		sendFactionMessageIfText(factionId, "Commander: ", txt, cost);
+		sendFactionMessageIfText(factionId, "Commander: ", txt, cost, location);
 	}
 
-	protected void sendEnemyAnnouncement(FactionPointsEvent@ ev, int sourceFactionId, int cost) {
+	protected void sendEnemyAnnouncement(FactionPointsEvent@ ev, int sourceFactionId, int cost, const string &in location) {
 		if (ev is null) return;
 		string txt = ev.getEnemyAnnouncementText();
-		sendEnemyFactionMessagesIfText(sourceFactionId, "Enemy Commander: ", txt, cost);
+		sendEnemyFactionMessagesIfText(sourceFactionId, "Enemy Commander: ", txt, cost, location);
 	}
 
-	protected void sendEnemyExecution(FactionPointsEvent@ ev, int sourceFactionId, int cost) {
+	protected void sendEnemyExecution(FactionPointsEvent@ ev, int sourceFactionId, int cost, const string &in location) {
 		if (ev is null) return;
 		string txt = ev.getEnemyExecutionText();
-		sendEnemyFactionMessagesIfText(sourceFactionId, "Enemy Commander: ", txt, cost);
+		sendEnemyFactionMessagesIfText(sourceFactionId, "Enemy Commander: ", txt, cost, location);
 	}
 
-	protected void sendFactionMessageIfText(int factionId, const string &in prefix, const string &in text, int cost) {
+	protected void sendFactionMessageIfText(int factionId, const string &in prefix, const string &in text, int cost, const string &in location) {
 		if (text.length() == 0) return;
-		sendFactionMessage(m_metagame, factionId, prefix + text + " " + formatCostSuffix(cost));
+		sendFactionMessage(m_metagame, factionId, prefix + appendLocationIfAny(text, location) + " " + formatCostSuffix(cost));
 	}
 
-	protected void sendEnemyFactionMessagesIfText(int sourceFactionId, const string &in prefix, const string &in text, int cost) {
+	protected void sendEnemyFactionMessagesIfText(int sourceFactionId, const string &in prefix, const string &in text, int cost, const string &in location) {
 		if (text.length() == 0) return;
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) return;
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			if (factionId == sourceFactionId) continue;
-			sendFactionMessage(m_metagame, factionId, prefix + text + " " + formatCostSuffix(cost));
+			sendFactionMessage(m_metagame, factionId, prefix + appendLocationIfAny(text, location) + " " + formatCostSuffix(cost));
 		}
+	}
+
+	protected string resolveLocationForEvent(FactionPointsEvent@ ev, int factionId) {
+		if (ev is null) return "";
+		if (ev.getCommandToken() == FP_EVENT2_TOKEN) {
+			string baseName;
+			if (m_event2.tryGetTargetBaseName(factionId, baseName)) return baseName;
+		}
+		if (ev.getCommandToken() == FP_EVENT3_TOKEN) {
+			string baseName;
+			if (m_event3.tryGetLostBaseName(factionId, baseName)) return baseName;
+		}
+		return "";
+	}
+
+	protected string appendLocationIfAny(const string &in text, const string &in location) const {
+		if (location.length() == 0) return text;
+		return text + " At base " + location + ".";
 	}
 
 	protected string formatCostSuffix(int cost) const {
