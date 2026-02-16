@@ -4,7 +4,7 @@
   description="Slot-Block-Respawn, Vehicle Interval Spawn, Faction Alive HUD. Neue Trupptypen (Cover, EOD, Grenadier, Sniper, Support). Default-Weste für alle. Überarbeitete AI, Waffen- und Fahrzeug-Balancing. Baut auf RWR Total Conversion Mod auf, nutzt Assets aus Project Apocalypse."
   show_in_campaigns="1"
   show_in_quick_match_mods="1"
-  image="campaign_preview.png"
+  image="BrokenAlliances.png"
   campaign_entry_script="start_campaign.as"
   quick_match_entry_script="start_quick_match.as">
 
