@@ -60,6 +60,13 @@ class VehicleIntervalSpawn : Tracker {
 	protected array<float> m_simpleTimer;
 	protected array<float> m_mediumTimer;
 	protected array<float> m_heavyTimer;
+	// Per faction: next spawn plan (locked until spawn): vehicle key + base id
+	protected array<string> m_simpleNextVehicleKey;
+	protected array<string> m_mediumNextVehicleKey;
+	protected array<string> m_heavyNextVehicleKey;
+	protected array<int> m_simpleNextBaseId;
+	protected array<int> m_mediumNextBaseId;
+	protected array<int> m_heavyNextBaseId;
 
 	// Number of factions (dynamic)
 	protected uint m_numFactions = 0;
@@ -127,10 +134,19 @@ class VehicleIntervalSpawn : Tracker {
 		m_simpleTimer.resize(m_numFactions);
 		m_mediumTimer.resize(m_numFactions);
 		m_heavyTimer.resize(m_numFactions);
+		m_simpleNextVehicleKey.resize(m_numFactions);
+		m_mediumNextVehicleKey.resize(m_numFactions);
+		m_heavyNextVehicleKey.resize(m_numFactions);
+		m_simpleNextBaseId.resize(m_numFactions);
+		m_mediumNextBaseId.resize(m_numFactions);
+		m_heavyNextBaseId.resize(m_numFactions);
 		for (uint i = 0; i < m_numFactions; ++i) {
 			m_simpleTimer[i] = float(rand(SIMPLE_INTERVAL_MIN, SIMPLE_INTERVAL_MAX));
 			m_mediumTimer[i] = float(rand(MEDIUM_INTERVAL_MIN, MEDIUM_INTERVAL_MAX));
 			m_heavyTimer[i] = float(rand(HEAVY_INTERVAL_MIN, HEAVY_INTERVAL_MAX));
+			resetNextSpawnPlan(int(i), 0);
+			resetNextSpawnPlan(int(i), 1);
+			resetNextSpawnPlan(int(i), 2);
 		}
 		_log("VehicleIntervalSpawn: Started with " + m_numFactions + " factions (Light/Medium/Heavy).", 1);
 	}
@@ -182,12 +198,14 @@ class VehicleIntervalSpawn : Tracker {
 			if (m_simpleTimer[i] <= 0.0f) {
 				spawnVehicle(factionId, 0);
 				m_simpleTimer[i] = float(rand(SIMPLE_INTERVAL_MIN, SIMPLE_INTERVAL_MAX));
+				resetNextSpawnPlan(factionId, 0);
 			}
 
 			m_mediumTimer[i] -= time;
 			if (m_mediumTimer[i] <= 0.0f) {
 				spawnVehicle(factionId, 1);
 				m_mediumTimer[i] = float(rand(MEDIUM_INTERVAL_MIN, MEDIUM_INTERVAL_MAX));
+				resetNextSpawnPlan(factionId, 1);
 			}
 
 			m_heavyTimer[i] -= time;
@@ -195,9 +213,11 @@ class VehicleIntervalSpawn : Tracker {
 				// Leading faction (most bases) gets no Heavy spawn - timer reset only
 				if (factionId == leadingFactionId) {
 					m_heavyTimer[i] = float(rand(HEAVY_INTERVAL_MIN, HEAVY_INTERVAL_MAX));
+					resetNextSpawnPlan(factionId, 2);
 				} else {
 					spawnVehicle(factionId, 2);
 					m_heavyTimer[i] = float(rand(HEAVY_INTERVAL_MIN, HEAVY_INTERVAL_MAX));
+					resetNextSpawnPlan(factionId, 2);
 				}
 			}
 		}
@@ -292,6 +312,77 @@ class VehicleIntervalSpawn : Tracker {
 		return keys[idx];
 	}
 
+	// Liefert alle Basen, die aktuell der Fraktion gehoeren
+	protected array<int> getOwnedBaseIndicesForFaction(int factionId) {
+		array<int> ownedIndices;
+		array<const XmlElement@>@ bases = getBases(m_metagame);
+		if (bases is null) return ownedIndices;
+		for (uint i = 0; i < bases.size(); ++i) {
+			if (bases[i].getIntAttribute("owner_id") == factionId)
+				ownedIndices.insertLast(int(i));
+		}
+		return ownedIndices;
+	}
+
+	// Waehlt den naechsten Spawn (Vehicle + Basis) neu aus und lockt ihn bis zum Spawn
+	protected void resetNextSpawnPlan(int factionId, int category) {
+		if (factionId < 0 || uint(factionId) >= m_numFactions) return;
+		string vehicleKey = getVehicleKeyForFaction(factionId, category);
+		int baseId = -1;
+		array<int> ownedIndices = getOwnedBaseIndicesForFaction(factionId);
+		if (ownedIndices.size() > 0) {
+			array<const XmlElement@>@ bases = getBases(m_metagame);
+			int idx = ownedIndices[rand(0, int(ownedIndices.size()) - 1)];
+			if (bases !is null && idx >= 0 && uint(idx) < bases.size())
+				baseId = bases[idx].getIntAttribute("id");
+		}
+		if (category == 0) {
+			m_simpleNextVehicleKey[factionId] = vehicleKey;
+			m_simpleNextBaseId[factionId] = baseId;
+		} else if (category == 1) {
+			m_mediumNextVehicleKey[factionId] = vehicleKey;
+			m_mediumNextBaseId[factionId] = baseId;
+		} else {
+			m_heavyNextVehicleKey[factionId] = vehicleKey;
+			m_heavyNextBaseId[factionId] = baseId;
+		}
+	}
+
+	// Geplantes (gelocktes) Vehicle fuer /vehicle und Spawn
+	protected string getPlannedVehicleKey(int factionId, int category) {
+		if (factionId < 0 || uint(factionId) >= m_numFactions)
+			return getVehicleKeyForFaction(factionId, category);
+		string key;
+		if (category == 0) key = m_simpleNextVehicleKey[factionId];
+		else if (category == 1) key = m_mediumNextVehicleKey[factionId];
+		else key = m_heavyNextVehicleKey[factionId];
+		if (key.length() == 0) {
+			resetNextSpawnPlan(factionId, category);
+			if (category == 0) key = m_simpleNextVehicleKey[factionId];
+			else if (category == 1) key = m_mediumNextVehicleKey[factionId];
+			else key = m_heavyNextVehicleKey[factionId];
+		}
+		return key;
+	}
+
+	protected int getPlannedBaseId(int factionId, int category) {
+		if (factionId < 0 || uint(factionId) >= m_numFactions) return -1;
+		if (category == 0) return m_simpleNextBaseId[factionId];
+		if (category == 1) return m_mediumNextBaseId[factionId];
+		return m_heavyNextBaseId[factionId];
+	}
+
+	// Anzeigename fuer geplante (gelockte) Basis
+	protected string getPlannedBaseNameForFaction(int factionId, int category) {
+		int baseId = getPlannedBaseId(factionId, category);
+		const XmlElement@ base = getBase(m_metagame, baseId);
+		if (base is null) return "?";
+		string name = base.getStringAttribute("name");
+		if (name.length() == 0) name = base.getStringAttribute("key");
+		if (name.length() == 0) name = "Base " + base.getIntAttribute("id");
+		return name;
+	}
+
 	// Display name from vehicle definition (name attribute), e.g. "Humvee", "APC", "Tank"
 	protected string getVehicleDisplayName(const string &in vehicleKey) {
 		if (vehicleKey.length() == 0) return "vehicle";
@@ -369,20 +460,28 @@ class VehicleIntervalSpawn : Tracker {
 		array<const XmlElement@>@ bases = getBases(m_metagame);
 		if (bases is null) return;
 
-		array<int> ownedIndices;
-		for (uint i = 0; i < bases.size(); ++i) {
-			if (bases[i].getIntAttribute("owner_id") == factionId) {
-				ownedIndices.insertLast(int(i));
-			}
-		}
+		array<int> ownedIndices = getOwnedBaseIndicesForFaction(factionId);
 		if (ownedIndices.size() == 0) {
 			_log("VehicleIntervalSpawn: Faction " + factionId + " has no base - no spawn", 1);
 			return;
 		}
 
-		// Pick random base
-		int idx = rand(0, ownedIndices.size() - 1);
-		const XmlElement@ base = bases[ownedIndices[idx]];
+		// Geplante Basis, falls noch gueltig; sonst Fallback auf zufaellige aktuell gehaltene Basis
+		int selectedBaseIndex = -1;
+		int plannedBaseId = getPlannedBaseId(factionId, category);
+		if (plannedBaseId >= 0) {
+			for (uint i = 0; i < ownedIndices.size(); ++i) {
+				const XmlElement@ candidate = bases[ownedIndices[i]];
+				if (candidate.getIntAttribute("id") == plannedBaseId) {
+					selectedBaseIndex = ownedIndices[i];
+					break;
+				}
+			}
+		}
+		if (selectedBaseIndex < 0)
+			selectedBaseIndex = ownedIndices[rand(0, int(ownedIndices.size()) - 1)];
+
+		const XmlElement@ base = bases[selectedBaseIndex];
 		string posStr = base.getStringAttribute("position");
 		if (posStr.length() == 0) return;
 
@@ -391,12 +490,12 @@ class VehicleIntervalSpawn : Tracker {
 		if (baseName.length() == 0) baseName = "Base " + base.getIntAttribute("id");
 
 		Vector3 pos = stringToVector3(posStr);
-		float angle = float(idx) * 1.047f;
+		float angle = float(selectedBaseIndex) * 1.047f;
 		pos.m_values[0] += OFFSET_XZ * cos(angle);
 		pos.m_values[1] += OFFSET_Y;
 		pos.m_values[2] += OFFSET_XZ * sin(angle);
 
-		string vehicleKey = getVehicleKeyForFaction(factionId, category);
+		string vehicleKey = getPlannedVehicleKey(factionId, category);
 		string vehicleName = getVehicleDisplayName(vehicleKey);
 
 		string cmd = "<command class='create_instance' faction_id='" + factionId +
@@ -718,14 +817,14 @@ class VehicleIntervalSpawn : Tracker {
 			return;
 		}
 
-		// Per line: one currently owned base (random). If a base is lost, next /vehicle shows another owned base.
-		string lightStr = "light:  " + formatTimerSeconds(m_simpleTimer[factionId]) + "  at " + getOneBaseNameForFaction(factionId) + " - " + getVehicleDisplayName(getVehicleKeyForFaction(factionId, 0));
-		string mediumStr = "medium: " + formatTimerSeconds(m_mediumTimer[factionId]) + "  at " + getOneBaseNameForFaction(factionId) + " - " + getVehicleDisplayName(getVehicleKeyForFaction(factionId, 1));
+		// Per line: gelockter naechster Spawn je Kategorie (wird erst nach Spawn neu gewuerfelt)
+		string lightStr = "light:  " + formatTimerSeconds(m_simpleTimer[factionId]) + "  at " + getPlannedBaseNameForFaction(factionId, 0) + " - " + getVehicleDisplayName(getPlannedVehicleKey(factionId, 0));
+		string mediumStr = "medium: " + formatTimerSeconds(m_mediumTimer[factionId]) + "  at " + getPlannedBaseNameForFaction(factionId, 1) + " - " + getVehicleDisplayName(getPlannedVehicleKey(factionId, 1));
 		string heavyStr;
 		if (factionId == getLeadingFactionId())
 			heavyStr = "heavy:  blocked (leading faction)";
 		else
-			heavyStr = "heavy:  " + formatTimerSeconds(m_heavyTimer[factionId]) + "  at " + getOneBaseNameForFaction(factionId) + " - " + getVehicleDisplayName(getVehicleKeyForFaction(factionId, 2));
+			heavyStr = "heavy:  " + formatTimerSeconds(m_heavyTimer[factionId]) + "  at " + getPlannedBaseNameForFaction(factionId, 2) + " - " + getVehicleDisplayName(getPlannedVehicleKey(factionId, 2));
 
 		string block = "Upcoming vehicle spawns\n" + lightStr + "\n" + mediumStr + "\n" + heavyStr;
 		sendPrivateMessage(m_metagame, senderId, block);

@@ -64,7 +64,7 @@
 // #include "trackers/reinforcement_pool_tracker.as"  // auskommentiert: Reinforcement-Pool-Tracker deaktiviert
 #include "systems/game_systems.as"
 
-const bool INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM = false;
+const bool INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM = true;
 const bool INVASION_CAPACITY_DEBUG_HUD = false;
 const bool INVASION_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
 const bool INVASION_ENABLE_EVENT_SYSTEMS = true;

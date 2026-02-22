@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <reward_config>
 	<!-- Treffer/Kills: Erhöhung halbiert (z. B. war +25 %, jetzt ~+12,5 %) -->
-	<reward class="enemy_shot" 					base="+0.00415"				type="xp" />
-	<reward class="enemy_killed_in_explosion" 	base="+0.0018"				type="xp" />
-	<reward class="enemy_stabbed" 				base="+0.0045"				type="xp" />
-	<reward class="enemy_kill_combo" 			base="+0.0013" 		   	type="xp" />
+	<reward class="enemy_shot" 					base="+0.006225"			type="xp" />
+	<reward class="enemy_killed_in_explosion" 	base="+0.0027"				type="xp" />
+	<reward class="enemy_stabbed" 				base="+0.00675"				type="xp" />
+	<reward class="enemy_kill_combo" 			base="+0.00195" 		   	type="xp" />
 
-	<reward class="enemy_shot" 					base="12" 				type="rp" />
-	<reward class="enemy_killed_in_explosion"	base="6"				type="rp" />
-	<reward class="enemy_stabbed" 				base="13" 				type="rp" />
-	<reward class="enemy_kill_combo" 			base="1"				type="rp" />
+	<reward class="enemy_shot" 					base="18" 					type="rp" />
+	<reward class="enemy_killed_in_explosion"	base="9"					type="rp" />
+	<reward class="enemy_stabbed" 				base="19.5" 				type="rp" />
+	<reward class="enemy_kill_combo" 			base="1.5"					type="rp" />
 	
 	<reward class="self_killed" 				base="-0.0006"			type="xp" />
 
@@ -29,7 +29,7 @@
 	<reward class="side_base_capture" 			base="300" 				type="rp" />
 	<reward class="side_base_capture" 			base="+0.0184" 			type="xp" />
 
-	<reward class="spotting" 					base="19"				type="rp" />
+	<reward class="spotting" 					base="44"				type="rp" />
 	<reward class="promotion" 					base="180" 				type="rp" />
 
 	<!-- PvP: Erhöhung halbiert -->

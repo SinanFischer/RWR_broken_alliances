@@ -109,6 +109,7 @@ class GameSystemsRegistry {
 	// - debugCommands: /fp-Commands (aktuell Scaffold)
 	void installFactionPointsSystem(bool enabled, bool installHud = true, bool installDebugCommands = false, bool debugCommandsAdminOnly = true) {
 		if (!enabled) return;
+		if (true) return; // SYSTEM DEAKTIVIERT
 		if (m_factionPointsSystemInstalled) return;
 
 		@m_factionPointsApi = FactionPointsApi(m_metagame);
