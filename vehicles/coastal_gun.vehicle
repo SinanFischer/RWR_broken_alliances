@@ -12,7 +12,8 @@
 
 	<physics max_health="20.0" mass="10000.0" extent="2.0 0.0 2.0" offset="0 0.0 0" top_offset="0 5 0" collision_model_pos="0 0.2 0" collision_model_extent="1.0 0.4 1.8" visual_offset="0 0 0" /> 
 	
-	<turret offset="0 0.0 0.0" weapon_key="coastal_gun.weapon" weapon_offset="0.0 1.4 0.0" weapon_recoil="0.3"  max_rotation_step="0.00002" rotation="0" />
+	<!-- max_rotation_step: 0.00005 statt 0.00002 - extrem kleine Werte können auf Linux/macOS zu Denormals/Division/Iteration-Crashes führen -->
+	<turret offset="0 0.0 0.0" weapon_key="coastal_gun.weapon" weapon_offset="0.0 1.4 0.0" weapon_recoil="0.3" max_rotation_step="0.00005" rotation="0" />
 	
 	<visual class="chassis" mesh_filename="coastal_gun_base.mesh" texture_filename="coastal_gun.png" />
 	<visual class="chassis" key="broken" mesh_filename="coastal_gun_base.mesh" texture_filename="coastal_gun_damage.png" />
