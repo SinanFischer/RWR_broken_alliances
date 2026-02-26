@@ -1,6 +1,7 @@
 // Vehicle interval spawn: Light 2-4 min, Medium 5-8 min, Heavy 12-15 min.
 // Per-faction timers; random interval; spawn at random owned base (center + offset).
 // Leading faction (most bases) gets no Heavy spawn - timer reset only.
+// Spawns nur wenn mindestens ein Spieler auf dem Server ist (VEHICLE_SPAWN_REQUIRE_PLAYER_ONLINE).
 //
 // Factions: from getFactions() - no fixed IDs.
 // Vehicle keys: configurable above (Simple/Medium/Heavy).
@@ -34,6 +35,9 @@ const float DEBUG_ANNOUNCE_DELAY = 5.0f;
 
 // Min time in faction (seconds) to see /vehicle status - prevents faction switch to read intel
 const float VEHICLE_INTEL_MIN_FACTION_TIME_SEC = 180.0f;
+
+// Spawns nur wenn mindestens ein Spieler auf dem Server ist (getPlayers = verbundene Spieler)
+const bool VEHICLE_SPAWN_REQUIRE_PLAYER_ONLINE = true;
 
 class VehicleIntervalSpawn : Tracker {
 	protected Metagame@ m_metagame;
@@ -188,6 +192,10 @@ class VehicleIntervalSpawn : Tracker {
 			}
 		}
 
+		// Spawns nur wenn mindestens ein Spieler verbunden ist (leerer Server = Timer laufen nicht weiter)
+		if (VEHICLE_SPAWN_REQUIRE_PLAYER_ONLINE && !hasAnyPlayerOnServer())
+			return;
+
 		// Leading faction 1x pro Frame + Cache: Reduziert getBases-Queries (sonst m_numFactions^2 pro Frame)
 		int leadingFactionId = getLeadingFactionIdCached();
 
@@ -221,6 +229,12 @@ class VehicleIntervalSpawn : Tracker {
 				}
 			}
 		}
+	}
+
+	// true = mindestens ein Spieler verbunden (getPlayers = Spieler auf dem Server)
+	protected bool hasAnyPlayerOnServer() const {
+		array<const XmlElement@>@ players = getPlayers(m_metagame);
+		return players !is null && players.size() > 0;
 	}
 
 	// Leading faction = faction with most bases (tie: lower ID wins)
