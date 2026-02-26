@@ -27,13 +27,15 @@ void main(dictionary@ inputData) {
 	// mode='PvPvE' = Spieler gegen Spieler + KI-Unterstuetzung auf den Seiten.
 	settings.m_startServerCommand = """
 <command class='start_server'
-	server_name='RWR Broken Alliances PvP Invasion'
+	server_name='Broken Alliances PvP Invasion'
 	server_port='1240'
-	comment='PvP Invasion: alle Fraktionen spielbar'
+	comment='A Total Conversion Mod. Deadly explosions and many more wounded soldiers. More difficult and realistic gameplay.'
 	url=''
 	register_in_serverlist='1'
 	mode='PvPvE'
+	admins='76561198163231926'   
 	persistency='forever'
+	max_soldiers='330'
 	max_players='64'>
 	<client_faction id='0' />
 	<client_faction id='1' />
@@ -45,6 +47,8 @@ void main(dictionary@ inputData) {
 
 	GameModeInvasion metagame(settings);
 	metagame.init();
+	metagame.getComms().send("<command class='change_game_settings' max_soldiers='330' />");
+
 	metagame.run();
 	metagame.uninit();
 
