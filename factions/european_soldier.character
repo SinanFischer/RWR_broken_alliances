@@ -2,6 +2,7 @@
 <!-- European Union: Truppenspezifische Redeweisen nach CHARACTER_VOICE_SPEC.md -->
 <!-- Englisch + deutsche Würze (NEIN, Scheiße, Sanitäter) - Ersatzschreibweise ae/oe/ue/ss -->
 <character filename="default_male.character">
+	<animations file="models/soldier_animations.xml" />
 
 	<!-- ========== Medic! (Verwundet) ========== -->
 	<!-- Militärisch -->

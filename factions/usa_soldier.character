@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- United States: Truppenspezifische Redeweisen nach CHARACTER_VOICE_SPEC.md -->
 <character filename="default_male.character">
+	<animations file="models/soldier_animations.xml" />
 
 	<!-- ========== Medic! (Verwundet) ========== -->
 	<!-- Militärisch -->

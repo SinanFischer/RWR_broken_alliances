@@ -2,6 +2,7 @@
 <!-- Russian Federation: Truppenspezifische Redeweisen nach CHARACTER_VOICE_SPEC.md -->
 <!-- Grundsätzlich Englisch, gelegentlich Russisch (Blyat, Cyka, Tovarishch) -->
 <character filename="default_male.character">
+	<animations file="models/soldier_animations.xml" />
 
 	<!-- ========== Medic! (Verwundet) ========== -->
 	<!-- Militärisch -->
