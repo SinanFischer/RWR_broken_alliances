@@ -1,8 +1,12 @@
 # Change Log
 
-## [1.0.0] - 2026-03-01
+## [1.0.1] - 2026-03-01
 
 _Initial release of the RWR Broken Alliances Mod package adjustments._
+
+### Calls
+- Heavy Artillery Price: 450 -> 850 
+- Heavy Mortal Price: 350 -> 400 
 
 ### Vehicles
   - Limited Coastal Gun turret rotation range to 170 degrees (±85°) to prevent 360-degree firing.
