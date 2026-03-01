@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <call name="Heavy Field Gun Barrage" key="heavy_artillery.call"
-      initiation_comment1="Command, requesting heavy barrage! Danger close!"
-      initiation_comment2="Grid is hot! Level it!"
-      acknowledge_comment="Copy. Heavy ordnance inbound. KEEP YOUR HEADS DOWN."
+      initiation_comment1="Fire heavy artillery"
+      initiation_comment2="Fire heavy artillery. Keep your heads down."
+      acknowledge_comment="Roger, wait five."
       acknowledge_time="1.0"
-      launch_comment="Shot out. Impact imminent. GET TO COVER!">
+      launch_comment="Rounds on the way.">
     
     <round instances="1"
            instance_class="grenade"

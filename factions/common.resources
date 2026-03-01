@@ -56,7 +56,7 @@
 	<weapon key='coastal_gun_resource.weapon' />    
 	<weapon key='heavy_artillery_gun.weapon' />
 	<weapon key='heavy_artillery_deploy.weapon' />    
-	<weapon key='mrl.weapon' />
+	<weapon key='mrl_mortar_deploy.weapon' />
 	
 	<carry_item key='vest1.carry_item' enabled="1" />
 	<carry_item key='vest_default.carry_item' />

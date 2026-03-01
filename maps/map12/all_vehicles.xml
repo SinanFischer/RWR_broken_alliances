@@ -24,7 +24,7 @@
 	<vehicle file="deco_vehicles.xml" /> 
 
 	<vehicle file="mortar.vehicle" />
-	<vehicle file="mrl.vehicle" />
+	<vehicle file="mrl_mortar.vehicle" />
 	<vehicle file="deployable_minig.vehicle" /> 
 	<vehicle file="mobile_armory.vehicle" /> 
 
