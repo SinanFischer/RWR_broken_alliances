@@ -10,7 +10,7 @@
 	
 	<modifier class="blast_damage" value="-0.7" />
 
-	<physics max_health="20.0" mass="10000.0" extent="2.0 0.0 2.0" offset="0 0.0 0" top_offset="0 5 0" collision_model_pos="0 0.2 0" collision_model_extent="1.0 0.4 1.8" visual_offset="0 0 0" /> 
+	<physics max_health="7" mass="10000.0" extent="2.0 0.0 2.0" offset="0 0.0 0" top_offset="0 5 0" collision_model_pos="0 0.2 0" collision_model_extent="1.0 0.4 1.8" visual_offset="0 0 0" /> 
 	
 	<!-- ROTATION LIMIT: 0.8 rad entspricht ca. 45 Grad -->
 	<turret offset="0 0.0 0.0" weapon_key="heavy_artillery_gun.weapon" weapon_offset="0.0 1.4 0.0" weapon_recoil="0.3" max_rotation_step="0.00005" rotation="0" rotation_range="0.8" />
