@@ -41,7 +41,7 @@
   <vehicle file="deployable_gl.vehicle" />
   <vehicle file="deployable_gl_2.vehicle" />
   <vehicle file="mortar.vehicle" />
-	<vehicle file="mrl_mortar.vehicle" />
+	<vehicle file="m120_heavy_mortar.vehicle" />
   <vehicle file="mortar_2.vehicle" />
   <vehicle file="coastal_gun.vehicle" />
   <vehicle file="tow.vehicle" />	
