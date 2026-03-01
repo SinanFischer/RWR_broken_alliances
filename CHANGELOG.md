@@ -1,5 +1,18 @@
 # Change Log
 
+## [1.0.2] - 2026-03-01
+
+### Weapons
+- **L85A2**:
+  - Retrigger time verringert: 0.107 -> 0.08
+  - Last burst retrigger time verringert: 0.3 -> 0.24
+  - Preis gesenkt: 200 -> 120
+
+### Calls
+- **Tank Drops (RWR1a1, Leopold II, TroX-80)**:
+  - Preis erhöht: 1000 -> 1200
+
+
 ## [1.0.1] - 2026-03-01
 
 _Initial release of the RWR Broken Alliances Mod package adjustments._

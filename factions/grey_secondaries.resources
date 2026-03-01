@@ -11,6 +11,7 @@
   <weapon key='mp7.weapon' />   
   <weapon key='heavy_artillery_deploy.weapon' />
 	<weapon key='wrench.weapon' />
+	<weapon key='mrl.weapon' />
 
 
 

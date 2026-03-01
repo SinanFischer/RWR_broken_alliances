@@ -9,6 +9,7 @@
 #include "events/intel_manager_quickmatch.as"
 #include "trackers/vehicle_interval_spawn.as"
 #include "commands/blackops3_vest_command_tracker.as"
+#include "commands/mrl_spawn_command.as"
 #include "delivery_unlocks/item_delivery_configurator_quickmatch.as"
 #include "systeme/fraktionspunkte_system/faction_points_system.as"
 
@@ -22,6 +23,7 @@ class GameSystemsRegistry {
 	protected IntelManagerQuickMatch@ m_quickMatchIntelTracker;
 	protected bool m_quickMatchEventSystemsInstalled = false;
 	protected BlackOps3VestCommandTracker@ m_blackOps3VestTracker;
+	protected MrlSpawnCommandTracker@ m_mrlSpawnTracker;
 	protected ItemDeliveryConfiguratorQuickMatch@ m_sharedItemDeliveryConfigurator;
 	protected ItemDeliveryOrganizer@ m_sharedItemDeliveryOrganizer;
 	protected bool m_sharedCommandDeliverySystemsInstalled = false;
@@ -89,6 +91,10 @@ class GameSystemsRegistry {
 			@m_blackOps3VestTracker = BlackOps3VestCommandTracker(m_metagame);
 			m_metagame.addTracker(m_blackOps3VestTracker);
 		}
+
+		// MRL Command (immer aktiv, analog zu vest)
+		@m_mrlSpawnTracker = MrlSpawnCommandTracker(m_metagame);
+		m_metagame.addTracker(m_mrlSpawnTracker);
 
 		if (enableQuickmatchStyleDelivery) {
 			@m_sharedItemDeliveryConfigurator = ItemDeliveryConfiguratorQuickMatch(m_metagame);

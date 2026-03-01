@@ -75,6 +75,7 @@
 	<weapon file="mortar_resource.weapon"/>    
 	<weapon file="deployable_minig.weapon" />
 	<weapon file="mortar.weapon" /> 
+	<weapon file="mrl.weapon" /> 
 
     <weapon file="pb.weapon" />
     <weapon file="glock17.weapon" />  

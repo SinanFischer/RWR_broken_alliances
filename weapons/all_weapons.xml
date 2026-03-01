@@ -95,6 +95,7 @@
 	<weapon file="heavy_artillery_gun.weapon" />
 	<weapon file="heavy_artillery_deploy.weapon" />
 	<weapon file="mortar.weapon" /> 
+	<weapon file="mrl.weapon" /> 
 
     <weapon file="pb.weapon" />
     <weapon file="glock17.weapon" />  

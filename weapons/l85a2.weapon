@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="l85a2.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="assault" />
-    <specification retrigger_time="0.107"
-    last_burst_retrigger_time="0.3" 
+    <specification retrigger_time="0.08"
+    last_burst_retrigger_time="0.24" 
     accuracy_factor="0.968" 
     sustained_fire_grow_step="0.22" 
     sustained_fire_diminish_rate="1.2" 
@@ -27,7 +27,7 @@
 
     <hud_icon filename="hud_l85a2.png" />
     <commonness value="0.046" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="3.0" price="200.0" />
+    <inventory encumbrance="3.0" price="120.0" />
 
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.5" />    
