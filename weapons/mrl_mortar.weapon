@@ -32,8 +32,8 @@
     <!-- Visuell wie ein Mörser -->
     <model mesh_filename="mortar_tube.mesh" texture_filename="mortar.png" />
 
-    <!-- Das MRL Projektil für den Schaden (600dmg, 8.5m Radius) -->
-    <projectile file="mrl_rocket.projectile" />
+    <!-- Das MRL Projektil für den Schaden (600dmg, 8.5m Radius) mit High Gravity -->
+    <projectile file="mrl_mortar_rocket.projectile" />
     
     <weak_hand_hold offset="0.3" />
 
