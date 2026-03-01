@@ -38,6 +38,12 @@
     <commonness value="0.0001" in_stock="1" can_respawn_with="0" />
     <inventory price="1200.0" encumbrance="20.0" />
 
+    <animation key="recoil" ref="12" />
+    <animation key="cycle" ref="28" />
+    <animation key="reload" ref="29" />
+    <animation key="hold" ref="39" />
+    <animation key="hold_on_wall" ref="39" />
+    
     <effect class="muzzle" ref="Smoke" />
 	    <effect class="muzzle" ref="SmokeTop" />
 		    <effect class="muzzle" ref="BiggerMuzzle" />
