@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon key="heavy_artillery_gun.weapon">
+
+    <specification
+        spread_range="0.4"
+        retrigger_time="15.0"
+        accuracy_factor="0.95"
+        sustained_fire_grow_step="1.0"
+        sustained_fire_diminish_rate="0.07"
+        sight_range_modifier="3.0"  
+        magazine_size="-1"
+        can_shoot_standing="0"
+        can_shoot_crouching="0"
+        suppressed="0"
+        name="Heavy Artillery Gun"
+        class="0"
+        projectile_speed="150.0"
+        slot="2"
+        barrel_offset="5.6"
+        barrel_offset_3d="0.2 2 5.6"
+        sight_height_offset="0.5"
+        projectiles_per_shot="1"
+    />
+
+    <target_factors tag="" distance="1.0" direction="0.0" squad_command="1.0" base_score="0.5" />
+    <target_factors tag="heavy_armour" distance="1.0" direction="0.0" squad_command="1.0" base_score="8.0" />
+    <target_factors tag="medium_armour" distance="1.0" direction="0.0" squad_command="1.0" base_score="6.0" />
+    <target_factors tag="light_armour" distance="1.0" direction="0.0" squad_command="1.0" base_score="4.0" />
+    <target_factors tag="light_vehicle" distance="1.0" direction="0.0" squad_command="1.0" base_score="2.0" />
+	
+    <model mesh_filename="coastal_gun_gun.mesh" texture_filename="coastal_gun.png" />
+    <hud_icon filename="hud_coastal_gun.png" />
+	
+    <commonness value="0.0" />
+
+    <projectile file="coastal_gun.projectile">
+    </projectile>
+
+	<effect class="muzzle" ref="BiggerMuzzle" />
+	<effect class="muzzle" ref="CannonSmokeBig" /> 
+	<effect class="muzzle" ref="CannonSmokeBigSphere" />	   
+	<sound class="operation" key="fire" fileref="tank_cannon.wav" pitch_variety="0.05" volume="2.35"/>
+
+</weapon>

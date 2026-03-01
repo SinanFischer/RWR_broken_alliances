@@ -54,6 +54,8 @@
 	<weapon key='gl_resource.weapon' /> 
 	<weapon key='humvee_gl.weapon' />
 	<weapon key='coastal_gun_resource.weapon' />    
+	<weapon key='heavy_artillery_gun.weapon' />
+	<weapon key='heavy_artillery_deploy.weapon' />    
 
 	<carry_item key='vest1.carry_item' enabled="1" />
 	<carry_item key='vest_default.carry_item' />
@@ -98,6 +100,7 @@
 	<vehicle key="atv_armory.vehicle" />  
 
 	<vehicle key="coastal_gun.vehicle" />
+	<vehicle key="heavy_artillery_gun.vehicle" />
 	<vehicle key="tow.vehicle" />	
 	<vehicle key="cover1.vehicle" />
 	<vehicle key="deployable_mg.vehicle" />  

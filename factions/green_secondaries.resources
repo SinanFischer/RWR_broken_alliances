@@ -9,7 +9,8 @@
   <weapon key='mini_uzi.weapon' />
   <weapon key='mgl_flasher.weapon' />   
   <weapon key='mp7.weapon' />   
-	<weapon key='wrench.weapon' />   
+  <weapon key='heavy_artillery_deploy.weapon' />
+  <weapon key='wrench.weapon' />   
 
 
 

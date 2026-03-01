@@ -161,5 +161,6 @@
   <vehicle file="wiesel_tow.vehicle" />
   <vehicle file="wiesel_spawn.vehicle" />
   <vehicle file="wiesel_mk20.vehicle" />
+  <vehicle file="heavy_artillery_gun.vehicle" />
 
 </vehicles>

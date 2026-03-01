@@ -9,6 +9,7 @@ _Initial release of the RWR Broken Alliances Mod package adjustments._
 - Heavy Mortal Price: 350 -> 400 
 
 ### Vehicles
+  - New Deployable Artillery Gun. It offers a 3x sight multipliers but needs 15 seconds to reload. Small rotation radius. 
   - Limited Coastal Gun turret rotation range to 170 degrees (±85°) to prevent 360-degree firing.
   - Deactivated Vehicle spawn when no player is in-game.
 

@@ -92,6 +92,8 @@
 	<weapon file="minig_resource.weapon"/> 
 	<weapon file="mortar_resource.weapon"/>    
 	<weapon file="deployable_minig.weapon" />
+	<weapon file="heavy_artillery_gun.weapon" />
+	<weapon file="heavy_artillery_deploy.weapon" />
 	<weapon file="mortar.weapon" /> 
 
     <weapon file="pb.weapon" />
