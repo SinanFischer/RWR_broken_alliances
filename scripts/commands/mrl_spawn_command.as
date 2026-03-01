@@ -8,7 +8,7 @@
 #include "commands/admin_command_helpers.as"
 
 const string CMD_MRL = "mrl";
-const string MRL_KEY = "mrl.weapon";
+const string MRL_KEY = "m120_heavy_mortar_deploy.weapon";
 const string MRL_CLASS = "weapon";
 const float SPAWN_OFFSET_MRL = 1.0f; // Näher, da Item kleiner
 

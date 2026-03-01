@@ -2,6 +2,8 @@
 
 ## [1.0.2] - 2026-03-01
 
+- Neuer m120 Heavy Mortar. With extreme range but takes 20 Seconds to reload.
+
 ### Weapons
 - **L85A2**:
   - Retrigger time verringert: 0.107 -> 0.08

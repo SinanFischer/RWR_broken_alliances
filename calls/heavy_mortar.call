@@ -7,7 +7,7 @@
     
     <!-- Sound unabhängig von Runden: mortar_shot genau 2 s vor jedem Einschlag (instances="0" = nur Sound) -->
     <round instances="0" launch_time="5.0" spawn_time="7.0">
-	   <sound class="launch" fileref="mortar_shot.wav" volume="1.2" />
+	   <sound class="launch" fileref="mortar_shot.wav" volume="1.5" />
     </round>
     <round instances="1"
            instance_class="grenade"
@@ -16,11 +16,11 @@
            common_spread="10 0 10" 
            launch_time="5.0"
            spawn_time="7.0">
-	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="1.2" />
     </round>
 
     <round instances="0" launch_time="6.5" spawn_time="8.5">
-	   <sound class="launch" fileref="mortar_shot.wav" volume="1.2" />
+	   <sound class="launch" fileref="mortar_shot.wav" volume="1.5" />
     </round>
     <round instances="1"
            instance_class="grenade"
@@ -29,11 +29,11 @@
            common_spread="10 0 10" 
            launch_time="6.5"
            spawn_time="8.5">
-	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="1.2" />
     </round>
 
     <round instances="0" launch_time="8.0" spawn_time="10.0">
-	   <sound class="launch" fileref="mortar_shot.wav" volume="1.2" />
+	   <sound class="launch" fileref="mortar_shot.wav" volume="1.5" />
     </round>
     <round instances="1"
            instance_class="grenade"
@@ -42,11 +42,11 @@
            common_spread="10 0 10" 
            launch_time="8.0"
            spawn_time="10.0">
-	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="1.2" />
     </round>
 
     <round instances="0" launch_time="9.5" spawn_time="11.5">
-	   <sound class="launch" fileref="mortar_shot.wav" volume="1.2" />
+	   <sound class="launch" fileref="mortar_shot.wav" volume="1.5" />
     </round>
     <round instances="1"
            instance_class="grenade"
@@ -55,11 +55,11 @@
            common_spread="10 0 10" 
            launch_time="9.5"
            spawn_time="11.5">
-	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="1.2" />
     </round>
 
     <round instances="0" launch_time="11.0" spawn_time="13.0">
-	   <sound class="launch" fileref="mortar_shot.wav" volume="1.2" />
+	   <sound class="launch" fileref="mortar_shot.wav" volume="1.5" />
     </round>
     <round instances="1"
            instance_class="grenade"
@@ -68,11 +68,11 @@
            common_spread="10 0 10" 
            launch_time="11.0"
            spawn_time="13.0">
-	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="1.2" />
     </round>
 
     <round instances="0" launch_time="12.5" spawn_time="14.5">
-	   <sound class="launch" fileref="mortar_shot.wav" volume="1.2" />
+	   <sound class="launch" fileref="mortar_shot.wav" volume="1.5" />
     </round>
     <round instances="1"
            instance_class="grenade"
@@ -81,11 +81,11 @@
            common_spread="10 0 10" 
            launch_time="12.5"
            spawn_time="14.5">
-	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="1.2" />
     </round>
 
     <round instances="0" launch_time="14.0" spawn_time="16.0">
-	   <sound class="launch" fileref="mortar_shot.wav" volume="1.2" />
+	   <sound class="launch" fileref="mortar_shot.wav" volume="1.5" />
     </round>
     <round instances="1"
            instance_class="grenade"
@@ -94,11 +94,11 @@
            common_spread="10 0 10" 
            launch_time="14.0"
            spawn_time="16.0">
-	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="1.2" />
     </round>
 
     <round instances="0" launch_time="15.5" spawn_time="17.5">
-	   <sound class="launch" fileref="mortar_shot.wav" volume="1.2" />
+	   <sound class="launch" fileref="mortar_shot.wav" volume="1.5" />
     </round>
     <round instances="1"
            instance_class="grenade"
@@ -107,11 +107,11 @@
            common_spread="10 0 10" 
            launch_time="15.5"
            spawn_time="17.5">
-	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="1.2" />
     </round>
 
     <round instances="0" launch_time="17.0" spawn_time="19.0">
-	   <sound class="launch" fileref="mortar_shot.wav" volume="1.2" />
+	   <sound class="launch" fileref="mortar_shot.wav" volume="1.5" />
     </round>
     <round instances="1"
            instance_class="grenade"
@@ -120,11 +120,11 @@
            common_spread="10 0 10" 
            launch_time="17.0"
            spawn_time="19.0">
-	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="1.2" />
     </round>
 
     <round instances="0" launch_time="18.5" spawn_time="20.5">
-	   <sound class="launch" fileref="mortar_shot.wav" volume="1.2" />
+	   <sound class="launch" fileref="mortar_shot.wav" volume="1.5" />
     </round>
     <round instances="1"
            instance_class="grenade"
@@ -133,7 +133,7 @@
            common_spread="10 0 10" 
            launch_time="18.5"
            spawn_time="20.5">
-	   <sound class="spawn" fileref="mortar_whistle.wav" volume="0.95" />
+	   <sound class="spawn" fileref="mortar_whistle.wav" volume="1.2" />
     </round>
 
     <hud_icon filename="hud_mortar_heavy.png" />

@@ -31,8 +31,7 @@
 
     <model mesh_filename="barrier_item.mesh" texture_filename="bofors_item.png" />
 
-    <capacity value="1" source="rank" source_value="0.0" />
-    <capacity value="1" source="rank" source_value="0.4" />
+    <capacity value="1" source="rank" source_value="1" />
 
     <hud_icon filename="hud_coastal_gun_deploy.png" />
     <commonness value="0.0001" can_respawn_with="0" in_stock="1"/>

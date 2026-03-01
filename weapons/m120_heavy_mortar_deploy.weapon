@@ -32,11 +32,11 @@
     <!-- Visuell ein gepacktes Paket -->
     <model mesh_filename="barrier_item.mesh" texture_filename="mortar_item.png" />
 
-    <capacity value="1" source="rank" source_value="0.0" />
+    <capacity value="1" source="rank" source_value="1" />
 
     <hud_icon filename="hud_mortar.png" />
-    <commonness value="0.0001" in_stock="1" can_respawn_with="0" />
-    <inventory encumbrance="15.0" price="1000.0" />
+    <commonness value="0.005" in_stock="1" can_respawn_with="0" />
+    <inventory encumbrance="35.0" price="1000.0" />
     
    <modifier class="speed" value="-0.5" />    
 

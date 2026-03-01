@@ -3,11 +3,11 @@
     <tag name="mortar" />
 
     <specification 
-    retrigger_time="5.0" 
-    accuracy_factor="0.9" 
-    sustained_fire_grow_step="1.0" 
-    sustained_fire_diminish_rate="0.1" 
-    sight_range_modifier="7.2"
+    retrigger_time="20.0" 
+    accuracy_factor="0.87" 
+ sustained_fire_grow_step="1.0" 
+   sustained_fire_diminish_rate="0.05"
+    sight_range_modifier="6.2"
     ai_sight_range_modifier="0.85"
     magazine_size="-1" 
     can_shoot_standing="0" 
@@ -19,20 +19,18 @@
     projectile_speed="60.0"  
     barrel_offset="0" 
     barrel_offset_3d="0 2.0 1"
-    spread_range="0.05" 
+    spread_range="0.08" 
     sight_height_offset="3.0" />
 
     <!-- Direktschuss-Ballistik (Class 0) mit Bogen durch Speed-Limit -->
-    <ballistics near_far_distance="1.0" speed_estimation_near="40.0" speed_estimation_far="120.0" max_speed="65.0" randomness="0.07" />
+  <ballistics near_far_distance="1.0" speed_estimation_near="20.0" speed_estimation_far="100.0" max_speed="160.0" randomness="0.1" />
 
-    <sound key="fire" fileref="patrol_ship_mortar.wav" pitch_variety="0.1" />
+    <sound key="fire" fileref="mortar_shot.wav" pitch_variety="0.2" volume="4.0" />
     <sound key="magazine_in" fileref="portable_mortar_reload.wav" />
     <sound key="cycle" fileref="rifle_chamber.wav" />
 
-    <!-- Visuell wie ein Mörser -->
     <model mesh_filename="mortar_tube.mesh" texture_filename="mortar.png" />
 
-    <!-- Das MRL Projektil für den Schaden (600dmg, 8.5m Radius) mit High Gravity -->
     <projectile file="m120_heavy_mortar_rocket.projectile" />
     
     <weak_hand_hold offset="0.3" />

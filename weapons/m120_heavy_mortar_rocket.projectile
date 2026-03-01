@@ -16,16 +16,15 @@
 
     <commonness value="0.0" />
  
-    <!-- Heavy Artillery Impact -->
-    <sound class="result" key="other" fileref="mortar_whistle.wav" volume="1.5" />
-    <sound class="result" key="other" fileref="heavy_gun_02.wav" volume="1.5" />
-    <!-- C4 Bass Overlay -->
-    <sound class="result" key="other" fileref="c4_explosion.wav" volume="1.0" />
+    <!-- Heavy Artillery Impact (Layered) -->
+    <!-- Heavy Artillery Impact (Layered) -->
 
-    <sound class="result" key="vehicle" copy="other" />    
-    <sound class="result" key="vehicle" tag="metal_heavy" fileref="blast_metal_hit_01.wav" pitch_variety="0.2" volume="0.8" />
-    <sound class="result" key="vehicle" tag="metal_heavy" fileref="blast_metal_hit_02.wav" pitch_variety="0.2" volume="0.8" /> 
-    <sound class="result" key="vehicle" tag="metal_heavy" fileref="blast_metal_hit_03.wav" pitch_variety="0.2" volume="0.8" />           
+    <sound class="result" key="other" fileref="light_gun_01.wav" volume="2.35" pitch_variety="0.1"/>
+    <sound class="result" key="other" fileref="light_gun_02.wav" volume="2.35" pitch_variety="0.1"/>
+    <sound class="result" key="other" fileref="light_gun_03.wav" volume="2.35" pitch_variety="0.1"/>
+    <sound class="result" key="other" fileref="light_gun_04.wav" volume="2.35" pitch_variety="0.1"/>
+
+
 
     <sound class="result" key="terrain" copy="other" />
     <sound class="result" key="static_object" copy="other" />

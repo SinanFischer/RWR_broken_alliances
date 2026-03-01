@@ -5,6 +5,10 @@
 	<weapon key='mp7.weapon' />
 	<weapon key='m16a4.weapon' />
 	<weapon key='mortar_resource.weapon' />
+	<weapon key='mortar_resource.weapon' />
+	<weapon key='mortar_resource.weapon' />
+	<weapon key='mortar_resource.weapon' />
+	<weapon key='m120_heavy_mortar_deploy.weapon' />
 	<carry_item key='vest1.carry_item' />
 	<carry_item key='vest2.carry_item' enabled="0" />
 	<carry_item key='vest3.carry_item' enabled="0" />
