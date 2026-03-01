@@ -353,7 +353,7 @@
 	</dialogue>    
 
 	<dialogue key="defense dialogue 2 men">
-		<comment text="Wirst du bald befuerdert?" />
+		<comment text="Wirst du bald befoerdert?" />
 		<comment text="Denk eher nicht" />
 	</dialogue>
   
@@ -838,7 +838,7 @@
           
 
 	<dialogue key="defense dialogue 2 men">
-		<comment text="Ich glaube, dass ich bald befuerdert werde" />
+		<comment text="Ich glaube, dass ich bald befoerdert werde" />
 		<comment text="Dann solltest du dich aber nicht davor erschiessen lassen!" />
 		<comment text="Danke Mann, wirklich nett von dir!" />
 	</dialogue>
@@ -894,7 +894,7 @@
 	<dialogue key="defense dialogue 2 men">
 		<comment text="Wie kann ich die Neuigkeit meinem Vater uebermitteln?" />
     <comment text="Welche Neuigkeit meinst du?" /> 
-    <comment text="Naja, dass ich es nicht geschafft habe, befuerdert zu werden" />
+    <comment text="Naja, dass ich es nicht geschafft habe, befoerdert zu werden" />
     <comment text="Schick ihm ein Telegramm" />    
     <comment text="Mit welchem Inhalt?" /> 
     <comment text="'Letztjaehrige Leistung eingehalten'" />              
@@ -1049,7 +1049,7 @@
 	</dialogue>    
 
 	<!-- commander comments -->
-	<comment key="player promotion" text="Glueckwunsch Soldat, Sie wurden zum %rank_name befuerdert!" />
+	<comment key="player promotion" text="Glueckwunsch Soldat, Sie wurden zum %rank_name befoerdert!" />
 	<comment key="we captured a base" text="%base_name wurde von uns eingenommen!" />
 	<comment key="we captured a base" text="Wir haben %base_name eingenommen!" />
 	<comment key="enemy captured a base" text="%base_name wurde von den %faction_name erobert" /> 
