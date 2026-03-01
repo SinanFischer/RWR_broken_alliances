@@ -5,8 +5,8 @@
 _Initial release of the RWR Broken Alliances Mod package adjustments._
 
 ### Vehicles
-- **Coastal Gun**:
-  - Limited turret rotation range to 170 degrees (±85°) to prevent 360-degree firing.
+  - Limited Coastal Gun turret rotation range to 170 degrees (±85°) to prevent 360-degree firing.
+  - Deactivated Vehicle spawn when no player is in-game.
 
 ### Weapons & Items
 - **Coastal Gun (Deploy Item)**:
