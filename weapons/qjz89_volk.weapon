@@ -2,23 +2,23 @@
 <!-- media/packages/RWR_broken_alliances/weapons/qjz89_volk.weapon -->
 <weapon file="base_primary_rare.weapon" key="qjz89_volk.weapon">
     <tag name="machine gun" />
-    <specification 
-    retrigger_time="0.10" 
-    accuracy_factor="0.85" 
-    sustained_fire_grow_step="0.0622" 
-    sustained_fire_diminish_rate="0.4" 
-    spread_range="0.3" 
-    sight_range_modifier="1.1"
-    magazine_size="200" 
-    can_shoot_standing="0" 
-    can_shoot_crouching="0" 
-    suppressed="0" 
-    name='QJZ-89 "Volk"' 
+    <specification
+    retrigger_time="0.13"
+    accuracy_factor="0.85"
+    sustained_fire_grow_step="0.115"
+    sustained_fire_diminish_rate="0.25"
+    spread_range="0.45"
+    sight_range_modifier="1.2"
+    magazine_size="200"
+    can_shoot_standing="0"
+    can_shoot_crouching="0"
+    suppressed="0"
+    name='QJZ-89 "Volk"'
     class="0"
-    barrel_offset="0.65" 
-    projectile_speed="110.0" 
-    cooldown_start="0.5"
-    cooldown_end="0.0"/>
+    barrel_offset="0.65"
+    projectile_speed="115.0"
+    cooldown_start="2.0"
+    cooldown_end="0.5"/>
 
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />
@@ -26,10 +26,10 @@
     <animation key="hold_on_wall" ref="1" />
 
     <animation state_key="reload" animation_key="reloading, microgun" volume="0.8" />
-    <animation state_key="running"          animation_key="walking, carrying load" />
-    <animation state_key="walking"          animation_key="walking, carrying load" />
-    <animation state_key="hold"             animation_key="still, carrying load" />
-    <animation state_key="hold_casual"      animation_key="still, carrying load" />
+    <animation state_key="running"            animation_key="walking, carrying load" />
+    <animation state_key="walking"            animation_key="walking, carrying load" />
+    <animation state_key="hold"               animation_key="still, carrying load" />
+    <animation state_key="hold_casual"        animation_key="still, carrying load" />
     <animation state_key="still_against_wall" animation_key="still, carrying load" />
     <animation state_key="changing_weapon_in" animation_key="change weapon in, single hand carry" />
 
@@ -43,24 +43,25 @@
     <sound key="cooldown" fileref="overheating_mg.wav" volume="0.4"/>
 
     <hud_icon filename="hud_qjz89.png" />
-    <commonness value="0.03" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.03" can_respawn_with="1" in_stock="1" />
     <inventory encumbrance="10.0" price="200.0" />
 
     <weak_hand_hold offset="0.5" />
     <projectile file="50cal_bullet.projectile">
-        <result class="hit" kill_probability="0.88" kill_decay_start_time="0.48" kill_decay_end_time="0.70" />
+        <result class="hit" kill_probability="2.15" kill_decay_start_time="0.60" kill_decay_end_time="1.00" />
     </projectile>
 
-    <stance state_key="running" accuracy="0.2" />
-    <stance state_key="walking" accuracy="0.2" />
-    <stance state_key="crouch_moving" accuracy="0.2" />
-    <stance state_key="standing" accuracy="0.85" />
-    <stance state_key="crouching" accuracy="0.85" />
-    <stance state_key="prone" accuracy="0.85" /> 
-    <stance state_key="prone_moving" accuracy="0.5" />
-    <stance state_key="over_wall" accuracy="0.85" />  
+    <!-- Prone-Spezialist: Läuft wie Blei, liegt wie eine Festung -->
+    <stance state_key="running"      accuracy="0.10" />
+    <stance state_key="walking"      accuracy="0.15" />
+    <stance state_key="crouch_moving" accuracy="0.15" />
+    <stance state_key="standing"     accuracy="0.75" />
+    <stance state_key="crouching"    accuracy="0.80" />
+    <stance state_key="prone"        accuracy="0.95" />
+    <stance state_key="prone_moving" accuracy="0.30" />
+    <stance state_key="over_wall"    accuracy="0.75" />
 
     <effect class="muzzle" ref="BigMuzzle" />
 
-    <modifier class="speed" value="-0.45" />
+    <modifier class="speed" value="-0.55" />
 </weapon>

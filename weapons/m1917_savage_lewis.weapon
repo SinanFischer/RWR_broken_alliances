@@ -2,21 +2,21 @@
 <!-- media/packages/RWR_broken_alliances/weapons/m1917_savage_lewis.weapon -->
 <weapon file="base_primary_rare.weapon" key="m1917_savage_lewis.weapon">
     <tag name="machine gun" />
-    <specification 
-    retrigger_time="0.12" 
-    accuracy_factor="0.8"
-    sustained_fire_grow_step="0.03"
-    sustained_fire_diminish_rate="0.15"	
-    magazine_size="97" 
-    can_shoot_standing="1" 
-    can_shoot_crouching="1" 
-    suppressed="0" 
-    name="M1917 Savage-Lewis" 
-    class="0" 
-    barrel_offset="0.7" 
+    <specification
+    retrigger_time="0.10"
+    accuracy_factor="0.82"
+    sustained_fire_grow_step="0.02"
+    sustained_fire_diminish_rate="0.12"
+    spread_range="0.28"
+    magazine_size="165"
+    can_shoot_standing="1"
+    can_shoot_crouching="1"
+    suppressed="0"
+    name="M1917 Savage-Lewis"
+    class="0"
+    barrel_offset="0.7"
     projectile_speed="100.0"
-    spread_range="0.25" 
-    cooldown_start="0.5"
+    cooldown_start="0.75"
     cooldown_end="0.0"/>
 
     <animation state_key="recoil" animation_key="recoil, hip fire" />
@@ -32,12 +32,13 @@
     <animation state_key="crouching" animation_key="crouch, hold, hip fire" />
     <animation state_key="crouch_moving" animation_key="crouching forwards, hip fire" />
 
-    <stance state_key="running" accuracy="0.3" />
-    <stance state_key="walking" accuracy="0.65" />
-    <stance state_key="standing" accuracy="0.65" />
-    <stance state_key="crouching" accuracy="0.65" />
-    <stance state_key="prone" accuracy="0.75" />
-    <stance state_key="over_wall" accuracy="0.65" />
+    <!-- Suppression-Master: Kaum Streuungsanstieg, flexibel in allen Positionen -->
+    <stance state_key="running"   accuracy="0.35" />
+    <stance state_key="walking"   accuracy="0.70" />
+    <stance state_key="standing"  accuracy="0.70" />
+    <stance state_key="crouching" accuracy="0.72" />
+    <stance state_key="prone"     accuracy="0.80" />
+    <stance state_key="over_wall" accuracy="0.70" />
 
     <weak_hand_hold offset="0.4" />
 
@@ -51,17 +52,17 @@
     <model filename="gun_lewis.xml" />
     <hud_icon filename="hud_gun_lewis.png" />
 
-    <commonness value="0.03" can_respawn_with="0" in_stock="1"/>
+    <commonness value="0.03" can_respawn_with="1" in_stock="1"/>
     <inventory encumbrance="11.0" price="200.0" />
 
     <projectile file="bullet.projectile">
         <result
         class="hit"
-        kill_probability="0.65"
-        kill_decay_start_time="0.51"
-        kill_decay_end_time="0.8"
+        kill_probability="0.58"
+        kill_decay_start_time="0.40"
+        kill_decay_end_time="0.65"
         />
     </projectile>
 
-    <modifier class="speed" value="-0.2" />
+    <modifier class="speed" value="-0.20" />
 </weapon>
