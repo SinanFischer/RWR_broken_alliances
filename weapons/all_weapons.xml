@@ -256,6 +256,9 @@
 	<weapon file="wiesel_tow.weapon" />
 	<weapon file="wiesel_mk20.weapon" />
 
+	<!-- Brown Alliances -->
+	<weapon file="qjz89_volk.weapon" />
+
 </weapons>
 
 
