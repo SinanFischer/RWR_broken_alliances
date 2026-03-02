@@ -42,7 +42,7 @@
 
     <weak_hand_hold offset="0.4" />
 
-    <sound key="fire" fileref="gun_lewis_shot.wav" pitch_variety="0.05" volume="0.4" />
+    <sound key="fire" fileref="gun_lewis_shot.wav" pitch_variety="0.05" volume="0.8" />
     <sound key="cooldown" fileref="overheating_mg.wav" volume="0.4"/>
     <sound key="effect" fileref="hunter_cycle_in.wav" volume="0.8"/>
     <sound key="magazine_out" fileref="mg_clip_out.wav" />

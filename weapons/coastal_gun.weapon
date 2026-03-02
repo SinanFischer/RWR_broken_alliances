@@ -24,6 +24,8 @@
 	barrel_offset_3d="0.2 2 5.6"
 	sight_height_offset="0.5"
 	projectiles_per_shot="1"
+	cooldown_start="1.0"
+	cooldown_end="0.0"
 	/>
 
 	<!-- Scoring for target priority. Distance is between 0 and 1 based on range; direction is between 0 and 1 based on whether its near the barrel; squad_command is between 0 and on based on how close to the player's command order is, and base_score is a weight.. -->
