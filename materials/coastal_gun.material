@@ -1,0 +1,56 @@
+// Materials for coastal_gun meshes
+// SubEntity names extracted from binary meshes
+
+material coastal_gun_base_coastal_gun
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            ambient 0.8 0.8 0.8 1.0
+            diffuse 0.64 0.64 0.64 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            texture_unit
+            {
+                texture coastal_gun.png
+            }
+        }
+    }
+}
+
+material coastal_gun_gun_coastal_gun
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            ambient 0.8 0.8 0.8 1.0
+            diffuse 0.64 0.64 0.64 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            texture_unit
+            {
+                texture coastal_gun.png
+            }
+        }
+    }
+}
+
+material coastal_gun_turret_coastal_gun
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            ambient 0.8 0.8 0.8 1.0
+            diffuse 0.64 0.64 0.64 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            texture_unit
+            {
+                texture coastal_gun.png
+            }
+        }
+    }
+}
