@@ -35,12 +35,12 @@
     <model filename="ares_shrike.xml" />
 
     <hud_icon filename="hud_ares_shrike.png" />
-    <commonness value="0.03" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="10.0" price="200.0" />
+    <commonness value="0.004" can_respawn_with="1" in_stock="1" />
+    <inventory encumbrance="10.0" price="220.0" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.50" kill_decay_start_time="0.35" kill_decay_end_time="0.65" />
+        <result class="hit" kill_probability="0.68" kill_decay_start_time="0.35" kill_decay_end_time="0.65" />
     </projectile>
 
     <!-- Präzisions-Hybrid: Liegend/Kniend ein Laser, im Laufen unbrauchbar -->
