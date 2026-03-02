@@ -2,7 +2,8 @@
 
 ## [1.0.2] - 2026-03-01
 
-- Neuer m120 Heavy Mortar. With extreme range but takes 20 Seconds to reload.
+- new m120 Heavy Mortar. With extreme range but takes 20 Seconds to reload.
+- activated fov on all quick match maps, you can deactivate map specific by setting value 0 in fov for example under: RWR_broken_alliances\packages\vanilla\maps\map17\init_match.xml
 
 ### Weapons
 - **L85A2**:

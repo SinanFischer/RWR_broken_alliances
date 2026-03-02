@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <call name="Heavy Field Gun Barrage" key="heavy_artillery.call"
-      initiation_comment1="Fire heavy artillery"
+      initiation_comment1="Fire mission"
+      initiation_comment2="fire heavy artillery."
       acknowledge_comment="Roger, wait five."
       acknowledge_time="1.0"
       launch_comment="Rounds on the way.">

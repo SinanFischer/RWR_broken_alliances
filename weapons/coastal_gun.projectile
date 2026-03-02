@@ -21,7 +21,7 @@
         damage_origin_vehicle="0" 
 	/>
 	
-	<model mesh_filename="mortar_shell1.xml" />
+	<model mesh_filename="mortar_shell.xml" />
 	<commonness value="0.0" />
 	
 	<rotation class="motion" />

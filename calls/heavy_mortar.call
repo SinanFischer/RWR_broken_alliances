@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <call name="Heavy Mortar Barrage" key="heavy_mortar.call"
       initiation_comment1="Fire mission"
-      initiation_comment2="fire heavy artillery."
+      initiation_comment2="fire heavy mortar."
       acknowledge_comment="Roger, wait five."
       launch_comment="Rounds on the way.">
     
