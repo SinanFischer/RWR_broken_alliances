@@ -20,7 +20,9 @@
     barrel_offset="0" 
     barrel_offset_3d="0 2.0 1"
     spread_range="0.08" 
-    sight_height_offset="3.0" />
+    sight_height_offset="3.0"
+    cooldown_start="1.0"
+    cooldown_end="0.0" />
 
     <!-- Direktschuss-Ballistik (Class 0) mit Bogen durch Speed-Limit -->
   <ballistics near_far_distance="1.0" speed_estimation_near="20.0" speed_estimation_far="100.0" max_speed="160.0" randomness="0.1" />

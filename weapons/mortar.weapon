@@ -6,7 +6,7 @@
     accuracy_factor="0.9" 
     sight_range_modifier="3.5" 
     sustained_fire_grow_step="1.0" 
-    sustained_fire_diminish_rate="0.1" 
+    sustained_fire_diminish_rate="0.222" 
     magazine_size="-1" 
     can_shoot_standing="0" 
     can_shoot_crouching="1" 
@@ -18,7 +18,9 @@
     barrel_offset="0" 
     barrel_offset_3d="0 2.0 1"
     spread_range="0.05" 
-    sight_height_offset="3.0" />
+    sight_height_offset="3.0"
+    cooldown_start="1.0"
+    cooldown_end="0.0" />
 
     <ballistics near_far_distance="1.0" speed_estimation_near="20.0" speed_estimation_far="25.0" max_speed="80.0" randomness="0.07" />
 

@@ -1,7 +1,8 @@
 # Change Log
 
 ## [1.0.2] - 2026-03-01
-
+- added cooldown visualisation for retrigger time for coastal guns & heavy mortar. 
+- added 3 new Heavy MG's, one for each faction 
 - new m120 Heavy Mortar. With extreme range but takes 20 Seconds to reload.
 - activated fov on all quick match maps, you can deactivate map specific by setting value 0 in fov for example under: RWR_broken_alliances\packages\vanilla\maps\map17\init_match.xml
 
