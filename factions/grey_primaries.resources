@@ -14,5 +14,6 @@
 	<weapon key="flamethrower.weapon" />
 
 	<weapon key='famasg1.weapon' />
+	<weapon key='mg08_heavy_custom22.weapon' />
 
 </resources>

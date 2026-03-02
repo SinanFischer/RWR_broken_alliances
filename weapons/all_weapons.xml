@@ -259,6 +259,12 @@
 	<!-- Brown Alliances -->
 	<weapon file="qjz89_volk.weapon" />
 
+	<!-- Green Alliances -->
+	<weapon file="m1917_savage_lewis.weapon" />
+
+	<!-- Grey Alliances -->
+	<weapon file="mg08_heavy_custom22.weapon" />
+
 </weapons>
 
 
