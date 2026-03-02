@@ -19,6 +19,7 @@
 	<weapon key='tow_resource.weapon' enabled="0" />
 	<weapon key="flamethrower.weapon" />
 	<weapon key='javelin.weapon' />  
+	<weapon key='javelin_elite.weapon' />  
 	<weapon key='lahti_l39.weapon' />  
 	<weapon key='microgun.weapon' />  
 	<weapon key='benelli_m4.weapon' />  

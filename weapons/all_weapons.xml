@@ -143,6 +143,7 @@
 	<weapon file="kriss_vector.weapon" /> 
 	<weapon file="javelin.weapon" />
 	<weapon file="javelin_captain.weapon" />
+	<weapon file="javelin_elite.weapon" />
 	<weapon file="musket.weapon" />
 	<weapon file="benelli_m4_supp.weapon" /> 
   <weapon file="m712.weapon" /> 

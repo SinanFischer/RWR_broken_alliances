@@ -68,6 +68,8 @@
 	<comment key="All quiet here" text="No sign of them" />
 	<comment key="All quiet here" text="Calm before the storm?" />
 	<comment key="All quiet here" text="Just two more weeks..." />
+	<comment key="All quiet here" text="Brussels is warm. We are in the mud." />
+	<comment key="All quiet here" text="Defend Europe. Ignore the politicians." />
 
 	<!-- ========== I feel good! (Nach Heilung) ========== -->
 	<comment key="I feel good!" text="Thanks Sani!" />
@@ -88,7 +90,8 @@
 	<comment key="Reloading" text="Cover me" />
 	<comment key="Reloading" text="Reloading!" />
 	<comment key="Reloading" text="Give me cover!" />
-	<comment key="Reloading" text="Give me cover!" />
+	<comment key="Reloading" text="Nachladen!" />
+	<comment key="Reloading" text="Deckung! I'm reloading!" />
 
 	<!-- ========== enemy seen ========== -->
 	<comment key="enemy seen" text="Over here" />
@@ -96,6 +99,8 @@
 	<comment key="enemy seen" text="Hostiles!" />
 	<comment key="enemy seen" text="Enemy spotted!" />
 	<comment key="enemy seen" text="Contact!" />
+	<!-- Fraktionsspezifisch: USA mit Verwirrung, Russland defensiv -->
+	<comment key="enemy seen" text="Yanks! They're firing on us!" />
 
 	<!-- ========== grenade alert ========== -->
 	<comment key="grenade alert, grenade tag = grenade" text="Grenade!" />

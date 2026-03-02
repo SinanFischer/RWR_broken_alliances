@@ -10,6 +10,7 @@
   <weapon key='mgl_flasher.weapon' />   
   <weapon key='mp7.weapon' />   
   <weapon key='heavy_artillery_deploy.weapon' />
+  <weapon key='javelin_elite.weapon' />
 	<weapon key='wrench.weapon' />
 	<weapon key='m120_heavy_mortar_deploy.weapon' />
 
