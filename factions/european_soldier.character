@@ -78,6 +78,21 @@
 	<comment key="I feel good!" text="Feeling much better!" />
 	<comment key="I feel good!" text="All clear, let's go!" />
 	<comment key="I feel good!" text="Thanks Doc!" />
+	<!-- Deutsch -->
+	<comment key="I feel good!" text="Danke, Kamerad. Back in." />
+	<comment key="I feel good!" text="Gut! Good to go." />
+	<comment key="I feel good!" text="Ja! Back in the fight." />
+	<!-- Franzoesisch -->
+	<comment key="I feel good!" text="Merde... thanks, Doc." />
+	<comment key="I feel good!" text="Mon Dieu... still alive. Let's move." />
+	<!-- Polnisch -->
+	<comment key="I feel good!" text="Kurwa... good to go." />
+	<!-- Italienisch -->
+	<comment key="I feel good!" text="Madonna... thanks, Doc!" />
+	<!-- Spanisch -->
+	<comment key="I feel good!" text="Dios mio... back in the fight." />
+	<!-- Niederlaendisch -->
+	<comment key="I feel good!" text="Godverdomme... thanks, Doc!" />
 
 	<!-- ========== Hold on! (Kamerad kommt) ========== -->
 	<comment key="Hold on!" text="I'm on my way!" />

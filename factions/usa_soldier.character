@@ -62,6 +62,10 @@
 	<comment key="I feel good!" text="Let's get this over with." />
 	<comment key="I feel good!" text="Good to go." />
 	<comment key="I feel good!" text="Appreciate it, Doc." />
+	<comment key="I feel good!" text="Hooah. Back in the fight." />
+	<comment key="I feel good!" text="Good hands, Doc. Good hands." />
+	<comment key="I feel good!" text="Still breathing. That's enough." />
+	<comment key="I feel good!" text="Hooyah! Let's finish this." />
 
 	<!-- ========== Hold on! (Kamerad kommt) ========== -->
 	<comment key="Hold on!" text="On my way! Hang tight!" />

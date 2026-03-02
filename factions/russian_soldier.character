@@ -96,6 +96,10 @@
 	<comment key="I feel good!" text="Back in the fight!" />
 	<comment key="I feel good!" text="Good to go!" />
 	<comment key="I feel good!" text="For the Motherland!" />
+	<comment key="I feel good!" text="Zhiv, bratan! Zhiv!" />
+	<comment key="I feel good!" text="Spasibo, bratan. Poshli." />
+	<comment key="I feel good!" text="Rodina still needs me." />
+	<comment key="I feel good!" text="Not dead yet. Disappointing for some." />
 
 	<!-- ========== Hold on! (Kamerad kommt) ========== -->
 	<comment key="Hold on!" text="I'm on my way!" />
