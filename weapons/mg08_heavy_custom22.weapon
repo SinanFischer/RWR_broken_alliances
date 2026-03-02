@@ -8,7 +8,7 @@
     accuracy_factor="0.92"
     sustained_fire_grow_step="0.7"
     sustained_fire_diminish_rate="0.50"
-    spread_range="0.12"
+    spread_range="0.2"
     magazine_size="60"
     can_shoot_standing="0"
     can_shoot_crouching="1"
@@ -16,7 +16,7 @@
     name="MG-08 Heavy CustoM22"
     class="4"
     burst_shots="6"
-    projectile_speed="100.0"
+    projectile_speed="120.0"
     barrel_offset="0.4" />
 
     <next_in_chain key="ares_shrike_s.weapon" share_ammo="1" />
@@ -36,7 +36,7 @@
 
     <hud_icon filename="hud_ares_shrike.png" />
     <commonness value="0.004" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="10.0" price="220.0" />
+    <inventory encumbrance="10.0" price="200.0" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
@@ -44,10 +44,10 @@
     </projectile>
 
     <!-- Präzisions-Hybrid: Liegend/Kniend ein Laser, im Laufen unbrauchbar -->
-    <stance state_key="crouch_moving" accuracy="0.10" />
+    <!-- <stance state_key="crouch_moving" accuracy="0.10" />
     <stance state_key="prone"        accuracy="0.92" />
     <stance state_key="prone_moving" accuracy="0.10" />
-    <stance state_key="over_wall"    accuracy="0.90" />
+    <stance state_key="over_wall"    accuracy="0.90" /> -->
 
     <modifier class="speed" value="-0.07" />
 </weapon>
