@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources clear_weapons="1">
-	<!-- Grenadier: reines Explosions-Chaos, nur Milkor MGL als Primary; Sekundär = Faction-Secondaries -->
+	<!-- Grenadier: reines Explosions-Chaos, nur Milkor MGL als Primary; Sekundär = Faction-Secondaries + FHJ-01 -->
 	<weapon key='milkor_mgl.weapon' />
+	<weapon key='fhj01.weapon' />
 	<!-- Wurf-Slot 0: Wiesel-Flare oder Granaten (z. B. Hand/AT/Impact) -->
 	<projectile key="wiesel_flare.projectile" />
 	<projectile key="hand_grenade.projectile" />
