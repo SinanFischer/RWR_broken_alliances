@@ -21,7 +21,7 @@
 	<animation state_key="next_in_chain_out" animation_key="sheath bayonet part 1"/>
 
     <animation key="recoil" ref="27" />
-	<animation state_key="reload" animation_key="reloading, drum mag" />
+	<animation state_key="reload" animation_key="reloading, pkm" />
 	
     <sound key="fire" fileref="origin_12_shot.wav" pitch_variety="0.05" volume="2.5" />
     <sound key="magazine_out" fileref="mg_clip_out.wav" />

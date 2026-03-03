@@ -38,7 +38,7 @@
 	<animation state_key="prone_still" 		animation_key="prone still, sword" />
 	<animation state_key="prone_moving" 		animation_key="prone moving, ninjato" />
 	<animation state_key="walking_backwards" 	animation_key="walking backwards, pistol" />
-	<animation state_key="stabbing"			animation_key="stabbing, burst" />
+	<animation state_key="stabbing"			animation_key="melee, bayonet" />
 
 	<sound key="fire" fileref="zweihander_swing_02.wav" pitch_variety="0.05" volume="0.2" />
 	<sound key="stab" fileref="grenade_throw1.wav" pitch_variety="0.05" volume="0.6" />
