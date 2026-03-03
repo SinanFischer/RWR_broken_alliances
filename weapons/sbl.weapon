@@ -25,7 +25,7 @@
 
     <animation key="recoil" ref="40" />
     <!-- <animation key="reload" ref="35" /> -->
-    <animation state_key="reload" animation_key="reloading, pan mag" />    
+    <animation state_key="reload" animation_key="reloading, m79" />    
     <animation key="hold" ref="39" />
     <animation key="hold_on_wall" ref="39" />
 	<animation state_key="stabbing" 		animation_key="zweihander stab" />
