@@ -119,7 +119,8 @@
 	<weapon file="tank2_missile_launcher.weapon" />        
 -->
 
-<weapon file="xm25.weapon" />
+	<weapon file="xm25_r.weapon" />
+	<weapon file="xm25.weapon" />
 
 	<weapon file="apc_hmg_1.weapon" />
 	<weapon file="apc_hmg_2.weapon" /> 
@@ -230,6 +231,35 @@
   <weapon file="vulcan_acav_minig.weapon" />
   <weapon file="chainsaw.weapon" />
   <weapon file="taser_medic.weapon" />
+
+  <!-- Stash-Waffen (Waffenübersicht): nur laden, nicht Waffenkammer -->
+  <weapon file="truvelo_amris.weapon" />
+  <weapon file="ultimax.weapon" />
+  <weapon file="ultimax_m.weapon" />
+  <weapon file="sabre.weapon" />
+  <weapon file="sbl.weapon" />
+  <weapon file="camo_shield.weapon" />
+  <weapon file="gilboa_dbr.weapon" />
+  <weapon file="gun_tommy.weapon" />
+  <weapon file="m1_garand_m.weapon" />
+  <weapon file="origin_12.weapon" />
+  <weapon file="origin_12_s.weapon" />
+  <weapon file="compound_bow.weapon" />
+  <weapon file="compound_bow_alt.weapon" />
+  <weapon file="rpk16.weapon" />
+  <weapon file="rpk16_long.weapon" />
+  <weapon file="m200.weapon" />
+  <weapon file="m16a4_w_m203.weapon" />
+  <weapon file="m16a4_w_m203_g.weapon" />
+  <weapon file="g36_w_ag36.weapon" />
+  <weapon file="g36_w_ag36_g.weapon" />
+  <weapon file="ak47_w_gp25.weapon" />
+  <weapon file="ak47_w_gp25_g.weapon" />
+  <weapon file="an94_burst.weapon" />
+  <weapon file="qbz95.weapon" />
+  <weapon file="qbz95_us.weapon" />
+  <weapon file="qlz87_b.weapon" />
+  <weapon file="fhj01.weapon" />
 
 <!-- 1.91 -->
 

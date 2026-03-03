@@ -5,4 +5,52 @@
   <faction />
   <faction />
   </command>
+
+  <!-- Stash: gleiche Waffen wie Lobby (nur gewünschte aus Waffenübersicht) -->
+  <command
+    class="update_inventory"
+    character_id="1"
+    container_type_class="stash">
+    <item class="weapon" key="taser_medic.weapon" />
+    <item class="weapon" key="xm25.weapon" />
+    <item class="weapon" key="xm25_r.weapon" />
+    <item class="weapon" key="tti.weapon" />
+    <item class="weapon" key="truvelo_amris.weapon" />
+    <item class="weapon" key="ultimax.weapon" />
+    <item class="weapon" key="ultimax_m.weapon" />
+    <item class="weapon" key="sabre.weapon" />
+    <item class="weapon" key="m16a4_support.weapon" />
+    <item class="weapon" key="sbl.weapon" />
+    <item class="weapon" key="camo_shield.weapon" />
+    <item class="weapon" key="golden_knife.weapon" />
+    <item class="weapon" key="gilboa_dbr.weapon" />
+    <item class="weapon" key="gun_tommy.weapon" />
+    <item class="weapon" key="m1_garand_m.weapon" />
+    <item class="weapon" key="origin_12.weapon" />
+    <item class="weapon" key="origin_12_s.weapon" />
+    <item class="weapon" key="compound_bow.weapon" />
+    <item class="weapon" key="compound_bow_alt.weapon" />
+    <item class="weapon" key="rpk16.weapon" />
+    <item class="weapon" key="rpk16_long.weapon" />
+    <item class="weapon" key="m200.weapon" />
+    <item class="weapon" key="m16a4_w_m203.weapon" />
+    <item class="weapon" key="m16a4_w_m203_g.weapon" />
+    <item class="weapon" key="g36_w_ag36.weapon" />
+    <item class="weapon" key="g36_w_ag36_g.weapon" />
+    <item class="weapon" key="ak47_w_gp25.weapon" />
+    <item class="weapon" key="ak47_w_gp25_g.weapon" />
+    <item class="weapon" key="an94_burst.weapon" />
+    <item class="weapon" key="qbz95.weapon" />
+    <item class="weapon" key="qbz95_us.weapon" />
+    <item class="weapon" key="qlz87_b.weapon" />
+    <item class="weapon" key="fhj01.weapon" />
+    <item class="carry_item" key="vest1.carry_item" />
+    <item class="carry_item" key="vest2.carry_item" />
+    <item class="carry_item" key="vest3.carry_item" />
+    <item class="carry_item" key="eodvest.carry_item" />
+    <item class="carry_item" key="camouflage_suit.carry_item" />
+    <item class="carry_item" key="vest_blackops.carry_item" />
+    <item class="carry_item" key="cigarettes.carry_item" />
+    <item class="carry_item" key="whiskey_bottle.carry_item" />
+  </command>
 </commands>

@@ -2,6 +2,7 @@
 <package  
   name="RWR: Broken Alliances"
   description="Coming soon..."
+  overlay="1"
   show_in_campaigns="1"
   show_in_quick_match_mods="1"
   image="BrokenAlliances.png"
@@ -41,7 +42,7 @@
 			rp_multiplier="1.0"
 			player_damage_modifier="0.2"
 			/>
-		<preset text="Recommend" help="Help:Hard" id="normal"
+		<preset text="Recommend" help="Help:Hard" id="recommend"
 			friendly_capacity="2.30"
 			friendly_accuracy="0.95"
 			enemy_capacity="2.10"

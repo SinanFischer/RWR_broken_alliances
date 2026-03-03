@@ -35,7 +35,8 @@
 	<weapon key='honey_badger.weapon' /> 
 	<weapon key='m60e4.weapon' />   
 	<weapon key='mk23.weapon' enabled="0" />   
-	<weapon key='xm25.weapon' enabled="0" />
+	<weapon key='xm25_r.weapon' />
+	<weapon key='xm25.weapon' />
 	<weapon key='mg42.weapon' enabled="0" />
 	<weapon key='hornet_resource.weapon' enabled="0" />
 	<weapon key='aa-12.weapon' enabled="0" />
@@ -45,8 +46,40 @@
 	<weapon key='jackhammer.weapon' />   
 	<weapon key='uts15.weapon' />  
 	<weapon key='paw20.weapon' />    
-	<weapon key='ares_shrike.weapon' />   
+	<weapon key='ares_shrike.weapon' />
 
+	<!-- Stash-Waffen (Waffenübersicht): nur laden für Stash/Lobby, nicht Waffenkammer -->
+	<weapon key='taser_medic.weapon' />
+	<weapon key='tti.weapon' />
+	<weapon key='truvelo_amris.weapon' />
+	<weapon key='ultimax.weapon' />
+	<weapon key='ultimax_m.weapon' />
+	<weapon key='sabre.weapon' />
+	<weapon key='m16a4_support.weapon' />
+	<weapon key='sbl.weapon' />
+	<weapon key='camo_shield.weapon' />
+	<weapon key='golden_knife.weapon' />
+	<weapon key='gilboa_dbr.weapon' />
+	<weapon key='gun_tommy.weapon' />
+	<weapon key='m1_garand_m.weapon' />
+	<weapon key='origin_12.weapon' />
+	<weapon key='origin_12_s.weapon' />
+	<weapon key='compound_bow.weapon' />
+	<weapon key='compound_bow_alt.weapon' />
+	<weapon key='rpk16.weapon' />
+	<weapon key='rpk16_long.weapon' />
+	<weapon key='m200.weapon' />
+	<weapon key='m16a4_w_m203.weapon' />
+	<weapon key='m16a4_w_m203_g.weapon' />
+	<weapon key='g36_w_ag36.weapon' />
+	<weapon key='g36_w_ag36_g.weapon' />
+	<weapon key='ak47_w_gp25.weapon' />
+	<weapon key='ak47_w_gp25_g.weapon' />
+	<weapon key='an94_burst.weapon' />
+	<weapon key='qbz95.weapon' />
+	<weapon key='qbz95_us.weapon' />
+	<weapon key='qlz87_b.weapon' />
+	<weapon key='fhj01.weapon' />
 
 	<!-- note, we have faction specific bazookas, therefore not included here -->
 	<weapon key='minig_resource.weapon' /> 
