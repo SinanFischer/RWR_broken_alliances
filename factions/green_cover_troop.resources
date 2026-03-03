@@ -6,6 +6,7 @@
 	<weapon key='steyr_aug.weapon' />
 	<weapon key='m240.weapon' />
 	<weapon key='m249.weapon' />
+	<weapon key='camo_shield.weapon' />
 	<carry_item key='vest1.carry_item' enabled="0" />
 	<carry_item key='vest2.carry_item' />
 	<carry_item key='vest3.carry_item' />

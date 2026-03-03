@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- USA only: Camouflage Shield als Chance für EOD Light -->
+	<!-- USA only: Camouflage Shield als Chance für Grenadier -->
 	<weapon key="camo_shield.weapon" />
 </resources>

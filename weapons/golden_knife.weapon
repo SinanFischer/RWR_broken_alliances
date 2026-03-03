@@ -47,7 +47,7 @@
 	<model filename="knife_golden.xml" />
 	<hud_icon filename="hud_golden_knife.png" />
 	
-	<commonness value="0.0" can_respawn_with="0" in_stock="1"/>
+	<commonness value="0.0001" can_respawn_with="0" in_stock="0"/>
 	<inventory encumbrance="5.0" price="1000.0" />
 
 	<projectile file="golden_knife.projectile" />

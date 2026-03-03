@@ -522,6 +522,7 @@
 		<models file="green_default.models" />
 
 		<resources file="common_grenadier.resources" />
+		<resources file="green_grenadier.resources" />
 		<resources file="green_secondaries.resources" />
 
 		<item_class_existence_config>

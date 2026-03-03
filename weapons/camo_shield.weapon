@@ -6,7 +6,7 @@
       <model filename="camo_shield.xml" />
     <commonness value="0.008" can_respawn_with="0" in_stock="1" />
       <capacity value="1" source="rank" source_value="1.0" />
-      <inventory encumbrance="10.0" price="100.0" />
+      <inventory encumbrance="10.0" price="80.0" />
 
       <modifier class="detectability" value="-0.10" />
       <modifier class="speed" value="-0.10" />  
