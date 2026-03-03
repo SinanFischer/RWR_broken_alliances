@@ -50,7 +50,7 @@
     <weak_hand_hold offset="0.3" />
 
 
-    <commonness value="0" can_respawn_with="0" in_stock="1"/>    
+    <commonness value="0.0002" can_respawn_with="0" in_stock="1"/>    
     <inventory encumbrance="10.0" price="300.0" />
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.8" />

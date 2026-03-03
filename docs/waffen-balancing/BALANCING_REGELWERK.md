@@ -44,8 +44,11 @@ Nutze `<commonness value="..." />` strikt nach Stärke:
 | Stufe | Beschreibung | value |
 |-------|--------------|--------|
 | Kanonenfutter | Standard-Waffen | `0.1` bis `0.5` |
+| **Standard-Sekundärwaffe** | Sabre für Default-Soldaten | `0.15` (default_secondaries.resources) |
 | Spezialisten | Mörser, leichte Sniper | `0.01` bis `0.05` |
-| Absolute Elite | Kreissägen, QLZ-87, Truvelo | `0.0001` bis `0.005` (nur Offiziere/Bosse) |
+| Absolute Elite | Kreissägen, QLZ-87, Truvelo | `0.0001` bis `0.005` bzw. `0` (nur Stash/Boss/EOD) |
+
+**Resource-Pools:** SBL in common.resources, common_eod_light.resources, common_eod.resources (Slot-1-AT). Details: **COMMONNESS_UND_KI_SPAWN.md** Abschnitt 4.
 
 ### 5. Fahrzeug-Schaden (Die 17er-Grenze)
 

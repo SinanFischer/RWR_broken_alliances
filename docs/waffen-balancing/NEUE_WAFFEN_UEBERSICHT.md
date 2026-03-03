@@ -28,9 +28,9 @@ Alle Waffen, die in der Lobby-Waffenkammer (**Stash**) aktiv sind – mit frakti
 | **Truvelo AMis Suppressed** | EU | Sniper (Explosiv, 6 Schuss) | — | |
 | **ULTIMAX 100** | EU | MG | — | |
 | **ULTIMAX 100 Magazin** (ultimax_m) | EU | MG | — | |
-| **Sword** (Sabre) | all | Nahkampf (Melee) | — | |
+| **Sword** (Sabre) | all | Nahkampf (Melee) | 333 | **Standard-Sekundärwaffe** für Default-Soldaten (default_secondaries.resources). |
 | **M16A4 Tactical** (m16a4_support, mit Schild) | USA | Gewehr (AR) | — | |
-| **SBL** (Kreissägen) | RU | Special (Explosiv) | — | |
+| **SBL** (Kreissägen) | all | Special (Explosiv, Slot-1-AT) | 300 | In common, common_eod_light, common_eod. |
 | **Camouflage Shield** | USA | Schild | 80 | |
 | **Goldenes Messer** | all | Nahkampf (Melee) | — | |
 | **Gilboa DBR** | EU | Gewehr (AR, 30 Schuss, Shotgun-Munition) | — | |
@@ -81,7 +81,8 @@ Damit keine Fraktion die andere überrennt, bei **extremen Waffen** (z. B. SBL
 - Heilt Verbündete per Dart; unterdrückt. Ein-Schuss-Magazin, hohe Genauigkeit.
 
 **Sword (Sabre), Goldenes Messer**  
-- Nahkampf für Stürmer / AI-Nahkampf-Trupps; für alle als Stealth-/Ninja-Option.
+- **Sabre:** **Standard-Sekundärwaffe** für Default-Soldaten (default/default_ai): `default_secondaries.resources` (nur sabre) wird in brown/grey/green vor den fraktionsspezifischen Secondaries geladen; commonness 0,15. Nahkampf für alle als Stealth-/Ninja-Option.
+- Goldenes Messer: Prestige-Melee, 1000 RP.
 
 **Verbundbogen / Verbundbogen Explosiv (compound_bow, compound_bow_alt)**  
 - Standard-Pfeil und Explosiv-Pfeil; von Stealth-Einheiten (z. B. Black-Ops-Westen) selten getragen.
@@ -138,7 +139,7 @@ Damit keine Fraktion die andere überrennt, bei **extremen Waffen** (z. B. SBL
 ### RU – Flächenschaden & rohe Gewalt
 
 **SBL (Kreissägen)**  
-- Schießt Kreissägen; kontert EU-Schilde (Explosivschaden). **Balancing:** commonness sehr niedrig (z. B. 0,005), RP 200–350.
+- Schießt Kreissägen; kontert EU-Schilde (Explosivschaden). **Pools:** common.resources, common_eod_light.resources, common_eod.resources (Slot-1-AT). **Balancing:** commonness 0 (nur Stash/Boss/EOD-Pool), RP 300.
 
 **QLZ-87 (qlz87_b)**  
 - Schwerer Granatwerfer; kontert EU-Phalanx. **Balancing:** Speed-Malus −35 % bis −45 %, commonness niedrig, RP 200–350.

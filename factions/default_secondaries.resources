@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Standard-Sekundärwaffe (Slot 1) für Default-Soldaten: Cavalry Sabre.
+     Wird von default/default_ai zusätzlich zu den fraktionsspezifischen Secondaries geladen;
+     commonness in sabre.weapon steuert, wie oft er gegenüber anderen Slot-1-Waffen gewählt wird. -->
+<resources>
+	<weapon key="sabre.weapon" />
+</resources>

@@ -2,11 +2,12 @@
 <resources clear_weapons="1">
 	<!-- EOD Light: eigener Waffen-Pool (kein common/faction-Pool), nur diese Waffen -->
 	<weapon key="medikit.weapon" />
-	<!-- Slot 1 (Zweitwaffen): Panzerabwehr priorisiert - Javelin, M72 LAW, RPG-7, SMAW + 2 Support-Optionen -->
+	<!-- Slot 1 (Zweitwaffen): Panzerabwehr priorisiert - Javelin, M72 LAW, RPG-7, SMAW, SBL + Support-Optionen -->
 	<weapon key="javelin.weapon" />
 	<weapon key="m72_law.weapon" />
 	<weapon key="rpg-7.weapon" />
 	<weapon key="smaw.weapon" />
+	<weapon key="sbl.weapon" />
 	<weapon key="gl_resource.weapon" />
 	<weapon key="mg_resource.weapon" />
 	<weapon key="mgl_flasher.weapon" />

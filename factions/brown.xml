@@ -66,6 +66,7 @@
 
 		<resources file="common.resources" />
 		<resources file="brown_primaries.resources" />
+		<resources file="default_secondaries.resources" />
 		<resources file="brown_secondaries.resources" />
 		<resources file="brown_default.resources" />
 		<resources file="default_vests.resources" />
@@ -104,6 +105,7 @@
 
 		<resources file="common.resources" />
 		<resources file="brown_primaries.resources" />
+		<resources file="default_secondaries.resources" />
 		<resources file="brown_secondaries.resources" />
 		<resources file="brown_default.resources" />
 		<resources file="default_vests.resources" />

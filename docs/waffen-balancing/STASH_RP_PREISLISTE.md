@@ -48,9 +48,9 @@ Lückenlose, fair ausbalancierte **RP-Preisliste** (Resource Points) für alle W
 | Truvelo AMis Suppressed (truvelo_amris) | EU | Sniper (Explosiv, 6 Schuss) | 648 | Elite-Sniper Explosiv; sehr selten spawnen |
 | ULTIMAX 100 (ultimax) | EU | MG | 800 | Schwer-MG; Dauerfeuer-Elite, hoher Wert |
 | ULTIMAX 100 Magazin (ultimax_m) | EU | MG | 800 | Wie ultimax, Magazin-Variante |
-| Sword / Sabre (sabre) | all | Nahkampf (Melee) | 333 | Melee-Elite; einzigartige Rolle |
+| Sword / Sabre (sabre) | all | Nahkampf (Melee) | 333 | Melee-Elite; **Standard-Sekundärwaffe** für Default-Soldaten (default_secondaries.resources, commonness 0.15). |
 | M16A4 Tactical (m16a4_support) | USA | Gewehr (AR + Schild) | 90 | Stash-Einstieg AR; ≈ 5,6× Basis-AR (G36/M16/AK 15–16 RP) |
-| SBL / Kreissägen (sbl) | RU | Special (Explosiv) | 300 | Explosiv Special; kontert Schilde, begrenzte Spawn-Rate |
+| SBL / Kreissägen (sbl) | RU | Special (Explosiv) | 300 | Explosiv Special; Pools: common.resources, common_eod_light.resources, common_eod.resources (Slot-1-AT). commonness 0. |
 | Camouflage Shield (camo_shield) | USA | Schild | 100 | Defensiv; Tarn-Schild, kein Offensiv-Bonus |
 | Goldenes Messer (golden_knife) | all | Nahkampf (Melee) | 1000 | Prestige/Elite-Melee; bewusst teuer |
 | Gilboa DBR (gilboa_dbr) | EU | Gewehr (AR, Shotgun-Munition) | 150 | Spezial-AR; 30 Schuss, shotgun-ähnlich |

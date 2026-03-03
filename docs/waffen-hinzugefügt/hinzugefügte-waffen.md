@@ -1,3 +1,0 @@
-
-
-Bitte in einer Tabelle. 

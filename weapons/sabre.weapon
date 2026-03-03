@@ -45,7 +45,7 @@
 	<model filename="sabre.xml" />
 	<hud_icon filename="hud_sabre.png" />
 	
-	<commonness value="0.0" can_respawn_with="0" in_stock="1"/>
+	<commonness value="0.001" can_respawn_with="0" in_stock="1"/>
 	<inventory encumbrance="5.0" price="333.0" />
 
 	<capacity value="0" source="rank" source_value="0.0" />
