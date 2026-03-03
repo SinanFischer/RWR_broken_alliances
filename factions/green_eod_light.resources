@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- USA only: Camouflage Shield als Chance für EOD Light -->
+	<!-- USA only: Camouflage Shield, M16A4 Tactical (Schild) als Chance für EOD Light -->
 	<weapon key="camo_shield.weapon" />
+	<weapon key="m16a4_support.weapon" />
 </resources>

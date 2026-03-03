@@ -2,5 +2,6 @@
 <resources>
 <weapon key='m4a1_scope.weapon' />
 	<weapon key='smaw.weapon' />
-	<weapon key='m202_flash.weapon' />    
+	<weapon key='m202_flash.weapon' />
+	<weapon key='m16a4_support.weapon' />
 </resources>
