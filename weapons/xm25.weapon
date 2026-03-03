@@ -14,7 +14,8 @@
   class="4" 
   sight_range_modifier="1.2"  
   projectile_speed="90.0"
-  projectiles_per_shot="1"  
+  projectiles_per_shot="1"
+  burst_shots="1"
   barrel_offset="0.3" 
 />
 	<next_in_chain key="xm25_r.weapon" share_ammo="1" />

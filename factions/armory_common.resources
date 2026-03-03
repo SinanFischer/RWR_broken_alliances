@@ -3,7 +3,6 @@
 <resources>
 	<weapon key="taser_medic.weapon" />
 	<weapon key="xm25.weapon" />
-	<weapon key="tti.weapon" />
 	<weapon key="truvelo_amris.weapon" />
 	<weapon key="ultimax.weapon" />
 	<weapon key="ultimax_m.weapon" />
@@ -13,7 +12,6 @@
 	<weapon key="camo_shield.weapon" />
 	<weapon key="golden_knife.weapon" />
 	<weapon key="gilboa_dbr.weapon" />
-	<weapon key="gun_tommy.weapon" />
 	<weapon key="m1_garand_m.weapon" />
 	<weapon key="origin_12.weapon" />
 	<weapon key="origin_12_s.weapon" />

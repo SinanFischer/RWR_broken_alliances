@@ -17,45 +17,45 @@ Alle Waffen, die in der Lobby-Waffenkammer (**Stash**) aktiv sind – mit frakti
 
 ---
 
-## Tabelle: Fraktion · Waffenart · Preis
+## Tabelle: Fraktion · Waffenart · Preis · Finished
 
-| Waffe | Fraktion | Waffenart | Preis (RP) |
-|-------|----------|-----------|-------------|
-| **Medizinisches Dartgewehr** (taser_medic) | all | Special (Heilen) | 120 |
-| **XM25** | USA | Explosiv (Granatwerfer, Luftdetonation) | — |
-| **XM25 Schall** (xm25_r) | USA | Explosiv (Granatwerfer) | — |
-| **TTI** (Kampfschild) | EU | Schild | — |
-| **Truvelo AMis Suppressed** | EU | Sniper (Explosiv, 6 Schuss) | — |
-| **ULTIMAX 100** | EU | MG | — |
-| **ULTIMAX 100 Magazin** (ultimax_m) | EU | MG | — |
-| **Sword** (Sabre) | all | Nahkampf (Melee) | — |
-| **M16A4 Tactical** (m16a4_support, mit Schild) | USA | Gewehr (AR) | — |
-| **SBL** (Kreissägen) | RU | Special (Explosiv) | — |
-| **Camouflage Shield** | USA | Schild | 80 |
-| **Goldenes Messer** | all | Nahkampf (Melee) | — |
-| **Gilboa DBR** | EU | Gewehr (AR, 30 Schuss, Shotgun-Munition) | — |
-| **Tommy Gun** | RU | MG / SMG (50 Schuss) | — |
-| **M1 Garand Modern** | USA | DMR (8 Schuss) | — |
-| **Origin-12** | all | Shotgun (30 Schuss) | — |
-| **Origin-12 S** (origin_12_s) | all | Shotgun | — |
-| **Verbundbogen** (compound_bow) | all | Special (Bogen) | — |
-| **Verbundbogen Explosiv** (compound_bow_alt) | all | Explosiv (Bogen) | — |
-| **RPK-16** | RU | MG | — |
-| **RPK-16 Langrohr** (rpk16_long) | RU | MG | — |
-| **CheyTac M200** | USA | Sniper (Großkaliber) | — |
-| **M16A4 GL Edition** (m16a4_w_m203) | USA | Gewehr + Granatwerfer | ~2,3× Standard-AR |
-| **M16A4 GL Edition** (m16a4_w_m203_g) | USA | Gewehr + Granatwerfer | ~2,3× Standard-AR |
-| **G36 GL** (g36_w_ag36) | EU | Gewehr + Granatwerfer | ~2,3× Standard-AR |
-| **G36 GL** (g36_w_ag36_g) | EU | Gewehr + Granatwerfer | ~2,3× Standard-AR |
-| **AK-47 GL** (ak47_w_gp25) | RU | Gewehr + Granatwerfer | ~2,3× Standard-AR |
-| **AK-47 GL** (ak47_w_gp25_g) | RU | Gewehr + Granatwerfer | ~2,3× Standard-AR |
-| **AN-94 Salve** (an94_burst) | RU | Gewehr (Salven) | — |
-| **QBZ-95** | all | Gewehr (inkl. Shotgun-Modus) | — |
-| **QBZ-95 US** (qbz95_us) | all | Gewehr (inkl. Shotgun-Modus) | — |
-| **QLZ-87** (qlz87_b) | RU | Explosiv (schwerer Granatwerfer) | — |
-| **FHJ-01 FAE** | RU | Explosiv (Anti-Personen-Werfer) | — |
+| Waffe | Fraktion | Waffenart | Preis (RP) | Finished |
+|-------|----------|-----------|------------|----------|
+| **Medizinisches Dartgewehr** (taser_medic) | all | Special (Heilen) | 120 | |
+| **XM25** | USA | Explosiv (Granatwerfer, Luftdetonation) | 220 | ✓ |
+| **XM25 Schall** (xm25_r) | USA | Explosiv (Granatwerfer, gedämpft) | **190** (nur USA-Waffenkammer) | ✓ |
+| **TTI** (Kampfschild) | EU | Schild (Secondary) | **150** (nur EU-Waffenkammer) | ✓ |
+| **Truvelo AMis Suppressed** | EU | Sniper (Explosiv, 6 Schuss) | — | |
+| **ULTIMAX 100** | EU | MG | — | |
+| **ULTIMAX 100 Magazin** (ultimax_m) | EU | MG | — | |
+| **Sword** (Sabre) | all | Nahkampf (Melee) | — | |
+| **M16A4 Tactical** (m16a4_support, mit Schild) | USA | Gewehr (AR) | — | |
+| **SBL** (Kreissägen) | RU | Special (Explosiv) | — | |
+| **Camouflage Shield** | USA | Schild | 80 | |
+| **Goldenes Messer** | all | Nahkampf (Melee) | — | |
+| **Gilboa DBR** | EU | Gewehr (AR, 30 Schuss, Shotgun-Munition) | — | |
+| **Tommy Gun** | RU | MG / SMG (50 Schuss) | **Nicht in Waffenkammer** (nur RU Support-AI) | ✓ |
+| **M1 Garand Modern** | USA | DMR (8 Schuss) | — | |
+| **Origin-12** | all | Shotgun (30 Schuss) | — | |
+| **Origin-12 S** (origin_12_s) | all | Shotgun | — | |
+| **Verbundbogen** (compound_bow) | all | Special (Bogen) | — | |
+| **Verbundbogen Explosiv** (compound_bow_alt) | all | Explosiv (Bogen) | — | |
+| **RPK-16** | RU | MG | — | |
+| **RPK-16 Langrohr** (rpk16_long) | RU | MG | — | |
+| **CheyTac M200** | USA | Sniper (Großkaliber) | — | |
+| **M16A4 GL Edition** (m16a4_w_m203) | USA | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
+| **M16A4 GL Edition** (m16a4_w_m203_g) | USA | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
+| **G36 GL** (g36_w_ag36) | EU | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
+| **G36 GL** (g36_w_ag36_g) | EU | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
+| **AK-47 GL** (ak47_w_gp25) | RU | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
+| **AK-47 GL** (ak47_w_gp25_g) | RU | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
+| **AN-94 Salve** (an94_burst) | RU | Gewehr (Salven) | — | |
+| **QBZ-95** | all | Gewehr (inkl. Shotgun-Modus) | — | |
+| **QBZ-95 US** (qbz95_us) | all | Gewehr (inkl. Shotgun-Modus) | — | |
+| **QLZ-87** (qlz87_b) | RU | Explosiv (schwerer Granatwerfer) | — | |
+| **FHJ-01 FAE** | RU | Explosiv (Anti-Personen-Werfer) | — | |
 
-*„—" = Preis in Vanilla/Mod ggf. abweichend oder nicht fest gesetzt.*
+*„—" = Preis in Vanilla/Mod ggf. abweichend oder nicht fest gesetzt. **Finished** = Implementierung (XML, Armory, Doku) abgeschlossen.*
 
 ---
 
@@ -68,7 +68,7 @@ Damit keine Fraktion die andere überrennt, bei **extremen Waffen** (z. B. SBL
 | **1. Spawnhäufigkeit** | `<commonness value="…">` in .weapon | Standard: 0,2–0,5. **Elite-Waffen** (SBL, QLZ-87, CheyTac): z. B. **0,005** → seltene „Boss-Gegner“. |
 | **2. Bewegungsmalus** | `<modifier class="speed" value="-0.35" />` (o. ä.) in .weapon | QLZ-87, TTI, FHJ-01: **−35 % bis −45 %** → tödliche Stärke, aber Trägheit und Flanken-Anfälligkeit. |
 | **3. RP-Preise (Waffenkammer)** | `price="X"` | Standard-AR: 2–10 RP. **Elite** (QLZ-87, SBL): **200–350 RP** → Spieler muss erst Basen/Items sammeln. |
-| **4. Fraktionslisten** | `.resources` | Waffen **nicht** in `common.resources` (sonst alle). Nur in **green_default.resources** (USA), **grey_default.resources** (EU), **brown_default.resources** (RU) eintragen. |
+| **4. Fraktionslisten** | `.resources` | Waffen **nicht** in `common.resources` (sonst alle). Nur in **green_default.resources** (USA), **grey_default.resources** (EU), **brown_default.resources** (RU) eintragen. **Waffenkammer:** USA-only = `armory_green.resources` (z. B. xm25_r), EU-only = `armory_grey.resources` (z. B. tti); alle anderen = `armory_common.resources`. |
 
 ---
 
@@ -97,7 +97,7 @@ Damit keine Fraktion die andere überrennt, bei **extremen Waffen** (z. B. SBL
 ### USA – High-Tech, Mobilität & Präzision
 
 **XM25 / XM25 Schall (xm25, xm25_r)**  
-- Luftdetonations-Granatwerfer (von „all“ zu USA); kontert Feinde hinter Deckung. Schall-Variante gedämpft.
+- Luftdetonations-Granatwerfer, USA. XM25 (220 RP) in armory_common; **XM25 Schall** (190 RP) nur in **USA-Waffenkammer** (armory_green.resources). Schall-Variante gedämpft.
 
 **M16A4 Tactical (m16a4_support)**  
 - M16A4 mit kleinem Schild; erhöhter Schutz im Vorwärtskampf.
@@ -119,7 +119,7 @@ Damit keine Fraktion die andere überrennt, bei **extremen Waffen** (z. B. SBL
 ### EU – Phalanx & Unterdrückungsfeuer
 
 **TTI (Kampfschild)**  
-- Macht EU-Infanterie zur „Wand“; Schutz vor Projektilen, Nahkampf/Sidearm möglich. **Balancing:** Speed-Malus −35 % bis −45 %, ggf. hoher RP-Preis.
+- EU, **150 RP**, nur **EU-Waffenkammer** (armory_grey.resources). **Secondary** (Slot 1). Selten bis sehr selten (commonness 0,005). KI: Support Troop, Default, eod_light, eod, cover_troop. Macht EU-Infanterie zur „Wand“; Schutz vor Projektilen, Nahkampf/Sidearm möglich. **Balancing:** Speed-Malus −35 % bis −45 %, ggf. hoher RP-Preis.
 
 **Truvelo AMis Suppressed**  
 - Explosiv-Sniper, 6 Schuss, unterdrückt; seltener EU-„Bunkerbrecher“.
@@ -147,7 +147,7 @@ Damit keine Fraktion die andere überrennt, bei **extremen Waffen** (z. B. SBL
 - Anti-Personen-Werfer, FAE/Staubexplosion; stark gegen Gruppen. **Balancing:** Speed-Malus, geringe Spawn-Rate.
 
 **Tommy Gun**  
-- MG, 50 Schuss, schnelle Feuerrate; ikonische RU-Sonderwaffe.
+- RU, **nicht in der Waffenkammer** (in_stock=0). Russische MG-Waffe im **seltenen Bereich** (commonness 0,02) **nur für RU Support Troop AI** (brown_mgs.resources, brown.xml support). 50 Schuss, schnelle Feuerrate.
 
 **RPK-16 / RPK-16 Langrohr (rpk16, rpk16_long)**  
 - MG für RU; Langrohr-Variante präziser. Geeignet als AI-MG.

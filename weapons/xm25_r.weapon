@@ -51,7 +51,7 @@
 
     <hud_icon filename="hud_xm25_r.png" />
     <commonness value="0.0" in_stock="1" can_respawn_with="0" />
-    <inventory encumbrance="12.0" price="200.0" />
+    <inventory encumbrance="12.0" price="190.0" />
 
     <effect class="muzzle" ref="LawMuzzle" />
     <effect class="muzzle" ref="UpDust" />

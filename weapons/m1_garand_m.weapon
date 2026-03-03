@@ -47,5 +47,5 @@
 		kill_decay_end_time="0.64"
 		/>
 	</projectile>
-	
+	<modifier class="speed" value="-0.08" />
 </weapon>

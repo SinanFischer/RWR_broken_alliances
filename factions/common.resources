@@ -48,9 +48,8 @@
 	<weapon key='paw20.weapon' />    
 	<weapon key='ares_shrike.weapon' />
 
-	<!-- Stash-/Armory-Waffen (Testing: alle hier, keine fraktionsspezifischen) -->
+	<!-- Stash-/Armory-Waffen: "all" nur hier; TTI nur EU → nur in armory_grey + grey_secondaries/eod, NICHT hier -->
 	<weapon key='taser_medic.weapon' />
-	<weapon key='tti.weapon' />
 	<weapon key='truvelo_amris.weapon' />
 	<weapon key='ultimax.weapon' />
 	<weapon key='ultimax_m.weapon' />
@@ -78,6 +77,7 @@
 	<weapon key='an94_burst.weapon' />
 	<weapon key='qbz95.weapon' />
 	<weapon key='qbz95_us.weapon' />
+	<weapon key='qbz95_shotgun.weapon' />
 	<weapon key='qlz87_b.weapon' />
 	<weapon key='fhj01.weapon' />
 

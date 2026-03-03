@@ -100,7 +100,8 @@ Die folgende Mod-Tabelle wurde vor dieser Vanilla-Referenz erstellt; Werte mit *
 |-------|----------|--------|------|------------|------------|------------|
 | taser_medic | all | assault | 2 | 0.000001 | 20 | Utility Heilen; bewusst extrem selten, kein Kampf-Fokus. |
 | xm25 | USA | assault | 3 | 0.002 | 220 | Explosiv Luftdetonation; taktische Zerstörung, begrenzt Magazin. |
-| tti | EU | cqb | 2 | 0.01 | 210 | Schild + Sidearm; CQB/Schild limitiert. |
+| xm25_r | USA | assault | 3 | (nur Stash) | 190 | Nur USA-Waffenkammer (armory_green); gedämpft, nicht im KI-Pool. |
+| tti | EU | cqb | 2 | 0.005 | 150 | Schild + Secondary; nur EU-Waffenkammer (armory_grey); Support, Default, eod_light, eod, cover_troop. |
 | truvelo_amris | EU | sniper | 4 | 0.0005 | 648 | Elite-Explosiv-Sniper; nur Bruchteil darf haben. |
 | ultimax | EU | machine gun | 2 | 0.05 | 800 | Schwer-MG; 0.05 für schwere MGs. |
 | ultimax_m | EU | machine gun | 2 | 0.05 | 800 | Wie ultimax, Magazin-Variante. |
@@ -110,7 +111,7 @@ Die folgende Mod-Tabelle wurde vor dieser Vanilla-Referenz erstellt; Werte mit *
 | camo_shield | USA | (cqb)* | 2 | 0.01 | 100 | Schild; *Tag in camo_shield prüfen/ergänzen für KI. |
 | golden_knife | all | cqb | 4 | 0.0001 | 1000 | Prestige-Melee; Elite-Band. |
 | gilboa_dbr | EU | assault | 2 | 0.1 | 150 | Spezial-AR Shotgun-Munition; Spezialist. |
-| gun_tommy | RU | assault | 2 | 0.1 | 200 | 50 Schuss, hohe Feuerrate; Spezialist. |
+| gun_tommy | RU | assault | 2 | 0.02 | — | **Nicht in Waffenkammer.** Nur RU Support-AI (brown_mgs), selten. |
 | m1_garand_m | USA | assault | 2 | 0.1 | 200 | DMR 8 Schuss; 0.1 für DMR. |
 | origin_12 | all | cqb | 2 | 0.01 | 210 | CQB-Shotgun 30 Schuss; 0.01 für Shotgun. |
 | origin_12_s | all | assault | 2 | 0.01 | 210 | Wie Origin-12, Variante. |

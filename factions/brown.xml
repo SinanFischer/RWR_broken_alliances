@@ -217,6 +217,7 @@
 
 		<resources file="common.resources" />
 		<resources file="common_mgs.resources" />
+		<resources file="brown_mgs.resources" />
 		<resources file="common_support.resources" />
 		<resources file="brown_secondaries.resources" />
 		<resources file="brown_default.resources" />

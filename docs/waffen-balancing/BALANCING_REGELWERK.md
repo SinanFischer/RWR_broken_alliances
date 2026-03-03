@@ -21,14 +21,14 @@
 
 ### 2. Bewegungs-Strafe (Speed Modifier Matrix)
 
-Nutze zwingend `<modifier class="speed" value="..." />` nach Waffenklasse:
+Nutze zwingend `<modifier class="speed" value="..." />` nach Waffenklasse. **Konkrete Werte pro Stash-Waffe:** siehe **`docs/waffen-balancing/DESIGN_ENTSCHEIDUNGEN_WAFFEN.md`** (Abschnitt 3).
 
 | Klasse | Beschreibung | value (negativ) |
 |--------|--------------|------------------|
-| Standard | ARs, SMGs | `-0.02` bis `-0.08` |
-| Mittel | Sniper, LMGs | `-0.08` bis `-0.15` |
+| Standard | ARs, SMGs | `-0.02` bis `-0.08` (z. B. Gilboa -0.05, AN-94 -0.032) |
+| Mittel | Sniper, LMGs, Shotgun, Bogen | `-0.08` bis `-0.15` (z. B. M1 Garand -0.08, RPK-16 -0.06, ULTIMAX -0.10, Bogen -0.10) |
 | Schwer (Nahkampf/Defensiv) | TTI Schild | **exakt** `-0.35` |
-| Schwer (Explosiv) | QLZ-87, MRL, FHJ-01 | `-0.40` bis `-0.45` |
+| Schwer (Explosiv) | QLZ-87, MRL, FHJ-01, SBL | `-0.40` bis `-0.45` |
 
 ### 3. Tödlichkeit vs. Handhabung (Kill Probability & Recoil)
 
@@ -70,8 +70,8 @@ Nutze `<commonness value="..." />` strikt nach Stärke:
 
 ### 8. Haltungs-Zwang für schwere Waffen (Stances)
 
-- **WENN** schweres Dauerfeuer (LMG) **ODER** massiver Explosivschaden (z. B. QLZ-87):  
-  Setze `can_shoot_standing="0"`, damit KI in Hocke/Liegen schießt.
+- **Nur massive Waffen** (QLZ-87, MRL, schwere stationäre Deployables) erhalten **`can_shoot_standing="0"`** (KI schießt nur aus Hocke/Liegen).
+- **Leichte LMGs / SMGs** (ULTIMAX, RPK-16, RPK-16 Long, Tommy Gun) erhalten **`can_shoot_standing="1"`**; Balance über Rückstoß/Accuracy im Stehen. Siehe **DESIGN_ENTSCHEIDUNGEN_WAFFEN.md** Abschnitt 12.
 
 ### 9. Magazin-Ökonomie & Nachladen
 

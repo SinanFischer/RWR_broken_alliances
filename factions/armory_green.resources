@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- USA-only Waffenkammer: XM25 Schall (gedämpft). Preis/in_stock in .weapon. -->
+<resources>
+	<weapon key="xm25_r.weapon" />
+</resources>

@@ -41,7 +41,7 @@
 	<model filename="gun_tommy.xml" />
 	<hud_icon filename="hud_gun_tommy.png" />
 	
-	<commonness value="0.0" can_respawn_with="0" in_stock="1"/>
+	<commonness value="0.02" can_respawn_with="0" in_stock="0"/>
 	<inventory encumbrance="11.0" price="200.0" />
 	
 	<projectile file="bullet.projectile">

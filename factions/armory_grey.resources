@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- EU-only Waffenkammer: TTI Kampfschild. Preis/in_stock in .weapon. -->
 <resources>
 	<weapon key="tti.weapon" />
 </resources>
