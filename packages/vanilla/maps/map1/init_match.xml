@@ -5,4 +5,5 @@
   <faction />
   <faction />
   </command>
+  <!-- Stash nicht hier: init_match feuert vor Spieler-Spawn. Im Spiel nach Spawn Chat: /_execute admin_stash.xml -->
 </commands>

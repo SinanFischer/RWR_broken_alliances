@@ -71,6 +71,7 @@
 		<resources file="grey_default.resources" />
 		<resources file="default_vests.resources" />
 		<resources file="armory_vests.resources" />
+		<resources file="armory_common.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries (0.5 = leichte Erhöhung, mehr Chance auf Medikit/andere Secondaries) -->
@@ -108,6 +109,7 @@
 		<resources file="grey_default.resources" />
 		<resources file="default_vests.resources" />
 		<resources file="armory_vests.resources" />
+		<resources file="armory_common.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries (0.5 = leichte Erhöhung, mehr Chance auf Medikit/andere Secondaries) -->

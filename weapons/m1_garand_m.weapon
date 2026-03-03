@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon file="base_primary_rare.weapon" key="m1_garand_m.weapon">
+<tag name="assault" />
+	
+	<specification 
+	retrigger_time="0.28" 
+	accuracy_factor="0.95" 
+	spread_range="0.285"
+	sustained_fire_grow_step="2.5" 
+	sustained_fire_diminish_rate="2.8"
+	magazine_size="8" 
+	can_shoot_standing="1" 
+	suppressed="0" 
+	name="M1 Garand Modern" 
+	class="4" 
+	burst_shots="1"
+	reload_one_at_a_time="0" 
+	projectile_speed="125.0" 
+	barrel_offset="0.6" 
+	projectiles_per_shot="1"
+	/>
+	
+	<animation key="recoil" ref="27" />
+	<animation key="cycle" ref="30" />
+	<animation state_key="reload" animation_key="reloading, m1 garand" />
+	<animation state_key="reload" stance_key="prone" animation_key="reloading, m1 garand, prone" />
+	
+	<weak_hand_hold offset="0.3" />
+	
+	<sound key="fire" fileref="m1_garand_shot.wav" pitch_variety="0.05" volume="1.2"/>
+	<sound key="cycle" fileref="pistol2_chamber.wav" />
+	<sound key="magazine_out" fileref="m1_garand_ping.wav" />
+	<sound key="magazine_in" fileref="rifle_clip_in.wav" />
+	<sound key="last_ammo" fileref="m1_garand_ping.wav" />
+	
+	<model filename="m1_garand_m.xml" />
+	<hud_icon filename="hud_m1_garand_m.png" />
+	
+	<commonness value="0.0" can_respawn_with="0" in_stock="1"/>
+	<inventory encumbrance="10.0" price="200.0" />
+	
+	<projectile file="bullet.projectile">
+		<result 
+		class="hit" 
+		kill_probability="1.05" 
+		kill_decay_start_time="0.5" 
+		kill_decay_end_time="0.64"
+		/>
+	</projectile>
+	
+</weapon>

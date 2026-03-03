@@ -32,7 +32,8 @@
     <animation key="recoil" ref="13" />
     <animation key="recoil" ref="14" />
     <animation state_key="reload" animation_key="reloading, m79" />
-    <animation state_key="next_in_chain_in" animation_key="switch fire mode" />    
+    <!-- next_in_chain_in auskommentiert: verursacht "invalid animation id for character spec" bei Mod-Charakteren -->
+    <!-- <animation state_key="next_in_chain_in" animation_key="switch fire mode" /> -->    
     
     <sound key="fire" fileref="xm25_shot.wav" pitch_variety="0.1" volume="1.0" />
     <sound key="magazine_out" fileref="rifle_clip_out.wav" />

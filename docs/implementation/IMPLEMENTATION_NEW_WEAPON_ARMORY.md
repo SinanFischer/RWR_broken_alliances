@@ -87,12 +87,11 @@ Registriere die Objekte in `factions/common.resources` (oder einer spezifischen 
 ```
 
 ### Schritt 4: Anzeige in der Waffenkammer (Armory)
-Damit das Item im Shop (Armory) erscheint, muss es dem **Ressourcen-Pool des Default-Soldaten** der Spielerfraktion hinzugefügt werden.
+Damit das Item im Shop (Armory) erscheint, müssen **beide** Bedingungen erfüllt sein:
 
-**Logik:**
-1.  Der `default`-Soldat (in `factions/brown.xml`, `green.xml`, etc.) lädt Ressourcen-Dateien.
-2.  Üblicherweise sind Sekundärwaffen in `*_secondaries.resources` organisiert.
-3.  Das Item muss dort gelistet sein UND `in_stock="1"` haben.
+**A. Ressourcen-Pool:** Das Item muss in einer Ressourcen-Datei stehen, die der Default-Soldat lädt (z. B. `armory_common.resources` oder `*_secondaries.resources`), und in brown/green/grey.xml beim `default`-Soldaten eingebunden sein.
+
+**B. in_stock und price in der .weapon-Datei:** Die Engine zeigt nur Items mit **`in_stock="1"`** und **`<inventory price="..." />`** in der Waffenkammer an. Vanilla-Waffen haben oft `in_stock="0"`. Dann muss der Mod eine **eigene .weapon-Datei** bereitstellen (Kopie der Vanilla-Datei mit `in_stock="1"`), damit die Mod-Version geladen wird und das Item im Shop erscheint.
 
 **Datei:** `factions/brown_secondaries.resources` (Beispiel für Brown/Russia)
 *(Füge es analog auch in `green_secondaries.resources` und `grey_secondaries.resources` ein)*
@@ -107,11 +106,26 @@ Damit das Item im Shop (Armory) erscheint, muss es dem **Ressourcen-Pool des Def
 </resources>
 ```
 
+### Waffenkammer für alle (Testing)
+**Ressourcen:** `factions/armory_common.resources` – enthält alle Stash-Waffen und Carry-Items; wird in brown/green/grey.xml beim Default-Soldaten nach `armory_vests.resources` geladen.  
+**in_stock:** Vanilla-Waffen haben meist `in_stock="0"`. Im Mod liegen daher **Override-.weapon-Dateien** (taser_medic, tti, truvelo_amris, ultimax, ultimax_m, sabre, m16a4_support, sbl, camo_shield, golden_knife, gilboa_dbr, gun_tommy, m1_garand_m, origin_12, origin_12_s, compound_bow, compound_bow_alt, rpk16, rpk16_long, m200, m16a4_w_m203, m16a4_w_m203_g, g36_w_ag36, g36_w_ag36_g, ak47_w_gp25, ak47_w_gp25_g, an94_burst, qbz95, qbz95_us, qlz87_b, fhj01): identisch zu Vanilla, nur `in_stock="1"`. So erscheinen alle in der Waffenkammer.
+
+### Quick Match & Stash (init_match-Timing)
+**Problem:** `init_match.xml` wird beim Quick Match bereits im Fraktionsmenü ausgeführt – `character_id="1"` existiert noch nicht, Stash-Befehle greifen nicht.
+
+**Lösung (Admin-Befehl):** Im **Spiel-Root** (dort wo `rwr_game.exe` liegt) liegt `admin_stash.xml`. Nach dem Spawn im Match Chat öffnen (Enter) und eingeben:
+```text
+/_execute admin_stash.xml
+```
+Damit wird der Stash für den lokalen Spieler (character_id 1) mit der definierten Waffen- und Carry-Item-Liste gefüllt. Befehl bei Bedarf wiederholbar.
+
+**Wenn nichts passiert:** (1) Dateinamenerweiterungen in Windows anzeigen – die Datei muss `admin_stash.xml` heißen (nicht `admin_stash.xml.txt`). (2) XML muss mit `<commands>` umschlossen sein (siehe Datei im Spiel-Root). (3) Fehlerkontrolle: `%appdata%\Running with rifles\rwr_game.log` öffnen und nach dem Befehl die letzten Zeilen prüfen (`Failed to load` / `file not found` = Name oder Ort; `XML validation error` = Format/Syntax).
+
 ### Checkliste zur Fehlerbehebung
 1.  **Item fehlt im Shop?**
-    *   Steht `in_stock="1"` in der `.weapon`-Datei?
-    *   Ist ein `price="..."` definiert?
-    *   Ist das Item in der `*_secondaries.resources` der Fraktion eingetragen, die du spielst?
+    *   Steht **`in_stock="1"`** in der `.weapon`-Datei? (Vanilla nutzt oft `in_stock="0"` → Mod-Override mit `in_stock="1"` nötig.)
+    *   Ist ein **`<inventory price="..." />`** definiert?
+    *   Ist das Item in einer geladenen Ressourcen-Datei (z. B. `armory_common.resources` oder `*_secondaries.resources`) und wird diese beim Default-Soldaten der Fraktion geladen?
 2.  **Absturz / Item funktioniert nicht?**
     *   Wurde das Item in `weapons/all_weapons.xml` registriert?
     *   Wurde das Vehicle in `vehicles/all_vehicles.xml` registriert?

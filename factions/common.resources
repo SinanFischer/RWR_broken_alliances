@@ -48,7 +48,7 @@
 	<weapon key='paw20.weapon' />    
 	<weapon key='ares_shrike.weapon' />
 
-	<!-- Stash-Waffen (Waffenübersicht): nur laden für Stash/Lobby, nicht Waffenkammer -->
+	<!-- Stash-/Armory-Waffen (Testing: alle hier, keine fraktionsspezifischen) -->
 	<weapon key='taser_medic.weapon' />
 	<weapon key='tti.weapon' />
 	<weapon key='truvelo_amris.weapon' />

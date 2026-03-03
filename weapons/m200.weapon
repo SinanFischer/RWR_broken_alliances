@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon file="base_primary_rare.weapon" key="m200.weapon" drop_count_factor_on_death="0.0" drop_count_factor_on_player_death="1.0">
+    <tag name="sniper" />
+    <specification 
+                retrigger_time="2.2" 
+	accuracy_factor="1.2" 
+	spread_range="0.8"
+	sustained_fire_grow_step="10.0" 
+	sustained_fire_diminish_rate="0.5" 
+	magazine_size="7" 
+	can_shoot_standing="0" 
+	suppressed="0" 
+	name="CheyTac M200" 
+	class="2" 
+	reload_one_at_a_time="0" 
+	sight_range_modifier="1.65" 
+	projectile_speed="280.0" 
+	barrel_offset="0.5" 
+	projectiles_per_shot="2" />
+ 
+    <animation key="recoil" ref="27" />
+	<animation key="recoil" stance_key="prone" animation_key="recoil1, big, prone" />
+    <animation key="cycle" ref="30" />
+	<animation key="cycle" stance_key="prone" animation_key="bolt cycle, prone" />	
+    <animation state_key="reload" animation_key="reloading, psg90" />
+	<animation key="reload" stance_key="prone" animation_key="reloading, sniper1, prone" />	
+	
+    <sound key="fire" fileref="m200_shot.wav" volume="0.6" />
+    <sound key="cycle" fileref="sniper_cycle.wav" />
+    <sound key="magazine_out" fileref="sniper_clip_out.wav" />
+    <sound key="magazine_in" fileref="sniper_clip_in.wav" />
+    <sound key="cycle_out" fileref="sniper_cycle_out.wav" />
+    <sound key="cycle_in" fileref="sniper_cycle_in.wav" />
+    <sound class="impact" fileref="rifle_drop.wav" />
+    <model filename="m200.xml" />
+
+    <hud_icon filename="hud_m200.png" />
+    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
+    <inventory encumbrance="10.0" price="880" />
+  
+    <weak_hand_hold offset="0.3" />
+
+    <projectile file="bullet_ap.projectile">
+		<result class="hit" kill_probability="1.5"  kill_decay_start_time="0.6" kill_decay_end_time="1.6" />
+    </projectile>
+    
+    <modifier class="speed" value="-0.12" />    
+
+</weapon>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Waffen + Carry-Items für Waffenkammer (alle Fraktionen). Nur Referenzen; in_stock/price in .weapon/.carry_item. -->
+<resources>
+	<weapon key="taser_medic.weapon" />
+	<weapon key="xm25.weapon" />
+	<weapon key="tti.weapon" />
+	<weapon key="truvelo_amris.weapon" />
+	<weapon key="ultimax.weapon" />
+	<weapon key="ultimax_m.weapon" />
+	<weapon key="sabre.weapon" />
+	<weapon key="m16a4_support.weapon" />
+	<weapon key="sbl.weapon" />
+	<weapon key="camo_shield.weapon" />
+	<weapon key="golden_knife.weapon" />
+	<weapon key="gilboa_dbr.weapon" />
+	<weapon key="gun_tommy.weapon" />
+	<weapon key="m1_garand_m.weapon" />
+	<weapon key="origin_12.weapon" />
+	<weapon key="origin_12_s.weapon" />
+	<weapon key="compound_bow.weapon" />
+	<weapon key="compound_bow_alt.weapon" />
+	<weapon key="rpk16.weapon" />
+	<weapon key="rpk16_long.weapon" />
+	<weapon key="m200.weapon" />
+	<weapon key="m16a4_w_m203.weapon" />
+	<weapon key="m16a4_w_m203_g.weapon" />
+	<weapon key="g36_w_ag36.weapon" />
+	<weapon key="g36_w_ag36_g.weapon" />
+	<weapon key="ak47_w_gp25.weapon" />
+	<weapon key="ak47_w_gp25_g.weapon" />
+	<weapon key="an94_burst.weapon" />
+	<weapon key="qbz95.weapon" />
+	<weapon key="qbz95_us.weapon" />
+	<weapon key="qlz87_b.weapon" />
+	<weapon key="fhj01.weapon" />
+	<carry_item key="vest1.carry_item" enabled="1" />
+	<carry_item key="vest2.carry_item" enabled="1" />
+	<carry_item key="vest3.carry_item" enabled="1" />
+	<carry_item key="eodvest.carry_item" enabled="1" />
+	<carry_item key="camouflage_suit.carry_item" enabled="1" />
+	<carry_item key="vest_blackops.carry_item" enabled="1" />
+	<carry_item key="cigarettes.carry_item" enabled="1" />
+	<carry_item key="whiskey_bottle.carry_item" enabled="1" />
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon file="base_primary_rare.weapon" key="origin_12.weapon">
+    <tag name="cqb" />
+    <specification 
+  retrigger_time="0.18"
+  accuracy_factor="0.8" 
+  sustained_fire_grow_step="0.8" 
+  sustained_fire_diminish_rate="1.2" 
+  magazine_size="30" 
+  can_shoot_standing="1" 
+  suppressed="0" 
+  name="Origin-12" 
+  class="4" 
+  burst_shots="1"  
+  projectile_speed="102.0"
+  barrel_offset="0.2" 
+  projectiles_per_shot="3" />
+
+	<next_in_chain key="origin_12_s.weapon" share_ammo="1"/>
+	<animation state_key="next_in_chain_in" animation_key="mount bayonet part 2"/>
+	<animation state_key="next_in_chain_out" animation_key="sheath bayonet part 1"/>
+
+    <animation key="recoil" ref="27" />
+	<animation state_key="reload" animation_key="reloading, drum mag" />
+	
+    <sound key="fire" fileref="origin_12_shot.wav" pitch_variety="0.05" volume="2.5" />
+    <sound key="magazine_out" fileref="mg_clip_out.wav" />
+    <sound key="magazine_in" fileref="mg_clip_in.wav" />
+    <sound key="cycle" fileref="rifle_chamber.wav" />
+    <sound class="impact" fileref="rifle_drop.wav" />
+
+    <model filename="origin_12.xml" />
+
+    <hud_icon filename="hud_origin_12.png" />
+    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
+    <inventory encumbrance="10.0" price="210.0" />
+	
+    <capacity value="0" source="rank" source_value="0.0" />
+    <capacity value="1" source="rank" source_value="0.6" />
+
+    <weak_hand_hold offset="0.2" />
+    <projectile file="bullet.projectile">
+        <result class="hit" 
+        kill_probability="0.55" 
+        kill_decay_start_time="0.32" 
+        kill_decay_end_time="0.35"  />
+    </projectile>     
+     
+    <modifier class="speed" value="-0.08" />       
+</weapon>
+
