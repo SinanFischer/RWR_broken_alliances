@@ -13,13 +13,14 @@
   name="Javelin Elite" 
   class="3" 
   reload_one_at_a_time="1"  
-  sight_range_modifier="3.6"
+  sight_range_modifier="2.8"
   projectile_speed="150.0" 
   slot="1" 
   projectiles_per_shot="1" />
     <animation key="recoil" ref="40" />
     <animation key="cycle" ref="30" />
-    <animation key="reload" ref="35" />
+    <!-- Reload ~3 s: Animation mit speed 0.666 verlangsamt (Default ~2 s → 3 s) -->
+    <animation key="reload" ref="35" speed="0.666" />
     <animation key="hold" ref="39" />
     <animation key="hold_on_wall" ref="39" />
     <sound key="fire" fileref="javelin_shot.wav" volume="0.6" />
@@ -45,7 +46,7 @@
     <hud_icon filename="hud_javelin.png" />
     <!-- price: 500 | commonness niedrig damit KI sie selten spawnt -->
     <commonness value="0.005" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="500.0" />
+    <inventory encumbrance="10.0" price="250.0" />
 
     <effect class="muzzle" ref="LawMuzzle" />
     <effect class="muzzle" ref="UpDust" />

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- USA-only Waffenkammer: XM25 (eine Variante, umschaltbar auf Schall per next_in_chain). -->
+<!-- USA-only Waffenkammer: XM25 (eine Variante), Camouflage Shield. -->
 <resources>
 	<weapon key="xm25.weapon" />
+	<weapon key="camo_shield.weapon" />
 </resources>

@@ -56,7 +56,7 @@
 	<weapon key='ninjato.weapon' />
 	<weapon key='m16a4_support.weapon' />
 	<weapon key='sbl.weapon' />
-	<weapon key='camo_shield.weapon' />
+	<!-- Camouflage Shield nur USA (armory_green), nicht hier -->
 	<weapon key='golden_knife.weapon' />
 	<weapon key='gilboa_dbr.weapon' />
 	<weapon key='gun_tommy.weapon' />
