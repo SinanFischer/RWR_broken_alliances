@@ -35,8 +35,7 @@
 	<weapon key='honey_badger.weapon' /> 
 	<weapon key='m60e4.weapon' />   
 	<weapon key='mk23.weapon' enabled="0" />   
-	<weapon key='xm25_r.weapon' />
-	<weapon key='xm25.weapon' />
+	<!-- XM25 nur USA-Waffenkammer (armory_green), nicht hier -->
 	<weapon key='mg42.weapon' enabled="0" />
 	<weapon key='hornet_resource.weapon' enabled="0" />
 	<weapon key='aa-12.weapon' enabled="0" />

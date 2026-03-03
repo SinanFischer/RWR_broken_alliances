@@ -2,7 +2,6 @@
 <!-- Waffen + Carry-Items für Waffenkammer (alle Fraktionen). Nur Referenzen; in_stock/price in .weapon/.carry_item. -->
 <resources>
 	<weapon key="taser_medic.weapon" />
-	<weapon key="xm25.weapon" />
 	<weapon key="truvelo_amris.weapon" />
 	<weapon key="ultimax.weapon" />
 	<weapon key="ultimax_m.weapon" />
