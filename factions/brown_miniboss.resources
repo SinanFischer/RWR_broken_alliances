@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- RU-Miniboss: zusätzlich zu common_miniboss. Elite-Waffen (nur hier = nur durch Miniboss-Drop) in docs/einheiten/miniboss/MINIBOSS_BROWN.md dokumentieren. -->
 <resources>
-	<weapon key='aks74u.weapon' />
 	<weapon key='smaw.weapon' />
 	<weapon key='m202_flash.weapon' />
 	<weapon key='rpk16_long.weapon' />

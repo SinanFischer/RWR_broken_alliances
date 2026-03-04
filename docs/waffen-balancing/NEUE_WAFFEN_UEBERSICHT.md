@@ -21,39 +21,39 @@ Alle Waffen, die in der Lobby-Waffenkammer (**Stash**) aktiv sind – mit frakti
 
 | Waffe | Fraktion | Waffenart | Preis (RP) | Finished |
 |-------|----------|-----------|------------|----------|
-| **Medizinisches Dartgewehr** (taser_medic) | all | Special (Heilen) | 120 | |
-| **XM25** | USA | Explosiv (Granatwerfer, Luftdetonation) | 220 | ✓ |
-| **XM25 Schall** (xm25_r) | USA | Explosiv (Granatwerfer, gedämpft) | **190** (nur USA-Waffenkammer) | ✓ |
-| **TTI** (Kampfschild) | EU | Schild (Secondary) | **150** (nur EU-Waffenkammer) | ✓ |
-| **Truvelo AMis Suppressed** | EU | Sniper (Explosiv, 6 Schuss) | — | |
-| **ULTIMAX 100** | EU | MG | — | |
-| **ULTIMAX 100 Magazin** (ultimax_m) | EU | MG | — | |
-| **Sword** (Sabre) | all | Nahkampf (Melee) | 333 | **Standard-Sekundärwaffe** für Default-Soldaten (default_secondaries.resources). |
-| **M16A4 Tactical** (m16a4_support, mit Schild) | USA | Gewehr (AR) | — | |
-| **SBL** (Kreissägen) | all | Special (Explosiv, Slot-1-AT) | 300 | In common, common_eod_light, common_eod. |
-| **Camouflage Shield** | USA | Schild | 80 | |
-| **Goldenes Messer** | all | Nahkampf (Melee) | — | |
-| **Gilboa DBR** | EU | Gewehr (AR, 30 Schuss, Shotgun-Munition) | — | |
-| **Tommy Gun** | RU | MG / SMG (50 Schuss) | **Nicht in Waffenkammer** (nur RU Support-AI) | ✓ |
-| **M1 Garand Modern** | USA | DMR (8 Schuss) | — | |
-| **Origin-12** | all | Shotgun (30 Schuss) | — | |
-| **Origin-12 S** (origin_12_s) | all | Shotgun | — | |
-| **Verbundbogen** (compound_bow) | all | Special (Bogen) | — | |
-| **Verbundbogen Explosiv** (compound_bow_alt) | all | Explosiv (Bogen) | — | |
-| **RPK-16** | RU | MG | 216 | 74 Mag; armory_brown + brown_mgs. |
-| **RPK-16 Langrohr** (rpk16_long) | RU | MG | 256 | Nur Brown-Miniboss-Drop (nicht kaufbar). |
-| **CheyTac M200** | USA | Sniper (Großkaliber) | — | |
-| **M16A4 GL Edition** (m16a4_w_m203) | USA | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
-| **M16A4 GL Edition** (m16a4_w_m203_g) | USA | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
-| **G36 GL** (g36_w_ag36) | EU | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
-| **G36 GL** (g36_w_ag36_g) | EU | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
-| **AK-47 GL** (ak47_w_gp25) | RU | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
-| **AK-47 GL** (ak47_w_gp25_g) | RU | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
-| **AN-94 Salve** (an94_burst) | RU | Gewehr (Salven) | — | |
-| **QBZ-95** | all | Gewehr (inkl. Shotgun-Modus) | — | |
-| **QBZ-95 US** (qbz95_us) | all | Gewehr (inkl. Shotgun-Modus) | — | |
-| **QLZ-87** (qlz87_b) | RU | Explosiv (schwerer Granatwerfer) | — | |
-| **FHJ-01 FAE** | RU | Explosiv (Anti-Personen-Werfer) | — | |
+| **Medizinisches Dartgewehr** (taser_medic) | all | Special (Heilen) | 120 | ✓ armory_common |
+| **XM25** | USA | Explosiv (Granatwerfer, Luftdetonation) | 220 | ✓ armory_green |
+| **XM25 Schall** (xm25_r) | USA | Explosiv (gedämpft) | 190 | ✓ nur USA |
+| **TTI** (Kampfschild) | EU | Schild (Secondary) | 150 | ✓ nur EU |
+| **Truvelo AMis Suppressed** | EU | Sniper (Explosiv, 6 Schuss) | — | ✓ armory_common |
+| **ULTIMAX 100** | EU | MG | — | ✓ armory_common |
+| **ULTIMAX 100 Magazin** (ultimax_m) | EU | MG | — | ✓ armory_common |
+| **Sword** (Sabre) | all | Nahkampf (Melee) | 333 | ✓ Standard-Sekundär (default_secondaries) |
+| **M16A4 Tactical** (m16a4_support) | USA | Gewehr (AR + Schild) | 62 | ✓ armory_green |
+| **SBL** (Kreissägen) | all | Special (Explosiv, Slot-1-AT) | 300 | ✓ common/eod-Pools, nicht kaufbar |
+| **Camouflage Shield** | USA | Schild | 80 | ✓ armory_green |
+| **Goldenes Messer** | all | Nahkampf (Melee) | 1000 | ✓ armory_common (in_stock=0) |
+| **Gilboa DBR** | EU | Gewehr (AR, Shotgun-Munition) | — | ✓ armory_common |
+| **Tommy Gun** | RU | MG / SMG (50 Schuss) | nicht kaufbar | ✓ nur RU Support-AI (brown_mgs) |
+| **M1 Garand Modern** | USA | DMR (8 Schuss) | — | ✓ armory_common |
+| **Origin-12** | all | Shotgun (30 Schuss) | — | ✓ armory_common |
+| **Origin-12 S** (origin_12_s) | all | Shotgun | — | ✓ armory_common |
+| **Verbundbogen** (compound_bow) | all | Special (Bogen) | — | ✓ armory_common |
+| **Verbundbogen Explosiv** (compound_bow_alt) | all | Explosiv (Bogen) | — | ✓ armory_common |
+| **RPK-16** | RU | MG (74 Mag) | 216 | ✓ armory_brown + brown_mgs |
+| **RPK-16 Langrohr** (rpk16_long) | RU | MG (96 Mag) | 256 | ✓ nur Miniboss-Drop (nicht kaufbar) |
+| **CheyTac M200** | USA | Sniper (Großkaliber) | — | ✓ armory_common |
+| **M16A4 GL** (m16a4_w_m203) | USA | Gewehr + Granatwerfer | 80 | ✓ armory_green |
+| **M16A4 GL** (m16a4_w_m203_g) | USA | Gewehr + Granatwerfer | 80 | ✓ armory_green |
+| **G36 GL** (g36_w_ag36) | EU | Gewehr + Granatwerfer | 80 | ✓ armory_grey |
+| **G36 GL** (g36_w_ag36_g) | EU | Gewehr + Granatwerfer | 80 | ✓ armory_grey |
+| **AK-47 GL** (ak47_w_gp25) | RU | Gewehr + Granatwerfer | 75 | ✓ armory_brown |
+| **AK-47 GL** (ak47_w_gp25_g) | RU | Gewehr + Granatwerfer | 75 | ✓ armory_brown |
+| **AN-94 Salve** (an94_burst) | RU | Gewehr (Salven) | 250 | ✓ armory_brown |
+| **QBZ-95** | all | Gewehr (inkl. Shotgun-Modus) | — | ✓ armory_common |
+| **QBZ-95 US** (qbz95_us) | all | Gewehr (inkl. Shotgun-Modus) | — | ✓ armory_common |
+| **QLZ-87** (qlz87_b) | RU | Explosiv (schwerer Granatwerfer) | — | ✓ armory_common |
+| **FHJ-01 FAE** | RU | Explosiv (Anti-Personen-Werfer) | 45 | ✓ armory_common |
 
 *„—" = Preis in Vanilla/Mod ggf. abweichend oder nicht fest gesetzt. **Finished** = Implementierung (XML, Armory, Doku) abgeschlossen.*
 
