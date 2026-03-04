@@ -59,6 +59,51 @@
 
 ---
 
+## 3b. Tactical-AR (Schild/Scope, mittlere RP) – Vergleich EU / US / RU
+
+**Verfügbarkeit:** US M16A4 Support nur USA (Waffenkammer + Spawn default, miniboss). EU/RU: Platzhalter für spätere Äquivalente.
+
+| Metrik | EU | US (M16A4 Support) | RU |
+|--------|-----|---------------------|-----|
+| **kill** | – | 0.5 | – |
+| **RT** (s) | – | 0.108 | – |
+| **mag** | – | 48 | – |
+| **com** | – | 0.004 (in_stock, kein Respawn) | – |
+| **sight** | – | 1.2 | – |
+| **acc_factor** | – | 0.80 | – |
+| **grow** | – | 0.26 | – |
+| **diminish** | – | 1.22 | – |
+| **standing** | – | 0.8 | – |
+| **crouching** | – | 0.85 | – |
+| **prone** | – | 0.94 | – |
+| **Besonderheiten** | – | Schild, kein Schuss stehend, speed -0.08, enc 10 | – |
+| **Preis** | – | 42 | – |
+
+→ **Rolle:** Tactical-AR mit Schild + Scope; höheres Mag (48), Sight 1.2. EU/RU-Spalten für künftige Vergleichswaffen nutzbar.
+
+---
+
+## 3c. GL-AR (Gewehr + Unterlauf-Granatwerfer, rifle active)
+
+**Verfügbarkeit:** Nur in der jeweiligen Fraktions-Waffenkammer + im Default-Pool der Fraktion (green/grey/brown_default). **Nur die Variante mit aktiviertem Gewehr** – Granatwerfer per X wechseln. **Commonness 0.02** → Gewicht beim KI-Spawn; ca. 1–5 % der Default-Soldaten der Fraktion (abhängig von Pool-Summe; Standard-AR hat 0.22). Alle drei: Gewehr-Stats = jeweiliger Standard-AR, Preis = 5× Standard.
+
+| Metrik | EU (G36 AG36) | US (M16A4 M203) | RU (AK-74M GP25) |
+|--------|----------------|-----------------|-------------------|
+| **kill** | 0.65 | 0.65 | **0.82** |
+| **RT** (s) | **0.095** | 0.108 | 0.112 |
+| **mag** | 30 | 30 | 30 |
+| **com** | 0 (in_stock) | 0 (in_stock) | 0 (in_stock) |
+| **sight** | 1.1 | 1.1 | – |
+| **acc_factor** | 0.74 | **0.80** | 0.72 |
+| **grow** | 0.38 | **0.26** | 0.40 |
+| **diminish** | 1.15 | **1.22** | 1.12 |
+| **Besonderheiten** | = G36 + GL | = M16A4 + GL | = AK-74M + GL |
+| **Preis** | 80 (5× G36) | 80 (5× M16A4) | **75** (5× AK-74M) |
+
+→ **Balance:** Alle drei GL-AR = 1:1 Standard-Stats der Fraktion, nur 5× Preis. Einziger Unterschied zur Standardwaffe: GL-Modus (X) + Stash-Preis.
+
+---
+
 ## 4. Leicht-MG (5.56 / 5.45)
 
 | Metrik | EU (MG4) | US (M249) | RU (RPK-74M) |

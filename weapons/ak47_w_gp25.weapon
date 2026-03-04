@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary_rare.weapon" key="ak47_w_gp25.weapon">
     <tag name="assault" />
+    <!-- Gewehr-Stats 1:1 wie AK-74M (ak47.weapon); nur GL-Option (X) und 5× Preis -->
     <specification 
-  retrigger_time="0.123" 
-  accuracy_factor="0.95" 
-  sustained_fire_grow_step="0.35" 
-  sustained_fire_diminish_rate="1.2" 
+  retrigger_time="0.112" 
+  accuracy_factor="0.72" 
+  sustained_fire_grow_step="0.40" 
+  sustained_fire_diminish_rate="1.12" 
   magazine_size="30" 
   can_shoot_standing="1" 
   suppressed="0" 
-  name="AK47 w/ GP25 GL" 
+  name="AK-74M w/ GP25 GL" 
   class="0" 
-  projectile_speed="100.0" />
+  projectile_speed="155.0" />
 
     <next_in_chain key="ak47_w_gp25_g.weapon" share_ammo="0" />
 
@@ -35,11 +36,11 @@
     <capacity value="1" source="rank" source_value="0.5" />
 
     <hud_icon filename="hud_ak47_w_gp25.png" />
-    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="250.0" />
+    <commonness value="0.02" can_respawn_with="0" in_stock="1" />
+    <inventory encumbrance="3.0" price="75.0" />
 
     <projectile file="bullet.projectile">
-	    <result class="hit" kill_probability="0.55" kill_decay_start_time="0.33" kill_decay_end_time="0.68" />
+        <result class="hit" kill_probability="0.82" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
-    <modifier class="speed" value="-0.12" />
+    <modifier class="speed" value="-0.035" />
 </weapon>

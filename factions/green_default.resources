@@ -2,6 +2,7 @@
 <resources>
 	<weapon key="camo_shield.weapon" />
 	<weapon key="m16a4_support.weapon" />
+	<weapon key="m16a4_w_m203.weapon" />
  	<vehicle key="jeep.vehicle" />
  	<vehicle key="apc.vehicle" />
  	<vehicle key="tank.vehicle" />

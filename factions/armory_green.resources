@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- USA-only Waffenkammer: XM25, Camouflage Shield, M16A4 Tactical (Schild). -->
+<!-- USA-only Waffenkammer: XM25, Camouflage Shield, M16A4 Tactical (Schild), M16A4 GL (rifle active). -->
 <resources>
 	<weapon key="xm25.weapon" />
 	<weapon key="camo_shield.weapon" />
 	<weapon key="m16a4_support.weapon" />
+	<weapon key="m16a4_w_m203.weapon" />
 </resources>

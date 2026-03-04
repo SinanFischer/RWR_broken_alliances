@@ -67,12 +67,7 @@
 	<weapon key='rpk16.weapon' />
 	<weapon key='rpk16_long.weapon' />
 	<weapon key='m200.weapon' />
-	<weapon key='m16a4_w_m203.weapon' />
-	<weapon key='m16a4_w_m203_g.weapon' />
-	<weapon key='g36_w_ag36.weapon' />
-	<weapon key='g36_w_ag36_g.weapon' />
-	<weapon key='ak47_w_gp25.weapon' />
-	<weapon key='ak47_w_gp25_g.weapon' />
+	<!-- GL-AR nur fraktionsweise: green = m16a4_w_m203, grey = g36_w_ag36, brown = ak47_w_gp25 (jeweils rifle active, GL per X) -->
 	<weapon key='an94_burst.weapon' />
 	<weapon key='qbz95.weapon' />
 	<weapon key='qbz95_us.weapon' />

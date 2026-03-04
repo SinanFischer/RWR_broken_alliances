@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- EU-only Waffenkammer: TTI Kampfschild. Preis/in_stock in .weapon. -->
+<!-- EU-only Waffenkammer: TTI Kampfschild, G36 AG36 GL (rifle active). -->
 <resources>
 	<weapon key="tti.weapon" />
+	<weapon key="g36_w_ag36.weapon" />
 </resources>

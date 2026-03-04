@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary_rare.weapon" key="m16a4_w_m203.weapon">
     <tag name="assault" />
+    <!-- Stats 1:1 wie Standard-M16A4; nur GL-Option (X) und 5× Preis -->
     <specification 
-  retrigger_time="0.113" 
-  accuracy_factor="0.95" 
-  sustained_fire_grow_step="0.29" 
-  sustained_fire_diminish_rate="1.40" 
+  retrigger_time="0.108" 
+  accuracy_factor="0.80" 
+  sustained_fire_grow_step="0.26" 
+  sustained_fire_diminish_rate="1.22" 
   magazine_size="30" 
   can_shoot_standing="1" 
   suppressed="0" 
   name="M16A4 w/ M203 GL" 
   class="0" 
-  projectile_speed="100.0" 
+  sight_range_modifier="1.1"
+  projectile_speed="157.0" 
   barrel_offset="0.4" />
 
     <next_in_chain key="m16a4_w_m203_g.weapon" share_ammo="0" />
@@ -36,22 +38,13 @@
     <capacity value="1" source="rank" source_value="0.5" />
 	
     <hud_icon filename="hud_m16a4_w_m203.png" />
-    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="250.0" />
+    <commonness value="0.02" can_respawn_with="0" in_stock="1" />
+    <inventory encumbrance="4.0" price="80.0" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit"  kill_probability="0.5" kill_decay_start_time="0.34" kill_decay_end_time="0.67" />
+        <result class="hit" kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
-    
-    <stance state_key="running" accuracy="0.3" />
-    <stance state_key="walking" accuracy="0.675" />
-    <stance state_key="crouch_moving" accuracy="0.75" />
-    <stance state_key="prone_moving" accuracy="0.3" />
 
-    <stance state_key="standing" accuracy="0.85" />
-    <stance state_key="crouching" accuracy="0.9" />
-    <stance state_key="prone" accuracy="0.93" />
-    
-    <modifier class="speed" value="-0.136" />
+    <modifier class="speed" value="-0.05" />
 </weapon>
