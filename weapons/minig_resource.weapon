@@ -11,7 +11,7 @@
     spawn_instance_class="vehicle" 
     spawn_instance_key="deployable_minig.vehicle" 
     consume="1" 
-    sight_range_modifier="1" 
+    sight_range_modifier="1.12" 
     slot="1"
     cover_deployment="1" />
 
@@ -37,7 +37,7 @@
 
     <hud_icon filename="hud_minigun.png" />
     <commonness value="0.0027" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="6.0" price="74.0" />
+    <inventory encumbrance="6.0" price="120.0" />
 
     <modifier class="speed" value="-0.14" />
 
