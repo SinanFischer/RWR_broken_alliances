@@ -21,8 +21,8 @@
 	blast_push_threshold="10.0" 
 	vehicle_collision_damage_factor="2.0" />
 
-    <!-- Hier wird unsere neue Waffe verlinkt - Rotation HALBIERT von 0.00008 auf 0.00004 -->
-	<turret offset="0 -2.0 0.0" weapon_key="m120_heavy_mortar.weapon" weapon_offset="0 2.0 0.0" weapon_recoil="0.4" physics_recoil="0.0" max_rotation_step="0.00004" rotation="0" />
+    <!-- Turret: vorne = 0°, nur ±90° (links/rechts), rotation_range = π ≈ 3.14 rad = 180° -->
+	<turret offset="0 -2.0 0.0" weapon_key="m120_heavy_mortar.weapon" weapon_offset="0 2.0 0.0" weapon_recoil="0.4" physics_recoil="0.0" max_rotation_step="0.00004" rotation="0" rotation_range="3.14" />
 
 	<visual class="chassis" mesh_filename="mortar_socle.mesh" texture_filename="mortar.png" />
 	<visual class="chassis" key="broken" mesh_filename="mortar_broken.mesh" texture_filename="mortar_broken.png" />

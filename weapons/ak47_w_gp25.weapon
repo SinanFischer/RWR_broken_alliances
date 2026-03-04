@@ -10,7 +10,7 @@
   magazine_size="30" 
   can_shoot_standing="1" 
   suppressed="0" 
-  name="AK-74M w/ GP25 GL" 
+  name="AK-74 GP25 GL" 
   class="0" 
   projectile_speed="155.0" />
 

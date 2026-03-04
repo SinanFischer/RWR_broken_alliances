@@ -3,6 +3,11 @@
 	<!-- always load common first; it's the one that clears the initial weapon resources -->
 	<weapon key='medikit.weapon' />
 	<weapon key="wrench.weapon" enabled="0" />
+
+	<!-- Primaries damit Medic schießen kann; sonst nur Medikit (keine Hauptwaffe). -->
+	<weapon key="steyr_aug.weapon" />
+	<weapon key="famasg1.weapon" />
+	<weapon key="xm8.weapon" />
 	
 	<carry_item key='vest1.carry_item' enabled="0" />
 	<carry_item key='vest2.carry_item' enabled="1" />

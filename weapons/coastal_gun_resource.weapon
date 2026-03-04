@@ -6,7 +6,7 @@
     can_shoot_crouching="1" 
     carry_in_two_hands="1" 
     can_shoot_prone="0" 
-    name="Coastal Gun deploy" 
+    name="Heavy Field Gun" 
     class="5" 
     spawn_instance_class="vehicle" 
     spawn_instance_key="coastal_gun.vehicle" 
