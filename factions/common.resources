@@ -64,11 +64,9 @@
 	<weapon key='origin_12_s.weapon' />
 	<weapon key='compound_bow.weapon' />
 	<weapon key='compound_bow_alt.weapon' />
-	<weapon key='rpk16.weapon' />
-	<weapon key='rpk16_long.weapon' />
+	<!-- RPK-16 / RPK-16 Long / AN-94 Salve nur Russia: brown_mgs, brown_primaries, armory_brown -->
 	<weapon key='m200.weapon' />
 	<!-- GL-AR nur fraktionsweise: green = m16a4_w_m203, grey = g36_w_ag36, brown = ak47_w_gp25 (jeweils rifle active, GL per X) -->
-	<weapon key='an94_burst.weapon' />
 	<weapon key='qbz95.weapon' />
 	<weapon key='qbz95_us.weapon' />
 	<weapon key='qbz95_shotgun.weapon' />
@@ -276,6 +274,8 @@
   
 	<call key="mg_drop.call" />
 	<call key="mines.call" />
+	<!-- Test: 5 Minibosse (nur zum Testen per Radio) -->
+	<call key="test_miniboss_drop.call" />
 
 
 </resources>

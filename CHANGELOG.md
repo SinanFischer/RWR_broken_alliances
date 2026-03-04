@@ -10,14 +10,35 @@
 - added 3 new Heavy MG's, one for each faction 
 - new m120 Heavy Mortar. With extreme range but takes 20 Seconds to reload.
 - added alot new weapons: 
-- added 3 faction GL rifles (rifle active, GL per X): M16A4 M203 (USA), G36 AG36 (EU), AK-74M GP25 (RU); only in faction armory + default pool, commonness 0.02.
+- added sword
 
-- **L85A2**:
+
+**Leader AI Troops**
+Now carry specilized elite weapons for each faction
+- RU: RPK Long pipe. 
+
+
+ **L85A2**:
   - Retrigger time verringert: 0.107 -> 0.08
   - Last burst retrigger time verringert: 0.3 -> 0.24
   - Preis gesenkt: 200 -> 120
 
 
+ **ALL Factions**
+- each got a GL rifle: M16A4 M203 (USA), G36 AG36 (EU), AK-74M GP25 (RU)
+- AI can carry SBL (circular saw weapon) 
+- 
+
+ **Europe**
+ - TTI (combat shield)
+
+ **Russia**
+  - add: RPK-16
+  - add: Tommy Gun (only MG AI)
+
+ **USA**
+  - add: camo shield added
+  - add: XM25
 
 ### Calls
 - **Tank Drops (RWR1a1, Leopold II, TroX-80)**:

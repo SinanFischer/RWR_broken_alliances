@@ -40,8 +40,8 @@ Alle Waffen, die in der Lobby-Waffenkammer (**Stash**) aktiv sind – mit frakti
 | **Origin-12 S** (origin_12_s) | all | Shotgun | — | |
 | **Verbundbogen** (compound_bow) | all | Special (Bogen) | — | |
 | **Verbundbogen Explosiv** (compound_bow_alt) | all | Explosiv (Bogen) | — | |
-| **RPK-16** | RU | MG | — | |
-| **RPK-16 Langrohr** (rpk16_long) | RU | MG | — | |
+| **RPK-16** | RU | MG | 216 | 74 Mag; armory_brown + brown_mgs. |
+| **RPK-16 Langrohr** (rpk16_long) | RU | MG | 256 | Nur Brown-Miniboss-Drop (nicht kaufbar). |
 | **CheyTac M200** | USA | Sniper (Großkaliber) | — | |
 | **M16A4 GL Edition** (m16a4_w_m203) | USA | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
 | **M16A4 GL Edition** (m16a4_w_m203_g) | USA | Gewehr + Granatwerfer | ~2,3× Standard-AR | |
@@ -151,7 +151,7 @@ Damit keine Fraktion die andere überrennt, bei **extremen Waffen** (z. B. SBL
 - RU, **nicht in der Waffenkammer** (in_stock=0). Russische MG-Waffe im **seltenen Bereich** (commonness 0,02) **nur für RU Support Troop AI** (brown_mgs.resources, brown.xml support). 50 Schuss, schnelle Feuerrate.
 
 **RPK-16 / RPK-16 Langrohr (rpk16, rpk16_long)**  
-- MG für RU; Langrohr-Variante präziser. Geeignet als AI-MG.
+- **RPK-16:** 74 Mag, Waffenkammer (216 RP) + KI (brown_mgs). **RPK-16 Langrohr:** 96 Mag, nur **Brown-Miniboss-Drop** (brown_miniboss.resources), nicht kaufbar; 256 RP Referenz (+40 vs. Kurzrohr).
 
 **AK-47 GL (ak47_w_gp25, ak47_w_gp25_g)**  
 - AK-47 mit Granatwerfer; ca. 2,3× Preis der Standard-AK.

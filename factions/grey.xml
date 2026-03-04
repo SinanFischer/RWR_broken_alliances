@@ -308,7 +308,7 @@
 		<ai filename="medic.ai" />
 		<resources file="common_medic.resources" />
 		<resources file="grey_primaries.resources" />
-
++
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="0" probability="1.0" />
 			<!-- secondaries -->

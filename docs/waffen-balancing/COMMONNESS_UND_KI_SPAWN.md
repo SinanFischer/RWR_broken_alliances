@@ -73,7 +73,7 @@ Die folgende Mod-Tabelle wurde vor dieser Vanilla-Referenz erstellt; Werte mit *
 
 - **Tier 2 – Spezialisten (0.1 / 0.05 / 0.01):**
   - **0.1** für LMG/DMR/Spezial-AR: m16a4_support (AR+Schild), m1_garand_m (DMR), gilboa_dbr (AR Shotgun-Munition), gun_tommy (50 Schuss), an94_burst (Salven), qbz95/qbz95_us (Flex-AR). Sie prägen das Gefecht, aber limitiert.
-  - **0.05** für schwere MGs: ultimax, ultimax_m, rpk16, rpk16_long (Referenz: M240/PKM/ULTIMAX).
+  - **0.05** für schwere MGs: ultimax, ultimax_m, rpk16 (Referenz: M240/PKM/ULTIMAX). **rpk16_long** nur Brown-Miniboss (brown_miniboss.resources), nicht im KI-MG-Pool.
   - **0.15** für **Sabre (Standard-Sekundärwaffe):** Default-Soldaten (default/default_ai) laden `default_secondaries.resources` (nur sabre) vor den fraktionsspezifischen Secondaries; commonness 0.15 macht ihn zur bevorzugten Slot-1-Waffe.
   - **0.01** für CQB/Shotgun/Schild/Utility: origin_12, origin_12_s (Shotgun), tti (Schild+CQB), camo_shield (Schild), compound_bow, compound_bow_alt (Bogen), taser_medic (Heilen), fhj01 (FAE Utility). Schrotflinten und CQB strikt 0.01.
 
@@ -118,8 +118,8 @@ Die folgende Mod-Tabelle wurde vor dieser Vanilla-Referenz erstellt; Werte mit *
 | origin_12_s | all | assault | 2 | 0.01 | 210 | Wie Origin-12, Variante. |
 | compound_bow | all | stealth | 2 | 0.01 | 215 | Bogen; Spezial selten (KI nutzt Stealth nicht aktiv). |
 | compound_bow_alt | all | assault | 2 | 0.01 | 215 | Bogen Explosiv; wie Bogen. |
-| rpk16 | RU | machinegun | 2 | 0.05 | 216 | Leicht-MG; 0.05 schwere MG-Kategorie. |
-| rpk16_long | RU | machinegun | 2 | 0.05 | 216 | RPK-16 Langrohr; wie RPK-16. |
+| rpk16 | RU | machinegun | 2 | 0.05 | 216 | Leicht-MG 74 Mag; Waffenkammer + brown_mgs. |
+| rpk16_long | RU | machinegun | — | **0.04** | 256 | RPK-16 Langrohr; **nur Brown-Miniboss-Drop**. commonness 0.04 = moderate Chance (~20 %) im Miniboss-Pool; nicht kaufbar. |
 | m200 | USA | sniper | 4 | 0.0002 | 880 | CheyTac Elite-Sniper; fest 0.0002. |
 | m16a4_w_m203 | USA | assault | 3 | 0.002 | 250 | GL; Tier 3 taktische Zerstörung. |
 | m16a4_w_m203_g | USA | assault | 3 | 0.002 | 250 | GL Granat-Variante. |

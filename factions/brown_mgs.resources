@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- RU-only: Leicht-MG RPK-16 (74 Mag) für KI-MG-Pool. RPK-16 Langrohr nur brown_miniboss.resources. -->
 <resources>
 	<weapon key='pkm.weapon' />
 	<weapon key='rpk74m.weapon' />
+	<weapon key='rpk16.weapon' />
 	<weapon key='pecheneg_bullpup.weapon' />
 	<weapon key='mg_resource.weapon' />
 	<weapon key='qjz89_volk.weapon' />

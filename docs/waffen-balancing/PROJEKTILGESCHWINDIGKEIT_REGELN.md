@@ -49,11 +49,11 @@ Den **erlaubten Bereich** aus der Tabelle übernehmen und einen Wert **innerhalb
 
 | Kategorie | projectile_speed (min–max) | Real (m/s) grob | Anmerkung |
 |-----------|---------------------------|------------------|-----------|
-| **Referenz: 5.56/5.45 Rifle** | **155–165** | 900–940 | Anker; G36, M16, HK416, AK-74M |
+| **Referenz: 5.56/5.45 Rifle** | **155–165** | 900–940 | Anker; G36, M16, HK416, AK-74M; **RU:** AN-94 Salve 158 |
 | 7.62 MG / Battle Rifle | 156–160 | 830–870 | Leicht unter/auf Rifle |
 | DMR / Präzisionsgewehr | 165–180 | 830–900 | Eigenständig, oberhalb Standard-Rifle |
 | **Sniper / Großkaliber** | **175–220** | 850–900+ | Mit sight_range_modifier 1,3–1,65 |
-| 5.56 Leicht-MG (M249, MG4, RPK) | 143–150 | 900+ | Unter Rifle, Dauerfeuer |
+| 5.56 Leicht-MG (M249, MG4, RPK) | 143–150 | 900+ | Unter Rifle, Dauerfeuer; **RU:** RPK-16 146, RPK-16 Langrohr 148 |
 | Kurzgewehr (AKS-74U, kurze AR) | 146–150 | ~735 | Unter Rifle |
 | .300 BLK / kurze Gasanlage | 153–157 | ~900 | Auf Rifle-Niveau |
 | **PDW (5.7 / 4.6 mm)** | **146–150** | 715–725 | P90, MP7, QCW |

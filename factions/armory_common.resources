@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Waffen + Carry-Items für Waffenkammer (alle Fraktionen). Nur Referenzen; in_stock/price in .weapon/.carry_item. -->
 <resources>
+	<!-- Medizinisches Dartgewehr (Taser-Medic): für alle Fraktionen kaufbar (in_stock=1, price 120 in taser_medic.weapon). -->
 	<weapon key="taser_medic.weapon" />
 	<weapon key="truvelo_amris.weapon" />
 	<weapon key="ultimax.weapon" />
@@ -11,11 +12,9 @@
 	<weapon key="origin_12_s.weapon" />
 	<weapon key="compound_bow.weapon" />
 	<weapon key="compound_bow_alt.weapon" />
-	<weapon key="rpk16.weapon" />
-	<weapon key="rpk16_long.weapon" />
+	<!-- RPK-16 / RPK-16 Long / AN-94 nur Russia: armory_brown -->
 	<weapon key="m200.weapon" />
 	<!-- GL-AR nur fraktionsweise: armory_green (M16A4 M203), armory_grey (G36 AG36), armory_brown (AK-47 GP25), jeweils rifle-active -->
-	<weapon key="an94_burst.weapon" />
 	<weapon key="qbz95.weapon" />
 	<weapon key="qbz95_us.weapon" />
 	<weapon key="qlz87_b.weapon" />

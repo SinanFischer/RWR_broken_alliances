@@ -15,7 +15,7 @@
 | **Shotgun** (alle Fraktionen) | `common.resources` + `common_shotgun_base.resources` | artillery1, heavy_mortar, heavy_artillery, paratroopers1–4, humvee, wiesel_drop, vulcan_tank, apc, mg_drop, mines |
 | **Weitere Common-Kits** (Mortar, MG, EOD, Medic, …) | `common.resources` | artillery1, heavy_mortar, heavy_artillery, paratroopers1–4, humvee, vulcan_tank, apc, mg_drop, mines *(ohne wiesel_drop)* |
 | **Special Forces** | `common.resources` + `common_specialforces.resources` | wie Common-Kits *(keine eigenen Calls, nur Waffen/Westen)* |
-| **Miniboss** | `common.resources` + `common_miniboss.resources` | wie Common-Kits *(keine eigenen Calls, nur Waffen/Westen)* |
+| **Miniboss** | `common.resources` + `common_miniboss.resources` | wie Common-Kits + **test_miniboss_drop** *(Test: 5 Minibosse)* |
 | **Lonewolf Sniper** | `lonewolf_sniper.resources` | mortar1, paratroopers_medic *(ggf. plus Sniper-Calls je nach Vererbung)* |
 
 ---
@@ -36,6 +36,7 @@
 | mines.call | — | ✓ | ✓ | ✓ | ✓ | ✓ | — |
 | wiesel_drop.call | — | ✓ | ✓ | — | — | — | — |
 | sniper_drop.call | — | ✓ | — | — | — | — | (ggf.) |
+| test_miniboss_drop.call | — | — | — | — | — | ✓ | — |
 | mortar1.call | — | — | — | — | — | — | ✓ |
 | paratroopers_medic.call | — | — | — | — | — | — | ✓ |
 
@@ -92,7 +93,7 @@
 ## Kurzinfo
 
 - **Default-Truppen** haben bewusst nur **einen** Call (Panzer-Variante pro Fraktion).
-- **Common-Kits** (Sniper, Shotgun, Mortar, MG, **Special Forces**, **Miniboss**, …) bekommen die Artillerie-/Para-/Fahrzeug-Calls aus `common.resources`; Sniper/Shotgun erweitern mit `common_sniper_base` / `common_shotgun_base` (u.a. wiesel_drop, Sniper zusätzlich sniper_drop). **Special Forces** und **Miniboss** definieren in `common_specialforces.resources` bzw. `common_miniboss.resources` keine Calls, nur Waffen und Westen → sie haben dieselben Calls wie die übrigen Common-Kits (ohne wiesel_drop).
+- **Common-Kits** (Sniper, Shotgun, Mortar, MG, **Special Forces**, **Miniboss**, …) bekommen die Artillerie-/Para-/Fahrzeug-Calls aus `common.resources`; Sniper/Shotgun erweitern mit `common_sniper_base` / `common_shotgun_base` (u.a. wiesel_drop, Sniper zusätzlich sniper_drop). **Special Forces** definiert nur Waffen/Westen; **Miniboss** hat zusätzlich den Test-Call **test_miniboss_drop** (5 Minibosse). Ansonsten dieselben Calls wie die übrigen Common-Kits (ohne wiesel_drop).
 - **Lonewolf Sniper** definiert in `lonewolf_sniper.resources` nur **mortar1** und **paratroopers_medic**; ob er zusätzlich alle Sniper-Calls erbt, hängt von der Kit-Vererbung im Gamemode ab.
 - In `common.resources` sind **tank/tank_1/tank_2** und **artillery2** auskommentiert; Tank-Calls liegen ausschließlich in den `*_default.resources`.
 

@@ -13,8 +13,9 @@
   suppressed="0" 
   name="RPK16 - long barrel" 
   class="0" 
-  projectile_speed="100.0" 
+  projectile_speed="148"
   barrel_offset="0.45" />
+    <!-- projectile_speed: 5.56 Leicht-MG Langrohr (143–150, oben für mehr Reichweite) -->
   
     <!--     -->
     <next_in_chain key="rpk16.weapon" share_ammo="1" />
@@ -34,8 +35,9 @@
     <model filename="rpk16_long.xml" />
 
     <hud_icon filename="hud_rpk16_long.png" />
-    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="216.0" />
+    <commonness value="0.02" can_respawn_with="0" in_stock="0" />
+    <!-- commonness 0.04: moderate Chance (~20 %) im Brown-Miniboss-Pool; in_stock=0 = nur Miniboss-Drop, nicht kaufbar; 256 RP -->
+    <inventory encumbrance="10.0" price="256.0" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">

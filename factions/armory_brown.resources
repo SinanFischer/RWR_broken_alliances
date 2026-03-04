@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- RU-only Waffenkammer: AK-47 GP25 GL (rifle active). -->
+<!-- RU-only Waffenkammer: GL (rifle active), AN-94 Salve, RPK-16 (74 Mag). RPK-16 Langrohr nur Miniboss-Drop (brown_miniboss). -->
 <resources>
 	<weapon key="ak47_w_gp25.weapon" />
+	<weapon key="an94_burst.weapon" />
+	<weapon key="rpk16.weapon" />
 </resources>

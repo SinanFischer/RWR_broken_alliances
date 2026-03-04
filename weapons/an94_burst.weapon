@@ -13,8 +13,9 @@
   name="AN-94 - burst" 
   class="4" 
   burst_shots="2"
-  projectile_speed="120.0"
+  projectile_speed="158"
   barrel_offset="0.6" />
+    <!-- projectile_speed: 5.45 Rifle (PROJEKTILGESCHWINDIGKEIT_REGELN 155–165) -->
 
 	<next_in_chain key="an94.weapon" share_ammo="1"/>
 

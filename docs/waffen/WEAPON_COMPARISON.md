@@ -197,6 +197,53 @@
 
 ---
 
+## 9a. Russia-Spezial: AN-94 Salve & RPK-16 / RPK-16 Langrohr
+
+**Verfügbarkeit:** Nur **Russia (brown)**. RPK-16 (74 Mag): Waffenkammer (armory_brown) + KI-Pool (brown_mgs). **RPK-16 Langrohr:** nur durch **Brown-Miniboss-Drop** (brown_miniboss.resources), nicht kaufbar; Preis 256 RP (Referenz, +40 vs. Kurzrohr).
+
+| Metrik | AN-94 Salve (an94_burst) | RPK-16 (rpk16) | RPK-16 Langrohr (rpk16_long) |
+|--------|---------------------------|----------------|------------------------------|
+| **Rolle** | Salven-AR (2-Schuss-Burst) | Leicht-MG 5.45 | Leicht-MG 5.45, Langrohr |
+| **kill** | 0.50 | 0.55 | **0.65** |
+| **RT** (s) | **0.035** (Burst), 0.1 (nächste Salve) | 0.085 | 0.085 |
+| **mag** | **45** | **74** | **96** |
+| **projectile_speed** | **158** (5.45 Rifle) | 146 (5.56 LMG) | **148** (5.56 LMG) |
+| **acc_factor** | **1.0** | 0.9 | 0.9 |
+| **grow / diminish** | 0.15 / 0.60 | 0.55 / 0.9 | **0.15** / 0.7 |
+| **speed modifier** | -0.032 | -0.06 | **-0.12** |
+| **can_shoot_standing** | 1 | 1 | 1 |
+| **Preis** | **250** | 216 | 216 |
+
+→ **AN-94:** Sehr schneller erster Treffer (2 Schuss fast gleichzeitig), danach Salven-Kadenz 0.1 s. Gute Fluggeschwindigkeit (158), hohe Basis-Genauigkeit (1.0). Kill pro Schuss moderat (0.50) – Stärke liegt in Doppel-Treffer und Kontrolle.  
+→ **RPK-16:** Leicht-MG mit **74** Schuss (Kurzrohr), Waffenkammer + KI. Projektil 146 (Regel 5.56 LMG). **RPK-16 Langrohr:** 96 Schuss, höhere kill (0.65), besseres grow/diminish; nur Miniboss-Drop, 256 RP Referenz; Speed -0.12.
+
+---
+
+### Wo dominiert / wo schwächelt
+
+| Waffe | **Dominiert** | **Schwächelt** |
+|-------|----------------|----------------|
+| **AN-94 Salve** | Erste Salve (2 Schuss extrem schnell), mittlere Distanz durch projectile_speed 158, Kontrolle bei Burst (kein Dauerfeuer-Chaos) | Einzelschuss-Kill niedriger als SG 552/AK-74M; Preis 250 RP (GL-Niveau) |
+| **RPK-16** | Mag 74, stehend feuern, RU-eigenes Leicht-MG (Waffenkammer + KI); Speed -0.06 erträglich | Kill 0.55 unter RPK-74M/Leicht-MG-Referenzen; kein Sight-Bonus wie M249/MG4 |
+| **RPK-16 Langrohr** | Höchste kill der drei (0.65), beste Präzision im Dauerfeuer (grow 0.15, diminish 0.7) | Speed -0.12 stark; Bewegung deutlich langsamer |
+
+---
+
+### Was besonders macht sie / höherer Preis wert
+
+- **AN-94:** Einzigartiges **Salven-Verhalten** (2 Schuss vor dem Rückstoß) – spielbar als „gezielter Doppel-Treffer“ statt Spray. Real-Bezug: AN-94 „Abakan“ mit verzögerter Rückstoßübernahme. **Warum spielen:** Wenn du präzise Doppel-Schüsse willst statt Vollauto-Streuung; 250 RP rechtfertigt Nischen-Rolle + RU-Exklusivität.
+- **RPK-16 / Langrohr:** RU-**Leicht-MG-Option**. Kurzrohr (74 Mag) kaufbar 216 RP; Langrohr (96 Mag, kill 0.65) nur Miniboss-Drop, 256 RP Referenz. **Warum spielen:** Suppression + Schaden; Langrohr für Stellungen, Kurzrohr für Mobilität.
+
+---
+
+### Brainstorming / Fakten
+
+- AN-94: Erste zwei Schuss ~900 m/s real; im Spiel durch **projectile_speed 158** (Spiel-Skala 5.45 Rifle) gut angebunden; Salve kann „Zwei-Treffer-Kill“ bei 0.50 kill ergeben (RNG).
+- RPK-16: 5.45×39 wie AK-74M; Langrohr mehr Mündungsgeschwindigkeit → in der Tabelle durch **148** vs 146 abgebildet; Spieler-Wahl zwischen Beweglichkeit (Kurzrohr) und Präzision/Kill (Langrohr).
+- Balance-Anker: AN-94 nicht stärker als SG 552 (0.95) in Kill – Stärke ist Kadenz/Verhalten. RPK-16 (74 Mag) unter PKM in Kill, stehend feuern; Langrohr nur Miniboss-Drop.
+
+---
+
 ## 9. Kurzüberblick: Wer führt wo?
 
 | Metrik | EU | US | RU |
@@ -223,7 +270,7 @@
 |----------|-------------------------|---------------------|-----------|
 | **EU** | Schnellstes Standard-AR (G36), schnellstes Leicht-MG (MG4), **One-Hit Bolt (G22)**, schnellster DMR (G28 RT), beste Shotgun-Kill (SPAS) | - | Kein 7.62-MG; Premium-AR nicht stärkste Kill (SG 552 RU) |
 | **US** | **One-Hit Bolt (M24)**, stärkstes Schwer-MG (M240), beste Leicht-MG-Kill (M249), höchste AR-Commonness (M4A1) | - | Standard-AR etwas langsamer als G36; DMR nicht schnellster; Premium-AR (XM8) nicht stärkste |
-| **RU** | **Höchste Kill Standard-AR (AK-74M 0.92)**, **stärkste Premium-AR (SG 552 0.95)**, One-Hit Bolt (SV-98), schnellstes Pool-AR (AKS-74U), DMR am häufigsten (SVD), PKM stark (0.82 kill) | Günstigere Shop-Preise (für Menschen) | Pool-AR AKS-74U niedrigere Kill (0.62); langsamere Kadenz Standard-AR |
+| **RU** | **Höchste Kill Standard-AR (AK-74M 0.92)**, **stärkste Premium-AR (SG 552 0.95)**, One-Hit Bolt (SV-98), schnellstes Pool-AR (AKS-74U), DMR am häufigsten (SVD), PKM stark (0.82 kill); **exklusiv:** AN-94 Salve, RPK-16 / RPK-16 Langrohr (nur brown) | Günstigere Shop-Preise (für Menschen) | Pool-AR AKS-74U niedrigere Kill (0.62); langsamere Kadenz Standard-AR |
 
 **Fazit:** Alle drei haben einen One-Hit-Bolt (EU G22, US M24, RU SV-98). RU-Stärken sind damit **kampfrelevant** (Bolt, schnellstes Pool-AR, SVD-Commonness, PKM), nicht nur „günstig im Shop“.
 

@@ -60,8 +60,8 @@ Lückenlose, fair ausbalancierte **RP-Preisliste** (Resource Points) für alle W
 | Origin-12 S (origin_12_s) | all | Shotgun | 210 | Wie Origin-12, Variante |
 | Verbundbogen (compound_bow) | all | Special (Bogen) | 215 | Stealth/Special; Standard-Pfeil |
 | Verbundbogen Explosiv (compound_bow_alt) | all | Explosiv (Bogen) | 215 | Wie Bogen + Explosiv-Pfeil |
-| RPK-16 (rpk16) | RU | MG | 216 | Leicht-MG; RU-Standard-MG |
-| RPK-16 Langrohr (rpk16_long) | RU | MG | 216 | RPK-16 mit Langrohr; etwas präziser |
+| RPK-16 (rpk16) | RU | MG | 216 | Leicht-MG 74 Mag; Waffenkammer (armory_brown) + KI (brown_mgs). |
+| RPK-16 Langrohr (rpk16_long) | RU | MG | 256 | **Nicht kaufbar** (in_stock=0); nur Brown-Miniboss-Drop (brown_miniboss.resources). 96 Mag, +40 RP vs. Kurzrohr. |
 | CheyTac M200 (m200) | USA | Sniper (Großkaliber) | 880 | Elite-Sniper; maximaler Schaden/Reichweite |
 | M16A4 GL (m16a4_w_m203) | USA | Gewehr + Granatwerfer | 250 | GL; ≈ 15,6× Basis-AR (M16/G36/AK 16 RP); nur Basis-GL im Shop |
 | G36 GL (g36_w_ag36) | EU | Gewehr + Granatwerfer | 250 | GL; ≈ 15,6× Basis-AR (G36 16 RP); nur Basis-GL im Shop |
