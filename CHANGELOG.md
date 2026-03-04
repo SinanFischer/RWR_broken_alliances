@@ -11,6 +11,7 @@
 - new m120 Heavy Mortar. With extreme range but takes 20 Seconds to reload.
 - added alot new weapons: 
 - added sword
+- added medic dartgun
 
 
 **Leader AI Troops**
