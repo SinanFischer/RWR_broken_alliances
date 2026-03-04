@@ -42,7 +42,7 @@
     <model filename="taser.xml" />
 
     <hud_icon filename="hud_taser.png" />
-    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.002" can_respawn_with="0" in_stock="0" />
     <inventory encumbrance="5.0" price="120.0"/>
 
     <projectiles_per_shot value="1" />

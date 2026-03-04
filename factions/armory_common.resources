@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Waffen + Carry-Items für Waffenkammer (alle Fraktionen). Nur Referenzen; in_stock/price in .weapon/.carry_item. -->
 <resources>
-	<!-- Medizinisches Dartgewehr (Taser-Medic): für alle Fraktionen kaufbar (in_stock=1, price 120 in taser_medic.weapon). -->
-	<weapon key="taser_medic.weapon" />
+	<!-- Medical Dart Gun (Vanilla dartgun): für alle Fraktionen kaufbar (Mod-Override in_stock=1, price 120). -->
+	<weapon key="dartgun.weapon" />
 	<weapon key="truvelo_amris.weapon" />
 	<weapon key="ultimax.weapon" />
 	<weapon key="ultimax_m.weapon" />

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources clear_weapons="1" clear_carry_items="1">
-	<!-- Medic-Zweitwaffe: Medikit oder Taser-Medic -->
+	<!-- Medic-Zweitwaffe: Medikit oder Medical Dart Gun -->
 	<weapon key="medikit.weapon" />
-	<weapon key="taser_medic.weapon" />
 
 	<!-- Combat-Medic Primaries -->
 	<weapon key="steyr_aug.weapon" />

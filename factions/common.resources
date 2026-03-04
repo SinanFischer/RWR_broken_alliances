@@ -48,7 +48,7 @@
 	<weapon key='ares_shrike.weapon' />
 
 	<!-- Stash-/Armory-Waffen: "all" nur hier; TTI nur EU → nur in armory_grey + grey_secondaries/eod, NICHT hier -->
-	<weapon key='taser_medic.weapon' />
+	<weapon key='dartgun.weapon' />
 	<weapon key='truvelo_amris.weapon' />
 	<weapon key='ultimax.weapon' />
 	<weapon key='ultimax_m.weapon' />
