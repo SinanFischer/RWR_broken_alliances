@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<weapon file="base_primary_rare.weapon" key="m200.weapon" drop_count_factor_on_death="0.0" drop_count_factor_on_player_death="1.0">
+<weapon file="base_primary_rare.weapon" key="m200.weapon" drop_count_factor_on_death="1.0" drop_count_factor_on_player_death="1.0">
     <tag name="sniper" />
     <specification 
                 retrigger_time="2.2" 
@@ -13,7 +13,7 @@
 	name="CheyTac M200" 
 	class="2" 
 	reload_one_at_a_time="0" 
-	sight_range_modifier="1.65" 
+	sight_range_modifier="2.6" 
 	projectile_speed="280.0" 
 	barrel_offset="0.5" 
 	projectiles_per_shot="2" />
@@ -35,8 +35,8 @@
     <model filename="m200.xml" />
 
     <hud_icon filename="hud_m200.png" />
-    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="880" />
+    <commonness value="0.0003" can_respawn_with="0" in_stock="1" />
+    <inventory encumbrance="10.0" price="610" />
   
     <weak_hand_hold offset="0.3" />
 

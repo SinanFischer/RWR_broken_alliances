@@ -5,8 +5,9 @@
           <weapon key='m249.weapon' />
 	<weapon key='m24_a2.weapon' />
 <weapon key='m14_ebr.weapon' />          
-<weapon key='m4a1_scope.weapon' />
-	<weapon key='xm8.weapon' />  
+	<weapon key='m4a1_scope.weapon' />
+	<weapon key='m1_garand_m.weapon' />
+	<weapon key='xm8.weapon' />
 	<weapon key='scarssr.weapon' />
 	<weapon key='steyr_aug.weapon' />
 	<weapon key='apr.weapon' />   

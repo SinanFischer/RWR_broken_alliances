@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- USA-only Waffenkammer: XM25, Camouflage Shield, M16A4 Tactical (Schild), M16A4 GL (rifle active). -->
+<!-- USA-only Waffenkammer: M1 Garand Modern, CheyTac M200, XM25, Camouflage Shield, M16A4 Tactical, M16A4 GL. -->
 <resources>
+	<weapon key="m1_garand_m.weapon" />
+	<weapon key="m200.weapon" />
 	<weapon key="xm25.weapon" />
 	<weapon key="camo_shield.weapon" />
 	<weapon key="m16a4_support.weapon" />

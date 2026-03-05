@@ -7,13 +7,13 @@
 	<weapon key="ultimax.weapon" />
 	<weapon key="ultimax_m.weapon" />
 	<weapon key="gilboa_dbr.weapon" />
-	<weapon key="m1_garand_m.weapon" />
+	<!-- M1 Garand Modern nur USA: armory_green + green_primaries (Default) -->
 	<weapon key="origin_12.weapon" />
 	<weapon key="origin_12_s.weapon" />
 	<weapon key="compound_bow.weapon" />
 	<weapon key="compound_bow_alt.weapon" />
 	<!-- RPK-16 / RPK-16 Long / AN-94 nur Russia: armory_brown -->
-	<weapon key="m200.weapon" />
+	<!-- M200 (CheyTac) nur USA: armory_green -->
 	<!-- GL-AR nur fraktionsweise: armory_green (M16A4 M203), armory_grey (G36 AG36), armory_brown (AK-47 GP25), jeweils rifle-active -->
 	<weapon key="qbz95.weapon" />
 	<weapon key="qbz95_us.weapon" />

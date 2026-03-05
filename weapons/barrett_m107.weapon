@@ -31,7 +31,7 @@
     <model filename="barrett_m107.xml" />
 
     <hud_icon filename="hud_barrett_m107.png" />
-    <commonness value="0.0075" can_respawn_with="0" in_stock="1"/>
+    <commonness value="0.0025" can_respawn_with="0" in_stock="1"/>
     <inventory encumbrance="7.0" price="500.0" />
 
     <projectiles_per_shot value="1" />

@@ -3,6 +3,7 @@
 <resources>
 	<weapon key='vss_vintorez.weapon' />
 	<weapon key='barrett_m107.weapon' />
+	<weapon key='m200.weapon' />
 	<weapon key='lahti_l39.weapon' />
 	<weapon key='apr.weapon' />
 	<weapon key='scarssr.weapon' />

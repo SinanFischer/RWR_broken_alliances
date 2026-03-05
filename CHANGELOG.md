@@ -33,18 +33,21 @@ Unique per faction:
  **ALL Factions**
 - each got a GL rifle: M16A4 M203 (USA), G36 AG36 (EU), AK-74M GP25 (RU)
 - AI can carry SBL (circular saw weapon) 
-- 
+- add: Tommy Gun (only MG AI)
+
 
  **Europe**
  - TTI (combat shield)
 
  **Russia**
   - add: RPK-16
-  - add: Tommy Gun (only MG AI)
+  - add: AN94
 
  **USA**
   - add: camo shield added
   - add: XM25
+  - add: M1 Garand (high kill rate, good on medium and short distances)
+  - add: CheyTac M200 (2 shots, extreme deadly sniper with a sight range modifier of 2.6. Sniper soldier may wear them very rare)
 
 ### Calls
 - **Tank Drops (RWR1a1, Leopold II, TroX-80)**:
