@@ -280,8 +280,6 @@
 
 		<resources file="elite/common_miniboss.resources" />
 		<resources file="elite/green_miniboss.resources" />
-		<resources file="elite/miniboss_secondaries.resources" />
-
 		<item_class_existence_config>
 			<!-- secondaries -->
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
@@ -358,8 +356,6 @@
 		<!-- inherits initial config from default group -->
 		<resources file="elite/common_miniboss.resources" />
 		<resources file="elite/green_miniboss.resources" />
-		<resources file="elite/miniboss_secondaries.resources" />
-
 		<item_class_existence_config>
 			<!-- secondaries -->
 			<item_class_existence class="weapon" slot="1" probability="1.0" />

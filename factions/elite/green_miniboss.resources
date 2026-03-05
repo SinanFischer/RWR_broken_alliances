@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- USA-Miniboss: zusätzlich zu common_miniboss. Elite-Waffen (nur hier = nur durch Miniboss-Drop) in docs/einheiten/miniboss/MINIBOSS_GREEN.md dokumentieren. -->
+<!-- USA-Miniboss: zusätzlich zu common_miniboss. Primaries: m4a1_scope, m16a4_support. Secondary: smaw (slot 1). -->
 <resources>
-	<weapon key='m4a1_scope.weapon' />
-	<weapon key='smaw.weapon' />
-	<weapon key='m202_flash.weapon' />
 	<weapon key='m16a4_support.weapon' />
+	<weapon key='smaw.weapon' />
 </resources>

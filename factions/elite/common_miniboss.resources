@@ -13,6 +13,15 @@
 	<!-- 5 % Chance: Verbundbogen explosiv (commonness in .weapon steuert Anteil im Pool) -->
 	<weapon key='compound_bow_alt.weapon' />
 
+	<!-- Secondaries (slot 1): Anteile über commonness in .weapon -->
+	<weapon key='sabre.weapon' />
+	<weapon key='golden_knife.weapon' />
+	<weapon key='m202_flash.weapon' />
+	<weapon key='mgl_flasher.weapon' />
+	<weapon key='fhj01.weapon' />
+	<weapon key='javelin.weapon' />
+	<weapon key='javelin_elite.weapon' />
+
 	<carry_item key='vest1.carry_item' enabled="0" />			
 	<carry_item key='vest2.carry_item' enabled="0" />
 	<carry_item key='vest4.carry_item' enabled="1" />
