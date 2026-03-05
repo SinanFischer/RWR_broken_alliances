@@ -15,7 +15,8 @@
 
 
 **Leader AI Troops**
-Now carry specilized elite weapons for each faction
+Now carry specilized elite weapons 
+Unique per faction:
 - RU: RPK Long pipe. 
 
 
