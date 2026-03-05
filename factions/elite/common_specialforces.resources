@@ -3,6 +3,7 @@
 	<!-- always load common first; it's the one that clears the initial weapon resources -->
 	<weapon key='aa-12.weapon' />
 	<weapon key='origin_12.weapon' />
+	<weapon key='qbz95_shotgun.weapon' />
 	<weapon key='smaw.weapon' />
 	<weapon key='benelli_m4_supp.weapon' />
 	<weapon key='honey_badger.weapon' />

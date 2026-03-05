@@ -14,6 +14,7 @@
 - added medic dartgun
 - added origin_12 (full automatic 30 magazin shotgun)
 - RU: Volk MG shoots massiv 50.cal rounds that damage vehicle and can destroy creates.
+- added QBZ-95 ( shotgun & rifle weapon)
 
 **Leader AI Troops**
 Now carry specilized elite weapons 
@@ -22,7 +23,7 @@ Unique per faction:
 - can carry origin_12 
 
 **Special Force Troop**
-- can carry origin_12 
+- can carry origin_12 & QBZ-95
 
  **L85A2**:
   - Retrigger time verringert: 0.107 -> 0.08

@@ -12,7 +12,7 @@
   name="Origin-12" 
   class="4" 
   burst_shots="1"  
-  projectile_speed="102.0"
+  projectile_speed="95"
   barrel_offset="0.2" 
   projectiles_per_shot="3" />
 
@@ -32,7 +32,7 @@
     <model filename="origin_12.xml" />
 
     <hud_icon filename="hud_origin_12.png" />
-    <commonness value="0.0008" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.0008" can_respawn_with="0" in_stock="0" />
     <inventory encumbrance="10.0" price="210.0" />
 	
     <capacity value="0" source="rank" source_value="0.0" />

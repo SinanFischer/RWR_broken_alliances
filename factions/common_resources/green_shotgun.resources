@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<weapon key='mossberg.weapon' />
+		<weapon key='qbz95_shotgun.weapon' />
+	<weapon key='origin_12.weapon' />
 </resources>

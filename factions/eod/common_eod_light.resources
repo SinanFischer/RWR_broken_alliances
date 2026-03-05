@@ -28,6 +28,9 @@
 	<weapon key="pecheneg_bullpup.weapon" />
 	<weapon key="sv98.weapon" />
 	<weapon key="saiga12k.weapon" />
+	<!-- Waffe für alle Fraktionen: QBZ-95 Gewehrvariante (EOD_LIGHT = Gewehrvariante) -->
+	<weapon key="qbz95.weapon" />
+	<weapon key="qbz95_us.weapon" />
 	<!-- Green: M14 EBR, M24, M240, M249, XM8, L85A2, M4A1 Scope, Mossberg -->
 	<weapon key="m14_ebr.weapon" />
 	<weapon key="m24_a2.weapon" />
