@@ -16,11 +16,9 @@
 - RU: Volk MG shoots massiv 50.cal rounds that damage vehicle and can destroy creates.
 - added QBZ-95 ( shotgun & rifle weapon)
 
-**Leader AI Troops**
-Now carry specilized elite weapons 
-Unique per faction:
-- RU: can carry RPK Long pipe. 
-- can carry origin_12 
+**Leader AI Troops (miniboss)**
+They will spawn with fully rebalanced weapons. They normally carry special or elite weapons. There is a small chance of a very valuable secondary weapon, such as a golden knife. Some carry special fractions of weapons that cannot be acquired in the armory.
+
 
 **Special Force Troop**
 - can carry origin_12 & QBZ-95
