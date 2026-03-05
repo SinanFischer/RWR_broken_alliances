@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- Elite-Variante für Bodyguard: gleiche commonness für ausgewogene Spawn-Verteilung -->
-<weapon file="scarssr.weapon" key="scarssr_elite.weapon">
+<weapon file="green/scarssr.weapon" key="scarssr_elite.weapon">
     <commonness value="0.05" can_respawn_with="0" in_stock="0" />
        <specification 
        	name="SCAR SSR Elite" 

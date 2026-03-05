@@ -1,50 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapons>
-	<weapon file="ak47.weapon" />
-	<weapon file="apc_hmg.weapon" />
-	<weapon file="g36.weapon" />
-	<weapon file="m249.weapon" />
-	<weapon file="m14_ebr.weapon" />
-	<weapon file="m4a1_scope.weapon" />
-	<weapon file="mg4.weapon" />
-	<weapon file="hk416.weapon" />
-	<weapon file="caws.weapon" />
-	<weapon file="g28.weapon" />
-	<weapon file="hk416.weapon" />
-	<weapon file="rpk74m.weapon" />
-	<weapon file="sv98.weapon" />
-	<weapon file="saiga12k.weapon" />
+	<weapon file="brown/ak47.weapon" />
+	<weapon file="common/apc_hmg.weapon" />
+	<weapon file="green/g36.weapon" />
+	<weapon file="green/m249.weapon" />
+	<weapon file="green/m14_ebr.weapon" />
+	<weapon file="green/m4a1_scope.weapon" />
+	<weapon file="green/mg4.weapon" />
+	<weapon file="green/hk416.weapon" />
+	<weapon file="green/caws.weapon" />
+	<weapon file="green/g28.weapon" />
+	<weapon file="green/hk416.weapon" />
+	<weapon file="brown/rpk74m.weapon" />
+	<weapon file="brown/sv98.weapon" />
+	<weapon file="brown/saiga12k.weapon" />
 
-	<weapon file="m24_a2.weapon" />
-	<weapon file="riot_shield.weapon"/>
-	<weapon file="m72_law.weapon" />
-	<weapon file="m240.weapon" />
-	<weapon file="mossberg.weapon" />
-	<weapon file="mp5sd.weapon" />
-	<weapon file="pkm.weapon" />
-	<weapon file="famasg1.weapon" />
-	<weapon file="m16a4.weapon" />
+	<weapon file="green/m24_a2.weapon" />
+	<weapon file="common/riot_shield.weapon"/>
+	<weapon file="green/m72_law.weapon" />
+	<weapon file="green/m240.weapon" />
+	<weapon file="green/mossberg.weapon" />
+	<weapon file="green/mp5sd.weapon" />
+	<weapon file="brown/pkm.weapon" />
+	<weapon file="green/famasg1.weapon" />
+	<weapon file="green/m16a4.weapon" />
 
-	<weapon file="f2000.weapon" />
-	<weapon file="benelli_m4.weapon" />
-	<weapon file="pepperdust.weapon" />
+	<weapon file="green/f2000.weapon" />
+	<weapon file="green/benelli_m4.weapon" />
+	<weapon file="common/pepperdust.weapon" />
   <weapon file="mortar_vulcan.weapon" />
   <weapon file="m113_tank_cannon.weapon" />
 
-	<weapon file="tank_cannon.weapon" />
-	<weapon file="tank_mg.weapon" />
+	<weapon file="common/tank_cannon.weapon" />
+	<weapon file="common/tank_mg.weapon" />
 
-	<weapon file="aks74u.weapon" />
-	<weapon file="p90.weapon" />
+	<weapon file="brown/aks74u.weapon" />
+	<weapon file="green/p90.weapon" />
 
-	<weapon file="dragunov_svd.weapon" />
+	<weapon file="brown/dragunov_svd.weapon" />
 
-	<weapon file="medikit.weapon" />
-	<weapon file="dog.weapon" />
-	<weapon file="squad_equipment_kit.weapon" />
-	<weapon file="squad_equipment_kit_navy.weapon" />
+	<weapon file="common/medikit.weapon" />
+	<weapon file="common/dog.weapon" />
+	<weapon file="common/squad_equipment_kit.weapon" />
+	<weapon file="common/squad_equipment_kit_navy.weapon" />
 
-	<weapon file="tow.weapon" />
+	<weapon file="common/tow.weapon" />
 	<weapon file="noxe.weapon" />
 	<weapon file="scorpio_cannon.weapon" />
 	<weapon file="m551_cannon.weapon" />
@@ -57,61 +57,61 @@
 	<weapon file="flamer_tank_mg.weapon" />
 	<weapon file="m528_hmg.weapon" />
 	<weapon file="m528_apj.weapon" />
-	<weapon file="vss_vintorez.weapon" />
+	<weapon file="brown/vss_vintorez.weapon" />
 
-	<weapon file="ns2000.weapon" />
+	<weapon file="grey/ns2000.weapon" />
 
-	<weapon file="spas-12.weapon" />  
-	<weapon file="qcw-05.weapon" />
+	<weapon file="green/spas-12.weapon" />  
+	<weapon file="grey/qcw-05.weapon" />
 
-	<weapon file="shovel.weapon" />
-	<weapon file="cover_resource.weapon" />
+	<weapon file="common/shovel.weapon" />
+	<weapon file="common/cover_resource.weapon" />
   
-	<weapon file="humvee_mg.weapon" />
+	<weapon file="common/humvee_mg.weapon" />
 
-	<weapon file="stoner_lmg.weapon" />
+	<weapon file="green/stoner_lmg.weapon" />
 
-	<weapon file="psg90.weapon" />        
+	<weapon file="green/psg90.weapon" />        
 
-	<weapon file="rpg-7.weapon" />
-	<weapon file="m2_carlgustav.weapon" /> 
+	<weapon file="brown/rpg-7.weapon" />
+	<weapon file="green/m2_carlgustav.weapon" /> 
 
-	<weapon file="l85a2.weapon" />
-	<weapon file="sg552.weapon" />
-	<weapon file="imi_negev.weapon"/>
-	<weapon file="qbs-09.weapon" />
-	<weapon file="scorpion-evo.weapon" />
-	<weapon file="m79.weapon" />
+	<weapon file="green/l85a2.weapon" />
+	<weapon file="green/sg552.weapon" />
+	<weapon file="green/imi_negev.weapon"/>
+	<weapon file="grey/qbs-09.weapon" />
+	<weapon file="green/scorpion-evo.weapon" />
+	<weapon file="green/m79.weapon" />
 
-	<weapon file="mg_resource.weapon"/>  
-	<weapon file="deployable_mg.weapon" />
+	<weapon file="common/mg_resource.weapon"/>  
+	<weapon file="common/deployable_mg.weapon" />
 
- 	<weapon file="patrol_ship_mg.weapon" />
-	<weapon file="patrol_ship_cannon.weapon" />   
-	<weapon file="patrol_ship_mortar.weapon" />   
-	<weapon file="minig_resource.weapon"/> 
-	<weapon file="mortar_resource.weapon"/>    
-	<weapon file="deployable_minig.weapon" />
-	<weapon file="heavy_artillery_gun.weapon" />
-	<weapon file="heavy_artillery_deploy.weapon" />
-	<weapon file="mortar.weapon" /> 
-	<weapon file="m120_heavy_mortar.weapon" />
-	<weapon file="m120_heavy_mortar_deploy.weapon" /> 
+ 	<weapon file="common/patrol_ship_mg.weapon" />
+	<weapon file="common/patrol_ship_cannon.weapon" />   
+	<weapon file="common/patrol_ship_mortar.weapon" />   
+	<weapon file="common/minig_resource.weapon"/> 
+	<weapon file="common/mortar_resource.weapon"/>    
+	<weapon file="common/deployable_minig.weapon" />
+	<weapon file="common/heavy_artillery_gun.weapon" />
+	<weapon file="common/heavy_artillery_deploy.weapon" />
+	<weapon file="common/mortar.weapon" /> 
+	<weapon file="green/m120_heavy_mortar.weapon" />
+	<weapon file="green/m120_heavy_mortar_deploy.weapon" /> 
 
-    <weapon file="pb.weapon" />
-    <weapon file="glock17.weapon" />  
-    <weapon file="beretta_m9.weapon" />   
+    <weapon file="brown/pb.weapon" />
+    <weapon file="green/glock17.weapon" />  
+    <weapon file="green/beretta_m9.weapon" />   
 
    
 
-    <weapon file="desert_eagle.weapon" />
-    <weapon file="desert_eagle_gold.weapon" />
-    <weapon file="aa-12.weapon" />     
-    <weapon file="mgl_flasher.weapon" />
-  	<weapon file="barrett_m107.weapon" /> 
-    <weapon file="xm8.weapon" />              
+    <weapon file="green/desert_eagle.weapon" />
+    <weapon file="green/desert_eagle_gold.weapon" />
+    <weapon file="green/aa-12.weapon" />     
+    <weapon file="green/mgl_flasher.weapon" />
+  	<weapon file="green/barrett_m107.weapon" /> 
+    <weapon file="green/xm8.weapon" />              
 
-<!-- <weapon file="tank_trap_resource.weapon"/> -->
+<!-- <weapon file="common/tank_trap_resource.weapon"/> -->
 
 <!-- 
 	<weapon file="tank2_cannon.weapon" />
@@ -119,75 +119,75 @@
 	<weapon file="tank2_missile_launcher.weapon" />        
 -->
 
-	<weapon file="xm25_r.weapon" />
-	<weapon file="xm25.weapon" />
+	<weapon file="green/xm25_r.weapon" />
+	<weapon file="green/xm25.weapon" />
 
-	<weapon file="apc_hmg_1.weapon" />
-	<weapon file="apc_hmg_2.weapon" /> 
-	<weapon file="tank_cannon_1.weapon" />
-	<weapon file="tank_cannon_2.weapon" />     
-	<weapon file="technical_mg.weapon" /> 
-  <weapon file="radar_tank_cannon.weapon" /> 
-  <weapon file="vulcan_tank_mg.weapon" /> 
+	<weapon file="common/apc_hmg_1.weapon" />
+	<weapon file="common/apc_hmg_2.weapon" /> 
+	<weapon file="common/tank_cannon_1.weapon" />
+	<weapon file="common/tank_cannon_2.weapon" />     
+	<weapon file="common/technical_mg.weapon" /> 
+  <weapon file="common/radar_tank_cannon.weapon" /> 
+  <weapon file="common/vulcan_tank_mg.weapon" /> 
   
-	<weapon file="tank_mg_1.weapon" />
-	<weapon file="tank_mg_2.weapon" />  
+	<weapon file="common/tank_mg_1.weapon" />
+	<weapon file="common/tank_mg_2.weapon" />  
 
-	<weapon file="microgun.weapon"/>
-	<weapon file="minigun_ai.weapon" />
-  <weapon file="binoculars.weapon" />
-  <weapon file="steyr_tmp.weapon" />
-  <weapon file="mini_uzi.weapon" />                 
-  <weapon file="aek_919k.weapon" />
+	<weapon file="common/microgun.weapon"/>
+	<weapon file="common/minigun_ai.weapon" />
+  <weapon file="common/binoculars.weapon" />
+  <weapon file="green/steyr_tmp.weapon" />
+  <weapon file="green/mini_uzi.weapon" />                 
+  <weapon file="brown/aek_919k.weapon" />
 
-  <weapon file="buggy_mg.weapon" />   
-	<weapon file="kriss_vector.weapon" /> 
-	<weapon file="javelin.weapon" />
-	<weapon file="javelin_captain.weapon" />
-	<weapon file="javelin_elite.weapon" />
+  <weapon file="common/buggy_mg.weapon" />   
+	<weapon file="green/kriss_vector.weapon" /> 
+	<weapon file="green/javelin.weapon" />
+	<weapon file="green/javelin_captain.weapon" />
+	<weapon file="green/javelin_elite.weapon" />
 	<weapon file="musket.weapon" />
-	<weapon file="benelli_m4_supp.weapon" /> 
-  <weapon file="m712.weapon" /> 
-  <weapon file="model_29.weapon" />  
+	<weapon file="green/benelli_m4_supp.weapon" /> 
+  <weapon file="green/m712.weapon" /> 
+  <weapon file="green/model_29.weapon" />  
   
-	<weapon file="mg42.weapon" /> 
-	<weapon file="lahti_l39.weapon" /> 
-	<weapon file="sawnoff.weapon" />  
+	<weapon file="brown/mg42.weapon" /> 
+	<weapon file="common/lahti_l39.weapon" /> 
+	<weapon file="common/sawnoff.weapon" />  
   
-  <weapon file="milkor_mgl.weapon" /> 
-  <weapon file="m202_flash.weapon" /> 
+  <weapon file="green/milkor_mgl.weapon" /> 
+  <weapon file="green/m202_flash.weapon" /> 
   
-  <weapon file="apr.weapon" />   
-  <weapon file="beretta_93r.weapon" />
-  <weapon file="steyr_aug.weapon" />
-  <weapon file="steyr_aug_elite.weapon" />
-  <weapon file="famasg1_elite.weapon" />
-  <weapon file="mg42_elite.weapon" />
-  <weapon file="microgun_elite.weapon" />
-  <weapon file="honey_badger_elite.weapon" />
-  <weapon file="stoner_lmg_elite.weapon" />
-  <weapon file="scarssr_elite.weapon" />
+  <weapon file="green/apr.weapon" />   
+  <weapon file="green/beretta_93r.weapon" />
+  <weapon file="green/steyr_aug.weapon" />
+  <weapon file="green/steyr_aug_elite.weapon" />
+  <weapon file="green/famasg1_elite.weapon" />
+  <weapon file="brown/mg42_elite.weapon" />
+  <weapon file="common/microgun_elite.weapon" />
+  <weapon file="green/honey_badger_elite.weapon" />
+  <weapon file="green/stoner_lmg_elite.weapon" />
+  <weapon file="green/scarssr_elite.weapon" />
   
 	<weapon file="claymore_resource.weapon" />  
-	<weapon file="mp7.weapon" />  
-	<weapon file="scarssr.weapon" /> 
-	<weapon file="chain_saw.weapon" />      
-	<weapon file="wrench.weapon" />   
-	<weapon file="flamethrower.weapon" />                       
+	<weapon file="green/mp7.weapon" />  
+	<weapon file="green/scarssr.weapon" /> 
+	<weapon file="common/chain_saw.weapon" />      
+	<weapon file="common/wrench.weapon" />   
+	<weapon file="common/flamethrower.weapon" />                       
 
-	<weapon file="pecheneg_bullpup.weapon" /> 
+	<weapon file="brown/pecheneg_bullpup.weapon" /> 
   
-         <weapon file="gl_resource.weapon"/>  
-	<weapon file="deployable_gl.weapon" />
-	<weapon file="humvee_gl.weapon" />    
+         <weapon file="common/gl_resource.weapon"/>  
+	<weapon file="common/deployable_gl.weapon" />
+	<weapon file="common/humvee_gl.weapon" />    
 
 	<weapon file="mk23.weapon" /> 
-	<weapon file="honey_badger.weapon" />     
+	<weapon file="green/honey_badger.weapon" />     
   <weapon file="m60e4.weapon" />  
   
-  <weapon file="jackhammer.weapon" />   
-  <weapon file="smaw.weapon" />  
-  <weapon file="uts15.weapon" /> 
+  <weapon file="green/jackhammer.weapon" />   
+  <weapon file="green/smaw.weapon" />  
+  <weapon file="green/uts15.weapon" /> 
   
 	<weapon file="wrench_small.weapon" />  
 	<weapon file="ares_shrike.weapon" /> 
@@ -197,14 +197,14 @@
   <weapon file="chute_small.weapon" />
   <weapon file="chute_medium.weapon" />
   <weapon file="chute_large.weapon" />
-  <weapon file="coastal_gun.weapon" />
-  <weapon file="coastal_gun_resource.weapon" />
-  <weapon file="dartgun.weapon" />
+  <weapon file="common/coastal_gun.weapon" />
+  <weapon file="common/coastal_gun_resource.weapon" />
+  <weapon file="common/dartgun.weapon" />
   <weapon file="fal_bayonet.weapon" />
-  <weapon file="golden_knife.weapon" />
+  <weapon file="common/golden_knife.weapon" />
   <weapon file="l30p.weapon" />
-  <weapon file="m16a4_support.weapon" />
-  <weapon file="tti.weapon" />
+  <weapon file="green/m16a4_support.weapon" />
+  <weapon file="green/tti.weapon" />
   <weapon file="aav7_gl.weapon" />
   <weapon file="aav7_mg.weapon" />
   
@@ -219,48 +219,48 @@
   <weapon file="enforcer.weapon" />
   <weapon file="gps_laptop.weapon" />
 	<weapon file="hornet.weapon" />
-	<weapon file="hornet_resource.weapon" />
-	<weapon file="tow_resource.weapon" />
+	<weapon file="common/hornet_resource.weapon" />
+	<weapon file="common/tow_resource.weapon" />
   <weapon file="repair_crane_0.weapon" />
   <weapon file="repair_crane_1.weapon" />
   <weapon file="repair_crane_2.weapon" />
   <weapon file="repair_crane_resource.weapon" />
   <weapon file="squall.weapon" />
-  <weapon file="vest_repair.weapon" />
+  <weapon file="common/vest_repair.weapon" />
   <weapon file="vulcan_acav_mg.weapon" />
   <weapon file="vulcan_acav_minig.weapon" />
   <weapon file="chainsaw.weapon" />
-  <weapon file="taser_medic.weapon" />
+  <weapon file="common/taser_medic.weapon" />
 
   <!-- Stash-Waffen (Waffenübersicht): nur laden, nicht Waffenkammer -->
-  <weapon file="truvelo_amris.weapon" />
-  <weapon file="ultimax.weapon" />
-  <weapon file="ultimax_m.weapon" />
-  <weapon file="sabre.weapon" />
-  <weapon file="sbl.weapon" />
-  <weapon file="camo_shield.weapon" />
-  <weapon file="gilboa_dbr.weapon" />
-  <weapon file="gun_tommy.weapon" />
-  <weapon file="m1_garand_m.weapon" />
-  <weapon file="origin_12.weapon" />
-  <weapon file="origin_12_s.weapon" />
-  <weapon file="compound_bow.weapon" />
-  <weapon file="compound_bow_alt.weapon" />
-  <weapon file="rpk16.weapon" />
-  <weapon file="rpk16_long.weapon" />
-  <weapon file="m200.weapon" />
-  <weapon file="m16a4_w_m203.weapon" />
-  <weapon file="m16a4_w_m203_g.weapon" />
-  <weapon file="g36_w_ag36.weapon" />
-  <weapon file="g36_w_ag36_g.weapon" />
-  <weapon file="ak47_w_gp25.weapon" />
-  <weapon file="ak47_w_gp25_g.weapon" />
-  <weapon file="an94_burst.weapon" />
-  <weapon file="qbz95.weapon" />
-  <weapon file="qbz95_us.weapon" />
-  <weapon file="qbz95_shotgun.weapon" />
-  <weapon file="qlz87_b.weapon" />
-  <weapon file="fhj01.weapon" />
+  <weapon file="green/truvelo_amris.weapon" />
+  <weapon file="green/ultimax.weapon" />
+  <weapon file="green/ultimax_m.weapon" />
+  <weapon file="common/sabre.weapon" />
+  <weapon file="common/sbl.weapon" />
+  <weapon file="common/camo_shield.weapon" />
+  <weapon file="green/gilboa_dbr.weapon" />
+  <weapon file="green/gun_tommy.weapon" />
+  <weapon file="green/m1_garand_m.weapon" />
+  <weapon file="common/origin_12.weapon" />
+  <weapon file="common/origin_12_s.weapon" />
+  <weapon file="common/compound_bow.weapon" />
+  <weapon file="common/compound_bow_alt.weapon" />
+  <weapon file="brown/rpk16.weapon" />
+  <weapon file="brown/rpk16_long.weapon" />
+  <weapon file="green/m200.weapon" />
+  <weapon file="green/m16a4_w_m203.weapon" />
+  <weapon file="green/m16a4_w_m203_g.weapon" />
+  <weapon file="green/g36_w_ag36.weapon" />
+  <weapon file="green/g36_w_ag36_g.weapon" />
+  <weapon file="brown/ak47_w_gp25.weapon" />
+  <weapon file="brown/ak47_w_gp25_g.weapon" />
+  <weapon file="brown/an94_burst.weapon" />
+  <weapon file="grey/qbz95.weapon" />
+  <weapon file="grey/qbz95_us.weapon" />
+  <weapon file="grey/qbz95_shotgun.weapon" />
+  <weapon file="grey/qlz87_b.weapon" />
+  <weapon file="grey/fhj01.weapon" />
 
 <!-- 1.91 -->
 
@@ -269,13 +269,13 @@
   <weapon file="m16a4_w_m203_ai.weapon" />
                      	
 <!-- 1.92 -->
-  <weapon file="tank_cannon_alt.weapon" />
-  <weapon file="tank_cannon_1_alt.weapon" />
-  <weapon file="tank_cannon_2_alt.weapon" />
+  <weapon file="common/tank_cannon_alt.weapon" />
+  <weapon file="common/tank_cannon_1_alt.weapon" />
+  <weapon file="common/tank_cannon_2_alt.weapon" />
   <weapon file="vfs_at.weapon" />
   <weapon file="vfs_mg.weapon" />
-  <weapon file="vfs_buggy_mg.weapon" />
-  <weapon file="vfs_shield.weapon" />
+  <weapon file="common/vfs_buggy_mg.weapon" />
+  <weapon file="common/vfs_shield.weapon" />
   
 <!-- 1.94 -->
 
@@ -283,18 +283,18 @@
 	<!-- lijia_pumpkin.weapon removed: pumpkin vehicle/particle not in TC -->
 
 	<!-- Wiesel (Project Apocalypse) -->
-	<weapon file="wiesel_mg3.weapon" />
-	<weapon file="wiesel_tow.weapon" />
-	<weapon file="wiesel_mk20.weapon" />
+	<weapon file="common/wiesel_mg3.weapon" />
+	<weapon file="common/wiesel_tow.weapon" />
+	<weapon file="common/wiesel_mk20.weapon" />
 
 	<!-- Brown Alliances -->
-	<weapon file="qjz89_volk.weapon" />
+	<weapon file="brown/qjz89_volk.weapon" />
 
 	<!-- Green Alliances -->
-	<weapon file="m1917_savage_lewis.weapon" />
+	<weapon file="green/m1917_savage_lewis.weapon" />
 
 	<!-- Grey Alliances -->
-	<weapon file="mg08_heavy_custom22.weapon" />
+	<weapon file="grey/mg08_heavy_custom22.weapon" />
 
 </weapons>
 

@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- Elite-Variante für Captain/Bodyguard: gleiche commonness für ausgewogene Spawn-Verteilung -->
-<weapon file="microgun.weapon" key="microgun_elite.weapon">
+<weapon file="common/microgun.weapon" key="microgun_elite.weapon">
     <commonness value="0.05" can_respawn_with="0" in_stock="0" />
         <specification 
   retrigger_time="0.032" 
