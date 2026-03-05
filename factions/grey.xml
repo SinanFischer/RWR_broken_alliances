@@ -244,7 +244,7 @@
 	<!-- -------------- -->
 	<soldier name="specialforces" spawn_score="0.02">
 		<character filename="default.character" />
-		<ai filename="elite/elite2.ai" />
+		<ai filename="elite/specialforces.ai" />
 		<model filename="gerops.xml"><requirement class="carry_item" slot="1" key="sf_suit.carry_item"/></model>
 
 		<!-- inherits initial config from default group -->
@@ -275,7 +275,7 @@
 	<!-- -------------- -->
 	<soldier name="miniboss" spawn_score="0.054">
 		<character filename="default.character" />
-		<ai filename="elite/elite.ai" />
+		<ai filename="elite/miniboss.ai" />
 		<model filename="ger_office.xml" />
 
 		<!-- inherits initial config from default group -->
@@ -350,7 +350,7 @@
 	<!-- -------------- -->
 	<soldier name="miniboss_female" spawn_score="0.002" firstnames_file="german_firstnames_female.txt" lastnames_file="german_lastnames.txt" >
 		<character filename="default.character" />
-		<ai filename="elite/elite.ai" />
+		<ai filename="elite/miniboss.ai" />
 		<model filename="soldier_elite_b2.xml" />  
 
 		<!-- inherits initial config from default group -->

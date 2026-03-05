@@ -244,7 +244,7 @@
 	<!-- -------------- -->
 	<soldier name="specialforces" spawn_score="0.02">
 		<character filename="default.character" />
-		<ai filename="elite/elite2.ai" />
+		<ai filename="elite/specialforces.ai" />
        		<model filename="rusops.xml"><requirement class="carry_item" slot="1" key="sf_suit.carry_item"/></model>
 
 		<resources file="elite/common_specialforces.resources" />
@@ -273,7 +273,7 @@
 	<!-- -------------- -->
 	<soldier name="miniboss" spawn_score="0.054">
 		<character filename="default.character" />
-		<ai filename="elite/elite.ai" />
+		<ai filename="elite/miniboss.ai" />
 		<model filename="rus_officer.xml" />
 
 		<resources file="elite/common_miniboss.resources" />

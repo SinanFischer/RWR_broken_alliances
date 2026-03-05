@@ -101,7 +101,7 @@
 	<!-- -------------- -->
 	<soldier name="miniboss" spawn_score="0.15" squad_size_xp_cap="0.2">
 		<character filename="default.character" />
-		<ai filename="elite/elite.ai" />
+		<ai filename="elite/miniboss.ai" />
 		<model filename="us_officer.xml" />
 
 		<resources file="elite/common_miniboss.resources" />
@@ -155,7 +155,7 @@
 	<!-- -------------- -->
 	<soldier name="miniboss_female" spawn_score="0.05" squad_size_xp_cap="0.2" firstnames_file="german_firstnames_female.txt" lastnames_file="german_lastnames.txt" >
 		<character filename="default_female.character" />
-		<ai filename="elite/elite.ai" />
+		<ai filename="elite/miniboss.ai" />
 		<model filename="soldier_elite_b2.xml" />  
 
 		<!-- inherits initial config from default group -->

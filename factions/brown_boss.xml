@@ -99,7 +99,7 @@
 	<!-- -------------- -->
 	<soldier name="miniboss" spawn_score="0.15" squad_size_xp_cap="0.2">
 		<character filename="default.character" />
-		<ai filename="elite/elite.ai" />
+		<ai filename="elite/miniboss.ai" />
 		<model filename="soldier_elite_c1.xml" /> 
 		<model filename="soldier_elite_c2.xml" />    
 
