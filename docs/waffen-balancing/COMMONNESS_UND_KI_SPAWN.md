@@ -114,8 +114,8 @@ Die folgende Mod-Tabelle wurde vor dieser Vanilla-Referenz erstellt; Werte mit *
 | gilboa_dbr | EU | assault | 2 | 0.1 | 150 | Spezial-AR Shotgun-Munition; Spezialist. |
 | gun_tommy | RU | assault | 2 | 0.02 | — | **Nicht in Waffenkammer.** Nur RU Support-AI (brown_mgs), selten. |
 | m1_garand_m | USA | assault | 2 | 0.1 | 200 | DMR 8 Schuss; 0.1 für DMR. |
-| origin_12 | all | cqb | 2 | 0.01 | 210 | CQB-Shotgun 30 Schuss; 0.01 für Shotgun. |
-| origin_12_s | all | assault | 2 | 0.01 | 210 | Wie Origin-12, Variante. |
+| origin_12 | all | cqb | **sehr selten** | **0.005** | 210 | CQB-Shotgun 30 Schuss; EOD + Special Forces Pools (common_eod, common_specialforces). |
+| origin_12_s | all | assault | **sehr selten** | **0.005** | 210 | Wie Origin-12, Variante (next_in_chain). |
 | compound_bow | all | stealth | 2 | 0.01 | 215 | Bogen; Spezial selten (KI nutzt Stealth nicht aktiv). |
 | compound_bow_alt | all | assault | 2 | 0.01 | 215 | Bogen Explosiv; wie Bogen. |
 | rpk16 | RU | machinegun | 2 | 0.05 | 216 | Leicht-MG 74 Mag; Waffenkammer + brown_mgs. |
@@ -150,3 +150,4 @@ Die folgende Mod-Tabelle wurde vor dieser Vanilla-Referenz erstellt; Werte mit *
 
 - **Sabre (Standard-Sekundärwaffe):** `factions/default_secondaries.resources` enthält nur `sabre.weapon`. Wird in **brown.xml**, **grey.xml**, **green.xml** bei soldier `default` und `default_ai` **vor** brown/grey/green_secondaries geladen. **commonness 0.15** in sabre.weapon → bevorzugte Slot-1-Waffe für Default-Soldaten.
 - **SBL (Kreissägen):** Slot-1-AT; in **common.resources**, **common_eod_light.resources** (Slot-1-Block mit Javelin, M72, RPG-7, SMAW), **common_eod.resources** (neben UTS-15, Flamethrower, Microgun). commonness 0 = keine KI-Spawn-Rate, nur Stash/Boss/EOD-Pool.
+- **Origin-12 (sehr selten, 0.005):** In **common_eod.resources** (EOD-Einheit) und **common_specialforces.resources** (Special Forces); Chance pro Spawn über commonness gewichtet.
