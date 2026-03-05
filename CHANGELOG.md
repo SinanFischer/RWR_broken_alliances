@@ -16,8 +16,9 @@
 - RU: Volk MG shoots massiv 50.cal rounds that damage vehicle and can destroy creates.
 - added QBZ-95 ( shotgun & rifle weapon)
 
-**Leader AI Troops (miniboss)**
-They will spawn with fully rebalanced weapons. They normally carry special or elite weapons. There is a small chance of a very valuable secondary weapon, such as a golden knife. Some carry special fractions of weapons that cannot be acquired in the armory.
+**Leader AI Troops (Miniboss)**
+How to spot them: Look for the beret. You can instantly recognize these elite officers on the battlefield by their distinctive headgear.
+They spawn with fully rebalanced gear and wield devastating special or elite weaponry. Defeating them is highly rewarding, as they often carry exclusive faction weapons that cannot be acquired in the standard armory. Additionally, there is a rare chance they will drop a highly valuable secondary weapon, such as a Golden Knife.
 
 
 **Special Force Troop**
