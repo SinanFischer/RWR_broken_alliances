@@ -9,7 +9,9 @@
 	<weapon key='mg42.weapon' /> 
 	<weapon key='steyr_aug.weapon' />
 	<weapon key='lahti_l39.weapon' />  
-	<weapon key='pecheneg_bullpup.weapon' />  
+	<weapon key='pecheneg_bullpup.weapon' />
+	<!-- 5 % Chance: Verbundbogen explosiv (commonness in .weapon steuert Anteil im Pool) -->
+	<weapon key='compound_bow_alt.weapon' />
 
 	<carry_item key='vest1.carry_item' enabled="0" />			
 	<carry_item key='vest2.carry_item' enabled="0" />
@@ -17,6 +19,8 @@
 	<carry_item key='vest_blackops3.carry_item' enabled="1" />
 	<carry_item key='eodvest.carry_item' enabled="0" />  
 
-
+	<!-- Granaten (Slot 0 Throwable): primär Cluster, daneben AT. item_class_existence projectile slot="0" in .xml nötig. -->
+	<projectile key="cluster_grenade.projectile" />
+	<projectile key="at_grenade.projectile" />
 
 </resources>

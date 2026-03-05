@@ -13,7 +13,7 @@
 
     <!-- projectile slot 0 is used for hand grenade items currently -->
     <!-- bound to change -->
-    <commonness value="0.25" />
+    <commonness value="0.15" />
     <capacity value="2" source="rank" source_value="0.0" />
     <capacity value="3" source="rank" source_value="0.15" />
     <capacity value="4" source="rank" source_value="0.35" />

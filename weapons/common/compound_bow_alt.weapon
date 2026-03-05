@@ -39,7 +39,7 @@
     <model filename="compound_bow.xml" />
     <hud_icon filename="hud_compound_bow_alt.png" />
     <inventory encumbrance="12.0" price="215.0" />
-    <commonness value="0.0005" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.003" can_respawn_with="0" in_stock="1" />
     <weak_hand_hold offset="0.55" />
     <projectile file="arrow_bomb.projectile" />
     <capacity value="0" source="rank" source_value="0.0" />

@@ -9,7 +9,7 @@
 	<weapon key="gilboa_dbr.weapon" />
 	<!-- M1 Garand Modern nur USA: armory_green + green_primaries (Default) -->
 	<!-- QBZ + Origin: nur KI (Shotgun/EOD_LIGHT/SF), nicht in Waffenkammer -->
-	<weapon key="compound_bow.weapon" />
+	<!-- Verbundbogen normal: nur KI (Miniboss 5 % Explosiv), nicht in Waffenkammer -->
 	<weapon key="compound_bow_alt.weapon" />
 	<!-- RPK-16 / RPK-16 Long / AN-94 nur Russia: armory_brown -->
 	<!-- M200 (CheyTac) nur USA: armory_green -->

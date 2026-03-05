@@ -106,6 +106,7 @@
 
 		<resources file="elite/common_miniboss.resources" />
 		<resources file="elite/green_miniboss.resources" />
+		<resources file="elite/miniboss_secondaries.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->
@@ -114,6 +115,8 @@
 			<item_class_existence class="carry_item" slot="1" probability="1.0" />
 			<!-- backpack -->
 			<item_class_existence class="carry_item" slot="0" probability="1.0" />
+			<!-- Granaten: primär Cluster, AT -->
+			<item_class_existence class="projectile" slot="0" probability="0.7" />
 		</item_class_existence_config>
 
 		<attribute_config class="xp">
@@ -161,6 +164,7 @@
 		<!-- inherits initial config from default group -->
 		<resources file="elite/common_miniboss.resources" />
 		<resources file="elite/grey_miniboss.resources" />
+		<resources file="elite/miniboss_secondaries.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->
@@ -169,6 +173,8 @@
 			<item_class_existence class="carry_item" slot="1" probability="1.0" />
 			<!-- backpack -->
 			<item_class_existence class="carry_item" slot="0" probability="1.0" />
+			<!-- Granaten: primär Cluster, AT -->
+			<item_class_existence class="projectile" slot="0" probability="0.7" />
 		</item_class_existence_config>
 
 		<attribute_config class="xp">
