@@ -12,16 +12,17 @@
 - added alot new weapons: 
 - added sword
 - added medic dartgun
-- added origin_12 
+- added origin_12 (full automatic 30 magazin shotgun)
 
 
 **Leader AI Troops**
 Now carry specilized elite weapons 
 Unique per faction:
-- RU: RPK Long pipe. 
+- RU: can carry RPK Long pipe. 
+- can carry origin_12 
 
 **Special Force Troop**
-- can carry origin_12 (full automatic 30 magazin shotgun)
+- can carry origin_12 
 
  **L85A2**:
   - Retrigger time verringert: 0.107 -> 0.08
