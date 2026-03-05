@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- EU-only Waffenkammer: TTI Kampfschild, G36 AG36 GL (rifle active). -->
+<!-- EU-only Waffenkammer: TTI Kampfschild, G36 AG36 GL (rifle active), Ultimax 100 (+ M), Gilboa DBR. -->
 <resources>
 	<weapon key="tti.weapon" />
 	<weapon key="g36_w_ag36.weapon" />
+	<weapon key="ultimax.weapon" />
+	<weapon key="ultimax_m.weapon" />
+	<weapon key="gilboa_dbr.weapon" />
 </resources>

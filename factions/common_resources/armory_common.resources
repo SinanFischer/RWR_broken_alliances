@@ -4,9 +4,7 @@
 	<!-- Medical Dart Gun (Vanilla dartgun): für alle Fraktionen kaufbar (Mod-Override in_stock=1, price 120). -->
 	<weapon key="dartgun.weapon" />
 	<weapon key="truvelo_amris.weapon" />
-	<weapon key="ultimax.weapon" />
-	<weapon key="ultimax_m.weapon" />
-	<weapon key="gilboa_dbr.weapon" />
+	<!-- Ultimax 100 (+ M) + Gilboa DBR nur EU: armory_grey -->
 	<!-- M1 Garand Modern nur USA: armory_green + green_primaries (Default) -->
 	<!-- QBZ + Origin: nur KI (Shotgun/EOD_LIGHT/SF), nicht in Waffenkammer -->
 	<!-- Verbundbogen normal: nur KI (Miniboss 5 % Explosiv), nicht in Waffenkammer -->
