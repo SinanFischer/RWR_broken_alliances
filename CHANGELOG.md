@@ -13,7 +13,7 @@
 - added sword
 - added medic dartgun
 - added origin_12 (full automatic 30 magazin shotgun)
-
+- RU: Volk MG shoots massiv 50.cal rounds that damage vehicle and can destroy creates.
 
 **Leader AI Troops**
 Now carry specilized elite weapons 
