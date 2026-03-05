@@ -1,63 +1,50 @@
-# ==============================================================================
 # Sort-FactionFiles.ps1
-# RWR Broken Alliances – Factions-Ordner nach Einheitenklassen sortieren
+# RWR Broken Alliances - Factions-Ordner nach Einheitenklassen sortieren
 #
-# VERWENDUNG:
-#   1. Dry-Run (Simulation, KEINE echten Verschiebungen):
-#      .\Sort-FactionFiles.ps1
+# Dry-Run (Standard, verschiebt NICHTS):
+#   .\Sort-FactionFiles.ps1
 #
-#   2. Echter Lauf:
-#      .\Sort-FactionFiles.ps1 -DryRun $false
-#
-# WARNUNG: Lies die README-Sektion am Ende dieser Datei, bevor du den echten
-#          Lauf startest. Pfade in grey.xml/green.xml/brown.xml MÜSSEN danach
-#          manuell angepasst werden!
-# ==============================================================================
+# Echter Lauf:
+#   .\Sort-FactionFiles.ps1 -DryRun $false
 
 param(
-    # DryRun = $true -> simuliert nur, verschiebt NICHTS.
-    # DryRun = $false -> führt echte Move-Operationen aus.
-    [bool]$DryRun = $true
+    # Standard = Dry-Run. Echter Lauf: .\Sort-FactionFiles.ps1 -Execute
+    [switch]$Execute
 )
+$DryRun = -not $Execute.IsPresent
 
-# --- KONFIGURATION: Ziel-Verzeichnis ---
 $FactionsPath = "C:\Program Files (x86)\Steam\steamapps\common\RunningWithRifles\media\packages\RWR_broken_alliances\factions"
 
-# ==============================================================================
-# SCHLÜSSELWORT-TABELLE – hier einfach neue Keywords ergänzen
-# Reihenfolge der Keys bestimmt die Match-Priorität (oben = höhere Priorität)
-# ==============================================================================
+# --- SCHLUESSELWORT-TABELLE (oben = hoehere Prioritaet) ---
+# Einfach neue Keywords in die Arrays eintragen.
 $CategoryKeywords = [ordered]@{
-    "sniper"           = @("sniper", "lonewolf", "marksman", "recon")
-    "eod"              = @("eod")
-    "elite"            = @("elite", "specialforces", "specops", "blackops", "miniboss", "bodyguard", "captain")
-    "support"          = @("support", "medic", "mg", "cover_troop", "mortar", "grenadier")
-    # "common_resources" ist der automatische Fallback – kein Keyword nötig
+    "sniper"  = @("sniper", "lonewolf", "marksman", "recon")
+    "eod"     = @("eod")
+    "elite"   = @("elite", "specialforces", "specops", "blackops", "miniboss", "bodyguard", "captain")
+    "support" = @("support", "medic", "mg", "cover_troop", "mortar", "grenadier")
 }
 
-# ==============================================================================
-# SICHERHEITSLISTE – diese Dateien werden NIE verschoben (Fraktions-Kerndateien)
-# Begründung: grey.xml etc. referenzieren Kindateien per RELATIVEM Pfad.
-# Wenn grey.xml selbst umzieht, brechen ALLE internen Pfade sofort.
-# ==============================================================================
+# --- KERNDATEIEN: Werden NIE verschoben ---
+# grey.xml referenziert Kinder per relativer Pfad -> Verschieben wuerde alle internen Pfade brechen.
 $NeverMove = @(
     "grey.xml", "green.xml", "brown.xml",
     "grey_boss.xml", "green_boss.xml", "brown_boss.xml",
     "deathmatch.xml"
 )
 
-# ==============================================================================
-# SKRIPT-LOGIK (nichts weiter unten ändern nötig)
-# ==============================================================================
+# --- Unterordner anlegen ---
+$SubFolders = @("sniper", "eod", "elite", "support", "common_resources")
 
 if ($DryRun) {
-    Write-Host "`n[DRY-RUN MODUS] Keine Dateien werden wirklich verschoben.`n" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "[DRY-RUN] Simulation - keine Dateien werden verschoben." -ForegroundColor Yellow
+    Write-Host ""
 } else {
-    Write-Host "`n[ECHTER LAUF] Dateien werden JETZT verschoben.`n" -ForegroundColor Red
+    Write-Host ""
+    Write-Host "[ECHTER LAUF] Dateien werden jetzt verschoben." -ForegroundColor Red
+    Write-Host ""
 }
 
-# Unterordner erstellen (oder bestätigen dass sie existieren)
-$SubFolders = @("elite", "eod", "support", "sniper", "common_resources")
 foreach ($folder in $SubFolders) {
     $folderPath = Join-Path $FactionsPath $folder
     if (-not (Test-Path $folderPath)) {
@@ -68,149 +55,104 @@ foreach ($folder in $SubFolders) {
     }
 }
 
-# Protokoll-Sammlungen
-$Moved   = @{}  # category -> list of filenames
-$Skipped = @()  # Dateien in $NeverMove
-$Errors  = @()  # Fehler beim Verschieben
-$SubFolders | ForEach-Object { $Moved[$_] = @() }
+# Protokoll
+$Moved   = @{}
+$Skipped = @()
+$Errors  = @()
+foreach ($cat in $SubFolders) { $Moved[$cat] = @() }
 
-# Nur Dateien im ROOT des Factions-Ordners (nicht rekursiv, nicht Unterordner)
+# Nur Dateien im Root-Verzeichnis (nicht rekursiv)
 $Files = Get-ChildItem -Path $FactionsPath -File
 
 foreach ($file in $Files) {
 
-    # Sicherheitscheck: Kerndateien nie anfassen
+    # Kerndateien schuetzen
     if ($NeverMove -contains $file.Name) {
         $Skipped += $file.Name
-        Write-Host "[SKIP]   $($file.Name) (Kerndatei – wird nie verschoben)" -ForegroundColor DarkGray
+        Write-Host "[SKIP]   $($file.Name)  (Kerndatei - nie verschieben)" -ForegroundColor DarkGray
         continue
     }
 
-    $fileNameLower  = $file.Name.ToLower()
-    $targetCategory = $null
+    $lower  = $file.Name.ToLower()
+    $target = $null
 
-    # Keyword-Matching in Prioritäts-Reihenfolge
-    foreach ($category in $CategoryKeywords.Keys) {
-        foreach ($keyword in $CategoryKeywords[$category]) {
-            if ($fileNameLower -like "*$keyword*") {
-                $targetCategory = $category
+    # Keyword-Matching in Prioritaetsreihenfolge
+    foreach ($cat in $CategoryKeywords.Keys) {
+        foreach ($kw in $CategoryKeywords[$cat]) {
+            if ($lower -like "*$kw*") {
+                $target = $cat
                 break
             }
         }
-        if ($targetCategory) { break }
+        if ($target) { break }
     }
 
-    # Fallback: common_resources
-    if (-not $targetCategory) {
-        $targetCategory = "common_resources"
-    }
+    # Fallback
+    if (-not $target) { $target = "common_resources" }
 
-    $destination     = Join-Path $FactionsPath $targetCategory
-    $destinationFile = Join-Path $destination $file.Name
+    $destDir  = Join-Path $FactionsPath $target
+    $destFile = Join-Path $destDir $file.Name
 
-    # Konflikt-Check: Datei existiert bereits im Ziel
-    if (Test-Path $destinationFile) {
-        $Errors += "KONFLIKT: '$($file.Name)' existiert bereits in '$targetCategory\'. Übersprungen."
-        Write-Host "[KONFLIKT] $($file.Name) -> $targetCategory\ (existiert bereits!)" -ForegroundColor Magenta
+    # Konflikt: Zieldatei existiert bereits
+    if (Test-Path $destFile) {
+        $msg = "KONFLIKT: '$($file.Name)' existiert bereits in '$target\' -> uebersprungen"
+        $Errors += $msg
+        Write-Host "[KONFLIKT] $msg" -ForegroundColor Magenta
         continue
     }
 
     if ($DryRun) {
-        Write-Host "[WOULD MOVE] $($file.Name)  ->  $targetCategory\" -ForegroundColor Cyan
-        $Moved[$targetCategory] += $file.Name
+        Write-Host "[MOVE?]  $($file.Name)  ->  $target\" -ForegroundColor Cyan
+        $Moved[$target] += $file.Name
     } else {
         try {
-            Move-Item -Path $file.FullName -Destination $destination -ErrorAction Stop
-            Write-Host "[MOVED]  $($file.Name)  ->  $targetCategory\" -ForegroundColor Cyan
-            $Moved[$targetCategory] += $file.Name
-        }
-        catch {
-            $errMsg = "FEHLER bei '$($file.Name)': $($_.Exception.Message)"
-            $Errors += $errMsg
-            Write-Host "[ERROR]  $errMsg" -ForegroundColor Red
+            Move-Item -Path $file.FullName -Destination $destDir -ErrorAction Stop
+            Write-Host "[MOVED]  $($file.Name)  ->  $target\" -ForegroundColor Cyan
+            $Moved[$target] += $file.Name
+        } catch {
+            $err = "FEHLER bei '$($file.Name)': $($_.Exception.Message)"
+            $Errors += $err
+            Write-Host "[ERROR]  $err" -ForegroundColor Red
         }
     }
 }
 
-# --- ZUSAMMENFASSUNG ---
-Write-Host "`n===============================================================" -ForegroundColor White
-Write-Host "  ZUSAMMENFASSUNG $(if ($DryRun) {'(DRY-RUN)'} else {'(ECHT)'})" -ForegroundColor White
-Write-Host "===============================================================" -ForegroundColor White
+# --- Zusammenfassung ---
+Write-Host ""
+Write-Host "======================================================" -ForegroundColor White
+if ($DryRun) {
+    Write-Host "  ZUSAMMENFASSUNG (DRY-RUN)" -ForegroundColor Yellow
+} else {
+    Write-Host "  ZUSAMMENFASSUNG (ECHT)" -ForegroundColor Green
+}
+Write-Host "======================================================" -ForegroundColor White
 
+$total = 0
 foreach ($cat in $SubFolders) {
-    $count = $Moved[$cat].Count
-    if ($count -gt 0) {
-        Write-Host "  $cat`: $count Datei(en)" -ForegroundColor Cyan
-        $Moved[$cat] | ForEach-Object { Write-Host "      - $_" -ForegroundColor DarkCyan }
+    $n = $Moved[$cat].Count
+    $total += $n
+    if ($n -gt 0) {
+        Write-Host "  $cat`:  $n Datei(en)" -ForegroundColor Cyan
+        foreach ($f in $Moved[$cat]) {
+            Write-Host "      $f" -ForegroundColor DarkCyan
+        }
     }
 }
-
-Write-Host "  ÜBERSPRUNGEN (Kerndateien): $($Skipped.Count)" -ForegroundColor DarkGray
+Write-Host "  common_resources (Fallback) siehe oben" -ForegroundColor DarkGray
+Write-Host "  Kerndateien uebersprungen: $($Skipped.Count)" -ForegroundColor DarkGray
+Write-Host "  Gesamt verschoben: $total" -ForegroundColor White
 
 if ($Errors.Count -gt 0) {
-    Write-Host "`n  FEHLER/KONFLIKTE: $($Errors.Count)" -ForegroundColor Red
-    $Errors | ForEach-Object { Write-Host "    -> $_" -ForegroundColor Red }
+    Write-Host ""
+    Write-Host "  FEHLER/KONFLIKTE: $($Errors.Count)" -ForegroundColor Red
+    foreach ($e in $Errors) {
+        Write-Host "    -> $e" -ForegroundColor Red
+    }
 }
 
-Write-Host "`n[DONE] Skript abgeschlossen.`n" -ForegroundColor Green
-
+Write-Host ""
 if ($DryRun) {
-    Write-Host "Zum echten Ausführen: .\Sort-FactionFiles.ps1 -DryRun `$false" -ForegroundColor Yellow
+    Write-Host "Echter Lauf: .\Sort-FactionFiles.ps1 -Execute" -ForegroundColor Yellow
 }
-
-# ==============================================================================
-# README – PFLICHTLEKTÜRE VOR DEM ECHTEN LAUF
-# ==============================================================================
-#
-# KRITISCH: PFADE IN DEN FRAKTIONS-XMLS MÜSSEN NACH DEM VERSCHIEBEN ANGEPASST WERDEN
-# ===================================================================================
-#
-# Die Engine löst Pfade in grey.xml/green.xml/brown.xml RELATIV ZUR EIGENEN
-# DATEI-POSITION auf (nicht relativ zum Package-Root!).
-#
-# grey.xml liegt in:   factions/
-# Es referenziert:     <resources file="grey_sniper.resources" />
-#                                        ^--- relativ zu factions/
-#
-# Nach dem Verschieben von grey_sniper.resources nach factions/sniper/ muss
-# in grey.xml aus:
-#     <resources file="grey_sniper.resources" />
-# werden:
-#     <resources file="sniper/grey_sniper.resources" />
-#
-# VOLLSTÄNDIGES BEISPIEL (grey.xml, Soldat-Typ "sniper"):
-# -------------------------------------------------------
-# VORHER (alle Dateien in factions/):
-#     <ai filename="sniper.ai" />
-#     <resources file="common_snipers.resources" />
-#     <resources file="grey_sniper.resources" />
-#     <resources file="common_sniper_secondary.resources" />
-#
-# NACHHER (Dateien in factions/sniper/):
-#     <ai filename="sniper/sniper.ai" />
-#     <resources file="sniper/common_snipers.resources" />
-#     <resources file="sniper/grey_sniper.resources" />
-#     <resources file="sniper/common_sniper_secondary.resources" />
-#
-# DATEIEN DIE ANGEPASST WERDEN MÜSSEN:
-#   - factions/grey.xml       (referenziert alle .resources, .ai, .models)
-#   - factions/green.xml      (analog)
-#   - factions/brown.xml      (analog)
-#   - factions/grey_boss.xml  (analog, falls Boss-Units Unterordner-Dateien nutzen)
-#   - factions/green_boss.xml (analog)
-#   - factions/brown_boss.xml (analog)
-#
-# WARUM grey.xml SELBST NICHT VERSCHOBEN WIRD:
-#   grey.xml wird von der RWR-Engine direkt aus factions/ geladen.
-#   Würde grey.xml nach factions/common_resources/ verschoben, müsste entweder
-#   package_config.xml oder der interne Engine-Lookup angepasst werden –
-#   ein nicht-triviales Risiko für sofortige Crashes.
-#   Daher: grey/green/brown.xml bleiben IMMER in factions/.
-#
-# EMPFOHLENE VORGEHENSWEISE:
-#   1. Dry-Run ausführen und Liste prüfen
-#   2. Git-Commit VOR dem echten Lauf (Sicherheitsnetz)
-#   3. Echten Lauf ausführen: .\Sort-FactionFiles.ps1 -DryRun $false
-#   4. grey.xml, green.xml, brown.xml öffnen und alle Pfade ergänzen
-#   5. Spiel testen
-# ==============================================================================
+Write-Host "[DONE]" -ForegroundColor Green
+Write-Host ""

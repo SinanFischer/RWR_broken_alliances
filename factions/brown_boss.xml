@@ -56,19 +56,19 @@
 	<!-- default group -->
 	<!-- -------------- -->
 	<soldier name="default" spawn_score="1.0" squad_size_xp_cap="0.2">
-		<character filename="russian_soldier.character" />
-		<ai filename="default.ai" />
+		<character filename="common_resources/russian_soldier.character" />
+		<ai filename="common_resources/default.ai" />
 
-		<models file="brown_default_basic.models" />
-		<models file="brown_default.models" />
+		<models file="common_resources/brown_default_basic.models" />
+		<models file="common_resources/brown_default.models" />
 
-		<resources file="common.resources" />
-		<resources file="brown_primaries.resources" />
-		<resources file="brown_secondaries.resources" />
+		<resources file="common_resources/common.resources" />
+		<resources file="common_resources/brown_primaries.resources" />
+		<resources file="common_resources/brown_secondaries.resources" />
 		<resources>
 			<weapon key='sg552.weapon' />
 		</resources>
-		<resources file="brown_default.resources" />
+		<resources file="common_resources/brown_default.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->
@@ -91,7 +91,7 @@
 	</soldier>
 
 	<soldier name="default_ai" spawn_score="1.0" copy_from="default">
-		<ai filename="default_soldiers.ai" />
+		<ai filename="common_resources/default_soldiers.ai" />
 	</soldier>
 	
 	<!-- -------------- -->
@@ -99,12 +99,12 @@
 	<!-- -------------- -->
 	<soldier name="miniboss" spawn_score="0.15" squad_size_xp_cap="0.2">
 		<character filename="default.character" />
-		<ai filename="elite.ai" />
+		<ai filename="elite/elite.ai" />
 		<model filename="soldier_elite_c1.xml" /> 
 		<model filename="soldier_elite_c2.xml" />    
 
-		<resources file="common_miniboss.resources" />
-		<resources file="brown_miniboss.resources" />
+		<resources file="elite/common_miniboss.resources" />
+		<resources file="elite/brown_miniboss.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->
@@ -130,9 +130,9 @@
 	<!-- designated medic group -->
 	<!-- -------------- -->
 	<soldier name="medic" spawn_score="0.0" copy_from="default">
-		<ai filename="medic.ai" />
-		<resources file="common_medic.resources" />
-		<resources file="brown_primaries.resources" />
+		<ai filename="support/medic.ai" />
+		<resources file="support/common_medic.resources" />
+		<resources file="common_resources/brown_primaries.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->
@@ -151,18 +151,18 @@
 
 	<!-- Captain (Leader) + orange_bodyguards (Bodyguard) -->
 	<soldier name="captain" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="general_firstname.txt" lastnames_file="captain_lastname.txt">
-		<character filename="captain.character" />
-		<ai filename="captain.ai" />
+		<character filename="elite/captain.character" />
+		<ai filename="elite/captain.ai" />
 		<model filename="soldier_orange_bodyguards.xml" />
-		<resources file="captain.resources" />
+		<resources file="elite/captain.resources" />
 		<attribute_config class="xp"><attribute weight="1.0" min="100.0" max="100.0" /></attribute_config>
 		<attribute_config class="rp"><attribute weight="1.0" min="1000.0" max="2000.0" /></attribute_config>
 	</soldier>
 	<soldier name="orange_bodyguards" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="generalguard_firstname.txt" lastnames_file="german_lastnames.txt">
 		<character filename="default_miniboss_male.character" />
-		<ai filename="bodyguard.ai" />
+		<ai filename="elite/bodyguard.ai" />
 		<model filename="soldier_captain.xml" />
-		<resources file="orange_bodyguards.resources" />
+		<resources file="elite/orange_bodyguards.resources" />
 		<attribute_config class="xp"><attribute weight="1.0" min="1.0" max="2.0" /></attribute_config>
 		<attribute_config class="rp"><attribute weight="1.0" min="500.0" max="1000.0" /></attribute_config>
 	</soldier>

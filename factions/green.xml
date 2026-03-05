@@ -59,21 +59,21 @@
 	<!-- default group -->
 	<!-- -------------- -->
 	<soldier name="default" spawn_score="0.0">
-		<character filename="usa_soldier.character" />
-		<ai filename="default.ai" />
+		<character filename="common_resources/usa_soldier.character" />
+		<ai filename="common_resources/default.ai" />
 
-		<models file="green_default_basic.models" />
-		<models file="green_default.models" />
+		<models file="common_resources/green_default_basic.models" />
+		<models file="common_resources/green_default.models" />
 
-		<resources file="common.resources" />
-		<resources file="green_primaries.resources" />
-		<resources file="default_secondaries.resources" />
-		<resources file="green_secondaries.resources" />
-		<resources file="green_default.resources" />
-		<resources file="default_vests.resources" />
-		<resources file="armory_vests.resources" />
-		<resources file="armory_common.resources" />
-		<resources file="armory_green.resources" />
+		<resources file="common_resources/common.resources" />
+		<resources file="common_resources/green_primaries.resources" />
+		<resources file="common_resources/default_secondaries.resources" />
+		<resources file="common_resources/green_secondaries.resources" />
+		<resources file="common_resources/green_default.resources" />
+		<resources file="common_resources/default_vests.resources" />
+		<resources file="common_resources/armory_vests.resources" />
+		<resources file="common_resources/armory_common.resources" />
+		<resources file="common_resources/armory_green.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries (0.5 = leichte Erhöhung, mehr Chance auf Medikit/andere Secondaries) -->
@@ -99,21 +99,21 @@
 
 	<!-- KI-Soldaten (Spawns): Vollständige Kopie von default, Sicht 5m geringer (default_soldiers.ai), spawn_score 0.783 -->
 	<soldier name="default_ai" spawn_score="0.783">
-		<character filename="usa_soldier.character" />
-		<ai filename="default_soldiers.ai" />
+		<character filename="common_resources/usa_soldier.character" />
+		<ai filename="common_resources/default_soldiers.ai" />
 
-		<models file="green_default_basic.models" />
-		<models file="green_default.models" />
+		<models file="common_resources/green_default_basic.models" />
+		<models file="common_resources/green_default.models" />
 
-		<resources file="common.resources" />
-		<resources file="green_primaries.resources" />
-		<resources file="default_secondaries.resources" />
-		<resources file="green_secondaries.resources" />
-		<resources file="green_default.resources" />
-		<resources file="default_vests.resources" />
-		<resources file="armory_vests.resources" />
-		<resources file="armory_common.resources" />
-		<resources file="armory_green.resources" />
+		<resources file="common_resources/common.resources" />
+		<resources file="common_resources/green_primaries.resources" />
+		<resources file="common_resources/default_secondaries.resources" />
+		<resources file="common_resources/green_secondaries.resources" />
+		<resources file="common_resources/green_default.resources" />
+		<resources file="common_resources/default_vests.resources" />
+		<resources file="common_resources/armory_vests.resources" />
+		<resources file="common_resources/armory_common.resources" />
+		<resources file="common_resources/armory_green.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries (0.5 = leichte Erhöhung, mehr Chance auf Medikit/andere Secondaries) -->
@@ -141,16 +141,16 @@
 	<!-- shotgun group (nur Shotguns, ~jeder 6. Default-Soldat; Weste 20 % keine, 55 % Weste 1, 25 % Weste 2) -->
 	<!-- -------------- -->
 	<soldier name="shotgun" spawn_score="0.167">
-		<character filename="usa_soldier.character" />
-		<ai filename="shotgun.ai" />
+		<character filename="common_resources/usa_soldier.character" />
+		<ai filename="common_resources/shotgun.ai" />
 
-		<models file="green_default_basic.models" />
-		<models file="green_default.models" />
+		<models file="common_resources/green_default_basic.models" />
+		<models file="common_resources/green_default.models" />
 
-		<resources file="common_shotgun_base.resources" />
-		<resources file="common_shotgun_vest.resources" />
-		<resources file="green_shotgun.resources" />
-		<resources file="green_default.resources" />
+		<resources file="common_resources/common_shotgun_base.resources" />
+		<resources file="common_resources/common_shotgun_vest.resources" />
+		<resources file="common_resources/green_shotgun.resources" />
+		<resources file="common_resources/green_default.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="0" />
@@ -172,18 +172,18 @@
 	<!-- sniper group (nur Sniper/DMR, 5 % Spawn; erhöhte Sichtweite) -->
 	<!-- -------------- -->
 	<soldier name="sniper" spawn_score="0.05">
-		<character filename="usa_soldier.character" />
-		<ai filename="sniper.ai" />
+		<character filename="common_resources/usa_soldier.character" />
+		<ai filename="sniper/sniper.ai" />
 
-		<models file="green_default_basic.models" />
-		<models file="green_default.models" />
+		<models file="common_resources/green_default_basic.models" />
+		<models file="common_resources/green_default.models" />
 
-		<resources file="common_sniper_base.resources" />
-		<resources file="common_sniper_vest.resources" />
-		<resources file="common_sniper_weapons.resources" />
-		<resources file="common_sniper_secondary.resources" />
-		<resources file="green_sniper.resources" />
-		<resources file="green_default.resources" />
+		<resources file="sniper/common_sniper_base.resources" />
+		<resources file="sniper/common_sniper_vest.resources" />
+		<resources file="sniper/common_sniper_weapons.resources" />
+		<resources file="sniper/common_sniper_secondary.resources" />
+		<resources file="sniper/green_sniper.resources" />
+		<resources file="common_resources/green_default.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
@@ -206,25 +206,25 @@
 	<!-- lonewolf sniper (1 % Spawn; flankiert, fokussiert wichtige Ziele) -->
 	<!-- -------------- -->
 	<soldier name="lonewolf" spawn_score="0.01" squad_size_xp_cap="0.0" copy_from="sniper">
-		<ai filename="lonewolf.ai" />
-		<resources file="lonewolf_sniper.resources" />
-		<resources file="green_lonewolf.resources" />
+		<ai filename="sniper/lonewolf.ai" />
+		<resources file="sniper/lonewolf_sniper.resources" />
+		<resources file="sniper/green_lonewolf.resources" />
 	</soldier>
 	
 	<!-- -------------- -->
 	<!-- support group (MGs) -->
 	<!-- -------------- -->
 	<soldier name="support" spawn_score="0.27">
-		<character filename="usa_soldier.character" />
-		<ai filename="support.ai" />
-		<models file="green_default_basic.models" />
-		<models file="green_default.models" />
+		<character filename="common_resources/usa_soldier.character" />
+		<ai filename="support/support.ai" />
+		<models file="common_resources/green_default_basic.models" />
+		<models file="common_resources/green_default.models" />
 
-		<resources file="common.resources" />
-		<resources file="common_mgs.resources" />
-		<resources file="common_support.resources" />
-		<resources file="green_secondaries.resources" />
-		<resources file="green_default.resources" />
+		<resources file="common_resources/common.resources" />
+		<resources file="support/common_mgs.resources" />
+		<resources file="support/common_support.resources" />
+		<resources file="common_resources/green_secondaries.resources" />
+		<resources file="common_resources/green_default.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
@@ -245,10 +245,10 @@
 	<!-- -------------- -->
 	<soldier name="specialforces" spawn_score="0.02">
 		<character filename="default.character" />
-		<ai filename="elite2.ai" />
+		<ai filename="elite/elite2.ai" />
 		<model filename="soldier_blackops.xml"><requirement class="carry_item" slot="1" key="sf_suit.carry_item"/></model>
 
-		<resources file="common_specialforces.resources" />
+		<resources file="elite/common_specialforces.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->
@@ -275,11 +275,11 @@
 	<!-- -------------- -->
 	<soldier name="miniboss" spawn_score="0.054">
 		<character filename="default.character" />
-		<ai filename="elite.ai" />
+		<ai filename="elite/elite.ai" />
 		<model filename="us_officer.xml" />
 
-		<resources file="common_miniboss.resources" />
-		<resources file="green_miniboss.resources" />
+		<resources file="elite/common_miniboss.resources" />
+		<resources file="elite/green_miniboss.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->
@@ -304,9 +304,9 @@
 	<!-- designated medic group -->
 	<!-- -------------- -->
 	<soldier name="medic" spawn_score="0.07" copy_from="default">
-		<ai filename="medic.ai" />
-		<resources file="common_medic.resources" />
-		<resources file="green_primaries.resources" />
+		<ai filename="support/medic.ai" />
+		<resources file="support/common_medic.resources" />
+		<resources file="common_resources/green_primaries.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="0" probability="1.0" />
@@ -328,9 +328,9 @@
 	<!-- combat medic group (4 % Spawn; Defibrillator/Trauma-Kit + AUG/FAMAS/XM8) -->
 	<!-- -------------- -->
 	<soldier name="combat_medic" spawn_score="0.04" copy_from="default">
-		<ai filename="medic.ai" />
+		<ai filename="support/medic.ai" />
 		<model filename="soldier_fm_green.xml" />
-		<resources file="common_combat_medic.resources" />
+		<resources file="support/common_combat_medic.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="0" probability="1.0" />
@@ -349,12 +349,12 @@
 	<!-- -------------- -->
 	<soldier name="miniboss_female" spawn_score="0.0015" firstnames_file="english_firstnames_female.txt" lastnames_file="english_lastnames.txt" >
 		<character filename="default_female.character" />
-		<ai filename="elite.ai" />
+		<ai filename="elite/elite.ai" />
 		<model filename="soldier_elite_a2.xml" />  
 
 		<!-- inherits initial config from default group -->
-		<resources file="common_miniboss.resources" />
-		<resources file="green_miniboss.resources" />
+		<resources file="elite/common_miniboss.resources" />
+		<resources file="elite/green_miniboss.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->
@@ -379,13 +379,13 @@
 	<!-- -------------- -->
 	<soldier name="prisoner" spawn_score="0.0">
 		<character filename="default.character" />
-		<ai filename="default.ai" />
+		<ai filename="common_resources/default.ai" />
 		<model filename="soldier_prison.xml" />
 
-		<resources file="common.resources" />
-		<resources file="green_primaries.resources" />
-		<resources file="green_secondaries.resources" />
-		<resources file="green_default.resources" />
+		<resources file="common_resources/common.resources" />
+		<resources file="common_resources/green_primaries.resources" />
+		<resources file="common_resources/green_secondaries.resources" />
+		<resources file="common_resources/green_default.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->
@@ -411,11 +411,11 @@
 	<!-- -------------- -->
 	<soldier name="eod" spawn_score="0.02" squad_size_xp_cap="0.0">
 		<character filename="default.character" />
-		<ai filename="eod.ai" />
+		<ai filename="eod/eod.ai" />
 		<model filename="soldier_a1eod.xml" />
 
-		<resources file="common_eod.resources" />
-		<resources file="green_eod.resources" />
+		<resources file="eod/common_eod.resources" />
+		<resources file="eod/green_eod.resources" />
 
 		<item_class_existence_config>
 			<!-- secondaries -->
@@ -441,13 +441,13 @@
 	<!-- EOD Light (keine Stürmer, schnell auf Fahrzeuge, 70 % Javelin, Cluster/Hand/AT-Granate) -->
 	<!-- -------------- -->
 	<soldier name="eod_light" spawn_score="0.048" squad_size_xp_cap="0.0">
-		<character filename="usa_soldier.character" />
-		<ai filename="eod_light.ai" />
-		<models file="green_eod_light.models" />
+		<character filename="common_resources/usa_soldier.character" />
+		<ai filename="eod/eod_light.ai" />
+		<models file="eod/green_eod_light.models" />
 
-		<resources file="common.resources" />
-		<resources file="common_eod_light.resources" />
-		<resources file="green_eod_light.resources" />
+		<resources file="common_resources/common.resources" />
+		<resources file="eod/common_eod_light.resources" />
+		<resources file="eod/green_eod_light.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
@@ -468,12 +468,12 @@
 	<!-- Mortar Operator (Mörser Deploy im Slot 1, selten) -->
 	<!-- -------------- -->
 	<soldier name="mortar_operator" spawn_score="0.012" squad_size_xp_cap="0.0" firstnames_file="names/mortar_operator_firstname.txt">
-		<character filename="usa_soldier.character" />
-		<ai filename="default.ai" />
-		<models file="green_mortar_operator.models" />
+		<character filename="common_resources/usa_soldier.character" />
+		<ai filename="common_resources/default.ai" />
+		<models file="support/green_mortar_operator.models" />
 
-		<resources file="common.resources" />
-		<resources file="green_mortar_operator.resources" />
+		<resources file="common_resources/common.resources" />
+		<resources file="support/green_mortar_operator.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
@@ -492,13 +492,13 @@
 	<!-- Deckungstruppe (Pioniere: Sandsack ODER Schild im Slot 1, geben Deckung) -->
 	<!-- -------------- -->
 	<soldier name="cover_troop" spawn_score="0.06" squad_size_xp_cap="0.0" firstnames_file="names/cover_troop_firstname.txt">
-		<character filename="usa_soldier.character" />
-		<ai filename="cover_troop.ai" />
-		<models file="green_cover_troop.models" />
+		<character filename="common_resources/usa_soldier.character" />
+		<ai filename="support/cover_troop.ai" />
+		<models file="support/green_cover_troop.models" />
 
-		<resources file="common.resources" />
-		<resources file="green_cover_troop.resources" />
-		<resources file="green_cover_troop_secondaries.resources" />
+		<resources file="common_resources/common.resources" />
+		<resources file="support/green_cover_troop.resources" />
+		<resources file="support/green_cover_troop_secondaries.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
@@ -518,14 +518,14 @@
 	<!-- Grenadier (Explosions-Chaos, Milkor MGL) -->
 	<!-- -------------- -->
 	<soldier name="grenadier" spawn_score="0.04" squad_size_xp_cap="0.0">
-		<character filename="usa_soldier.character" />
-		<ai filename="grenadier.ai" />
-		<models file="green_default_basic.models" />
-		<models file="green_default.models" />
+		<character filename="common_resources/usa_soldier.character" />
+		<ai filename="support/grenadier.ai" />
+		<models file="common_resources/green_default_basic.models" />
+		<models file="common_resources/green_default.models" />
 
-		<resources file="common_grenadier.resources" />
-		<resources file="green_grenadier.resources" />
-		<resources file="green_secondaries.resources" />
+		<resources file="support/common_grenadier.resources" />
+		<resources file="support/green_grenadier.resources" />
+		<resources file="common_resources/green_secondaries.resources" />
 
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
@@ -545,7 +545,7 @@
 	<!-- supply box group -->
 	<!-- -------------- -->
 	<soldier name="supply" spawn_score="0.0">
-		<resources file="supply_common.resources" />
+		<resources file="common_resources/supply_common.resources" />
 		<resources file="supply_green.resources" />
 
 		<!-- low XP, likely to join player squad -->
@@ -558,10 +558,10 @@
 	<!-- Captain (Leader vorne, orange) - SF/EOD Weste -->
 	<!-- -------------- -->
 	<soldier name="captain" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="general_firstname.txt" lastnames_file="captain_lastname.txt">
-		<character filename="captain.character" />
-		<ai filename="captain.ai" />
+		<character filename="elite/captain.character" />
+		<ai filename="elite/captain.ai" />
 		<model filename="soldier_orange_bodyguards.xml" />
-		<resources file="captain.resources" />
+		<resources file="elite/captain.resources" />
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
 			<item_class_existence class="carry_item" slot="1" probability="1.0" />
@@ -576,9 +576,9 @@
 	<!-- -------------- -->
 	<soldier name="orange_bodyguards" spawn_score="0.0" squad_size_xp_cap="0.0" firstnames_file="generalguard_firstname.txt" lastnames_file="german_lastnames.txt">
 		<character filename="default_miniboss_male.character" />
-		<ai filename="bodyguard.ai" />
+		<ai filename="elite/bodyguard.ai" />
 		<model filename="soldier_captain.xml" />
-		<resources file="orange_bodyguards.resources" />
+		<resources file="elite/orange_bodyguards.resources" />
 		<item_class_existence_config>
 			<item_class_existence class="weapon" slot="1" probability="1.0" />
 			<item_class_existence class="carry_item" slot="1" probability="1.0" />

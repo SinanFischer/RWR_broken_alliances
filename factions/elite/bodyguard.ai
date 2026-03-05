@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Bodyguard AI: erweitert default_soldiers.ai - bewacht Leader (Captain), starke Reaktion, Defend-fokussiert -->
-<ai filename="default_soldiers.ai">
+<ai filename="common_resources/default_soldiers.ai">
 	<!-- Sicht: erhöht für frühe Zielerfassung -->
 	<parameter class="max_sight_range_with_muzzle" value="55.0" />
 	<parameter class="leader_sight_range" value="48.0" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Captain AI: Leader vorne, startet mit Guard - wird von orange_bodyguards bewacht -->
-<ai filename="default_soldiers.ai">
+<ai filename="common_resources/default_soldiers.ai">
 	<parameter class="force_as_leader" value="1" />
 	<!-- Sicht: Leader-Sicht erhöht -->
 	<parameter class="max_sight_range_with_muzzle" value="58.0" />

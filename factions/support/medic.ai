@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Vanilla medic.ai übernommen: priorisiert Heilen, höhere help_range, taucht bei Granaten. -->
-<ai filename="default_soldiers.ai">
+<ai filename="common_resources/default_soldiers.ai">
   <parameter class="check_wounded_time" value="2.0" />
   <parameter class="monitor_enemies_to_stab_while_peace" value="0.0" />
   <parameter class="prefer_roofs_probability" value="0.0" />
