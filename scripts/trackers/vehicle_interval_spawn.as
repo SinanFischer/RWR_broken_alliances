@@ -386,6 +386,29 @@ class VehicleIntervalSpawn : Tracker {
 		return m_heavyNextBaseId[factionId];
 	}
 
+	// Prüft ob geplante Basis noch der Fraktion gehört; wenn nicht, wählt neue gehaltene Basis (Fahrzeug bleibt)
+	protected void ensurePlannedBaseOwned(int factionId, int category) {
+		if (factionId < 0 || uint(factionId) >= m_numFactions) return;
+		int baseId = getPlannedBaseId(factionId, category);
+		if (baseId >= 0) {
+			const XmlElement@ base = getBase(m_metagame, baseId);
+			if (base !is null && base.getIntAttribute("owner_id") == factionId) return;
+		}
+		int newBaseId = -1;
+		array<int> ownedIndices = getOwnedBaseIndicesForFaction(factionId);
+		if (ownedIndices.size() > 0) {
+			array<const XmlElement@>@ bases = getBases(m_metagame);
+			if (bases !is null) {
+				int idx = ownedIndices[rand(0, int(ownedIndices.size()) - 1)];
+				if (idx >= 0 && uint(idx) < bases.size())
+					newBaseId = bases[idx].getIntAttribute("id");
+			}
+		}
+		if (category == 0) m_simpleNextBaseId[factionId] = newBaseId;
+		else if (category == 1) m_mediumNextBaseId[factionId] = newBaseId;
+		else m_heavyNextBaseId[factionId] = newBaseId;
+	}
+
 	// Anzeigename fuer geplante (gelockte) Basis
 	protected string getPlannedBaseNameForFaction(int factionId, int category) {
 		int baseId = getPlannedBaseId(factionId, category);
@@ -480,7 +503,8 @@ class VehicleIntervalSpawn : Tracker {
 			return;
 		}
 
-		// Geplante Basis, falls noch gueltig; sonst Fallback auf zufaellige aktuell gehaltene Basis
+		ensurePlannedBaseOwned(factionId, category);
+
 		int selectedBaseIndex = -1;
 		int plannedBaseId = getPlannedBaseId(factionId, category);
 		if (plannedBaseId >= 0) {
@@ -831,7 +855,10 @@ class VehicleIntervalSpawn : Tracker {
 			return;
 		}
 
-		// Per line: gelockter naechster Spawn je Kategorie (wird erst nach Spawn neu gewuerfelt)
+		ensurePlannedBaseOwned(factionId, 0);
+		ensurePlannedBaseOwned(factionId, 1);
+		ensurePlannedBaseOwned(factionId, 2);
+
 		string lightStr = "light:  " + formatTimerSeconds(m_simpleTimer[factionId]) + "  at " + getPlannedBaseNameForFaction(factionId, 0) + " - " + getVehicleDisplayName(getPlannedVehicleKey(factionId, 0));
 		string mediumStr = "medium: " + formatTimerSeconds(m_mediumTimer[factionId]) + "  at " + getPlannedBaseNameForFaction(factionId, 1) + " - " + getVehicleDisplayName(getPlannedVehicleKey(factionId, 1));
 		string heavyStr;
