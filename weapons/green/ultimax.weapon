@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Premium-LMG: Constant-Recoil-Fantasy = Stehen/Knie, Genauigkeit bleibt beim Dauerfeuer (sustained negativ), 145er Magazin, höhere Killrate pro Treffer. Preis 2,5× MG4. -->
 <weapon file="base_primary_rare.weapon" key="ultimax.weapon">
     <tag name="machine gun" />
     <specification 
   retrigger_time="0.09" 
-  accuracy_factor="0.8" 
+  accuracy_factor="0.85" 
   sustained_fire_grow_step="-0.15" 
   sustained_fire_diminish_rate="-1.2" 
-  magazine_size="100" 
+  magazine_size="145" 
   can_shoot_standing="1" 
+  can_shoot_crouching="1" 
   suppressed="0" 
   name="Ultimax 100" 
   class="0" 
-  projectile_speed="98.0" 
+  projectile_speed="158.0" 
   stance_accuracy_rate="1" /> 
 
 	<next_in_chain key="ultimax_m.weapon" share_ammo="0" />
@@ -33,11 +35,12 @@
 
     <hud_icon filename="hud_ultimax.png" />
     <commonness value="0.0" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="800.0" />
+    <inventory encumbrance="10.0" price="200.0" />
 
     <weak_hand_hold offset="0.4" />
     <projectile file="bullet.projectile">
-        <result class="hit"  kill_probability="0.6" kill_decay_start_time="0.52" kill_decay_end_time="0.65" />
+        <!-- Höhere Killrate als MG4/Negev (0.52/0.58): Constant Recoil = mehr Treffer auf Ziel, rechtfertigt Premium-Preis -->
+        <result class="hit" kill_probability="0.68" kill_decay_start_time="0.45" kill_decay_end_time="0.70" />
     </projectile>
     
     <capacity value="0" source="rank" source_value="0.0" />

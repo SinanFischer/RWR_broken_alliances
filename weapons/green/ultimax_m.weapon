@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Magazin-Variante der Ultimax 100 (Kette mit ultimax.weapon); gleicher Premium-Preis, 30 Schuss, gleiche Killrate. -->
 <weapon file="base_primary_rare.weapon" key="ultimax_m.weapon">
     <tag name="assault rifle" />
     <specification 
@@ -11,7 +12,7 @@
   suppressed="0" 
   name="Ultimax 100, magazine" 
   class="0" 
-  projectile_speed="100.0"
+  projectile_speed="158.0"
   stance_accuracy_rate="1" /> 
 
 
@@ -34,12 +35,13 @@
     <sound key="effect" fileref="rifle_clip_in.wav" />
 
     <hud_icon filename="hud_ultimax_m.png" />
-    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="800.0" />
+    <commonness value="0.0" can_respawn_with="0" in_stock="0" />
+    <inventory encumbrance="10.0" price="200.0" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit"  kill_probability="0.6" kill_decay_start_time="0.52" kill_decay_end_time="0.65" />
+        <!-- Wie Ultimax 100: Premium-Killrate, gleiche Constant-Recoil-Logik -->
+        <result class="hit" kill_probability="0.70" kill_decay_start_time="0.45" kill_decay_end_time="0.70" />
     </projectile>
     
     <capacity value="0" source="rank" source_value="0.0" />
