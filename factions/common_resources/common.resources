@@ -62,7 +62,6 @@
 	<weapon key='m1_garand_m.weapon' />
 	<weapon key='origin_12.weapon' />
 	<weapon key='origin_12_s.weapon' />
-	<weapon key='compound_bow.weapon' />
 	<weapon key='compound_bow_alt.weapon' />
 	<!-- RPK-16 / RPK-16 Long / AN-94 Salve nur Russia: brown_mgs, brown_primaries, armory_brown -->
 	<weapon key='m200.weapon' />

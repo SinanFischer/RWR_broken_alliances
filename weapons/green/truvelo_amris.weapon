@@ -15,7 +15,7 @@
 	name="Truvelo Amris suppressed" 
 	class="2" 
 	burst_shots="1" 
-	sight_range_modifier="1.60" 
+	sight_range_modifier="2.0" 
 	projectile_speed="165.0" 
 	barrel_offset="0.4" 
     reload_one_at_a_time="0" 
@@ -39,7 +39,7 @@
 
     <model filename="truvelo_amris.xml" />
     <hud_icon filename="hud_truvelo_amris.png" />
-    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.00038" can_respawn_with="0" in_stock="0" />
     <inventory encumbrance="10.0" price="648.0" />
 
     <projectiles_per_shot value="1" />

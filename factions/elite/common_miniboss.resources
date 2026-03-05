@@ -10,8 +10,8 @@
 	<weapon key='steyr_aug.weapon' />
 	<weapon key='lahti_l39.weapon' />  
 	<weapon key='pecheneg_bullpup.weapon' />
-	<!-- 5 % Chance: Verbundbogen explosiv (commonness in .weapon steuert Anteil im Pool) -->
-	<weapon key='compound_bow_alt.weapon' />
+	<!-- ~2,2 % Chance: Truvelo AMRIS (suppressed Sniper) für alle Fraktionen -->
+	<weapon key='truvelo_amris.weapon' />
 
 	<!-- Secondaries (slot 1): Anteile über commonness in .weapon -->
 	<weapon key='sabre.weapon' />

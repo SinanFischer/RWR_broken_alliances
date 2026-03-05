@@ -16,10 +16,28 @@
 - RU: Volk MG shoots massiv 50.cal rounds that damage vehicle and can destroy creates.
 - added QBZ-95 ( shotgun & rifle weapon)
 
+
 **Leader AI Troops (Miniboss)**
 How to spot them: Look for the beret. You can instantly recognize these elite officers on the battlefield by their distinctive headgear.
 They spawn with fully rebalanced gear and wield devastating special or elite weaponry. Defeating them is highly rewarding, as they often carry exclusive faction weapons that cannot be acquired in the standard armory. Additionally, there is a rare chance they will drop a highly valuable secondary weapon, such as a Golden Knife.
 
+Can sometimes carry (among other weapons):
+- (new) Golden Knife (1000)
+- (new) Truvelo Amris suppressed (648)
+- (new) Cavalry saber (333)
+- (new) Javelin Elite (250)
+- (new) Compound Bow, explosive (215)
+- MG-42 (800)
+- Milkor MGL (650)
+- Lahti L-39 (640)
+- VSS Vintorez (500)
+- Stoner LMG (500)
+- F2000 (400)
+- Steyr AUG (250)
+- Neostead 2000 (110)
+- Javelin (100)
+- MGL Flasher (80)
+- FHJ-01 Cluster (50)
 
 **Special Force Troop**
 - can carry origin_12 & QBZ-95
