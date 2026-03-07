@@ -57,7 +57,7 @@
 	<!-- Camouflage Shield nur USA: armory_green + green_* (default, cover_troop, eod_light, grenadier), NICHT hier -->
 	<weapon key='golden_knife.weapon' />
 	<weapon key='gun_tommy.weapon' />
-	<weapon key='m1_garand_m.weapon' />
+	<!-- M1 Garand Modern nur USA: armory_green + green_primaries -->
 	<weapon key='origin_12.weapon' />
 	<weapon key='origin_12_s.weapon' />
 	<weapon key='compound_bow_alt.weapon' />

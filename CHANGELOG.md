@@ -1,21 +1,19 @@
 # Change Log
 
-## [1.0.2] - 2026-03-01
+## [1.1.0] - 2026-03-01
 - activated fov on all quick match maps, you can deactivate map specific by setting value 0 in fov for example under: RWR_broken_alliances\packages\vanilla\maps\map17\init_match.xml
 - combat medics also have now primary weapons
 
 ### Weapons
 
-- added cooldown visualisation for retrigger time for coastal guns & heavy mortar. 
-- added 3 new Heavy MG's, one for each faction 
-- new m120 Heavy Mortar. With extreme range but takes 20 Seconds to reload.
-- added alot new weapons: 
-- added sword
-- added medic dartgun
-- added origin_12 (full automatic 30 magazin shotgun)
-- RU: Volk MG shoots massiv 50.cal rounds that damage vehicle and can destroy creates.
-- added QBZ-95 ( shotgun & rifle weapon)
-
+- Big rebalance of many weapons
+- Cooldown visualisation added for Coastal Gun & Heavy Mortar
+- 3 new Heavy MGs – one per faction
+- - RU: Volk MG – fires .50 cal rounds, damages vehicles and destroys crates
+- M120 Heavy Mortar – extreme range field artillery, 20 second reload
+- Origin-12 – fully automatic shotgun, 30-round magazine. Rarely carried by shotgun troops.
+- Medic Dartgun
+- QBZ-95 – hybrid shotgun/rifle. Rarely carried by shotgun troops.
 
 **Leader AI Troops (Miniboss)**
 How to spot them: Look for the beret. You can instantly recognize these elite officers on the battlefield by their distinctive headgear.
@@ -25,8 +23,7 @@ Can sometimes carry (among other weapons):
 - (new) Golden Knife (1000)
 - (new) Truvelo Amris suppressed (648)
 - (new) Cavalry saber (333)
-- (new) Javelin Elite (250)
-- (new) Compound Bow, explosive (215)
+- (new) Javelin Elite (250) – increased damage, 2x sight range
 - MG-42 (800)
 - Milkor MGL (650)
 - Lahti L-39 (640)
@@ -39,33 +36,32 @@ Can sometimes carry (among other weapons):
 - MGL Flasher (80)
 - FHJ-01 Cluster (50)
 
+**Exotic Weapons**
+When supply lines collapse, soldiers use whatever they find. Not every weapon comes from an armory.
+
 **Special Force Troop**
 - can carry origin_12 & QBZ-95
 
- **L85A2**:
-  - Retrigger time verringert: 0.107 -> 0.08
-  - Last burst retrigger time verringert: 0.3 -> 0.24
-  - Preis gesenkt: 200 -> 120
-
-
  **ALL Factions**
-- each got a GL rifle: M16A4 M203 (USA), G36 AG36 (EU), AK-74M GP25 (RU)
-- AI can carry SBL (circular saw weapon) 
-- add: Tommy Gun (only MG AI)
+- each faction received a grenade launcher rifle: M16A4 M203 (USA), G36 AG36 (EU), AK-74M GP25 (RU)
+- add: Tommy Gun - relic firearm, carried by MG troops. Because sometimes the old ones still work.
 
 
  **Europe**
+  added: 
  - TTI (combat shield)
 
  **Russia**
-  - add: RPK-16
-  - add: AN94
+  added: 
+  - RPK-16
+  - AN94
 
  **USA**
-  - add: camo shield added
-  - add: XM25
-  - add: M1 Garand (high kill rate, good on medium and short distances)
-  - add: CheyTac M200 (2 shots, extreme deadly sniper with a sight range modifier of 2.6. Sniper soldier may wear them very rare)
+ added: 
+- Camo Shield
+- XM25
+- M1 Garand – high lethality at close to medium range
+- CheyTac M200 – extreme long-range sniper, 2-shot capacity, 2.6x sight modifier. Rarely carried by sniper units.
 
 ### Calls
 - **Tank Drops (RWR1a1, Leopold II, TroX-80)**:

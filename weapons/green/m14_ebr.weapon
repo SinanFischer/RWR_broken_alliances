@@ -24,7 +24,7 @@
     <animation key="cycle" ref="30" />
     <animation state_key="reload" animation_key="reloading, dragunov_svd" />
 
-    <sound key="fire" fileref="m14_ebr.wav" volume="0.9" />
+    <sound key="fire" fileref="m14_ebr.wav" volume="1.2" />
     <sound key="cycle" fileref="sniper_cycle.wav" />
     <sound key="magazine_out" fileref="sniper_clip_out.wav" />
     <sound key="magazine_in" fileref="sniper_clip_in.wav" />

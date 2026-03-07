@@ -27,7 +27,7 @@
     <animation key="walking" ref="31" />
     <animation key="running" animation_key="running, lahti_l39" />
 	
-    <sound key="fire" fileref="lahti_l39_shot.wav" volume="1.6" />
+    <sound key="fire" fileref="lahti_l39_shot.wav" volume="1.9" />
     <sound key="cycle" fileref="lahti_l39_cycle.wav" />
     <sound key="magazine_out" fileref="rifle_clip_out.wav" />
     <sound key="magazine_in" fileref="rifle_clip_in.wav" />
