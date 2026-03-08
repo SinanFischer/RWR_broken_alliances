@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- media/packages/RWR_broken_alliances/weapons/qjz89_volk.weapon -->
-<weapon file="base_primary_rare.weapon" key="qjz89_volk.weapon">
+<weapon drop_count_factor_on_death="0.50" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="qjz89_volk.weapon">
     <tag name="machine gun" />
     <specification
     retrigger_time="0.15"
@@ -32,7 +32,7 @@
     <animation state_key="still_against_wall" animation_key="still, carrying load" />
     <animation state_key="changing_weapon_in" animation_key="change weapon in, single hand carry" />
 
-    <sound key="fire" fileref="qjz89_shot.wav" volume="0.4" pitch_variety="0.01"/>
+    <sound key="fire" fileref="qjz89_shot.wav" volume="0.3" pitch_variety="0.01"/>
     <sound key="magazine_out" fileref="mg_clip_out.wav" />
     <sound key="magazine_in" fileref="mg_clip_in.wav" />
     <sound key="cycle" fileref="rifle_chamber.wav" />

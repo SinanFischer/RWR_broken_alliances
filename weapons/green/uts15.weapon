@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<weapon file="base_primary_rare.weapon" key="uts15.weapon">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<weapon drop_count_factor_on_death="0.50" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="uts15.weapon">
     <tag name="cqb" />
     <!-- retrigger_time: Mindestabstand zwischen Schüssen (Pump-Aktion); verhindert Doppelschuss bei Kurzklick, Magazin-Leer bei minimal längerem Halten -->
     <specification retrigger_time="0.48" 

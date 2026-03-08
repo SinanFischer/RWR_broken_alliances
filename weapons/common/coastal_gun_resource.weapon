@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<weapon file="base_secondary.weapon" key="coastal_gun_resource.weapon" radius="0.25" time_to_live_out_in_the_open="150.0" drop_count_factor_on_death="1.0">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<weapon drop_count_factor_on_death="0.35" drop_count_factor_on_player_death="1.0" file="base_secondary.weapon" key="coastal_gun_resource.weapon" radius="0.25" time_to_live_out_in_the_open="150.0">
     <tag name="engineer" />
     <specification magazine_size="1" 
     can_shoot_standing="0" 

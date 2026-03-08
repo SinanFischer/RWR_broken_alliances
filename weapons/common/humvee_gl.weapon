@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<weapon key="humvee_gl.weapon">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<weapon drop_count_factor_on_death="0.40" drop_count_factor_on_player_death="1.0" key="humvee_gl.weapon">
     <specification retrigger_time="1.0" 
     accuracy_factor="0.95" 
     sustained_fire_grow_step="4.0" 
