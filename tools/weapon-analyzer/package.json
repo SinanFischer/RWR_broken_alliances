@@ -1,0 +1,13 @@
+{
+  "name": "rwr-weapon-analyzer",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "chokidar": "^4.0.0",
+    "express": "^4.21.0",
+    "fast-xml-parser": "^4.5.0"
+  }
+}
