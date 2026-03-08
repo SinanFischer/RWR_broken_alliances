@@ -43,7 +43,7 @@
     <capacity value="1" source="rank" source_value="0.5" />
 
     <hud_icon filename="hud_g36_w_ag36_g.png" />
-    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.0" can_respawn_with="1" in_stock="1" />
     <inventory encumbrance="10.0" price="250.0" />
 
     <effect class="muzzle" ref="LawMuzzle" />

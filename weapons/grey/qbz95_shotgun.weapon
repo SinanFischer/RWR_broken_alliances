@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<weapon file="base_primary_rare.weapon" key="qbz95_shotgun.weapon">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<weapon drop_count_factor_on_death="0.70" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="qbz95_shotgun.weapon">
     <tag name="cqb" />
     <specification
     retrigger_time="0.18"

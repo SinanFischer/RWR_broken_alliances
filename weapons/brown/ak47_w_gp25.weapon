@@ -36,7 +36,7 @@
     <capacity value="1" source="rank" source_value="0.5" />
 
     <hud_icon filename="hud_ak47_w_gp25.png" />
-    <commonness value="0.02" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.02" can_respawn_with="1" in_stock="1" />
     <inventory encumbrance="3.0" price="75.0" />
 
     <projectile file="bullet.projectile">
