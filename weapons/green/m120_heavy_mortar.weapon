@@ -40,7 +40,7 @@
     <capacity value="1" source="rank" source_value="0.0" />
 
     <hud_icon filename="hud_mortar.png" />
-    <commonness value="0.0" />
+    <commonness value="0.00002" />
     <inventory encumbrance="10.0" price="1000.0" />
 
     <effect class="muzzle" ref="LawMuzzle" />
