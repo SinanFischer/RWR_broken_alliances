@@ -22,6 +22,4 @@
 	<call file="minig_drop.call" />
 	<call file="mg_drop.call" />
 	<call file="mines.call" />
-	<!-- Test: 5 Minibosse -->
-	<call file="test_miniboss_drop.call" />
 </calls>

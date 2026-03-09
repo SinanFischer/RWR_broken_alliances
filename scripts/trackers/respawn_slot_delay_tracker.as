@@ -22,6 +22,7 @@ const int   TROOPS_PER_EXTRA_BLOCK = 25;          // pro 25 Truppen Vorsprung �
 const float EXTRA_SECONDS_PER_BLOCK = 4.0f;       // … +4 s Slot-Delay
 const float APPLY_INTERVAL = 1.0f;                // s, wie oft capacity_multiplier an Engine gesendet wird
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f;  // Min-Mult, damit Engine Fraktion nicht ignoriert
+const float LAST_BASE_CAPACITY_FACTOR = 2.0f;          // Faktor für soldier_capacity bei genau 1 Basis (2.0 = +100%)
 // Slots pro Tod: Capacity <70→1, 70–120→2, 121–200→3, 201–250→4, 251–299→5, ≥300→6; Führer +2.
 
 #include "tracker.as"
@@ -42,6 +43,8 @@ class RespawnSlotDelayTracker : Tracker {
 	protected dictionary m_basesPerFaction;
 	// Basis-Capacity (einmal gecacht); Engine kann nach unserem Multiplier reduzierte Werte liefern.
 	protected dictionary m_baseCapacity;
+	// Zustand: Hat Fraktion gerade den Last-Base-Bonus aktiv? (1 = ja, 0 = nein)
+	protected dictionary m_lastBaseBonusActive;
 
 	RespawnSlotDelayTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -271,6 +274,46 @@ class RespawnSlotDelayTracker : Tracker {
 		}
 		m_metagame.getComms().send(command);
 		for (uint i = 0; i < factions.size(); ++i) pruneSlotExpireTimes(int(i));
+
+		// Last-Base-Bonus: soldier_capacity einmalig verdoppeln wenn Fraktion auf 1 Basis fällt,
+		// einmalig zurücksetzen wenn sie wieder mehr Basen hat.
+		// capacity_multiplier > 1.0 NICHT nutzbar – akkumuliert sich in der Engine pro Tick!
+		applyLastBaseCapacityBonus(factions);
+	}
+
+	void applyLastBaseCapacityBonus(array<const XmlElement@>@ factions) {
+		for (uint i = 0; i < factions.size(); ++i) {
+			int fid = int(i);
+			string key = factionKey(fid);
+			bool shouldHaveBonus = (getBasesForFactionCached(fid) == 1);
+			bool hasBonus = m_lastBaseBonusActive.exists(key) && int(m_lastBaseBonusActive[key]) == 1;
+
+			if (shouldHaveBonus == hasBonus) continue; // kein Zustandswechsel → nichts tun
+
+			int rawCap = getBaseCapacity(fid);
+			int newCap;
+			if (shouldHaveBonus) {
+				newCap = int(float(rawCap) * LAST_BASE_CAPACITY_FACTOR);
+				m_lastBaseBonusActive[key] = 1;
+				_log("RespawnSlotDelay: Last-Base-Bonus ON fid=" + fid + " " + rawCap + " -> " + newCap, 1);
+			} else {
+				newCap = rawCap; // rawCap ist der gecachte Originalwert vor dem Bonus
+				m_lastBaseBonusActive[key] = 0;
+				_log("RespawnSlotDelay: Last-Base-Bonus OFF fid=" + fid + " -> " + newCap, 1);
+			}
+
+			// change_game_settings mit soldier_capacity braucht alle Fraktionen in Reihenfolge
+			XmlElement bonusCmd("command");
+			bonusCmd.setStringAttribute("class", "change_game_settings");
+			for (uint j = 0; j < factions.size(); ++j) {
+				XmlElement f("faction");
+				if (int(j) == fid) {
+					f.setIntAttribute("soldier_capacity", newCap);
+				}
+				bonusCmd.appendChild(f);
+			}
+			m_metagame.getComms().send(bonusCmd);
+		}
 	}
 
 	// Für Debug-HUD und /stats: effektive Capacity (rawCap - reserved).
@@ -302,7 +345,9 @@ class RespawnSlotDelayTracker : Tracker {
 		int cached = int(m_baseCapacity[key]);
 		// Nur nach oben korrigieren: behebt zu fruehes Caching (z.B. 30 -> 250),
 		// ohne dass reduzierte Engine-Livewerte den Basiswert nach unten ziehen.
-		if (observed > cached) m_baseCapacity[key] = observed;
+		// Last-Base-Bonus: wenn Bonus aktiv, ignorieren – sonst würde der verdoppelte Wert gecacht.
+		bool bonusActive = m_lastBaseBonusActive.exists(key) && int(m_lastBaseBonusActive[key]) == 1;
+		if (!bonusActive && observed > cached) m_baseCapacity[key] = observed;
 	}
 
 	private string factionKey(int factionId) { return "" + factionId; }

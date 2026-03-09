@@ -271,8 +271,6 @@
   
 	<call key="mg_drop.call" />
 	<call key="mines.call" />
-	<!-- Test: 5 Minibosse (nur zum Testen per Radio) -->
-	<call key="test_miniboss_drop.call" />
 
 
 </resources>
