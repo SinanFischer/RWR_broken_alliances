@@ -1,4 +1,4 @@
-// /stats und /stat: Kompaktes Format pro Fraktion.
+// /stats und /stat: Kompaktes Format pro Fraktion. Cooldown 1s gegen Engine-Echo-Doppelresponse.
 // Beispiel: EU: A-K-D: 50-100-80 Cap: 200 C-B: 72-128 B(s): 150
 // Schwächste Fraktion (Slotblock AUS): EU: A-K-D: 50-100-80 Cap: 200 [no block]
 //
@@ -22,6 +22,9 @@ class StatsCommandTracker : Tracker {
 	protected RespawnSlotDelayTracker@ m_respawnTracker;
 	protected dictionary m_killsPerFaction;
 	protected dictionary m_deathsPerFaction;
+	// Deduplizierung: letzter Zeitpunkt pro Spieler, zu dem /stats beantwortet wurde
+	protected dictionary m_lastStatsResponseTime;
+	protected float m_timeAccum = 0.0f;
 
 	StatsCommandTracker(Metagame@ metagame, RespawnSlotDelayTracker@ respawnTracker = null) {
 		@m_metagame = metagame;
@@ -34,6 +37,8 @@ class StatsCommandTracker : Tracker {
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
 
+	void update(float time) { m_timeAccum += time; }
+
 	protected void handleChatEvent(const XmlElement@ event) {
 		string message = event.getStringAttribute("message");
 		if (message.length() < 5 || message.substr(0, 5).toLowerCase() != "/stat")
@@ -41,6 +46,12 @@ class StatsCommandTracker : Tracker {
 		if (message.length() > 5 && message.substr(5, 1) != "s" && message.substr(5, 1) != " ")
 			return;
 		int senderId = event.getIntAttribute("player_id");
+
+		// Deduplizierung: Engine sendet Chat-Events doppelt (Spieler + Server-Echo)
+		string senderKey = "" + senderId;
+		float lastTime = m_lastStatsResponseTime.exists(senderKey) ? float(m_lastStatsResponseTime[senderKey]) : -999.0f;
+		if (m_timeAccum - lastTime < 1.0f) return;
+		m_lastStatsResponseTime[senderKey] = m_timeAccum;
 
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factions.size() == 0) {
