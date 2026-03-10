@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Mod: Hovercraft - max_health 12 (Vanilla 5.7), Health-Effekte skaliert, Despawn 20 min -->
-<vehicle file="vehicle_base.vehicle" name="Hovercraft" key="hovercraft.vehicle" respawn_time="180" time_to_live_unsteerable="1200" map_view_atlas_index="52" minimum_fill_requirement="0.25" allow_ai_to_use="0">
+<vehicle file="vehicle_base.vehicle" name="Hovercraft" key="hovercraft.vehicle" respawn_time="180" time_to_live_unsteerable="1200" map_view_atlas_index="52" minimum_fill_requirement="0.25" allow_ai_to_use="1">
 	<tag name="metal_thin" />
 	<tag name="light_combat" /> 
 
