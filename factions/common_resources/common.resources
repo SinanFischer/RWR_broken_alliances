@@ -131,6 +131,7 @@
 	<vehicle key="deployable_mg.vehicle" />  
 	<vehicle key="deployable_minig.vehicle" /> 
 	<vehicle key="mortar.vehicle" />
+	<vehicle key="m120_heavy_mortar.vehicle" />
 	<vehicle key="deployable_gl.vehicle" /> 
 
 	<vehicle key="radar_tower.vehicle" />
