@@ -6,8 +6,8 @@
 	<reward class="enemy_stabbed" 				base="+0.00675"				type="xp" />
 	<reward class="enemy_kill_combo" 			base="+0.00195" 		   	type="xp" />
 
-	<reward class="enemy_shot" 					base="9" 					type="rp" />
-	<reward class="enemy_killed_in_explosion"	base="5"					type="rp" />
+	<reward class="enemy_shot" 					base="12" 					type="rp" />
+	<reward class="enemy_killed_in_explosion"	base="7"					type="rp" />
 	<reward class="enemy_stabbed" 				base="19.5" 				type="rp" />
 	<reward class="enemy_kill_combo" 			base="1.5"					type="rp" />
 	

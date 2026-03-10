@@ -55,6 +55,7 @@
 | TTI-Combat Shield | EU | Pistol | 110 |
 | M1917 Savage-Lewis | EU | Gewehr/SMG | 115 |
 | XM8 | EU | Gewehr/SMG | 120 |
+| KRISS Vector | EU | Gewehr/SMG | 140 |
 | Benelli M4 | EU | Gewehr/SMG | 145 |
 | SCAR SSR | EU | Gewehr/SMG | 150 |
 | Steyr AUG | EU | Gewehr/SMG | 165 |
@@ -64,29 +65,28 @@
 | M202 flash | EU | Raketenwerfer | 200 |
 | Gilboa DBR | EU | Gewehr/SMG | 210 |
 | MP7 | EU | Gewehr/SMG | 220 |
-| KRISS Vector | EU | Gewehr/SMG | 240 |
 | Jackhammer | EU | Gewehr/SMG | 250 |
 | Javelin Elite | EU | Raketenwerfer | 250 |
 | M712 Schnellfeuer | EU | Gewehr/SMG | 250 |
+| P90 | EU | Gewehr/SMG | 260 |
 | Desert Eagle GOLD | EU | Shotgun | 300 |
 | AAC Honey Badger | EU | Gewehr/SMG | 310 |
-| P90 | EU | Gewehr/SMG | 400 |
 | APR | EU | Gewehr/SMG | 450 |
 | Barrett M107 | EU | Gewehr/SMG | 500 |
 | Stoner LMG | EU | Gewehr/SMG | 500 |
 | CheyTac M200 | EU | Sniper | 540 |
 | Truvelo Amris suppressed | EU | Sniper | 648 |
 | Milkor MGL | EU | Gewehr/SMG | 650 |
-| M120 Heavy Mortar | EU | Gewehr/SMG | 1000 |
+| M120 Heavy Mortar | EU | Gewehr/SMG | 950 |
 | M120 Heavy Mortar Kit | EU | Schwer/Sonstiges | 1000 |
 | FN EVOLYS | EU | Gewehr/SMG | 2000 |
 | QBS-09 | USA | Shotgun | 2 |
 | FHJ-01 Cluster | USA | Raketenwerfer | 50 |
 | QCW-05 | USA | Gewehr/SMG | 80 |
+| MG-08 Heavy CustoM22 | USA | Shotgun | 90 |
 | Neostead 2000 | USA | Pistol | 110 |
 | qbz-95 | USA | Gewehr/SMG | 145 |
 | qbz-95 shotgun | USA | Gewehr/SMG | 145 |
-| MG-08 Heavy CustoM22 | USA | Shotgun | 200 |
 | qbz-95 - underbarrel shotgun | USA | Gewehr/SMG | 280 |
 | QLZ87 GL | USA | Gewehr/SMG | 379 |
 | mg42_elite | RU | Schwer/Sonstiges | 0 |
@@ -100,12 +100,12 @@
 | PKP Pecheneg | RU | Gewehr/SMG | 25 |
 | Saiga-12K | RU | Shotgun | 25 |
 | AK-74 GP25 GL | RU | Gewehr/SMG | 37 |
+| AK47 w/ GP25 GL | RU | Shotgun | 37 |
 | RPK-74M | RU | Gewehr/SMG | 40 |
 | QJZ-89 "Volk" | RU | Gewehr/SMG | 110 |
 | AN-94 - burst | RU | Shotgun | 120 |
-| RPK16 | RU | Gewehr/SMG | 216 |
-| AK47 w/ GP25 GL | RU | Shotgun | 250 |
-| RPK16 - long barrel | RU | Gewehr/SMG | 256 |
+| RPK16 | RU | Gewehr/SMG | 128 |
+| RPK16 - long barrel | RU | Gewehr/SMG | 156 |
 | Pecheneg Bullpup | RU | Gewehr/SMG | 430 |
 | VSS Vintorez | RU | Gewehr/SMG | 480 |
 | MG-42 | RU | Gewehr/SMG | 800 |
@@ -160,18 +160,19 @@
 | pepperdust | Neutral | Pistol | 100 |
 | MiniGun deploy | Neutral | Schwer/Sonstiges | 120 |
 | taser | Neutral | Shotgun | 120 |
+| Squad Equipment Kit | Neutral | Schwer/Sonstiges | 140 |
 | Medical Dart Gun | Neutral | Gewehr/SMG | 190 |
 | Grenade Launcher | Neutral | Gewehr/SMG | 200 |
-| Squad Equipment Kit | Neutral | Schwer/Sonstiges | 200 |
 | Squad Equipment Kit - Navy | Neutral | Schwer/Sonstiges | 200 |
+| GL Deploy | Neutral | Schwer/Sonstiges | 210 |
+| Grenade Launcher | Neutral | Gewehr/SMG | 210 |
 | Origin-12 | Neutral | Shotgun | 210 |
 | Origin-12 suppressed | Neutral | Shotgun | 210 |
 | Compound Bow | Neutral | Shotgun | 215 |
 | Compound Bow, explosive | Neutral | Shotgun | 215 |
+| EOD Vest Squad Kit | Neutral | Schwer/Sonstiges | 240 |
 | TOW deploy | Neutral | Schwer/Sonstiges | 250 |
 | M6 Lynx | Neutral | Shotgun | 300 |
-| GL Deploy | Neutral | Schwer/Sonstiges | 300 |
-| Grenade Launcher | Neutral | Gewehr/SMG | 300 |
 | SBL | Neutral | Shotgun | 300 |
 | Cavalry saber | Neutral | Schwer/Sonstiges | 333 |
 | Hornet deploy | Neutral | Schwer/Sonstiges | 350 |
@@ -181,5 +182,5 @@
 | Chain SAW | Neutral | Shotgun | 650 |
 | Heavy Field Gun | Neutral | Schwer/Sonstiges | 1000 |
 | Golden Knife | Neutral | Pistol | 1000 |
-| Heavy Artillery Gun | Neutral | Schwer/Sonstiges | 2000 |
+| Heavy Artillery Gun | Neutral | Schwer/Sonstiges | 1450 |
 | GAU-17 MOBILE | Neutral | Gewehr/SMG | 10000 |

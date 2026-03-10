@@ -6,7 +6,7 @@
 
 ### Weapons
 
-- Big rebalance of many weapons
+- Big rebalance of many weapons & new currency prices 
 - Cooldown visualisation added for Coastal Gun & Heavy Mortar
 - 3 new Heavy MGs – one per faction
 - - RU: Volk MG – fires .50 cal rounds, damages vehicles and destroys crates

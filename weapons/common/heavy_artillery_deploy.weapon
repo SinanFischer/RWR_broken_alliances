@@ -35,7 +35,7 @@
 
     <hud_icon filename="hud_coastal_gun_deploy.png" />
     <commonness value="0.0001" can_respawn_with="0" in_stock="1"/>
-    <inventory encumbrance="15.0" price="2000.0" />
+    <inventory encumbrance="15.0" price="1450.0" />
 
     <modifier class="speed" value="-0.6" />
 
