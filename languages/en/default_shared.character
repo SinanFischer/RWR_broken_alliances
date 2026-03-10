@@ -1261,6 +1261,8 @@
 
   <comment key="squad_equipment_kit, equip" text="I can use this to equip nearby soldiers with vests!" /> 
   <comment key="squad_equipment_kit, done" text="Vests handed out!" />   
+  <comment key="eod_vest_squad_kit, equip" text="I can use this to equip nearby soldiers with EOD vests!" /> 
+  <comment key="eod_vest_squad_kit, done" text="EOD vests handed out!" />   
 
 <!-- 1.91 -->
   	<comment key="Press SPACE to continue!" text="Press %control_jump to respawn!" />

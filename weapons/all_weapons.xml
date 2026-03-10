@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapons>
 	<weapon file="brown/ak47.weapon" />
 	<weapon file="common/apc_hmg.weapon" />
@@ -43,6 +43,7 @@
 	<weapon file="common/dog.weapon" />
 	<weapon file="common/squad_equipment_kit.weapon" />
 	<weapon file="common/squad_equipment_kit_navy.weapon" />
+	<weapon file="common/eod_vest_squad_kit.weapon" />
 
 	<weapon file="common/tow.weapon" />
 	<weapon file="noxe.weapon" />

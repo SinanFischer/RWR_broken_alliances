@@ -4,6 +4,7 @@
 	<weapon key='medikit.weapon' />
 	<weapon key='squad_equipment_kit.weapon' />
 	<weapon key='squad_equipment_kit_navy.weapon' />
+	<weapon key='eod_vest_squad_kit.weapon' />
 	<weapon key='riot_shield.weapon' />
 	<weapon key='shovel.weapon' />
 	<weapon key='cover_resource.weapon' />

@@ -19,25 +19,35 @@ class SquadEquipmentKit : Tracker {
 
 	// --------------------------------------------
 	protected void handleItemDropEvent(const XmlElement@ event) {
-		//squad equipment kit key
-		string key = "squad_equipment_kit.weapon";
-
 		string itemKey = event.getStringAttribute("item_key");
 		int containerId = event.getIntAttribute("target_container_type_id");
-		if (key == itemKey && containerId == 2) {
+		if (containerId == 2) {
 			int characterId = event.getIntAttribute("character_id");
-			//Announcing item description when equipping the kit
-			sendFactionMessageKeySaidAsCharacter(m_metagame, 0, characterId, "squad_equipment_kit, equip");
+			if (itemKey == "squad_equipment_kit.weapon") {
+				sendFactionMessageKeySaidAsCharacter(m_metagame, 0, characterId, "squad_equipment_kit, equip");
+			} else if (itemKey == "eod_vest_squad_kit.weapon") {
+				sendFactionMessageKeySaidAsCharacter(m_metagame, 0, characterId, "eod_vest_squad_kit, equip");
+			}
 		}
 	}
 
 	// --------------------------------------------
 	protected void handleResultEvent(const XmlElement@ event) {
-		string key = "squad_equipment_kit";
 		string eventKey = event.getStringAttribute("key");
-		if (key == eventKey) {
+		string vestToGive = "";
+		string doneMessageKey = "";
+
+		if (eventKey == "squad_equipment_kit") {
+			vestToGive = "vest3.carry_item";
+			doneMessageKey = "squad_equipment_kit, done";
+		} else if (eventKey == "eod_vest_squad_kit") {
+			vestToGive = "eodvest_ai.carry_item";
+			doneMessageKey = "eod_vest_squad_kit, done";
+		}
+
+		if (vestToGive.length() > 0) {
 			int characterId = event.getIntAttribute("character_id");
-			sendFactionMessageKeySaidAsCharacter(m_metagame, 0, characterId, "squad_equipment_kit, done");
+			sendFactionMessageKeySaidAsCharacter(m_metagame, 0, characterId, doneMessageKey);
 
 			int max_soldier_count = 10;
 			float range = 30.0;
@@ -49,12 +59,14 @@ class SquadEquipmentKit : Tracker {
 				"sniper"
 			};
 
-			// Costumes that may be found in faulty kits (only items that exist in this mod)
-			array<string> vestKeys = {
-				"costume_werewolf.carry_item",
-				"costume_clown.carry_item",
-				"costume_santa.carry_item"
-			};
+			array<string> vestKeys = {};
+			if (eventKey == "squad_equipment_kit") {
+				vestKeys = {
+					"costume_werewolf.carry_item",
+					"costume_clown.carry_item",
+					"costume_santa.carry_item"
+				};
+			}
 
 			const XmlElement@ character = getCharacterInfo(m_metagame, characterId);
 			if (character !is null) {
@@ -74,43 +86,33 @@ class SquadEquipmentKit : Tracker {
 
 					if (targetKeys.find(soldierClass) != -1 && soldierXp >= 0.1) {
 						array<const XmlElement@>@ equipment = characterInfo.getElementsByTagName("item");
-						if (equipment.size() > 0) {
-							int vestAmount = equipment[4].getIntAttribute("amount");
-							string vestKey = equipment[4].getStringAttribute("key");
+						// Alle tragen mindestens Default-Weste; Upgrade zu 100% wenn Slot 4 existiert
+						if (equipment.size() > 4) {
+							string newVest = vestToGive;
 
-							if (vestAmount == 0 || (vestAmount == 1 &&
-							(	vestKey == "vest2_2" ||
-								vestKey == "vest2_3" ||
-								vestKey == "vest1.carry_item" ||
-								vestKey == "vest3_2"||
-								vestKey == "vest3_3"||
-								vestKey == "vest3_4"||
-								vestKey == "vest3_5"||
-								vestKey == "vest1_2"))) {
-								string newVest = "vest3.carry_item";
-
+							if (eventKey == "squad_equipment_kit") {
 								int r = rand(1, 100);
 								if (r == 1 && vestKeys.length() > 0) {
 									r = rand(0, vestKeys.length() - 1);
 									newVest = vestKeys[r];
 								}
+							}
 
-								XmlElement c("command");
-								c.setStringAttribute("class", "update_inventory");
-								c.setIntAttribute("character_id", soldierId);
-								c.setIntAttribute("container_type_id", 4);
-								{
-									XmlElement j("item");
-									j.setStringAttribute("class", "carry_item");
-									j.setStringAttribute("key", newVest);
-									c.appendChild(j);
-								}
-								m_metagame.getComms().send(c);
+							XmlElement c("command");
+							c.setStringAttribute("class", "update_inventory");
+							c.setIntAttribute("character_id", soldierId);
+							c.setIntAttribute("container_type_id", 4);
+							{
+								XmlElement j("item");
+								j.setStringAttribute("class", "carry_item");
+								j.setStringAttribute("key", newVest);
+								c.appendChild(j);
+							}
+							m_metagame.getComms().send(c);
 
-								soldier_count++;
-								if (soldier_count >= max_soldier_count) {
-									break;
-								}
+							soldier_count++;
+							if (soldier_count >= max_soldier_count) {
+								break;
 							}
 						}
 					}

@@ -37,7 +37,7 @@
     <hud_icon filename="hud_rpk16_long.png" />
     <commonness value="0.0028" can_respawn_with="0" in_stock="0" />
     <!-- commonness 0.04: moderate Chance (~20 %) im Brown-Miniboss-Pool; in_stock=0 = nur Miniboss-Drop, nicht kaufbar; 256 RP -->
-    <inventory encumbrance="10.0" price="256.0" />
+    <inventory encumbrance="10.0" price="156.0" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">

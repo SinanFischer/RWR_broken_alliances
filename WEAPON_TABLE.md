@@ -90,19 +90,19 @@
 | qbz-95 - underbarrel shotgun | USA | Gewehr/SMG | 280 |
 | QLZ87 GL | USA | Gewehr/SMG | 379 |
 | mg42_elite | RU | Schwer/Sonstiges | 0 |
-| PB | RU | Shotgun | 10 |
-| AK-74M | RU | Gewehr/SMG | 15 |
-| AEK-919k | RU | Gewehr/SMG | 25 |
-| RPG-7 | RU | Raketenwerfer | 30 |
-| AKS-74U | RU | Gewehr/SMG | 40 |
-| SV-98 | RU | Sniper | 40 |
-| Dragunov SVD | RU | Shotgun | 50 |
-| PKP Pecheneg | RU | Gewehr/SMG | 50 |
-| Saiga-12K | RU | Shotgun | 50 |
-| AK-74 GP25 GL | RU | Gewehr/SMG | 75 |
-| RPK-74M | RU | Gewehr/SMG | 80 |
+| PB | RU | Shotgun | 5 |
+| AK-74M | RU | Gewehr/SMG | 8 |
+| AEK-919k | RU | Gewehr/SMG | 12 |
+| RPG-7 | RU | Raketenwerfer | 15 |
+| AKS-74U | RU | Gewehr/SMG | 20 |
+| SV-98 | RU | Sniper | 20 |
+| Dragunov SVD | RU | Shotgun | 25 |
+| PKP Pecheneg | RU | Gewehr/SMG | 25 |
+| Saiga-12K | RU | Shotgun | 25 |
+| AK-74 GP25 GL | RU | Gewehr/SMG | 37 |
+| RPK-74M | RU | Gewehr/SMG | 40 |
+| QJZ-89 "Volk" | RU | Gewehr/SMG | 110 |
 | AN-94 - burst | RU | Shotgun | 120 |
-| QJZ-89 "Volk" | RU | Gewehr/SMG | 180 |
 | RPK16 | RU | Gewehr/SMG | 216 |
 | AK47 w/ GP25 GL | RU | Shotgun | 250 |
 | RPK16 - long barrel | RU | Gewehr/SMG | 256 |
