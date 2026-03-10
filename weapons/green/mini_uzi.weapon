@@ -39,7 +39,7 @@ slot="1"   />
 
     <model filename="mini_uzi.xml" />
     <hud_icon filename="hud_uzi_mini.png" />
-    <inventory encumbrance="5.0" price="3.0" />
+    <inventory encumbrance="5.0" price="2.0" />
     <commonness value="0.0" can_respawn_with="1" in_stock="1"/>
 
     <projectile file="bullet.projectile">

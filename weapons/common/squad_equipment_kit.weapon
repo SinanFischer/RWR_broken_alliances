@@ -29,7 +29,7 @@
 
     <hud_icon filename="hud_squad_equipment_kit.png" />
     <commonness value="0.00004" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="200.0" />
+    <inventory encumbrance="10.0" price="140.0" />
 
     <modifier class="speed" value="-0.4" />
 

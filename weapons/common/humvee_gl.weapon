@@ -23,7 +23,7 @@
     <model filename=""  />  
     <hud_icon filename="hud_gl.png" />
     <commonness value="0.0" can_respawn_with="0" />
-    <inventory encumbrance="5.0" price="300.0" />    
+    <inventory encumbrance="5.0" price="210.0" />    
   
     <projectile file="mounted_gl.projectile">
     </projectile>

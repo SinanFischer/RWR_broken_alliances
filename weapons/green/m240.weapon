@@ -31,7 +31,7 @@
 
     <hud_icon filename="hud_m240b.png" />
     <commonness value="0.029" />
-    <inventory encumbrance="13.0" price="60.0" />
+    <inventory encumbrance="13.0" price="30.0" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.32" />

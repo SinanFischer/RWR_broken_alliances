@@ -5,76 +5,76 @@
 | SCAR SSR Elite | EU | Schwer/Sonstiges | 0 |
 | steyr_aug_elite | EU | Schwer/Sonstiges | 0 |
 | stoner_lmg_elite | EU | Schwer/Sonstiges | 0 |
+| Glock 17 | EU | Shotgun | 2 |
+| mini UZI | EU | Gewehr/SMG | 2 |
+| Steyr TMP | EU | Gewehr/SMG | 2 |
 | Beretta M9 | EU | Shotgun | 3 |
-| Glock 17 | EU | Shotgun | 3 |
-| mini UZI | EU | Gewehr/SMG | 3 |
-| Steyr TMP | EU | Gewehr/SMG | 3 |
-| Desert Eagle | EU | Shotgun | 10 |
-| m79 | EU | Shotgun | 10 |
-| G36 | EU | Gewehr/SMG | 16 |
-| M16A4 | EU | Gewehr/SMG | 16 |
+| Desert Eagle | EU | Shotgun | 5 |
+| m79 | EU | Shotgun | 5 |
+| G36 | EU | Gewehr/SMG | 8 |
+| M16A4 | EU | Gewehr/SMG | 8 |
+| m79 grenade launcher | EU | Shotgun | 13 |
+| Mossberg 500 | EU | Pistol | 15 |
+| SPAS-12 | EU | Pistol | 15 |
+| G28 | EU | Shotgun | 20 |
+| HK416 | EU | Gewehr/SMG | 20 |
 | Javelin | EU | Raketenwerfer | 20 |
-| m79 grenade launcher | EU | Shotgun | 25 |
+| M14 EBR | EU | Shotgun | 20 |
+| M4A1 | EU | Gewehr/SMG | 20 |
+| CAWS | EU | Shotgun | 25 |
+| IMI Negev | EU | Gewehr/SMG | 30 |
+| M240 | EU | Gewehr/SMG | 30 |
 | M72 LAW | EU | Raketenwerfer | 30 |
-| Mossberg 500 | EU | Pistol | 30 |
-| SPAS-12 | EU | Pistol | 30 |
-| G28 | EU | Shotgun | 40 |
-| HK416 | EU | Gewehr/SMG | 40 |
-| M14 EBR | EU | Shotgun | 40 |
-| M4A1 | EU | Gewehr/SMG | 40 |
-| CAWS | EU | Shotgun | 50 |
+| M24-A2 | EU | Sniper | 35 |
+| G22 | EU | Sniper | 35 |
+| M16A4 - shield and scope | EU | Gewehr/SMG | 36 |
+| G36 w/ AG36 GL | EU | Gewehr/SMG | 40 |
+| G36 w/ AG36 GL | EU | Shotgun | 40 |
+| M16A4 w/ M203 GL | EU | Gewehr/SMG | 40 |
+| M16A4 w/ M203 GL | EU | Shotgun | 40 |
+| M249 Para | EU | Gewehr/SMG | 40 |
+| MG4 | EU | Gewehr/SMG | 40 |
+| MGL Flasher | EU | Shotgun | 40 |
+| MP5SD | EU | Gewehr/SMG | 40 |
+| Scorpion Evo III | EU | Gewehr/SMG | 40 |
+| SG 552 | EU | Gewehr/SMG | 40 |
+| Beretta 93R | EU | Shotgun | 50 |
+| FAMAS G1 | EU | Shotgun | 50 |
 | M2 Carl Gustav | EU | Raketenwerfer | 50 |
-| IMI Negev | EU | Gewehr/SMG | 60 |
-| M240 | EU | Gewehr/SMG | 60 |
-| M24-A2 | EU | Sniper | 70 |
-| G22 | EU | Sniper | 70 |
+| L85A2 | EU | Shotgun | 60 |
+| Model 29 Revolver | EU | Shotgun | 60 |
 | SMAW | EU | Raketenwerfer | 70 |
-| M16A4 - shield and scope | EU | Gewehr/SMG | 72 |
-| G36 w/ AG36 GL | EU | Gewehr/SMG | 80 |
-| M16A4 w/ M203 GL | EU | Gewehr/SMG | 80 |
-| M249 Para | EU | Gewehr/SMG | 80 |
-| MG4 | EU | Gewehr/SMG | 80 |
-| MGL Flasher | EU | Shotgun | 80 |
-| MP5SD | EU | Gewehr/SMG | 80 |
-| Scorpion Evo III | EU | Gewehr/SMG | 80 |
-| SG 552 | EU | Gewehr/SMG | 80 |
-| Beretta 93R | EU | Shotgun | 100 |
-| FAMAS G1 | EU | Shotgun | 100 |
+| UTS-15 | EU | Gewehr/SMG | 75 |
+| M1 Garand Modern | EU | Shotgun | 80 |
+| XM-25 | EU | Shotgun | 85 |
+| AA-12 | EU | Gewehr/SMG | 95 |
+| XM-25 | EU | Gewehr/SMG | 95 |
+| Tommy Gun | EU | Gewehr/SMG | 100 |
 | Javelin | EU | Raketenwerfer | 100 |
-| L85A2 | EU | Shotgun | 120 |
-| Model 29 Revolver | EU | Shotgun | 120 |
-| AA-12 | EU | Gewehr/SMG | 150 |
+| Ultimax 100, magazine | EU | Gewehr/SMG | 100 |
+| TTI-Combat Shield | EU | Pistol | 110 |
+| M1917 Savage-Lewis | EU | Gewehr/SMG | 115 |
+| XM8 | EU | Gewehr/SMG | 120 |
+| Benelli M4 | EU | Gewehr/SMG | 145 |
 | SCAR SSR | EU | Gewehr/SMG | 150 |
-| TTI-Combat Shield | EU | Pistol | 150 |
-| UTS-15 | EU | Gewehr/SMG | 150 |
-| XM8 | EU | Gewehr/SMG | 150 |
-| M1 Garand Modern | EU | Shotgun | 160 |
-| XM-25 | EU | Shotgun | 170 |
-| M1917 Savage-Lewis | EU | Gewehr/SMG | 190 |
-| XM-25 | EU | Gewehr/SMG | 190 |
-| Tommy Gun | EU | Gewehr/SMG | 200 |
+| Steyr AUG | EU | Gewehr/SMG | 165 |
+| Benelli M4 suppressed | EU | Gewehr/SMG | 175 |
+| Ultimax 100 | EU | Gewehr/SMG | 180 |
+| F2000 | EU | Gewehr/SMG | 195 |
 | M202 flash | EU | Raketenwerfer | 200 |
-| Ultimax 100, magazine | EU | Gewehr/SMG | 200 |
 | Gilboa DBR | EU | Gewehr/SMG | 210 |
-| G36 w/ AG36 GL | EU | Shotgun | 250 |
+| MP7 | EU | Gewehr/SMG | 220 |
+| KRISS Vector | EU | Gewehr/SMG | 240 |
+| Jackhammer | EU | Gewehr/SMG | 250 |
 | Javelin Elite | EU | Raketenwerfer | 250 |
-| M16A4 w/ M203 GL | EU | Shotgun | 250 |
 | M712 Schnellfeuer | EU | Gewehr/SMG | 250 |
-| Steyr AUG | EU | Gewehr/SMG | 250 |
-| F2000 | EU | Gewehr/SMG | 270 |
-| MP7 | EU | Gewehr/SMG | 290 |
-| Benelli M4 suppressed | EU | Gewehr/SMG | 300 |
 | Desert Eagle GOLD | EU | Shotgun | 300 |
-| KRISS Vector | EU | Gewehr/SMG | 300 |
-| Ultimax 100 | EU | Gewehr/SMG | 310 |
-| Benelli M4 | EU | Gewehr/SMG | 350 |
-| Jackhammer | EU | Gewehr/SMG | 350 |
-| AAC Honey Badger | EU | Gewehr/SMG | 380 |
+| AAC Honey Badger | EU | Gewehr/SMG | 310 |
 | P90 | EU | Gewehr/SMG | 400 |
 | APR | EU | Gewehr/SMG | 450 |
 | Barrett M107 | EU | Gewehr/SMG | 500 |
 | Stoner LMG | EU | Gewehr/SMG | 500 |
-| CheyTac M200 | EU | Sniper | 610 |
+| CheyTac M200 | EU | Sniper | 540 |
 | Truvelo Amris suppressed | EU | Sniper | 648 |
 | Milkor MGL | EU | Gewehr/SMG | 650 |
 | M120 Heavy Mortar | EU | Gewehr/SMG | 1000 |
@@ -107,7 +107,7 @@
 | AK47 w/ GP25 GL | RU | Shotgun | 250 |
 | RPK16 - long barrel | RU | Gewehr/SMG | 256 |
 | Pecheneg Bullpup | RU | Gewehr/SMG | 430 |
-| VSS Vintorez | RU | Gewehr/SMG | 500 |
+| VSS Vintorez | RU | Gewehr/SMG | 480 |
 | MG-42 | RU | Gewehr/SMG | 800 |
 | APC HMG | Neutral | Gewehr/SMG | 0 |
 | APC HMG | Neutral | Gewehr/SMG | 0 |
@@ -176,8 +176,8 @@
 | Cavalry saber | Neutral | Schwer/Sonstiges | 333 |
 | Hornet deploy | Neutral | Schwer/Sonstiges | 350 |
 | flamethrower | Neutral | Gewehr/SMG | 400 |
+| Lahti L-39 | Neutral | Sniper | 570 |
 | WB-II Microgun | Neutral | Gewehr/SMG | 580 |
-| Lahti L-39 | Neutral | Sniper | 640 |
 | Chain SAW | Neutral | Shotgun | 650 |
 | Heavy Field Gun | Neutral | Schwer/Sonstiges | 1000 |
 | Golden Knife | Neutral | Pistol | 1000 |

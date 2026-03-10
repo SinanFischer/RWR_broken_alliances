@@ -43,7 +43,7 @@
 
     <hud_icon filename="hud_beretta_93r.png" />
     <commonness value="0.0014" can_respawn_with="0" in_stock="0" />
-    <inventory encumbrance="2.0" price="100.0" />
+    <inventory encumbrance="2.0" price="50.0" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
 	<capacity value="1" source="rank" source_value="0.15" />

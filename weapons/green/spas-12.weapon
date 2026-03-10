@@ -27,7 +27,7 @@
 
     <hud_icon filename="hud_spas-12.png" />
     <commonness value="0.029" />
-    <inventory encumbrance="5.0" price="30.0" />
+    <inventory encumbrance="5.0" price="15.0" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">

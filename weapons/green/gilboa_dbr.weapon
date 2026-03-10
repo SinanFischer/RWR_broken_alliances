@@ -34,7 +34,7 @@
     <model filename="gilboa_dbr.xml" />
 
     <hud_icon filename="hud_gilboa_dbr.png" />
-    <commonness value="0.0" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.0" can_respawn_with="1" in_stock="1" />
     <inventory encumbrance="10.0" price="210" />
 
     <projectile file="bullet.projectile">

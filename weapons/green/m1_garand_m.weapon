@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.50" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="m1_garand_m.weapon">
 <tag name="assault" />
 	
@@ -38,7 +38,7 @@
 	<hud_icon filename="hud_m1_garand_m.png" />
 	
 	<commonness value="0.005" can_respawn_with="1" in_stock="1"/>
-	<inventory encumbrance="10.0" price="160.0" />
+	<inventory encumbrance="10.0" price="80.0" />
 	
 	<projectile file="bullet.projectile">
 		<result 
