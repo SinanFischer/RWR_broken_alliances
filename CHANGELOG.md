@@ -2,7 +2,6 @@
 
 ## [1.1.0] - 2026-03-01
 - activated fov on all quick match maps, you can deactivate map specific by setting value 0 in fov for example under: RWR_broken_alliances\packages\vanilla\maps\map17\init_match.xml
-- combat medics also have now primary weapons
 
 ### Weapons
 
@@ -10,6 +9,8 @@
 - Cooldown visualisation added for Coastal Gun & Heavy Mortar
 - 3 new Heavy MGs – one per faction
 - - RU: Volk MG – fires .50 cal rounds, damages vehicles and destroys crates
+- - USA: Lewis MG 
+- - EU: MG08  
 - M120 Heavy Mortar – extreme range field artillery, 20 second reload
 - Origin-12 – fully automatic shotgun, 30-round magazine. Rarely carried by shotgun troops.
 - Medic Dartgun
