@@ -1,6 +1,13 @@
 # Change Log
 
+## [Unreleased]
+- **Admin-Command `/fov`:** FOV Visualization (Sichtkegel-Anzeige) zur Laufzeit steuerbar: `/fov true` oder `/fov false` (auch `1`/`0`, `on`/`off`). Kampagne + Quick Match.
+
 ## [1.1.0] - 2026-03-01
+
+This updates is concentrated to give more content to the mod. 
+
+
 - activated fov on all quick match maps, you can deactivate map specific by setting value 0 in fov for example under: RWR_broken_alliances\packages\vanilla\maps\map17\init_match.xml
 
 ### Weapons

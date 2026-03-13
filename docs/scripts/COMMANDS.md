@@ -23,6 +23,7 @@ Alle **eingebundenen** Chat-Commands des Mods. Ausgenommen: Reinforcement-Pool-T
 | `/spawn_enemy_cargo` oder `/enemy_cargo_spawn` | wie oben | Quick Match, Invasion, Campaign | **Admin** | Spawnt einen **feindlichen** Cargo Truck neben der Spielerposition (zum Testen der Cargo-Delivery-Belohnung: in Waffenkammer bringen → RP + Fahrzeug-Spawn). |
 | *Cargo-Truck-Spawn* | `vehicle_interval_spawn` + `captain_spawn` | Quick Match | automatisch | Wenn zufällig ein Cargo Truck spawnt (Medium, ~9 % Chance): Captain-Team spawnt mit. Nachrichten an alle Fraktionen. |
 | `/test_defender_tank` | `trackers/defender_tank_help.as` | **nur Invasion** | **Admin** | Simuliert Panzer-Spawn für Verteidiger (Test). |
+| `/fov true` / `/fov false` | `commands/fov_command_tracker.as` | Quick Match, Invasion, Campaign | **Admin** | FOV Visualization (Sichtkegel-Anzeige) zur Laufzeit ein-/ausschalten. Alternativen: `1`/`0`, `on`/`off`. |
 
 ### Vehicle-Command (Kurz)
 
@@ -66,9 +67,9 @@ Auswahl der Commands (alle mit `/` eingeben, z. B. `/god`, `/whereami`):
 
 | Gamemode | Mod-Commands | BasicCommandHandler | SupporterCommandHandler | DefenderTankHelp |
 |----------|----------------|---------------------|--------------------------|------------------|
-| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/combatmedics`, `/cargo_captain_test`, `/test_enemy_cargo_captain`, `/spawn_enemy_cargo` | ja | nein | nein |
-| **Invasion**   | `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/combatmedics`, `/spawn_enemy_cargo`, `/test_defender_tank` | ja | ja (Supporter) | ja (Admin) |
-| **Campaign**   | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/combatmedics`, `/spawn_enemy_cargo` | nein | nein | ja |
+| **Quick Match** | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/combatmedics`, `/cargo_captain_test`, `/test_enemy_cargo_captain`, `/spawn_enemy_cargo`, `/fov` | ja | nein | nein |
+| **Invasion**   | `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/combatmedics`, `/spawn_enemy_cargo`, `/test_defender_tank`, `/fov` | ja | ja (Supporter) | ja (Admin) |
+| **Campaign**   | `/stats`, `/vehicle`, `/fahrzeug`, `/blackops3`, `/captain_spawn`, `/platoon`, `/combatmedics`, `/spawn_enemy_cargo`, `/fov` | nein | nein | ja |
 
 *Hinweis: Die Mod-Commands werden zentral über `GameSystemsRegistry` installiert. Aktivierung erfolgt pro Modus über die Flags im jeweiligen Gamemode-Script.*
 

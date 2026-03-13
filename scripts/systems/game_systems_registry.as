@@ -11,6 +11,7 @@
 #include "commands/blackops3_vest_command_tracker.as"
 #include "commands/mrl_spawn_command.as"
 #include "commands/commander_ai_command_tracker.as"
+#include "commands/fov_command_tracker.as"
 #include "delivery_unlocks/item_delivery_configurator_quickmatch.as"
 #include "systeme/fraktionspunkte_system/faction_points_system.as"
 
@@ -26,6 +27,7 @@ class GameSystemsRegistry {
 	protected BlackOps3VestCommandTracker@ m_blackOps3VestTracker;
 	protected MrlSpawnCommandTracker@ m_mrlSpawnTracker;
 	protected CommanderAiCommandTracker@ m_commanderAiTracker;
+	protected FovCommandTracker@ m_fovCommandTracker;
 	protected ItemDeliveryConfiguratorQuickMatch@ m_sharedItemDeliveryConfigurator;
 	protected ItemDeliveryOrganizer@ m_sharedItemDeliveryOrganizer;
 	protected bool m_sharedCommandDeliverySystemsInstalled = false;
@@ -101,6 +103,10 @@ class GameSystemsRegistry {
 		// Commander-AI-Commands (/ai_status, /ai_defend, /ai_fifty, /ai_attack)
 		@m_commanderAiTracker = CommanderAiCommandTracker(m_metagame);
 		m_metagame.addTracker(m_commanderAiTracker);
+
+		// FOV-Command (/fov true|false) – FOV Visualization zur Laufzeit
+		@m_fovCommandTracker = FovCommandTracker(m_metagame);
+		m_metagame.addTracker(m_fovCommandTracker);
 
 		if (enableQuickmatchStyleDelivery) {
 			@m_sharedItemDeliveryConfigurator = ItemDeliveryConfiguratorQuickMatch(m_metagame);
