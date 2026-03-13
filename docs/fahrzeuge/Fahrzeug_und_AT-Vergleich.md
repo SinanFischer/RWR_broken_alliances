@@ -96,12 +96,15 @@ Quellen: Mod `.vehicle` / `.weapon` / `.projectile`; Mod-Overrides für M551, FV
 | M2 Carl Gustav | 50 | 5.2 | 6.0 m | 1 | **5.2** |
 | SMAW | 70 | 6.0 | 5.5 m | 1 | **6.0** |
 | Javelin | 100 | **8.7** | 5.0 m | 1 | **8.7** |
+| Javelin Elite | 175 | **13.05** | 6.0 m | 1 | **13.05** |
 | M202 Flash | 200 | 3.0 ×4 | 4.5 m | 4 | **12.0** |
+| Mortar (Deploy) | 67 | 1.01 | 7.5 m | 1 | **1.01** |
+| M120 Heavy Mortar (Deploy) | 750 | 12.0 | 8.5 m | 1 | **12.0** |
 
 **Kurz:**  
-- **Schaden relativ (Javelin = 100%):** M72 ~41 %, RPG-7 ~46 %, Carl Gustav ~60 %, SMAW ~69 %, M202 ~138 % (4 Raketen).  
+- **Schaden relativ (Javelin = 100%):** M72 ~41 %, RPG-7 ~46 %, Carl Gustav ~60 %, SMAW ~69 %, M202 ~138 % (4 Raketen), Javelin Elite ~150 %, M120 ~138 %.  
 - **Bester Preis/Schaden:** RPG-7 (7.5 RP/Schaden), dann M72 (8.3), Carl Gustav (9.6).  
-- **Empfehlung:** Budget 30 → RPG-7; Mittelklasse 50-70 → Carl Gustav / SMAW; Premium Einzelschuss → Javelin; Max. Schaden → M202 (12.0, teuer).
+- **Empfehlung:** Budget 30 → RPG-7; Mittelklasse 50-70 → Carl Gustav / SMAW; Premium Einzelschuss → Javelin; Max. Einzelschuss → Javelin Elite (13.05); Max. Schaden → M202 (12.0, teuer); Deploy AT → M120 (12.0, 750 RP); Mortar (1.01) nur für Infanterie/Fläche, nicht für Panzer.
 
 ---
 
