@@ -24,6 +24,8 @@ class MyGameMode : GameModeCampaign {
 	// --------------------------------------------
 	void postBeginMatch() {
 		GameModeCampaign::postBeginMatch();
+		// Redundante Initialisierung entfernt: GameModeInvasion übernimmt dies bereits.
+		/*
 		@m_gameSystemsRegistry = GameSystemsRegistry(this);
 		m_gameSystemsRegistry.installSharedCommandAndDeliverySystems(
 			CAMPAIGN_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS,
@@ -49,6 +51,7 @@ class MyGameMode : GameModeCampaign {
 			false // Campaign: Single-Base-VIP deaktiviert
 		);
 		addTracker(DefenderTankHelp(this));
+		*/
 		// addTracker(ReinforcementPoolTracker(this));  // aus: Reinforcement-Pool deaktiviert
 	}
 
