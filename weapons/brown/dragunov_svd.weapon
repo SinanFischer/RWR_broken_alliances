@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="dragunov_svd.weapon" time_to_live_out_in_the_open="20.0">
     <!-- 7.62x54R DMR; Balance wie G28/M14 EBR -->
     <specification 
@@ -35,7 +35,7 @@
     <model filename="dragunov_svd.xml" />
     <hud_icon filename="hud_dragunov_svd.png" />
     <commonness value="0.04" />
-    <inventory encumbrance="4.0" price="25.0" />
+    <inventory encumbrance="4.0" price="15" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.3" />

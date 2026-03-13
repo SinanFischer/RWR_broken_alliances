@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.50" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="tti.weapon">
     <tag name="cqb" />
     <specification 
@@ -31,7 +31,7 @@
 
     <hud_icon filename="hud_tti.png" />
     <commonness value="0.005" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="25.0" price="110.0" />
+    <inventory encumbrance="25.0" price="65" />
     
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.15" />    

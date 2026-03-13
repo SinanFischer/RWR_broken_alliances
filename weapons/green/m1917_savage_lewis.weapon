@@ -53,7 +53,7 @@
     <hud_icon filename="hud_gun_lewis.png" />
 
     <commonness value="0.0053" can_respawn_with="1" in_stock="1"/>
-    <inventory encumbrance="11.0" price="115.0" />
+    <inventory encumbrance="11.0" price="58" />
 
     <projectile file="bullet.projectile">
         <result

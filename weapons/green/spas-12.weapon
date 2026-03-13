@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary_shotgun.weapon" key="spas-12.weapon">
     <tag name="cqb" />
     <specification 
@@ -27,7 +27,7 @@
 
     <hud_icon filename="hud_spas-12.png" />
     <commonness value="0.029" />
-    <inventory encumbrance="5.0" price="15.0" />
+    <inventory encumbrance="5.0" price="9" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">

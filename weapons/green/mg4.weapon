@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="mg4.weapon">
     <tag name="machine gun" />
     <!-- 5.56mm, ~800 rpm; Bundeswehr-SAW, Referenz M249 -->
@@ -31,7 +31,7 @@
 
     <hud_icon filename="hud_mg4.png" />
     <commonness value="0.05" />
-    <inventory encumbrance="9.0" price="40.0" />
+    <inventory encumbrance="9.0" price="24" />
 
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.4" />

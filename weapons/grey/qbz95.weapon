@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.70" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="qbz95.weapon">
     <tag name="assault" />
     <specification 
@@ -31,7 +31,7 @@
 
     <hud_icon filename="hud_qbz95.png" />
     <commonness value="0.001" can_respawn_with="0" in_stock="0" />
-    <inventory encumbrance="10.0" price="145" />
+    <inventory encumbrance="10.0" price="73" />
 
     <weak_hand_hold offset="0.0" />
     <projectile file="bullet.projectile">

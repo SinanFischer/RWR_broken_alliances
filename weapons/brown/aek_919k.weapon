@@ -39,7 +39,7 @@ slot="1"   />
 
     <model filename="aek_919k.xml" />
     <hud_icon filename="hud_aek_919k.png" />
-    <inventory encumbrance="5.0" price="12.0" />
+    <inventory encumbrance="5.0" price="7" />
     <commonness value="0.0" can_respawn_with="1" in_stock="1"/>
 
     <projectile file="bullet.projectile">

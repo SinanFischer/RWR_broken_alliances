@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_secondary.weapon" key="rpg-7.weapon" time_to_live_out_in_the_open="60.0">
     <tag name="bazooka" />
     <specification 
@@ -43,7 +43,7 @@
 
     <hud_icon filename="hud_rpg-7.png" />
     <commonness value="0.067" />
-    <inventory encumbrance="5.0" price="15.0" />
+    <inventory encumbrance="5.0" price="9" />
 
     <effect class="muzzle" ref="LawMuzzle" />
     <effect class="muzzle" ref="UpDust" />

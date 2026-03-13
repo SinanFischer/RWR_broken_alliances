@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="g28.weapon">
 	<tag name="sniper" />
     <specification 
@@ -34,7 +34,7 @@
     <model filename="g28.xml" />
     <hud_icon filename="hud_g28.png" />
     <commonness value="0.01" />
-    <inventory encumbrance="6.0" price="20.0" />
+    <inventory encumbrance="6.0" price="12" />
 
     <projectiles_per_shot value="1" />
     <weak_hand_hold offset="0.3" />

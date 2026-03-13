@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.40" drop_count_factor_on_player_death="1.0" file="base_secondary_sidearm.weapon" key="kriss_vector.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="stealth" />
     <specification 
@@ -26,7 +26,7 @@
 
     <model filename="kriss.xml" />
     <hud_icon filename="hud_kriss_vector.png" />
-    <inventory encumbrance="4.0"  price="140.0" />
+    <inventory encumbrance="4.0"  price="70" />
     <commonness value="0.0" can_respawn_with="1" in_stock="1"/>
     
     <capacity value="0" source="rank" source_value="0.0" />

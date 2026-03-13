@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_secondary_sidearm.weapon" key="sawnoff.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="cqb" />
 	
@@ -42,7 +42,7 @@
 
     <hud_icon filename="hud_sawn-off_shotgun.png" />
     <commonness value="0.0005" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="3.0" price="50.0" />
+    <inventory encumbrance="3.0" price="30" />
 
     <weak_hand_hold offset="0.1" />
     <projectile file="bullet.projectile">

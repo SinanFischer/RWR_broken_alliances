@@ -32,7 +32,7 @@
     <hud_icon filename="hud_dartgun_medic.png"/>
     <!-- Waffenkammer: in_stock=1 + price für Stash-Anzeige (Vanilla hat in_stock=0). -->
     <commonness value="0.0" can_respawn_with="0" in_stock="1"/>
-    <inventory encumbrance="8.0" price="190.0"/>
+    <inventory encumbrance="8.0" price="95"/>
 
     <capacity value="0" source="rank" source_value="0.0"/>
     <capacity value="1" source="rank" source_value="0.35"/>

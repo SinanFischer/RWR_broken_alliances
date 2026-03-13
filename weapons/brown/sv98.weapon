@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="sv98.weapon">
     <tag name="sniper" />
     <specification 
@@ -33,7 +33,7 @@
 
     <hud_icon filename="hud_svdm.png" />
     <commonness value="0.01" />
-    <inventory encumbrance="12.0" price="20.0" />
+    <inventory encumbrance="12.0" price="12" />
 
     <projectiles_per_shot value="1" />
     <weak_hand_hold offset="0.3" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary_rare.weapon" key="shovel.weapon" radius="0.25" >
     <tag name="engineer" />
     <specification 
@@ -52,7 +52,7 @@
 
     <hud_icon filename="hud_shovel.png" />
     <commonness value="0.0" can_respawn_with="0" in_stock="1"/>
-    <inventory encumbrance="5.0" price="35.0" />
+    <inventory encumbrance="5.0" price="21" />
 
     <modifier class="speed" value="-0.12" />
 

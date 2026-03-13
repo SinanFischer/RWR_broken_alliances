@@ -42,7 +42,7 @@
 
     <hud_icon filename="hud_m79.png" />
     <commonness value="0.002" can_respawn_with="0" />
-    <inventory encumbrance="11.0" price="13.0" />
+    <inventory encumbrance="11.0" price="14" />
 
     <effect class="muzzle" ref="LawMuzzle" />
     <effect class="muzzle" ref="UpDust" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary_rare.weapon" key="pepperdust.weapon">
     <specification retrigger_time="-1.0" 
     accuracy_factor="0.7" 
@@ -24,7 +24,7 @@
 
     <hud_icon filename="hud_pepperdust.png" />
     <commonness value="0.0006" can_respawn_with="0" in_stock="0" />
-    <inventory encumbrance="3.0" price="100.0" />
+    <inventory encumbrance="3.0" price="60" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
