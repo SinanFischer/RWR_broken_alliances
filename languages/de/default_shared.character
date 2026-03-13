@@ -2,7 +2,7 @@
 <character filename="default_base.character">
     <!-- defined in default.character for differentiation, see maps/lobby/default.character too -->
     <!-- FOV: Breiterer Sichtkegel + mehr Reichweite. Muss hier stehen - factions/default_base würde Vanilla ersetzen und zum Absturz führen. -->
-    <parameter class="player_fov_range" value="90.0" />
+    <parameter class="player_fov_range" value="65.0" />
     <parameter class="player_fov_max_dot_range" value="1.5" />
     <parameter class="player_fov_min_dot_range_offset" value="1.0" />
     <!-- <comment key="Hmm, no signal" /> -->

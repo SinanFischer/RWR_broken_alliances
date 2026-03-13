@@ -62,7 +62,7 @@
 	<parameter class="swimming_gravity" value="8.0" />
 	<parameter class="overpacked_speed_modifier" value="-0.2" />
 	<parameter class="experience_blasts_multiplied" value="1" />
-	<parameter class="player_fov_range" value="90.0" />
+	<parameter class="player_fov_range" value="50.0" />
 	<parameter class="player_fov_muzzle_factor" value="1.7" />
 	<parameter class="player_fov_max_range_with_muzzle" value="120.0" />
 	<parameter class="player_fov_max_dot_range" value="1.9" />
