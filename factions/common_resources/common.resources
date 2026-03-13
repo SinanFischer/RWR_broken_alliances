@@ -2,9 +2,6 @@
 <resources clear_weapons="1" clear_vehicles="1" clear_calls="1">
 	<!-- always load common first; it's the one that clears the initial weapon resources -->
 	<weapon key='medikit.weapon' />
-	<weapon key='squad_equipment_kit.weapon' />
-	<weapon key='squad_equipment_kit_navy.weapon' />
-	<weapon key='eod_vest_squad_kit.weapon' />
 	<weapon key='riot_shield.weapon' />
 	<weapon key='shovel.weapon' />
 	<weapon key='cover_resource.weapon' />

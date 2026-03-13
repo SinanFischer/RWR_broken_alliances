@@ -170,7 +170,7 @@
 	<!-- -------------- -->
 	<!-- sniper group (nur Sniper/DMR, 5 % Spawn; erhöhte Sichtweite) -->
 	<!-- -------------- -->
-	<soldier name="sniper" spawn_score="0.05">
+	<soldier name="sniper" spawn_score="0.015">
 		<character filename="common_resources/russian_soldier.character" />
 		<ai filename="sniper/sniper.ai" />
 

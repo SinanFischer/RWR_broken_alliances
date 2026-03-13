@@ -73,10 +73,6 @@ class MyItemDeliveryConfigurator : ItemDeliveryConfiguratorInvasion {
 		list.push_back(Resource("pb.weapon", "weapon"));
 		list.push_back(Resource("aek_919k.weapon", "weapon"));
 
-		// squad equipment kits (from Project Apocalypse)
-		list.push_back(Resource("squad_equipment_kit.weapon", "weapon"));
-		list.push_back(Resource("squad_equipment_kit_navy.weapon", "weapon"));
-
 		// Westen: in Waffenkammer von Anfang an verfügbar
 		list.push_back(Resource("vest_default.carry_item", "carry_item"));
 		list.push_back(Resource("vest1.carry_item", "carry_item"));

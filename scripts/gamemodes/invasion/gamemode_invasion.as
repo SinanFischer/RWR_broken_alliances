@@ -38,13 +38,11 @@
 #include "repair_tank_auto.as"
 #include "a10_gun_run.as"
 #include "gunship_run.as"
-#include "squad_equipment_kit.as"
 #include "rangefinder.as"
 #include "halloween.as"  // Halloween event only (since Halloween 2022 enabled permanently)
 #include "sbl.as"
 #include "emoticons.as"
 #include "mrl_manager.as"
-#include "squad_equipment_kit_navy.as"
 #include "offdutyveteran.as"
 #include "jax.as"
 #include "easter_grenade.as"
@@ -395,12 +393,10 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		addTracker(RepairTankAuto(this));
 		addTracker(A10GunRun(this));
 		addTracker(AC130GunRun(this));        
-		addTracker(SquadEquipmentKit(this)); 
 		addTracker(RangeFinder(this)); 
 		addTracker(AntiFarm(this));
 		addTracker(Halloween(this));
 		addTracker(Emoticons(this));
-		addTracker(SquadEquipmentKitNavy(this));
 	/*	addTracker(IceTrade(this)); */
 		addTracker(Offdutyveteran(this));
 		addTracker(MrlManager(this));

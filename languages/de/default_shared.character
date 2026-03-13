@@ -1261,11 +1261,6 @@
   
   <comment key="rangefinder binoculars" text="Entfernung zum Ziel: %range Meter." />  
 
-  <comment key="squad_equipment_kit, equip" text="Damit kann ich Soldaten in der Naehe mit Schutzwesten ausstatten!" /> 
-  <comment key="squad_equipment_kit, done" text="Westen werden ausgegeben!" />    
-  <comment key="eod_vest_squad_kit, equip" text="Damit kann ich Soldaten in der Naehe mit EOD-Westen ausstatten!" /> 
-  <comment key="eod_vest_squad_kit, done" text="EOD-Westen werden ausgegeben!" />    
-
 <!-- 1.91 -->
   <comment key="Press SPACE to continue!" text="Druecke %control_jump um zu respawnen!" />    
   

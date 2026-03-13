@@ -41,10 +41,6 @@
 
 	<weapon file="common/medikit.weapon" />
 	<weapon file="common/dog.weapon" />
-	<weapon file="common/squad_equipment_kit.weapon" />
-	<weapon file="common/squad_equipment_kit_navy.weapon" />
-	<weapon file="common/eod_vest_squad_kit.weapon" />
-
 	<weapon file="common/tow.weapon" />
 	<weapon file="noxe.weapon" />
 	<weapon file="scorpio_cannon.weapon" />

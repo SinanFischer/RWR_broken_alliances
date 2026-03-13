@@ -75,9 +75,6 @@
   <projectile file="stim.projectile"/>
   <projectile file="stim_open.projectile"/>
   <projectile file="noxe.projectile" />
-  <projectile file="squad_equipment_kit.projectile" />
-  <projectile file="squad_equipment_kit_navy.projectile" />
-  <projectile file="eod_vest_squad_kit.projectile" />
   <projectile file="cluster_bomb.projectile" />
   <projectile file="cluster_bomb_sub.projectile" />
   <projectile file="cluster_bomb_sub_blast.projectile" />
