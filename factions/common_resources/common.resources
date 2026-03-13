@@ -26,7 +26,7 @@
  	<weapon key='ns2000.weapon' />  
 	<weapon key='claymore_resource.weapon' /> 
 	<weapon key='apr.weapon' />   
-	<weapon key='wrench.weapon' />   
+	<weapon key='wrench.weapon' enabled="0" />   
 	<weapon key='vest_repair.weapon' />
 	<weapon key='scarssr.weapon' />
 	<weapon key='steyr_aug.weapon' />
