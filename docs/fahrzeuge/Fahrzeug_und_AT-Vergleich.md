@@ -137,4 +137,32 @@ Wenn du **max_health** (Leben) eines Fahrzeugs änderst, solltest du in derselbe
 
 ---
 
+## Update 1.1.0 – Leben-Erhöhungen & Radius-Erhöhungen
+
+### Leben
+
+| Fahrzeug | Alt | Neu |
+|----------|-----|-----|
+| **RWR1a1 (tank)** | 25.35 | **32.35** |
+| **Leopold II (tank_1)** | 26.2 | **33.2** |
+| **TroX-80 (tank_2)** | 25.95 | **32.95** |
+| **tank_alt / tank_1_alt / tank_2_alt** | (wie Basis) | **(wie Basis)** |
+| **FV101 Scorpio** | 15 | **20** |
+| **M551 Sheriff** | 20 | **24** |
+| **Legion** | 34 | **40** |
+| **M528** | 19.2 | **23.2** |
+| **FT-CROC (Flamer)** | 17.8 | **20.8** |
+
+### Radius (Blast-Radius in m)
+
+| Fahrzeug | Alt | Neu |
+|----------|-----|-----|
+| **RWR1a1 / Leopold II / TroX-80** | 8 | **10** |
+| **tank_alt / tank_1_alt / tank_2_alt** | 7 | **9** |
+| **M551 Sheriff** | 4.5 | **5.2** |
+| **FV101 Scorpio** | 4 | **4.7** |
+| **Legion** | 10 | **13** |
+
+---
+
 *Stand: Mod- und Vanilla-.vehicle-, .weapon-, .projectile-Dateien. Fahrzeuge: Leben = physics max_health; Proj. Speed = projectile_speed (.weapon); Damage/Radius = result class="blast" (.projectile). AT: Schaden/Radius aus jeweiligen `.projectile`; „-“ = kein Einzel-Blast (z. B. M528 HMG).*

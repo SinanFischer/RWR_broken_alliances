@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mod: FV101 Scorpio - max_health 15 (Vanilla 8.8), Health-Effekte skaliert, Despawn 20 min -->
+<!-- Mod: FV101 Scorpio - max_health 20 (Vanilla 8.8), Health-Effekte skaliert, Despawn 20 min -->
 <vehicle file="vehicle_base.vehicle" 
 	name="Scorpio AXN" key="fv101.vehicle" 
 	respawn_time="80" 
@@ -26,7 +26,7 @@
 	max_limiter_speed="6.0"/>
 
 	<physics 
-	max_health="15" 
+	max_health="20" 
 	mass="150.0" 
 	broken_mass="5"
 	remove_collision_threshold="0.2"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mod: Legion 165mm HESH - radius 10, damage 12 (Vanilla: 8 / 4.01) -->
+<!-- Mod: Legion 165mm HESH - radius 13, damage 12 (Vanilla: 8 / 4.01) -->
 <projectile class="grenade" name="165mm HESH" slot="1" pulldown_in_air="20.0" key="legion.projectile">
     <tag name="rocket"/>
 	<result class="blast" 
-    radius="10" 
+    radius="13" 
     damage="12" 
     push="1.0" 
     decal="1"
