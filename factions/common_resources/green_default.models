@@ -109,6 +109,22 @@
 	<model filename="soldier_blackops.xml">
 		<requirement class="carry_item" slot="1" key="stealth1_2"/>
 		<requirement class="rank" range="0 10000" />
+	</model>
+	<model filename="soldier_blackops.xml">
+		<requirement class="carry_item" slot="1" key="vest_blackops3.carry_item"/>
+		<requirement class="rank" range="0 10000" />
+	</model>
+	<model filename="soldier_blackops.xml">
+		<requirement class="carry_item" slot="1" key="bo3_2"/>
+		<requirement class="rank" range="0 10000" />
+	</model>
+	<model filename="soldier_blackops.xml">
+		<requirement class="carry_item" slot="1" key="bo3_3"/>
+		<requirement class="rank" range="0 10000" />
+	</model>
+	<model filename="soldier_blackops.xml">
+		<requirement class="carry_item" slot="1" key="bo3_4"/>
+		<requirement class="rank" range="0 10000" />
 	</model>	
 
 	<!-- -------------------------- -->
