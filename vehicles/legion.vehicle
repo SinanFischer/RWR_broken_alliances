@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mod: Legion - max_health 40 (Vanilla: 14) -->
+<!-- Mod: Legion - max_health 45 (Vanilla: 14) -->
 <vehicle file="vehicle_base.vehicle" 
 	name="Legion" key="legion.vehicle" 
 	respawn_time="180" 
@@ -35,7 +35,7 @@
 	/>
 
 	<physics 
-	max_health="40.0" 
+	max_health="45.0" 
 	blast_damage_threshold="0.5" 
 	TODO_blast_damage_threshold="1.02" 
 	mass="1200.0"
@@ -98,9 +98,9 @@
 	<effect event_key="drive" type="splat_map" surface_tag="dirt" size="1.0" atlas_index="2" layer="1" />
 	<effect event_key="drive" type="particle" key="terrain" surface_tag="dirt" ref="Burst" use_surface_color="1" />
   
-	<effect event_key="health" value="12.5" ref="SmallSmokeVehicle" offset="0.0 1.8 -4.0" />
-  	<effect event_key="health" value="7.7" ref="SmallSmokeVehicle" offset="0.0 1.8 -4.0" />
-  	<effect event_key="health" value="3.7" ref="BrokenSparkle" post_processing="0" offset="0.0 2.0 -4.0" />    
+	<effect event_key="health" value="14.1" ref="SmallSmokeVehicle" offset="0.0 1.8 -4.0" />
+  	<effect event_key="health" value="8.7" ref="SmallSmokeVehicle" offset="0.0 1.8 -4.0" />
+  	<effect event_key="health" value="4.2" ref="BrokenSparkle" post_processing="0" offset="0.0 2.0 -4.0" />    
   	<effect event_key="destroyed" ref="SmallSmokeVehicle" offset="0.0 1.8 -3.8" />
   	<effect event_key="destroyed" ref="SmallSmokeVehicle" offset="-0.8 1.8 -3.8" />  
   	<effect event_key="destroyed" ref="MediumSmokeVehicle" offset="0.0 2.9 0.6" />  
