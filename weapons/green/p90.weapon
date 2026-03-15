@@ -12,7 +12,7 @@
     class="0" 
     slot="1"
 	sight_range_modifier="1.1"
-    projectile_speed="198.0" />
+    projectile_speed="130.0" />
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />
     <animation key="recoil" ref="14" />
@@ -32,7 +32,7 @@
     <capacity value="1" source="rank" source_value="1.4" />
 
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.75" kill_decay_start_time="0.2" kill_decay_end_time="1.2" />
+        <result class="hit" kill_probability="0.80" kill_decay_start_time="0.2" kill_decay_end_time="1.2" />
     </projectile>
 	
     <stance state_key="running" accuracy="0.69" />

@@ -28,7 +28,7 @@ Alle Preise: `Preis = Basis × (Waffenwert / Waffenwert_Anker)^α`
 | **MP** | MP7 | 19 | 0.58 | 10–32 | Billig |
 | **Rifle** | G36 | 14 | 0.60 | 10–29 | Billig |
 | **DMR** | M14 EBR | 45 | 0.62 | 29–88 | Mittel |
-| **MG** | MG4 | 43 | 0.60 | 29–136 | Mittel–Gut |
+| **MG** | MG4 | 50 | 0.60 | 35–160 | Mittel–Gut |
 | **Sniper** | PSG90 | 80 | 0.65 | 72–448 | Gut–Sehr teuer |
 | **Shotgun** | Mossberg 500 | 14 | 0.58 | 10–352 | Billig–Sehr teuer |
 
@@ -56,19 +56,56 @@ Preis = Basis_Anker × (Waffenwert / Waffenwert_Anker)^α
 
 ## MG (Maschinengewehr)
 
+### MG4 vs MG42 – Dominanz-Vergleich
+
+| Parameter | MG4 | MG42 | Gewinner |
+|-----------|-----|------|----------|
+| retrigger_time (RPM) | 0.0674 (~890) | 0.05 (1200) | **MG42** (+35 % Feuerrate) |
+| magazine_size | 100 | 250 | **MG42** (2.5×) |
+| accuracy_factor | 0.84 | 0.72 | MG4 |
+| projectile_speed | 143 | 170 | **MG42** |
+| kill_probability | 1.35 | 1.45 | **MG42** |
+| sustained_fire_grow_step | 0.50 | 0.25 | **MG42** (weniger Streuung) |
+| sustained_fire_diminish_rate | 0.85 | 0.65 | MG4 |
+| can_shoot_crouching | 0 | 1 | **MG42** |
+
+**Fazit: MG42 dominiert.** Nur Vorteile MG4: bessere Genauigkeit, schnellerer Rückstoß-Rückgang. MG42: deutlich höhere Feuerrate, 2.5× Magazin, höhere Projektilgeschwindigkeit, höherer Schaden pro Treffer, bessere Streukontrolle, kann kniend schießen. → MG42 muss deutlich teurer sein.
+
+---
+
+### Preisformel
+
+```
+Preis = 50 × (Waffenwert / Waffenwert_MG4)^0.6  +  Sonderzuschläge
+```
+
+**Anker:** MG4, Basis 50, α = 0.6. Zielbereich: 35–160 RP (+ Sonderzuschläge).
+
+**Sonderregeln (Zuschläge auf Formelpreis, *exclusiv* – nur einer gilt):**
+
+| Bedingung | Zuschlag |
+|-----------|----------|
+| `can_shoot_standing="1"` | **+50 RP** |
+| `can_shoot_standing="0"` UND `can_shoot_crouching="1"` | **+30 RP** |
+
+*\* Stehend überwiegt: Wer stehend schießen kann, bekommt +50 (nicht +50+30). Nur kniend (ohne stehend) → +30.*
+
+---
+
 ### Parameter-Range (aus Waffenpool, Stand nach Real-Anpassung)
 
 | Parameter | Min | Max | Richtung | Gewicht |
 |-----------|-----|-----|----------|---------|
-| retrigger_time | 0.05 | 0.12 | **niedriger = besser** (RPM) | 0.25 |
-| magazine_size | 30 | 250 | **höher = besser** | 0.22 |
-| accuracy_factor | 0.72 | 0.92 | **höher = besser** | 0.15 |
-| projectile_speed | 120 | 170 | **höher = besser** | 0.08 |
-| sight_range_modifier | 1.0 | 1.2 | **höher = besser** | 0.05 |
-| sustained_fire_grow_step | -0.2 | 0.7 | **niedriger = besser** | 0.10 |
-| sustained_fire_diminish_rate | -1.35 | 0.86 | **höher = besser** (negativ = Constant Recoil) | 0.08 |
-| kill_probability | 1.4 | 1.4 | konstant (MG-Regelwerk) | – |
+| retrigger_time | 0.05 | 0.12 | **niedriger = besser** (RPM) | **0.40** |
+| magazine_size | 30 | 250 | **höher = besser** | **0.28** |
+| accuracy_factor | 0.72 | 0.92 | **höher = besser** | 0.08 |
+| projectile_speed | 120 | 170 | **höher = besser** | 0.06 |
+| kill_probability | 1.35 | 1.45 | **höher = besser** | 0.06 |
+| sight_range_modifier | 1.0 | 1.2 | **höher = besser** | 0.04 |
+| sustained_fire_grow_step | -0.2 | 0.7 | **niedriger = besser** | 0.04 |
+| sustained_fire_diminish_rate | -1.35 | 0.86 | **höher = besser** (negativ = Constant Recoil) | 0.04 |
 
+*\* retrigger_time + magazine_size: Beide dominieren den Waffenwert stark (0.40 + 0.28).*  
 *\* sustained_fire: Negative Werte (Ultimax) = Constant Recoil = Sonderbonus; norm = 1.0 (beste).*
 
 ### Normalisierung
@@ -79,6 +116,7 @@ Preis = Basis_Anker × (Waffenwert / Waffenwert_Anker)^α
 | magazine_size | `(wert - min) / (max - min)` |
 | accuracy_factor | `(wert - min) / (max - min)` |
 | projectile_speed | `(wert - min) / (max - min)` |
+| kill_probability | `(wert - 1.35) / 0.1` (1.35 = Min, 1.45 = Max) |
 | sight_range_modifier | `(wert - 1.0) / 0.2` (1.0 = Default wenn fehlend) |
 | sustained_fire_grow_step | `(max - wert) / (max - min)`; negativ → 1.0 |
 | sustained_fire_diminish_rate | `(wert - min) / (max - min)`; wert &lt; 0 → 1.0 |
@@ -87,57 +125,81 @@ Preis = Basis_Anker × (Waffenwert / Waffenwert_Anker)^α
 
 | Parameter | f(norm) | Begründung |
 |-----------|---------|------------|
-| retrigger_time | `norm^0.7` | Kleine Verbesserung bei schon schnellen Waffen = starker Preisanstieg |
-| magazine_size | `norm^0.6` | 100→200 großer Sprung, 200→250 weniger |
+| retrigger_time | **`norm^0.5`** | Starker Preisanstieg bei schneller Feuerrate (0.05→0.0674 = großer Sprung) |
+| magazine_size | `norm^0.6` | 100→200 großer Sprung; mag 250 (MG42) vs 60 (RPK74m) = deutlicher Preisunterschied |
 | accuracy_factor | `norm^0.8` | Leicht sublinear |
-| projectile_speed | `norm^0.5` | Geringer Einfluss, stark gedämpft |
+| projectile_speed | `norm^0.5` | Geringer Einfluss |
+| kill_probability | `norm^0.7` | 7.62 vs 5.56 Kaliber-Unterschied |
 | sight_range_modifier | `norm^0.6` | |
 | sustained_fire_grow_step | `norm^0.7` | |
 | sustained_fire_diminish_rate | `norm^0.6` | |
 
-### Anker
-
-- **MG4**: Preis 43, Waffenwert als Referenz.
-- **Basis_MG** = 43, α = 0.6.
-
 ### Beispielrechnung MG4
 
 ```
-retrigger: 0.0674 → norm = (0.12-0.0674)/(0.12-0.05) = 0.75 → score = 0.75^0.7 = 0.81
-mag: 100 → norm = (100-30)/(250-30) = 0.32 → score = 0.32^0.6 = 0.52
+retrigger: 0.0674 → norm = 0.75 → score = 0.75^0.5 = 0.87
+mag: 100 → norm = 0.32 → score = 0.32^0.6 = 0.52
 accuracy: 0.84 → norm = 0.6 → score = 0.6^0.8 = 0.66
 proj_speed: 143 → norm = 0.21 → score = 0.21^0.5 = 0.46
+kill: 1.35 → norm = 0 → score = 0
 sight: 1.2 → norm = 1.0 → score = 1.0
 grow: 0.5 → norm = 0.22 → score = 0.22^0.7 = 0.38
 diminish: 0.85 → norm = 0.79 → score = 0.79^0.6 = 0.87
 
-Waffenwert = 0.25×0.81 + 0.22×0.52 + 0.15×0.66 + 0.08×0.46 + 0.05×1.0 + 0.10×0.38 + 0.08×0.87
-          = 0.20 + 0.11 + 0.10 + 0.04 + 0.05 + 0.04 + 0.07 = 0.61
+Waffenwert = 0.40×0.87 + 0.28×0.52 + 0.08×0.66 + 0.06×0.46 + 0.06×0 + 0.04×1.0 + 0.04×0.38 + 0.04×0.87
+          = 0.35 + 0.15 + 0.05 + 0.03 + 0 + 0.04 + 0.02 + 0.03 = 0.67
+
+Sonderzuschläge: standing 0, crouching 0 → +0 RP
+Preis = 50 × (0.67/0.67)^0.6 = 50
 ```
 
-### MG-Preiskalkulation (Schritt für Schritt)
+### Beispielrechnung MG42
 
-**Formel-Pipeline:** Wie Rifle – norm → score → Waffenwert. `Preis = 43 × (Waffenwert / Waffenwert_MG4)^0.6`
+```
+retrigger: 0.05 → norm = 1.0 → score = 1.0   ← starker Bonus (Gewicht 0.45)
+mag: 250 → norm = 1.0 → score = 1.0
+accuracy: 0.72 → norm = 0 → score = 0
+proj_speed: 170 → norm = 1.0 → score = 1.0
+kill: 1.45 → norm = 1.0 → score = 1.0
+sight: 1.2 → norm = 1.0 → score = 1.0
+grow: 0.25 → norm = 0.64 → score = 0.75
+diminish: 0.65 → norm = 0.91 → score = 0.94
+
+Waffenwert = 0.40×1.0 + 0.28×1.0 + 0.08×0 + 0.06×1.0 + 0.06×1.0 + 0.04×1.0 + 0.04×0.75 + 0.04×0.94
+          = 0.40 + 0.28 + 0 + 0.06 + 0.06 + 0.04 + 0.03 + 0.04 = 0.91
+
+Sonderzuschläge: standing 0, crouching 1 → +30 RP
+Preis = 50 × (0.91/0.67)^0.6 + 30 ≈ 58 + 30 = 88 RP
+```
+
+### MG-Preiskalkulation
+
+**Formel:** `Preis = 50 × (Waffenwert / Waffenwert_MG4)^0.6 + Sonderzuschläge`
+
+**Sonderzuschläge (exclusiv):** Stehend +50 RP; nur kniend (nicht stehend) +30 RP.
 
 **Sonderfälle:** `sustained_fire_grow_step` oder `sustained_fire_diminish_rate` negativ (z.B. Ultimax Constant Recoil) → norm = 1.0 (beste).
 
-### MG-Übersicht (berechnete Waffenwerte → Preise)
+### MG-Übersicht (berechnete Waffenwerte → Preise, Basis 50, retrigger 0.40, mag 0.28)
 
-| MG | Waffenwert | Preis (formel) | Preis (aktuell) |
-|----|------------|----------------|-----------------|
-| MG4 | (Anker) 0.647 | 43 | 27 |
-| M249 | 0.694 | 45 | 28 |
-| M240 | 0.652 | 43 | 22 |
-| PKM | 0.635 | 42 | 18 |
-| MG42 | 0.732 | 46 | 570 |
-| Stoner LMG | 0.741 | 47 | 245 |
-| Ultimax | 0.467 (langsam, aber Constant Recoil) | 35 | 135 |
-| Negev | 0.717 | 46 | 20 |
-| RPK74m | 0.513 | 37 | 24 |
-| Pecheneg | 0.599 | 41 | 500 |
-| MG-08 Heavy | 0.444 | 34 | 60 |
+| MG | Waffenwert | Formel | Zuschlag | Preis (formel) | Preis (aktuell) |
+|----|------------|--------|----------|----------------|-----------------|
+| MG4 | (Anker) 0.67 | 50 | – | 50 | 27 |
+| M249 | 0.74 | 53 | – | 53 | 28 |
+| M240 | 0.70 | 51 | – | 51 | 22 |
+| PKM | 0.68 | 50 | – | 50 | 18 |
+| **MG42** | **0.91** | **58** | **+30** (nur kniend) | **88** | 570 |
+| Stoner LMG | 0.80 | 55 | **+50** (stehend) | **105** | 245 |
+| Ultimax | 0.52 (Constant Recoil) | 44 | – | 44 | 135 |
+| Negev | 0.75 | 54 | – | 54 | 20 |
+| RPK74m | 0.56 | 46 | – | 46 | 24 |
+| RPK16 | 0.64 | 49 | **+50** (stehend) | **99** | 64 |
+| RPK16 long | 0.68 | 50 | **+50** (stehend) | **100** | 78 |
+| Pecheneg | 0.69 | 51 | – | 51 | 500 |
+| MG-08 Heavy | 0.50 | 45 | – | 45 | 60 |
 
-*\* MG42/Stoner/Pecheneg: Aktuelle Preise sind manuell/legacy; Formel liefert 41–47 RP (Segment Mittel).*
+*\* retrigger + mag dominieren: MG42 (mag 250, schnell) vs Ultimax (mag 100, langsam).*  
+*\* Stoner LMG: can_shoot_standing=1 → +50 RP.*
 
 ---
 

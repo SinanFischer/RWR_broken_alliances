@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon key="tank_mg.weapon">
     <specification slot="2" 
-    retrigger_time="0.054" 
+    retrigger_time="0.08" 
     accuracy_factor="0.7" 
     ai_sight_range_modifier="1.0" 
     sustained_fire_grow_step="0.8" 
@@ -12,7 +12,7 @@
     suppressed="0" 
     name="Tank MG" 
     class="0" 
-    projectile_speed="240.0" />
+    projectile_speed="158.0" />
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />
     <animation key="recoil" ref="14" />

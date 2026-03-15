@@ -142,7 +142,7 @@ Recherche aller **Sturmgewehre (Rifles)** in RWR Broken Alliances. Analog zu `mg
 
 **Formel:** `Preis = 14 × (Waffenwert / Waffenwert_G36)^0.6`  
 **Anker:** G36, Basis 14, α = 0.6  
-**Zusätze:** GL-Varianten +25 %, Honey Badger (suppressed) +100 %, Gilboa (projectiles_per_shot=2) +200 %
+**Zusätze:** GL-Varianten +25 %, Honey Badger (suppressed) +100 %, Gilboa (projectiles_per_shot=2) +280 %
 
 ### Parameter-Ranges
 
@@ -175,14 +175,14 @@ Recherche aller **Sturmgewehre (Rifles)** in RWR Broken Alliances. Analog zu `mg
 | M16A4 w/M203 | 0.07 | 30 | 0.80 | 0.90 | 160 | 1.10 | 0.26 | 1.22 | 0.487 | 19 | 19 |
 | QBZ-95 | 0.092 | 30 | 0.95 | 0.90 | 160 | 1.00 | 0.42 | 1.30 | 0.447 | 15 | 15 |
 | HK416 | 0.071 | 30 | 0.75 | 0.90 | 165 | 1.05 | 0.32 | 1.18 | 0.445 | 15 | 15 |
-| Gilboa DBR | 0.145 | 30 | 1.00 | 0.90 | 158 | 1.00 | 0.27 | 1.20 | 0.428 | 42 | 42 |
+| Gilboa DBR | 0.145 | 30 | 1.00 | 0.90 | 158 | 1.00 | 0.27 | 1.20 | 0.428 | 55 | 55 |
 | G36 | 0.08 | 30 | 0.74 | 0.90 | 160 | 1.10 | 0.38 | 1.15 | 0.410 | 14 | 14 |
 | G36 w/AG36 | 0.08 | 30 | 0.74 | 0.90 | 160 | 1.10 | 0.38 | 1.15 | 0.410 | 18 | 18 |
 | AKS-74U | 0.086 | 30 | 0.70 | 1.00 | 148 | 1.05 | 0.40 | 1.10 | 0.348 | 13 | 13 |
 | AK-74M | 0.10 | 30 | 0.72 | 1.00 | 158 | 1.00 | 0.40 | 1.12 | 0.304 | 12 | 12 |
 | AK-74 GP25 | 0.10 | 30 | 0.72 | 1.00 | 158 | 1.00 | 0.40 | 1.12 | 0.304 | 15 | 15 |
 
-*\* Gilboa: Basis 14 × 3 (+200 % für projectiles_per_shot=2) = 42 RP.*  
+*\* Gilboa: Basis 14 × 3.8 (+280 % für projectiles_per_shot=2) = 55 RP.*  
 *\* M1 Garand (48 RP): Manueller Preis – Sammler/Stil, Formel würde 16 liefern.*
 
 ### Dominanz-Check (Waffenwert > 0.45 = starke Rifles)
@@ -205,7 +205,7 @@ Recherche aller **Sturmgewehre (Rifles)** in RWR Broken Alliances. Analog zu `mg
 | AK-74M | 13 | 12 |
 | AK-74 GP25 | 16 | 15 |
 | Honey Badger | 34 | 32 |
-| Gilboa DBR | 105 | **42** (+200 % für Doppelschuss) |
+| Gilboa DBR | 105 | **55** (+280 % für Doppelschuss) |
 | M1 Garand | 48 | *(unverändert, manuell)* |
 
 ### Ausführung
@@ -221,6 +221,6 @@ node rifle-price-formula.js
 
 - **TTI Combat Shield**: Kein klassisches Rifle (Shield + Shotgun), unverändert.
 - **M16A4 Support**: enc 10 durch Schild; sight 1.2 bereits am Cap.
-- **Gilboa DBR**: projectiles_per_shot=2 (Doppelläufig), mag 30 = 15 Doppelschüsse. +200 % Aufschlag → 42 RP.
+- **Gilboa DBR**: projectiles_per_shot=2 (Doppelläufig), mag 30 = 15 Doppelschüsse. +280 % Aufschlag → 55 RP.
 - **AN-94**: Burst-Modus (1800 RPM) separat modelliert; Vollauto 600 RPM.
 - **M1 Garand**: Semi, 8 Schuss – Formel bewertet niedrig; aktueller Preis 48 (Sammler/Stil).

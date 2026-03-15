@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon key="vulcan_tank_mg.weapon">
     <specification 
-    retrigger_time="0.04" 
+    retrigger_time="0.02" 
     accuracy_factor="1.0" 
     sustained_fire_grow_step="0.17" 
     sustained_fire_diminish_rate="1.1" 

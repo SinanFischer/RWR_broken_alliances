@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.35" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="minigun_ai.weapon"time_to_live_out_in_the_open="150.0" player_death_drop_owner_lock_time="45.0">
     <tag name="machine gun" />
     <specification 
@@ -17,7 +17,7 @@
   class="0" 
   barrel_offset="0.8"
   barrel_offset_3d="0.4 -0.4 0.8"
-  projectile_speed="150.0"
+  projectile_speed="155.0"
   projectiles_per_shot="1" />
  
  <drop_on_death_result class="spawn" instance_class="weapon" instance_key="microgun.weapon" min_amount="1" max_amount="1" offset="0 1.0 0" position_spread="0 0" direction_spread="0 0" />
@@ -46,7 +46,7 @@
 
     <weak_hand_hold offset="0.4" />
     <projectile file="50cal_bullet.projectile">
-        <result class="hit" kill_probability="0.85" kill_decay_start_time="0.33" kill_decay_end_time="0.66" />
+        <result class="hit" kill_probability="2.5" kill_decay_start_time="0.33" kill_decay_end_time="0.66" />
     </projectile>
 
     <capacity value="1" source="rank" source_value="0.0" />

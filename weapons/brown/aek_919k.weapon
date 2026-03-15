@@ -14,7 +14,7 @@
   sight_range_modifier="1.0" 
   name="AEK-919k" 
   class="0" 
-  projectile_speed="150.0"
+  projectile_speed="90.0"
   barrel_offset="0"   
 slot="1"   />
 
@@ -39,11 +39,11 @@ slot="1"   />
 
     <model filename="aek_919k.xml" />
     <hud_icon filename="hud_aek_919k.png" />
-    <inventory encumbrance="5.0" price="7" />
+    <inventory encumbrance="2.0" price="7" />
     <commonness value="0.0" can_respawn_with="1" in_stock="1"/>
 
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.48" kill_decay_start_time="0.20" kill_decay_end_time="0.32" />
+        <result class="hit" kill_probability="0.75" kill_decay_start_time="0.20" kill_decay_end_time="0.32" />
     </projectile>
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.1" />

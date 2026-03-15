@@ -152,7 +152,7 @@ for (const r of results) {
   let mult = 1;
   if (r.gl) mult *= 1.25;
   if (r.suppressed) mult *= 2;
-  if (r.projectiles_per_shot === 2) mult *= 3; // +200% Aufschlag für Doppelschuss
+  if (r.projectiles_per_shot === 2) mult *= 3.8; // +280% Aufschlag für Doppelschuss
   r.formulaPrice = Math.round(BASIS * Math.pow(r.waffenwert / g36Waffenwert, ALPHA) * mult);
 }
 
@@ -162,7 +162,7 @@ results.sort((a, b) => b.waffenwert - a.waffenwert);
 // Output
 console.log('=== RIFLE-PREISFORMEL (Anker: G36, Basis 14, α=0.6) ===\n');
 console.log('Parameter-Ranges: retrigger 0.0333-0.1 | mag 25-48 | acc 0.70-1.0 | kill 0.85-1.1 | proj 148-170 | sight 1.0-1.2 | grow 0.15-0.54 | diminish 0.60-2.0');
-console.log('GL-Varianten: +25% | Honey Badger (suppressed): +100% | Gilboa (projectiles_per_shot=2): +200%\n');
+console.log('GL-Varianten: +25% | Honey Badger (suppressed): +100% | Gilboa (projectiles_per_shot=2): +280%\n');
 
 const headers = ['Rifle', 'retrig', 'mag', 'acc', 'kill', 'proj', 'sight', 'grow', 'dim', 'Waffenwert', 'Preis (Formel)', 'Preis (aktuell)'];
 console.log(headers.join(' | '));
