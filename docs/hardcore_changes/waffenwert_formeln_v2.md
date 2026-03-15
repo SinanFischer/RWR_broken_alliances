@@ -636,4 +636,4 @@ Preis = 50 × (0.91/0.67)^0.6 + 30 ≈ 58 + 30 = 88 RP
 1. **Skript**: Node.js/Python-Skript, das alle Waffen einliest, Waffenwert berechnet und Preis vorschlägt.
 2. **Kalibrierung**: Basis und α so wählen, dass Anker-Waffen exakt getroffen werden.
 3. **Manuelle Overrides**: Für Sonderfälle (MG42, F2000) feste Preis-Korrekturen oder Zusatzfaktoren.
-4. **Shotgun**: Gewichtungen analog zu anderen Waffentypen ergänzen.
+4. ~~**Shotgun**: Gewichtungen analog zu anderen Waffentypen ergänzen.~~ → Siehe `shotguns_realistische_daten.md`.

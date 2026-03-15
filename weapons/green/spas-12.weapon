@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary_shotgun.weapon" key="spas-12.weapon">
     <tag name="cqb" />
     <specification 
@@ -27,11 +27,11 @@
 
     <hud_icon filename="hud_spas-12.png" />
     <commonness value="0.029" />
-    <inventory encumbrance="5.0" price="9" />
+    <inventory encumbrance="5.0" price="10" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.9" kill_decay_start_time="0.12" kill_decay_end_time="0.22" />
+        <result class="hit" kill_probability="0.90" kill_decay_start_time="0.10" kill_decay_end_time="0.20" />
     </projectile>
     
     <stance state_key="running" accuracy="0.35" />

@@ -69,9 +69,11 @@
 
 ### Shotguns
 
-- CAWS: **0.80** | Benelli_m4_supp, UTS15: **0.85**
-- Benelli_m4, Mossberg, SPAS-12: **0.90**
-- AA-12, Jackhammer, Origin-12: **0.85**
+- CAWS (Flechette): **0.80**
+- Benelli_m4_supp, UTS15, AA-12, Jackhammer, Origin-12, Sawn-off: **0.85**
+- Benelli_m4, Mossberg, SPAS-12, Saiga-12K, NS2000, QBS-09, TTI: **0.90**
+
+*kill_decay: Formel 14/proj_speed (start), 28/proj_speed (end). Subsonic (95–96): 0.15/0.29. CAWS Flechette: 0.12/0.25.*
 
 ### Pistolen
 

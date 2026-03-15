@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.70" drop_count_factor_on_player_death="1.0" file="base_primary.weapon" key="ns2000.weapon">
     <tag name="cqb" />
     <specification retrigger_time="-1.0" 
@@ -26,16 +26,14 @@
 
     <hud_icon filename="hud_ns2000.png" />
     <commonness value="0.0019" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="1.0" price="55" />
+    <inventory encumbrance="1.0" price="11" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.74" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="1.8" 
-        kill_decay_start_time="0.26" 
-        kill_decay_end_time="0.39" />
+        <result class="hit" kill_probability="0.90" kill_decay_start_time="0.10" kill_decay_end_time="0.20" />
     </projectile>
 
     <stance state_key="running" accuracy="0.6" />

@@ -33,17 +33,14 @@
 
     <hud_icon filename="hud_origin_12_s.png" />
     <commonness value="0.005" can_respawn_with="0" in_stock="0" />
-    <inventory encumbrance="10.0" price="210.0" />
+    <inventory encumbrance="10.0" price="35" />
 	
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.6" />
 
     <weak_hand_hold offset="0.4" />
     <projectile file="bullet.projectile">
-        <result class="hit" 
-        kill_probability="0.85" 
-        kill_decay_start_time="0.28" 
-        kill_decay_end_time="0.35"  />
+        <result class="hit" kill_probability="0.85" kill_decay_start_time="0.15" kill_decay_end_time="0.29" />
     </projectile>  
      
     <modifier class="speed" value="-0.08" />       

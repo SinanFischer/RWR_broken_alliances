@@ -48,7 +48,7 @@
 
     <hud_icon filename="hud_qlz87_b.png" />
     <commonness value="0.0" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="379.0" />
+    <inventory encumbrance="10.0" price="189.0" />
 
 	<stance state_key="running" accuracy="0.2" />
 	<stance state_key="walking" accuracy="0.2" />
