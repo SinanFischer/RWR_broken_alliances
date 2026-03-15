@@ -26,7 +26,7 @@
 
     <model filename="kriss.xml" />
     <hud_icon filename="hud_kriss_vector.png" />
-    <inventory encumbrance="3.0"  price="70" />
+    <inventory encumbrance="3.0"  price="72" />
     <commonness value="0.0" can_respawn_with="1" in_stock="1"/>
     
     <capacity value="0" source="rank" source_value="0.0" />

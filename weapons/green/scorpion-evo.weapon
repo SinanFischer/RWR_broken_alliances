@@ -29,7 +29,7 @@
 	
     <model filename="scorpion-evo.xml" />
     <hud_icon filename="hud_scorpion-evo.png" />
-    <inventory encumbrance="2.0" price="24" />
+    <inventory encumbrance="2.0" price="61" />
     <commonness value="0.0" />
 
     <projectile file="bullet.projectile">

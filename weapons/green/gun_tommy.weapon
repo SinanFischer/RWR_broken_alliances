@@ -42,7 +42,7 @@
 	<hud_icon filename="hud_gun_tommy.png" />
 	
 	<commonness value="0.001" can_respawn_with="0" in_stock="0"/>
-	<inventory encumbrance="5.0" price="60" />
+	<inventory encumbrance="5.0" price="20" />
 	
 	<projectile file="bullet.projectile">
 	<result class="hit" kill_probability="0.80" kill_decay_start_time="0.33" kill_decay_end_time="0.57" />

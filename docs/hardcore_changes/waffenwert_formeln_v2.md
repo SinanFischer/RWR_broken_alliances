@@ -556,6 +556,25 @@ Preis = 50 × (0.91/0.67)^0.6 + 30 ≈ 58 + 30 = 88 RP
 | accuracy_factor | `norm^0.75` |
 | kill_probability | `norm^0.7` |
 
+### MP-Übersicht (Formelpreise angewendet)
+
+| MP | retrigger | mag | proj | accuracy | kill | Waffenwert | Preis |
+|----|-----------|-----|------|----------|------|------------|-------|
+| KRISS Vector | **0.071** | 25 | **192** | 0.96 | **0.80** | 0.72 | **72** (suppr. +50) |
+| QCW-05 | **0.07** | **50** | 90 | 0.972 | 0.75 | 0.71 | **71** (suppr. +50) |
+| Honey Badger | **0.069** | 40 | 90* | **1.0** | 0.75* | 0.70 | **70** (suppr. +50) |
+| MP5SD | 0.084 | 35 | 90 | **0.985** | 0.75 | 0.67 | **67** (suppr. +50) |
+| Scorpion Evo | 0.093 | 30 | 90 | **1.0** | 0.75 | 0.61 | **61** (suppr. +50) |
+| P90 | **0.07** | **50** | 130 | **0.991** | **0.80** | 0.92 | **38** (Override: sight 1.1, Premium-PDW) |
+| M712 | **0.066** | 20 | 140 | 0.95 | 0.85 | 0.21 | 21 |
+| MP7 (Anker) | 0.091 | 40 | 131 | 0.908 | **0.80** | 0.564 | **19** |
+| Tommy Gun | 0.0825 | **50** | 90 | 0.9 | **0.80** | 0.20 | 20 |
+| Steyr TMP | 0.09 | 30 | 144 | 0.88 | 0.75* | 0.14 | 14 |
+| AEK-919k | 0.088 | 30 | 90 | 0.88 | 0.75 | 0.11 | 11 |
+| Mini UZI | 0.088 | 20 | 144 | 0.82 | 0.75* | 0.12 | 12 |
+
+*\* Formel: 19 × (Waffenwert / 0.564)^0.58. **suppressed = +50 RP** (MP5SD, KRISS, Honey Badger, Scorpion Evo, QCW-05). Honey Badger/Mini UZI/Steyr: proj/kill außerhalb Range → clamp.*
+
 ---
 
 ## PISTOLE
@@ -595,6 +614,20 @@ Preis = 50 × (0.91/0.67)^0.6 + 30 ≈ 58 + 30 = 88 RP
 | projectile_speed | `norm^0.5` |
 
 *\* Beretta 93r, M712: Schnelle Feuerrate (niedriger retrigger) → teurer. Desert Eagle, Model 29: Hoher kill, aber langsam.*
+
+### Pistolen-Übersicht (Formelpreise angewendet)
+
+| Pistole | retrigger | mag | kill | accuracy | proj | Waffenwert | Preis |
+|---------|-----------|-----|------|----------|------|------------|-------|
+| Beretta 93R | **0.07** | 15 | 0.85 | 0.95 | 150 | 0.53 | **23** (suppr. +20) |
+| PB | 0.292 | 8 | **0.95** | 0.938 | **190** | 0.53 | **23** (suppr. +20) |
+| Glock 17 (Anker) | 0.2 | 17 | 0.85 | 0.95 | 150 | 0.53 | **3** |
+| Beretta M9 | 0.25 | 15 | 0.85 | 0.95 | 150 | 0.52 | 3 |
+| Desert Eagle | 0.3 | 7 | **0.90** | **1.0** | 160 | 0.48 | 3 |
+| Desert Eagle Gold | 0.3 | 8 | **0.90** | **1.0** | 165 | 0.49 | 3 |
+| Model 29 | 0.34 | 6 | 0.85 | 0.95 | 160 | 0.35 | 1 |
+
+*\* Formel: 3 × (Waffenwert / 0.53)^0.55. **suppressed = +20 RP** (Beretta 93R, PB). M712 → MP-Formel.*
 
 ---
 

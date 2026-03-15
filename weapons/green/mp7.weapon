@@ -38,7 +38,7 @@
 
     <model filename="mp7.xml" />
     <hud_icon filename="hud_mp7.png" />
-    <inventory encumbrance="2.0" price="110" />
+    <inventory encumbrance="2.0" price="19" />
     <commonness value="0.0010" can_respawn_with="1" in_stock="1" />
 
     <projectile file="bullet.projectile">

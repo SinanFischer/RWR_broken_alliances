@@ -30,7 +30,7 @@
 
     <model filename="qcw-05.xml" />
     <hud_icon filename="hud_qcw-05.png" />
-    <inventory encumbrance="2.0" price="48" />
+    <inventory encumbrance="2.0" price="71" />
     <commonness value="0.0" />
 
     <projectile file="bullet.projectile">

@@ -29,7 +29,7 @@
 
     <model filename="suppressed_smg1.xml" />
     <hud_icon filename="hud_mp5sd.png" />
-    <inventory encumbrance="2.0" price="24" />
+    <inventory encumbrance="2.0" price="67" />
     <commonness value="0.0" />
 
     <projectile file="bullet.projectile">
