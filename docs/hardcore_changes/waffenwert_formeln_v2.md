@@ -396,9 +396,197 @@ Preis = 50 × (0.91/0.67)^0.6 + 30 ≈ 58 + 30 = 88 RP
 
 ---
 
+## DMR (Designated Marksman Rifle)
+
+**Formel:** `Preis = 45 × (Waffenwert / Waffenwert_M14_EBR)^0.65`
+
+**Anker:** M14 EBR, Basis 45, α = 0.65. Zielbereich: 45–180 RP (Preisspanne wie Sniper, Start ab 45).
+
+### Parameter-Range (aus Waffenpool)
+
+| Parameter | Min | Max | Richtung | Gewicht |
+|-----------|-----|-----|----------|---------|
+| sight_range_modifier | 1.1 | 2.25 | **höher = besser** | **0.22** |
+| accuracy_factor | 0.77 | 1.0 | **höher = besser** | **0.20** |
+| retrigger_time | 0.098 | 1.1 | **niedriger = besser** (Semi vs Bolt) | **0.18** |
+| magazine_size | 5 | 30 | **höher = besser** | **0.18** |
+| kill_probability | 1.1 | 1.2 | **höher = besser** | **0.12** |
+| sustained_fire_grow_step | 0.36 | 4.2 | **niedriger = besser** (Streukontrolle) | 0.05 |
+| sustained_fire_diminish_rate | 0.5 | 2.5 | **höher = besser** (Rückstoß-Rückgang) | 0.05 |
+| projectile_speed | 160 | 225 | **höher = besser** | 0.05 |
+
+*\* retrigger + sustained_fire: Schnelle Feuerrate bei guter Streukontrolle (SCAR SSR: grow 4.2 = schlecht; G28: grow 1.2, diminish 1.3 = gut) → starke DMRs.*  
+*\* sight, accuracy, mag, kill: Dominante Parameter für Präzisions-DMRs.*
+
+### Normalisierung
+
+| Parameter | Formel (norm ∈ [0,1]) |
+|-----------|------------------------|
+| sight_range_modifier | `(wert - 1.1) / 1.15` (1.0 wenn fehlend) |
+| accuracy_factor | `(wert - min) / (max - min)` |
+| retrigger_time | `(max - wert) / (max - min)` |
+| magazine_size | `(wert - min) / (max - min)` |
+| kill_probability | `(wert - 1.1) / 0.1` |
+| sustained_fire_grow_step | `(max - wert) / (max - min)` |
+| sustained_fire_diminish_rate | `(wert - min) / (max - min)` |
+| projectile_speed | `(wert - min) / (max - min)` |
+
+### Skalierungsfunktionen
+
+| Parameter | f(norm) |
+|-----------|---------|
+| sight_range_modifier | `norm^0.6` |
+| accuracy_factor | `norm^0.75` |
+| retrigger_time | `norm^0.5` |
+| magazine_size | `norm^0.6` |
+| kill_probability | `norm^0.7` |
+| sustained_fire_grow_step | `norm^0.6` |
+| sustained_fire_diminish_rate | `norm^0.6` |
+| projectile_speed | `norm^0.5` |
+
+---
+
+## SNIPER (Bolt-Action & Präzisionsgewehre)
+
+**Formel:** `Preis = 80 × (Waffenwert / Waffenwert_PSG90)^0.65`
+
+**Anker:** PSG90 (G22), Basis 80, α = 0.65. Zielbereich: 72–448 RP.
+
+### Parameter-Range (aus Waffenpool)
+
+| Parameter | Min | Max | Richtung | Gewicht |
+|-----------|-----|-----|----------|---------|
+| kill_probability | 1.8 | 3.0 | **höher = besser** | **0.35** |
+| sight_range_modifier | 2.15 | 2.7 | **höher = besser** | **0.35** |
+| projectile_speed | 230 | 280 | **höher = besser** | 0.12 |
+| accuracy_factor | 0.97 | 1.2 | **höher = besser** | 0.10 |
+| magazine_size | 7 | 10 | **höher = besser** | 0.05 |
+| retrigger_time | 1.0 | 2.2 | **niedriger = besser** (Bolt-Zyklus) | 0.03 |
+
+### Normalisierung
+
+| Parameter | Formel (norm ∈ [0,1]) |
+|-----------|------------------------|
+| kill_probability | `(wert - 1.8) / 1.2` |
+| sight_range_modifier | `(wert - 2.15) / 0.55` |
+| projectile_speed | `(wert - 230) / 50` |
+| accuracy_factor | `(wert - 0.97) / 0.23` |
+| magazine_size | `(wert - 7) / 3` |
+| retrigger_time | `(2.2 - wert) / 1.2` |
+
+### Skalierungsfunktionen
+
+| Parameter | f(norm) |
+|-----------|---------|
+| kill_probability | `norm^0.5` |
+| sight_range_modifier | `norm^0.6` |
+| projectile_speed | `norm^0.5` |
+| accuracy_factor | `norm^0.7` |
+| magazine_size | `norm^0.6` |
+| retrigger_time | `norm^0.6` |
+
+*\* kill_prob + sight_range je 0.35 → Barrett (kill 3.0, sight 2.7) und M200 (kill 2.0, sight 2.6, proj 280) dominieren.*
+
+### Sniper-Übersicht (Formelpreise angewendet)
+
+| Sniper | kill_prob | sight | proj_speed | accuracy | mag | retrigger | Waffenwert | Preis |
+|--------|-----------|-------|------------|----------|-----|-----------|------------|-------|
+| PSG90 (Anker) | 1.8 | 2.4 | 240 | 0.97 | 10 | 1.48 | 0.361 | 80 |
+| Barrett M107 | **3.0** | **2.7** | 230 | **1.0** | 10 | **1.0** | 0.807 | **143** |
+| Lahti L-39 | **3.0** | **2.7** | **300** | **1.0** | 10 | **−1** | 0.927 | **150** |
+| M200 | 2.0 | 2.6 | **280** | **1.2** | 7 | 2.2 | 0.671 | 110 |
+| Gepard M6 Lynx | **3.0** | 2.0 | 155 | **1.0** | 5 | **1.0** | 0.407 | 87 |
+| Truvelo AMRIS | **3.0** | 2.0 | 165 | **1.0** | 6 | **−1** | 0.407 | 87 |
+| M24-A2 | 1.8 | 2.2 | 245 | 0.99 | 10 | 1.48 | 0.27 | 63 |
+| SV-98 | 1.8 | 2.15 | 235 | 1.0 | 10 | 1.48 | 0.137 | 39 |
+
+*\* Höchstwerte pro Spalte fett. Lahti/Truvelo: blast-Projektil, kill ≈ 3.0 angenommen. Formel: 80 × (Waffenwert / 0.361)^0.65*
+
+*\* SCAR SSR, M14 EBR, G28: DMRs (Semi-Auto) → DMR-Formel, nicht Sniper.*
+
+---
+
+## MP (Maschinenpistole / PDW)
+
+**Formel:** `Preis = 19 × (Waffenwert / Waffenwert_MP7)^0.58`
+
+**Anker:** MP7, Basis 19, α = 0.58. Zielbereich: 10–32 RP.
+
+### Parameter-Range (aus Waffenpool)
+
+| Parameter | Min | Max | Richtung | Gewicht |
+|-----------|-----|-----|----------|---------|
+| retrigger_time | 0.07 | 0.093 | **niedriger = besser** (RPM) | **0.30** |
+| magazine_size | 25 | 50 | **höher = besser** | **0.25** |
+| projectile_speed | 90 | 192 | **höher = besser** | 0.18 |
+| accuracy_factor | 0.88 | 1.0 | **höher = besser** | 0.14 |
+| kill_probability | 0.75 | 0.80 | **höher = besser** | 0.13 |
+
+### Normalisierung
+
+| Parameter | Formel (norm ∈ [0,1]) |
+|-----------|------------------------|
+| retrigger_time | `(max - wert) / (max - min)` |
+| magazine_size | `(wert - min) / (max - min)` |
+| projectile_speed | `(wert - 90) / 102` (min 90 für Sichtbarkeit) |
+| accuracy_factor | `(wert - min) / (max - min)` |
+| kill_probability | `(wert - 0.75) / 0.05` |
+
+### Skalierungsfunktionen
+
+| Parameter | f(norm) |
+|-----------|---------|
+| retrigger_time | `norm^0.5` |
+| magazine_size | `norm^0.6` |
+| projectile_speed | `norm^0.5` |
+| accuracy_factor | `norm^0.75` |
+| kill_probability | `norm^0.7` |
+
+---
+
+## PISTOLE
+
+**Formel:** `Preis = 3 × (Waffenwert / Waffenwert_Glock17)^0.55`
+
+**Anker:** Glock 17, Basis 3, α = 0.55. Zielbereich: 2–29 RP.
+
+### Parameter-Range (aus Waffenpool)
+
+| Parameter | Min | Max | Richtung | Gewicht |
+|-----------|-----|-----|----------|---------|
+| retrigger_time | 0.066 | 0.34 | **niedriger = besser** (RPM) | **0.30** |
+| magazine_size | 6 | 20 | **höher = besser** | **0.25** |
+| kill_probability | 0.85 | 0.95 | **höher = besser** | 0.18 |
+| accuracy_factor | 0.938 | 1.0 | **höher = besser** | 0.14 |
+| projectile_speed | 140 | 190 | **höher = besser** | 0.13 |
+
+### Normalisierung
+
+| Parameter | Formel (norm ∈ [0,1]) |
+|-----------|------------------------|
+| retrigger_time | `(max - wert) / (max - min)` |
+| magazine_size | `(wert - min) / (max - min)` |
+| kill_probability | `(wert - 0.85) / 0.1` |
+| accuracy_factor | `(wert - min) / (max - min)` |
+| projectile_speed | `(wert - min) / (max - min)` |
+
+### Skalierungsfunktionen
+
+| Parameter | f(norm) |
+|-----------|---------|
+| retrigger_time | `norm^0.5` |
+| magazine_size | `norm^0.6` |
+| kill_probability | `norm^0.7` |
+| accuracy_factor | `norm^0.75` |
+| projectile_speed | `norm^0.5` |
+
+*\* Beretta 93r, M712: Schnelle Feuerrate (niedriger retrigger) → teurer. Desert Eagle, Model 29: Hoher kill, aber langsam.*
+
+---
+
 ## Nächste Schritte
 
 1. **Skript**: Node.js/Python-Skript, das alle Waffen einliest, Waffenwert berechnet und Preis vorschlägt.
 2. **Kalibrierung**: Basis und α so wählen, dass Anker-Waffen exakt getroffen werden.
 3. **Manuelle Overrides**: Für Sonderfälle (MG42, F2000) feste Preis-Korrekturen oder Zusatzfaktoren.
-4. **Erweiterung**: DMR, Sniper, Shotgun, MP, Pistole mit gleichem Schema.
+4. **Shotgun**: Gewichtungen analog zu anderen Waffentypen ergänzen.

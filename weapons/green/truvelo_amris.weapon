@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.35" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="truvelo_amris.weapon">
     <tag name="sniper" />
 	
@@ -40,7 +40,7 @@
     <model filename="truvelo_amris.xml" />
     <hud_icon filename="hud_truvelo_amris.png" />
     <commonness value="0.00038" can_respawn_with="0" in_stock="0" />
-    <inventory encumbrance="10.0" price="648.0" />
+    <inventory encumbrance="10.0" price="87" />
 
     <projectiles_per_shot value="1" />
     <weak_hand_hold offset="0.3" />

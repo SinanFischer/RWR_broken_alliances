@@ -32,7 +32,7 @@
 
     <hud_icon filename="hud_barrett_m107.png" />
     <commonness value="0.0025" can_respawn_with="0" in_stock="1"/>
-    <inventory encumbrance="7.0" price="500.0" />
+    <inventory encumbrance="7.0" price="143" />
 
     <projectiles_per_shot value="1" />
     <weak_hand_hold offset="0.3" />
