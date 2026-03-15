@@ -57,5 +57,5 @@
 	<stance state_key="over_wall" accuracy="0.95" />
 
     
-    <modifier class="speed" value="-0.06" />
+    <modifier class="speed" value="-0.05" />
 </weapon>

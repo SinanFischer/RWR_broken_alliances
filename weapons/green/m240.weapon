@@ -41,5 +41,5 @@
         <result class="hit" kill_probability="1.45" kill_decay_start_time="0.2" kill_decay_end_time="1.2" />
     </projectile>
 	
-    <modifier class="speed" value="-0.16" />
+    <modifier class="speed" value="-0.17" />
 </weapon>

@@ -53,5 +53,5 @@
     <stance state_key="prone_moving" accuracy="0.10" />
     <stance state_key="over_wall"    accuracy="0.90" />
 
-    <modifier class="speed" value="-0.07" />
+    <modifier class="speed" value="-0.06" />
 </weapon>

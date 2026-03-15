@@ -52,5 +52,5 @@ name="MG-42"
 	  <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.6" />    
     
-    <modifier class="speed" value="-0.12" />    
+    <modifier class="speed" value="-0.14" />    
 </weapon>

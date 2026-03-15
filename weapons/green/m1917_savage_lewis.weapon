@@ -64,5 +64,5 @@
         />
     </projectile>
 
-    <modifier class="speed" value="-0.20" />
+    <modifier class="speed" value="-0.18" />
 </weapon>
