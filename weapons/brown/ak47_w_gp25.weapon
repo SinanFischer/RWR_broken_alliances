@@ -37,7 +37,7 @@
 
     <hud_icon filename="hud_ak47_w_gp25.png" />
     <commonness value="0.02" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="3.0" price="16" />
+    <inventory encumbrance="3.0" price="15" />
 
     <projectile file="bullet.projectile">
         <result class="hit" kill_probability="1.0" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />

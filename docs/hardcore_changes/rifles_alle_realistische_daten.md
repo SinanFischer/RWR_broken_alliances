@@ -138,9 +138,89 @@ Recherche aller **Sturmgewehre (Rifles)** in RWR Broken Alliances. Analog zu `mg
 
 ---
 
+## Preisformel (waffenwert_formeln_v2.md)
+
+**Formel:** `Preis = 14 × (Waffenwert / Waffenwert_G36)^0.6`  
+**Anker:** G36, Basis 14, α = 0.6  
+**Zusätze:** GL-Varianten +25 %, Honey Badger (suppressed) +100 %, Gilboa (projectiles_per_shot=2) +200 %
+
+### Parameter-Ranges
+
+| Parameter | Min | Max | Richtung |
+|-----------|-----|-----|----------|
+| retrigger_time | 0.0333 | 0.1 | niedriger = besser |
+| magazine_size | 25 | 48 | höher = besser |
+| accuracy_factor | 0.70 | 1.0 | höher = besser |
+| kill_probability | 0.85 | 1.1 | höher = besser |
+| projectile_speed | 148 | 170 | höher = besser |
+| sight_range_modifier | 1.0 | 1.2 | höher = besser |
+| sustained_fire_grow_step | 0.15 | 0.54 | niedriger = besser |
+| sustained_fire_diminish_rate | 0.60 | 2.0 | höher = besser |
+
+### Vollständige Wertetabelle (nach Waffenwert sortiert)
+
+| Rifle | retrig | mag | acc | kill | proj | sight | grow | dim | Waffenwert | Preis (Formel) | Preis (aktuell) |
+|-------|--------|-----|-----|------|------|-------|------|-----|------------|---------------|-----------------|
+| Steyr AUG | 0.083 | 42 | 1.00 | 0.90 | 165 | 1.20 | 0.26 | 1.10 | 0.661 | 19 | 19 |
+| F2000 | 0.071 | 30 | 1.00 | 0.90 | 158 | 1.18 | 0.30 | 2.00 | 0.660 | 19 | 19 |
+| AN-94 | 0.033 | 30 | 0.93 | 1.00 | 158 | 1.00 | 0.15 | 0.60 | 0.645 | 18 | 18 |
+| XM8 | 0.08 | 30 | 1.00 | 0.90 | 165 | 1.15 | 0.37 | 1.53 | 0.609 | 18 | 18 |
+| L85A2 | 0.08 | 30 | 0.97 | 0.90 | 158 | 1.20 | 0.22 | 1.20 | 0.597 | 18 | 18 |
+| M16A4 Support | 0.07 | 48 | 0.80 | 0.85 | 160 | 1.20 | 0.26 | 1.22 | 0.561 | 17 | 17 |
+| FAMAS G1 | 0.06 | 25 | 0.97 | 0.90 | 155 | 1.00 | 0.28 | 1.60 | 0.537 | 16 | 16 |
+| Honey Badger | 0.069 | 40 | 1.00 | 0.50 | 55 | 1.00 | 0.28 | 1.30 | 0.522 | 32 | 32 |
+| M1 Garand | 1.33 | 8 | 0.95 | 1.10 | 158 | 1.05 | 2.50 | 2.80 | 0.505 | 16 | 48 |
+| M16A4 | 0.07 | 30 | 0.80 | 0.90 | 160 | 1.10 | 0.26 | 1.22 | 0.501 | 16 | 16 |
+| SG552 | 0.086 | 30 | 0.97 | 0.90 | 155 | 1.10 | 0.54 | 1.34 | 0.493 | 16 | 16 |
+| M16A4 w/M203 | 0.07 | 30 | 0.80 | 0.90 | 160 | 1.10 | 0.26 | 1.22 | 0.487 | 19 | 19 |
+| QBZ-95 | 0.092 | 30 | 0.95 | 0.90 | 160 | 1.00 | 0.42 | 1.30 | 0.447 | 15 | 15 |
+| HK416 | 0.071 | 30 | 0.75 | 0.90 | 165 | 1.05 | 0.32 | 1.18 | 0.445 | 15 | 15 |
+| Gilboa DBR | 0.145 | 30 | 1.00 | 0.90 | 158 | 1.00 | 0.27 | 1.20 | 0.428 | 42 | 42 |
+| G36 | 0.08 | 30 | 0.74 | 0.90 | 160 | 1.10 | 0.38 | 1.15 | 0.410 | 14 | 14 |
+| G36 w/AG36 | 0.08 | 30 | 0.74 | 0.90 | 160 | 1.10 | 0.38 | 1.15 | 0.410 | 18 | 18 |
+| AKS-74U | 0.086 | 30 | 0.70 | 1.00 | 148 | 1.05 | 0.40 | 1.10 | 0.348 | 13 | 13 |
+| AK-74M | 0.10 | 30 | 0.72 | 1.00 | 158 | 1.00 | 0.40 | 1.12 | 0.304 | 12 | 12 |
+| AK-74 GP25 | 0.10 | 30 | 0.72 | 1.00 | 158 | 1.00 | 0.40 | 1.12 | 0.304 | 15 | 15 |
+
+*\* Gilboa: Basis 14 × 3 (+200 % für projectiles_per_shot=2) = 42 RP.*  
+*\* M1 Garand (48 RP): Manueller Preis – Sammler/Stil, Formel würde 16 liefern.*
+
+### Dominanz-Check (Waffenwert > 0.45 = starke Rifles)
+
+| Dominante Rifles | Waffenwert |
+|------------------|------------|
+| Steyr AUG, F2000, AN-94, XM8, L85A2, M16A4 Support, FAMAS, Honey Badger, M1 Garand, M16A4, SG552, M16A4 w/M203 | 0.487–0.661 |
+
+**Schwächere Rifles (Waffenwert < 0.4):** G36, G36 w/AG36, AKS-74U, AK-74M, AK-74 GP25 (langsamer retrigger, geringere accuracy)
+
+### Preisanpassungen (Formel angewendet)
+
+| Waffe | Alt | Neu |
+|-------|-----|-----|
+| L85A2 | 16 | 18 |
+| M16A4 | 15 | 16 |
+| SG552 | 15 | 16 |
+| HK416 | 14 | 15 |
+| F2000 | 18 | 19 |
+| AK-74M | 13 | 12 |
+| AK-74 GP25 | 16 | 15 |
+| Honey Badger | 34 | 32 |
+| Gilboa DBR | 105 | **42** (+200 % für Doppelschuss) |
+| M1 Garand | 48 | *(unverändert, manuell)* |
+
+### Ausführung
+
+```powershell
+cd scripts
+node rifle-price-formula.js
+```
+
+---
+
 ## Sonderfälle
 
 - **TTI Combat Shield**: Kein klassisches Rifle (Shield + Shotgun), unverändert.
 - **M16A4 Support**: enc 10 durch Schild; sight 1.2 bereits am Cap.
-- **Gilboa DBR**: projectiles_per_shot=2 (Doppelläufig), mag 30 = 15 Doppelschüsse.
+- **Gilboa DBR**: projectiles_per_shot=2 (Doppelläufig), mag 30 = 15 Doppelschüsse. +200 % Aufschlag → 42 RP.
 - **AN-94**: Burst-Modus (1800 RPM) separat modelliert; Vollauto 600 RPM.
+- **M1 Garand**: Semi, 8 Schuss – Formel bewertet niedrig; aktueller Preis 48 (Sammler/Stil).
