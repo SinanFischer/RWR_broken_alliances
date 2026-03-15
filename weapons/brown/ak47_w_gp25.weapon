@@ -12,7 +12,7 @@
   suppressed="0" 
   name="AK-74 GP25 GL" 
   class="0" 
-  projectile_speed="155.0" />
+  projectile_speed="158.0" />
 
     <next_in_chain key="ak47_w_gp25_g.weapon" share_ammo="0" />
 
@@ -40,7 +40,7 @@
     <inventory encumbrance="3.0" price="16" />
 
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="1.1" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
+        <result class="hit" kill_probability="1.0" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
     <modifier class="speed" value="-0.035" />
 </weapon>

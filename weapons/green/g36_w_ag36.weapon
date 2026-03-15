@@ -39,7 +39,7 @@
 
     <hud_icon filename="hud_g36_w_ag36.png" />
     <commonness value="0.02" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="4.0" price="18" />
+    <inventory encumbrance="5.0" price="18" />
 
     <weak_hand_hold offset="0.0" />
     <projectile file="bullet.projectile">

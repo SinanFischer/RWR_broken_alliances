@@ -2,7 +2,7 @@
 <weapon file="base_primary.weapon" key="famasg1.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="assault" />
     <specification 
-  retrigger_time="0.0632"
+  retrigger_time="0.06"
   last_burst_retrigger_time="0.25" 
   accuracy_factor="0.968" 
   sustained_fire_grow_step="0.28" 
@@ -28,7 +28,7 @@
 
     <hud_icon filename="hud_famasg1.png" />
     <commonness value="0.049" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="3.0" price="16" />
+    <inventory encumbrance="4.0" price="16" />
     
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.5" />    

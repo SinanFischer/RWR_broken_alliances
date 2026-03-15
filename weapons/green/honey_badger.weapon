@@ -12,7 +12,7 @@
   suppressed="1" 
   name="AAC Honey Badger" 
   class="0" 
-  projectile_speed="205.0" 
+  projectile_speed="55.0" 
   barrel_offset="0.4" 
   burst_shots="3"/>
 
@@ -34,7 +34,7 @@
     <capacity source="rank" source_value="0.0" value="0" />
     <capacity source="rank" source_value="2.0" value="1" />    
     
-    <inventory encumbrance="5.0" price="34" />
+    <inventory encumbrance="2.0" price="34" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">

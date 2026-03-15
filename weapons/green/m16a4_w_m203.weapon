@@ -13,7 +13,7 @@
   name="M16A4 w/ M203 GL" 
   class="0" 
   sight_range_modifier="1.1"
-  projectile_speed="157.0" 
+  projectile_speed="160.0" 
   barrel_offset="0.4" />
 
     <next_in_chain key="m16a4_w_m203_g.weapon" share_ammo="0" />
@@ -39,7 +39,7 @@
 	
     <hud_icon filename="hud_m16a4_w_m203.png" />
     <commonness value="0.02" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="4.0" price="19" />
+    <inventory encumbrance="5.0" price="19" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">

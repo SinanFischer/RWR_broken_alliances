@@ -60,12 +60,12 @@
 
 ### 5.45×39 (0.90–1.0)
 
-- AKS74u, AN94: **1.0**
+- AKS74u, AN94, AK-74M (ak47.weapon), AK-74 GP25 (ak47_w_gp25.weapon): **1.0**
 - RPK-74M (MG): siehe MG
 
 ### 7.62×39 (1.0–1.1)
 
-- AK47, AK47_w_gp25: **1.1**
+- AK-47 (falls echtes 7.62×39): **1.1**
 
 ### Shotguns
 
