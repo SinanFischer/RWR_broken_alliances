@@ -3,7 +3,7 @@
     <tag name="assault" />
     <!-- 5.56mm US-Standard; Balance EU/RU -->
     <specification 
-  retrigger_time="0.108" 
+  retrigger_time="0.075" 
   accuracy_factor="0.80" 
   sustained_fire_grow_step="0.26" 
   sustained_fire_diminish_rate="1.22" 
@@ -32,7 +32,7 @@
 
     <hud_icon filename="hud_m16a4_scope.png" />
     <commonness value="0.22" />
-    <inventory encumbrance="4.0" price="8.0" />
+    <inventory encumbrance="4.0" price="9" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">

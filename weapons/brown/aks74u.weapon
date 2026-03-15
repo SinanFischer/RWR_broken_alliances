@@ -1,13 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="aks74u.weapon">
     <tag name="assault" />
     <!-- 5.45x39 Kurz; weniger Reichweite/Wirkung, mobil -->
     <specification 
-  retrigger_time="0.09" 
+  retrigger_time="0.0857" 
   accuracy_factor="0.70" 
   sustained_fire_grow_step="0.40" 
   sustained_fire_diminish_rate="1.10" 
-  magazine_size="38" 
+  magazine_size="30" 
   can_shoot_standing="1" 
   suppressed="0" 
   name="AKS-74U" 

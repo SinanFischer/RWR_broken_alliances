@@ -3,7 +3,7 @@
     <tag name="assault" />
     <!-- Gewehr-Stats 1:1 wie AK-74M (ak47.weapon); nur GL-Option (X) und 5× Preis -->
     <specification 
-  retrigger_time="0.112" 
+  retrigger_time="0.1" 
   accuracy_factor="0.72" 
   sustained_fire_grow_step="0.40" 
   sustained_fire_diminish_rate="1.12" 

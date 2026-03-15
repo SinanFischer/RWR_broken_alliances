@@ -2,7 +2,7 @@
 <weapon file="base_primary_rare.weapon" key="m16a4_support.weapon">
     <tag name="assault" />
     <specification 
-  retrigger_time="0.108" 
+  retrigger_time="0.075" 
   accuracy_factor="0.80" 
   sustained_fire_grow_step="0.26" 
   sustained_fire_diminish_rate="1.22" 
@@ -31,7 +31,7 @@
 
     <hud_icon filename="hud_m16a4_support.png" />
     <commonness value="0.0004" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="10.0" price="40" />
+    <inventory encumbrance="10.0" price="46" />
 	
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.1" />
