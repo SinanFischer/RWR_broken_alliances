@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.70" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="taser_medic.weapon" time_to_live_out_in_the_open="0.0">
     <tag name="assault" />       
 	
@@ -52,7 +52,7 @@
     
     <projectile file="taser.projectile">
         <result class="hit"
-		kill_probability="5.01"
+		kill_probability="1.0"
 		kill_decay_start_time="0.25"
 		kill_decay_end_time="0.26" 
 		character_state="wound" />

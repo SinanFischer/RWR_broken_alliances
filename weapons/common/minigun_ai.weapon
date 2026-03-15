@@ -46,7 +46,7 @@
 
     <weak_hand_hold offset="0.4" />
     <projectile file="50cal_bullet.projectile">
-        <result class="hit" kill_probability="0.9" kill_decay_start_time="0.33" kill_decay_end_time="0.66" />
+        <result class="hit" kill_probability="0.85" kill_decay_start_time="0.33" kill_decay_end_time="0.66" />
     </projectile>
 
     <capacity value="1" source="rank" source_value="0.0" />

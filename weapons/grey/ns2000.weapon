@@ -33,7 +33,7 @@
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.51" 
+        <result class="hit" kill_probability="1.8" 
         kill_decay_start_time="0.26" 
         kill_decay_end_time="0.39" />
     </projectile>

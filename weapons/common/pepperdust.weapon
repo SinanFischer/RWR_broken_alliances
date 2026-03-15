@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary_rare.weapon" key="pepperdust.weapon">
     <specification retrigger_time="-1.0" 
     accuracy_factor="0.7" 

@@ -28,7 +28,7 @@
     <inventory encumbrance="5.0" price="1.0" />    
   
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.47" kill_decay_start_time="0.265" kill_decay_end_time="0.72" />
+        <result class="hit" kill_probability="0.85" kill_decay_start_time="0.265" kill_decay_end_time="0.72" />
     </projectile>
 
     <effect class="muzzle" ref="BigMuzzle" />
