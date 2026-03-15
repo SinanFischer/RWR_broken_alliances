@@ -32,7 +32,7 @@ Alle Preise: `Preis = Basis × (Waffenwert / Waffenwert_Anker)^α`
 | **Sniper** | PSG90 | 80 | 0.65 | 72–448 | Gut–Sehr teuer |
 | **Shotgun** | Mossberg 500 | 14 | 0.58 | 10–352 | Billig–Sehr teuer |
 
-*\* GL-Varianten (Rifle): +25 % Aufschlag. Suppressed/Burst: +15–25 % (z.B. Honey Badger).*
+*\* GL-Varianten (Rifle): +25 % Aufschlag. Suppressed/Burst: +100 % Aufschlag (z.B. Honey Badger).*
 
 **Rifle sight_range_modifier:** Max 1.2. Norm = `(wert - 1.0) / 0.2` (Range 1.0–1.2).
 
@@ -115,23 +115,29 @@ Waffenwert = 0.25×0.81 + 0.22×0.52 + 0.15×0.66 + 0.08×0.46 + 0.05×1.0 + 0.1
           = 0.20 + 0.11 + 0.10 + 0.04 + 0.05 + 0.04 + 0.07 = 0.61
 ```
 
+### MG-Preiskalkulation (Schritt für Schritt)
+
+**Formel-Pipeline:** Wie Rifle – norm → score → Waffenwert. `Preis = 43 × (Waffenwert / Waffenwert_MG4)^0.6`
+
+**Sonderfälle:** `sustained_fire_grow_step` oder `sustained_fire_diminish_rate` negativ (z.B. Ultimax Constant Recoil) → norm = 1.0 (beste).
+
 ### MG-Übersicht (berechnete Waffenwerte → Preise)
 
 | MG | Waffenwert | Preis (formel) | Preis (aktuell) |
 |----|------------|----------------|-----------------|
-| MG4 | (Anker) | 43 | 43 |
-| M249 | höher (200 mag) | ~48 | 45 |
-| M240 | mittel | ~35 | 35 |
-| PKM | mittel | ~30 | 29 |
-| MG42 | hoch (schnell, 250 mag) | ~152 | 912 |
-| Stoner LMG | hoch (acc, mag) | ~56 | 392 |
-| Ultimax | Sonderfall (neg. sustained) | ~45 | 216 |
-| Negev | hoch (schnell, mag) | ~51 | 32 |
-| RPK74m | niedrig (60 mag) | ~29 | 38 |
-| Pecheneg | mittel-hoch | ~45 | 800 |
-| MG-08 Heavy | mittel | ~40 | 96 |
+| MG4 | (Anker) 0.647 | 43 | 27 |
+| M249 | 0.694 | 45 | 28 |
+| M240 | 0.652 | 43 | 22 |
+| PKM | 0.635 | 42 | 18 |
+| MG42 | 0.732 | 46 | 570 |
+| Stoner LMG | 0.741 | 47 | 245 |
+| Ultimax | 0.467 (langsam, aber Constant Recoil) | 35 | 135 |
+| Negev | 0.717 | 46 | 20 |
+| RPK74m | 0.513 | 37 | 24 |
+| Pecheneg | 0.599 | 41 | 500 |
+| MG-08 Heavy | 0.444 | 34 | 60 |
 
-*\* MG42/Stoner/Pecheneg: Aktuelle Preise sind manuell/legacy; Formel liefert andere Rangfolge. Anpassung von Basis/α oder Zusatzfaktoren nötig.*
+*\* MG42/Stoner/Pecheneg: Aktuelle Preise sind manuell/legacy; Formel liefert 41–47 RP (Segment Mittel).*
 
 ---
 
@@ -214,7 +220,7 @@ Waffenwert = 0.25×0.81 + 0.22×0.52 + 0.15×0.66 + 0.08×0.46 + 0.05×1.0 + 0.1
 **Preis:** `14 × (0.38 / 0.38)^0.6 = 14` (G36 = Anker)
 
 **Beispiel AK47** (Waffenwert ≈ 0.39): `14 × (0.39/0.38)^0.6 ≈ 14`  
-**Beispiel Honey Badger** (Waffenwert ≈ 0.45, +20 % suppressed): `14 × (0.45/0.38)^0.6 × 1.2 ≈ 20`
+**Beispiel Honey Badger** (Waffenwert ≈ 0.45, +100 % suppressed): `14 × (0.45/0.38)^0.6 × 2.0 ≈ 34`
 
 ---
 
@@ -266,7 +272,7 @@ Waffenwert = 0.25×0.81 + 0.22×0.52 + 0.15×0.66 + 0.08×0.46 + 0.05×1.0 + 0.1
 | AK47 | 0.10 | 30 | 0.72 | 1.1 | 155 | 1.0 | 0.40 | 1.12 |
 | Honey Badger | 0.069 | 40 | 1.0 | 0.5 | 205 | 1.0 | 0.28 | 1.30 |
 
-*\* Honey Badger: kill 0.5 (Subsonic) unter Rifle-Min 0.85 → norm=0; proj_speed 205 über Max 170 → norm=1.0. suppressed=1 (Zusatzwert) nicht in Formel.*
+*\* Honey Badger: kill 0.5 (Subsonic) unter Rifle-Min 0.85 → norm=0; proj_speed 205 über Max 170 → norm=1.0. suppressed=1 → +100 % Aufschlag.*
 
 **Normalisierte Werte (norm):**
 
@@ -297,7 +303,7 @@ Waffenwert = 0.25×0.81 + 0.22×0.52 + 0.15×0.66 + 0.08×0.46 + 0.05×1.0 + 0.1
 - **Potenz a>1**: AK47 steigt durch Kill-Bonus (12 RP), Honey Badger deutlich teurer (18 RP) – starke Spanne.
 - **Potenz a<1**: G36 = AK47 = 9, Honey Badger 11 – moderate Differenzierung, AK47-Kill-Bonus vs. langsame Feuerrate gleicht sich aus.
 
-*\* Honey Badger: suppressed + burst + hohe accuracy erhöhen den Spielwert; Formel erfasst das nur teilweise (kein suppressed-Faktor).*
+*\* Honey Badger: suppressed + burst → +100 % Aufschlag auf Basispreis.*
 
 ---
 
@@ -306,22 +312,23 @@ Waffenwert = 0.25×0.81 + 0.22×0.52 + 0.15×0.66 + 0.08×0.46 + 0.05×1.0 + 0.1
 | Rifle | Waffenwert | Preis (formel) | Preis (aktuell) |
 |-------|------------|-----------------|-----------------|
 | G36 | (Anker) | 14 | 14 |
-| M16A4 | ähnlich | ~14 | 14 |
-| HK416 | ähnlich | ~16 | 21 |
-| AK47 | mittel (kill 1.1) | ~16 | 14 |
-| F2000 | hoch (acc 1.0, schnell) | ~28 | 168 |
-| FAMAS | hoch (schnell) | ~19 | 54 |
-| Steyr AUG | hoch (acc, mag 42, sight) | ~25 | 155 |
-| L85A2 | mittel (sight 1.2 cap) | ~19 | 54 |
-| SG552 | mittel | ~17 | 42 |
-| XM8 | hoch (acc 1.0) | ~22 | 109 |
-| G36 w/ AG36 | wie G36 + GL-Bonus | ~19 | 42 |
-| M16A4 w/ M203 | wie M16 + GL-Bonus | ~19 | 43 |
-| M16A4 Support | hoch (mag 48) | ~21 | 74 |
-| QBZ95 | mittel | ~17 | 126 |
-| AKS74u | niedrig (acc 0.7) | ~14 | 19 |
-| AN94 | sehr hoch (schnell) | ~24 | 93 |
-| AK47 w/ GP25 | wie AK47 + GL-Bonus | ~21 | 35 |
+| M16A4 | ähnlich | 15 | 15 |
+| HK416 | ähnlich | 14 | 14 |
+| AK47 | mittel (kill 1.1) | 13 | 13 |
+| F2000 | hoch (acc 1.0, schnell) | 18 | 18 |
+| FAMAS | hoch (schnell) | 16 | 16 |
+| Steyr AUG | hoch (acc, mag 42, sight) | 19 | 19 |
+| L85A2 | mittel (sight 1.2 cap) | 16 | 16 |
+| SG552 | mittel | 15 | 15 |
+| XM8 | hoch (acc 1.0) | 18 | 18 |
+| G36 w/ AG36 | wie G36 + GL (+25 %) | 18 | 18 |
+| M16A4 w/ M203 | wie M16 + GL (+25 %) | 19 | 19 |
+| M16A4 Support | hoch (mag 48) | 17 | 17 |
+| QBZ95 | mittel | 15 | 15 |
+| AKS74u | niedrig (acc 0.7) | 13 | 13 |
+| AN94 | sehr hoch (schnell) | 18 | 18 |
+| AK47 w/ GP25 | wie AK47 + GL (+25 %) | 16 | 16 |
+| Honey Badger | suppressed (+100 %) | 34 | 34 |
 
 *\* GL-Varianten: +20–30 % Aufschlag für Granatwerfer-Option. F2000/Steyr/XM8: Formel unterschätzt aktuellen Premium-Preis; Gewichte oder Zusatzfaktoren anpassbar.*
 

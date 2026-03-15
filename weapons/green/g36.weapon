@@ -32,7 +32,7 @@
 
     <hud_icon filename="hud_g36_kac.png" />
     <commonness value="0.22" />
-    <inventory encumbrance="4.0" price="9" />
+    <inventory encumbrance="4.0" price="14" />
 
     <weak_hand_hold offset="0.0" />
     <projectile file="bullet.projectile">

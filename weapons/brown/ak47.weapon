@@ -30,7 +30,7 @@
 
     <hud_icon filename="hud_ak74m.png" />
     <commonness value="0.22" />
-    <inventory encumbrance="3.0" price="9" />
+    <inventory encumbrance="3.0" price="13" />
 
     <projectile file="bullet.projectile">
         <result class="hit" kill_probability="1.1" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />

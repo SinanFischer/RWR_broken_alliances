@@ -31,7 +31,7 @@
 
     <hud_icon filename="hud_qbz95.png" />
     <commonness value="0.001" can_respawn_with="0" in_stock="0" />
-    <inventory encumbrance="10.0" price="79" />
+    <inventory encumbrance="10.0" price="15" />
 
     <weak_hand_hold offset="0.0" />
     <projectile file="bullet.projectile">

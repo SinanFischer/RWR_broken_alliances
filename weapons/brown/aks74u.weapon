@@ -28,7 +28,7 @@
 
     <hud_icon filename="hud_aks74u.png" />
     <commonness value="0.046" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="3.0" price="12" />
+    <inventory encumbrance="3.0" price="13" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.2" />

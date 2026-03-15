@@ -31,7 +31,7 @@
 
     <hud_icon filename="hud_m16a4_support.png" />
     <commonness value="0.0004" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="10.0" price="46" />
+    <inventory encumbrance="10.0" price="17" />
 	
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.1" />
