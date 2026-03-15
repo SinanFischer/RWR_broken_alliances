@@ -35,12 +35,12 @@
 
     <hud_icon filename="hud_ultimax.png" />
     <commonness value="0.0" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="135" />
+    <inventory encumbrance="5.0" price="135" />
 
     <weak_hand_hold offset="0.4" />
     <projectile file="bullet.projectile">
         <!-- Höhere Killrate als MG4/Negev (0.52/0.58): Constant Recoil = mehr Treffer auf Ziel, rechtfertigt Premium-Preis -->
-        <result class="hit" kill_probability="1.4" kill_decay_start_time="0.45" kill_decay_end_time="0.70" />
+        <result class="hit" kill_probability="1.35" kill_decay_start_time="0.45" kill_decay_end_time="0.70" />
     </projectile>
     
     <capacity value="0" source="rank" source_value="0.0" />

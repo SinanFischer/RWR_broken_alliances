@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="rpk74m.weapon">
     <tag name="machine gun" />
     <!-- 5.45x39: Magazin-LMG, ~600 rpm; leichter als 5.56-LMGs, etwas weniger Wirkung -->
@@ -40,7 +40,7 @@
     <capacity value="1" source="rank" source_value="0.4" />
 
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="1.4" kill_decay_start_time="0.08" kill_decay_end_time="1.8" />
+        <result class="hit" kill_probability="1.35" kill_decay_start_time="0.08" kill_decay_end_time="1.8" />
     </projectile>
 
     <modifier class="speed" value="-0.06" /> 
