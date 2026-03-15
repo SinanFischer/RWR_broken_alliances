@@ -444,6 +444,20 @@ Preis = 50 × (0.91/0.67)^0.6 + 30 ≈ 58 + 30 = 88 RP
 | sustained_fire_diminish_rate | `norm^0.6` |
 | projectile_speed | `norm^0.5` |
 
+### DMR-Übersicht (Formelpreise angewendet)
+
+| DMR | sight | accuracy | retrigger | mag | kill | grow | diminish | proj | Waffenwert | Preis |
+|-----|-------|----------|-----------|-----|------|------|----------|------|------------|-------|
+| G28 | 1.95 | 0.95 | 0.65 | 20 | 1.2 | 1.2 | 1.3 | 215 | **0.841** | **47** |
+| M14 EBR (Anker) | 1.95 | 0.95 | 0.85 | 20 | 1.2 | 1.65 | 1.0 | 215 | 0.799 | 45 |
+| SCAR SSR | 1.9 | **1.0** | 0.92 | 20 | 1.2 | 4.2 | 0.68 | 220 | 0.766 | 44 |
+| Dragunov SVD | 2.0 | 0.93 | 0.882 | 10 | 1.2 | 1.3 | 1.0 | **225** | 0.729 | 42 |
+| VSS Vintorez | 1.6 | 0.90 | **0.2** | 20 | 1.1 | 1.6 | **2.5** | 170 | 0.676 | 40 |
+| APR | **2.25** | **1.0** | 1.1 | 5 | 1.2 | 3.0 | 0.5 | 210 | 0.609 | 38 |
+| M4A1 Scope | 1.1 | 0.77 | **0.098** | **30** | 1.2 | **0.36** | 1.28 | 160 | 0.558 | 36 |
+
+*\* **Fett** = bester Wert pro Spalte (sight/accuracy/mag/kill/diminish/proj/Waffenwert/Preis: höher besser; retrigger/grow: niedriger besser). Formel: 45 × (Waffenwert / 0.799)^0.65.*
+
 ---
 
 ## SNIPER (Bolt-Action & Präzisionsgewehre)
