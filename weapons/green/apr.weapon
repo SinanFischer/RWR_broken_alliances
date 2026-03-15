@@ -34,7 +34,7 @@
     <model filename="apr.xml" />
     <hud_icon filename="hud_apr.png" />
     <commonness value="0.0012" can_respawn_with="1" in_stock="1"/>
-    <inventory encumbrance="11.0" price="38" />
+    <inventory encumbrance="11.0" price="88" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
 	<capacity value="1" source="rank" source_value="1.2" />

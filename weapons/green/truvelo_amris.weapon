@@ -40,7 +40,7 @@
     <model filename="truvelo_amris.xml" />
     <hud_icon filename="hud_truvelo_amris.png" />
     <commonness value="0.00038" can_respawn_with="0" in_stock="0" />
-    <inventory encumbrance="10.0" price="87" />
+    <inventory encumbrance="10.0" price="137" />
 
     <projectiles_per_shot value="1" />
     <weak_hand_hold offset="0.3" />

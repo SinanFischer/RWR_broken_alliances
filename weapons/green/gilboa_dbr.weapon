@@ -35,7 +35,7 @@
 
     <hud_icon filename="hud_gilboa_dbr.png" />
     <commonness value="0.00002" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="5.0" price="55" />
+    <inventory encumbrance="5.0" price="115" />
 
     <projectile file="bullet.projectile">
 	    <result class="hit" kill_probability="0.9" kill_decay_start_time="0.38" kill_decay_end_time="0.52" />
