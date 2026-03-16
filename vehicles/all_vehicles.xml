@@ -35,8 +35,10 @@
 
   <vehicle file="cover1.vehicle" />
   <vehicle file="deployable_mg.vehicle" />  
+  <vehicle file="deployable_mg_scoped.vehicle" />
   <vehicle file="deployable_mg_2.vehicle" />
   <vehicle file="deployable_minig.vehicle" />
+  <vehicle file="deployable_minig_scoped.vehicle" />
   <vehicle file="deployable_minig_2.vehicle" />
   <vehicle file="deployable_gl.vehicle" />
   <vehicle file="deployable_gl_2.vehicle" />
@@ -149,6 +151,7 @@
 <!-- 1.96 -->
 
   <vehicle file="sandbag_cover.vehicle" />
+  <vehicle file="sandbag_cover_stable.vehicle" />
   <vehicle file="dogcrate_para.vehicle" />
   <vehicle file="f1.vehicle" />
   <vehicle file="f1_spawn.vehicle" />
