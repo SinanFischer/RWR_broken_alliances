@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_secondary.weapon" key="fhj01.weapon">
     <tag name="bazooka" />
     <tag name="denied_in_penalty" />
@@ -47,7 +47,7 @@
 
 
     <hud_icon filename="hud_fhj01.png" />
-    <commonness value="0.003" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.003" can_respawn_with="1" in_stock="1" />
     <inventory encumbrance="6.0" price="30" />
 
     <effect class="muzzle" ref="LawMuzzle" />

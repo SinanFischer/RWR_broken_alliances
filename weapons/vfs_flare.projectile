@@ -9,5 +9,5 @@
     <commonness value="0.04" can_respawn_with="0" in_stock="1" />
     <capacity value="1" source="rank" source_value="0.0" />
     <capacity value="2" source="rank" source_value="0.25" />
-    <inventory encumbrance="2.0" price="300" />
+    <inventory encumbrance="2.0" price="245" />
 </projectile>
