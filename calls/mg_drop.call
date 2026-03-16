@@ -20,6 +20,6 @@
     <hud_icon filename="hud_deployable_mg.png" />
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="100" source="rank" source_value="0.12" />
-    <inventory encumbrance="0.0" price="124.0" />
+    <inventory encumbrance="0.0" price="192.0" />
 
 </call>
