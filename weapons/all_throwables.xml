@@ -54,6 +54,8 @@
   <projectile file="dooms_hammer.projectile" />
   <projectile file="guntruck_flare.projectile" />
   <projectile file="wiesel_flare.projectile" />
+  <projectile file="hovercraft_flare.projectile" />
+  <projectile file="legion_flare.projectile" />
   <projectile file="vulcan_acav_flare.projectile" />
   <projectile file="30mm.projectile" />
   <projectile file="30mm_blast.projectile" />

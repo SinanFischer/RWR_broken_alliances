@@ -101,6 +101,7 @@
   <vehicle file="noxe.vehicle"/>
   <vehicle file="noxe_spawn.vehicle"/>       
   <vehicle file="legion.vehicle"/>
+  <vehicle file="legion_spawn.vehicle"/>
   <vehicle file="sev90.vehicle"/>
   <vehicle file="sev90_spawn.vehicle"/>        
   <vehicle file="flamer_tank.vehicle"/>
@@ -135,6 +136,7 @@
   <vehicle file="fv101.vehicle" />
   <vehicle file="m551.vehicle" />
   <vehicle file="hovercraft.vehicle" />
+  <vehicle file="hovercraft_spawn.vehicle" />
   <vehicle file="willys_mb_spawn.vehicle" />
   <vehicle file="willys_mb_para.vehicle" />
   <vehicle file="willys_mb.vehicle" />
