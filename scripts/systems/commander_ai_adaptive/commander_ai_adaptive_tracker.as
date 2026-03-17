@@ -41,7 +41,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 		if (factions is null || factions.size() == 0) return;
 		if (m_respawnTracker is null) return;
 
-		if (m_lastState.size() < int(factions.size()))
+		if (int(m_lastState.size()) < int(factions.size()))
 			m_lastState.resize(factions.size());
 
 		for (uint i = 0; i < factions.size(); i++) {
@@ -98,13 +98,13 @@ class CommanderAiAdaptiveTracker : Tracker {
 		// Zeitraum bis zum naechsten Check
 		float nextCheck = AI_UPDATE_INTERVAL - m_accum;
 
-		string out = "[AI-Adaptive] Check alle " + AI_UPDATE_INTERVAL + "s | naechster in "
+		string report = "[AI-Adaptive] Check alle " + AI_UPDATE_INTERVAL + "s | naechster in "
 			+ formatFloat(nextCheck, "", 0, 1) + "s\n";
 
 		for (uint i = 0; i < factions.size(); i++) {
 			int fid = factions[i].getIntAttribute("id");
 			int rawCap = m_respawnTracker.getBaseCapacity(fid);
-			if (rawCap <= 0) { out += "  Fakt." + fid + " — kein Capacity-Wert\n"; continue; }
+			if (rawCap <= 0) { report += "  Fakt." + fid + " — kein Capacity-Wert\n"; continue; }
 
 			int effectiveCap = m_respawnTracker.getEffectiveCapacityForFaction(fid);
 			float ratio = float(effectiveCap) / float(rawCap);
@@ -117,7 +117,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 			else if (state == AI_STATE_DEFENSIVE)  stateLabel = "DEFENSIVE";
 			else if (state == AI_STATE_CRITICAL)   stateLabel = "CRITICAL";
 
-			out += "  Fakt." + fid
+			report += "  Fakt." + fid
 				+ " | ratio=" + formatFloat(ratio, "", 0, 2)
 				+ " (" + effectiveCap + "/" + rawCap + ")"
 				+ " | state=" + stateLabel
@@ -125,7 +125,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 				+ " border=" + formatFloat(getAiBorderDef(state), "", 0, 2) + "\n";
 		}
 
-		_log(out);
-		sendPrivateMessage(m_metagame, playerId, out);
+		_log(report);
+		sendPrivateMessage(m_metagame, playerId, report);
 	}
 }
