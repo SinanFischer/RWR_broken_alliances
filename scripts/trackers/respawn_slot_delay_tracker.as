@@ -306,18 +306,18 @@ class RespawnSlotDelayTracker : Tracker {
 				_log("RespawnSlotDelay: Last-Base-Bonus OFF fid=" + fid + " -> " + newCap, 1);
 			}
 
-		// change_game_settings mit soldier_capacity braucht alle Fraktionen in Reihenfolge;
-		// jede Fraktion bekommt ihren eigenen gecachten rawCap – leere <faction>-Elemente
-		// würden deren soldier_capacity auf den Engine-Default zurücksetzen.
-		XmlElement bonusCmd("command");
-		bonusCmd.setStringAttribute("class", "change_game_settings");
-		for (uint j = 0; j < factions.size(); ++j) {
-			XmlElement f("faction");
-			int capForJ = (int(j) == fid) ? newCap : getBaseCapacity(int(j));
-			f.setIntAttribute("soldier_capacity", capForJ);
-			bonusCmd.appendChild(f);
-		}
-		m_metagame.getComms().send(bonusCmd);
+			// change_game_settings mit soldier_capacity braucht alle Fraktionen in Reihenfolge;
+			// jede Fraktion bekommt ihren eigenen gecachten rawCap – leere <faction>-Elemente
+			// würden deren soldier_capacity auf den Engine-Default zurücksetzen.
+			XmlElement bonusCmd("command");
+			bonusCmd.setStringAttribute("class", "change_game_settings");
+			for (uint j = 0; j < factions.size(); ++j) {
+				XmlElement f("faction");
+				int capForJ = (int(j) == fid) ? newCap : getBaseCapacity(int(j));
+				f.setIntAttribute("soldier_capacity", capForJ);
+				bonusCmd.appendChild(f);
+			}
+			m_metagame.getComms().send(bonusCmd);
 		}
 	}
 
