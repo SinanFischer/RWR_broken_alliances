@@ -47,7 +47,7 @@ class GameModeQuickMatch : Metagame {
 		m_systemsRegistry.installSpawnCapacitySystem(
 			ENABLE_SPAWN_CAPACITY_SYSTEM,
 			CAPACITY_DEBUG_HUD,
-			false // Alive-HUD deaktiviert, da FP-HUD aktiv ist
+			true // Alive-HUD: zeigt "alive / cap (bases)" in Fraktionsfarbe
 		);
 		m_systemsRegistry.installCommanderAiAdaptiveSystem(ENABLE_COMMANDER_AI_ADAPTIVE);
 		m_systemsRegistry.installFactionPointsSystem(

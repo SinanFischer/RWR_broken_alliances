@@ -192,7 +192,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 		string msg = (eventId == AI_EVENT_DEFENSIVE_PAUSE)
 			? AI_RADIO_DEFENSIVE_PAUSE
 			: AI_RADIO_GRAND_ASSAULT;
-		broadcastRadioMessage(msg);
+		sendFactionMessage(m_metagame, fid, msg, 1.5f);
 
 		_log("AI-Adaptive: Fakt." + fid + " Event START → " + getEventLabel(eventId)
 			+ " (base=" + baseDef + " border=" + borderDef + ")");
@@ -208,7 +208,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 		s.cooldownTimer = AI_COOLDOWN_AFTER_EVENT;
 
 		sendCommanderAiForFaction(fid, s.nativeBase, s.nativeBorder);
-		broadcastRadioMessage(AI_RADIO_REVERT);
+		sendFactionMessage(m_metagame, fid, AI_RADIO_REVERT, 1.5f);
 
 		_log("AI-Adaptive: Fakt." + fid + " REVERT → native base=" + s.nativeBase
 			+ " border=" + s.nativeBorder + " | cooldown=" + AI_COOLDOWN_AFTER_EVENT + "s");
@@ -224,13 +224,6 @@ class CommanderAiAdaptiveTracker : Tracker {
 			+ " border_defense='" + formatFloat(borderDef, "", 0, 2) + "'"
 			+ " />";
 		m_metagame.getComms().send(cmd);
-	}
-
-	private void broadcastRadioMessage(string msg) {
-		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		if (factions is null) return;
-		for (uint i = 0; i < factions.size(); i++)
-			sendFactionMessage(m_metagame, factions[i].getIntAttribute("id"), msg, 1.5f);
 	}
 
 	private void ensureStatesSize(int needed) {

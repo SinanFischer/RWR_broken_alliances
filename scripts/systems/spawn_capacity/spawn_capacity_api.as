@@ -38,9 +38,10 @@ class SpawnCapacityApi {
 		m_debugHudInstalled = true;
 	}
 
-	// Fallback-HUD fuer Normalbetrieb, wenn Debug-HUD aus ist.
+	// Alive-HUD: zeigt "alive / effectiveCap (bases)" pro Fraktion in Fraktionsfarbe.
+	// Gibt den respawnTracker weiter, damit der HUD-Tracker keine eigenen Queries doppelt macht.
 	void installDefaultAliveHud() {
-		m_metagame.addTracker(FactionAliveHudTracker(m_metagame));
+		m_metagame.addTracker(FactionAliveHudTracker(m_metagame, m_respawnTracker));
 	}
 
 	RespawnSlotDelayTracker@ getRespawnTracker() { return m_respawnTracker; }
