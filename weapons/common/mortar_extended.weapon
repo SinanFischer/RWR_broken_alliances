@@ -14,7 +14,7 @@
     suppressed="0" 
     name="Support Mortar" 
     class="4" 
-    projectile_speed="150.0"  
+    projectile_speed="215.0"  
     barrel_offset="0" 
     barrel_offset_3d="0 2.0 1"
     spread_range="0.05" 
@@ -22,7 +22,7 @@
     cooldown_start="1.0"
     cooldown_end="0.0" />
 
-    <ballistics near_far_distance="1.0" speed_estimation_near="20.0" speed_estimation_far="25.0" max_speed="80.0" randomness="0.07" />
+    <ballistics near_far_distance="1.0" speed_estimation_near="25.0" speed_estimation_far="35.0" max_speed="115.0" randomness="0.07" />
 
 
 	<animation state_key="reload" 			animation_key="reload, mortar" />

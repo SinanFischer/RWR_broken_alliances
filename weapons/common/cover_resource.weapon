@@ -34,11 +34,13 @@
 
     <capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.02" />
-    <capacity value="2" source="rank" source_value="0.28" />
-	<capacity value="3" source="rank" source_value="1.2" />
-	<capacity value="4" source="rank" source_value="2.0" />
-	<capacity value="5" source="rank" source_value="2.5" />
-	<capacity value="6" source="rank" source_value="3.0" />
+    <capacity value="3" source="rank" source_value="0.28" />
+	<capacity value="3" source="rank" source_value="0.6" />
+	<capacity value="4" source="rank" source_value="1.0" />
+	<capacity value="5" source="rank" source_value="1.5" />
+	<capacity value="6" source="rank" source_value="2.0" />
+	<capacity value="7" source="rank" source_value="2.2" />
+	<capacity value="8" source="rank" source_value="3.5" />
 
     <hud_icon filename="hud_hesco_barrier.png" />
     <commonness value="0.041" can_respawn_with="0" />

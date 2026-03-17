@@ -1,11 +1,32 @@
 # Change Log
 
-## [Unreleased]
-- **Admin-Command `/fov`:** FOV Visualization (Sichtkegel-Anzeige) zur Laufzeit steuerbar: `/fov true` oder `/fov false` (auch `1`/`0`, `on`/`off`). Kampagne + Quick Match.
+## [1.2.0] - 2026-03-17
+
+- Waffen sind der Realität angepasst, retrigger rates und Waffenmerkmale basieren auf realität. (Keine Garantie auf 100% Übereinstimmung). 
+
+Kleines: 
+- cover deploy tragmenge erweitert 
+- wiesel flare preis auf 400 RP
+- origin shotgun waffe auf 120 RP 
+- call humvee (landfahrzeug) teurer machen auf 350
+- VFS Flare in Waffenkammer auf 250 reduzieren
+- EOD Weste in Waffenkammer respawnable
+- FAH-01 in Waffenkammer respawnable machen 
+- warum m4a1 so teuer? - 36 RP die anderne viel weniger? ggf preislich anpassen wenn kein triftiger Grund. 
+
+**Weiteres**
+
+- luftkissenboot als flare für Waffenkammer einrichten. Kosten: 1100 .
+- legion flare erstellen und für 3800 in die 
+- mg deploy weapon duplizieren und eine weitere variante erstellen welche 2.5x so viel kostet aber die variante scoped ist und 0.325x mehr sight_range modifier hat als die normale variante
+- die minigun deploy weapon duplizieren und ebenfalls eine scoped variante machen mit 2.5x der kosten aber die variante scoped ist und 0.225x mehr sight_range modifier hat als die normale variante
+
 
 ## [1.1.0] - 2026-03-01
 
 This updates is concentrated to give more content to the mod. 
+
+- **Admin-Command `/fov`:** FOV Visualization (Sichtkegel-Anzeige) zur Laufzeit steuerbar: `/fov true` oder `/fov false` (auch `1`/`0`, `on`/`off`). Kampagne + Quick Match.
 
 
 - activated fov on all quick match maps, you can deactivate map specific by setting value 0 in fov for example under: RWR_broken_alliances\packages\vanilla\maps\map17\init_match.xml
