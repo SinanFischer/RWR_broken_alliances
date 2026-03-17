@@ -53,7 +53,7 @@ class FactionAliveHudTracker : Tracker {
 		if (m_respawnTracker !is null) {
 			int cap   = m_respawnTracker.getEffectiveCapacityForFaction(fid);
 			int bases = m_respawnTracker.getBasesForFactionCached(fid);
-			return "" + alive + " / " + cap + " (" + bases + ")";
+			return "" + alive + "/" + cap + " (" + bases + ")";
 		}
 		// Fallback ohne Tracker: rohe Engine-Capacity
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
