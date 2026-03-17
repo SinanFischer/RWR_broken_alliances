@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<weapon key="mortar.weapon">
+<weapon key="mortar_extended.weapon">
     <tag name="mortar" />
 
     <specification retrigger_time="4.5" 
     accuracy_factor="0.9" 
-    sight_range_modifier="3.2" 
+    sight_range_modifier="4.3" 
     sustained_fire_grow_step="1.0" 
     sustained_fire_diminish_rate="0.222" 
     magazine_size="-1" 
@@ -12,7 +12,7 @@
     can_shoot_crouching="1" 
     can_shoot_prone="0" 
     suppressed="0" 
-    name="Mortar" 
+    name="Support Mortar" 
     class="4" 
     projectile_speed="150.0"  
     barrel_offset="0" 
@@ -34,7 +34,7 @@
     <sound key="magazine_in" fileref="portable_mortar_reload.wav" />
     <sound key="cycle" fileref="rifle_chamber.wav" />
 
-    <model mesh_filename="mortar_tube.mesh" texture_filename="mortar.png" />/>
+    <model mesh_filename="mortar_tube.mesh" texture_filename="mortar.png" />
 
     <projectile file="mortar_shell.projectile" />
     <weak_hand_hold offset="0.3" />
@@ -42,8 +42,8 @@
     <capacity value="1" source="rank" source_value="0.0" />
 
     <hud_icon filename="hud_mortar.png" />
-    <commonness value="0.2" />
-    <inventory encumbrance="11.0" price="3.0" />
+    <commonness value="0.00008" />
+    <inventory encumbrance="11.0" price="450.0" />
 
     <effect class="muzzle" ref="LawMuzzle" />
     <effect class="muzzle" ref="UpDust" />

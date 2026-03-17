@@ -73,6 +73,10 @@ class MyItemDeliveryConfigurator : ItemDeliveryConfiguratorInvasion {
 		list.push_back(Resource("pb.weapon", "weapon"));
 		list.push_back(Resource("aek_919k.weapon", "weapon"));
 
+		// Deploy-Varianten (MG/Minigun Scoped) in Waffenkammer
+		list.push_back(Resource("mg_resource_scoped.weapon", "weapon"));
+		list.push_back(Resource("minig_resource_scoped.weapon", "weapon"));
+
 		// Westen: in Waffenkammer von Anfang an verfügbar
 		list.push_back(Resource("vest_default.carry_item", "carry_item"));
 		list.push_back(Resource("vest1.carry_item", "carry_item"));
