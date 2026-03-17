@@ -272,7 +272,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 		}
 	}
 
-	// /ai_status — zeigt Zustand aller Fraktionen
+	// /ai_status — zeigt Zustand aller Fraktionen mit lesbaren Fraktionsnamen
 	private void handleStatusCommand(int playerId) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || m_respawnTracker is null) {
@@ -288,52 +288,72 @@ class CommanderAiAdaptiveTracker : Tracker {
 			int fid = factions[i].getIntAttribute("id");
 			FactionAiState@ s = m_states[i];
 
-			int rawCap      = m_respawnTracker.getBaseCapacity(fid);
+			// Fraktionsname wie in /stats: key-Attribut, 2 Zeichen (z.B. "EU", "RU")
+			string fName = getFactionShortName(factions[i], fid);
+
+			int rawCap       = m_respawnTracker.getBaseCapacity(fid);
 			int effectiveCap = (rawCap > 0) ? m_respawnTracker.getEffectiveCapacityForFaction(fid) : 0;
-			float ratio     = (rawCap > 0) ? float(effectiveCap) / float(rawCap) : 0.0f;
+			float ratio      = (rawCap > 0) ? float(effectiveCap) / float(rawCap) : 0.0f;
 
 			string eventLabel = getEventLabel(s.eventId);
 			string timerInfo  = "";
 			if (s.eventId != AI_EVENT_IDLE)
-				timerInfo = " | verbl.=" + formatFloat(s.eventTimer, "", 0, 1) + "s";
+				timerInfo = " verbl.=" + formatFloat(s.eventTimer, "", 0, 1) + "s";
 			else if (s.cooldownTimer > 0.0f)
-				timerInfo = " | cooldown=" + formatFloat(s.cooldownTimer, "", 0, 1) + "s";
+				timerInfo = " cd=" + formatFloat(s.cooldownTimer, "", 0, 1) + "s";
 
-			report += "  F" + fid
+			report += "  " + fName
 				+ " ratio=" + formatFloat(ratio, "", 0, 2)
 				+ " (" + effectiveCap + "/" + rawCap + ")"
 				+ " | " + eventLabel + timerInfo
-				+ " | native base=" + formatFloat(s.nativeBase, "", 0, 2)
-				+ " border=" + formatFloat(s.nativeBorder, "", 0, 2) + "\n";
+				+ " | nat.base=" + formatFloat(s.nativeBase, "", 0, 2)
+				+ " brd=" + formatFloat(s.nativeBorder, "", 0, 2) + "\n";
 		}
 
 		_log(report);
 		sendPrivateMessage(m_metagame, playerId, report);
 	}
 
+	// Fraktions-Kurzname aus key-Attribut (2 Zeichen), Fallback auf "F<id>"
+	private string getFactionShortName(const XmlElement@ faction, int factionId) {
+		if (faction is null) return "F" + factionId;
+		string key = faction.getStringAttribute("key");
+		if (key.length() >= 2) return key.substr(0, 2);
+		string name = faction.getStringAttribute("name");
+		if (name.length() >= 2) return name.substr(0, 2);
+		return "F" + factionId;
+	}
+
 	// /ai_attack [factionId] oder /ai_defend [factionId]
-	// Ohne Argument: alle Fraktionen. Mit Argument: nur die angegebene.
+	// Ohne Argument: eigene Fraktion des Admins. Mit Argument (z.B. "/ai_attack 2"): explizite Fraktion.
 	private void handleManualEvent(int playerId, const string &in msg, int eventId) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null) return;
 
 		ensureStatesSize(int(factions.size()));
 
-		// Argument parsen: "/ai_attack 2" → factionId=2, -1 = alle
+		// Argument parsen: "/ai_attack 2" → targetFid=2; ohne Argument → Spieler-Fraktion
 		int targetFid = -1;
 		int space = msg.findFirst(" ");
 		if (space >= 0 && space < int(msg.length()) - 1) {
 			string arg = msg.substr(space + 1, int(msg.length()) - space - 1);
 			targetFid = parseInt(arg);
+		} else {
+			// Kein Argument → Fraktion des Admins ermitteln
+			const XmlElement@ player = getPlayerInfo(m_metagame, playerId);
+			if (player !is null) targetFid = player.getIntAttribute("faction_id");
+			if (targetFid < 0) {
+				sendPrivateMessage(m_metagame, playerId, "[AI] Keine Fraktion gefunden (Spectator?).");
+				return;
+			}
 		}
 
 		int triggered = 0;
 		for (uint i = 0; i < factions.size(); i++) {
 			int fid = factions[i].getIntAttribute("id");
-			if (targetFid >= 0 && fid != targetFid) continue;
+			if (fid != targetFid) continue;
 
 			FactionAiState@ s = m_states[i];
-			// Laufendes Event abbrechen und neues starten (manuell = Override)
 			s.cooldownTimer = 0.0f;
 			s.eventId       = AI_EVENT_IDLE;
 			startEvent(fid, int(i), eventId);
@@ -341,8 +361,15 @@ class CommanderAiAdaptiveTracker : Tracker {
 		}
 
 		string label = getEventLabel(eventId);
-		string feedback = "[AI] " + label + " manuell gestartet fuer "
-			+ triggered + " Fraktion(en).";
+		string fName = "F" + targetFid;
+		for (uint i = 0; i < factions.size(); i++) {
+			if (factions[i].getIntAttribute("id") == targetFid) {
+				fName = getFactionShortName(factions[i], targetFid);
+				break;
+			}
+		}
+		string feedback = "[AI] " + label + " → " + fName
+			+ (triggered > 0 ? " gestartet." : " — Fraktion nicht gefunden.");
 		sendPrivateMessage(m_metagame, playerId, feedback);
 	}
 }

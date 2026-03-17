@@ -1,9 +1,9 @@
-// /ai_status  – loggt aktuelle commander_ai-Werte aller Fraktionen
-// /ai_defend  – Vollverteidigung: base_defense=1.0, border_defense=1.0
-// /ai_fifty   – Ausgeglichen:     base_defense=0.5, border_defense=0.5
-// /ai_attack  – Voller Angriff:   base_defense=0.0, border_defense=0.0
-// /ai_normal  – Vanilla-Default:  base_defense=0.1, border_defense=0.2
-// Nur für Admins. Funktioniert in Quick Match und Campaign.
+// Legacy-Preset-Commands (manuelle Overrides, admin-only):
+// /ai_fifty   – Ausgeglichen:  base_defense=0.5, border_defense=0.5
+// /ai_normal  – Vanilla-Nähe: base_defense=0.1, border_defense=0.2
+//
+// HINWEIS: /ai_status, /ai_attack, /ai_defend werden jetzt vom
+// CommanderAiAdaptiveTracker (commander_ai_adaptive_tracker.as) behandelt.
 
 #include "tracker.as"
 #include "helpers.as"
@@ -11,11 +11,10 @@
 #include "log.as"
 #include "query_helpers.as"
 
-const string CMD_AI_STATUS = "ai_status";
-const string CMD_AI_DEFEND = "ai_defend";
-const string CMD_AI_FIFTY  = "ai_fifty";
-const string CMD_AI_ATTACK = "ai_attack";
-const string CMD_AI_NORMAL = "ai_normal";
+// Hinweis: CMD_AI_STATUS, CMD_AI_DEFEND, CMD_AI_ATTACK sind in commander_ai_adaptive_tracker.as definiert.
+// Dieser Tracker behandelt nur noch die verbleibenden manuellen Preset-Commands.
+const string CMD_AI_LEGACY_FIFTY  = "ai_fifty";
+const string CMD_AI_LEGACY_NORMAL = "ai_normal";
 
 const float DEFAULT_BASE_DEFENSE   = 0.1f;
 const float DEFAULT_BORDER_DEFENSE = 0.2f;
@@ -49,38 +48,8 @@ class CommanderAiCommandTracker : Tracker {
 
 		if (!m_metagame.getAdminManager().isAdmin(playerName, playerId)) return;
 
-		if      (checkCommand(msg, CMD_AI_STATUS)) { handleStatus(playerId); }
-		else if (checkCommand(msg, CMD_AI_DEFEND)) { handleDefend(playerId); }
-		else if (checkCommand(msg, CMD_AI_FIFTY))  { handleFifty(playerId);  }
-		else if (checkCommand(msg, CMD_AI_ATTACK)) { handleAttack(playerId); }
-		else if (checkCommand(msg, CMD_AI_NORMAL)) { handleNormal(playerId); }
-	}
-
-	// --------------------------------------------
-	// /ai_status – gibt die zuletzt gesetzten Werte aller Fraktionen aus
-	private void handleStatus(int playerId) {
-		string msg_out = "[AI] Aktueller Modus: " + g_modeName + "\n";
-		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		for (uint i = 0; i < factions.size(); i++) {
-			int fId = factions[i].getIntAttribute("id");
-			if (fId >= 0 && fId < 4) {
-				msg_out += "  Fraktion " + fId
-					+ " | base_defense=" + formatFloat(g_baseDef[fId], "", 0, 2)
-					+ " | border_defense=" + formatFloat(g_borderDef[fId], "", 0, 2) + "\n";
-			}
-		}
-		_log(msg_out);
-		sendPrivateMessage(m_metagame, playerId, msg_out);
-	}
-
-	// --------------------------------------------
-	// /ai_defend – base=1.0 border=1.0 (alle Fraktionen verteidigen maximal)
-	private void handleDefend(int playerId) {
-		applyToAllFactions(1.0f, 1.0f);
-		g_modeName = "VOLLVERTEIDIGUNG (ai_defend)";
-		string feedback = "[AI] Modus gesetzt: " + g_modeName;
-		_log(feedback);
-		sendPrivateMessage(m_metagame, playerId, feedback);
+		if      (checkCommand(msg, CMD_AI_LEGACY_FIFTY))  { handleFifty(playerId);  }
+		else if (checkCommand(msg, CMD_AI_LEGACY_NORMAL)) { handleNormal(playerId); }
 	}
 
 	// --------------------------------------------
@@ -88,16 +57,6 @@ class CommanderAiCommandTracker : Tracker {
 	private void handleFifty(int playerId) {
 		applyToAllFactions(0.5f, 0.5f);
 		g_modeName = "FIFTY-FIFTY (ai_fifty)";
-		string feedback = "[AI] Modus gesetzt: " + g_modeName;
-		_log(feedback);
-		sendPrivateMessage(m_metagame, playerId, feedback);
-	}
-
-	// --------------------------------------------
-	// /ai_attack – base=0.0 border=0.0 (voller Angriff, keine Verteidigung)
-	private void handleAttack(int playerId) {
-		applyToAllFactions(0.0f, 0.0f);
-		g_modeName = "VOLLER ANGRIFF (ai_attack)";
 		string feedback = "[AI] Modus gesetzt: " + g_modeName;
 		_log(feedback);
 		sendPrivateMessage(m_metagame, playerId, feedback);
