@@ -1,6 +1,15 @@
-// Adaptive Commander AI — Tracker: nutzt Capacity-Ratio, setzt commander_ai, sendet Radio bei Wechsel.
-// Ueberschreibt /ai_* manuell gesetzte Werte alle AI_UPDATE_INTERVAL Sekunden (MVP akzeptiert).
-// Admin-Befehl: /ai_adaptive_status — gibt Ratio, State und defense-Werte aller Fraktionen aus.
+// Adaptive Commander AI — Tracker.
+// Grundprinzip: Native AI laeuft unberuehrt. Nur bei konkreten Events (DEFENSIVE_PAUSE /
+// GRAND_ASSAULT) greift der Tracker zeitlich begrenzt ein und revertiert danach.
+//
+// Ablauf:
+//   1. start() wartet AI_START_DELAY Sekunden (Map-Ladezeit ueberbruecken).
+//   2. Beim ersten evaluateAndApplyAll(): Native-Cache befuellen (Map-Lookup oder Formel).
+//   3. Alle AI_UPDATE_INTERVAL Sekunden: Ratio pruefen, Event ggf. starten.
+//   4. Event laeuft AI_DURATION_* Sekunden, dann automatischer Revert auf native Werte.
+//   5. Nach Revert: AI_COOLDOWN_AFTER_EVENT Sekunden Sperrzeit.
+//
+// Admin-Commands: /ai_status, /ai_attack [faction], /ai_defend [faction]
 
 #include "tracker.as"
 #include "helpers.as"
@@ -9,61 +18,206 @@
 #include "trackers/respawn_slot_delay_tracker.as"
 #include "systems/commander_ai_adaptive/commander_ai_adaptive_logic.as"
 
-const string CMD_AI_ADAPTIVE_STATUS = "ai_adaptive_status";
+const string CMD_AI_STATUS = "ai_status";
+const string CMD_AI_ATTACK = "ai_attack";
+const string CMD_AI_DEFEND = "ai_defend";
+
+// Pro Fraktion gespeicherter Zustand
+class FactionAiState {
+	int   eventId       = AI_EVENT_IDLE;
+	float eventTimer    = 0.0f;   // verbleibende Sekunden des aktiven Events
+	float cooldownTimer = 0.0f;   // verbleibende Sperrzeit nach Event-Ende
+	float nativeBase    = AI_NATIVE_FALLBACK_BASE;
+	float nativeBorder  = AI_NATIVE_FALLBACK_BORDER;
+	bool  nativeCached  = false;
+}
 
 class CommanderAiAdaptiveTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected RespawnSlotDelayTracker@ m_respawnTracker;
-	protected float m_accum = 0.0f;
-	protected array<int> m_lastState;
+
+	protected float m_startDelay  = AI_START_DELAY;
+	protected bool  m_started     = false;
+	protected float m_accum       = 0.0f;
+	protected array<FactionAiState@> m_states;
+
+	// Pseudo-Zufallszaehler fuer GRAND_ASSAULT-Chance (deterministisch, kein API-Aufruf noetig)
+	protected float m_randSeed = 0.37f;
 
 	CommanderAiAdaptiveTracker(Metagame@ metagame, RespawnSlotDelayTracker@ respawnTracker) {
-		@m_metagame = @metagame;
+		@m_metagame      = @metagame;
 		@m_respawnTracker = @respawnTracker;
-		m_lastState.resize(4);
-		for (uint i = 0; i < m_lastState.size(); i++)
-			m_lastState[i] = -1;
+		m_states.resize(8);
+		for (uint i = 0; i < m_states.size(); i++)
+			@m_states[i] = FactionAiState();
 	}
 
-	bool hasEnded() const { return false; }
+	bool hasEnded()   const { return false; }
 	bool hasStarted() const { return true; }
 	void start() {}
 
 	void update(float time) {
+		// --- Phase 1: Startverzoegerung abwarten ---
+		if (!m_started) {
+			m_startDelay -= time;
+			if (m_startDelay > 0.0f) return;
+			m_started = true;
+			initNativeCache();  // einmalig Native-Werte befuellen
+		}
+
+		// --- Phase 2: Event-Timer pro Fraktion herunterzaehlen ---
+		tickEventTimers(time);
+
+		// --- Phase 3: Evaluierungs-Intervall ---
 		m_accum += time;
 		if (m_accum < AI_UPDATE_INTERVAL) return;
 		m_accum = 0.0f;
 		evaluateAndApplyAll();
 	}
 
-	void evaluateAndApplyAll() {
+	// -----------------------------------------------------------------------
+	// Native-Cache: einmalig beim Start befuellen
+	// -----------------------------------------------------------------------
+	private void initNativeCache() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		if (factions is null || factions.size() == 0) return;
-		if (m_respawnTracker is null) return;
+		if (factions is null || m_respawnTracker is null) return;
 
-		if (int(m_lastState.size()) < int(factions.size()))
-			m_lastState.resize(factions.size());
+		ensureStatesSize(int(factions.size()));
+
+		// Gesamtbasen aller Fraktionen fuer Formel-Fallback
+		int totalBases = 0;
+		for (uint i = 0; i < factions.size(); i++)
+			totalBases += m_respawnTracker.getBasesForFactionCached(factions[i].getIntAttribute("id"));
+
+		// Map-Key fuer Lookup (leer wenn nicht verfuegbar)
+		string mapPath = "";
 
 		for (uint i = 0; i < factions.size(); i++) {
 			int fid = factions[i].getIntAttribute("id");
-			int rawCap = m_respawnTracker.getBaseCapacity(fid);
-			if (rawCap <= 0) continue;
-			int effectiveCap = m_respawnTracker.getEffectiveCapacityForFaction(fid);
-			float ratio = float(effectiveCap) / float(rawCap);
-			int state = computeAiState(ratio);
+			FactionAiState@ s = m_states[i];
 
-			int prev = (int(i) < int(m_lastState.size())) ? m_lastState[i] : -1;
-			if (state != prev) {
-				float baseDef = getAiBaseDef(state);
-				float borderDef = getAiBorderDef(state);
-				sendCommanderAiForFaction(fid, baseDef, borderDef);
-				if (prev >= 0) broadcastRadioMessage(getAiRadioMessage(state));
-				m_lastState[i] = state;
+			float base = 0.0f;
+			float border = 0.0f;
+			getNativeCommanderAiValues(mapPath, fid, base, border);
+
+			// Wenn Lookup keinen Map-Eintrag hatte (Fallback-Wert zurueck), Formel nutzen
+			if (base == AI_NATIVE_FALLBACK_BASE && border == AI_NATIVE_FALLBACK_BORDER && totalBases > 0) {
+				int factionBases = m_respawnTracker.getBasesForFactionCached(fid);
+				computeNativeFallbackFromBases(factionBases, totalBases, base, border);
+			}
+
+			s.nativeBase   = base;
+			s.nativeBorder = border;
+			s.nativeCached = true;
+			_log("AI-Adaptive: Fakt." + fid + " native cache → base=" + base + " border=" + border);
+		}
+	}
+
+	// -----------------------------------------------------------------------
+	// Event-Timer herunterzaehlen, Revert bei Ablauf
+	// -----------------------------------------------------------------------
+	private void tickEventTimers(float time) {
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null) return;
+
+		for (uint i = 0; i < factions.size() && i < m_states.size(); i++) {
+			FactionAiState@ s = m_states[i];
+			int fid = factions[i].getIntAttribute("id");
+
+			// Cooldown herunterzaehlen
+			if (s.cooldownTimer > 0.0f) {
+				s.cooldownTimer -= time;
+				if (s.cooldownTimer < 0.0f) s.cooldownTimer = 0.0f;
+			}
+
+			// Aktives Event herunterzaehlen
+			if (s.eventId != AI_EVENT_IDLE) {
+				s.eventTimer -= time;
+				if (s.eventTimer <= 0.0f) {
+					revertToNative(fid, i);
+				}
 			}
 		}
 	}
 
-	void sendCommanderAiForFaction(int fid, float baseDef, float borderDef) {
+	// -----------------------------------------------------------------------
+	// Evaluierung: Trigger pruefen und ggf. Event starten
+	// -----------------------------------------------------------------------
+	private void evaluateAndApplyAll() {
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null || factions.size() == 0) return;
+		if (m_respawnTracker is null) return;
+
+		ensureStatesSize(int(factions.size()));
+
+		for (uint i = 0; i < factions.size(); i++) {
+			FactionAiState@ s = m_states[i];
+			int fid = factions[i].getIntAttribute("id");
+
+			// Kein neues Event wenn bereits eines laeuft oder Cooldown aktiv
+			if (s.eventId != AI_EVENT_IDLE || s.cooldownTimer > 0.0f) continue;
+
+			int rawCap = m_respawnTracker.getBaseCapacity(fid);
+			if (rawCap <= 0) continue;
+			int effectiveCap = m_respawnTracker.getEffectiveCapacityForFaction(fid);
+			float ratio = float(effectiveCap) / float(rawCap);
+
+			// DEFENSIVE_PAUSE hat Prioritaet ueber GRAND_ASSAULT
+			if (shouldTriggerDefensivePause(ratio)) {
+				startEvent(fid, i, AI_EVENT_DEFENSIVE_PAUSE);
+			} else {
+				float rnd = nextRandom();
+				if (shouldTriggerGrandAssault(ratio, rnd)) {
+					startEvent(fid, i, AI_EVENT_GRAND_ASSAULT);
+				}
+			}
+		}
+	}
+
+	// -----------------------------------------------------------------------
+	// Event starten
+	// -----------------------------------------------------------------------
+	private void startEvent(int fid, int stateIdx, int eventId) {
+		FactionAiState@ s = m_states[stateIdx];
+		s.eventId = eventId;
+		s.eventTimer = (eventId == AI_EVENT_DEFENSIVE_PAUSE)
+			? AI_DURATION_DEFENSIVE_PAUSE
+			: AI_DURATION_GRAND_ASSAULT;
+
+		float baseDef = 0.0f;
+		float borderDef = 0.0f;
+		getEventDefenseValues(eventId, baseDef, borderDef);
+		sendCommanderAiForFaction(fid, baseDef, borderDef);
+
+		string msg = (eventId == AI_EVENT_DEFENSIVE_PAUSE)
+			? AI_RADIO_DEFENSIVE_PAUSE
+			: AI_RADIO_GRAND_ASSAULT;
+		broadcastRadioMessage(msg);
+
+		_log("AI-Adaptive: Fakt." + fid + " Event START → " + getEventLabel(eventId)
+			+ " (base=" + baseDef + " border=" + borderDef + ")");
+	}
+
+	// -----------------------------------------------------------------------
+	// Revert auf native Werte
+	// -----------------------------------------------------------------------
+	private void revertToNative(int fid, int stateIdx) {
+		FactionAiState@ s = m_states[stateIdx];
+		s.eventId       = AI_EVENT_IDLE;
+		s.eventTimer    = 0.0f;
+		s.cooldownTimer = AI_COOLDOWN_AFTER_EVENT;
+
+		sendCommanderAiForFaction(fid, s.nativeBase, s.nativeBorder);
+		broadcastRadioMessage(AI_RADIO_REVERT);
+
+		_log("AI-Adaptive: Fakt." + fid + " REVERT → native base=" + s.nativeBase
+			+ " border=" + s.nativeBorder + " | cooldown=" + AI_COOLDOWN_AFTER_EVENT + "s");
+	}
+
+	// -----------------------------------------------------------------------
+	// Hilfsfunktionen
+	// -----------------------------------------------------------------------
+	private void sendCommanderAiForFaction(int fid, float baseDef, float borderDef) {
 		string cmd = "<command class='commander_ai'"
 			+ " faction='" + fid + "'"
 			+ " base_defense='" + formatFloat(baseDef, "", 0, 2) + "'"
@@ -72,60 +226,123 @@ class CommanderAiAdaptiveTracker : Tracker {
 		m_metagame.getComms().send(cmd);
 	}
 
-	void broadcastRadioMessage(string msg) {
+	private void broadcastRadioMessage(string msg) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null) return;
 		for (uint i = 0; i < factions.size(); i++)
 			sendFactionMessage(m_metagame, factions[i].getIntAttribute("id"), msg, 1.5f);
 	}
 
+	private void ensureStatesSize(int needed) {
+		while (int(m_states.size()) < needed) {
+			m_states.insertLast(FactionAiState());
+		}
+	}
+
+	// Einfacher deterministischer Pseudo-Zufallsgenerator (LCG)
+	private float nextRandom() {
+		m_randSeed = m_randSeed * 1664525.0f + 1013904223.0f;
+		// Auf 0.0–1.0 normalisieren via Modulo-Trick mit positiver Zahl
+		float v = m_randSeed;
+		if (v < 0.0f) v = -v;
+		return (v - float(int(v)));
+	}
+
+	// -----------------------------------------------------------------------
+	// Admin-Commands
+	// -----------------------------------------------------------------------
 	protected void handleChatEvent(const XmlElement@ event) {
 		string msg = event.getStringAttribute("message");
 		if (!startsWith(msg, "/")) return;
 		string playerName = event.getStringAttribute("player_name");
 		int    playerId   = event.getIntAttribute("player_id");
 		if (!m_metagame.getAdminManager().isAdmin(playerName, playerId)) return;
-		if (checkCommand(msg, CMD_AI_ADAPTIVE_STATUS)) handleAdaptiveStatus(playerId);
+
+		if (checkCommand(msg, CMD_AI_STATUS)) {
+			handleStatusCommand(playerId);
+			return;
+		}
+		if (checkCommand(msg, CMD_AI_ATTACK)) {
+			handleManualEvent(playerId, msg, AI_EVENT_GRAND_ASSAULT);
+			return;
+		}
+		if (checkCommand(msg, CMD_AI_DEFEND)) {
+			handleManualEvent(playerId, msg, AI_EVENT_DEFENSIVE_PAUSE);
+			return;
+		}
 	}
 
-	private void handleAdaptiveStatus(int playerId) {
+	// /ai_status — zeigt Zustand aller Fraktionen
+	private void handleStatusCommand(int playerId) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || m_respawnTracker is null) {
-			sendPrivateMessage(m_metagame, playerId, "[AI-Adaptive] Kein Tracker aktiv.");
+			sendPrivateMessage(m_metagame, playerId, "[AI] Kein Tracker aktiv.");
 			return;
 		}
 
-		// Zeitraum bis zum naechsten Check
-		float nextCheck = AI_UPDATE_INTERVAL - m_accum;
+		float nextEval = AI_UPDATE_INTERVAL - m_accum;
+		string report = "[AI-Adaptive] Intervall=" + AI_UPDATE_INTERVAL
+			+ "s | naechste Eval in " + formatFloat(nextEval, "", 0, 1) + "s\n";
 
-		string report = "[AI-Adaptive] Check alle " + AI_UPDATE_INTERVAL + "s | naechster in "
-			+ formatFloat(nextCheck, "", 0, 1) + "s\n";
-
-		for (uint i = 0; i < factions.size(); i++) {
+		for (uint i = 0; i < factions.size() && i < m_states.size(); i++) {
 			int fid = factions[i].getIntAttribute("id");
-			int rawCap = m_respawnTracker.getBaseCapacity(fid);
-			if (rawCap <= 0) { report += "  Fakt." + fid + " — kein Capacity-Wert\n"; continue; }
+			FactionAiState@ s = m_states[i];
 
-			int effectiveCap = m_respawnTracker.getEffectiveCapacityForFaction(fid);
-			float ratio = float(effectiveCap) / float(rawCap);
-			int state = computeAiState(ratio);
+			int rawCap      = m_respawnTracker.getBaseCapacity(fid);
+			int effectiveCap = (rawCap > 0) ? m_respawnTracker.getEffectiveCapacityForFaction(fid) : 0;
+			float ratio     = (rawCap > 0) ? float(effectiveCap) / float(rawCap) : 0.0f;
 
-			string stateLabel = "?";
-			if      (state == AI_STATE_DOMINANT)  stateLabel = "DOMINANT";
-			else if (state == AI_STATE_ATTACK)     stateLabel = "ATTACK";
-			else if (state == AI_STATE_BALANCED)   stateLabel = "BALANCED";
-			else if (state == AI_STATE_DEFENSIVE)  stateLabel = "DEFENSIVE";
-			else if (state == AI_STATE_CRITICAL)   stateLabel = "CRITICAL";
+			string eventLabel = getEventLabel(s.eventId);
+			string timerInfo  = "";
+			if (s.eventId != AI_EVENT_IDLE)
+				timerInfo = " | verbl.=" + formatFloat(s.eventTimer, "", 0, 1) + "s";
+			else if (s.cooldownTimer > 0.0f)
+				timerInfo = " | cooldown=" + formatFloat(s.cooldownTimer, "", 0, 1) + "s";
 
-			report += "  Fakt." + fid
-				+ " | ratio=" + formatFloat(ratio, "", 0, 2)
+			report += "  F" + fid
+				+ " ratio=" + formatFloat(ratio, "", 0, 2)
 				+ " (" + effectiveCap + "/" + rawCap + ")"
-				+ " | state=" + stateLabel
-				+ " | base=" + formatFloat(getAiBaseDef(state), "", 0, 2)
-				+ " border=" + formatFloat(getAiBorderDef(state), "", 0, 2) + "\n";
+				+ " | " + eventLabel + timerInfo
+				+ " | native base=" + formatFloat(s.nativeBase, "", 0, 2)
+				+ " border=" + formatFloat(s.nativeBorder, "", 0, 2) + "\n";
 		}
 
 		_log(report);
 		sendPrivateMessage(m_metagame, playerId, report);
+	}
+
+	// /ai_attack [factionId] oder /ai_defend [factionId]
+	// Ohne Argument: alle Fraktionen. Mit Argument: nur die angegebene.
+	private void handleManualEvent(int playerId, const string &in msg, int eventId) {
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null) return;
+
+		ensureStatesSize(int(factions.size()));
+
+		// Argument parsen: "/ai_attack 2" → factionId=2, -1 = alle
+		int targetFid = -1;
+		int space = msg.findFirst(" ");
+		if (space >= 0 && space < int(msg.length()) - 1) {
+			string arg = msg.substr(space + 1, int(msg.length()) - space - 1);
+			targetFid = parseInt(arg);
+		}
+
+		int triggered = 0;
+		for (uint i = 0; i < factions.size(); i++) {
+			int fid = factions[i].getIntAttribute("id");
+			if (targetFid >= 0 && fid != targetFid) continue;
+
+			FactionAiState@ s = m_states[i];
+			// Laufendes Event abbrechen und neues starten (manuell = Override)
+			s.cooldownTimer = 0.0f;
+			s.eventId       = AI_EVENT_IDLE;
+			startEvent(fid, int(i), eventId);
+			triggered++;
+		}
+
+		string label = getEventLabel(eventId);
+		string feedback = "[AI] " + label + " manuell gestartet fuer "
+			+ triggered + " Fraktion(en).";
+		sendPrivateMessage(m_metagame, playerId, feedback);
 	}
 }

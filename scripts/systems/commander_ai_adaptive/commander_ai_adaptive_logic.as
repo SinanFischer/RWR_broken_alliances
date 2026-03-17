@@ -1,49 +1,41 @@
-// Adaptive Commander AI — Reine Logik (kein State, keine Engine).
-// computeAiState(ratio) + getAiBaseDef/getAiBorderDef/getAiRadioMessage.
+// Adaptive Commander AI — Reine Logik (kein State, keine Engine-Calls).
+// Entscheidet ob ein Event getriggert werden soll.
 
 #include "systems/commander_ai_adaptive/commander_ai_adaptive_config.as"
+#include "systems/commander_ai_adaptive/commander_ai_native_defaults.as"
 
-// Liefert State 0..4 aus Capacity-Ratio. Kein Basen-Override (Comeback immer moeglich).
-int computeAiState(float ratio) {
-	if (ratio > AI_THRESHOLD_DOMINANT)  return AI_STATE_DOMINANT;
-	if (ratio > AI_THRESHOLD_ATTACK)    return AI_STATE_ATTACK;
-	if (ratio > AI_THRESHOLD_BALANCED)  return AI_STATE_BALANCED;
-	if (ratio > AI_THRESHOLD_DEFENSIVE) return AI_STATE_DEFENSIVE;
-	return AI_STATE_CRITICAL;
+// Liefert defense-Werte fuer ein aktives Event.
+void getEventDefenseValues(int eventId, float &out baseDef, float &out borderDef) {
+	if (eventId == AI_EVENT_DEFENSIVE_PAUSE) {
+		baseDef   = AI_BASE_DEF_DEFENSIVE_PAUSE;
+		borderDef = AI_BORDER_DEF_DEFENSIVE_PAUSE;
+		return;
+	}
+	if (eventId == AI_EVENT_GRAND_ASSAULT) {
+		baseDef   = AI_BASE_DEF_GRAND_ASSAULT;
+		borderDef = AI_BORDER_DEF_GRAND_ASSAULT;
+		return;
+	}
+	// IDLE: Aufrufer soll native Werte nutzen
+	baseDef   = AI_NATIVE_FALLBACK_BASE;
+	borderDef = AI_NATIVE_FALLBACK_BORDER;
 }
 
-float getAiBaseDef(int state) {
-	float result = AI_BASE_DEF_BALANCED;
-	switch (state) {
-		case AI_STATE_DOMINANT:  result = AI_BASE_DEF_DOMINANT;  break;
-		case AI_STATE_ATTACK:    result = AI_BASE_DEF_ATTACK;    break;
-		case AI_STATE_BALANCED:  result = AI_BASE_DEF_BALANCED;  break;
-		case AI_STATE_DEFENSIVE: result = AI_BASE_DEF_DEFENSIVE; break;
-		case AI_STATE_CRITICAL:  result = AI_BASE_DEF_CRITICAL;  break;
-	}
-	return result;
+// Prueft ob DEFENSIVE_PAUSE ausgeloest werden soll.
+bool shouldTriggerDefensivePause(float ratio) {
+	return ratio < AI_TRIGGER_DEFENSIVE;
 }
 
-float getAiBorderDef(int state) {
-	float result = AI_BORDER_DEF_BALANCED;
-	switch (state) {
-		case AI_STATE_DOMINANT:  result = AI_BORDER_DEF_DOMINANT;  break;
-		case AI_STATE_ATTACK:    result = AI_BORDER_DEF_ATTACK;    break;
-		case AI_STATE_BALANCED:  result = AI_BORDER_DEF_BALANCED;  break;
-		case AI_STATE_DEFENSIVE: result = AI_BORDER_DEF_DEFENSIVE; break;
-		case AI_STATE_CRITICAL:  result = AI_BORDER_DEF_CRITICAL;  break;
-	}
-	return result;
+// Prueft ob GRAND_ASSAULT ausgeloest werden soll (inkl. Zufallschance).
+// randomValue: gleichverteilter Wert 0.0–1.0 (vom Aufrufer generiert).
+bool shouldTriggerGrandAssault(float ratio, float randomValue) {
+	return ratio > AI_TRIGGER_ASSAULT && randomValue < AI_ASSAULT_CHANCE;
 }
 
-string getAiRadioMessage(int state) {
-	string result = AI_RADIO_BALANCED;
-	switch (state) {
-		case AI_STATE_DOMINANT:  result = AI_RADIO_DOMINANT;  break;
-		case AI_STATE_ATTACK:    result = AI_RADIO_ATTACK;    break;
-		case AI_STATE_BALANCED:  result = AI_RADIO_BALANCED;  break;
-		case AI_STATE_DEFENSIVE: result = AI_RADIO_DEFENSIVE; break;
-		case AI_STATE_CRITICAL:  result = AI_RADIO_CRITICAL;  break;
-	}
+// Gibt lesbares Label fuer Event-ID zurueck (fuer Status-Reports).
+string getEventLabel(int eventId) {
+	string result = "IDLE";
+	if (eventId == AI_EVENT_DEFENSIVE_PAUSE) result = "DEFENSIVE_PAUSE";
+	if (eventId == AI_EVENT_GRAND_ASSAULT)   result = "GRAND_ASSAULT";
 	return result;
 }
