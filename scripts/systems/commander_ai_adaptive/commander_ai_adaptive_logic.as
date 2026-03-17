@@ -13,34 +13,37 @@ int computeAiState(float ratio) {
 }
 
 float getAiBaseDef(int state) {
+	float result = AI_BASE_DEF_BALANCED;
 	switch (state) {
-		case AI_STATE_DOMINANT:  return AI_BASE_DEF_DOMINANT;
-		case AI_STATE_ATTACK:    return AI_BASE_DEF_ATTACK;
-		case AI_STATE_BALANCED:  return AI_BASE_DEF_BALANCED;
-		case AI_STATE_DEFENSIVE: return AI_BASE_DEF_DEFENSIVE;
-		case AI_STATE_CRITICAL:  return AI_BASE_DEF_CRITICAL;
-		default:                 return AI_BASE_DEF_BALANCED;
+		case AI_STATE_DOMINANT:  result = AI_BASE_DEF_DOMINANT;  break;
+		case AI_STATE_ATTACK:    result = AI_BASE_DEF_ATTACK;    break;
+		case AI_STATE_BALANCED:  result = AI_BASE_DEF_BALANCED;  break;
+		case AI_STATE_DEFENSIVE: result = AI_BASE_DEF_DEFENSIVE; break;
+		case AI_STATE_CRITICAL:  result = AI_BASE_DEF_CRITICAL;  break;
 	}
+	return result;
 }
 
 float getAiBorderDef(int state) {
+	float result = AI_BORDER_DEF_BALANCED;
 	switch (state) {
-		case AI_STATE_DOMINANT:  return AI_BORDER_DEF_DOMINANT;
-		case AI_STATE_ATTACK:    return AI_BORDER_DEF_ATTACK;
-		case AI_STATE_BALANCED:  return AI_BORDER_DEF_BALANCED;
-		case AI_STATE_DEFENSIVE: return AI_BORDER_DEF_DEFENSIVE;
-		case AI_STATE_CRITICAL:  return AI_BORDER_DEF_CRITICAL;
-		default:                 return AI_BORDER_DEF_BALANCED;
+		case AI_STATE_DOMINANT:  result = AI_BORDER_DEF_DOMINANT;  break;
+		case AI_STATE_ATTACK:    result = AI_BORDER_DEF_ATTACK;    break;
+		case AI_STATE_BALANCED:  result = AI_BORDER_DEF_BALANCED;  break;
+		case AI_STATE_DEFENSIVE: result = AI_BORDER_DEF_DEFENSIVE; break;
+		case AI_STATE_CRITICAL:  result = AI_BORDER_DEF_CRITICAL;  break;
 	}
+	return result;
 }
 
 string getAiRadioMessage(int state) {
+	string result = AI_RADIO_BALANCED;
 	switch (state) {
-		case AI_STATE_DOMINANT:  return AI_RADIO_DOMINANT;
-		case AI_STATE_ATTACK:    return AI_RADIO_ATTACK;
-		case AI_STATE_BALANCED:  return AI_RADIO_BALANCED;
-		case AI_STATE_DEFENSIVE: return AI_RADIO_DEFENSIVE;
-		case AI_STATE_CRITICAL:  return AI_RADIO_CRITICAL;
-		default:                 return AI_RADIO_BALANCED;
+		case AI_STATE_DOMINANT:  result = AI_RADIO_DOMINANT;  break;
+		case AI_STATE_ATTACK:    result = AI_RADIO_ATTACK;    break;
+		case AI_STATE_BALANCED:  result = AI_RADIO_BALANCED;  break;
+		case AI_STATE_DEFENSIVE: result = AI_RADIO_DEFENSIVE; break;
+		case AI_STATE_CRITICAL:  result = AI_RADIO_CRITICAL;  break;
 	}
+	return result;
 }
