@@ -11,6 +11,7 @@
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)
 const bool CAPACITY_DEBUG_HUD = false;
 const bool ENABLE_SPAWN_CAPACITY_SYSTEM = true;
+const bool ENABLE_COMMANDER_AI_ADAPTIVE = true;
 const bool ENABLE_QUICKMATCH_EVENT_SYSTEMS = true;
 const bool ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
 const bool ENABLE_FACTION_POINTS_SYSTEM = true;
@@ -48,6 +49,7 @@ class GameModeQuickMatch : Metagame {
 			CAPACITY_DEBUG_HUD,
 			false // Alive-HUD deaktiviert, da FP-HUD aktiv ist
 		);
+		m_systemsRegistry.installCommanderAiAdaptiveSystem(ENABLE_COMMANDER_AI_ADAPTIVE);
 		m_systemsRegistry.installFactionPointsSystem(
 			ENABLE_FACTION_POINTS_SYSTEM,
 			true,   // HUD aktiv

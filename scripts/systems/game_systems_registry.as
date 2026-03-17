@@ -3,6 +3,7 @@
 // Ziel: Pro Modus nur eine Einbindung + klarer Installationspunkt.
 
 #include "systems/spawn_capacity/spawn_capacity_system.as"
+#include "systems/commander_ai_adaptive/commander_ai_adaptive_system.as"
 #include "systems/platoon_spawn/platoon_spawn_system.as"
 #include "events/captain_spawn_command_tracker.as"
 #include "events/single_base_vip_tracker.as"
@@ -18,6 +19,7 @@
 class GameSystemsRegistry {
 	protected Metagame@ m_metagame;
 	protected SpawnCapacityApi@ m_spawnCapacityApi;
+	protected CommanderAiAdaptiveApi@ m_commanderAiAdaptiveApi;
 	protected PlatoonSpawnApi@ m_platoonSpawnApi;
 	protected CaptainSpawnCommandTracker@ m_quickMatchCaptainTracker;
 	protected SingleBaseVipTracker@ m_quickMatchSingleBaseVipTracker;
@@ -51,6 +53,15 @@ class GameSystemsRegistry {
 		} else if (defaultAliveHudWhenNoDebug) {
 			m_spawnCapacityApi.installDefaultAliveHud();
 		}
+	}
+
+	// Adaptive Commander-AI: setzt commander_ai nach Capacity-Ratio, Radio bei Zustandswechsel.
+	// SpawnCapacity-System muss vorher installiert sein (liefert RespawnSlotDelayTracker).
+	void installCommanderAiAdaptiveSystem(bool enabled) {
+		if (!enabled) return;
+		if (m_spawnCapacityApi is null || !m_spawnCapacityApi.hasCoreInstalled()) return;
+		@m_commanderAiAdaptiveApi = CommanderAiAdaptiveApi(m_metagame);
+		m_commanderAiAdaptiveApi.installTracker(m_spawnCapacityApi.getRespawnTracker());
 	}
 
 	// Installiert QuickMatch-Events zentral ueber die Registry:
@@ -138,6 +149,7 @@ class GameSystemsRegistry {
 	}
 
 	SpawnCapacityApi@ getSpawnCapacityApi() { return m_spawnCapacityApi; }
+	CommanderAiAdaptiveApi@ getCommanderAiAdaptiveApi() { return m_commanderAiAdaptiveApi; }
 	PlatoonSpawnApi@ getPlatoonSpawnApi() { return m_platoonSpawnApi; }
 	CaptainSpawnCommandTracker@ getQuickMatchCaptainTracker() { return m_quickMatchCaptainTracker; }
 	FactionPointsApi@ getFactionPointsApi() { return m_factionPointsApi; }
