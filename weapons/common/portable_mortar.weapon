@@ -7,10 +7,10 @@
     <ballistics near_far_distance="1.0" speed_estimation_near="20.0" speed_estimation_far="35.0" max_speed="100.0" randomness="0.07" />
 
 
-	<animation state_key="reload" 			animation_key="reload, mortar" />
-	<animation state_key="recoil" 			animation_key="recoil, mortar" />
-	<animation state_key="hold" 				animation_key="still, mortar" />
-	<animation state_key="crouching" 			animation_key="crouch still, mortar" />
+	<animation state_key="reload" 			animation_key="reloading, portable mortar" />
+	<animation state_key="recoil" 			animation_key="recoil, portable mortar" />
+	<animation state_key="hold" 				animation_key="still, angled" />
+	<animation state_key="crouching" 			animation_key="crouch, still, portable mortar" />
 
     <sound key="fire" fileref="portable_mortar_shot.wav" pitch_variety="0.1" />
     <sound key="magazine_in" fileref="portable_mortar_reload.wav" />

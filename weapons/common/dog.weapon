@@ -20,7 +20,7 @@
     <animation state_key="changing_weapon_in" 			animation_key="dog pose" />
     <animation state_key="changing_weapon_out" 			animation_key="dog pose" />
 
-        <animation state_key="stabbing"	animation_key="dog stab" />
+        <animation state_key="stabbing"	animation_key="stabbing" />
         
 <sound key="effect" fileref="dog_growl_1.wav" pitch_variety="0.05" volume="0.4" />
 <sound key="effect" fileref="dog_growl_2.wav" pitch_variety="0.05" volume="0.4" />
