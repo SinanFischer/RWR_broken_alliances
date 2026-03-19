@@ -157,7 +157,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 			// Kein neues Event wenn bereits eines laeuft oder Cooldown aktiv
 			if (s.eventId != AI_EVENT_IDLE || s.cooldownTimer > 0.0f) continue;
 
-			int rawCap = m_respawnTracker.getBaseCapacity(fid);
+			int rawCap = m_respawnTracker.getXmlCapacity(fid);
 			if (rawCap <= 0) continue;
 			int effectiveCap = m_respawnTracker.getEffectiveCapacityForFaction(fid);
 			float ratio = float(effectiveCap) / float(rawCap);
@@ -284,7 +284,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 			// Fraktionsname wie in /stats: key-Attribut, 2 Zeichen (z.B. "EU", "RU")
 			string fName = getFactionShortName(factions[i], fid);
 
-			int rawCap       = m_respawnTracker.getBaseCapacity(fid);
+			int rawCap       = m_respawnTracker.getXmlCapacity(fid);
 			int effectiveCap = (rawCap > 0) ? m_respawnTracker.getEffectiveCapacityForFaction(fid) : 0;
 			float ratio      = (rawCap > 0) ? float(effectiveCap) / float(rawCap) : 0.0f;
 

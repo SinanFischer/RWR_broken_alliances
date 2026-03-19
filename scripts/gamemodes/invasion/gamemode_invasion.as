@@ -62,7 +62,8 @@
 // #include "trackers/reinforcement_pool_tracker.as"  // auskommentiert: Reinforcement-Pool-Tracker deaktiviert
 #include "systems/game_systems.as"
 
-const bool INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM = true;
+// false = kein Slot-Delay/Stats-Core; natives Cap testen (HUD siehe postBeginMatch)
+const bool INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM = false;
 const bool INVASION_CAPACITY_DEBUG_HUD = false;
 const bool INVASION_ENABLE_COMMANDER_AI_ADAPTIVE = true;
 const bool INVASION_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
@@ -360,6 +361,9 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 			INVASION_CAPACITY_DEBUG_HUD,
 			true // Alive-HUD: zeigt "alive / cap (bases)" in Fraktionsfarbe
 		);
+		if (!INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM) {
+			addTracker(FactionAliveHudTracker(this, null)); // cap = native soldier_capacity
+		}
 		m_systemsRegistry.installCommanderAiAdaptiveSystem(INVASION_ENABLE_COMMANDER_AI_ADAPTIVE);
 		m_systemsRegistry.installFactionPointsSystem(
 			INVASION_ENABLE_FACTION_POINTS_SYSTEM,
