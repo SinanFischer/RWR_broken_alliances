@@ -8,7 +8,7 @@
 //   Gewichtungsfaktor, keine absolute Feldstärke. capacity_multiplier skaliert diesen Anteil.
 //   Nur mit liveCount als Basis ergibt sich ein sinnvoller Multiplikator.
 //
-// Schwächste Fraktion (wenigste Basen UND ≤2 Basen): Slotblock AUS → mult = 1.0.
+// Fraktion mit ≤1 Basis: Slotblock immer AUS → mult = 1.0 (unabhängig von anderen Fraktionen).
 //
 // Timestamps: Gespeichert wird der Ablaufzeitpunkt (expireTime = now + delay), nicht der Todeszeitpunkt.
 //
@@ -257,8 +257,7 @@ class RespawnSlotDelayTracker : Tracker {
 	}
 
 	bool isWeakestFactionSlotBlockDisabled(int factionId, int minBases) {
-		int bases = getBasesForFactionCached(factionId);
-		return bases <= 2 && bases == minBases;
+		return getBasesForFactionCached(factionId) <= 1;
 	}
 
 	void applyCapacityWithReservedSlots() {
