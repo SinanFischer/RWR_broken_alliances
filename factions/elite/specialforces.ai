@@ -3,6 +3,7 @@
   <!-- Elite: Bursts wie vor Basis-Anpassung -->
   <parameter class="burst_time" value="0.6" />
   <parameter class="burst_time_variance" value="0.3" />
+  <parameter class="fire_open_min_time" value="8.0" />
 
   <parameter class="accuracy_offset" value="0.03" /> 
   <parameter class="accuracy_penalty_range" value="0.05" />

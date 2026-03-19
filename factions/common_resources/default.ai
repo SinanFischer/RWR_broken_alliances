@@ -104,7 +104,8 @@
   <parameter class="grenade_throw_hold_time" value="0.8" />
   <parameter class="using_cover_min_time" value="3.0" />
   <parameter class="using_cover_max_time" value="14.0" />
-  <parameter class="fire_open_min_time" value="12.0" />
+  <!-- Wie default_soldiers: keine 12s-Mindest-Aggression für alles -->
+  <parameter class="fire_open_min_time" value="9.0" />
   <parameter class="dive_from_grenade_probability" value="0.79" />
   <parameter class="celebrating_shoot_probability" value="0.35" /> 
   <parameter class="celebrating_comment_probability" value="0.45" /> 
