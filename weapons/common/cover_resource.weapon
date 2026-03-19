@@ -12,7 +12,7 @@
     spawn_instance_class="vehicle" 
     spawn_instance_key="cover1.vehicle" 
     consume="1" 
-    sight_range_modifier="1" 
+    sight_range_modifier="1" ai_sight_range_modifier="0.9" 
     slot="1"
     cover_deployment="1" />
 

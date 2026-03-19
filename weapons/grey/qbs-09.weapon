@@ -12,7 +12,7 @@
   name="QBS-09" 
   class="4" 
   reload_one_at_a_time="1" 
-  sight_range_modifier="1.0" 
+  sight_range_modifier="1.0" ai_sight_range_modifier="0.9" 
   projectile_speed="136.0" 
   projectiles_per_shot="5" 
   burst_shots="1" />

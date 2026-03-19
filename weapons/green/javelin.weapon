@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_secondary.weapon" key="javelin.weapon" time_to_live_out_in_the_open="90.0" drop_count_factor_on_death="1.0">
     <tag name="bazooka" />
     <specification 
@@ -13,7 +13,7 @@
   name="Javelin" 
   class="3" 
   reload_one_at_a_time="1"  
-  sight_range_modifier="1.2" 
+  sight_range_modifier="1.2" ai_sight_range_modifier="1.08" 
   projectile_speed="150.0" 
   slot="1" 
   projectiles_per_shot="1" />

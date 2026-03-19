@@ -12,7 +12,7 @@
     name="Benelli M4" 
     class="0" 
     reload_one_at_a_time="1" 
-    sight_range_modifier="1.0" 
+    sight_range_modifier="1.0" ai_sight_range_modifier="0.9" 
     projectile_speed="144.0" 
     projectiles_per_shot="5" 
     burst_shots="1" />

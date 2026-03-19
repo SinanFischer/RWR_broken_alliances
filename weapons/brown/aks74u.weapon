@@ -12,7 +12,7 @@
   suppressed="0" 
   name="AKS-74U" 
   class="0" 
-  sight_range_modifier="1.05"
+  sight_range_modifier="1.05" ai_sight_range_modifier="0.945"
   projectile_speed="148.0" 
   barrel_offset="0.5" />
     <animation key="recoil" ref="12" />

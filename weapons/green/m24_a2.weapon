@@ -13,8 +13,7 @@
   name="M24-A2" 
   class="2" 
   reload_one_at_a_time="0" 
-  sight_range_modifier="2.2" 
-  ai_sight_range_modifier="2.1"
+  sight_range_modifier="2.2" ai_sight_range_modifier="1.98"
   projectile_speed="245.0" 
   barrel_offset="0.5" 
   projectiles_per_shot="1" />

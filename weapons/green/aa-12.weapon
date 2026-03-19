@@ -10,7 +10,7 @@
     name="AA-12" 
     class="0" 
     reload_one_at_a_time="0" 
-    sight_range_modifier="1.1" 
+    sight_range_modifier="1" ai_sight_range_modifier="0.9" 
     projectile_speed="145.0" 
     projectiles_per_shot="8" />
     <animation key="recoil" ref="27" />

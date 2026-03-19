@@ -10,7 +10,7 @@
     spawn_instance_class="vehicle" 
     spawn_instance_key="mortar_extended.vehicle" 
     consume="1" 
-    sight_range_modifier="2" 
+    sight_range_modifier="2" ai_sight_range_modifier="1.8" 
     slot="1" />
 	
     <animation state_key="running" 		animation_key="walking, carrying load" />

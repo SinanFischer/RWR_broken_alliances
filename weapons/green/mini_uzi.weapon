@@ -11,7 +11,7 @@
   can_shoot_standing="1" 
     carry_in_two_hands="0" 
   suppressed="0" 
-  sight_range_modifier="1.0" 
+  sight_range_modifier="1.0" ai_sight_range_modifier="0.9" 
   name="mini UZI" 
   class="0" 
   projectile_speed="144.0"

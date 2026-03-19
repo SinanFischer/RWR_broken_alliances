@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.35" drop_count_factor_on_player_death="1.0" file="base_secondary.weapon" key="m120_heavy_mortar_deploy.weapon" radius="0.45" time_to_live_out_in_the_open="90.0">
     <tag name="engineer" />
     <specification magazine_size="1" 
@@ -10,7 +10,7 @@
     spawn_instance_class="vehicle" 
     spawn_instance_key="m120_heavy_mortar.vehicle" 
     consume="1" 
-    sight_range_modifier="1" 
+    sight_range_modifier="1" ai_sight_range_modifier="0.9" 
     slot="1" 
     deployment="1" 
     deny_ladder_range="3"/>

@@ -14,7 +14,7 @@
 	name="Desert Eagle"
 	class="4"
 	reload_one_at_a_time="0"
-	sight_range_modifier="1.0"
+	sight_range_modifier="1.0" ai_sight_range_modifier="0.9"
 	projectile_speed="160.0"
 	projectiles_per_shot="1"
 	burst_shots="1" 

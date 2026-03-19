@@ -13,8 +13,7 @@
   name="SV-98" 
   class="2" 
   reload_one_at_a_time="0" 
-  sight_range_modifier="2.15" 
-  ai_sight_range_modifier="2.05"
+  sight_range_modifier="2.15" ai_sight_range_modifier="1.935"
   projectile_speed="235.0"
   barrel_offset="0.5" 
   projectiles_per_shot="1" /> <!--270-->

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.50" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="xm25_r.weapon">
     <tag name="assault" />
 
@@ -12,7 +12,7 @@
   suppressed="0" 
   name="XM-25" 
   class="0" 
-  sight_range_modifier="1.2"  
+  sight_range_modifier="1.2" ai_sight_range_modifier="1.08"  
   projectile_speed="40.0"
   projectiles_per_shot="1"  
   barrel_offset="0.3" 

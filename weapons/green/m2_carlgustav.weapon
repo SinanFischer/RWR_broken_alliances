@@ -13,7 +13,7 @@
   name="M2 Carl Gustav" 
   class="3" 
   reload_one_at_a_time="1" 
-  sight_range_modifier="1.4" 
+  sight_range_modifier="1.4" ai_sight_range_modifier="1.26" 
   projectile_speed="109.0" 
   slot="1" 
   projectiles_per_shot="1" />

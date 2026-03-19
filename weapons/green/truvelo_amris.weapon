@@ -15,7 +15,7 @@
 	name="Truvelo Amris suppressed" 
 	class="2" 
 	burst_shots="1" 
-	sight_range_modifier="2.0" 
+	sight_range_modifier="2.0" ai_sight_range_modifier="1.8" 
 	projectile_speed="165.0" 
 	barrel_offset="0.4" 
     reload_one_at_a_time="0" 

@@ -11,7 +11,7 @@
     spawn_instance_class="vehicle" 
     spawn_instance_key="deployable_minig_scoped.vehicle" 
     consume="1" 
-    sight_range_modifier="1.345" 
+    sight_range_modifier="1.345" ai_sight_range_modifier="1.211" 
     slot="1"
     cover_deployment="1" />
 

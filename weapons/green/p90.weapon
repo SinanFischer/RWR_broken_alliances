@@ -11,7 +11,7 @@
     name="P90" 
     class="0" 
     slot="1"
-	sight_range_modifier="1.1"
+	sight_range_modifier="1.1" ai_sight_range_modifier="0.99"
     projectile_speed="130.0" />
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />

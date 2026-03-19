@@ -5,6 +5,8 @@
 - Waffen sind der Realität angepasst, retrigger rates und Waffenmerkmale basieren auf realität. (Keine Garantie auf 100% Übereinstimmung). 
 
 Kleines: 
+- **Waffen:** Wo `sight_range_modifier` (*Multiplikator für die effektive Sichtweite mit der Waffe*) gesetzt ist, ist `ai_sight_range_modifier` (*KI-Variante desselben Faktors*) **90 %** des Spielerwerts (10 % weniger). Bei **0** bleibt die KI bei **0**. Waffen nur per `file="…"` ohne eigenen Eintrag unverändert (Vanilla-Basis). **Fix:** `patch_ai_sight_modifiers.ps1` nutzt `(?<!ai_)`, damit nicht innerhalb von `ai_sight_range_modifier` gematcht wird; Panzer-`tank_cannon*` / `tank_mg*` / `radar_tank_cannon` hatten fehlendes `sight_range_modifier` (Loader-Crash) – repariert.
+- **KI `fire_open_min_time` rollenbasiert:** Line-Infanterie `default_soldiers` / `default.ai` / `map12` **9s** (statt 12); Elite (Captain, Bodyguard, Miniboss, SF) **8s**; MG `support.ai` **20s** unverändert; EOD **8s**; Shotgun **6s** unverändert.
 - cover deploy tragmenge erweitert 
 - wiesel flare preis auf 400 RP
 - origin shotgun waffe auf 120 RP 

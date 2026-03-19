@@ -11,7 +11,7 @@
   suppressed="0" 
   name="M4A1" 
   class="0" 
-  sight_range_modifier="1.1" 
+  sight_range_modifier="1.1" ai_sight_range_modifier="0.99" 
   projectile_speed="160.0"
   barrel_offset="0.5" /> <!--220-->
 

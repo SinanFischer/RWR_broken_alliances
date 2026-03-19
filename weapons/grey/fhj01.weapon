@@ -15,7 +15,7 @@
   name="FHJ-01 Cluster" 
   class="3" 
   reload_one_at_a_time="1" 
-  sight_range_modifier="1" 
+  sight_range_modifier="1" ai_sight_range_modifier="0.9" 
   projectile_speed="40.0" 
   slot="1" 
   projectiles_per_shot="2" />

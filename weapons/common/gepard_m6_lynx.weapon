@@ -12,7 +12,7 @@
   class="4"
   burst_shots="1"
   reload_one_at_a_time="0"  
-  sight_range_modifier="2.0" 
+  sight_range_modifier="2.0" ai_sight_range_modifier="1.8" 
   projectile_speed="155.0" 
   barrel_offset="0.5" 
   projectiles_per_shot="1" />

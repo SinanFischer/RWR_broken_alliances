@@ -12,7 +12,7 @@
   suppressed="0" 
   name="M16A4 w/ M203 GL" 
   class="0" 
-  sight_range_modifier="1.1"
+  sight_range_modifier="1.1" ai_sight_range_modifier="0.99"
   projectile_speed="160.0" 
   barrel_offset="0.4" />
 
