@@ -157,10 +157,12 @@ class CommanderAiAdaptiveTracker : Tracker {
 			// Kein neues Event wenn bereits eines laeuft oder Cooldown aktiv
 			if (s.eventId != AI_EVENT_IDLE || s.cooldownTimer > 0.0f) continue;
 
-			int rawCap = m_respawnTracker.getXmlCapacity(fid);
-			if (rawCap <= 0) continue;
+			int liveCount = m_respawnTracker.getLiveCount(fid);
+			if (liveCount <= 0) continue;
 			int effectiveCap = m_respawnTracker.getEffectiveCapacityForFaction(fid);
-			float ratio = float(effectiveCap) / float(rawCap);
+			// ratio = effektive Slots / tatsächlich lebende Soldaten (nicht xmlCapacity!)
+			// xmlCapacity ist ein Map-Gewichtungsfaktor, kein Feldstärke-Vergleichswert.
+			float ratio = float(effectiveCap) / float(liveCount);
 
 			// DEFENSIVE_PAUSE hat Prioritaet ueber GRAND_ASSAULT
 			if (shouldTriggerDefensivePause(ratio)) {
@@ -274,8 +276,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 		}
 
 		float nextEval = AI_UPDATE_INTERVAL - m_accum;
-		string report = "[AI-Adaptive] Intervall=" + AI_UPDATE_INTERVAL
-			+ "s | naechste Eval in " + formatFloat(nextEval, "", 0, 1) + "s\n";
+		string report = "naechste Eval in " + formatFloat(nextEval, "", 0, 1) + "s\n";
 
 		for (uint i = 0; i < factions.size() && i < m_states.size(); i++) {
 			int fid = factions[i].getIntAttribute("id");
@@ -284,9 +285,9 @@ class CommanderAiAdaptiveTracker : Tracker {
 			// Fraktionsname wie in /stats: key-Attribut, 2 Zeichen (z.B. "EU", "RU")
 			string fName = getFactionShortName(factions[i], fid);
 
-			int rawCap       = m_respawnTracker.getXmlCapacity(fid);
-			int effectiveCap = (rawCap > 0) ? m_respawnTracker.getEffectiveCapacityForFaction(fid) : 0;
-			float ratio      = (rawCap > 0) ? float(effectiveCap) / float(rawCap) : 0.0f;
+			int liveCount    = m_respawnTracker.getLiveCount(fid);
+			int effectiveCap = (liveCount > 0) ? m_respawnTracker.getEffectiveCapacityForFaction(fid) : 0;
+			float ratio      = (liveCount > 0) ? float(effectiveCap) / float(liveCount) : 0.0f;
 
 			string eventLabel = getEventLabel(s.eventId);
 			string timerInfo  = "";
@@ -297,7 +298,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 
 			report += "  " + fName
 				+ " ratio=" + formatFloat(ratio, "", 0, 2)
-				+ " (" + effectiveCap + "/" + rawCap + ")"
+				+ " (" + effectiveCap + "/" + liveCount + ")"
 				+ " | " + eventLabel + timerInfo
 				+ " | nat.base=" + formatFloat(s.nativeBase, "", 0, 2)
 				+ " brd=" + formatFloat(s.nativeBorder, "", 0, 2) + "\n";

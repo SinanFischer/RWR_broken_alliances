@@ -22,6 +22,15 @@ const float EXTRA_SECONDS_PER_BLOCK     =  4.0f;   // … +4 s Slot-Delay
 const float APPLY_INTERVAL             =  1.0f;   // s, wie oft capacity_multiplier gesendet wird
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f; // Engine-Minimum (Fraktion nicht ignorieren)
 // Slots pro Tod: XML-soldier_capacity <70→1, 70–120→2, 121–200→3, 201–250→4, 251–299→5, ≥300→6; Führer +2.
+//
+// --- BalanceCompensator-Konfiguration ---
+// Gleicht extreme Alive-Verhältnisse automatisch aus (z.B. 11 vs 80 = 1:7).
+// Greift erst ab BALANCE_RATIO_THRESHOLD. Ziel-Mult wird sanft per Lerp aufgebaut,
+// aber sofort auf 1.0 zurückgesetzt wenn das Verhältnis wieder unter den Threshold fällt.
+// Funktioniert für 1v1 und 1v1v1: jede Fraktion wird relativ zur stärksten bewertet.
+const float BALANCE_RATIO_THRESHOLD = 2.5f;  // ab diesem Verhältnis (stärkste/schwächste) greift der Kompensator
+const float BALANCE_MAX_MULT        = 3.0f;  // maximaler capacity_multiplier (Engine-Max ist 4.0)
+const float BALANCE_LERP_SPEED      = 0.03f; // pro Sekunde Aufbaugeschwindigkeit (sanft, kein Sprung)
 
 #include "tracker.as"
 #include "log.as"
@@ -46,6 +55,9 @@ class RespawnSlotDelayTracker : Tracker {
 
 	// XML-soldier_capacity: nur für getSlotsPerDeathForCapacity (Größenindikator)
 	protected dictionary m_xmlCapacity;
+
+	// BalanceCompensator: aktuell angewendeter Kompensations-Multiplikator pro Fraktion (geglättet per Lerp)
+	protected dictionary m_balanceMult;
 
 	RespawnSlotDelayTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -106,6 +118,9 @@ class RespawnSlotDelayTracker : Tracker {
 			if (alive == first && m_leaderFactionId < 0) m_leaderFactionId = int(i);
 			m_basesPerFaction[key] = getBasesForFaction(m_metagame, int(i));
 		}
+
+		// BalanceCompensator: Lerp-Mults nach frischem liveCount aktualisieren
+		updateBalanceMults(first);
 	}
 
 	int getLiveCount(int factionId) {
@@ -129,6 +144,43 @@ class RespawnSlotDelayTracker : Tracker {
 		}
 		return 0;
 	}
+
+	// ---- BalanceCompensator-System ------------------------------------------
+	// Ziel-Mult basierend auf Alive-Verhältnis zur stärksten Fraktion.
+	float calcBalanceTargetMult(int factionId, int maxAlive) {
+		if (maxAlive <= 0) return 1.0f;
+		int alive = getLiveCount(factionId);
+		if (alive <= 0) return 1.0f;
+		float ratio = float(maxAlive) / float(alive);
+		if (ratio < BALANCE_RATIO_THRESHOLD) return 1.0f;
+		return (ratio > BALANCE_MAX_MULT) ? BALANCE_MAX_MULT : ratio;
+	}
+
+	// Lerp-Aufbau wenn ratio > threshold, sofortiger Reset wenn ratio darunter fällt.
+	void updateBalanceMults(int maxAlive) {
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null) return;
+		for (uint i = 0; i < factions.size(); ++i) {
+			string key = factionKey(int(i));
+			float current = m_balanceMult.exists(key) ? float(m_balanceMult[key]) : 1.0f;
+			float target  = calcBalanceTargetMult(int(i), maxAlive);
+			float next;
+			if (target <= 1.0f) {
+				next = 1.0f; // sofort deaktivieren wenn Verhältnis wieder normal
+			} else {
+				next = current + (target - current) * BALANCE_LERP_SPEED * ALIVE_CHECK_INTERVAL;
+			}
+			m_balanceMult[key] = next;
+			if (target > 1.01f || current > 1.01f)
+				_log("BalanceComp: fid=" + i + " alive=" + getLiveCount(int(i)) + " maxAlive=" + maxAlive + " target=" + target + " mult=" + next, 1);
+		}
+	}
+
+	float getBalanceMult(int factionId) {
+		string key = factionKey(factionId);
+		return m_balanceMult.exists(key) ? float(m_balanceMult[key]) : 1.0f;
+	}
+	// -------------------------------------------------------------------------
 
 	float getEffectiveDelaySeconds(int factionId) {
 		int bases = getBasesForFactionCached(factionId);
@@ -282,8 +334,13 @@ class RespawnSlotDelayTracker : Tracker {
 					if (effective < 0.0f) effective = 0.0f;
 					mult = effective / float(liveCount);
 					if (mult < CAPACITY_MULTIPLIER_NEAR_ZERO) mult = CAPACITY_MULTIPLIER_NEAR_ZERO;
-					_log("RespawnSlotDelay: fid=" + fid + " live=" + liveCount + " reserved=" + reserved + " mult=" + mult, 1);
 				}
+			}
+			// BalanceCompensator: überschreibt mult nach oben wenn Verhältnis extrem ist
+			float balanceMult = getBalanceMult(fid);
+			if (balanceMult > mult) {
+				_log("RespawnSlotDelay+Balance: fid=" + fid + " slotMult=" + mult + " balanceMult=" + balanceMult, 1);
+				mult = balanceMult;
 			}
 			XmlElement faction("faction");
 			faction.setFloatAttribute("capacity_multiplier", mult);
