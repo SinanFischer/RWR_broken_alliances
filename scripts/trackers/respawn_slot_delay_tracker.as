@@ -56,6 +56,12 @@ class RespawnSlotDelayTracker : Tracker {
 	// XML-soldier_capacity: nur für getSlotsPerDeathForCapacity (Größenindikator)
 	protected dictionary m_xmlCapacity;
 
+	// Geschätzte native Kapazität pro Fraktion: (xmlCap / sumXmlCap) × totalLive
+	// Das ist der echte Nenner für capacity_multiplier-Berechnungen.
+	protected dictionary m_nativeCap;
+	protected int        m_totalLive = 0;
+	protected int        m_sumXmlCap = 0;
+
 	// BalanceCompensator: aktuell angewendeter Kompensations-Multiplikator pro Fraktion (geglättet per Lerp)
 	protected dictionary m_balanceMult;
 
@@ -105,12 +111,28 @@ class RespawnSlotDelayTracker : Tracker {
 		}
 		if (factions.size() == 1) second = first;
 
+		// Summen für nativeCap-Schätzung
+		int totalLive = 0;
+		int sumXmlCap = 0;
+		for (uint i = 0; i < factions.size(); ++i) {
+			totalLive += aliveCounts[i];
+			sumXmlCap += factions[i].getIntAttribute("soldier_capacity");
+		}
+		m_totalLive = totalLive;
+		m_sumXmlCap = sumXmlCap;
+
 		m_leaderFactionId = -1;
 		for (uint i = 0; i < factions.size(); ++i) {
 			string key = factionKey(int(i));
 			int alive = aliveCounts[i];
 			m_liveCount[key] = alive;
-			m_xmlCapacity[key] = factions[i].getIntAttribute("soldier_capacity");
+			int xmlCap = factions[i].getIntAttribute("soldier_capacity");
+			m_xmlCapacity[key] = xmlCap;
+			// nativeCap = proportionaler Anteil an totalLive (Schätzung für max_soldiers-Anteil)
+			float nativeCap = (sumXmlCap > 0 && totalLive > 0)
+				? float(xmlCap) / float(sumXmlCap) * float(totalLive)
+				: float(alive);
+			m_nativeCap[key] = nativeCap;
 			float extra = (alive > second)
 				? float((alive - second) / TROOPS_PER_EXTRA_BLOCK) * EXTRA_SECONDS_PER_BLOCK
 				: 0.0f;
@@ -181,6 +203,15 @@ class RespawnSlotDelayTracker : Tracker {
 		return m_balanceMult.exists(key) ? float(m_balanceMult[key]) : 1.0f;
 	}
 	// -------------------------------------------------------------------------
+
+	// Gibt die geschätzte native Kapazität zurück (proportionaler Anteil an totalLive).
+	// Das ist der korrekte Nenner für capacity_multiplier: mult × nativeCap = targetCap.
+	float getNativeCap(int factionId) {
+		string key = factionKey(factionId);
+		if (m_nativeCap.exists(key)) return float(m_nativeCap[key]);
+		// Fallback: liveCount wenn Cache noch leer
+		return float(getLiveCount(factionId));
+	}
 
 	float getEffectiveDelaySeconds(int factionId) {
 		int bases = getBasesForFactionCached(factionId);
@@ -325,15 +356,18 @@ class RespawnSlotDelayTracker : Tracker {
 			if (isWeakestFactionSlotBlockDisabled(fid, minBases)) {
 				mult = 1.0f;
 			} else {
-				int reserved  = getReservedSlots(fid);
-				int liveCount = getLiveCount(fid);
-				if (reserved <= 0 || liveCount <= 0) {
+				int reserved    = getReservedSlots(fid);
+				float nativeCap = getNativeCap(fid);
+				if (reserved <= 0 || nativeCap <= 0.0f) {
 					mult = 1.0f;
 				} else {
-					float effective = float(liveCount - reserved);
-					if (effective < 0.0f) effective = 0.0f;
-					mult = effective / float(liveCount);
+					// Korrekte Formel: mult × nativeCap = nativeCap - reserved
+					// → Engine spawnt exakt bis (nativeCap - reserved) Soldaten
+					float targetCap = nativeCap - float(reserved);
+					if (targetCap < 0.0f) targetCap = 0.0f;
+					mult = targetCap / nativeCap;
 					if (mult < CAPACITY_MULTIPLIER_NEAR_ZERO) mult = CAPACITY_MULTIPLIER_NEAR_ZERO;
+					_log("RespawnSlotDelay: fid=" + fid + " native=" + nativeCap + " reserved=" + reserved + " target=" + targetCap + " mult=" + mult, 1);
 				}
 			}
 			// BalanceCompensator: überschreibt mult nach oben wenn Verhältnis extrem ist
@@ -350,13 +384,13 @@ class RespawnSlotDelayTracker : Tracker {
 		for (uint i = 0; i < factions.size(); ++i) pruneSlotExpireTimes(int(i));
 	}
 
-	// Für HUD/Stats: effektive Feldstärke = liveCount - reserved.
+	// Für HUD/Stats: effektive Kapazität = nativeCap - reserved (entspricht dem was die Engine spawnt).
 	int getEffectiveCapacityForFaction(int factionId) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || factionId < 0 || uint(factionId) >= factions.size()) return 0;
 		if (isWeakestFactionSlotBlockDisabled(factionId, getMinBasesOverFactions()))
-			return getLiveCount(factionId);
-		int effective = getLiveCount(factionId) - getReservedSlots(factionId);
+			return int(getNativeCap(factionId));
+		int effective = int(getNativeCap(factionId)) - getReservedSlots(factionId);
 		return (effective > 0) ? effective : 0;
 	}
 
