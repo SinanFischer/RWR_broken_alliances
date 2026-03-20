@@ -1,10 +1,10 @@
 // Faction-Alive-HUD-Tracker: Zeigt pro Fraktion "alive / effectiveCap" in Fraktionsfarbe.
-// Format ohne Bases: "42 / 180"  — Format mit Bases: "42 / 180 (5)"
+// Format ohne Bases: "42 / 180"  - Format mit Bases: "42 / 180 (5)"
 // Mit RespawnSlotDelayTracker: effectiveCap = gecachte effektive Kapazität.
 // Ohne Tracker: effectiveCap = rohe soldier_capacity aus Engine.
-// Throttle: max. 1x/s — getCharacters ist ein Engine-Query, sparsam einsetzen.
+// Throttle: max. 1x/s - getCharacters ist ein Engine-Query, sparsam einsetzen.
 //
-// Default: HUD AUS, Basen-Anzeige AUS.
+// Default: HUD AN, Basen-Anzeige AUS.
 // Commands (Admin):
 //   /hud         – Status + verfügbare Befehle (jeder Spieler)
 //   /hud on      – HUD einschalten
@@ -23,7 +23,7 @@ class FactionAliveHudTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected RespawnSlotDelayTracker@ m_respawnTracker;  // optional; liefert effectiveCap + bases
 	protected float m_accum = 0.0f;
-	protected bool m_enabled      = false;  // Default AUS; per /hud on einschalten
+	protected bool m_enabled      = true;   // Default AN; per /hud off deaktivieren
 	protected bool m_showBases    = false;  // Default ohne Basen-Anzeige; /hud bases togglet
 
 	FactionAliveHudTracker(Metagame@ metagame, RespawnSlotDelayTracker@ respawnTracker = null) {

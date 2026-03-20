@@ -1,4 +1,4 @@
-// Adaptive Commander AI — Konfiguration. Single Source of Truth.
+// Adaptive Commander AI - Konfiguration. Single Source of Truth.
 
 // --- Event-IDs ---
 const int AI_EVENT_IDLE             = 0;  // Kein aktives Event, native AI laeuft
@@ -13,10 +13,10 @@ const float AI_TRIGGER_ASSAULT   = 0.85f;  // ratio > 0.85 → GRAND_ASSAULT moe
 const float AI_DURATION_DEFENSIVE_PAUSE = 60.0f;
 const float AI_DURATION_GRAND_ASSAULT   = 90.0f;
 
-// --- Cooldown nach Event-Ende (s) — verhindert sofortiges Re-Triggern ---
+// --- Cooldown nach Event-Ende (s) - verhindert sofortiges Re-Triggern ---
 const float AI_COOLDOWN_AFTER_EVENT = 120.0f;
 
-// --- Verzögerter Start (s) — wartet bis Map vollständig geladen ist ---
+// --- Verzögerter Start (s) - wartet bis Map vollständig geladen ist ---
 const float AI_START_DELAY = 15.0f;
 
 // --- Evaluierungs-Intervall (s) ---
@@ -36,6 +36,6 @@ const float AI_BASE_DEF_GRAND_ASSAULT   = 0.25f;
 const float AI_BORDER_DEF_GRAND_ASSAULT = 0.15f;
 
 // --- Radio-Nachrichten bei Event-Start ---
-const string AI_RADIO_DEFENSIVE_PAUSE = "Command to all — pull back immediately. Defensive positions only. Out.";
-const string AI_RADIO_GRAND_ASSAULT   = "All units — full assault. Push every line. For glory. Out.";
-const string AI_RADIO_REVERT          = "Command — returning to standard operational posture. Out.";
+const string AI_RADIO_DEFENSIVE_PAUSE = "Command to all - pull back immediately. Defensive positions only. Out.";
+const string AI_RADIO_GRAND_ASSAULT   = "All units - full assault. Push every line. For glory. Out.";
+const string AI_RADIO_REVERT          = "Command - returning to standard operational posture. Out.";

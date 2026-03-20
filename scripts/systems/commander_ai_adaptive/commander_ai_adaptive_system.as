@@ -1,4 +1,4 @@
-// Adaptive Commander AI — System-Einstieg.
+// Adaptive Commander AI - System-Einstieg.
 // Einzige Include-Stelle; Tracker inkludiert Config + Logik.
 
 #include "systems/commander_ai_adaptive/commander_ai_adaptive_tracker.as"

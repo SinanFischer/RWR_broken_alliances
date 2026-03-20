@@ -1,4 +1,4 @@
-// Adaptive Commander AI — Tracker.
+// Adaptive Commander AI - Tracker.
 // Grundprinzip: Native AI laeuft unberuehrt. Nur bei konkreten Events (DEFENSIVE_PAUSE /
 // GRAND_ASSAULT) greift der Tracker zeitlich begrenzt ein und revertiert danach.
 //
@@ -265,7 +265,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 		}
 	}
 
-	// /ai_status — zeigt Zustand aller Fraktionen mit lesbaren Fraktionsnamen
+	// /ai_status - zeigt Zustand aller Fraktionen mit lesbaren Fraktionsnamen
 	private void handleStatusCommand(int playerId) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || m_respawnTracker is null) {
@@ -362,7 +362,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 			}
 		}
 		string feedback = "[AI] " + label + " → " + fName
-			+ (triggered > 0 ? " gestartet." : " — Fraktion nicht gefunden.");
+			+ (triggered > 0 ? " gestartet." : " - Fraktion nicht gefunden.");
 		sendPrivateMessage(m_metagame, playerId, feedback);
 	}
 }

@@ -1,4 +1,4 @@
-// Adaptive Commander AI — Reine Logik (kein State, keine Engine-Calls).
+// Adaptive Commander AI - Reine Logik (kein State, keine Engine-Calls).
 // Entscheidet ob ein Event getriggert werden soll.
 
 #include "systems/commander_ai_adaptive/commander_ai_adaptive_config.as"

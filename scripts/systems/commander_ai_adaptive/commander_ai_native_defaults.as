@@ -1,30 +1,30 @@
 // =============================================================================
-// Commander AI — Native Defaults (Vanilla Maps)
+// Commander AI - Native Defaults (Vanilla Maps)
 // =============================================================================
 // Erfasst aus: vanilla/maps/*/init_match.xml
-// Zweck: Option A — "Neutrale Defaults" pro Fraktion; Revert nach Events nutzt
+// Zweck: Option A - "Neutrale Defaults" pro Fraktion; Revert nach Events nutzt
 //        diese Werte statt die native AI dauerhaft zu ueberschreiben.
 // Wenn eine Map keinen commander_ai-Block hat: Fallback verwenden.
 // =============================================================================
 
 /*
-  VANILLA MAPS — commander_ai Defaults (base_defense, border_defense)
+  VANILLA MAPS - commander_ai Defaults (base_defense, border_defense)
   Quelle: C:\...\vanilla\maps\<map>\init_match.xml
 
   Map      | F0        | F1        | F2        | F3        | Anmerkung
   ---------|-----------|-----------|-----------|-----------|------------------
   map7     | 0.3 / 0.1 | 0.3 / 0.1 | 0.3 / 0.1 | 0.64/0.24 | 4 Fraktionen
-  map8     | 0.2 / 0.1 | 0.2 / 0.1 | 0.2 / 0.4 | —         | 3 Fraktionen
-  map1_2   | 0.5 / 0.2 | 0.6 / 0.2 | 0.6 / 0.3 | —         | 3 Fraktionen
-  map11    | 0.0 / 0.0 | 1.0 / 0.0 | 1.0 / 0.0 | —         | active="0" (AI aus)
+  map8     | 0.2 / 0.1 | 0.2 / 0.1 | 0.2 / 0.4 | -         | 3 Fraktionen
+  map1_2   | 0.5 / 0.2 | 0.6 / 0.2 | 0.6 / 0.3 | -         | 3 Fraktionen
+  map11    | 0.0 / 0.0 | 1.0 / 0.0 | 1.0 / 0.0 | -         | active="0" (AI aus)
   map13    | 0.5 / 0.2 | 0.5 / 0.2 | 0.5 / 0.2 | 0.64/0.14 | 4 Fraktionen
   map13_2  | 0.3 / 0.1 | 0.3 / 0.1 | 0.3 / 0.1 | 0.9 / 0.1| 4 Fraktionen
-  map14    | 0.1 / 0.1 | 0.6 / 0.3 | —         | —         | 2 Fraktionen
-  map15    | FEHLT     | FEHLT     | FEHLT     | —         | kein commander_ai
-  map16    | 0.4 / 0.3 | 0.6 / 0.3 | 0.8 / 0.18| —         | 3 Fraktionen
-  map18    | 0.1 / 0.2 | 0.6 / 0.2 | —         | —         | 2 Fraktionen
-  map19    | 0.6 / 0.2 | 0.6 / 0.2 | —         | —         | 2 Fraktionen
-  lobby    | FEHLT     | FEHLT     | —         | —         | Tutorial/Lobby
+  map14    | 0.1 / 0.1 | 0.6 / 0.3 | -         | -         | 2 Fraktionen
+  map15    | FEHLT     | FEHLT     | FEHLT     | -         | kein commander_ai
+  map16    | 0.4 / 0.3 | 0.6 / 0.3 | 0.8 / 0.18| -         | 3 Fraktionen
+  map18    | 0.1 / 0.2 | 0.6 / 0.2 | -         | -         | 2 Fraktionen
+  map19    | 0.6 / 0.2 | 0.6 / 0.2 | -         | -         | 2 Fraktionen
+  lobby    | FEHLT     | FEHLT     | -         | -         | Tutorial/Lobby
 
   FEHLT = init_match.xml enthaelt keinen commander_ai fuer diese Map/Fraktion
           → Fallback verwenden.
