@@ -1,13 +1,15 @@
-// Faction-Alive-HUD-Tracker: Zeigt pro Fraktion "alive / effectiveCap (bases)" in Fraktionsfarbe.
-// Format: "42 / 180 (5)" — alive / effective capacity (Anzahl Basen)
-// Mit RespawnSlotDelayTracker: effectiveCap = gecachte effektive Kapazität, bases = Basen-Anzahl.
-// Ohne Tracker: effectiveCap = rohe soldier_capacity aus Engine, bases entfällt.
+// Faction-Alive-HUD-Tracker: Zeigt pro Fraktion "alive / effectiveCap" in Fraktionsfarbe.
+// Format ohne Bases: "42 / 180"  — Format mit Bases: "42 / 180 (5)"
+// Mit RespawnSlotDelayTracker: effectiveCap = gecachte effektive Kapazität.
+// Ohne Tracker: effectiveCap = rohe soldier_capacity aus Engine.
 // Throttle: max. 1x/s — getCharacters ist ein Engine-Query, sparsam einsetzen.
 //
-// Commands:
-//   /hud       – zeigt Status + verfügbare Befehle (jeder Spieler)
-//   /hud on    – HUD einschalten (nur Admin, betrifft alle Spieler)
-//   /hud off   – HUD ausschalten (nur Admin, betrifft alle Spieler)
+// Default: HUD AUS, Basen-Anzeige AUS.
+// Commands (Admin):
+//   /hud         – Status + verfügbare Befehle (jeder Spieler)
+//   /hud on      – HUD einschalten
+//   /hud off     – HUD ausschalten
+//   /hud bases   – Basen-Anzeige "(x)" ein-/ausschalten (Toggle)
 
 #include "tracker.as"
 #include "log.as"
@@ -21,7 +23,8 @@ class FactionAliveHudTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected RespawnSlotDelayTracker@ m_respawnTracker;  // optional; liefert effectiveCap + bases
 	protected float m_accum = 0.0f;
-	protected bool m_enabled = true;  // per /hud on|off steuerbar
+	protected bool m_enabled      = false;  // Default AUS; per /hud on einschalten
+	protected bool m_showBases    = false;  // Default ohne Basen-Anzeige; /hud bases togglet
 
 	FactionAliveHudTracker(Metagame@ metagame, RespawnSlotDelayTracker@ respawnTracker = null) {
 		@m_metagame = @metagame;
@@ -89,33 +92,41 @@ class FactionAliveHudTracker : Tracker {
 		string sub = (params.size() > 0) ? params[0].toLowerCase() : "";
 
 		// Status-Abfrage ist für jeden erlaubt
-		if (sub != "on" && sub != "off") {
-			string status = m_enabled ? "AN" : "AUS";
-			sendPrivateMessage(m_metagame, playerId, "[HUD] Status: " + status + " | Admin-Befehle: /hud on  /hud off");
+		if (sub != "on" && sub != "off" && sub != "bases") {
+			string status  = m_enabled   ? "AN"  : "AUS";
+			string bases   = m_showBases ? "AN"  : "AUS";
+			sendPrivateMessage(m_metagame, playerId,
+				"[HUD] Status: " + status + " | Bases: " + bases +
+				" | Befehle: /hud on  /hud off  /hud bases");
 			return;
 		}
 
-		// on/off nur für Admins – betrifft alle Spieler gleichzeitig
+		// on/off/bases nur für Admins – betrifft alle Spieler gleichzeitig
 		if (!m_metagame.getAdminManager().isAdmin(playerName, playerId)) {
-			sendPrivateMessage(m_metagame, playerId, "[HUD] Nur Admins können das HUD umschalten (gilt fuer alle Spieler).");
+			sendPrivateMessage(m_metagame, playerId, "[HUD] Nur Admins koennen das HUD umschalten (gilt fuer alle Spieler).");
 			return;
 		}
 
 		if (sub == "on") {
 			setEnabled(true);
 			sendPrivateMessage(m_metagame, playerId, "[HUD] Fraktions-HUD eingeschaltet.");
-		} else {
+		} else if (sub == "off") {
 			setEnabled(false);
 			sendPrivateMessage(m_metagame, playerId, "[HUD] Fraktions-HUD ausgeschaltet.");
+		} else {
+			m_showBases = !m_showBases;
+			string state = m_showBases ? "AN" : "AUS";
+			sendPrivateMessage(m_metagame, playerId, "[HUD] Basen-Anzeige: " + state + ".");
 		}
 	}
 
-	// Baut den Anzeigetext: "alive / cap (bases)" mit Tracker, sonst nur "alive / rawCap"
+	// Baut den Anzeigetext: "alive / cap" oder "alive / cap (bases)" je nach m_showBases
 	private string buildHudText(int fid, int alive) {
 		if (m_respawnTracker !is null) {
-			int cap   = m_respawnTracker.getEffectiveCapacityForFaction(fid);
-			int bases = m_respawnTracker.getBasesForFactionCached(fid);
-			return "" + alive + "/" + cap + " (" + bases + ")";
+			int cap = m_respawnTracker.getEffectiveCapacityForFaction(fid);
+			string text = "" + alive + "/" + cap;
+			if (m_showBases) text += " (" + m_respawnTracker.getBasesForFactionCached(fid) + ")";
+			return text;
 		}
 		// Fallback ohne Tracker: rohe Engine-Capacity
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
