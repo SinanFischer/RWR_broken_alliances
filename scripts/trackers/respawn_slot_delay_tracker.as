@@ -1,14 +1,16 @@
 // Respawn-Slot-Delay: Nach Tod bleibt ein Spawn-Slot X Sekunden „besetzt" → capacity_multiplier sinkt.
-// Mechanismus: mult = (liveCount - reserved) / liveCount
-//   liveCount  = aktuell lebende Soldaten der Fraktion (echte Feldstärke, nicht XML-soldier_capacity)
+// Zweiter Hebel: spawn_interval = 60s wenn liveCount >= effectiveCap (Fraktion ist voll/drüber).
+// Mechanismus: mult = (nativeCap - reserved) / nativeCap
+//   nativeCap  = (xmlCap / sumXmlCap) × peakTotalLive  — stabiler Proxy für max_soldiers-Anteil
 //   reserved   = Anzahl noch aktiver Slot-Ablaufzeitstempel nach Toden
 //
-// Warum liveCount statt soldier_capacity:
-//   Die Engine verteilt max_soldiers proportional auf Fraktionen; soldier_capacity ist nur ein
-//   Gewichtungsfaktor, keine absolute Feldstärke. capacity_multiplier skaliert diesen Anteil.
-//   Nur mit liveCount als Basis ergibt sich ein sinnvoller Multiplikator.
+// Warum peakTotalLive statt liveCount:
+//   capacity_multiplier skaliert die Engine-interne Kapazität (xmlCap-proportionaler Anteil an max_soldiers).
+//   liveCount sinkt durch Drosselung → würde den Nenner verkleinern → Feedback-Loop → Block hebt sich auf.
+//   peakTotalLive = höchster je beobachteter totalLive-Wert, wird nur nach oben aktualisiert.
+//   So bleibt der Nenner stabil und mult wirkt tatsächlich als Spawn-Bremse.
 //
-// Fraktion mit ≤1 Basis: Slotblock immer AUS → mult = 1.0 (unabhängig von anderen Fraktionen).
+// Fraktion mit ≤1 Basis: Slotblock immer AUS → mult = 1.0, spawn_interval = SPAWN_INTERVAL_NORMAL.
 //
 // Timestamps: Gespeichert wird der Ablaufzeitpunkt (expireTime = now + delay), nicht der Todeszeitpunkt.
 //
@@ -21,6 +23,8 @@ const int   TROOPS_PER_EXTRA_BLOCK      = 25;      // pro 25 Truppen Vorsprung �
 const float EXTRA_SECONDS_PER_BLOCK     =  4.0f;   // … +4 s Slot-Delay
 const float APPLY_INTERVAL             =  1.0f;   // s, wie oft capacity_multiplier gesendet wird
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f; // Engine-Minimum (Fraktion nicht ignorieren)
+const float SPAWN_INTERVAL_NORMAL      =  0.2f;   // s, normaler Respawn-Takt (Engine-Default ~0.05–0.2)
+const float SPAWN_INTERVAL_BLOCKED     = 60.0f;   // s, Respawn-Takt wenn Slots geblockt sind
 // Slots pro Tod: XML-soldier_capacity <70→1, 70–120→2, 121–200→3, 201–250→4, 251–299→5, ≥300→6; Führer +2.
 //
 // --- BalanceCompensator-Konfiguration ---
@@ -28,7 +32,7 @@ const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f; // Engine-Minimum (Fraktio
 // Greift erst ab BALANCE_RATIO_THRESHOLD. Ziel-Mult wird sanft per Lerp aufgebaut,
 // aber sofort auf 1.0 zurückgesetzt wenn das Verhältnis wieder unter den Threshold fällt.
 // Funktioniert für 1v1 und 1v1v1: jede Fraktion wird relativ zur stärksten bewertet.
-const float BALANCE_RATIO_THRESHOLD = 2.5f;  // ab diesem Verhältnis (stärkste/schwächste) greift der Kompensator
+const float BALANCE_RATIO_THRESHOLD = 3.5f;  // ab diesem Verhältnis (stärkste/schwächste) greift der Kompensator
 const float BALANCE_MAX_MULT        = 3.0f;  // maximaler capacity_multiplier (Engine-Max ist 4.0)
 const float BALANCE_LERP_SPEED      = 0.03f; // pro Sekunde Aufbaugeschwindigkeit (sanft, kein Sprung)
 
@@ -361,8 +365,6 @@ class RespawnSlotDelayTracker : Tracker {
 				if (reserved <= 0 || nativeCap <= 0.0f) {
 					mult = 1.0f;
 				} else {
-					// Korrekte Formel: mult × nativeCap = nativeCap - reserved
-					// → Engine spawnt exakt bis (nativeCap - reserved) Soldaten
 					float targetCap = nativeCap - float(reserved);
 					if (targetCap < 0.0f) targetCap = 0.0f;
 					mult = targetCap / nativeCap;
@@ -376,8 +378,15 @@ class RespawnSlotDelayTracker : Tracker {
 				_log("RespawnSlotDelay+Balance: fid=" + fid + " slotMult=" + mult + " balanceMult=" + balanceMult, 1);
 				mult = balanceMult;
 			}
+			// spawn_interval: 60s wenn liveCount >= effectiveCap (Fraktion ist voll oder drüber).
+			// Sobald Soldaten unter die effektive Kapazität fallen, normaler Takt.
+			int effectiveCap = getEffectiveCapacityForFaction(fid);
+			int liveCount    = getLiveCount(fid);
+			bool throttle    = (effectiveCap > 0 && liveCount >= effectiveCap);
 			XmlElement faction("faction");
 			faction.setFloatAttribute("capacity_multiplier", mult);
+			faction.setFloatAttribute("spawn_interval", throttle ? SPAWN_INTERVAL_BLOCKED : SPAWN_INTERVAL_NORMAL);
+			if (throttle) _log("RespawnSlotDelay: fid=" + fid + " THROTTLE live=" + liveCount + " >= cap=" + effectiveCap, 1);
 			command.appendChild(faction);
 		}
 		m_metagame.getComms().send(command);
