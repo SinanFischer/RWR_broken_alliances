@@ -68,6 +68,8 @@ class RespawnSlotDelayTracker : Tracker {
 
 	// BalanceCompensator: aktuell angewendeter Kompensations-Multiplikator pro Fraktion (geglättet per Lerp)
 	protected dictionary m_balanceMult;
+	// Einmal-Flag: key vorhanden = Kompensator für diese Fraktion bereits verbraucht (nie mehr aktivierbar)
+	protected dictionary m_balanceBurned;
 
 	RespawnSlotDelayTracker(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -183,16 +185,31 @@ class RespawnSlotDelayTracker : Tracker {
 	}
 
 	// Lerp-Aufbau wenn ratio > threshold, sofortiger Reset wenn ratio darunter fällt.
+	// Einmal-Aktivierung: Sobald der Kompensator für eine Fraktion aktiv war und wieder deaktiviert wird,
+	// wird sie in m_balanceBurned eingetragen und reagiert nie wieder auf den Kompensator.
 	void updateBalanceMults(int maxAlive) {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null) return;
 		for (uint i = 0; i < factions.size(); ++i) {
 			string key = factionKey(int(i));
+
+			// Einmal-Flag: key vorhanden = bereits verbraucht → dauerhaft deaktiviert
+			if (m_balanceBurned.exists(key)) {
+				m_balanceMult[key] = 1.0f;
+				continue;
+			}
+
 			float current = m_balanceMult.exists(key) ? float(m_balanceMult[key]) : 1.0f;
 			float target  = calcBalanceTargetMult(int(i), maxAlive);
 			float next;
 			if (target <= 1.0f) {
-				next = 1.0f; // sofort deaktivieren wenn Verhältnis wieder normal
+				// War der Kompensator aktiv und das Verhältnis normalisiert sich jetzt?
+				// → Einmal-Flag setzen: dieser Slot ist für immer verbraucht.
+				if (current > 1.01f) {
+					m_balanceBurned[key] = 1;
+					_log("BalanceComp: fid=" + i + " BURNED – einmalige Aktivierung verbraucht", 1);
+				}
+				next = 1.0f;
 			} else {
 				next = current + (target - current) * BALANCE_LERP_SPEED * ALIVE_CHECK_INTERVAL;
 			}
