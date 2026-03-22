@@ -362,7 +362,7 @@ class CommanderAiAdaptiveTracker : Tracker {
 				break;
 			}
 		}
-		string feedback = "[AI] " + label + " → " + fName
+		string feedback = "[AI] " + label + " " + fName
 			+ (triggered > 0 ? " gestartet." : " - Fraktion nicht gefunden.");
 		sendPrivateMessage(m_metagame, playerId, feedback);
 	}

@@ -72,7 +72,7 @@
 	<weapon key='minig_resource.weapon' /> 
 	<weapon key='mortar_resource.weapon' /> 
 	<weapon key='mortar_resource_extended.weapon' />
-	<weapon key='mortar_extended.weapon' />
+	<!-- <weapon key='mortar_extended.weapon' /> -->
 	<vehicle key='mortar_extended.vehicle' />
 	<weapon key='tow_resource.weapon' enabled="0" />  
 	<weapon key='gl_resource.weapon' /> 
