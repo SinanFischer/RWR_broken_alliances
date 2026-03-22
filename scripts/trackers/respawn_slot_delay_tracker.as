@@ -22,9 +22,9 @@ const int   TROOPS_PER_EXTRA_BLOCK      = 25;      // pro 25 Truppen Vorsprung �
 const float EXTRA_SECONDS_PER_BLOCK     =  4.0f;   // … +4 s Slot-Delay
 const float APPLY_INTERVAL             =  1.0f;   // s, wie oft capacity_multiplier gesendet wird
 const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f; // Engine-Minimum (Fraktion nicht ignorieren)
-const float SPAWN_INTERVAL_NORMAL      =  0.2f;   // s, normaler Respawn-Takt (Engine-Default ~0.05–0.2)
+const float SPAWN_INTERVAL_NORMAL      =  0.5f;   // s, normaler Respawn-Takt (Engine-Default ~0.05-0.2)
 const float SPAWN_INTERVAL_BLOCKED     = 60.0f;   // s, Respawn-Takt wenn Slots geblockt sind
-// Slots pro Tod: XML-soldier_capacity <70→1, 70–120→2, 121–200→3, 201–250→4, 251–299→5, ≥300→6; Führer +2.
+// Slots pro Tod: XML-soldier_capacity <70→1, 70-120→2, 121-200→3, 201-250→4, 251-299→5, ≥300→6; Führer +2.
 //
 // --- BalanceCompensator-Konfiguration ---
 // Gleicht extreme Alive-Verhältnisse automatisch aus (z.B. 11 vs 80 = 1:7).
@@ -35,14 +35,30 @@ const float SPAWN_INTERVAL_BLOCKED     = 60.0f;   // s, Respawn-Takt wenn Slots 
 const float BALANCE_RATIO_THRESHOLD = 3.0f;  // ab diesem Verhältnis (stärkste/schwächste) greift der Kompensator
 const float BALANCE_MAX_MULT        = 3.0f;  // maximaler capacity_multiplier (Engine-Max ist 4.0)
 const float BALANCE_LERP_SPEED      = 0.03f; // pro Sekunde Aufbaugeschwindigkeit (sanft, kein Sprung)
+//
+// --- Commander-Funk-Konfiguration ---
+// Nachrichten werden zweimal gesendet: sofort + BALANCE_MSG_DELAY_SECONDS später.
+// Frühe Phase = erste BALANCE_MSG_EARLY_PHASE_SECONDS der Spielzeit.
+const float BALANCE_MSG_EARLY_PHASE_SECONDS = 600.0f; // 10 Minuten: vor/nach diesem Wert unterscheiden sich die Texte
+const float BALANCE_MSG_DELAY_SECONDS       =  10.0f; // Verzögerung für die zweite Nachricht
 
 #include "tracker.as"
 #include "log.as"
 #include "query_helpers.as"
 
 // ---------------------------------------------------------------------------
+// PendingMessage: zeitverzögerter Commander-Funk-Eintrag.
+// sendAt = absoluter m_timeAccum-Wert, ab dem die Nachricht gesendet wird.
+// ---------------------------------------------------------------------------
+class PendingMessage {
+    float  sendAt    = 0.0f;
+    int    factionId = -1;   // Ziel-Fraktion (-1 = alle)
+    string message   = "";
+}
+
+// ---------------------------------------------------------------------------
 // FactionState: gesamter per-Fraktion-Zustand an einem Ort.
-// Kein dictionary-Cast-Roulette mehr – alle Typen sind statisch deklariert.
+// Kein dictionary-Cast-Roulette mehr - alle Typen sind statisch deklariert.
 // Neue Felder hinzufügen: hier eintragen, fertig.
 // ---------------------------------------------------------------------------
 class FactionState {
@@ -50,7 +66,7 @@ class FactionState {
 
     // --- Snapshot aus refreshAliveBasedData() ---
     int          liveCount            = 0;
-    int          xmlCapacity          = 0;   // soldier_capacity aus XML (Größenindikator)
+    int          xmlCapacity          = 0;    // soldier_capacity aus XML (Größenindikator)
     float        nativeCap            = 0.0f; // proportionaler Anteil an totalLive
     int          bases                = 0;
     float        extraDelaySeconds    = 0.0f; // Bonus-Delay wegen Truppenvorteil
@@ -68,8 +84,9 @@ class FactionState {
     float        totalSlotSecondsBlocked = 0.0f;
 
     // --- BalanceCompensator ---
-    float        balanceMult          = 1.0f;
-    bool         balanceBurned        = false; // true = Kompensator einmalig verbraucht, nie wieder aktiv
+    float        balanceMult              = 1.0f;
+    bool         balanceBurned            = false; // true = einmalig verbraucht, nie wieder aktiv
+    bool         balanceMsgSent           = false; // true = Commander-Funk für diese Aktivierung bereits gesendet
 }
 
 // ---------------------------------------------------------------------------
@@ -82,8 +99,11 @@ class RespawnSlotDelayTracker : Tracker {
     protected float m_aliveCheckAccum = 0.0f;
 
     // Einziger Container für alle Fraktionsdaten.
-    // Index entspricht factionId (array wird in refreshAliveBasedData ggf. erweitert).
+    // Index entspricht factionId (array wird in getState() bei Bedarf erweitert).
     protected array<FactionState@> m_factions;
+
+    // Warteschlange für zeitverzögerte Commander-Funk-Nachrichten.
+    protected array<PendingMessage@> m_pendingMessages;
 
     RespawnSlotDelayTracker(Metagame@ metagame) {
         @m_metagame = @metagame;
@@ -101,6 +121,7 @@ class RespawnSlotDelayTracker : Tracker {
     void update(float time) {
         m_timeAccum += time;
         flushPendingDeaths();
+        flushPendingMessages();
 
         m_aliveCheckAccum += time;
         if (m_aliveCheckAccum >= ALIVE_CHECK_INTERVAL) {
@@ -120,7 +141,6 @@ class RespawnSlotDelayTracker : Tracker {
 
     // Gibt den FactionState für factionId zurück, legt ihn bei Bedarf an.
     FactionState@ getState(int factionId) {
-        // Array auf Mindestgröße bringen
         while (int(m_factions.size()) <= factionId) {
             FactionState@ s = FactionState();
             s.factionId = int(m_factions.size());
@@ -130,7 +150,7 @@ class RespawnSlotDelayTracker : Tracker {
     }
 
     // =========================================================================
-    // REFRESH – liest Engine-Daten und befüllt alle FactionStates
+    // REFRESH - liest Engine-Daten und befüllt alle FactionStates
     // =========================================================================
 
     void refreshAliveBasedData() {
@@ -159,8 +179,8 @@ class RespawnSlotDelayTracker : Tracker {
 
         // Pass 3: FactionStates aktualisieren
         for (uint i = 0; i < factions.size(); ++i) {
-            int fid   = int(i);
-            int alive = aliveCounts[i];
+            int fid    = int(i);
+            int alive  = aliveCounts[i];
             int xmlCap = factions[i].getIntAttribute("soldier_capacity");
 
             FactionState@ s = getState(fid);
@@ -193,6 +213,7 @@ class RespawnSlotDelayTracker : Tracker {
     }
 
     // Aktualisiert balanceMult per Lerp; setzt Burned-Flag beim Deaktivieren.
+    // Erkennt außerdem die erste Aktivierung und löst den Commander-Funk aus.
     void updateBalanceMult(FactionState@ s, int maxAlive) {
         if (s.balanceBurned) {
             s.balanceMult = 1.0f; // einmalig verbraucht: nie wieder aktiv
@@ -203,14 +224,115 @@ class RespawnSlotDelayTracker : Tracker {
             if (s.balanceMult > 1.01f) {
                 // War aktiv, wird jetzt inaktiv → einmaligen Slot verbrauchen
                 s.balanceBurned = true;
-                _log("BalanceComp: fid=" + s.factionId + " BURNED – einmalige Aktivierung verbraucht", 1);
+                _log("BalanceComp: fid=" + s.factionId + " BURNED - einmalige Aktivierung verbraucht", 1);
             }
             s.balanceMult = 1.0f;
         } else {
+            // Erste Aktivierung: Commander-Funk auslösen (genau einmal pro Fraktion)
+            if (!s.balanceMsgSent) {
+                s.balanceMsgSent = true;
+                sendCompensatorMessages(s);
+            }
             s.balanceMult += (target - s.balanceMult) * BALANCE_LERP_SPEED * ALIVE_CHECK_INTERVAL;
             _log("BalanceComp: fid=" + s.factionId + " alive=" + s.liveCount
                 + " maxAlive=" + maxAlive + " target=" + target + " mult=" + s.balanceMult, 1);
         }
+    }
+
+    // =========================================================================
+    // COMMANDER-FUNK - Nachrichten beim Aktivieren des Kompensators
+    // =========================================================================
+
+    // Sendet sofort + verzögert zwei Nachrichtenpakete:
+    // - An die Fraktion selbst (Ich-Perspektive): Truppennachschub / Mobilmachung
+    // - Global für alle anderen (Geheimdienstperspektive): Feind hat Nachschub / Mobilmachung
+    void sendCompensatorMessages(FactionState@ s) {
+        string name         = getFactionName(s.factionId);
+        bool   isEarlyGame  = (m_timeAccum < BALANCE_MSG_EARLY_PHASE_SECONDS);
+
+        if (isEarlyGame) {
+            // --- Early phase (< 10 min): fresh reinforcements from command ---
+
+            postFactionMessage(s.factionId,
+                "HQ to " + name + ": We have received massive troop reinforcements. Prepare for a major offensive!");
+            postGlobalExceptFaction(s.factionId,
+                "Intercepted transmission: " + name + " has received major reinforcements. Brace for a large-scale assault!");
+
+            scheduleMessageToFaction(s.factionId, BALANCE_MSG_DELAY_SECONDS,
+                name + " HQ: All units - move out! Give everything you have!");
+            scheduleMessageGlobalExceptFaction(s.factionId, BALANCE_MSG_DELAY_SECONDS,
+                "Warning: " + name + " is launching a full assault. Hold all positions!");
+
+        } else {
+            // --- Late phase (> 10 min): last reserves - all or nothing ---
+
+            postFactionMessage(s.factionId,
+                "HQ to " + name + ": Our last reserves have been mobilised. Prepare for a final counter-attack!");
+            postGlobalExceptFaction(s.factionId,
+                "Intelligence report: " + name + " has completed their final mobilisation. Expect an imminent counter-attack!");
+
+            scheduleMessageToFaction(s.factionId, BALANCE_MSG_DELAY_SECONDS,
+                name + ": Soldiers, this is our last major push - give it everything!");
+            scheduleMessageGlobalExceptFaction(s.factionId, BALANCE_MSG_DELAY_SECONDS,
+                "The enemy (" + name + ") is making their final push. All units - hold the line!");
+        }
+    }
+
+    // Sendet eine Nachricht nur an Spieler einer bestimmten Fraktion.
+    // Nutzt sendFactionMessage aus query_helpers.as - identisch zur reinforcement_pool_tracker-Logik.
+    void postFactionMessage(int factionId, string message) {
+        sendFactionMessage(m_metagame, factionId, message, 0.95);
+    }
+
+    // Sendet eine Nachricht an alle Fraktionen außer der angegebenen.
+    void postGlobalExceptFaction(int excludeFactionId, string message) {
+        array<const XmlElement@>@ factions = getFactions(m_metagame);
+        if (factions is null) return;
+        for (uint i = 0; i < factions.size(); ++i) {
+            if (int(i) == excludeFactionId) continue;
+            sendFactionMessage(m_metagame, int(i), message, 0.95);
+        }
+    }
+
+    // Stellt eine verzögerte Nachricht an eine Fraktion in die Warteschlange.
+    void scheduleMessageToFaction(int factionId, float delaySeconds, string message) {
+        PendingMessage@ pm = PendingMessage();
+        pm.sendAt    = m_timeAccum + delaySeconds;
+        pm.factionId = factionId;
+        pm.message   = message;
+        m_pendingMessages.insertLast(pm);
+    }
+
+    // Stellt verzögerte Nachrichten an alle Fraktionen außer einer in die Warteschlange.
+    void scheduleMessageGlobalExceptFaction(int excludeFactionId, float delaySeconds, string message) {
+        array<const XmlElement@>@ factions = getFactions(m_metagame);
+        if (factions is null) return;
+        for (uint i = 0; i < factions.size(); ++i) {
+            if (int(i) == excludeFactionId) continue;
+            scheduleMessageToFaction(int(i), delaySeconds, message);
+        }
+    }
+
+    // Verarbeitet die Warteschlange und sendet fällige Nachrichten.
+    void flushPendingMessages() {
+        if (m_pendingMessages.size() == 0) return;
+        array<PendingMessage@> remaining;
+        for (uint i = 0; i < m_pendingMessages.size(); ++i) {
+            PendingMessage@ pm = m_pendingMessages[i];
+            if (pm.sendAt <= m_timeAccum) {
+                sendFactionMessage(m_metagame, pm.factionId, pm.message, 0.95);
+            } else {
+                remaining.insertLast(pm);
+            }
+        }
+        m_pendingMessages = remaining;
+    }
+
+    // Liest den Fraktionsnamen aus dem XML (für Nachrichten-Texte).
+    string getFactionName(int factionId) {
+        array<const XmlElement@>@ factions = getFactions(m_metagame);
+        if (factions is null || factionId < 0 || uint(factionId) >= factions.size()) return "Unbekannt";
+        return factions[factionId].getStringAttribute("name");
     }
 
     // =========================================================================
@@ -260,7 +382,6 @@ class RespawnSlotDelayTracker : Tracker {
 
             s.totalSlotSecondsBlocked += float(n) * float(slotsPerDeath) * delay;
 
-            // n Tode × slotsPerDeath Einträge hinzufügen
             for (int j = 0; j < n * slotsPerDeath; ++j)
                 s.slotExpireTimes.insertLast(expireTime);
         }
@@ -288,7 +409,7 @@ class RespawnSlotDelayTracker : Tracker {
     // MULTIPLIER-BERECHNUNG (zwei klar getrennte Stufen)
     // =========================================================================
 
-    // Stufe 1 – Slot-Bremse: wie stark drosselt der Slot-Delay den Spawn?
+    // Stufe 1 - Slot-Bremse: wie stark drosselt der Slot-Delay den Spawn?
     float calcSlotMult(FactionState@ s) {
         if (!isSlotBlockEnabled(s)) return 1.0f;
         int reserved = countReservedSlots(s);
@@ -302,7 +423,7 @@ class RespawnSlotDelayTracker : Tracker {
         return mult;
     }
 
-    // Stufe 2 – Finaler Mult: Balance-Boost gewinnt wenn er höher ist als Slot-Bremse.
+    // Stufe 2 - Finaler Mult: Balance-Boost gewinnt wenn er höher ist als Slot-Bremse.
     // Regel: der höhere Wert gewinnt (Slot bremst nach unten, Balance hebt nach oben).
     float calcFinalMult(FactionState@ s) {
         float slotMult    = calcSlotMult(s);
@@ -323,7 +444,7 @@ class RespawnSlotDelayTracker : Tracker {
     }
 
     // =========================================================================
-    // APPLY – sendet capacity_multiplier und spawn_interval an die Engine
+    // APPLY - sendet capacity_multiplier und spawn_interval an die Engine
     // =========================================================================
 
     void applyCapacityWithReservedSlots() {
@@ -333,10 +454,10 @@ class RespawnSlotDelayTracker : Tracker {
         XmlElement command("command");
         command.setStringAttribute("class", "change_game_settings");
         for (uint i = 0; i < factions.size(); ++i) {
-            FactionState@ s  = getState(int(i));
-            float mult        = calcFinalMult(s);
+            FactionState@ s    = getState(int(i));
+            float mult         = calcFinalMult(s);
             int   effectiveCap = calcEffectiveCapacity(s);
-            bool  throttle    = (effectiveCap > 0 && s.liveCount >= effectiveCap);
+            bool  throttle     = (effectiveCap > 0 && s.liveCount >= effectiveCap);
 
             XmlElement faction("faction");
             faction.setFloatAttribute("capacity_multiplier", mult);
@@ -373,7 +494,7 @@ class RespawnSlotDelayTracker : Tracker {
     }
 
     // =========================================================================
-    // LEGACY API – Wrapper für externe Tracker-Aufrufer.
+    // LEGACY API - Wrapper für externe Tracker-Aufrufer.
     // Nicht intern verwenden; stattdessen getState(fid).field direkt nutzen.
     // =========================================================================
 

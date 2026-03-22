@@ -36,6 +36,6 @@ const float AI_BASE_DEF_GRAND_ASSAULT   = 0.25f;
 const float AI_BORDER_DEF_GRAND_ASSAULT = 0.15f;
 
 // --- Radio-Nachrichten bei Event-Start ---
-const string AI_RADIO_DEFENSIVE_PAUSE = "Command to all - pull back immediately. Defensive positions only. Out.";
-const string AI_RADIO_GRAND_ASSAULT   = "All units - full assault. Push every line. For glory. Out.";
-const string AI_RADIO_REVERT          = "Command - returning to standard operational posture. Out.";
+const string AI_RADIO_DEFENSIVE_PAUSE = "Command to all - pull back immediately. Defensive positions only. ";
+const string AI_RADIO_GRAND_ASSAULT   = "All units - full assault. Push every line.";
+const string AI_RADIO_REVERT          = "Command - returning to standard operational posture.";
