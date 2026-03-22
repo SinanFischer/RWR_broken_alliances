@@ -15,7 +15,7 @@
 // Timestamps: Gespeichert wird der Ablaufzeitpunkt (expireTime = now + delay), nicht der Todeszeitpunkt.
 //
 // --- Konfiguration ---
-const float RESPAWN_SLOT_DELAY          = 15.0f;   // s, 3+ Basen
+const float RESPAWN_SLOT_DELAY          = 10.0f;   // s, 3+ Basen
 const float RESPAWN_SLOT_DELAY_2_BASES  =  5.0f;   // s, 2 Basen
 const float RESPAWN_SLOT_DELAY_1_BASE   =  2.0f;   // s, 1 Basis
 const float ALIVE_CHECK_INTERVAL        = 15.0f;   // s, Intervall für Alive/Basen-Update
@@ -32,7 +32,7 @@ const float SPAWN_INTERVAL_BLOCKED     = 60.0f;   // s, Respawn-Takt wenn Slots 
 // Greift erst ab BALANCE_RATIO_THRESHOLD. Ziel-Mult wird sanft per Lerp aufgebaut,
 // aber sofort auf 1.0 zurückgesetzt wenn das Verhältnis wieder unter den Threshold fällt.
 // Funktioniert für 1v1 und 1v1v1: jede Fraktion wird relativ zur stärksten bewertet.
-const float BALANCE_RATIO_THRESHOLD = 3.5f;  // ab diesem Verhältnis (stärkste/schwächste) greift der Kompensator
+const float BALANCE_RATIO_THRESHOLD = 3.0f;  // ab diesem Verhältnis (stärkste/schwächste) greift der Kompensator
 const float BALANCE_MAX_MULT        = 3.0f;  // maximaler capacity_multiplier (Engine-Max ist 4.0)
 const float BALANCE_LERP_SPEED      = 0.03f; // pro Sekunde Aufbaugeschwindigkeit (sanft, kein Sprung)
 

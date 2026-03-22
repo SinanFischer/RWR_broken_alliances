@@ -6,7 +6,7 @@
   accuracy_factor="0.80" 
   sustained_fire_grow_step="0.26" 
   sustained_fire_diminish_rate="1.22" 
-  magazine_size="48" 
+  magazine_size="30" 
   can_shoot_standing="0"
   can_shoot_crouching="1" 
   suppressed="0" 
