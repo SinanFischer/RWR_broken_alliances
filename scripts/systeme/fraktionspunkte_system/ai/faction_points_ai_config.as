@@ -32,22 +32,25 @@ const float FP_AI_EVENT3_CHANCE = 0.25f;  // 25%
 //   --------  -------   -----------------------------------------
 //   event2    0.2       Company Attack  — grosse Offensive
 //   event4    0.6       Base Reinforcement — Fallschirmjaeger
-//   event5    0.5       Vehicle Support — Panzerfahrzeug
+//   event5    0.5       Vehicle Support — mittleres Fahrzeug
+//   event6    0.3       Heavy Armour — schweres Fahrzeug (nur bei > 3 Basen)
 //   save      0.3       Spar-Phase (kein Kauf, 2 Minuten warten)
 //
 // ACHTUNG: Token-Strings muessen mit den Event-Konstanten (FP_EVENTx_TOKEN) uebereinstimmen.
 //
-const int   FP_AI_SPARE_POOL_SIZE = 4;  // Anzahl Eintraege in den Arrays unten (muss stimmen)
+const int   FP_AI_SPARE_POOL_SIZE = 5;  // Anzahl Eintraege in den Arrays unten (muss stimmen)
 
 const string FP_AI_SPARE_TOKENS_0 = "event2";
 const string FP_AI_SPARE_TOKENS_1 = "event4";
 const string FP_AI_SPARE_TOKENS_2 = "event5";
-const string FP_AI_SPARE_TOKENS_3 = "save";
+const string FP_AI_SPARE_TOKENS_3 = "event6";
+const string FP_AI_SPARE_TOKENS_4 = "save";
 
 const float FP_AI_SPARE_WEIGHTS_0 = 0.2f;
 const float FP_AI_SPARE_WEIGHTS_1 = 0.6f;
 const float FP_AI_SPARE_WEIGHTS_2 = 0.5f;
 const float FP_AI_SPARE_WEIGHTS_3 = 0.3f;
+const float FP_AI_SPARE_WEIGHTS_4 = 0.3f;
 
 const float FP_AI_SAVE_DURATION = 120.0f;  // Spar-Phase: 2 Minuten, dann neuer Roll
 

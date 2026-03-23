@@ -34,6 +34,11 @@
 | `/ai_defend` | KI-Verteidigung auslösen |
 | `/ai_status` | KI-Status anzeigen |
 
+### Calls 
+Information list of all calls: 
+
+
+
 ### Faction Points System
 
 **FP income** (tune in `faction_points_tracker.as` + `faction_points_kill_rank.as`):
@@ -48,8 +53,9 @@
 | 1   | Support Squad      | 250 FP  | Player (squad ≤ 2 men)        | Drops `paratroopers1` call at player position — small squad reinforcement             |
 | 2   | Company Attack     | 1200 FP | AI (strategic)                | 2× `paratroopers2` platoon drops flanking the nearest enemy base — large assault wave |
 | 3   | Defense Response   | 700 FP  | AI (on base loss, 25% chance) | 3× `paratroopers1` squad drops around the just-lost base — immediate counter-push     |
-| 4   | Base Reinforcement | 350 FP  | AI (strategic)                | 1× `paratroopers1` drop at a friendly base (round-robin) — steady line reinforcement  |
+| 4   | Base Reinforcement | 350 FP  | AI (strategic)                | 1× `paratroopers2` drop at a friendly base (round-robin) — steady line reinforcement  |
 | 5   | Vehicle Support    | 500 FP  | AI (strategic)                | Spawns a random medium vehicle (APC, IFV, etc.) at a friendly base                    |
+| 6   | Heavy Armour       | 1800 FP | AI (strategic, >3 bases)      | Spawns a random heavy vehicle (tank, etc.) at a friendly base — requires dominance     |
 
 **AI Decision Logic**
 

@@ -138,7 +138,9 @@ class FactionPointsAiPlanner {
 	// ── Dice Rolls ───────────────────────────────────────────────────────────────
 
 	// Waehlt naechstes Sparziel per gewichtetem Zufalls-Roll aus dem Spare-Pool (Config-Tabelle).
-	// "save" wird uebersprungen wenn Fraktion <= 2 Basen haelt (zu viel Druck zum passiven Sparen).
+	// Eligibility-Regeln:
+	//   "save"   — nur bei > 2 Basen (stabile Lage)
+	//   "event6" — nur bei > 3 Basen (Heavy Armour erfordert starke Basis)
 	protected void rollSaveTarget(int fid) {
 		int bases = getBasesForFaction(m_metagame, fid);
 
@@ -149,10 +151,11 @@ class FactionPointsAiPlanner {
 		tokens.insertLast(FP_AI_SPARE_TOKENS_1); weights.insertLast(FP_AI_SPARE_WEIGHTS_1);
 		tokens.insertLast(FP_AI_SPARE_TOKENS_2); weights.insertLast(FP_AI_SPARE_WEIGHTS_2);
 		tokens.insertLast(FP_AI_SPARE_TOKENS_3); weights.insertLast(FP_AI_SPARE_WEIGHTS_3);
+		tokens.insertLast(FP_AI_SPARE_TOKENS_4); weights.insertLast(FP_AI_SPARE_WEIGHTS_4);
 
-		// "save" nur bei stabiler Lage erlauben
 		for (uint i = 0; i < tokens.size(); ++i) {
-			if (tokens[i] == "save" && bases <= 2) weights[i] = 0.0f;
+			if (tokens[i] == "save"   && bases <= 2) weights[i] = 0.0f;
+			if (tokens[i] == "event6" && bases <= 3) weights[i] = 0.0f;
 		}
 
 		// Gesamtgewicht aufaddieren, dann Roll

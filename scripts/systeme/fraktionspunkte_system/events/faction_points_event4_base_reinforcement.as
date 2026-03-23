@@ -5,9 +5,9 @@
 const string FP_EVENT4_TOKEN                = "event4";
 const string FP_EVENT4_NAME                 = "Base Reinforcement";
 const int    FP_EVENT4_COST                 = 350;
-const string FP_EVENT4_CALL_KEY             = "paratroopers1.call";
+const string FP_EVENT4_CALL_KEY             = "paratroopers2.call";
 const float  FP_EVENT4_ANNOUNCEMENT_DELAY   = 30.0f;
-const string FP_EVENT4_FRIENDLY_ANNOUNCEMENT = "Sending Paratroopers in 30 seconds.";
+const string FP_EVENT4_FRIENDLY_ANNOUNCEMENT = "Sending 10 Paratroopers to reinforce in 30 seconds.";
 const string FP_EVENT4_FRIENDLY_EXECUTION    = "Paratroopers, jump. Good luck, guys! ";
 const string FP_EVENT4_ENEMY_ANNOUNCEMENT    = "";
 const string FP_EVENT4_ENEMY_EXECUTION       = "";
