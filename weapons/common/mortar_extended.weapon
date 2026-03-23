@@ -43,7 +43,7 @@
 
     <hud_icon filename="hud_mortar.png" />
     <commonness value="0.00008" />
-    <inventory encumbrance="11.0" price="450.0" />
+    <inventory encumbrance="22.0" price="450.0" />
 
     <effect class="muzzle" ref="LawMuzzle" />
     <effect class="muzzle" ref="UpDust" />

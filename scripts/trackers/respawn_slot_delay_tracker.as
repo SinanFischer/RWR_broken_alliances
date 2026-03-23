@@ -153,49 +153,62 @@ class RespawnSlotDelayTracker : Tracker {
     // REFRESH - liest Engine-Daten und befüllt alle FactionStates
     // =========================================================================
 
+    // Hält highest und second in einem einzigen Schritt aktuell.
+    // Durch &inout werden die Original-Variablen direkt verändert (kein Rückgabewert nötig).
+    void updateTop2AliveTracking(int newValue, int &inout highest, int &inout second) {
+        if (newValue >= highest) {
+            second  = highest;
+            highest = newValue;
+        } else if (newValue > second) {
+            second = newValue;
+        }
+    }
+
     void refreshAliveBasedData() {
         array<const XmlElement@>@ factions = getFactions(m_metagame);
         if (factions is null || factions.size() == 0) return;
 
-        // Pass 1: Alive-Counts lesen + first/second für Extra-Delay bestimmen
-        array<int> aliveCounts;
-        aliveCounts.resize(factions.size());
-        int first = 0, second = 0;
-        for (uint i = 0; i < factions.size(); ++i) {
-            array<const XmlElement@>@ chars = getCharacters(m_metagame, int(i));
-            int n = (chars is null) ? 0 : int(chars.size());
-            aliveCounts[i] = n;
-            if (n >= first) { second = first; first = n; }
-            else if (n > second) second = n;
+        // Pass 1: Alive-Counts lesen + Top-2 für Extra-Delay-Berechnung bestimmen
+        array<int> aliveCountPerFaction;
+        aliveCountPerFaction.resize(factions.size());
+        int highestAliveCount = 0;
+        int secondAliveCount  = 0;
+        for (uint factionIndex = 0; factionIndex < factions.size(); ++factionIndex) {
+            array<const XmlElement@>@ characters = getCharacters(m_metagame, int(factionIndex));
+            int aliveCount = (characters is null) ? 0 : int(characters.size());
+            aliveCountPerFaction[factionIndex] = aliveCount;
+            updateTop2AliveTracking(aliveCount, highestAliveCount, secondAliveCount);
         }
-        if (factions.size() == 1) second = first;
+        // Edge-Case: Nur eine Fraktion → kein sinnvoller zweiter Platz möglich
+        if (factions.size() == 1) secondAliveCount = highestAliveCount;
 
-        // Pass 2: Summen für nativeCap-Schätzung
-        int totalLive = 0, sumXmlCap = 0;
-        for (uint i = 0; i < factions.size(); ++i) {
-            totalLive += aliveCounts[i];
-            sumXmlCap += factions[i].getIntAttribute("soldier_capacity");
+        // Pass 2: Gesamtsummen für nativeCap-Schätzung (proportionaler Kapazitätsanteil)
+        int totalLiveAcrossAllFactions = 0;
+        int sumXmlCapacityAcrossAllFactions = 0;
+        for (uint factionIndex = 0; factionIndex < factions.size(); ++factionIndex) {
+            totalLiveAcrossAllFactions      += aliveCountPerFaction[factionIndex];
+            sumXmlCapacityAcrossAllFactions += factions[factionIndex].getIntAttribute("soldier_capacity");
         }
 
-        // Pass 3: FactionStates aktualisieren
-        for (uint i = 0; i < factions.size(); ++i) {
-            int fid    = int(i);
-            int alive  = aliveCounts[i];
-            int xmlCap = factions[i].getIntAttribute("soldier_capacity");
+        // Pass 3: FactionStates mit aktuellen Werten befüllen
+        for (uint factionIndex = 0; factionIndex < factions.size(); ++factionIndex) {
+            int factionId  = int(factionIndex);
+            int aliveCount = aliveCountPerFaction[factionIndex];
+            int xmlCap     = factions[factionIndex].getIntAttribute("soldier_capacity");
 
-            FactionState@ s = getState(fid);
-            s.liveCount   = alive;
+            FactionState@ s = getState(factionId);
+            s.liveCount   = aliveCount;
             s.xmlCapacity = xmlCap;
-            s.bases       = getBasesForFaction(m_metagame, fid);
-            s.isLeader    = (alive == first);
-            s.nativeCap   = (sumXmlCap > 0 && totalLive > 0)
-                ? float(xmlCap) / float(sumXmlCap) * float(totalLive)
-                : float(alive);
-            s.extraDelaySeconds = (alive > second)
-                ? float((alive - second) / TROOPS_PER_EXTRA_BLOCK) * EXTRA_SECONDS_PER_BLOCK
+            s.bases       = getBasesForFaction(m_metagame, factionId);
+            s.isLeader    = (aliveCount == highestAliveCount);
+            s.nativeCap   = (sumXmlCapacityAcrossAllFactions > 0 && totalLiveAcrossAllFactions > 0)
+                ? float(xmlCap) / float(sumXmlCapacityAcrossAllFactions) * float(totalLiveAcrossAllFactions)
+                : float(aliveCount);
+            s.extraDelaySeconds = (aliveCount > secondAliveCount)
+                ? float((aliveCount - secondAliveCount) / TROOPS_PER_EXTRA_BLOCK) * EXTRA_SECONDS_PER_BLOCK
                 : 0.0f;
 
-            updateBalanceMult(s, first);
+            updateBalanceMult(s, highestAliveCount);
         }
     }
 
