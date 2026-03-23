@@ -33,7 +33,7 @@ const float SPAWN_INTERVAL_BLOCKED     = 60.0f;   // s, Respawn-Takt wenn Slots 
 // wieder unter den Threshold, ist er für diese Fraktion dauerhaft deaktiviert (balanceBurned).
 // Funktioniert für 1v1 und 1v1v1: jede Fraktion wird relativ zur stärksten bewertet.
 const float BALANCE_RATIO_THRESHOLD = 3.0f;  // ab diesem Verhältnis (stärkste/schwächste) greift der Kompensator
-const float BALANCE_MAX_MULT        = 3.0f;  // maximaler capacity_multiplier (Engine-Max ist 4.0)
+const float BALANCE_MAX_MULT        = 4.0f;  // maximaler capacity_multiplier (Engine-Max ist 4.0)
 const float BALANCE_LERP_SPEED      = 0.03f; // pro Sekunde Aufbaugeschwindigkeit (sanft, kein Sprung)
 //
 // --- Commander-Funk-Konfiguration ---
