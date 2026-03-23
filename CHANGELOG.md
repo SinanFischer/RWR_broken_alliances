@@ -35,8 +35,25 @@
 | `/ai_defend` | KI-Verteidigung auslösen |
 | `/ai_status` | KI-Status anzeigen |
 
-### Faction Points System 
-- Jede Fraktion besitzt jetzt Fraktionspunkte, diese gibt sie von selbst aus. 
+### Faction Points System
+
+Each faction earns Faction Points (FP) passively over time — the more bases held, the faster they accumulate. The AI spends FP automatically; players can trigger eligible events manually via chat commands.
+
+**Events**
+
+| # | Name | Cost | Trigger | Effect |
+|---|------|------|---------|--------|
+| 1 | Support Squad | 250 FP | Player (squad ≤ 2 men) | Drops `paratroopers1` call at player position — small squad reinforcement |
+| 2 | Company Attack | 1200 FP | AI (strategic) | 2× `paratroopers2` platoon drops flanking the nearest enemy base — large assault wave |
+| 3 | Defense Response | 700 FP | AI (on base loss, 25% chance) | 3× `paratroopers1` squad drops around the just-lost base — immediate counter-push |
+| 4 | Base Reinforcement | 350 FP | AI (strategic) | 1× `paratroopers1` drop at a friendly base (round-robin) — steady line reinforcement |
+| 5 | Vehicle Support | 500 FP | AI (strategic) | Spawns a random medium vehicle (APC, IFV, etc.) at a friendly base |
+
+**AI Decision Logic**
+
+- **Every 60 s:** 5% chance to trigger Event 1 for each faction (if affordable).
+- **On base loss:** 25% chance to trigger Event 3 (if affordable).
+- **Strategic goal (weighted roll):** AI picks a saving target — Event 2 (weight 0.2), Event 4 (0.6), Event 5 (0.5), or a passive saving phase (0.3, only when holding > 2 bases). Once FP ≥ cost + random reserve (0–450), the event fires and a new goal is rolled.
 
 
 ### Slotblock System gefixt

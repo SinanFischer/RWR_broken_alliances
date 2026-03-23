@@ -137,26 +137,36 @@ class FactionPointsAiPlanner {
 
 	// ── Dice Rolls ───────────────────────────────────────────────────────────────
 
-	// Waehlt naechstes Sparziel per gewichtetem Zufalls-Roll.
-	// "save" ist nur moeglich wenn Fraktion > 2 Basen haelt (stabile Lage = kein Druck).
+	// Waehlt naechstes Sparziel per gewichtetem Zufalls-Roll aus dem Spare-Pool (Config-Tabelle).
+	// "save" wird uebersprungen wenn Fraktion <= 2 Basen haelt (zu viel Druck zum passiven Sparen).
 	protected void rollSaveTarget(int fid) {
 		int bases = getBasesForFaction(m_metagame, fid);
-		bool saveAllowed = (bases > 2);
 
-		// Gewichte aufaddieren; "save" nur wenn erlaubt
-		float w2    = FP_AI_EVENT2_WEIGHT;
-		float w4    = FP_AI_EVENT4_WEIGHT;
-		float w5    = FP_AI_EVENT5_WEIGHT;
-		float wSave = saveAllowed ? FP_AI_SAVE_EVENT_WEIGHT : 0.0f;
-		float total = w2 + w4 + w5 + wSave;
+		// Spare-Pool aus Config-Tabelle laden; ineligible Eintraege auf Gewicht 0 setzen
+		array<string> tokens;
+		array<float>  weights;
+		tokens.insertLast(FP_AI_SPARE_TOKENS_0); weights.insertLast(FP_AI_SPARE_WEIGHTS_0);
+		tokens.insertLast(FP_AI_SPARE_TOKENS_1); weights.insertLast(FP_AI_SPARE_WEIGHTS_1);
+		tokens.insertLast(FP_AI_SPARE_TOKENS_2); weights.insertLast(FP_AI_SPARE_WEIGHTS_2);
+		tokens.insertLast(FP_AI_SPARE_TOKENS_3); weights.insertLast(FP_AI_SPARE_WEIGHTS_3);
+
+		// "save" nur bei stabiler Lage erlauben
+		for (uint i = 0; i < tokens.size(); ++i) {
+			if (tokens[i] == "save" && bases <= 2) weights[i] = 0.0f;
+		}
+
+		// Gesamtgewicht aufaddieren, dann Roll
+		float total = 0.0f;
+		for (uint i = 0; i < weights.size(); ++i) total += weights[i];
 
 		float roll = rand(0.0f, total);
-		string chosen;
+		string chosen = tokens[tokens.size() - 1]; // Fallback: letzter Eintrag
 
-		if      (roll < w2)              chosen = "event2";
-		else if (roll < w2 + w4)         chosen = "event4";
-		else if (roll < w2 + w4 + w5)    chosen = "event5";
-		else                             chosen = "save";
+		float cursor = 0.0f;
+		for (uint i = 0; i < tokens.size(); ++i) {
+			cursor += weights[i];
+			if (roll < cursor) { chosen = tokens[i]; break; }
+		}
 
 		m_saveTarget[fid] = chosen;
 		if (FP_AI_VERBOSE_LOG) _log("FP-AI: faction " + fid + " -> save target = " + chosen + " (bases=" + bases + ")", 1);
