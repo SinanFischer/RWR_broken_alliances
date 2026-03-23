@@ -296,9 +296,10 @@ class CommanderAiAdaptiveTracker : Tracker {
 			else if (s.cooldownTimer > 0.0f)
 				timerInfo = " cd=" + formatFloat(s.cooldownTimer, "", 0, 1) + "s";
 
+			// ratio = effectiveCap/liveCount (Engine-Logik); in Klammern bewusst live/cap wie HUD (weniger verwirrend)
 			report += "  " + fName
 				+ " ratio=" + formatFloat(ratio, "", 0, 2)
-				+ " (" + effectiveCap + "/" + liveCount + ")"
+				+ " (" + liveCount + "/" + effectiveCap + ")"
 				+ " | " + eventLabel + timerInfo
 				+ " | nat.base=" + formatFloat(s.nativeBase, "", 0, 2)
 				+ " brd=" + formatFloat(s.nativeBorder, "", 0, 2) + "\n";

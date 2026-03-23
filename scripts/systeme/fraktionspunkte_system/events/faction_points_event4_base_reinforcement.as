@@ -4,7 +4,7 @@
 #include "systeme/fraktionspunkte_system/faction_points_map_marker.as"
 
 // ============================================================
-// EVENT 4 — Double Paratroopers Reinforcement (Front-Line)
+// EVENT 4 - Double Paratroopers Reinforcement (Front-Line)
 // Cost:        485 FP
 // Trigger:     AI spare event + player /event4
 // AI condition: none (weight 0.6)
@@ -15,14 +15,14 @@
 // ============================================================
 
 const string FP_EVENT4_TOKEN                 = "event4";
-const string FP_EVENT4_NAME                  = "Double Paratroopers (Front-Line)";
+const string FP_EVENT4_NAME                  = "20 Paratroopers to the Front-Line";
 const int    FP_EVENT4_COST                  = 485;
 const string FP_EVENT4_CALL_KEY              = "paratroopers2.call";
 const float  FP_EVENT4_ANNOUNCEMENT_DELAY    = 30.0f;
 const float  FP_EVENT4_DROP_INTERVAL         = 5.0f; // seconds between the two drops
 
 const string FP_EVENT4_FRIENDLY_ANNOUNCEMENT = "Sending double paratroopers to the front line in 30 seconds.";
-const string FP_EVENT4_FRIENDLY_EXECUTION    = "Paratroopers away — double drop on the front line!";
+const string FP_EVENT4_FRIENDLY_EXECUTION    = "Paratroopers away - double drop on the front line!";
 const string FP_EVENT4_ENEMY_ANNOUNCEMENT    = "";
 const string FP_EVENT4_ENEMY_EXECUTION       = "";
 
@@ -129,7 +129,7 @@ class FactionPointsEvent4BaseReinforcement : FactionPointsEvent {
 	}
 
 	// Returns the friendly base that is geometrically closest to any enemy base.
-	// This is the "front-line proxy" — no random, no round-robin.
+	// This is the "front-line proxy" - no random, no round-robin.
 	protected bool pickFrontLineBase(int factionId, Vector3 &out outPos, string &out outName) {
 		array<const XmlElement@>@ allBases = getBases(m_metagame);
 		if (allBases is null || allBases.size() == 0) return false;

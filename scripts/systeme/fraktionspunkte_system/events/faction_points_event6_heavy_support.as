@@ -3,7 +3,7 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
 // ============================================================
-// EVENT 6 — Heavy Vehicle Support
+// EVENT 6 - Heavy Vehicle Support
 // Cost:        1800 FP
 // Trigger:     AI spare event + player /event6
 // AI condition: > 3 owned bases (weight 0.3)

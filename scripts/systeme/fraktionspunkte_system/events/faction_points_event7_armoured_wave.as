@@ -4,13 +4,13 @@
 #include "systeme/fraktionspunkte_system/faction_points_map_marker.as"
 
 // ============================================================
-// EVENT 7 — Armoured Wave
+// EVENT 7 - Armoured Wave
 // Cost:        1500 FP
 // Trigger:     AI spare event + player /event7
 // AI condition: none (weight 0.2)
 // Exec condition: min. 1 owned base
 // Action:      3x random medium vehicle at random friendly bases,
-//              2s apart — each spawn gets its own map marker
+//              2s apart - each spawn gets its own map marker
 // ============================================================
 
 const string FP_EVENT7_TOKEN                 = "event7";

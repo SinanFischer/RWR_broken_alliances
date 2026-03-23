@@ -3,7 +3,7 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
 // ============================================================
-// EVENT 2 — Company Attack
+// EVENT 2 - Company Attack
 // Cost:        1200 FP
 // Trigger:     AI spare event + player /event2
 // AI condition: none (weight 0.2)

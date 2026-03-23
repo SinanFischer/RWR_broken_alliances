@@ -4,7 +4,7 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_defense_state.as"
 
 // ============================================================
-// EVENT 3 — Defense Response
+// EVENT 3 - Defense Response
 // Cost:        700 FP
 // Trigger:     AI reactive (25% chance on base loss) + player /event3
 // AI condition: base was recently lost

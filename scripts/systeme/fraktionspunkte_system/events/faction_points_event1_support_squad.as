@@ -3,7 +3,7 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
 // ============================================================
-// EVENT 1 — Support Squad
+// EVENT 1 - Support Squad
 // Cost:        250 FP
 // Trigger:     AI periodic (every ~60s, 5% chance) + player /event1
 // AI condition: none
