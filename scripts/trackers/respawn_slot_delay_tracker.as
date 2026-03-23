@@ -153,22 +153,12 @@ class RespawnSlotDelayTracker : Tracker {
     // REFRESH - liest Engine-Daten und befüllt alle FactionStates
     // =========================================================================
 
-    // Hält highest und second in einem einzigen Schritt aktuell.
-    // Durch &inout werden die Original-Variablen direkt verändert (kein Rückgabewert nötig).
-    void updateTop2AliveTracking(int newValue, int &inout highest, int &inout second) {
-        if (newValue >= highest) {
-            second  = highest;
-            highest = newValue;
-        } else if (newValue > second) {
-            second = newValue;
-        }
-    }
-
     void refreshAliveBasedData() {
         array<const XmlElement@>@ factions = getFactions(m_metagame);
         if (factions is null || factions.size() == 0) return;
 
-        // Pass 1: Alive-Counts lesen + Top-2 für Extra-Delay-Berechnung bestimmen
+        // Pass 1: Alive-Counts lesen + Top-2 für Extra-Delay-Berechnung bestimmen.
+        // Top-2-Algorithmus: highestAliveCount = Anführer, secondAliveCount = stärkster Verfolger.
         array<int> aliveCountPerFaction;
         aliveCountPerFaction.resize(factions.size());
         int highestAliveCount = 0;
@@ -177,7 +167,8 @@ class RespawnSlotDelayTracker : Tracker {
             array<const XmlElement@>@ characters = getCharacters(m_metagame, int(factionIndex));
             int aliveCount = (characters is null) ? 0 : int(characters.size());
             aliveCountPerFaction[factionIndex] = aliveCount;
-            updateTop2AliveTracking(aliveCount, highestAliveCount, secondAliveCount);
+            if (aliveCount >= highestAliveCount) { secondAliveCount = highestAliveCount; highestAliveCount = aliveCount; }
+            else if (aliveCount > secondAliveCount) secondAliveCount = aliveCount;
         }
         // Edge-Case: Nur eine Fraktion → kein sinnvoller zweiter Platz möglich
         if (factions.size() == 1) secondAliveCount = highestAliveCount;
