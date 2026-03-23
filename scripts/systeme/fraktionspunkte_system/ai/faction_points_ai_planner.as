@@ -220,6 +220,44 @@ class FactionPointsAiPlanner {
 		return -1;
 	}
 
+	// ── Status / Introspection ────────────────────────────────────────────────────
+
+	// Gibt eine kompakte Statuszeile pro Fraktion zurueck (fuer /fp_ai).
+	// Format: "EU: Planning for event2 (250 FP)" oder "EU: Saving"
+	string getPlannerStatus() const {
+		int count = int(m_saveTarget.size());
+		if (count == 0) return "No factions tracked yet.";
+
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+
+		string result = "";
+		for (int fid = 0; fid < count; ++fid) {
+			if (fid > 0) result += "\n";
+			string label = getFactionLabel(factions, fid);
+			string target = m_saveTarget[fid];
+
+			if (target == "" || target == "save") {
+				result += label + ": Saving";
+			} else {
+				int cost = (m_eventRegistry !is null) ? m_eventRegistry.getCostByToken(target) : -1;
+				result += label + ": Planning for " + target;
+				if (cost >= 0) result += " (" + cost + " FP)";
+			}
+		}
+		return result;
+	}
+
+	// Gibt "EU", "RU" etc. zurueck — identisch zur Logik in StatsCommandTracker.
+	protected string getFactionLabel(array<const XmlElement@>@ factions, int fid) const {
+		if (factions !is null && fid < int(factions.size()) && factions[fid] !is null) {
+			string key = factions[fid].getStringAttribute("key");
+			if (key.length() >= 2) return key.substr(0, 2);
+			string name = factions[fid].getStringAttribute("name");
+			if (name.length() >= 2) return name.substr(0, 2);
+		}
+		return "F" + fid;
+	}
+
 	// ── Lifecycle ────────────────────────────────────────────────────────────────
 
 	// Waechst die per-Faction-Arrays auf die aktuelle Fraktionsanzahl.

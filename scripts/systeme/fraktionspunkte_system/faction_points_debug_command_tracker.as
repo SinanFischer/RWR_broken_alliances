@@ -276,10 +276,9 @@ class FactionPointsDebugCommandTracker : Tracker {
 			return;
 		}
 
-		float secs = m_aiTracker.getSecondsUntilNextTick();
-		int secsRounded = int(secs + 0.5f);
-		string msg = "FP-AI: next tick in " + secsRounded + "s | last: " + m_aiTracker.getLastSummary();
-		sendPrivateMessage(m_metagame, playerId, msg);
+		string plannerStatus = m_aiTracker.getPlannerStatus();
+		string lastEvent = m_aiTracker.getLastSummary();
+		sendPrivateMessage(m_metagame, playerId, plannerStatus + "\nLast event: " + lastEvent);
 	}
 
 	protected void handleAiTick(int playerId) {
