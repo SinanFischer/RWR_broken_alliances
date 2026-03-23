@@ -3,7 +3,7 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
 const string FP_EVENT2_TOKEN = "event2";
-const string FP_EVENT2_NAME = "Company-Angriff";
+const string FP_EVENT2_NAME = "Company Attack";
 const int FP_EVENT2_COST = 1200;
 const string FP_EVENT2_PLATOON_CALL_KEY = "paratroopers2.call";
 const int FP_EVENT2_PLATOON_COUNT = 2;
@@ -53,7 +53,7 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 
 		const XmlElement@ targetBase = getClosestEnemyBase(factionId, refPos);
 		if (targetBase is null) {
-			reason = "Keine gegnerische Basis gefunden.";
+			reason = "No enemy base found.";
 			return false;
 		}
 		return true;

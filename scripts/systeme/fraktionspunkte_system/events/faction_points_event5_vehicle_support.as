@@ -9,7 +9,7 @@ const string FP_EVENT5_CALL_KEY             = "apc_1.call";
 const float  FP_EVENT5_ANNOUNCEMENT_DELAY   = 20.0f;
 const string FP_EVENT5_FRIENDLY_ANNOUNCEMENT = "IFV inbound. Armoured support arriving at our position in 20 seconds.";
 const string FP_EVENT5_FRIENDLY_EXECUTION    = "IFV deployed. Use armoured support to push forward.";
-const string FP_EVENT5_ENEMY_ANNOUNCEMENT    = "Enemy commander: armoured reinforcements detected.";
+const string FP_EVENT5_ENEMY_ANNOUNCEMENT    = "Armoured reinforcements detected.";
 const string FP_EVENT5_ENEMY_EXECUTION       = "";
 
 // Event5 (AI Event):

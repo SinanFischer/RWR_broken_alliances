@@ -176,12 +176,13 @@ class FactionPointsDebugCommandTracker : Tracker {
 			m_store.ensureFactionCount(factionCount);
 		}
 
-		// FP per faction with short name (same logic as StatsCommandTracker)
 		string msg = "FP: ";
 		for (int i = 0; i < m_store.getFactionCount(); ++i) {
 			if (i > 0) msg += " | ";
 			string shortName = getFactionShortName((factions !is null && i < factionCount) ? factions[i] : null, i);
 			msg += shortName + ": " + m_store.get(i);
+			float cd = (m_eventRegistry !is null) ? m_eventRegistry.getCooldownRemaining(i) : 0.0f;
+			if (cd > 0.0f) msg += " [cd " + int(cd + 1.0f) + "s]";
 		}
 		sendPrivateMessage(m_metagame, playerId, msg);
 		sendUsage(playerId);

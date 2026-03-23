@@ -3,7 +3,7 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
 const string FP_EVENT1_TOKEN = "event1";
-const string FP_EVENT1_NAME = "Support-Ausflug";
+const string FP_EVENT1_NAME = "Support Squad";
 const int FP_EVENT1_COST = 250;
 const string FP_EVENT1_CALL_KEY = "paratroopers1.call";
 const float FP_EVENT1_ANNOUNCEMENT_DELAY = 0.0f;
@@ -37,7 +37,7 @@ class FactionPointsEvent1SupportSquad : FactionPointsEvent {
 
 	bool canExecute(int playerId, int factionId, string &out reason) {
 		if (playerId < 0) {
-			reason = "Player-Event benoetigt gueltigen player_id.";
+			reason = "Player event requires valid player_id.";
 			return false;
 		}
 		const XmlElement@ playerInfo = getPlayerInfo(m_metagame, playerId);
@@ -48,7 +48,7 @@ class FactionPointsEvent1SupportSquad : FactionPointsEvent {
 
 		const XmlElement@ characterInfo = getCharacterInfo(m_metagame, playerInfo.getIntAttribute("character_id"));
 		if (characterInfo is null) {
-			reason = "Kein Character (tot/spectator).";
+			reason = "No character (dead/spectator).";
 			return false;
 		}
 
