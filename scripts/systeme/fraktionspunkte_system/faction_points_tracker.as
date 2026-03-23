@@ -4,15 +4,18 @@
 #include "query_helpers.as"
 #include "systeme/fraktionspunkte_system/faction_points_store.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_defense_state.as"
+#include "events/character_death_helpers.as"
 
 const float FP_AUTOSAVE_INTERVAL = 30.0f;
 const float FP_HOLD_TICK_INTERVAL = 20.0f;
 const int FP_CAPTURE_REWARD = 120;
 const int FP_HOLD_REWARD_PER_BASE = 5;
+const int  FP_KILL_REWARD    = 2;    // FP pro Kill (anpassbar)
+const bool FP_KILL_REWARD_AI = true; // false = nur Kills durch Spieler zaehlen
 const bool FP_VERBOSE_HOLD_LOG = false;
 
 // Core-Tracker (Core = zentraler Laufzeitprozess).
-// Schritt 4 (MVP): FP-Quellen Base-Capture + Base-Hold.
+// FP-Quellen: Base-Capture, Base-Hold, character_kill (Friendly-Fire ausgeschlossen).
 class FactionPointsTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected FactionPointsStore@ m_store;
@@ -27,6 +30,8 @@ class FactionPointsTracker : Tracker {
 
 		// Event-Driven: Capture-Vergabe ueber Base-Owner-Events.
 		m_metagame.getComms().send("<command class='set_metagame_event' name='base_owner_change_event' enabled='1' />");
+		// Kill-Vergabe: gleiches Event wie Stats/Reinforcement (doppelt aktivieren ist harmlos).
+		m_metagame.getComms().send("<command class='set_metagame_event' name='character_kill' enabled='1' />");
 	}
 
 	bool hasEnded() const { return false; }
@@ -70,6 +75,27 @@ class FactionPointsTracker : Tracker {
 		if (previousOwnerId >= 0 && baseId >= 0) fpDefenseMarkBaseLost(previousOwnerId, baseId);
 
 		_log("FactionPoints: base capture -> faction " + newOwnerId + " +" + deltaPoints + " FP (total " + nextPoints + ").", 0);
+	}
+
+	// FP fuer gueltige Kills der Killer-Fraktion; kein Friendly-Fire (Opfer = target/character).
+	protected void handleCharacterKillEvent(const XmlElement@ event) {
+		if (event is null || m_store is null) return;
+
+		const XmlElement@ killer = event.getFirstElementByTagName("killer");
+		if (killer is null) return;
+
+		int factionId = killer.getIntAttribute("faction_id");
+		if (factionId < 0) return;
+
+		if (!FP_KILL_REWARD_AI && killer.getIntAttribute("player_id") == -1) return;
+
+		const XmlElement@ victim = getDeadCharacterFromDeathEvent(event);
+		if (victim !is null && victim.getIntAttribute("faction_id") == factionId) return;
+
+		m_store.ensureFactionCount(getDynamicFactionCount());
+		if (factionId >= m_store.getFactionCount()) return;
+
+		m_store.add(factionId, FP_KILL_REWARD, false);
 	}
 
 	protected void applyHoldRewards() {

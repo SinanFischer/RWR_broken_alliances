@@ -9,10 +9,10 @@ const string FP_EVENT2_PLATOON_CALL_KEY = "paratroopers2.call";
 const int FP_EVENT2_PLATOON_COUNT = 2;
 const float FP_EVENT2_OUTSIDE_RADIUS = 42.0f;
 const float FP_EVENT2_ANNOUNCEMENT_DELAY = 60.0f;
-const string FP_EVENT2_FRIENDLY_ANNOUNCEMENT = "Company assault assigned. Strike package launches in 60 seconds.";
-const string FP_EVENT2_FRIENDLY_EXECUTION = "Strike package deployed. Push the objective and hold pressure.";
-const string FP_EVENT2_ENEMY_ANNOUNCEMENT = "Hostile company assault detected. Impact in 60 seconds.";
-const string FP_EVENT2_ENEMY_EXECUTION = "Hostile strike package has entered your sector.";
+const string FP_EVENT2_FRIENDLY_ANNOUNCEMENT = "Airborne assault assigned. Drop in 60 seconds.";
+const string FP_EVENT2_FRIENDLY_EXECUTION = "Airborne on the deck. Take the objective.";
+const string FP_EVENT2_ENEMY_ANNOUNCEMENT = "Hostile airborne inbound. Sixty seconds.";
+const string FP_EVENT2_ENEMY_EXECUTION = "Hostile airborne on the ground in your sector.";
 
 // Event2 (AI Event):
 // Bedingung: gueltige Zielbasis vorhanden.
