@@ -2,6 +2,15 @@
 #include "query_helpers.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
+// ============================================================
+// EVENT 1 — Support Squad
+// Cost:        250 FP
+// Trigger:     AI periodic (every ~60s, 5% chance) + player /event1
+// AI condition: none
+// Exec condition: min. 1 owned base
+// Action:      spawns paratroopers1 at player position
+// ============================================================
+
 const string FP_EVENT1_TOKEN = "event1";
 const string FP_EVENT1_NAME = "Support Squad";
 const int FP_EVENT1_COST = 250;

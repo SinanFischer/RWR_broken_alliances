@@ -2,6 +2,15 @@
 #include "query_helpers.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
+// ============================================================
+// EVENT 6 — Heavy Vehicle Support
+// Cost:        1800 FP
+// Trigger:     AI spare event + player /event6
+// AI condition: > 3 owned bases (weight 0.3)
+// Exec condition: min. 1 owned base
+// Action:      spawns 1 random heavy vehicle at a friendly base
+// ============================================================
+
 const string FP_EVENT6_TOKEN                 = "event6";
 const string FP_EVENT6_NAME                  = "Heavy Vehicle";
 const int    FP_EVENT6_COST                  = 1800;

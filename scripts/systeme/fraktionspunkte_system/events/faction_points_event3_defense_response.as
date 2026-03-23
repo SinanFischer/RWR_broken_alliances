@@ -3,6 +3,15 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_defense_state.as"
 
+// ============================================================
+// EVENT 3 — Defense Response
+// Cost:        700 FP
+// Trigger:     AI reactive (25% chance on base loss) + player /event3
+// AI condition: base was recently lost
+// Exec condition: recently lost base recorded in defense state
+// Action:      spawns paratroopers1 at the lost base
+// ============================================================
+
 const string FP_EVENT3_TOKEN = "event3";
 const string FP_EVENT3_SIM_TOKEN = "event3_sim";
 const string FP_EVENT3_NAME = "Defense-Response";

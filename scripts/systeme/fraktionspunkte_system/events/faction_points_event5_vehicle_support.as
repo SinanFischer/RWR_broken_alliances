@@ -2,6 +2,15 @@
 #include "query_helpers.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
+// ============================================================
+// EVENT 5 — Medium Vehicle Support
+// Cost:        500 FP
+// Trigger:     AI spare event + player /event5
+// AI condition: none (weight 0.5)
+// Exec condition: min. 1 owned base
+// Action:      spawns 1 random medium vehicle at a friendly base
+// ============================================================
+
 const string FP_EVENT5_TOKEN                 = "event5";
 const string FP_EVENT5_NAME                  = "Medium Vehicle Support";
 const int    FP_EVENT5_COST                  = 500;

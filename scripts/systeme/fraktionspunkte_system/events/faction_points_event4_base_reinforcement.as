@@ -2,6 +2,15 @@
 #include "query_helpers.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
+// ============================================================
+// EVENT 4 — 10 Paratroopers Reinforcement
+// Cost:        350 FP
+// Trigger:     AI spare event + player /event4
+// AI condition: none (weight 0.6)
+// Exec condition: min. 1 owned base
+// Action:      spawns paratroopers2 (10 troops) at a friendly base
+// ============================================================
+
 const string FP_EVENT4_TOKEN                = "event4";
 const string FP_EVENT4_NAME                 = "10 Paratroopers Reinforcement";
 const int    FP_EVENT4_COST                 = 350;
