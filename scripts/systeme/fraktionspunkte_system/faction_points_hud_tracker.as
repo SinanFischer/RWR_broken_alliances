@@ -12,6 +12,7 @@ class FactionPointsHudTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected FactionPointsStore@ m_store;
 	protected float m_accum = 0.0f;
+	protected bool m_enabled = true;
 
 	FactionPointsHudTracker(Metagame@ metagame, FactionPointsStore@ store) {
 		@m_metagame = @metagame;
@@ -20,9 +21,30 @@ class FactionPointsHudTracker : Tracker {
 
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
+	bool isEnabled() const { return m_enabled; }
+
+	void setEnabled(bool enabled) {
+		m_enabled = enabled;
+		if (!enabled) clearScoreDisplays();
+	}
+
+	private void clearScoreDisplays() {
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		if (factions is null) return;
+		int shown = int(factions.size());
+		if (shown > FP_HUD_MAX_FACTIONS) shown = FP_HUD_MAX_FACTIONS;
+		for (int i = 0; i < shown; ++i) {
+			XmlElement cmd("command");
+			cmd.setStringAttribute("class", "update_score_display");
+			cmd.setIntAttribute("id", i);
+			cmd.setStringAttribute("text", "");
+			cmd.setStringAttribute("color", "0 0 0");
+			m_metagame.getComms().send(cmd);
+		}
+	}
 
 	void update(float time) {
-		if (m_store is null) return;
+		if (!m_enabled || m_store is null) return;
 
 		m_accum += time;
 		if (m_accum < FP_HUD_UPDATE_THROTTLE) return;

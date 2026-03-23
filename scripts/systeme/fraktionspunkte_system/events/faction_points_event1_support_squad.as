@@ -42,7 +42,7 @@ class FactionPointsEvent1SupportSquad : FactionPointsEvent {
 		}
 		const XmlElement@ playerInfo = getPlayerInfo(m_metagame, playerId);
 		if (playerInfo is null) {
-			reason = "Player nicht gefunden.";
+			reason = "Player not found.";
 			return false;
 		}
 
@@ -54,7 +54,7 @@ class FactionPointsEvent1SupportSquad : FactionPointsEvent {
 
 		int squadSize = characterInfo.getIntAttribute("squad_size");
 		if (squadSize > FP_EVENT1_SQUAD_HALF_THRESHOLD) {
-			reason = "Bedingung nicht erfuellt: squad_size=" + squadSize + " > " + FP_EVENT1_SQUAD_HALF_THRESHOLD + ".";
+			reason = "Condition not met: squad_size=" + squadSize + " > " + FP_EVENT1_SQUAD_HALF_THRESHOLD + ".";
 			return false;
 		}
 
@@ -63,18 +63,18 @@ class FactionPointsEvent1SupportSquad : FactionPointsEvent {
 
 	bool execute(int playerId, int factionId, string &out result) {
 		if (playerId < 0) {
-			result = "Player-Event benoetigt gueltigen player_id.";
+			result = "Player event requires valid player_id.";
 			return false;
 		}
 		const XmlElement@ playerInfo = getPlayerInfo(m_metagame, playerId);
 		if (playerInfo is null) {
-			result = "Player nicht gefunden.";
+			result = "Player not found.";
 			return false;
 		}
 
 		const XmlElement@ characterInfo = getCharacterInfo(m_metagame, playerInfo.getIntAttribute("character_id"));
 		if (characterInfo is null) {
-			result = "Kein Character (tot/spectator).";
+			result = "No character found (dead/spectator).";
 			return false;
 		}
 
@@ -86,7 +86,7 @@ class FactionPointsEvent1SupportSquad : FactionPointsEvent {
 			"' position='" + pos.toString() + "' faction_id='" + factionId + "' />";
 		m_metagame.getComms().send(cmd);
 
-		result = "Event1 ausgefuehrt: Support-Call nahe Spielerposition.";
+		result = "Event1 executed: support call near player position.";
 		return true;
 	}
 }

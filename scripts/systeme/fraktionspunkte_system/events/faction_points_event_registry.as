@@ -4,6 +4,8 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event1_support_squad.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event2_company_attack.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event3_defense_response.as"
+#include "systeme/fraktionspunkte_system/events/faction_points_event4_base_reinforcement.as"
+#include "systeme/fraktionspunkte_system/events/faction_points_event5_vehicle_support.as"
 
 class FactionPointsPendingExecution {
 	FactionPointsEvent@ m_event;
@@ -21,6 +23,8 @@ class FactionPointsEventRegistry {
 	protected FactionPointsEvent1SupportSquad@ m_event1;
 	protected FactionPointsEvent2CompanyAttack@ m_event2;
 	protected FactionPointsEvent3DefenseResponse@ m_event3;
+	protected FactionPointsEvent4BaseReinforcement@ m_event4;
+	protected FactionPointsEvent5VehicleSupport@ m_event5;
 	protected array<FactionPointsPendingExecution@> m_pendingExecutions;
 
 	FactionPointsEventRegistry(Metagame@ metagame, FactionPointsStore@ store) {
@@ -29,12 +33,16 @@ class FactionPointsEventRegistry {
 		@m_event1 = FactionPointsEvent1SupportSquad(m_metagame);
 		@m_event2 = FactionPointsEvent2CompanyAttack(m_metagame);
 		@m_event3 = FactionPointsEvent3DefenseResponse(m_metagame);
+		@m_event4 = FactionPointsEvent4BaseReinforcement(m_metagame);
+		@m_event5 = FactionPointsEvent5VehicleSupport(m_metagame);
 	}
 
 	bool isEventCommandToken(const string &in token) const {
 		if (token == m_event1.getCommandToken()) return true;
 		if (token == m_event2.getCommandToken()) return true;
 		if (token == m_event3.getCommandToken()) return true;
+		if (token == m_event4.getCommandToken()) return true;
+		if (token == m_event5.getCommandToken()) return true;
 		return false;
 	}
 
@@ -50,7 +58,8 @@ class FactionPointsEventRegistry {
 
 	string getUsage() const {
 		return "Events: /event1 (cost " + m_event1.getCost() + "), /event2 (cost " + m_event2.getCost() +
-			"), /event3 (cost " + m_event3.getCost() + "), /event3_sim (simulation)";
+			"), /event3 (cost " + m_event3.getCost() + "), /event3_sim (simulation)" +
+			", /event4 (cost " + m_event4.getCost() + "), /event5 (cost " + m_event5.getCost() + ")";
 	}
 
 	void update(float time) {
@@ -81,24 +90,24 @@ class FactionPointsEventRegistry {
 
 	bool tryExecute(const string &in token, int playerId, string &out response) {
 		if (m_store is null) {
-			response = "FP-Store nicht verfuegbar.";
+			response = "FP store not available.";
 			return false;
 		}
 
 		FactionPointsEvent@ ev = getEventByToken(token);
 		if (ev is null) {
-			response = "Unbekanntes Event.";
+			response = "Unknown event.";
 			return false;
 		}
 
 		const XmlElement@ playerInfo = getPlayerInfo(m_metagame, playerId);
 		if (playerInfo is null) {
-			response = "Player nicht gefunden.";
+			response = "Player not found.";
 			return false;
 		}
 		int factionId = playerInfo.getIntAttribute("faction_id");
 		if (factionId < 0) {
-			response = "Ungueltige Fraktion.";
+			response = "Invalid faction.";
 			return false;
 		}
 
@@ -112,41 +121,63 @@ class FactionPointsEventRegistry {
 
 	bool tryExecuteSimulation(const string &in token, int playerId, string &out response) {
 		if (!isSimulationCommandToken(token)) {
-			response = "Unbekannter Simulation-Command.";
+			response = "Unknown simulation command.";
 			return false;
 		}
 
 		const XmlElement@ playerInfo = getPlayerInfo(m_metagame, playerId);
 		if (playerInfo is null) {
-			response = "Player nicht gefunden.";
+			response = "Player not found.";
 			return false;
 		}
 		int factionId = playerInfo.getIntAttribute("faction_id");
 		if (factionId < 0) {
-			response = "Ungueltige Fraktion.";
+			response = "Invalid faction.";
 			return false;
 		}
 
 		return m_event3.simulateAtFriendlyBase(factionId, response);
 	}
 
+	// Force-Execute: überspringt FP-Check und FP-Abzug. Nur für Admin-Debug-Commands.
+	bool tryForceExecuteFaction(const string &in token, int factionId, string &out response) {
+		FactionPointsEvent@ ev = getEventByToken(token);
+		if (ev is null) {
+			response = "Unknown event: " + token;
+			return false;
+		}
+		ensureFactionCountFromWorld();
+		string reason;
+		if (!ev.canExecute(-1, factionId, reason)) {
+			response = ev.getDisplayName() + " cannot execute: " + reason;
+			return false;
+		}
+		string location = resolveLocationForEvent(ev, factionId);
+		string executionResponse;
+		bool ok = executeImmediateEvent(ev, -1, factionId, 0, location, executionResponse);
+		response = ok
+			? "[Force] " + executionResponse + " (no FP deducted)"
+			: "[Force] Error: " + executionResponse;
+		return ok;
+	}
+
 	bool tryExecuteForFaction(const string &in token, int factionId, string &out response) {
 		if (m_store is null) {
-			response = "FP-Store nicht verfuegbar.";
+			response = "FP store not available.";
 			return false;
 		}
 
 		FactionPointsEvent@ ev = getEventByToken(token);
 		if (ev is null) {
-			response = "Unbekanntes Event.";
+			response = "Unknown event.";
 			return false;
 		}
 		if (ev.isPlayerEvent()) {
-			response = ev.getDisplayName() + " ist ein Player-Event und benoetigt player_id.";
+			response = ev.getDisplayName() + " is a player event and requires player_id.";
 			return false;
 		}
 		if (factionId < 0) {
-			response = "Ungueltige Fraktion.";
+			response = "Invalid faction.";
 			return false;
 		}
 
@@ -156,19 +187,19 @@ class FactionPointsEventRegistry {
 	protected bool tryExecuteEvent(FactionPointsEvent@ ev, int playerId, int factionId, string &out response) {
 		ensureFactionCountFromWorld();
 		if (factionId >= m_store.getFactionCount()) {
-			response = "Fraktionsindex ausserhalb des FP-Stores.";
+			response = "Faction index out of FP store range.";
 			return false;
 		}
 
 		string reason;
 		if (!ev.canExecute(playerId, factionId, reason)) {
-			response = ev.getDisplayName() + " nicht ausgefuehrt: " + reason;
+			response = ev.getDisplayName() + " not executed: " + reason;
 			return false;
 		}
 
 		int cost = ev.getCost();
 		if (!m_store.canSpend(factionId, cost)) {
-			response = "Zu wenig FP fuer " + ev.getDisplayName() + " (cost " + cost + ", current " + m_store.get(factionId) + ").";
+			response = "Not enough FP for " + ev.getDisplayName() + " (cost " + cost + ", current " + m_store.get(factionId) + ").";
 			return false;
 		}
 
@@ -315,6 +346,8 @@ class FactionPointsEventRegistry {
 		if (token == m_event1.getCommandToken()) return m_event1;
 		if (token == m_event2.getCommandToken()) return m_event2;
 		if (token == m_event3.getCommandToken()) return m_event3;
+		if (token == m_event4.getCommandToken()) return m_event4;
+		if (token == m_event5.getCommandToken()) return m_event5;
 		return null;
 	}
 

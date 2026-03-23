@@ -47,7 +47,7 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 	bool canExecute(int playerId, int factionId, string &out reason) {
 		Vector3 refPos;
 		if (!getReferencePositionForFaction(factionId, refPos)) {
-			reason = "Keine Referenzposition fuer Fraktion gefunden.";
+			reason = "No reference position found for faction.";
 			return false;
 		}
 
@@ -62,13 +62,13 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 	bool execute(int playerId, int factionId, string &out result) {
 		Vector3 refPos;
 		if (!getReferencePositionForFaction(factionId, refPos)) {
-			result = "Keine Referenzposition fuer Fraktion gefunden.";
+			result = "No reference position found for faction.";
 			return false;
 		}
 
 		const XmlElement@ targetBase = getClosestEnemyBase(factionId, refPos);
 		if (targetBase is null) {
-			result = "Keine gegnerische Basis gefunden.";
+			result = "No enemy base found.";
 			return false;
 		}
 
@@ -100,7 +100,7 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 
 		string baseName = getBaseLabel(targetBase);
 
-		result = "Event2 ausgefuehrt: 2 Platoons an Basis " + baseName + ".";
+		result = "Event2 executed: 2 platoons at base " + baseName + ".";
 		return true;
 	}
 

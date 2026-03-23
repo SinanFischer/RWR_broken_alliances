@@ -8,27 +8,44 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_registry.as"
 #include "systeme/fraktionspunkte_system/ai/faction_points_ai_tracker.as"
 
-const string FP_CMD_SHOW = "fp";
-const string FP_CMD_ADD = "fp_add";
-const string FP_CMD_SET = "fp_set";
-const string FP_CMD_AI_STATUS = "fp_ai";
-const string FP_CMD_AI_TICK = "fp_ai_tick";
+const string FP_CMD_SHOW       = "fp";
+const string FP_CMD_ADD        = "fp_add";
+const string FP_CMD_SET        = "fp_set";
+const string FP_CMD_AI_STATUS  = "fp_ai";
+const string FP_CMD_AI_TICK    = "fp_ai_tick";
+const string FP_CMD_FORCE_EVENT = "fp_event"; // /fp_event <token> — Force-Execute fuer eigene Fraktion
 
 // Debug-Command-Tracker:
-// - /fp
-// - /fp_add <faction_id> <amount>
-// - /fp_set <faction_id> <amount>
+// - /fp                              → Punkte aller Fraktionen + Befehlsübersicht
+// - /fp hud on|off                   → FP-HUD umschalten (AliveHud wird Mutex)
+// - /fp_add <faction_id> <amount>    → FP hinzufügen
+// - /fp_set <faction_id> <amount>    → FP setzen
+// - /fp_ai                           → AI-Status
+// - /fp_ai_tick                      → AI sofort auslösen
+// - /fp_event <token>                → Event erzwingen (ohne FP-Prüfung), eigene Fraktion
+// - /event1..5                       → Event mit FP-Prüfung auslösen
 class FactionPointsDebugCommandTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected FactionPointsStore@ m_store;
 	protected FactionPointsEventRegistry@ m_eventRegistry;
 	protected FactionPointsAiTracker@ m_aiTracker;
+	protected FactionPointsHudTracker@ m_fpHudTracker;
+	protected FactionAliveHudTracker@ m_aliveHudTracker;
 	protected bool m_adminOnly = true;
 
-	FactionPointsDebugCommandTracker(Metagame@ metagame, FactionPointsStore@ store, FactionPointsAiTracker@ aiTracker = null, bool adminOnly = true) {
+	FactionPointsDebugCommandTracker(
+		Metagame@ metagame,
+		FactionPointsStore@ store,
+		FactionPointsAiTracker@ aiTracker = null,
+		bool adminOnly = true,
+		FactionPointsHudTracker@ fpHudTracker = null,
+		FactionAliveHudTracker@ aliveHudTracker = null
+	) {
 		@m_metagame = @metagame;
 		@m_store = @store;
 		@m_aiTracker = @aiTracker;
+		@m_fpHudTracker = @fpHudTracker;
+		@m_aliveHudTracker = @aliveHudTracker;
 		@m_eventRegistry = FactionPointsEventRegistry(m_metagame, m_store);
 		m_adminOnly = adminOnly;
 	}
@@ -62,6 +79,11 @@ class FactionPointsDebugCommandTracker : Tracker {
 			return;
 		}
 
+		if (commandToken == FP_CMD_FORCE_EVENT) {
+			handleForceEvent(tokens, senderId);
+			return;
+		}
+
 		if (isEventCmd) {
 			string eventResponse;
 			m_eventRegistry.tryExecute(commandToken, senderId, eventResponse);
@@ -76,6 +98,11 @@ class FactionPointsDebugCommandTracker : Tracker {
 		}
 
 		if (commandToken == FP_CMD_SHOW) {
+			// /fp hud on|off → HUD-Steuerung; /fp ohne Parameter → Übersicht
+			if (tokens.size() >= 2 && tokens[1].toLowerCase() == "hud") {
+				handleHudCommand(tokens, senderId);
+				return;
+			}
 			handleShow(senderId);
 			return;
 		}
@@ -123,6 +150,7 @@ class FactionPointsDebugCommandTracker : Tracker {
 		if (token == FP_CMD_SET) return true;
 		if (token == FP_CMD_AI_STATUS) return true;
 		if (token == FP_CMD_AI_TICK) return true;
+		if (token == FP_CMD_FORCE_EVENT) return true;
 		return false;
 	}
 
@@ -151,9 +179,66 @@ class FactionPointsDebugCommandTracker : Tracker {
 	}
 
 	protected void sendUsage(int playerId) {
-		string usage = "Usage: /fp | /fp_add <faction_id> <amount> | /fp_set <faction_id> <amount> | /fp_ai | /fp_ai_tick";
-		if (m_eventRegistry !is null) usage += " | " + m_eventRegistry.getUsage();
+		string usage = "/fp hud on|off — toggle FP HUD\n"
+			+ "/fp_event <token> — force-execute event (no FP check)\n"
+			+ "/fp_add <fid> <n> — add FP\n"
+			+ "/fp_set <fid> <n> — set FP\n"
+			+ "/fp_ai — AI status\n"
+			+ "/fp_ai_tick — trigger AI tick now";
+		if (m_eventRegistry !is null) usage += "\n" + m_eventRegistry.getUsage();
 		sendPrivateMessage(m_metagame, playerId, usage);
+	}
+
+	// /fp hud on|off: schaltet FP-HUD, deaktiviert gegenseitig das andere HUD (Mutex).
+	protected void handleHudCommand(array<string>@ tokens, int playerId) {
+		if (m_fpHudTracker is null) {
+			sendPrivateMessage(m_metagame, playerId, "[FP-HUD] Not installed.");
+			return;
+		}
+		string sub = (tokens.size() >= 3) ? tokens[2].toLowerCase() : "";
+		if (sub == "on") {
+			m_fpHudTracker.setEnabled(true);
+			if (m_aliveHudTracker !is null && m_aliveHudTracker.isEnabled()) {
+				m_aliveHudTracker.setEnabled(false);
+				sendPrivateMessage(m_metagame, playerId, "[FP-HUD] ON. Alive-HUD automatically disabled.");
+			} else {
+				sendPrivateMessage(m_metagame, playerId, "[FP-HUD] ON.");
+			}
+		} else if (sub == "off") {
+			m_fpHudTracker.setEnabled(false);
+			sendPrivateMessage(m_metagame, playerId, "[FP-HUD] OFF.");
+		} else {
+			string fpState    = (m_fpHudTracker !is null && m_fpHudTracker.isEnabled()) ? "ON" : "OFF";
+			string aliveState = (m_aliveHudTracker !is null && m_aliveHudTracker.isEnabled()) ? "ON" : "OFF";
+			sendPrivateMessage(m_metagame, playerId,
+				"[HUD] FP-HUD: " + fpState + " | Alive-HUD: " + aliveState +
+				" | /fp hud on  /fp hud off");
+		}
+	}
+
+	protected void handleForceEvent(array<string>@ tokens, int playerId) {
+		if (m_eventRegistry is null) {
+			sendPrivateMessage(m_metagame, playerId, "Event registry not available.");
+			return;
+		}
+		if (tokens.size() < 2) {
+			sendPrivateMessage(m_metagame, playerId, "Usage: /fp_event <token>  e.g. /fp_event event4");
+			return;
+		}
+		string token = tokens[1].toLowerCase();
+		const XmlElement@ playerInfo = getPlayerInfo(m_metagame, playerId);
+		if (playerInfo is null) {
+			sendPrivateMessage(m_metagame, playerId, "Player not found.");
+			return;
+		}
+		int factionId = playerInfo.getIntAttribute("faction_id");
+		if (factionId < 0) {
+			sendPrivateMessage(m_metagame, playerId, "Invalid faction.");
+			return;
+		}
+		string response;
+		m_eventRegistry.tryForceExecuteFaction(token, factionId, response);
+		sendPrivateMessage(m_metagame, playerId, "[Force] " + response);
 	}
 
 	protected void handleAiStatus(int playerId) {

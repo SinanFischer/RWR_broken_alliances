@@ -16,12 +16,14 @@
 #include "query_helpers.as"
 #include "helpers.as"
 #include "admin_manager.as"
+#include "systeme/fraktionspunkte_system/faction_points_hud_tracker.as"
 
 const float HUD_UPDATE_THROTTLE = 1.0f;  // 1x/s reicht für HUD-Anzeige, spart Engine-Queries
 
 class FactionAliveHudTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected RespawnSlotDelayTracker@ m_respawnTracker;  // optional; liefert effectiveCap + bases
+	protected FactionPointsHudTracker@ m_fpHudTracker;   // optional; HUD-Mutex: wird ausgeschaltet wenn AliveHud an
 	protected float m_accum = 0.0f;
 	protected bool m_enabled      = true;   // Default AN; per /hud off deaktivieren
 	protected bool m_showBases    = false;  // Default ohne Basen-Anzeige; /hud bases togglet
@@ -29,6 +31,11 @@ class FactionAliveHudTracker : Tracker {
 	FactionAliveHudTracker(Metagame@ metagame, RespawnSlotDelayTracker@ respawnTracker = null) {
 		@m_metagame = @metagame;
 		@m_respawnTracker = respawnTracker;
+	}
+
+	// Wird nach Systeminitialisierung gesetzt (zirkuläre Abhängigkeit vermieden).
+	void setFpHudTracker(FactionPointsHudTracker@ fpHud) {
+		@m_fpHudTracker = @fpHud;
 	}
 
 	bool hasEnded() const { return false; }
@@ -91,32 +98,35 @@ class FactionAliveHudTracker : Tracker {
 		array<string> params = parseParameters(msg, "hud");
 		string sub = (params.size() > 0) ? params[0].toLowerCase() : "";
 
-		// Status-Abfrage ist für jeden erlaubt
 		if (sub != "on" && sub != "off" && sub != "bases") {
-			string status  = m_enabled   ? "AN"  : "AUS";
-			string bases   = m_showBases ? "AN"  : "AUS";
+			string status = m_enabled   ? "ON"  : "OFF";
+			string bases  = m_showBases ? "ON"  : "OFF";
 			sendPrivateMessage(m_metagame, playerId,
 				"[HUD] Status: " + status + " | Bases: " + bases +
-				" | Befehle: /hud on  /hud off  /hud bases");
+				" | Commands: /hud on  /hud off  /hud bases");
 			return;
 		}
 
-		// on/off/bases nur für Admins – betrifft alle Spieler gleichzeitig
 		if (!m_metagame.getAdminManager().isAdmin(playerName, playerId)) {
-			sendPrivateMessage(m_metagame, playerId, "[HUD] Nur Admins koennen das HUD umschalten (gilt fuer alle Spieler).");
+			sendPrivateMessage(m_metagame, playerId, "[HUD] Admin only - affects all players.");
 			return;
 		}
 
 		if (sub == "on") {
 			setEnabled(true);
-			sendPrivateMessage(m_metagame, playerId, "[HUD] Fraktions-HUD eingeschaltet.");
+			if (m_fpHudTracker !is null && m_fpHudTracker.isEnabled()) {
+				m_fpHudTracker.setEnabled(false);
+				sendPrivateMessage(m_metagame, playerId, "[HUD] Alive-HUD ON. FP-HUD automatically disabled.");
+			} else {
+				sendPrivateMessage(m_metagame, playerId, "[HUD] Alive-HUD ON.");
+			}
 		} else if (sub == "off") {
 			setEnabled(false);
-			sendPrivateMessage(m_metagame, playerId, "[HUD] Fraktions-HUD ausgeschaltet.");
+			sendPrivateMessage(m_metagame, playerId, "[HUD] Alive-HUD OFF.");
 		} else {
 			m_showBases = !m_showBases;
-			string state = m_showBases ? "AN" : "AUS";
-			sendPrivateMessage(m_metagame, playerId, "[HUD] Basen-Anzeige: " + state + ".");
+			string state = m_showBases ? "ON" : "OFF";
+			sendPrivateMessage(m_metagame, playerId, "[HUD] Base display: " + state + ".");
 		}
 	}
 

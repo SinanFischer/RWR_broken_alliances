@@ -76,7 +76,7 @@ class FactionPointsAiPlanner {
 		outToken = "";
 		outUtility = 0.0f;
 
-		array<string> candidates = { "event1", "event2", "event3" };
+		array<string> candidates = { "event1", "event2", "event3", "event4", "event5" };
 		for (uint i = 0; i < candidates.size(); ++i) {
 			string token = candidates[i];
 			bool isPlayerEvent = m_eventRegistry.isPlayerEventToken(token);

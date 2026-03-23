@@ -12,6 +12,7 @@ class SpawnCapacityApi {
 	protected RespawnSlotDelayTracker@ m_respawnTracker;
 	protected StatsCommandTracker@ m_statsTracker;
 	protected CapacityDebugHudTracker@ m_debugHudTracker;
+	protected FactionAliveHudTracker@ m_aliveHudTracker;
 	protected bool m_coreInstalled = false;
 	protected bool m_debugHudInstalled = false;
 
@@ -41,10 +42,12 @@ class SpawnCapacityApi {
 	// Alive-HUD: zeigt "alive / effectiveCap (bases)" pro Fraktion in Fraktionsfarbe.
 	// Gibt den respawnTracker weiter, damit der HUD-Tracker keine eigenen Queries doppelt macht.
 	void installDefaultAliveHud() {
-		m_metagame.addTracker(FactionAliveHudTracker(m_metagame, m_respawnTracker));
+		@m_aliveHudTracker = FactionAliveHudTracker(m_metagame, m_respawnTracker);
+		m_metagame.addTracker(m_aliveHudTracker);
 	}
 
 	RespawnSlotDelayTracker@ getRespawnTracker() { return m_respawnTracker; }
+	FactionAliveHudTracker@ getAliveHudTracker() { return m_aliveHudTracker; }
 	bool hasCoreInstalled() const { return m_coreInstalled; }
 	bool hasDebugHudInstalled() const { return m_debugHudInstalled; }
 }

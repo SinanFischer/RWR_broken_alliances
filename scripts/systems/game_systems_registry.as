@@ -138,13 +138,22 @@ class GameSystemsRegistry {
 	// - debugCommands: /fp-Commands (aktuell Scaffold)
 	void installFactionPointsSystem(bool enabled, bool installHud = true, bool installDebugCommands = false, bool debugCommandsAdminOnly = true) {
 		if (!enabled) return;
-		if (true) return; // SYSTEM DEAKTIVIERT
 		if (m_factionPointsSystemInstalled) return;
+
+		FactionAliveHudTracker@ aliveHud = (m_spawnCapacityApi !is null)
+			? m_spawnCapacityApi.getAliveHudTracker()
+			: null;
 
 		@m_factionPointsApi = FactionPointsApi(m_metagame);
 		m_factionPointsApi.installCore(true);
 		m_factionPointsApi.installHud(installHud);
-		m_factionPointsApi.installDebugCommands(installDebugCommands, debugCommandsAdminOnly);
+		m_factionPointsApi.installDebugCommands(installDebugCommands, debugCommandsAdminOnly, aliveHud);
+
+		// HUD-Mutex: AliveHud bekommt FP-HUD-Referenz, um es beim Einschalten auszuschalten.
+		if (aliveHud !is null && installHud) {
+			aliveHud.setFpHudTracker(m_factionPointsApi.getHudTracker());
+		}
+
 		m_factionPointsSystemInstalled = true;
 	}
 

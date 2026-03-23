@@ -1,6 +1,7 @@
 #include "metagame.as"
 #include "query_helpers.as"
 
+#include "trackers/faction_alive_hud_tracker.as"
 #include "systeme/fraktionspunkte_system/faction_points_store.as"
 #include "systeme/fraktionspunkte_system/faction_points_tracker.as"
 #include "systeme/fraktionspunkte_system/faction_points_hud_tracker.as"
@@ -55,12 +56,12 @@ class FactionPointsApi {
 		m_hudInstalled = true;
 	}
 
-	void installDebugCommands(bool enabled = true, bool adminOnly = true) {
+	void installDebugCommands(bool enabled = true, bool adminOnly = true, FactionAliveHudTracker@ aliveHudTracker = null) {
 		if (!enabled) return;
 		if (m_debugInstalled) return;
 		if (!m_coreInstalled) installCore(true);
 
-		@m_debugTracker = FactionPointsDebugCommandTracker(m_metagame, m_store, m_aiTracker, adminOnly);
+		@m_debugTracker = FactionPointsDebugCommandTracker(m_metagame, m_store, m_aiTracker, adminOnly, m_hudTracker, aliveHudTracker);
 		m_metagame.addTracker(m_debugTracker);
 		m_debugInstalled = true;
 	}
@@ -76,6 +77,7 @@ class FactionPointsApi {
 	}
 
 	FactionPointsStore@ getStore() { return m_store; }
+	FactionPointsHudTracker@ getHudTracker() { return m_hudTracker; }
 	bool hasCoreInstalled() const { return m_coreInstalled; }
 	bool hasAiInstalled() const { return m_aiInstalled; }
 	bool hasHudInstalled() const { return m_hudInstalled; }

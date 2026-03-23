@@ -4,15 +4,11 @@
 // Scorer (Scorer = Funktion, die Nutzwerte von 0.0 bis 1.0 liefert).
 class FactionPointsAiScorer {
 	float scoreEventToken(const string &in token, const FactionPointsAiDecisionContext &in ctx) const {
-		if (token == "event1") {
-			return scoreEvent1(ctx);
-		}
-		if (token == "event2") {
-			return scoreEvent2(ctx);
-		}
-		if (token == "event3") {
-			return scoreEvent3(ctx);
-		}
+		if (token == "event1") return scoreEvent1(ctx);
+		if (token == "event2") return scoreEvent2(ctx);
+		if (token == "event3") return scoreEvent3(ctx);
+		if (token == "event4") return scoreEvent4(ctx);
+		if (token == "event5") return scoreEvent5(ctx);
 		return 0.0f;
 	}
 
@@ -49,6 +45,38 @@ class FactionPointsAiScorer {
 		else if (ctx.m_basesOwned == 2) pressure = 0.85f;
 		else if (ctx.m_basesOwned == 3) pressure = 0.65f;
 		return clamp01(FP_AI_EVENT3_IMPORTANCE * pressure);
+	}
+
+	protected float scoreEvent4(const FactionPointsAiDecisionContext &in ctx) const {
+		// Basis-Verstaerkung: sinnvoll unter Druck (wenige Basen) und wenn FP-Sparziel nah.
+		float basePressure = 0.3f;
+		if (ctx.m_basesOwned <= 1) basePressure = 1.0f;
+		else if (ctx.m_basesOwned == 2) basePressure = 0.75f;
+		else if (ctx.m_basesOwned == 3) basePressure = 0.5f;
+
+		float savingProgress = 0.0f;
+		if (FP_AI_EVENT4_SAVE_TARGET > 0) {
+			savingProgress = float(ctx.m_currentPoints) / float(FP_AI_EVENT4_SAVE_TARGET);
+		}
+
+		float score = FP_AI_EVENT4_IMPORTANCE * basePressure * clamp01(savingProgress);
+		return clamp01(score);
+	}
+
+	protected float scoreEvent5(const FactionPointsAiDecisionContext &in ctx) const {
+		// Fahrzeug-Unterstuetzung: sinnvoll wenn Fraktion mehrere Basen haelt (kann offensiv nutzen).
+		float expansionFactor = 0.2f;
+		if (ctx.m_basesOwned >= 4) expansionFactor = 1.0f;
+		else if (ctx.m_basesOwned == 3) expansionFactor = 0.75f;
+		else if (ctx.m_basesOwned == 2) expansionFactor = 0.5f;
+
+		float savingProgress = 0.0f;
+		if (FP_AI_EVENT5_SAVE_TARGET > 0) {
+			savingProgress = float(ctx.m_currentPoints) / float(FP_AI_EVENT5_SAVE_TARGET);
+		}
+
+		float score = FP_AI_EVENT5_IMPORTANCE * expansionFactor * clamp01(savingProgress);
+		return clamp01(score);
 	}
 
 	protected float clamp01(float value) const {
