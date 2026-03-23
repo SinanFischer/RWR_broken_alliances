@@ -3,7 +3,7 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
 const string FP_EVENT4_TOKEN                = "event4";
-const string FP_EVENT4_NAME                 = "Base Reinforcement";
+const string FP_EVENT4_NAME                 = "10 Paratroopers Reinforcement";
 const int    FP_EVENT4_COST                 = 350;
 const string FP_EVENT4_CALL_KEY             = "paratroopers2.call";
 const float  FP_EVENT4_ANNOUNCEMENT_DELAY   = 30.0f;

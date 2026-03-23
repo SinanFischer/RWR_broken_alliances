@@ -258,12 +258,12 @@ class RespawnSlotDelayTracker : Tracker {
             // --- Early phase (< 10 min): fresh reinforcements from command ---
 
             postFactionMessage(s.factionId,
-                "HQ to " + name + ": We have received massive troop reinforcements. Prepare for a major offensive!");
+                "We have received massive troop reinforcements. Prepare for a major offensive!");
             postGlobalExceptFaction(s.factionId,
                 "Intercepted transmission: " + name + " has received major reinforcements. Brace for a large-scale assault!");
 
             scheduleMessageToFaction(s.factionId, BALANCE_MSG_DELAY_SECONDS,
-                name + " HQ: All units - move out! Give everything you have!");
+                "All units - move out! Give everything you have!");
             scheduleMessageGlobalExceptFaction(s.factionId, BALANCE_MSG_DELAY_SECONDS,
                 "Warning: " + name + " is launching a full assault. Hold all positions!");
 
@@ -271,7 +271,7 @@ class RespawnSlotDelayTracker : Tracker {
             // --- Late phase (> 10 min): last reserves - all or nothing ---
 
             postFactionMessage(s.factionId,
-                "HQ to " + name + ": Our last reserves have been mobilised. Prepare for a final counter-attack!");
+                "Our last reserves have been mobilised. Prepare for a final counter-attack!");
             postGlobalExceptFaction(s.factionId,
                 "Intelligence report: " + name + " has completed their final mobilisation. Expect an imminent counter-attack!");
 
