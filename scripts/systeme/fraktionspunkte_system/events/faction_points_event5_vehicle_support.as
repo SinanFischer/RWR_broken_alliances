@@ -3,7 +3,7 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
 const string FP_EVENT5_TOKEN                 = "event5";
-const string FP_EVENT5_NAME                  = "Vehicle Support";
+const string FP_EVENT5_NAME                  = "Medium Vehicle Support";
 const int    FP_EVENT5_COST                  = 500;
 const float  FP_EVENT5_ANNOUNCEMENT_DELAY    = 20.0f;
 const string FP_EVENT5_FRIENDLY_ANNOUNCEMENT = "Armoured support arriving in 20 seconds.";
@@ -11,7 +11,7 @@ const string FP_EVENT5_FRIENDLY_EXECUTION    = "Armoured vehicle deployed. Push 
 const string FP_EVENT5_ENEMY_ANNOUNCEMENT    = "";
 const string FP_EVENT5_ENEMY_EXECUTION       = "";
 
-// Zufaelliges Medium-Fahrzeug aus dieser Liste — identisch zu VehicleIntervalSpawn MEDIUM_VEHICLE_KEYS,
+// Zufaelliges Medium-Fahrzeug aus dieser Liste - identisch zu VehicleIntervalSpawn MEDIUM_VEHICLE_KEYS,
 // aber vollstaendig isoliert: kein Zugriff auf VehicleIntervalSpawn-State.
 const string FP_EVENT5_MEDIUM_KEYS = "humvee.vehicle,wiesel_mk20.vehicle,apc.vehicle,apc_1.vehicle,apc_2.vehicle,vulcan_tank.vehicle,noxe.vehicle,hovercraft.vehicle,sev90.vehicle,radio_jammer.vehicle,m113_tank_acav.vehicle,m113_tank_mortar.vehicle";
 
@@ -22,7 +22,7 @@ const float FP_EVENT5_OFFSET_Y  = 5.0f;
 // Event5 (AI Event):
 // Bedingung: mindestens eine eigene Basis vorhanden.
 // Aktion: zufaelliges Medium-Fahrzeug direkt an einer eigenen Basis spawnen (Round-Robin).
-// Vollstaendig isoliert — beruehrt keinerlei VehicleIntervalSpawn-State.
+// Vollstaendig isoliert - beruehrt keinerlei VehicleIntervalSpawn-State.
 class FactionPointsEvent5VehicleSupport : FactionPointsEvent {
 	protected Metagame@ m_metagame;
 	protected uint m_baseCallIndex = 0;       // Round-Robin-Zaehler fuer Basisauswahl

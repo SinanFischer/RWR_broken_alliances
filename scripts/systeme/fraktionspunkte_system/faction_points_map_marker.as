@@ -1,26 +1,30 @@
 // FP Event Map Marker Utility
-// Marker-ID-Raum: 80000 + factionId * 10 + eventSlot (0..4 fuer event1..5)
-// Pro Fraktion maximal 5 gleichzeitige FP-Marker (einer pro Event-Typ).
+// Marker-ID-Raum: 80000 + factionId * 20 + eventSlot
+// Pro Fraktion maximal 9 gleichzeitige FP-Marker.
+// Event7 belegt 3 Slots (7A/7B/7C) - einen pro Fahrzeug-Spawn.
 //
 // Atlas-Indizes laut Doku:
-//   3  = Santa Reward (auffaelliges Symbol — Vehicle-Events)
+//   3  = Santa Reward (auffaelliges Symbol - Vehicle-Events)
 //   10 = Paradrop-Symbol (Paratrooper-Events)
 //   17 = VIP-Ziel-Shield (nicht mehr genutzt)
 
 const int FP_MARKER_ID_BASE   = 80000;
-const int FP_MARKER_ID_STRIDE = 10;
+const int FP_MARKER_ID_STRIDE = 20; // auf 20 erhoeht, damit 9 Slots pro Fraktion passen
 
 const int FP_MARKER_ATLAS_SANTA    = 3;  // Santa Reward → Vehicle-Events (auffaellig)
 const int FP_MARKER_ATLAS_SHIELD   = 17; // VIP-Ziel-Shield (reserviert)
 const int FP_MARKER_ATLAS_PARADROP = 10; // Paradrop-Symbol → Paratrooper-Events
 
-const int FP_MARKER_SLOT_EVENT1 = 0;
-const int FP_MARKER_SLOT_EVENT2 = 1;
-const int FP_MARKER_SLOT_EVENT3 = 2;
-const int FP_MARKER_SLOT_EVENT4 = 3;
-const int FP_MARKER_SLOT_EVENT5 = 4;
-const int FP_MARKER_SLOT_EVENT6 = 5;
-const int FP_MARKER_SLOT_EVENT7 = 6;
+const int FP_MARKER_SLOT_EVENT1  = 0;
+const int FP_MARKER_SLOT_EVENT2  = 1;
+const int FP_MARKER_SLOT_EVENT3  = 2;
+const int FP_MARKER_SLOT_EVENT4  = 3;
+const int FP_MARKER_SLOT_EVENT5  = 4;
+const int FP_MARKER_SLOT_EVENT6  = 5;
+// Event7 bekommt 3 eigene Slots - einen pro Fahrzeug-Spawn
+const int FP_MARKER_SLOT_EVENT7A = 6;
+const int FP_MARKER_SLOT_EVENT7B = 7;
+const int FP_MARKER_SLOT_EVENT7C = 8;
 
 // Setzt oder aktualisiert einen Marker. position muss immer mitgegeben werden (Pflichtfeld laut Doku).
 void fpSetEventMarker(Metagame@ metagame, int factionId, int eventSlot,
@@ -47,7 +51,7 @@ void fpSetEventMarker(Metagame@ metagame, int factionId, int eventSlot,
 	metagame.getComms().send(c);
 }
 
-// Aktualisiert Text eines bestehenden Markers — position MUSS mitgegeben werden.
+// Aktualisiert Text eines bestehenden Markers - position MUSS mitgegeben werden.
 void fpUpdateEventMarker(Metagame@ metagame, int factionId, int eventSlot,
 	const string &in label, const string &in positionStr, int atlasIndex) {
 	fpSetEventMarker(metagame, factionId, eventSlot, label, positionStr, atlasIndex);

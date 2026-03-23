@@ -383,7 +383,7 @@ class FactionPointsEventRegistry {
 		if (posStr.length() == 0) return;
 
 		int atlasIndex = getMarkerAtlasForToken(ev.getCommandToken());
-		string label = ev.getDisplayName() + " — on the ground";
+		string label = ev.getDisplayName() + " - on the ground";
 		fpUpdateEventMarker(m_metagame, factionId, slot, label, posStr, atlasIndex);
 		scheduleMarkerClear(factionId, slot, FP_MARKER_CLEAR_DELAY);
 	}
@@ -397,6 +397,8 @@ class FactionPointsEventRegistry {
 	}
 
 	// Liefert den Marker-Slot-Index fuer einen Event-Token (-1 = kein Marker).
+	// Event7 verwaltet seine 3 Marker selbst (in FactionPointsEvent7ArmouredWave),
+	// daher gibt diese Methode fuer Event7 -1 zurueck.
 	protected int getMarkerSlotForToken(const string &in token) const {
 		if (token == FP_EVENT1_TOKEN) return FP_MARKER_SLOT_EVENT1;
 		if (token == FP_EVENT2_TOKEN) return FP_MARKER_SLOT_EVENT2;
@@ -404,8 +406,7 @@ class FactionPointsEventRegistry {
 		if (token == FP_EVENT4_TOKEN) return FP_MARKER_SLOT_EVENT4;
 		if (token == FP_EVENT5_TOKEN) return FP_MARKER_SLOT_EVENT5;
 		if (token == FP_EVENT6_TOKEN) return FP_MARKER_SLOT_EVENT6;
-		if (token == FP_EVENT7_TOKEN) return FP_MARKER_SLOT_EVENT7;
-		return -1;
+		return -1; // Event7: Marker werden direkt in execute() gesetzt
 	}
 
 	// Liefert den Atlas-Index fuer den Marker je nach Event-Typ.
@@ -433,8 +434,7 @@ class FactionPointsEventRegistry {
 			return getBasePositionStrByName(baseName);
 		if (token == FP_EVENT6_TOKEN && m_event6.tryGetTargetBaseName(factionId, baseName))
 			return getBasePositionStrByName(baseName);
-		if (token == FP_EVENT7_TOKEN && m_event7.tryGetTargetBaseName(factionId, baseName))
-			return getBasePositionStrByName(baseName);
+		// Event7: Marker werden direkt in execute() gesetzt - kein zentraler Marker noetig
 
 		// Event1: keine Basis-Referenz → erste eigene Basis als Fallback
 		return getFirstOwnedBasePositionStr(factionId);
@@ -487,7 +487,7 @@ class FactionPointsEventRegistry {
 		for (uint i = 0; i < factions.size(); ++i) {
 			int factionId = int(i);
 			if (factionId == sourceFactionId) continue;
-			// Kein FP-Suffix fuer Feinde — die haben das Geld nicht ausgegeben
+			// Kein FP-Suffix fuer Feinde - die haben das Geld nicht ausgegeben
 			sendFactionMessage(m_metagame, factionId, prefix + appendLocationIfAny(text, location));
 		}
 	}

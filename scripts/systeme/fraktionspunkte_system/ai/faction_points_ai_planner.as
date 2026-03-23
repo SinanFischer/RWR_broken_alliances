@@ -7,15 +7,15 @@
 // Entscheidet alle FP_AI_DECISION_INTERVAL Sekunden welche Events die AI ausfuehrt.
 //
 // Drei unabhaengige Entscheidungs-Pfade pro Tick:
-//   1. Periodic  — Event1 (Support Squad) alle 60s mit 5% Chance
-//   2. Reactive  — Event3 (Defense Response) bei Basisverlust mit 25% Chance
-//   3. Strategic — Spare-Events (2/4/5) oder Spar-Phase ("save") per gewichtetem Roll
+//   1. Periodic  - Event1 (Support Squad) alle 60s mit 5% Chance
+//   2. Reactive  - Event3 (Defense Response) bei Basisverlust mit 25% Chance
+//   3. Strategic - Spare-Events (2/4/5) oder Spar-Phase ("save") per gewichtetem Roll
 class FactionPointsAiPlanner {
 	protected Metagame@ m_metagame;
 	protected FactionPointsStore@ m_store;
 	protected FactionPointsEventRegistry@ m_eventRegistry;
 
-	// Per-Faction-State — Index = faction_id
+	// Per-Faction-State - Index = faction_id
 	protected array<int>    m_prevBasesOwned; // Snapshot der Basisanzahl; Rueckgang = Verlust
 	protected array<string> m_saveTarget;     // Aktuelles Sparziel: "event2"|"event4"|"event5"|"save"
 	protected array<int>    m_minReserve;     // FP-Puffer der nach einem Kauf mindestens bleiben muss
@@ -30,7 +30,7 @@ class FactionPointsAiPlanner {
 		@m_eventRegistry = @eventRegistry;
 	}
 
-	// Einstiegspunkt — wird vom AI-Tracker alle FP_AI_DECISION_INTERVAL Sekunden aufgerufen.
+	// Einstiegspunkt - wird vom AI-Tracker alle FP_AI_DECISION_INTERVAL Sekunden aufgerufen.
 	bool tick(float time, string &out summary) {
 		summary = "AI: no action";
 		if (m_store is null || m_eventRegistry is null) {
@@ -51,7 +51,7 @@ class FactionPointsAiPlanner {
 	}
 
 	// ── Pfad 1: Periodic ─────────────────────────────────────────────────────────
-	// Event1 (Support Squad) loest alle 60s mit 5% Chance aus — unabhaengig vom FP-Stand.
+	// Event1 (Support Squad) loest alle 60s mit 5% Chance aus - unabhaengig vom FP-Stand.
 	// Kleiner, regelmaessiger Druck der die Frontlinie lebendig haelt.
 	protected void tickPeriodic(float time, bool isFirstTick, string &out summary, bool &out anyExecuted) {
 		m_event1Accum += time;
@@ -124,7 +124,7 @@ class FactionPointsAiPlanner {
 	}
 
 	// Wartet FP_AI_SAVE_DURATION Sekunden, dann neues Sparziel wuerfeln.
-	// Kein Kauf, keine Meldung — Fraktion akkumuliert passiv FP.
+	// Kein Kauf, keine Meldung - Fraktion akkumuliert passiv FP.
 	protected void tickSavePhase(float time, int fid) {
 		m_saveAccum[fid] += time;
 		if (m_saveAccum[fid] < FP_AI_SAVE_DURATION) return;
@@ -139,20 +139,20 @@ class FactionPointsAiPlanner {
 
 	// Waehlt naechstes Sparziel per gewichtetem Zufalls-Roll aus dem Spare-Pool (Config-Tabelle).
 	// Eligibility-Regeln:
-	//   "save"   — nur bei > 2 Basen (stabile Lage)
-	//   "event6" — nur bei > 3 Basen (Heavy Armour erfordert starke Basis)
+	//   "save"   - nur bei > 2 Basen (stabile Lage)
+	//   "event6" - nur bei > 3 Basen (Heavy Armour erfordert starke Basis)
 	protected void rollSaveTarget(int fid) {
 		int bases = getBasesForFaction(m_metagame, fid);
 
 		// Spare-Pool aus Config-Tabelle laden; ineligible Eintraege auf Gewicht 0 setzen
 		array<string> tokens;
 		array<float>  weights;
-		tokens.insertLast(FP_AI_SPARE_TOKENS_0); weights.insertLast(FP_AI_SPARE_WEIGHTS_0);
-		tokens.insertLast(FP_AI_SPARE_TOKENS_1); weights.insertLast(FP_AI_SPARE_WEIGHTS_1);
-		tokens.insertLast(FP_AI_SPARE_TOKENS_2); weights.insertLast(FP_AI_SPARE_WEIGHTS_2);
-		tokens.insertLast(FP_AI_SPARE_TOKENS_3); weights.insertLast(FP_AI_SPARE_WEIGHTS_3);
-		tokens.insertLast(FP_AI_SPARE_TOKENS_4); weights.insertLast(FP_AI_SPARE_WEIGHTS_4);
-		tokens.insertLast(FP_AI_SPARE_TOKENS_5); weights.insertLast(FP_AI_SPARE_WEIGHTS_5);
+		tokens.insertLast(FP_AI_SPARE_TOKEN_EVENT2); weights.insertLast(FP_AI_SPARE_WEIGHT_EVENT2);
+		tokens.insertLast(FP_AI_SPARE_TOKEN_EVENT4); weights.insertLast(FP_AI_SPARE_WEIGHT_EVENT4);
+		tokens.insertLast(FP_AI_SPARE_TOKEN_EVENT5); weights.insertLast(FP_AI_SPARE_WEIGHT_EVENT5);
+		tokens.insertLast(FP_AI_SPARE_TOKEN_EVENT6); weights.insertLast(FP_AI_SPARE_WEIGHT_EVENT6);
+		tokens.insertLast(FP_AI_SPARE_TOKEN_EVENT7); weights.insertLast(FP_AI_SPARE_WEIGHT_EVENT7);
+		tokens.insertLast(FP_AI_SPARE_TOKEN_SAVE);   weights.insertLast(FP_AI_SPARE_WEIGHT_SAVE);
 
 		for (uint i = 0; i < tokens.size(); ++i) {
 			if (tokens[i] == "save"   && bases <= 2) weights[i] = 0.0f;
@@ -251,7 +251,7 @@ class FactionPointsAiPlanner {
 		return result;
 	}
 
-	// Gibt "EU", "RU" etc. zurueck — identisch zur Logik in StatsCommandTracker.
+	// Gibt "EU", "RU" etc. zurueck - identisch zur Logik in StatsCommandTracker.
 	protected string getFactionLabel(array<const XmlElement@>@ factions, int fid) const {
 		if (factions !is null && fid < int(factions.size()) && factions[fid] !is null) {
 			string key = factions[fid].getStringAttribute("key");

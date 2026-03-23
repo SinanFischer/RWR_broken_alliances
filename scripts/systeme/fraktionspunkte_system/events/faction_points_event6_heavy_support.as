@@ -3,15 +3,15 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
 const string FP_EVENT6_TOKEN                 = "event6";
-const string FP_EVENT6_NAME                  = "Heavy Armour";
+const string FP_EVENT6_NAME                  = "Heavy Vehicle";
 const int    FP_EVENT6_COST                  = 1800;
 const float  FP_EVENT6_ANNOUNCEMENT_DELAY    = 25.0f;
-const string FP_EVENT6_FRIENDLY_ANNOUNCEMENT = "Heavy armour inbound — 25 seconds.";
+const string FP_EVENT6_FRIENDLY_ANNOUNCEMENT = "Heavy armour inbound - 25 seconds.";
 const string FP_EVENT6_FRIENDLY_EXECUTION    = "Heavy armour deployed. Hold the line!";
 const string FP_EVENT6_ENEMY_ANNOUNCEMENT    = "";
 const string FP_EVENT6_ENEMY_EXECUTION       = "";
 
-// Heavy-Vehicle-Keys — identisch zu HEAVY_VEHICLE_KEYS in vehicle_interval_spawn.as,
+// Heavy-Vehicle-Keys - identisch zu HEAVY_VEHICLE_KEYS in vehicle_interval_spawn.as,
 // vollstaendig isoliert: kein Zugriff auf VehicleIntervalSpawn-State.
 const string FP_EVENT6_HEAVY_KEYS = "tank_alt.vehicle,tank_1_alt.vehicle,tank_2_alt.vehicle,m551.vehicle,fv101.vehicle,legion.vehicle,m528.vehicle,flamer_tank.vehicle";
 
@@ -22,7 +22,7 @@ const float FP_EVENT6_OFFSET_Y  = 5.0f;
 // Event6 (AI Event):
 // Bedingung: mindestens 4 eigene Basen (> 3).
 // Aktion: zufaelliges Heavy-Fahrzeug direkt an einer eigenen Basis spawnen (Round-Robin).
-// Vollstaendig isoliert — beruehrt keinerlei VehicleIntervalSpawn-State.
+// Vollstaendig isoliert - beruehrt keinerlei VehicleIntervalSpawn-State.
 class FactionPointsEvent6HeavySupport : FactionPointsEvent {
 	protected Metagame@ m_metagame;
 	protected uint m_baseCallIndex = 0;
