@@ -3,17 +3,37 @@
 ## [1.2.0] - 2026-03-17
 
 
-### Commands: 
-/ hud 
-/ fov off & on 
-/ ai_attack, ai_status, ai_defend...
+### Commands:
 
-/fp	FP aller Fraktionen + alle Befehle anzeigen
-/fp hud on	FP-HUD AN → Alive-HUD automatisch AUS
-/fp hud off	FP-HUD AUS
-/fp_event event4	Event4 erzwingen, ohne FP-Prüfung, eigene Fraktion
-/fp_event event5	Event5 erzwingen, ohne FP-Prüfung, eigene Fraktion
-/hud on	Alive-HUD AN → FP-HUD automatisch AUS
+**HUD**
+| Command | Description |
+|---|---|
+| `/hud on` | Alive-HUD AN → FP-HUD automatisch AUS |
+| `/hud off` | Alive-HUD AUS |
+| `/fov on` | FoV-Erweiterung AN |
+| `/fov off` | FoV-Erweiterung AUS |
+
+**Faction Points**
+| Command | Description |
+|---|---|
+| `/fp` | Alle FP-Befehle anzeigen |
+| `/fp_status` | FP aller Fraktionen anzeigen |
+| `/fp hud on` | FP-HUD AN → Alive-HUD automatisch AUS |
+| `/fp hud off` | FP-HUD AUS |
+| `/fp_add <fid> <n>` | FP einer Fraktion hinzufügen (Debug) |
+| `/fp_set <fid> <n>` | FP einer Fraktion setzen (Debug) |
+| `/fp_ai` | AI-Status anzeigen |
+| `/fp_ai_tick` | AI-Tick sofort auslösen (Debug) |
+| `/fp_event event4` | Event 4 (Base Reinforcement) erzwingen, ohne FP-Prüfung, eigene Fraktion |
+| `/fp_event event5` | Event 5 (Vehicle Support) erzwingen, ohne FP-Prüfung, eigene Fraktion |
+| `/event1..5` | Event mit FP-Prüfung auslösen |
+
+**AI**
+| Command | Description |
+|---|---|
+| `/ai_attack` | KI-Angriff auslösen |
+| `/ai_defend` | KI-Verteidigung auslösen |
+| `/ai_status` | KI-Status anzeigen |
 
 ### Slotblock System gefixt
 - Slotblock System hat nicht wirklich mehr gegriffen. Dank HUD Fehler erkannt und behoben. Nun funktioniert das System wie erwartet. 

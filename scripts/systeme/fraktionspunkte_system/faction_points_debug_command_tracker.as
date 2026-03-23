@@ -9,6 +9,7 @@
 #include "systeme/fraktionspunkte_system/ai/faction_points_ai_tracker.as"
 
 const string FP_CMD_SHOW       = "fp";
+const string FP_CMD_STATUS     = "fp_status";
 const string FP_CMD_ADD        = "fp_add";
 const string FP_CMD_SET        = "fp_set";
 const string FP_CMD_AI_STATUS  = "fp_ai";
@@ -16,7 +17,8 @@ const string FP_CMD_AI_TICK    = "fp_ai_tick";
 const string FP_CMD_FORCE_EVENT = "fp_event"; // /fp_event <token> - Force-Execute fuer eigene Fraktion
 
 // Debug-Command-Tracker:
-// - /fp                              → Punkte aller Fraktionen + Befehlsübersicht
+// - /fp                              → Befehlsübersicht
+// - /fp_status                       → Punkte aller Fraktionen
 // - /fp hud on|off                   → FP-HUD umschalten (AliveHud wird Mutex)
 // - /fp_add <faction_id> <amount>    → FP hinzufügen
 // - /fp_set <faction_id> <amount>    → FP setzen
@@ -98,11 +100,14 @@ class FactionPointsDebugCommandTracker : Tracker {
 		}
 
 		if (commandToken == FP_CMD_SHOW) {
-			// /fp hud on|off → HUD-Steuerung; /fp ohne Parameter → Übersicht
 			if (tokens.size() >= 2 && tokens[1].toLowerCase() == "hud") {
 				handleHudCommand(tokens, senderId);
 				return;
 			}
+			sendUsage(senderId);
+			return;
+		}
+		if (commandToken == FP_CMD_STATUS) {
 			handleShow(senderId);
 			return;
 		}
@@ -146,6 +151,7 @@ class FactionPointsDebugCommandTracker : Tracker {
 
 	protected bool isFpCommandToken(const string &in token) const {
 		if (token == FP_CMD_SHOW) return true;
+		if (token == FP_CMD_STATUS) return true;
 		if (token == FP_CMD_ADD) return true;
 		if (token == FP_CMD_SET) return true;
 		if (token == FP_CMD_AI_STATUS) return true;
@@ -192,7 +198,8 @@ class FactionPointsDebugCommandTracker : Tracker {
 	}
 
 	protected void sendUsage(int playerId) {
-		string usage = "/fp hud on|off - toggle FP HUD\n"
+		string usage = "/fp_status - show FP per faction\n"
+			+ "/fp hud on|off - toggle FP HUD\n"
 			+ "/fp_event <token> - force-execute event (no FP check)\n"
 			+ "/fp_add <fid> <n> - add FP\n"
 			+ "/fp_set <fid> <n> - set FP\n"
