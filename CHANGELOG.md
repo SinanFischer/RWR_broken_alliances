@@ -56,6 +56,7 @@ Information list of all calls:
 | 4   | Base Reinforcement | 350 FP  | AI (strategic)                | 1× `paratroopers2` drop at a friendly base (round-robin) — steady line reinforcement  |
 | 5   | Vehicle Support    | 500 FP  | AI (strategic)                | Spawns a random medium vehicle (APC, IFV, etc.) at a friendly base                    |
 | 6   | Heavy Armour       | 1800 FP | AI (strategic, >3 bases)      | Spawns a random heavy vehicle (tank, etc.) at a friendly base — requires dominance     |
+| 7   | Armoured Wave      | 1500 FP | AI (strategic)                | 3× random medium vehicles at friendly bases, 2 s apart — sustained armoured pressure  |
 
 **AI Decision Logic**
 

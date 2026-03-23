@@ -20,6 +20,7 @@ const int FP_MARKER_SLOT_EVENT3 = 2;
 const int FP_MARKER_SLOT_EVENT4 = 3;
 const int FP_MARKER_SLOT_EVENT5 = 4;
 const int FP_MARKER_SLOT_EVENT6 = 5;
+const int FP_MARKER_SLOT_EVENT7 = 6;
 
 // Setzt oder aktualisiert einen Marker. position muss immer mitgegeben werden (Pflichtfeld laut Doku).
 void fpSetEventMarker(Metagame@ metagame, int factionId, int eventSlot,

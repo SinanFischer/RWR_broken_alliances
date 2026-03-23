@@ -152,6 +152,7 @@ class FactionPointsAiPlanner {
 		tokens.insertLast(FP_AI_SPARE_TOKENS_2); weights.insertLast(FP_AI_SPARE_WEIGHTS_2);
 		tokens.insertLast(FP_AI_SPARE_TOKENS_3); weights.insertLast(FP_AI_SPARE_WEIGHTS_3);
 		tokens.insertLast(FP_AI_SPARE_TOKENS_4); weights.insertLast(FP_AI_SPARE_WEIGHTS_4);
+		tokens.insertLast(FP_AI_SPARE_TOKENS_5); weights.insertLast(FP_AI_SPARE_WEIGHTS_5);
 
 		for (uint i = 0; i < tokens.size(); ++i) {
 			if (tokens[i] == "save"   && bases <= 2) weights[i] = 0.0f;

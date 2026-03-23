@@ -8,6 +8,7 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event4_base_reinforcement.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event5_vehicle_support.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event6_heavy_support.as"
+#include "systeme/fraktionspunkte_system/events/faction_points_event7_armoured_wave.as"
 
 const float FP_MARKER_CLEAR_DELAY    = 10.0f;  // Marker bleibt 10s nach Execution sichtbar
 const float FP_EVENT_COOLDOWN        = 120.0f; // Globaler Cooldown pro Fraktion zwischen zwei Events
@@ -39,6 +40,7 @@ class FactionPointsEventRegistry {
 	protected FactionPointsEvent4BaseReinforcement@ m_event4;
 	protected FactionPointsEvent5VehicleSupport@ m_event5;
 	protected FactionPointsEvent6HeavySupport@ m_event6;
+	protected FactionPointsEvent7ArmouredWave@ m_event7;
 	protected array<FactionPointsPendingExecution@> m_pendingExecutions;
 	protected array<FactionPointsPendingMarkerClear@> m_pendingMarkerClears;
 	protected array<float> m_cooldownRemaining; // Cooldown-Timer pro Fraktion (zaehlt runter)
@@ -52,6 +54,7 @@ class FactionPointsEventRegistry {
 		@m_event4 = FactionPointsEvent4BaseReinforcement(m_metagame);
 		@m_event5 = FactionPointsEvent5VehicleSupport(m_metagame);
 		@m_event6 = FactionPointsEvent6HeavySupport(m_metagame);
+		@m_event7 = FactionPointsEvent7ArmouredWave(m_metagame);
 		m_cooldownRemaining.resize(FP_MAX_FACTIONS_REGISTRY);
 		for (int i = 0; i < FP_MAX_FACTIONS_REGISTRY; ++i) m_cooldownRemaining[i] = 0.0f;
 	}
@@ -63,6 +66,7 @@ class FactionPointsEventRegistry {
 		if (token == m_event4.getCommandToken()) return true;
 		if (token == m_event5.getCommandToken()) return true;
 		if (token == m_event6.getCommandToken()) return true;
+		if (token == m_event7.getCommandToken()) return true;
 		return false;
 	}
 
@@ -80,7 +84,8 @@ class FactionPointsEventRegistry {
 		return "(admin) Events: /event1 (cost " + m_event1.getCost() + "), /event2 (cost " + m_event2.getCost() +
 			"), /event3 (cost " + m_event3.getCost() + "), /event3_sim (simulation)" +
 			", /event4 (cost " + m_event4.getCost() + "), /event5 (cost " + m_event5.getCost() +
-			"), /event6 (cost " + m_event6.getCost() + ")";
+			"), /event6 (cost " + m_event6.getCost() +
+			"), /event7 (cost " + m_event7.getCost() + ")";
 	}
 
 	// Gibt die verbleibende Cooldown-Zeit fuer eine Fraktion zurueck (0 = bereit).
@@ -91,6 +96,9 @@ class FactionPointsEventRegistry {
 
 	void update(float time) {
 		if (time <= 0.0f) return;
+
+		// Event7: verzoegerte Einzel-Spawns abarbeiten
+		if (m_event7 !is null) m_event7.updateSpawnQueue(time);
 
 		for (int i = 0; i < int(m_cooldownRemaining.size()); ++i) {
 			if (m_cooldownRemaining[i] > 0.0f) {
@@ -396,6 +404,7 @@ class FactionPointsEventRegistry {
 		if (token == FP_EVENT4_TOKEN) return FP_MARKER_SLOT_EVENT4;
 		if (token == FP_EVENT5_TOKEN) return FP_MARKER_SLOT_EVENT5;
 		if (token == FP_EVENT6_TOKEN) return FP_MARKER_SLOT_EVENT6;
+		if (token == FP_EVENT7_TOKEN) return FP_MARKER_SLOT_EVENT7;
 		return -1;
 	}
 
@@ -403,6 +412,7 @@ class FactionPointsEventRegistry {
 	protected int getMarkerAtlasForToken(const string &in token) const {
 		if (token == FP_EVENT5_TOKEN) return FP_MARKER_ATLAS_SANTA; // Medium Vehicle
 		if (token == FP_EVENT6_TOKEN) return FP_MARKER_ATLAS_SANTA; // Heavy Vehicle
+		if (token == FP_EVENT7_TOKEN) return FP_MARKER_ATLAS_SANTA; // Armoured Wave
 		return FP_MARKER_ATLAS_PARADROP;                             // alle anderen = Fallschirm
 	}
 
@@ -422,6 +432,8 @@ class FactionPointsEventRegistry {
 		if (token == FP_EVENT5_TOKEN && m_event5.tryGetTargetBaseName(factionId, baseName))
 			return getBasePositionStrByName(baseName);
 		if (token == FP_EVENT6_TOKEN && m_event6.tryGetTargetBaseName(factionId, baseName))
+			return getBasePositionStrByName(baseName);
+		if (token == FP_EVENT7_TOKEN && m_event7.tryGetTargetBaseName(factionId, baseName))
 			return getBasePositionStrByName(baseName);
 
 		// Event1: keine Basis-Referenz → erste eigene Basis als Fallback
@@ -502,6 +514,10 @@ class FactionPointsEventRegistry {
 			string baseName;
 			if (m_event6.tryGetTargetBaseName(factionId, baseName)) return baseName;
 		}
+		if (ev.getCommandToken() == FP_EVENT7_TOKEN) {
+			string baseName;
+			if (m_event7.tryGetTargetBaseName(factionId, baseName)) return baseName;
+		}
 		return "";
 	}
 
@@ -522,6 +538,7 @@ class FactionPointsEventRegistry {
 		if (token == m_event4.getCommandToken()) return m_event4;
 		if (token == m_event5.getCommandToken()) return m_event5;
 		if (token == m_event6.getCommandToken()) return m_event6;
+		if (token == m_event7.getCommandToken()) return m_event7;
 		return null;
 	}
 
