@@ -97,6 +97,8 @@ class FactionPointsEventRegistry {
 	void update(float time) {
 		if (time <= 0.0f) return;
 
+		// Event4: zweiten versetzten Drop abarbeiten
+		if (m_event4 !is null) m_event4.updateDropQueue(time);
 		// Event7: verzoegerte Einzel-Spawns abarbeiten
 		if (m_event7 !is null) m_event7.updateSpawnQueue(time);
 
