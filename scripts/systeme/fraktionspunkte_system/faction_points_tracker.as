@@ -4,13 +4,13 @@
 #include "query_helpers.as"
 #include "systeme/fraktionspunkte_system/faction_points_store.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_defense_state.as"
+#include "systeme/fraktionspunkte_system/faction_points_kill_rank.as"
 #include "events/character_death_helpers.as"
 
 const float FP_AUTOSAVE_INTERVAL = 30.0f;
 const float FP_HOLD_TICK_INTERVAL = 20.0f;
 const int FP_CAPTURE_REWARD = 120;
 const int FP_HOLD_REWARD_PER_BASE = 5;
-const int  FP_KILL_REWARD    = 2;    // FP pro Kill (anpassbar)
 const bool FP_KILL_REWARD_AI = true; // false = nur Kills durch Spieler zaehlen
 const bool FP_VERBOSE_HOLD_LOG = false;
 
@@ -21,12 +21,15 @@ class FactionPointsTracker : Tracker {
 	protected FactionPointsStore@ m_store;
 	protected float m_saveTimer = 0.0f;
 	protected float m_holdTimer = 0.0f;
+	protected float m_killRankTimer = 0.0f; // 0 = beim ersten Update sofort neu berechnen
+	protected array<int> m_killFpByFaction;
 
 	FactionPointsTracker(Metagame@ metagame, FactionPointsStore@ store) {
 		@m_metagame = @metagame;
 		@m_store = @store;
 		m_saveTimer = FP_AUTOSAVE_INTERVAL;
 		m_holdTimer = FP_HOLD_TICK_INTERVAL;
+		m_killRankTimer = 0.0f;
 
 		// Event-Driven: Capture-Vergabe ueber Base-Owner-Events.
 		m_metagame.getComms().send("<command class='set_metagame_event' name='base_owner_change_event' enabled='1' />");
@@ -40,7 +43,14 @@ class FactionPointsTracker : Tracker {
 	void update(float time) {
 		if (m_store is null) return;
 
-		m_store.ensureFactionCount(getDynamicFactionCount());
+		int fc = getDynamicFactionCount();
+		m_store.ensureFactionCount(fc);
+
+		m_killRankTimer -= time;
+		if (m_killRankTimer <= 0.0f) {
+			refreshKillFpByBaseRanking(fc);
+			m_killRankTimer = FP_KILL_RANK_REFRESH_INTERVAL;
+		}
 
 		m_holdTimer -= time;
 		if (m_holdTimer <= 0.0f) {
@@ -95,7 +105,18 @@ class FactionPointsTracker : Tracker {
 		m_store.ensureFactionCount(getDynamicFactionCount());
 		if (factionId >= m_store.getFactionCount()) return;
 
-		m_store.add(factionId, FP_KILL_REWARD, false);
+		int killFp = getKillFpForFaction(factionId);
+		m_store.add(factionId, killFp, false);
+	}
+
+	protected void refreshKillFpByBaseRanking(int factionCount) {
+		fpComputeKillFpByBaseRanking(m_metagame, factionCount, m_killFpByFaction);
+	}
+
+	// Nutzt Cache aus refreshKillFpByBaseRanking (alle FP_KILL_RANK_REFRESH_INTERVAL Sekunden).
+	protected int getKillFpForFaction(int factionId) const {
+		if (factionId < 0 || factionId >= int(m_killFpByFaction.size())) return FP_KILL_RANK_PLACE_2;
+		return m_killFpByFaction[factionId];
 	}
 
 	protected void applyHoldRewards() {

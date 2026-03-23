@@ -73,7 +73,7 @@ class FactionPointsEventRegistry {
 	}
 
 	string getUsage() const {
-		return "Events: /event1 (cost " + m_event1.getCost() + "), /event2 (cost " + m_event2.getCost() +
+		return "(admin) Events: /event1 (cost " + m_event1.getCost() + "), /event2 (cost " + m_event2.getCost() +
 			"), /event3 (cost " + m_event3.getCost() + "), /event3_sim (simulation)" +
 			", /event4 (cost " + m_event4.getCost() + "), /event5 (cost " + m_event5.getCost() + ")";
 	}

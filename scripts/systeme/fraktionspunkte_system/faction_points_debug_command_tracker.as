@@ -17,15 +17,8 @@ const string FP_CMD_AI_TICK    = "fp_ai_tick";
 const string FP_CMD_FORCE_EVENT = "fp_event"; // /fp_event <token> - Force-Execute fuer eigene Fraktion
 
 // Debug-Command-Tracker:
-// - /fp                              → Befehlsübersicht
-// - /fp_status                       → Punkte aller Fraktionen
-// - /fp hud on|off                   → FP-HUD umschalten (AliveHud wird Mutex)
-// - /fp_add <faction_id> <amount>    → FP hinzufügen
-// - /fp_set <faction_id> <amount>    → FP setzen
-// - /fp_ai                           → AI-Status
-// - /fp_ai_tick                      → AI sofort auslösen
-// - /fp_event <token>                → Event erzwingen (ohne FP-Prüfung), eigene Fraktion
-// - /event1..5                       → Event mit FP-Prüfung auslösen
+// - /fp, /fp_status, /fp hud         → fuer alle Spieler (Info / HUD)
+// - /event1..5, /event3_sim, /fp_event, /fp_add/set, /fp_ai* → nur Admins (Ausfuehrung & Cheats)
 class FactionPointsDebugCommandTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected FactionPointsStore@ m_store;
@@ -33,6 +26,7 @@ class FactionPointsDebugCommandTracker : Tracker {
 	protected FactionPointsAiTracker@ m_aiTracker;
 	protected FactionPointsHudTracker@ m_fpHudTracker;
 	protected FactionAliveHudTracker@ m_aliveHudTracker;
+	// Reserviert (API): frueher globaler Admin-Lock; Berechtigung jetzt ueber requiresAdminForCommand().
 	protected bool m_adminOnly = true;
 
 	FactionPointsDebugCommandTracker(
@@ -68,16 +62,16 @@ class FactionPointsDebugCommandTracker : Tracker {
 		array<string>@ tokens = tokenize(message);
 		if (tokens.size() == 0) return;
 		string commandToken = normalizeCommandToken(tokens[0]);
-		bool isFpCmd = isFpCommandToken(commandToken);
 		bool isEventCmd = (m_eventRegistry !is null) && m_eventRegistry.isEventCommandToken(commandToken);
 		bool isSimulationCmd = (m_eventRegistry !is null) && m_eventRegistry.isSimulationCommandToken(commandToken);
-		if (!isFpCmd && !isEventCmd && !isSimulationCmd) return;
+		if (!isFpCommandToken(commandToken) && !isEventCmd && !isSimulationCmd) return;
 
 		int senderId = event.getIntAttribute("player_id");
 		string senderName = event.getStringAttribute("player_name");
+		bool isAdmin = m_metagame.getAdminManager().isAdmin(senderName, senderId);
 
-		if (m_adminOnly && !m_metagame.getAdminManager().isAdmin(senderName, senderId)) {
-			sendPrivateMessage(m_metagame, senderId, "FP command locked: admin only.");
+		if (requiresAdminForCommand(commandToken, isEventCmd, isSimulationCmd) && !isAdmin) {
+			sendPrivateMessage(m_metagame, senderId, "FP: this command is admin only.");
 			return;
 		}
 
@@ -149,6 +143,20 @@ class FactionPointsDebugCommandTracker : Tracker {
 		}
 	}
 
+	// Direkte Event-Ausfuehrung (/event1..), Force, Simulation und FP-Cheats: nur Admin.
+	// /fp, /fp_status, /fp hud bleiben fuer alle (ohne Admin).
+	protected bool requiresAdminForCommand(
+		const string &in commandToken,
+		bool isEventCmd,
+		bool isSimulationCmd
+	) const {
+		if (isEventCmd || isSimulationCmd) return true;
+		if (commandToken == FP_CMD_FORCE_EVENT) return true;
+		if (commandToken == FP_CMD_ADD || commandToken == FP_CMD_SET) return true;
+		if (commandToken == FP_CMD_AI_STATUS || commandToken == FP_CMD_AI_TICK) return true;
+		return false;
+	}
+
 	protected bool isFpCommandToken(const string &in token) const {
 		if (token == FP_CMD_SHOW) return true;
 		if (token == FP_CMD_STATUS) return true;
@@ -201,11 +209,11 @@ class FactionPointsDebugCommandTracker : Tracker {
 	protected void sendUsage(int playerId) {
 		string usage = "/fp_status - show FP per faction\n"
 			+ "/fp hud on|off - toggle FP HUD\n"
-			+ "/fp_event <token> - force-execute event (no FP check)\n"
-			+ "/fp_add <fid> <n> - add FP\n"
-			+ "/fp_set <fid> <n> - set FP\n"
-			+ "/fp_ai - AI status\n"
-			+ "/fp_ai_tick - trigger AI tick now";
+			+ "(admin) /fp_event <token> - force-execute event (no FP check)\n"
+			+ "(admin) /fp_add <fid> <n> - add FP\n"
+			+ "(admin) /fp_set <fid> <n> - set FP\n"
+			+ "(admin) /fp_ai - AI status\n"
+			+ "(admin) /fp_ai_tick - trigger AI tick now";
 		if (m_eventRegistry !is null) usage += "\n" + m_eventRegistry.getUsage();
 		sendPrivateMessage(m_metagame, playerId, usage);
 	}
