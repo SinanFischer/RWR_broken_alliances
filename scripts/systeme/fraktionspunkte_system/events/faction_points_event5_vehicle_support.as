@@ -61,6 +61,26 @@ class FactionPointsEvent5VehicleSupport : FactionPointsEvent {
 		return true;
 	}
 
+	// Gibt den Namen der naechsten Ziel-Basis zurueck, OHNE den Round-Robin-Zaehler vorzuruecken.
+	bool tryGetTargetBaseName(int factionId, string &out baseName) {
+		array<const XmlElement@>@ allBases = getBases(m_metagame);
+		if (allBases is null || allBases.size() == 0) return false;
+		array<const XmlElement@> ownedBases;
+		for (uint i = 0; i < allBases.size(); ++i) {
+			const XmlElement@ base = allBases[i];
+			if (base is null) continue;
+			if (base.getIntAttribute("owner_id") != factionId) continue;
+			ownedBases.insertLast(base);
+		}
+		if (ownedBases.size() == 0) return false;
+		uint index = m_baseCallIndex % ownedBases.size();
+		const XmlElement@ selected = ownedBases[index];
+		baseName = selected.getStringAttribute("name");
+		if (baseName.length() == 0) baseName = selected.getStringAttribute("key");
+		if (baseName.length() == 0) baseName = "base";
+		return true;
+	}
+
 	// Sammelt alle eigenen Basen, waehlt per Round-Robin eine aus.
 	protected bool pickOwnedBase(int factionId, Vector3 &out outPos, string &out outName) {
 		array<const XmlElement@>@ allBases = getBases(m_metagame);

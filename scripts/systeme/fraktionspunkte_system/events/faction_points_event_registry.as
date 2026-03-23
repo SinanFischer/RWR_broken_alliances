@@ -329,6 +329,14 @@ class FactionPointsEventRegistry {
 			string baseName;
 			if (m_event3.tryGetLostBaseName(factionId, baseName)) return baseName;
 		}
+		if (ev.getCommandToken() == FP_EVENT4_TOKEN) {
+			string baseName;
+			if (m_event4.tryGetTargetBaseName(factionId, baseName)) return baseName;
+		}
+		if (ev.getCommandToken() == FP_EVENT5_TOKEN) {
+			string baseName;
+			if (m_event5.tryGetTargetBaseName(factionId, baseName)) return baseName;
+		}
 		return "";
 	}
 

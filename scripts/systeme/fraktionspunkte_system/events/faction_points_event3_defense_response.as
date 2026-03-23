@@ -39,7 +39,7 @@ class FactionPointsEvent3DefenseResponse : FactionPointsEvent {
 	bool canExecute(int playerId, int factionId, string &out reason) {
 		int lostBaseId = -1;
 		if (!fpDefensePeekLostBase(factionId, lostBaseId)) {
-			reason = "Keine kuerzlich verlorene Basis registriert.";
+			reason = "No recently lost base registered.";
 			return false;
 		}
 
@@ -82,7 +82,7 @@ class FactionPointsEvent3DefenseResponse : FactionPointsEvent {
 
 		const XmlElement@ base = getFriendlyBase(factionId);
 		if (base is null) {
-			result = "Keine verbuendete Basis gefunden.";
+			result = "No friendly base found.";
 			return false;
 		}
 
@@ -92,7 +92,7 @@ class FactionPointsEvent3DefenseResponse : FactionPointsEvent {
 		string baseName = base.getStringAttribute("name");
 		if (baseName.length() == 0) baseName = base.getStringAttribute("key");
 		if (baseName.length() == 0) baseName = "friendly base";
-		result = "Event3 Simulation: 3 Defense-Squads bei Basis " + baseName + ".";
+		result = "Event3 simulation: 3 defense squads at base " + baseName + ".";
 		return true;
 	}
 
