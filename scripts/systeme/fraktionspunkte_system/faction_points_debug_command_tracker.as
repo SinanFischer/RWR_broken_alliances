@@ -13,7 +13,7 @@ const string FP_CMD_ADD        = "fp_add";
 const string FP_CMD_SET        = "fp_set";
 const string FP_CMD_AI_STATUS  = "fp_ai";
 const string FP_CMD_AI_TICK    = "fp_ai_tick";
-const string FP_CMD_FORCE_EVENT = "fp_event"; // /fp_event <token> — Force-Execute fuer eigene Fraktion
+const string FP_CMD_FORCE_EVENT = "fp_event"; // /fp_event <token> - Force-Execute fuer eigene Fraktion
 
 // Debug-Command-Tracker:
 // - /fp                              → Punkte aller Fraktionen + Befehlsübersicht
@@ -170,21 +170,34 @@ class FactionPointsDebugCommandTracker : Tracker {
 			m_store.ensureFactionCount(factionCount);
 		}
 
-		string msg = "FP | ";
+		// FP per faction with short name (same logic as StatsCommandTracker)
+		string msg = "FP: ";
 		for (int i = 0; i < m_store.getFactionCount(); ++i) {
 			if (i > 0) msg += " | ";
-			msg += "F" + i + ": " + m_store.get(i);
+			string shortName = getFactionShortName((factions !is null && i < factionCount) ? factions[i] : null, i);
+			msg += shortName + ": " + m_store.get(i);
 		}
 		sendPrivateMessage(m_metagame, playerId, msg);
+		sendUsage(playerId);
+	}
+
+	// Identical to StatsCommandTracker.getFactionShortName - first 2 chars of key or name.
+	protected string getFactionShortName(const XmlElement@ faction, int factionId) {
+		if (faction is null) return "F" + factionId;
+		string key = faction.getStringAttribute("key");
+		if (key.length() >= 2) return key.substr(0, 2);
+		string name = faction.getStringAttribute("name");
+		if (name.length() >= 2) return name.substr(0, 2);
+		return "F" + factionId;
 	}
 
 	protected void sendUsage(int playerId) {
-		string usage = "/fp hud on|off — toggle FP HUD\n"
-			+ "/fp_event <token> — force-execute event (no FP check)\n"
-			+ "/fp_add <fid> <n> — add FP\n"
-			+ "/fp_set <fid> <n> — set FP\n"
-			+ "/fp_ai — AI status\n"
-			+ "/fp_ai_tick — trigger AI tick now";
+		string usage = "/fp hud on|off - toggle FP HUD\n"
+			+ "/fp_event <token> - force-execute event (no FP check)\n"
+			+ "/fp_add <fid> <n> - add FP\n"
+			+ "/fp_set <fid> <n> - set FP\n"
+			+ "/fp_ai - AI status\n"
+			+ "/fp_ai_tick - trigger AI tick now";
 		if (m_eventRegistry !is null) usage += "\n" + m_eventRegistry.getUsage();
 		sendPrivateMessage(m_metagame, playerId, usage);
 	}

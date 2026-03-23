@@ -12,7 +12,7 @@ class FactionPointsHudTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected FactionPointsStore@ m_store;
 	protected float m_accum = 0.0f;
-	protected bool m_enabled = true;
+	protected bool m_enabled = false; // starts OFF; activate with /fp hud on
 
 	FactionPointsHudTracker(Metagame@ metagame, FactionPointsStore@ store) {
 		@m_metagame = @metagame;

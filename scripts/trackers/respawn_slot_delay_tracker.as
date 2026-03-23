@@ -1,7 +1,7 @@
 // Respawn-Slot-Delay: Nach Tod bleibt ein Spawn-Slot X Sekunden „besetzt" → capacity_multiplier sinkt.
 // Zweiter Hebel: spawn_interval = 60s wenn liveCount >= effectiveCap (Fraktion ist voll/drüber).
 // Mechanismus: mult = (nativeCap - reserved) / nativeCap
-//   nativeCap  = (xmlCap / sumXmlCap) × totalLive  — stabiler Proxy für max_soldiers-Anteil
+//   nativeCap  = (xmlCap / sumXmlCap) × totalLive  - stabiler Proxy für max_soldiers-Anteil
 //   reserved   = Anzahl noch aktiver Slot-Ablaufzeitstempel nach Toden
 //
 // Warum totalLive statt liveCount als Nenner:
