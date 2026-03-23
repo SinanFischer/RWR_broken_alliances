@@ -13,7 +13,7 @@
 | `/fov on` | FoV-Erweiterung AN |
 | `/fov off` | FoV-Erweiterung AUS |
 
-**Faction Points**
+**Faction Point System**
 | Command | Description |
 |---|---|
 | `/fp` | Alle FP-Befehle anzeigen |
@@ -35,8 +35,19 @@
 | `/ai_defend` | KI-Verteidigung auslösen |
 | `/ai_status` | KI-Status anzeigen |
 
+### Faction Points System 
+- Jede Fraktion besitzt jetzt Fraktionspunkte, diese gibt sie von selbst aus. 
+
+
 ### Slotblock System gefixt
-- Slotblock System hat nicht wirklich mehr gegriffen. Dank HUD Fehler erkannt und behoben. Nun funktioniert das System wie erwartet. 
+- Slotblock System hat nicht wirklich mehr gegriffen. Dank HUD Fehler erkannt und behoben. Nun funktioniert das System wie erwartet.
+
+
+### Assaults & Last Defenses 
+- Wenn die führende Fraktion x:3 mehr Truppen hat als die andere Fraktion findet ein kompensator statt. Die 1:3 unterlegende Fraktion erhält einen 4x Capacity Boost und erhält entsprechend viele Soldaten. Dies dient als Push der Fraktion. Jede Fraktion hat genau 1x so eine mobilisierungsfähigkeit. 
+Bei Aussault Maps wird üblicherweise der angreifenden Fraktion dieser sofort ausgespielt. Was einen Sturm Angriff darstellt.
+
+
 
 ### New deployables 
 - mg scoped 

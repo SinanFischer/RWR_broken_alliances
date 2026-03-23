@@ -1,18 +1,20 @@
-// Zentrale AI-Konfiguration (Utility AI = Entscheidung per Nutzwert-Score).
-const bool FP_AI_ENABLED_BY_DEFAULT = true;
-const float FP_AI_DECISION_INTERVAL = 10.0f; // Decider-Takt: alle 10s pruefen ob Sparziel erreicht
-const int FP_AI_MIN_POINTS_RESERVE = 150;
-const float FP_AI_MIN_UTILITY_TO_SPEND = 0.55f;
-const bool FP_AI_VERBOSE_LOG = false;
+// AI-Konfiguration (Utility AI vereinfacht auf Chance-Rolls und Save-Goals).
+const bool  FP_AI_ENABLED_BY_DEFAULT = true;
+const float FP_AI_DECISION_INTERVAL  = 10.0f; // Haupt-Taktgeber: alle 10s pruefen
+const bool  FP_AI_VERBOSE_LOG        = false;
 
-// Prioritaetsindex (Importance Index = relative strategische Wichtigkeit).
-const float FP_AI_EVENT1_IMPORTANCE = 0.60f;
-const float FP_AI_EVENT2_IMPORTANCE = 0.90f;
-const float FP_AI_EVENT3_IMPORTANCE = 1.00f;
-const float FP_AI_EVENT4_IMPORTANCE = 0.70f; // Basis-Verstaerkung: Verteidigung hat mittlere Prio
-const float FP_AI_EVENT5_IMPORTANCE = 0.65f; // Fahrzeug-Unterstuetzung: nützlich mit mehreren Basen
+// Event 1 (Support Squad): alle 60s, 5% Chance pro Fraktion
+const float FP_AI_EVENT1_INTERVAL = 60.0f;
+const float FP_AI_EVENT1_CHANCE   = 0.05f;
 
-// Sparziele (Save Target = FP-Wert, auf den aktiv hingespart wird).
-const int FP_AI_EVENT2_SAVE_TARGET = 1200;
-const int FP_AI_EVENT4_SAVE_TARGET = 350;
-const int FP_AI_EVENT5_SAVE_TARGET = 500;
+// Event 3 (Defense Response): bei Basierverlust, 25% Chance
+const float FP_AI_EVENT3_CHANCE = 0.25f;
+
+// Spare Events (2, 4, 5): gewichteter Zufalls-Roll fuer das naechste Sparziel
+const float FP_AI_EVENT2_WEIGHT = 0.2f;
+const float FP_AI_EVENT4_WEIGHT = 0.6f;
+const float FP_AI_EVENT5_WEIGHT = 0.5f;
+
+// Reserve nach Spare-Event-Kauf: zufaellig zwischen MIN und MAX
+const int FP_AI_RESERVE_MIN = 0;
+const int FP_AI_RESERVE_MAX = 450;

@@ -33,7 +33,7 @@ class FactionPointsAiTracker : Tracker {
 		if (m_decisionTimer > 0.0f) return;
 
 		string summary;
-		bool executed = m_planner.tick(summary);
+		bool executed = m_planner.tick(FP_AI_DECISION_INTERVAL, summary);
 		m_lastSummary = summary;
 		if (executed || FP_AI_VERBOSE_LOG) {
 			_log("FP-AI: " + summary, 1);
@@ -48,7 +48,7 @@ class FactionPointsAiTracker : Tracker {
 			return;
 		}
 		string summary;
-		m_planner.tick(summary);
+		m_planner.tick(FP_AI_DECISION_INTERVAL, summary);
 		m_lastSummary = summary;
 		result = summary;
 	}
