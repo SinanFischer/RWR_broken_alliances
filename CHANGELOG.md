@@ -37,7 +37,7 @@
 
 ### Faction Points System
 
-Each faction earns Faction Points (FP) passively over time — the more bases held, the faster they accumulate. The AI spends FP automatically; players can trigger eligible events manually via chat commands.
+**FP income** (tune in `faction_points_tracker.as`): **base capture** (+120 FP), **hold tick** every 20 s (+5 FP per owned base), **kills** (+2 FP per valid kill via `character_kill`; friendly fire excluded; set `FP_KILL_REWARD` / `FP_KILL_REWARD_AI` for amount and whether AI soldier kills count). The AI spends FP automatically; players can trigger eligible events manually via chat commands.
 
 **Events**
 
