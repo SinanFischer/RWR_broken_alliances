@@ -2,9 +2,26 @@
 
 ## [1.2.0] - 2026-03-17
 
-- Waffen sind der Realität angepasst, retrigger rates und Waffenmerkmale basieren auf realität. (Keine Garantie auf 100% Übereinstimmung). 
 
-Kleines: 
+### Commands: 
+/ hud 
+/ fov off & on 
+/ ai_attack, ai_status, ai_defend...
+
+### Slotblock System gefixt
+- Slotblock System hat nicht wirklich mehr gegriffen. Dank HUD Fehler erkannt und behoben. Nun funktioniert das System wie erwartet. 
+
+### New deployables 
+- mg scoped 
+- minigun scoped 
+- support mortar (higher range, normal projectiles)
+
+
+
+### Weapons 
+- Waffen sind der Realität angepasst, retrigger rates und Waffenmerkmal Einstellugnen basieren auf realität. (Keine Garantie auf 100% Übereinstimmung, Inspiration). 
+
+**Kleines:** 
 - **CAWS:** stärker als Schrotflinte auf Distanz abgestuft (höhere `spread_range`, niedrigerer `accuracy_factor`, etwas langsamere `projectile_speed`, `kill_decay` früher/kürzer, Stance-Genauigkeit wie SPAS-12 im Paket).
 - **Waffen:** Wo `sight_range_modifier` (*Multiplikator für die effektive Sichtweite mit der Waffe*) gesetzt ist, ist `ai_sight_range_modifier` (*KI-Variante desselben Faktors*) **90 %** des Spielerwerts (10 % weniger). Bei **0** bleibt die KI bei **0**. Waffen nur per `file="…"` ohne eigenen Eintrag unverändert (Vanilla-Basis). **Fix:** `patch_ai_sight_modifiers.ps1` nutzt `(?<!ai_)`, damit nicht innerhalb von `ai_sight_range_modifier` gematcht wird; Panzer-`tank_cannon*` / `tank_mg*` / `radar_tank_cannon` hatten fehlendes `sight_range_modifier` (Loader-Crash) – repariert.
 - **KI `fire_open_min_time` rollenbasiert:** Line-Infanterie `default_soldiers` / `default.ai` / `map12` **9s** (statt 12); Elite (Captain, Bodyguard, Miniboss, SF) **8s**; MG `support.ai` **20s** unverändert; EOD **8s**; Shotgun **6s** unverändert.
