@@ -44,12 +44,34 @@
 
     <sound class="result" key="static_object" copy="terrain" />
     
-    <effect class="result" key="terrain" ref="Burst" use_surface_color="1" />
-    <effect class="result" key="vehicle" ref="Burst" use_surface_color="1" />
-    <effect class="result" key="static_object" ref="Burst" use_surface_color="1" />
-    <effect class="result" key="shield" ref="ShieldBurst" />
+    <!-- Impact FX: particles/bullet_impact_fx.particle + textures (5 HI-derived PNGs only, no global overrides) -->
+    <effect class="result" key="terrain" ref="xMuzzleFog" />
+    <effect class="result" key="terrain" ref="xKickDust" />
+    <effect class="result" key="terrain" ref="xUpDust2" />
+    <effect class="result" key="terrain" ref="xDirtBurst" use_surface_color="1" />
+
+    <effect class="result" key="vehicle" ref="xMuzzleFog" />
+    <effect class="result" key="vehicle" ref="xKickDust" />
+    <effect class="result" key="vehicle" ref="xUpDust2" />
+    <effect class="result" key="vehicle" ref="xShieldBurst" use_surface_color="0" />
+    <effect class="result" key="vehicle" ref="xBulletFlash" />
+
+    <effect class="result" key="static_object" ref="xBulletImpactObjectGlow" />
+    <effect class="result" key="static_object" ref="xBulletImpactObjectDamage" />
+    <effect class="result" key="static_object" ref="xMuzzleFog" />
+    <effect class="result" key="static_object" ref="xKickDust" />
+    <effect class="result" key="static_object" ref="xUpDust2" />
+    <effect class="result" key="static_object" ref="xShieldBurst" use_surface_color="0" />
+    <effect class="result" key="static_object" ref="xBulletFlash" />
+
+    <effect class="result" key="shield" ref="xMuzzleFog" />
+    <effect class="result" key="shield" ref="xKickDust" />
+    <effect class="result" key="shield" ref="xUpDust2" />
+    <effect class="result" key="shield" ref="xShieldBurst" />
+    <effect class="result" key="shield" ref="xBulletFlash" />
 	
     <!-- <trail probability="1.0" key="laser" /> -->
-    <trail probability="1.0" />
+    <trail probability="1" />
 
 </projectile>
+ 

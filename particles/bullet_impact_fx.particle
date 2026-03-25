@@ -1,0 +1,369 @@
+// Subset of Infantry Particle Systems (Heavy Infantry) for bullet hit FX only.
+// Original by Josef Mueller {Anzac Joe}, CC BY-NC-ND 4.0 — see Heavy Infantry mod for full file.
+// Textures used: impact_damage.png, impact_glow.png, expsmoke.png, exprise.png, cartoonflame2.png (in textures/).
+
+material xBulletImpactDamage{
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend alpha_blend
+			fog_override true
+
+			texture_unit {
+				texture impact_damage.png
+			}
+		}
+	}
+}
+
+material xExpRise {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			depth_check on
+			scene_blend alpha_blend
+
+			texture_unit {
+				texture exprise.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material xExpSmoke {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			depth_check on
+			scene_blend alpha_blend
+
+			texture_unit {
+				texture expsmoke.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material xFlame2 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame2.png
+			}
+		}
+	}
+}
+
+particle_system 				xBulletImpactObjectDamage
+{
+	quota						1000
+	material					xBulletImpactDamage
+	particle_width				0.75
+	particle_height				0.75
+	cull_each					false
+	renderer					billboard
+	billboard_type				point
+	accurate_facing 			false
+
+	emitter 					Point
+	{
+		colour					1 1 1 0.25
+		direction				0 1 0
+		velocity				0
+		emission_rate			18
+		position				0 0 0
+		time_to_live			10
+		duration				0.5
+	}
+
+	affector					ColourFader
+	{
+		alpha					-0.025
+	}
+}
+
+particle_system 				xBulletImpactObjectGlow
+{
+	quota						10000
+	material					Piece
+	particle_width				0.15
+	particle_height				0.15
+	cull_each					false
+	renderer					billboard
+	billboard_type				point
+	accurate_facing 			false
+
+	emitter 					Point
+	{
+		emission_rate			1
+		direction				0 1 0
+		velocity				0
+		position				0 0 0
+		time_to_live			2.0
+		duration				0.5
+	}
+	
+	affector					ColourImage
+	{
+		image					impact_glow.png
+	}
+}
+
+particle_system xMuzzleFog
+{
+	material	xExpSmoke
+	particle_width 3.0
+	particle_height 3.0
+	quota 10000
+	cull_each false
+	sorted false
+	local_space false
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type point
+	billboard_origin center
+	billboard_rotation_type vertex
+	point_rendering false
+	accurate_facing false
+
+	emitter Box
+	{
+		colour	1 1 1 0.20
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 180
+		width 2.5
+		height 2.5
+		depth 2.5
+		emission_rate 0.4
+		velocity_min 0.5
+		velocity_max 0.5
+		time_to_live 10
+		duration_min 0.5
+		duration_max 0.5
+	}
+
+	affector Scaler
+	{
+		rate 0.5
+	}
+	
+	affector ColourFader
+	{
+		alpha	-0.018
+	}
+	
+}
+
+particle_system xShieldBurst
+{
+    material        Piece
+    particle_width  0.2
+    particle_height 0.2
+    cull_each       false
+    quota           1000
+    billboard_type  point
+	accurate_facing 		true
+    
+    emitter Point
+    {
+        angle           180
+	colour	1 1 1 1
+	colour_range_start	1 1 1 1
+	colour_range_end	1 1 1 1
+        emission_rate   250
+        time_to_live    0.25
+        velocity_min 8
+        velocity_max 8
+        
+        duration 0.025
+    }
+
+    affector LinearForce
+    {
+        force_vector      0 -25 0
+        force_application add
+    }
+
+    affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+    }
+
+}
+
+particle_system xUpDust2
+{
+	quota	100
+	material	xExpSmoke
+	particle_width	0.75
+	particle_height	0.75
+	cull_each	true
+	renderer	billboard
+	billboard_type	point
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 0.35
+		angle	0
+		direction	0 1 0
+		emission_rate	10
+		position	0 0 0
+		velocity	0.0
+		velocity_min	0.0
+		velocity_max	0.0
+		time_to_live	1.0
+		time_to_live_min	1.0
+		time_to_live_max	1.0
+		duration	0.25
+		duration_min	0.25
+		duration_max	0.25
+	}
+ 
+	affector Scaler
+	{
+		rate	0.3
+	}
+
+affector LinearForce
+{
+    force_vector 0 0.8 0
+    force_application add
+}
+
+	affector ColourFader
+	{
+		alpha -0.9
+	}
+}
+
+particle_system 			xBulletFlash
+{
+	quota					1000
+	material				xFlame2
+	particle_width			0.5
+	particle_height			0.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			point
+	accurate_facing 		true
+
+	emitter 				Point
+	{
+		angle				0
+		colour				0.25 0.25 0.25
+		direction			0 1 0
+		emission_rate		150
+		position			0 0 0
+		velocity			0
+		velocity_min		0
+		velocity_max		0
+		time_to_live		0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration			0.025
+		duration_min		0.025
+		duration_max		0.025
+		width				0
+		height				0
+		depth				0
+	}
+}
+
+particle_system xDirtBurst
+{
+     material        Piece
+    particle_width  0.2
+    particle_height 0.2
+    cull_each       false
+    quota           1000
+    billboard_type  point
+	accurate_facing 		true
+    
+    emitter Point
+    {
+            emission_rate                       500
+            angle                               45
+            time_to_live                        0.25
+            velocity                            8.0
+            duration                            0.025
+    }
+
+    affector LinearForce
+    {
+        force_vector      0 -50 0
+        force_application add
+    }
+
+}
+
+particle_system xKickDust
+{
+	material		xExpRise
+	particle_width 		1
+	particle_height 	1
+	quota 			500
+	cull_each		false
+	renderer		billboard
+	billboard_type		oriented_self
+	common_direction	1 1 1
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 0.35
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 0
+		width 0.1
+		height 0.1
+		depth 0.1
+		emission_rate 37.5
+		velocity_min 2.0
+		velocity_max 2.0
+		time_to_live 0.5
+		duration_min 0.05
+		duration_max 0.05
+	}
+
+	affector Scaler
+	{
+		rate 1.0
+	}
+	
+	affector ColourFader
+	{
+		alpha -0.9
+	}
+	
+}
