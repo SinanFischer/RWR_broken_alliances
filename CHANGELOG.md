@@ -91,19 +91,15 @@ Information list of all calls:
 - **KI `fire_open_min_time` rollenbasiert:** Line-Infanterie `default_soldiers` / `default.ai` / `map12` **9s** (statt 12); Elite (Captain, Bodyguard, Miniboss, SF) **8s**; MG `support.ai` **20s** unverändert; EOD **8s**; Shotgun **6s** unverändert.
 - cover deploy tragmenge erweitert
 - wiesel flare preis auf 400 RP
-- origin shotgun waffe auf 120 RP
-- call humvee (landfahrzeug) teurer machen auf 350
-- VFS Flare in Waffenkammer auf 250 reduzieren
-- EOD Weste in Waffenkammer respawnable
-- FAH-01 in Waffenkammer respawnable machen
-- warum m4a1 so teuer? - 36 RP die anderne viel weniger? ggf preislich anpassen wenn kein triftiger Grund.
+- origin shotgun waffe rehöht auf price 120 RP
+- call humvee (landfahrzeug)  auf price 350 erhöht  
+- VFS Flare in Waffenkammer auf 250 reduziert 
+- EOD Weste ist nun respawnable 
+- FAH-01 ist nun respawnable 
 
 **Weiteres**
-
-- luftkissenboot als flare für Waffenkammer einrichten. Kosten: 1100 .
-- legion flare erstellen und für 3800 in die
-- mg deploy weapon duplizieren und eine weitere variante erstellen welche 2.5x so viel kostet aber die variante scoped ist und 0.325x mehr sight_range modifier hat als die normale variante
-- die minigun deploy weapon duplizieren und ebenfalls eine scoped variante machen mit 2.5x der kosten aber die variante scoped ist und 0.225x mehr sight_range modifier hat als die normale variante
+- Luftkissenflare added  
+- legion flare added 
 
 ## [1.1.0] - 2026-03-01
 
