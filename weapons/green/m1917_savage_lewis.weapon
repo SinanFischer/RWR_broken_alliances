@@ -55,7 +55,7 @@
     <commonness value="0.0053" can_respawn_with="1" in_stock="1"/>
     <inventory encumbrance="11.0" price="42" />
 
-    <projectile file="bullet.projectile">
+    <projectile file="bullet_mg.projectile">
         <result
         class="hit"
         kill_probability="1.4"

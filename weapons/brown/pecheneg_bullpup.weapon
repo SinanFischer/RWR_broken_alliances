@@ -39,7 +39,7 @@
 	<capacity value="1" source="rank" source_value="0.5" />  
 	
     <weak_hand_hold offset="0.4" />
-    <projectile file="bullet.projectile">
+    <projectile file="bullet_mg.projectile">
         <result class="hit" kill_probability="0.82" kill_decay_start_time="0.2" kill_decay_end_time="1.2" />
     </projectile>
 

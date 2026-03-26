@@ -96,7 +96,9 @@
     <effect class="result" key="shield" ref="x50CalImpactSmoke" />
     <effect class="result" key="character" ref="BloodSplat50Cal" lighting="1" />
     <effect class="result" key="character" ref="BurstShine50Cal" lighting="1" post_processing="0" />
+    <effect class="result" key="character" ref="xBloodSpray" />
 	
-    <trail probability="1.0" />
+    <!-- Weniger Schweif-Ticks: sonst stapelt sich Nebel zu dicht (v. a. bei schnellem Feuer) -->
+    <trail probability="0.52" />
 
 </projectile>

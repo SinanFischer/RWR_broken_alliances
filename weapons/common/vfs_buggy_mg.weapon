@@ -18,7 +18,7 @@
     <inventory encumbrance="10.0" price="2.0" />
     <weak_hand_hold offset="0.4" />
     <!-- Wie common/buggy_mg.weapon: PKM-/MG-Kaliber, kein .50 -->
-    <projectile file="bullet.projectile">
+    <projectile file="bullet_mg.projectile">
         <result class="hit" kill_probability="1.4" kill_decay_start_time="0.38" kill_decay_end_time="0.68" />
     </projectile>
     <shield offset="0.3 -0.6 0" extent="0.2 1.0 0.35" />

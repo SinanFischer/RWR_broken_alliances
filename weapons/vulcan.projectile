@@ -26,6 +26,7 @@
     <effect class="result" key="static_object" ref="LowDust" />
     <effect class="result" key="character" ref="Burst" use_surface_color="1" />
     <effect class="result" key="character" ref="LowDust" />
+    <effect class="result" key="character" ref="xBloodSpray" />
 	
     <trail probability="1.0" />
 

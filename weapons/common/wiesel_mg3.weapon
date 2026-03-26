@@ -34,7 +34,7 @@
 
     <weak_hand_hold offset="0.4" />
     <!-- 7,62×51 MG3 — wie andere Koax-/Fahrzeug-MGs (bullet), kein .50 -->
-    <projectile file="bullet.projectile">
+    <projectile file="bullet_mg.projectile">
         <result class="hit" kill_probability="1.25" kill_decay_start_time="0.35" kill_decay_end_time="0.72" />
     </projectile>
 

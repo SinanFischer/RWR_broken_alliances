@@ -24,7 +24,7 @@
     <commonness value="0.0" can_respawn_with="0" />
     <inventory encumbrance="11.0" price="40.0" />    
   
-    <projectile file="bullet.projectile">
+    <projectile file="bullet_mg.projectile">
         <result class="hit" kill_probability="1.4" kill_decay_start_time="0.35" kill_decay_end_time="0.75" />
     </projectile>
 

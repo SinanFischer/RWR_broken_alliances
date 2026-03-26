@@ -38,7 +38,7 @@
     <inventory encumbrance="5.0" price="65" />
 
     <weak_hand_hold offset="0.4" />
-    <projectile file="bullet.projectile">
+    <projectile file="bullet_mg.projectile">
         <!-- Höhere Killrate als MG4/Negev (0.52/0.58): Constant Recoil = mehr Treffer auf Ziel, rechtfertigt Premium-Preis -->
         <result class="hit" kill_probability="1.35" kill_decay_start_time="0.45" kill_decay_end_time="0.70" />
     </projectile>

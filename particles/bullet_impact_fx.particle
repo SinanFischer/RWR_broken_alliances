@@ -3122,7 +3122,7 @@ particle_system xAcHeExpSmoke2
 // .50 BMG / schweres Vollgeschoss: kein Explosions-Flash, stärkerer Staub + leichter Nachrauch (LowDust aus vanilla dust.particle als Referenz)
 particle_system x50CalDustKick
 {
-	quota	220
+	quota	175
 	material	Dust4
 	particle_width	0.62
 	particle_height	0.62
@@ -3137,7 +3137,7 @@ particle_system x50CalDustKick
 		colour_range_start	1 1 1 0.48
 		colour_range_end	1 1 1 1
 		direction	0 1 0
-		emission_rate	88
+		emission_rate	58
 		position	0 0 0
 		velocity	0.45
 		velocity_min	0.45
@@ -3190,19 +3190,19 @@ particle_system x50CalSmokeLinger
 
 	emitter Box
 	{
-		colour	1 1 1 0.28
+		colour	1 1 1 0.24
 		position	0.0 0.1 0.0
 		direction	0.0 1.0 0.25
 		angle	70
-		width	0.95
-		height	0.5
-		depth	0.95
-		emission_rate	32
+		width	1.28
+		height	0.68
+		depth	1.28
+		emission_rate	21
 		velocity_min	0.22
 		velocity_max	0.52
 		time_to_live	4.75
-		duration_min	0.52
-		duration_max	0.52
+		duration_min	0.45
+		duration_max	0.45
 	}
 
 	affector Scaler
@@ -3232,15 +3232,15 @@ particle_system x50CalImpactSmoke
 	emitter Point
 	{
 		position 0 0.18 0
-		colour		1 1 1 0.5
+		colour		1 1 1 0.42
 		angle	45
 		direction	0 1 0.2
-		emission_rate	28
+		emission_rate	18
 		velocity	0.95
 		time_to_live	4.35
-		duration	0.38
-		duration_min	0.38
-		duration_max	0.38
+		duration	0.30
+		duration_min	0.30
+		duration_max	0.30
 	}
 
 	affector Scaler
@@ -3250,7 +3250,7 @@ particle_system x50CalImpactSmoke
 
 	affector ColourFader
 	{
-		alpha -0.11
+		alpha -0.12
 	}
 }
 

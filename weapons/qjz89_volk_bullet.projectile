@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- QJZ-89 „Volk“: gleiche .50-Ballistik/Sounds wie 50cal_bullet, Aufschlag FX ≈ bullet.projectile + ein kurzer x50-Puff (kein Doppel-Stack mit 50cal) -->
+<projectile class="bullet" name="50 cal volk" slot="1" time_to_live="1.0" pulldown_in_air="4" key="qjz89_volk_bullet.projectile">
+    <result class="blast" radius="2.2" damage="1.0" push="0.1" decal="0" />
+    <trigger class="impact" />
+    <rotation class="motion" />
+
+    <sound class="result" key="terrain" fileref="ricochet1.wav" />
+    <sound class="result" key="terrain" fileref="ricochet2.wav" />
+    <sound class="result" key="terrain" fileref="ricochet3.wav" />
+    <sound class="result" key="terrain" fileref="ricochet4.wav" />
+
+    <sound class="result" key="shield" fileref="ricochet5.wav" />
+    <sound class="result" key="shield" fileref="ricochet6.wav" />
+    <sound class="result" key="shield" fileref="ricochet7.wav" />
+
+    <sound class="result" key="character" fileref="impact_body2.wav" pitch_variety="0.4" volume="1.0" />
+    <sound class="result" key="character" fileref="impact_body3.wav" pitch_variety="0.4" volume="1.0" />
+    <sound class="result" key="character" fileref="impact_body4.wav" pitch_variety="0.4" volume="1.0" />
+
+    <sound class="result" key="vehicle" copy="terrain" />
+
+    <sound class="result" key="vehicle" tag="metal_thin" file="metal_thin_01.wav" pitch_variety="0.45" volume="0.5" />
+    <sound class="result" key="vehicle" tag="metal_thin" file="metal_thin_02.wav" pitch_variety="0.45" volume="0.5" />
+    <sound class="result" key="vehicle" tag="metal_thin" file="metal_thin_03.wav" pitch_variety="0.45" volume="0.5" />
+    <sound class="result" key="vehicle" tag="metal_thin" file="metal_thin_04.wav" pitch_variety="0.45" volume="0.5" />
+    <sound class="result" key="vehicle" tag="metal_thin" file="metal_thin_05.wav" pitch_variety="0.45" volume="0.5" />
+
+    <sound class="result" key="vehicle" tag="deco_car" file="metal_thin_06.wav" pitch_variety="0.45" volume="0.6" />
+    <sound class="result" key="vehicle" tag="deco_car" file="metal_thin_07.wav" pitch_variety="0.45" volume="0.6" />
+    <sound class="result" key="vehicle" tag="deco_car" file="metal_thin_06.wav" pitch_variety="0.45" volume="0.6" />
+    <sound class="result" key="vehicle" tag="deco_car" file="metal_thin_07.wav" pitch_variety="0.45" volume="0.8" />
+    <sound class="result" key="vehicle" tag="deco_car" file="metal_thin_06.wav" pitch_variety="0.45" volume="0.5" />
+    <sound class="result" key="vehicle" tag="deco_car" file="metal_thin_07.wav" pitch_variety="0.45" volume="0.5" />
+    <sound class="result" key="vehicle" tag="deco_car" file="metal_thin_08.wav" pitch_variety="0.45" volume="0.7" />
+    <sound class="result" key="vehicle" tag="deco_car" file="metal_thin_08.wav" pitch_variety="0.45" volume="0.8" />
+
+    <sound class="result" key="vehicle" tag="metal_heavy" file="metal_heavy_01.wav" pitch_variety="0.45" volume="0.5" />
+    <sound class="result" key="vehicle" tag="metal_heavy" file="metal_heavy_02.wav" pitch_variety="0.45" volume="0.5" />
+    <sound class="result" key="vehicle" tag="metal_heavy" file="metal_heavy_03.wav" pitch_variety="0.45" volume="0.5" />
+
+    <sound class="result" key="vehicle" tag="sandbag" file="barrier_bullet_01.wav" pitch_variety="0.45" volume="0.8" />
+    <sound class="result" key="vehicle" tag="sandbag" file="barrier_bullet_02.wav" pitch_variety="0.45" volume="0.8" />
+    <sound class="result" key="vehicle" tag="sandbag" file="barrier_bullet_03.wav" pitch_variety="0.45" volume="0.4" />
+
+    <sound class="result" key="vehicle" tag="metal_dumpster" file="dumpster_bullet_01.wav" pitch_variety="0.5" volume="0.6" />
+    <sound class="result" key="vehicle" tag="metal_dumpster" file="dumpster_bullet_01.wav" pitch_variety="0.5" volume="0.5" />
+    <sound class="result" key="vehicle" tag="metal_dumpster" file="dumpster_bullet_02.wav" pitch_variety="0.5" volume="0.8" />
+
+    <sound class="result" key="static_object" copy="terrain" />
+
+    <!-- Fahrzeug: wie Kleinkaliber-HI (kein x50Cal*-Nebelstapel) -->
+    <effect class="result" key="vehicle" tag="sandbag" ref="Burst" use_surface_color="0" />
+    <effect class="result" key="vehicle" tag="sandbag" ref="LowDust" />
+    <effect class="result" key="vehicle" tag="sandbag" ref="xMuzzleFog" />
+    <effect class="result" key="vehicle" tag="sandbag" ref="xKickDust" />
+    <effect class="result" key="vehicle" tag="sandbag" ref="xUpDust2" />
+    <effect class="result" key="vehicle" tag="metal_thin" ref="VehicleBurst" use_surface_color="0" />
+    <effect class="result" key="vehicle" tag="metal_thin" ref="VehicleSparkle" use_surface_color="0" />
+    <effect class="result" key="vehicle" tag="metal_thin" ref="xMuzzleFog" />
+    <effect class="result" key="vehicle" tag="metal_thin" ref="xKickDust" />
+    <effect class="result" key="vehicle" tag="metal_thin" ref="xUpDust2" />
+    <effect class="result" key="vehicle" tag="metal_dumpster" ref="VehicleBurst" use_surface_color="0" />
+    <effect class="result" key="vehicle" tag="metal_dumpster" ref="VehicleSparkle" use_surface_color="0" />
+    <effect class="result" key="vehicle" tag="metal_dumpster" ref="xMuzzleFog" />
+    <effect class="result" key="vehicle" tag="metal_dumpster" ref="xKickDust" />
+    <effect class="result" key="vehicle" tag="metal_dumpster" ref="xUpDust2" />
+    <effect class="result" key="vehicle" tag="metal_heavy" ref="VehicleBurst" use_surface_color="0" />
+    <effect class="result" key="vehicle" tag="metal_heavy" ref="VehicleSparkle" use_surface_color="0" />
+    <effect class="result" key="vehicle" tag="metal_heavy" ref="xMuzzleFog" />
+    <effect class="result" key="vehicle" tag="metal_heavy" ref="xKickDust" />
+    <effect class="result" key="vehicle" tag="metal_heavy" ref="xUpDust2" />
+    <effect class="result" key="vehicle" tag="deco_car" ref="VehicleBurst" use_surface_color="0" />
+    <effect class="result" key="vehicle" tag="deco_car" ref="VehicleSparkle" use_surface_color="0" />
+    <effect class="result" key="vehicle" tag="deco_car" ref="xMuzzleFog" />
+    <effect class="result" key="vehicle" tag="deco_car" ref="xKickDust" />
+    <effect class="result" key="vehicle" tag="deco_car" ref="xUpDust2" />
+
+    <!-- Boden/Luft/Objekt: wie bullet.projectile + ein kurzer schwerer Puff (~„+30 %“) -->
+    <effect class="result" key="terrain" ref="xMuzzleFog" />
+    <effect class="result" key="terrain" ref="xKickDust" />
+    <effect class="result" key="terrain" ref="xUpDust2" />
+    <effect class="result" key="terrain" ref="xDirtBurst" use_surface_color="1" />
+    <effect class="result" key="terrain" ref="x50CalImpactSmoke" />
+
+    <!-- other = Luft/Schwebend: kein xDirtBurst -->
+    <effect class="result" key="other" ref="xMuzzleFog" />
+    <effect class="result" key="other" ref="xKickDust" />
+    <effect class="result" key="other" ref="xUpDust2" />
+    <effect class="result" key="other" ref="x50CalImpactSmoke" />
+
+    <effect class="result" key="static_object" ref="xBulletImpactObjectGlow" />
+    <effect class="result" key="static_object" ref="xBulletImpactObjectDamage" />
+    <effect class="result" key="static_object" ref="xMuzzleFog" />
+    <effect class="result" key="static_object" ref="xKickDust" />
+    <effect class="result" key="static_object" ref="xUpDust2" />
+    <effect class="result" key="static_object" ref="xShieldBurst" use_surface_color="0" />
+    <effect class="result" key="static_object" ref="xBulletFlash" />
+
+    <effect class="result" key="shield" ref="ShieldBurst" />
+    <effect class="result" key="shield" ref="xMuzzleFog" />
+    <effect class="result" key="shield" ref="xKickDust" />
+    <effect class="result" key="shield" ref="xUpDust2" />
+    <effect class="result" key="shield" ref="xBulletFlash" />
+
+    <effect class="result" key="character" ref="BloodSplat50Cal" lighting="1" />
+    <effect class="result" key="character" ref="BurstShine50Cal" lighting="1" post_processing="0" />
+    <effect class="result" key="character" ref="xBloodSpray" />
+
+    <trail probability="0.38" />
+</projectile>

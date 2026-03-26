@@ -46,7 +46,7 @@
 
     <!-- GAU-17 / M134: 7,62 mm — Mündung kommt von base_primary_machinegun-Kette, kein .50 -->
     <weak_hand_hold offset="0.4" />
-    <projectile file="bullet.projectile">
+    <projectile file="bullet_mg.projectile">
         <result class="hit" kill_probability="0.88" kill_decay_start_time="0.33" kill_decay_end_time="0.66" />
     </projectile>
 
