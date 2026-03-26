@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Nur für .50 BMG / 12,7×108 HMG — kein 7,62-mm-MG (siehe docs/implementation/EXPLOSION_EFFECT_TIERS.md) -->
 <projectile class="bullet" name="50 cal" slot="1" time_to_live="1.0" pulldown_in_air="4">
     <!-- Nur Blast wie Lahti – hit weglassen, sonst wird Fahrzeugschaden evtl. nicht angewendet -->
     <result class="blast" radius="0.41" damage="0.4" push="0.4" decal="0" />

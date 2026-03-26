@@ -61,8 +61,8 @@ Recherche und Anpassung analog zu `mg_alle_realistische_daten.md` und `rifles_al
 | tank_mg | Fahrzeug | 7.62 NATO | 0.08 (750) | 1.4 | 158 | retrigger 0.054→0.08, proj 240→158 |
 | technical_mg | Fahrzeug | 7.62 NATO | 0.1 (600) | 1.4 | 158 | retrigger 0.12→0.1, proj 160→158 |
 | patrol_ship_mg | Schiff | 7.62 NATO (M240) | 0.096 (625) | 1.4 | 158 | retrigger 0.112→0.096, proj 155→158 |
-| wiesel_mg3 | Fahrzeug | 7.62 NATO (MG3) | 0.05 (1200) | 1.5 | 158 | retrigger 0.06→0.05, kill 1.5, proj 158 |
-| vfs_buggy_mg | Fahrzeug | 12.7 mm (.50) | 0.1 (600) | 2.5 | 155 | kill 2.5, proj 155 |
+| wiesel_mg3 | Fahrzeug | 7.62 NATO (MG3) | 0.05 (1200) | 1.25 | 158 | `bullet.projectile`, kill 1.25, kein .50 |
+| vfs_buggy_mg | Fahrzeug | 7.62 NATO (wie Buggy-MG) | 0.1 (600) | 1.4 | 155 | `bullet.projectile`, kill 1.4, kein .50 |
 | tank_mg_1 | Fahrzeug | 7.62 NATO | 0.092 (652) | 1.4 | 158 | proj 160→158 |
 | tank_mg_2 | Fahrzeug | 7.62 NATO | 0.08 (750) | 1.4 | 158 | retrigger 0.072→0.08, proj 370→158 |
 | vulcan_tank_mg | Fahrzeug | 7.62 NATO (Minigun) | 0.02 (3000) | 1.4 | 155 | retrigger 0.04→0.02 |

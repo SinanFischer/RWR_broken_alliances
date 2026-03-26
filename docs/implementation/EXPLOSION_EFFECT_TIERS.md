@@ -180,9 +180,23 @@ Siehe: `weapons/mounted_gl.projectile` ab Kommentar `GRENADE EFFECTS HEAVY INFAN
 
 ---
 
+## Richtlinie: Wann `50cal_bullet.projectile` — wann `bullet.projectile`
+
+**Nur echte schwere HMG-/Anti-Material-Kaliber** (*12,7 mm NATO **.50 BMG** oder 12,7×108 mm wie **DSchK/Kord/QJZ-89***) dürfen im Paket **`50cal_bullet.projectile`** nutzen (einheitliche HI-Aufschlagskette **`x50Cal*`**).
+
+**Kein .50 für:**
+
+- **7,62×51 mm NATO** (*Full-Power wie G3/SCAR-H/MG3/M240*) → immer **`bullet.projectile`**. Das **MG3** überzeugt durch **Feuerrate** (~1000–1200 RPM), nicht durch Patronen wie eine **M2 Browning**.
+- **7,62 mm Minigun** (*M134 / GAU-17 in 7,62*) → **`bullet.projectile`**.
+- **Leichte Fahrzeug-MGs** (*PKM, „Buggy MG“, Koaxial-MG*) → **`bullet.projectile`**.
+
+**Im Broken-Alliances-Paket** verweist aktuell **nur** **`weapons/brown/qjz89_volk.weapon`** auf **`50cal_bullet.projectile`** (QJZ-89 = 12,7×108 mm HMG). Alle anderen genannten Fahrzeug-MGs im Mod nutzen **`bullet.projectile`**.
+
+---
+
 ## Sonderfall: .50 BMG / schweres Vollgeschoss (kinetisch, kein HE)
 
-**Einsatz:** `weapons/50cal_bullet.projectile` — im Broken-Alliances-Paket aktuell v. a. **`qjz89_volk`** (12,7 mm); Fahrzeug-MGs (`wiesel_mg3`, `vfs_buggy_mg`, `minigun_ai`) nutzen **`bullet.projectile`** (*Standard-MG-Geschoss*).
+**Einsatz:** `weapons/50cal_bullet.projectile` — siehe Richtlinie oben; im Paket: **`qjz89_volk`**.
 
 **Kernidee:** Weiter **`Burst`** + **`LowDust`** (Vanilla), plus **`x50CalDustKick`** (*verstärkte Staub-/Splitterwolke auf **Dust4**-Basis, ähnlich `LowDust`*), **`x50CalSmokeLinger`** (*kleiner, langsamer **Nebel** mit **`xExpSmoke`**, ohne Cannon-/HE-Flash*) und **`x50CalImpactSmoke`** (*kurzer, gut sichtbarer Rauchstoß direkt am Einschlag*). **Kein** `xCannonFlash` / `xExpFog` — optisch **Aufschlag**, keine **Detonation**.
 
@@ -194,7 +208,7 @@ Siehe: `weapons/mounted_gl.projectile` ab Kommentar `GRENADE EFFECTS HEAVY INFAN
 
 1. **Ist es eine wurfbare Granate / kleine Ladung?** → Stufe 1 (`xSmallExpFog` + `xGrenadeExpSmoke2` + …).
 2. **Ist es eine Fahrzeug-40-mm-HE-Maschinenkanone (kleine HE-Ladung, harter Einschlag)?** → Stufe 1b (`xAcHe*` + Cannon-Flash-Set wie Granate; Fahrzeug `xAtBurstSmall`).
-3. **Ist es .50 BMG / schweres Vollgeschoss (kinetisch)?** → `Burst` + `LowDust` + `x50CalDustKick` + `x50CalSmokeLinger` + `x50CalImpactSmoke` (siehe `50cal_bullet.projectile`); Mündung optional `x50CalMuzzleFog` / `x50CalMuzzleDust`.
+3. **Ist es .50 BMG / 12,7×108 HMG (kinetisch)?** → nur dann `50cal_bullet.projectile` + `x50Cal*` + optional `x50CalMuzzleFog` / `x50CalMuzzleDust`. **Kein** Punkt 3 bei 7,62 mm (MG3, M240, Minigun 7,62, …) → **`bullet.projectile`**.
 4. **Ist es eine tragbare AT-Rakete ohne Artillerie-Charakter?** → Stufe 2 (`xMed*` + splat `3.0`/`3.9`/`4.5`).
 5. **Ist es Fahrzeug, schweres Rohr, großer Sprengkopf oder Elite-Top-AT?** → Stufe 3 (`xExp*` + splat `5.0`/`6.5`/`7.5`).
 6. **Brauchst du eine Zwischenstufe?** → Entweder bestehende Stufe wählen oder **neue** `particle_system`-Namen anlegen (Kopie + Parameter), statt globale `xExp*` zu verbiegen.
