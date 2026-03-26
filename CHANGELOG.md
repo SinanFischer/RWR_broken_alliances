@@ -2,6 +2,14 @@
 
 ## [2.0.0] - 2026-03-30:  The Tactical Evolution Update
 
+
+### Großes Effekt-Update (Heavy Infantry)
+Mit freundlicher Erlaubnis des Heavy-Infantry-Authors sind dessen **Schuss- und Staub-Optik** in Broken Alliances eingezogen. Technisch war das in der Git-Historie **drei aufeinanderfolgende Schritte** (nicht ein einzelner Blob):
+
+- **Einschlags- / Projektil-Effekte:** Neues bzw. angepasstes **`particles/bullet_impact_fx.particle`** (zunächst nur ein **Subset** der HI-Systeme) plus erste HI-**Texturen**; **`weapons/bullet.projectile`** verweist auf die neuen **`class="result"`-Partikel** beim Aufprall.
+- **Mündungsfeuer & Umgebung an der Waffe:** Erweiterung derselben Partikel-Datei um **Mündungs-** und Nebel-/Staub-Systeme; **`base_primary*.weapon`**, **`base_secondary*.weapon`** und viele **LMG/MG-Einzelwaffen** bekamen die passenden **`effect class="muzzle"`-Ketten** (Gewehr vs. MG getrennt), inkl. **`textures/expflash2.png`** für den HI-Flash-Look.
+- **Voller HI-Partikelblock + Texturenpaket:** **`bullet_impact_fx.particle`** auf den **vollen HI-Umfang** gebracht (~7k Zeilen); dazu **viele weitere Texturen** (Flames, Dust, Hülsen, Rauch, …) und **`weapons/base_primary_core.weapon`**, damit Basen nur Stance/Core erben und **Mündungseffekte** sauber in den abgeleiteten Bases stehen.
+
 ### Commands:
 
 **HUD**
@@ -36,6 +44,7 @@
 
 ### Calls 
 Information list of all calls: 
+
 
 
 
