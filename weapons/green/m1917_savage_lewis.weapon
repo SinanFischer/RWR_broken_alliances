@@ -53,16 +53,16 @@
     <hud_icon filename="hud_gun_lewis.png" />
 
     <commonness value="0.0053" can_respawn_with="1" in_stock="1"/>
-    <inventory encumbrance="11.0" price="58" />
+    <inventory encumbrance="11.0" price="42" />
 
     <projectile file="bullet.projectile">
         <result
         class="hit"
-        kill_probability="0.68"
+        kill_probability="1.4"
         kill_decay_start_time="0.40"
         kill_decay_end_time="0.65"
         />
     </projectile>
 
-    <modifier class="speed" value="-0.20" />
+    <modifier class="speed" value="-0.18" />
 </weapon>

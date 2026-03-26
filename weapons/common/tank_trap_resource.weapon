@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon key="tank_trap_resource.weapon" on_ground_up="0 0 1" radius="0.25">
     <tag name="engineer" />
-    <specification magazine_size="1" can_shoot_standing="0" can_shoot_crouching="1" carry_in_two_hands="1" can_shoot_prone="0" name="tank trap deploy" class="5" spawn_instance_class="vehicle" spawn_instance_key="tank_trap.vehicle" consume="1" sight_range_modifier="1" slot="1" />
+    <specification magazine_size="1" can_shoot_standing="0" can_shoot_crouching="1" carry_in_two_hands="1" can_shoot_prone="0" name="tank trap deploy" class="5" spawn_instance_class="vehicle" spawn_instance_key="tank_trap.vehicle" consume="1" sight_range_modifier="1" ai_sight_range_modifier="0.9" slot="1" />
     <animation state_key="running" 		animation_key="running, carrying load" />
     <animation state_key="walking" 		animation_key="walking, carrying load" />
     <animation state_key="hold" 		animation_key="still, carrying load" />

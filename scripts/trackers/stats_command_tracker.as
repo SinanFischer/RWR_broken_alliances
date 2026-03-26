@@ -70,7 +70,7 @@ class StatsCommandTracker : Tracker {
 			if (block.length() > 0) block += "\n";
 
 			if (m_respawnTracker !is null) {
-				int baseCap = m_respawnTracker.getBaseCapacity(fid);
+				int baseCap = m_respawnTracker.getXmlCapacity(fid);
 				int minBases = m_respawnTracker.getMinBasesOverFactions();
 				bool noBlock = m_respawnTracker.isWeakestFactionSlotBlockDisabled(fid, minBases);
 				if (noBlock) {

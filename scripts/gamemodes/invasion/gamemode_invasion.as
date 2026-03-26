@@ -64,6 +64,7 @@
 
 const bool INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM = true;
 const bool INVASION_CAPACITY_DEBUG_HUD = false;
+const bool INVASION_ENABLE_COMMANDER_AI_ADAPTIVE = true;
 const bool INVASION_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
 const bool INVASION_ENABLE_EVENT_SYSTEMS = true;
 const bool INVASION_ENABLE_FACTION_POINTS_SYSTEM = true;
@@ -357,8 +358,9 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 		m_systemsRegistry.installSpawnCapacitySystem(
 			INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM,
 			INVASION_CAPACITY_DEBUG_HUD,
-			false // Invasion nutzt kein zusaetzliches Alive-HUD aus diesem System
+			true // Alive-HUD: zeigt "alive / cap (bases)" in Fraktionsfarbe
 		);
+		m_systemsRegistry.installCommanderAiAdaptiveSystem(INVASION_ENABLE_COMMANDER_AI_ADAPTIVE);
 		m_systemsRegistry.installFactionPointsSystem(
 			INVASION_ENABLE_FACTION_POINTS_SYSTEM,
 			true,   // HUD aktiv

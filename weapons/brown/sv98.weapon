@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="sv98.weapon">
     <tag name="sniper" />
     <specification 
@@ -13,8 +13,7 @@
   name="SV-98" 
   class="2" 
   reload_one_at_a_time="0" 
-  sight_range_modifier="2.15" 
-  ai_sight_range_modifier="2.05"
+  sight_range_modifier="2.15" ai_sight_range_modifier="1.935"
   projectile_speed="235.0"
   barrel_offset="0.5" 
   projectiles_per_shot="1" /> <!--270-->
@@ -33,12 +32,12 @@
 
     <hud_icon filename="hud_svdm.png" />
     <commonness value="0.01" />
-    <inventory encumbrance="12.0" price="12" />
+    <inventory encumbrance="6.0" price="39" />
 
     <projectiles_per_shot value="1" />
     <weak_hand_hold offset="0.3" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="1.0" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
+        <result class="hit" kill_probability="1.8" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
     </projectile>
 
     <stance state_key="running" accuracy="0.1" />

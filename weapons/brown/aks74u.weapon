@@ -1,18 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="aks74u.weapon">
     <tag name="assault" />
     <!-- 5.45x39 Kurz; weniger Reichweite/Wirkung, mobil -->
     <specification 
-  retrigger_time="0.09" 
+  retrigger_time="0.0857" 
   accuracy_factor="0.70" 
   sustained_fire_grow_step="0.40" 
   sustained_fire_diminish_rate="1.10" 
-  magazine_size="38" 
+  magazine_size="30" 
   can_shoot_standing="1" 
   suppressed="0" 
   name="AKS-74U" 
   class="0" 
-  sight_range_modifier="1.05"
+  sight_range_modifier="1.05" ai_sight_range_modifier="0.945"
   projectile_speed="148.0" 
   barrel_offset="0.5" />
     <animation key="recoil" ref="12" />
@@ -28,13 +28,13 @@
 
     <hud_icon filename="hud_aks74u.png" />
     <commonness value="0.046" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="3.0" price="12" />
+    <inventory encumbrance="3.0" price="13" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.2" />
 
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.62" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
+        <result class="hit" kill_probability="1.0" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
 
     <modifier class="speed" value="-0.035" />

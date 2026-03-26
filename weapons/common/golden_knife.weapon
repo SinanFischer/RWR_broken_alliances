@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.35" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="golden_knife.weapon">
     <tag name="cqb" />
 	
@@ -16,7 +16,7 @@
 	name="Golden Knife" 
 	class="1" 
 	reload_one_at_a_time="0" 
-	sight_range_modifier="1" 
+	sight_range_modifier="1" ai_sight_range_modifier="0.9" 
 	slot="1" 
 	stab_enabled="1"
 	projectile_speed="1.0" 

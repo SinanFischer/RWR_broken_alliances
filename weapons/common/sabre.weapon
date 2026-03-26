@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.35" drop_count_factor_on_player_death="1.0" key="sabre.weapon" on_ground_up="0 0 1" time_to_live_out_in_the_open="90.0" player_death_drop_owner_lock_time="45.0">
     <tag name="cqb" />
 	
@@ -9,7 +9,7 @@
     class="5" 
     character_state="death" 
     consume="0" 
-    sight_range_modifier="1" 
+    sight_range_modifier="1" ai_sight_range_modifier="0.9" 
     slot="1" 
     range="3.5"
     success_probability="4.0"

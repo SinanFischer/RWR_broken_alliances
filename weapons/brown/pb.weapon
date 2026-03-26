@@ -14,7 +14,7 @@
 	name="PB"
 	class="4"
 	reload_one_at_a_time="0"
-	sight_range_modifier="1.05"
+	sight_range_modifier="1.05" ai_sight_range_modifier="0.945"
 	projectile_speed="190.0"
 	projectiles_per_shot="1"
 	burst_shots="1" 
@@ -41,12 +41,12 @@
 
     <hud_icon filename="hud_pb.png" />
     <commonness value="0.0" />
-    <inventory encumbrance="5.0" price="5.0" />
+    <inventory encumbrance="5.0" price="23" />
 
     <projectiles_per_shot value="1" />
     <weak_hand_hold offset="0.1" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.45" kill_decay_start_time="0.2" kill_decay_end_time="1.2" />
+        <result class="hit" kill_probability="0.95" kill_decay_start_time="0.2" kill_decay_end_time="1.2" />
     </projectile>
     
     <stance state_key="running" accuracy="0.368" />

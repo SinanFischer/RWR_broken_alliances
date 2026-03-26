@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="m4a1_scope.weapon">
     <tag name="assault" />
     <specification 
@@ -11,7 +11,7 @@
   suppressed="0" 
   name="M4A1" 
   class="0" 
-  sight_range_modifier="1.1" 
+  sight_range_modifier="1.1" ai_sight_range_modifier="0.99" 
   projectile_speed="160.0"
   barrel_offset="0.5" /> <!--220-->
 
@@ -31,14 +31,14 @@
 
     <hud_icon filename="hud_m4a1_scope.png" />
     <commonness value="0.3" in_stock="1" can_respawn_with="1"/>
-    <inventory encumbrance="7.0" price="12" />
+    <inventory encumbrance="7.0" price="22" />
 
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.2" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit"  kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
+        <result class="hit"  kill_probability="1.2" kill_decay_start_time="0.1" kill_decay_end_time="2.0" />
     </projectile>
     
     <modifier class="speed" value="-0.02" />

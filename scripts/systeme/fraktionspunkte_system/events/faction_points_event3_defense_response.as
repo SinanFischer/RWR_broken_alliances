@@ -3,6 +3,15 @@
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_defense_state.as"
 
+// ============================================================
+// EVENT 3 - Defense Response
+// Cost:        700 FP
+// Trigger:     AI reactive (25% chance on base loss) + player /event3
+// AI condition: base was recently lost
+// Exec condition: recently lost base recorded in defense state
+// Action:      spawns paratroopers1 at the lost base
+// ============================================================
+
 const string FP_EVENT3_TOKEN = "event3";
 const string FP_EVENT3_SIM_TOKEN = "event3_sim";
 const string FP_EVENT3_NAME = "Defense-Response";
@@ -39,13 +48,13 @@ class FactionPointsEvent3DefenseResponse : FactionPointsEvent {
 	bool canExecute(int playerId, int factionId, string &out reason) {
 		int lostBaseId = -1;
 		if (!fpDefensePeekLostBase(factionId, lostBaseId)) {
-			reason = "Keine kuerzlich verlorene Basis registriert.";
+			reason = "No recently lost base registered.";
 			return false;
 		}
 
 		const XmlElement@ lostBase = getBase(m_metagame, lostBaseId);
 		if (lostBase is null) {
-			reason = "Verlorene Basis nicht gefunden.";
+			reason = "Lost base not found.";
 			return false;
 		}
 		return true;
@@ -54,13 +63,13 @@ class FactionPointsEvent3DefenseResponse : FactionPointsEvent {
 	bool execute(int playerId, int factionId, string &out result) {
 		int lostBaseId = -1;
 		if (!fpDefenseConsumeLostBase(factionId, lostBaseId)) {
-			result = "Keine kuerzlich verlorene Basis registriert.";
+			result = "No recently lost base registered.";
 			return false;
 		}
 
 		const XmlElement@ lostBase = getBase(m_metagame, lostBaseId);
 		if (lostBase is null) {
-			result = "Verlorene Basis nicht gefunden.";
+			result = "Lost base not found.";
 			return false;
 		}
 
@@ -70,19 +79,19 @@ class FactionPointsEvent3DefenseResponse : FactionPointsEvent {
 		string baseName = lostBase.getStringAttribute("name");
 		if (baseName.length() == 0) baseName = lostBase.getStringAttribute("key");
 		if (baseName.length() == 0) baseName = "lost base";
-		result = "Event3 ausgefuehrt: 3 Defense-Squads bei Basis " + baseName + ".";
+		result = "Event3 executed: 3 defense squads at base " + baseName + ".";
 		return true;
 	}
 
 	bool simulateAtFriendlyBase(int factionId, string &out result) {
 		if (factionId < 0) {
-			result = "Ungueltige Fraktion.";
+			result = "Invalid faction.";
 			return false;
 		}
 
 		const XmlElement@ base = getFriendlyBase(factionId);
 		if (base is null) {
-			result = "Keine verbuendete Basis gefunden.";
+			result = "No friendly base found.";
 			return false;
 		}
 
@@ -92,7 +101,7 @@ class FactionPointsEvent3DefenseResponse : FactionPointsEvent {
 		string baseName = base.getStringAttribute("name");
 		if (baseName.length() == 0) baseName = base.getStringAttribute("key");
 		if (baseName.length() == 0) baseName = "friendly base";
-		result = "Event3 Simulation: 3 Defense-Squads bei Basis " + baseName + ".";
+		result = "Event3 simulation: 3 defense squads at base " + baseName + ".";
 		return true;
 	}
 

@@ -9,7 +9,7 @@
     suppressed="0" 
     name="Binoculars" 
     class="3" 
-    sight_range_modifier="1.55" 
+    sight_range_modifier="1.55" ai_sight_range_modifier="1.395" 
     slot="1" />
 	
     <animation key="hold" animation_key="still, binoculars" />

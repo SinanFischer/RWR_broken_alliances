@@ -35,12 +35,15 @@
 
   <vehicle file="cover1.vehicle" />
   <vehicle file="deployable_mg.vehicle" />  
+  <vehicle file="deployable_mg_scoped.vehicle" />
   <vehicle file="deployable_mg_2.vehicle" />
   <vehicle file="deployable_minig.vehicle" />
+  <vehicle file="deployable_minig_scoped.vehicle" />
   <vehicle file="deployable_minig_2.vehicle" />
   <vehicle file="deployable_gl.vehicle" />
   <vehicle file="deployable_gl_2.vehicle" />
   <vehicle file="mortar.vehicle" />
+	<vehicle file="mortar_extended.vehicle" />
 	<vehicle file="m120_heavy_mortar.vehicle" />
   <vehicle file="mortar_2.vehicle" />
   <vehicle file="coastal_gun.vehicle" />
@@ -101,6 +104,7 @@
   <vehicle file="noxe.vehicle"/>
   <vehicle file="noxe_spawn.vehicle"/>       
   <vehicle file="legion.vehicle"/>
+  <vehicle file="legion_spawn.vehicle"/>
   <vehicle file="sev90.vehicle"/>
   <vehicle file="sev90_spawn.vehicle"/>        
   <vehicle file="flamer_tank.vehicle"/>
@@ -135,6 +139,7 @@
   <vehicle file="fv101.vehicle" />
   <vehicle file="m551.vehicle" />
   <vehicle file="hovercraft.vehicle" />
+  <vehicle file="hovercraft_spawn.vehicle" />
   <vehicle file="willys_mb_spawn.vehicle" />
   <vehicle file="willys_mb_para.vehicle" />
   <vehicle file="willys_mb.vehicle" />
@@ -147,6 +152,7 @@
 <!-- 1.96 -->
 
   <vehicle file="sandbag_cover.vehicle" />
+  <vehicle file="sandbag_cover_stable.vehicle" />
   <vehicle file="dogcrate_para.vehicle" />
   <vehicle file="f1.vehicle" />
   <vehicle file="f1_spawn.vehicle" />

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Captain AI: Leader vorne, startet mit Guard - wird von orange_bodyguards bewacht -->
 <ai filename="common_resources/default_soldiers.ai">
+	<!-- Elite: kürzeres Mindest-Feuer-frei als Line (9) -->
+	<parameter class="fire_open_min_time" value="8.0" />
+
 	<parameter class="force_as_leader" value="1" />
 	<!-- Sicht: Leader-Sicht erhöht -->
 	<parameter class="max_sight_range_with_muzzle" value="58.0" />

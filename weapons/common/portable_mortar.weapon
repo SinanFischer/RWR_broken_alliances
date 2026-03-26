@@ -2,15 +2,15 @@
 <weapon key="portable_mortar.weapon">
     <tag name="mortar" />
 
-    <specification retrigger_time="1.5" accuracy_factor="0.9" sight_range_modifier="1.5" sustained_fire_grow_step="1.0" sustained_fire_diminish_rate="0.1" magazine_size="1" can_shoot_standing="0" can_shoot_crouching="1" can_shoot_prone="0" suppressed="0" name="Portable Mortar" class="4" projectile_speed="150.0"  barrel_offset="0.6" spread_range="0.0001" />
+    <specification retrigger_time="1.5" accuracy_factor="0.9" sight_range_modifier="1.5" ai_sight_range_modifier="1.35" sustained_fire_grow_step="1.0" sustained_fire_diminish_rate="0.1" magazine_size="1" can_shoot_standing="0" can_shoot_crouching="1" can_shoot_prone="0" suppressed="0" name="Portable Mortar" class="4" projectile_speed="150.0"  barrel_offset="0.6" spread_range="0.0001" />
 
     <ballistics near_far_distance="1.0" speed_estimation_near="20.0" speed_estimation_far="35.0" max_speed="100.0" randomness="0.07" />
 
 
-	<animation state_key="reload" 			animation_key="reload, mortar" />
-	<animation state_key="recoil" 			animation_key="recoil, mortar" />
-	<animation state_key="hold" 				animation_key="still, mortar" />
-	<animation state_key="crouching" 			animation_key="crouch still, mortar" />
+	<animation state_key="reload" 			animation_key="reloading, portable mortar" />
+	<animation state_key="recoil" 			animation_key="recoil, portable mortar" />
+	<animation state_key="hold" 				animation_key="still, angled" />
+	<animation state_key="crouching" 			animation_key="crouch, still, portable mortar" />
 
     <sound key="fire" fileref="portable_mortar_shot.wav" pitch_variety="0.1" />
     <sound key="magazine_in" fileref="portable_mortar_reload.wav" />

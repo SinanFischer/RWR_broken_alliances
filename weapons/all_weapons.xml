@@ -81,14 +81,20 @@
 	<weapon file="green/m79.weapon" />
 
 	<weapon file="common/mg_resource.weapon"/>  
+	<weapon file="common/mg_resource_scoped.weapon"/>
 	<weapon file="common/deployable_mg.weapon" />
+	<weapon file="common/deployable_mg_scoped.weapon" />
 
  	<weapon file="common/patrol_ship_mg.weapon" />
 	<weapon file="common/patrol_ship_cannon.weapon" />   
 	<weapon file="common/patrol_ship_mortar.weapon" />   
 	<weapon file="common/minig_resource.weapon"/> 
+	<weapon file="common/minig_resource_scoped.weapon"/>
 	<weapon file="common/mortar_resource.weapon"/>    
+	<weapon file="common/mortar_resource_extended.weapon" />
+	<weapon file="common/mortar_extended.weapon" />
 	<weapon file="common/deployable_minig.weapon" />
+	<weapon file="common/deployable_minig_scoped.weapon" />
 	<weapon file="common/heavy_artillery_gun.weapon" />
 	<weapon file="common/heavy_artillery_deploy.weapon" />
 	<weapon file="common/mortar.weapon" /> 

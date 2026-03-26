@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.40" drop_count_factor_on_player_death="1.0" file="base_secondary.weapon" key="tow_resource.weapon" radius="0.25" time_to_live_out_in_the_open="90.0">
     <tag name="engineer" />
     <specification magazine_size="1" 
@@ -11,7 +11,7 @@
     spawn_instance_class="vehicle" 
     spawn_instance_key="tow.vehicle" 
     consume="1" 
-    sight_range_modifier="1" 
+    sight_range_modifier="1" ai_sight_range_modifier="0.9" 
     slot="1"
     cover_deployment="1" />
 

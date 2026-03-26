@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Bodyguard AI: erweitert default_soldiers.ai - bewacht Leader (Captain), starke Reaktion, Defend-fokussiert -->
 <ai filename="common_resources/default_soldiers.ai">
+	<!-- Elite: kürzere Gewehr-Bursts wie zuvor (Basis-Infanterie: 0,45 ± 0,25) -->
+	<parameter class="burst_time" value="0.6" />
+	<parameter class="burst_time_variance" value="0.3" />
+	<parameter class="fire_open_min_time" value="8.0" />
+
 	<!-- Sicht: erhöht für frühe Zielerfassung -->
 	<parameter class="max_sight_range_with_muzzle" value="55.0" />
 	<parameter class="leader_sight_range" value="48.0" />

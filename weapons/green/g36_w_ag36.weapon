@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary_rare.weapon" key="g36_w_ag36.weapon">
     <tag name="assault" />
     <!-- Stats 1:1 wie Standard-G36; nur GL-Option (X) und 5× Preis -->
     <specification 
-  retrigger_time="0.095" 
+  retrigger_time="0.08" 
   accuracy_factor="0.74" 
   sustained_fire_grow_step="0.38" 
   sustained_fire_diminish_rate="1.15" 
@@ -12,7 +12,7 @@
   suppressed="0" 
   name="G36 w/ AG36 GL" 
   class="0" 
-  sight_range_modifier="1.1"
+  sight_range_modifier="1.1" ai_sight_range_modifier="0.99"
   projectile_speed="160.0" 
   barrel_offset="0.2" />
 
@@ -39,11 +39,11 @@
 
     <hud_icon filename="hud_g36_w_ag36.png" />
     <commonness value="0.02" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="4.0" price="24" />
+    <inventory encumbrance="5.0" price="18" />
 
     <weak_hand_hold offset="0.0" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
+        <result class="hit" kill_probability="0.9" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
     <modifier class="speed" value="-0.05" />
 </weapon>

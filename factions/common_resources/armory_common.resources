@@ -14,6 +14,10 @@
 	<!-- GL-AR nur fraktionsweise: armory_green (M16A4 M203), armory_grey (G36 AG36), armory_brown (AK-47 GP25), jeweils rifle-active -->
 	<weapon key="qlz87_b.weapon" />
 	<weapon key="fhj01.weapon" />
+	<!-- Deploy-Varianten (Scoped) für alle Fraktionen -->
+	<weapon key="mg_resource_scoped.weapon" />
+	<weapon key="minig_resource_scoped.weapon" />
+	<weapon key="mortar_resource_extended.weapon" />
 	<carry_item key="vest1.carry_item" enabled="1" />
 	<carry_item key="vest2.carry_item" enabled="1" />
 	<carry_item key="vest3.carry_item" enabled="1" />

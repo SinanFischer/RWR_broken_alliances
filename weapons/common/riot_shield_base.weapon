@@ -7,7 +7,7 @@
     suppressed="0" 
     name="riot shield" 
     class="3" 
-    sight_range_modifier="1" 
+    sight_range_modifier="1" ai_sight_range_modifier="0.9" 
     slot="1" />
     <animation key="hold" ref="51" />
     <animation key="hold_on_wall" ref="51" />

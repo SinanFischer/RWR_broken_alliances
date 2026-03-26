@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.40" drop_count_factor_on_player_death="1.0" file="base_secondary_sidearm.weapon" key="mp7.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="assault" />
     <specification 
@@ -14,7 +14,7 @@
   name="MP7" 
   class="0" 
   slot="1"
-  projectile_speed="200.0" />
+  projectile_speed="131.0" />
 
 	<animation state_key="recoil"	animation_key="recoil, pistol" />
   <animation state_key="reload"	animation_key="reloading, pistol" />
@@ -38,11 +38,11 @@
 
     <model filename="mp7.xml" />
     <hud_icon filename="hud_mp7.png" />
-    <inventory encumbrance="4.0" price="110" />
+    <inventory encumbrance="2.0" price="19" />
     <commonness value="0.0010" can_respawn_with="1" in_stock="1" />
 
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.45" kill_decay_start_time="0.2" kill_decay_end_time="1.2" /> 
+        <result class="hit" kill_probability="0.80" kill_decay_start_time="0.2" kill_decay_end_time="1.2" /> 
         <!--  <result class="hit" kill_probability="0.4" kill_decay_start_time="0.23" kill_decay_end_time="0.36" /> -->
     </projectile>
     

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon key="deployable_mg.weapon">
-    <specification retrigger_time="0.07" 
+    <specification retrigger_time="0.096" 
     accuracy_factor="0.92" 
-    sustained_fire_grow_step="0.8" 
-    sustained_fire_diminish_rate="0.8" 
-    sight_range_modifier="1.15" 
+    sustained_fire_grow_step="1.2" 
+    sustained_fire_diminish_rate="0.4" 
+    sight_range_modifier="1.15" ai_sight_range_modifier="1.035" 
     magazine_size="-1" 
     can_shoot_standing="0" 
     can_shoot_crouching="0" 
@@ -15,7 +15,9 @@
     slot="2" 
     barrel_offset="1.0" 
     projectiles_per_shot="1" 
-    sight_height_offset="2.0" />
+    sight_height_offset="2.0"
+    cooldown_start="2.7"
+    cooldown_end="0.0" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.08" />
@@ -26,12 +28,13 @@
     <inventory encumbrance="5.0" price="55.0" />    
   
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.62" kill_decay_start_time="0.41" kill_decay_end_time="0.71" />
+        <result class="hit" kill_probability="1.4" kill_decay_start_time="0.41" kill_decay_end_time="0.71" />
     </projectile>
 
     <effect class="muzzle" ref="BigMuzzle" />
 
     <sound class="operation" key="fire" fileref="mounted_mg_shot.wav" volume="0.8" />
+    <sound key="cooldown" fileref="overheating_mg.wav" volume="0.4"/>
     
 <!-- mid plate -->    
     <shield offset="-0.1 -0.3 0" extent="0.2 0.3 0.3" />

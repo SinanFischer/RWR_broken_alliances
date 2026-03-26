@@ -2,17 +2,26 @@
 #include "query_helpers.as"
 #include "systeme/fraktionspunkte_system/events/faction_points_event_interface.as"
 
+// ============================================================
+// EVENT 2 - Company Attack
+// Cost:        1200 FP
+// Trigger:     AI spare event + player /event2
+// AI condition: none (weight 0.2)
+// Exec condition: min. 1 owned base as attack target
+// Action:      2x paratroopers2 outside an enemy base
+// ============================================================
+
 const string FP_EVENT2_TOKEN = "event2";
-const string FP_EVENT2_NAME = "Company-Angriff";
+const string FP_EVENT2_NAME = "Company Attack";
 const int FP_EVENT2_COST = 1200;
 const string FP_EVENT2_PLATOON_CALL_KEY = "paratroopers2.call";
 const int FP_EVENT2_PLATOON_COUNT = 2;
 const float FP_EVENT2_OUTSIDE_RADIUS = 42.0f;
 const float FP_EVENT2_ANNOUNCEMENT_DELAY = 60.0f;
-const string FP_EVENT2_FRIENDLY_ANNOUNCEMENT = "Company assault assigned. Strike package launches in 60 seconds.";
-const string FP_EVENT2_FRIENDLY_EXECUTION = "Strike package deployed. Push the objective and hold pressure.";
-const string FP_EVENT2_ENEMY_ANNOUNCEMENT = "Hostile company assault detected. Impact in 60 seconds.";
-const string FP_EVENT2_ENEMY_EXECUTION = "Hostile strike package has entered your sector.";
+const string FP_EVENT2_FRIENDLY_ANNOUNCEMENT = "Airborne assault assigned. Drop in 60 seconds.";
+const string FP_EVENT2_FRIENDLY_EXECUTION = "Airborne on the deck. Take the objective.";
+const string FP_EVENT2_ENEMY_ANNOUNCEMENT = "Hostile airborne inbound. Sixty seconds.";
+const string FP_EVENT2_ENEMY_EXECUTION = "Hostile airborne on the ground in your sector.";
 
 // Event2 (AI Event):
 // Bedingung: gueltige Zielbasis vorhanden.
@@ -47,13 +56,13 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 	bool canExecute(int playerId, int factionId, string &out reason) {
 		Vector3 refPos;
 		if (!getReferencePositionForFaction(factionId, refPos)) {
-			reason = "Keine Referenzposition fuer Fraktion gefunden.";
+			reason = "No reference position found for faction.";
 			return false;
 		}
 
 		const XmlElement@ targetBase = getClosestEnemyBase(factionId, refPos);
 		if (targetBase is null) {
-			reason = "Keine gegnerische Basis gefunden.";
+			reason = "No enemy base found.";
 			return false;
 		}
 		return true;
@@ -62,13 +71,13 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 	bool execute(int playerId, int factionId, string &out result) {
 		Vector3 refPos;
 		if (!getReferencePositionForFaction(factionId, refPos)) {
-			result = "Keine Referenzposition fuer Fraktion gefunden.";
+			result = "No reference position found for faction.";
 			return false;
 		}
 
 		const XmlElement@ targetBase = getClosestEnemyBase(factionId, refPos);
 		if (targetBase is null) {
-			result = "Keine gegnerische Basis gefunden.";
+			result = "No enemy base found.";
 			return false;
 		}
 
@@ -100,7 +109,7 @@ class FactionPointsEvent2CompanyAttack : FactionPointsEvent {
 
 		string baseName = getBaseLabel(targetBase);
 
-		result = "Event2 ausgefuehrt: 2 Platoons an Basis " + baseName + ".";
+		result = "Event2 executed: 2 platoons at base " + baseName + ".";
 		return true;
 	}
 

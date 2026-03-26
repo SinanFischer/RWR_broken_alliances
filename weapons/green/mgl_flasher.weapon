@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_secondary_sidearm.weapon" key="mgl_flasher.weapon">
     <tag name="assault" />
 
@@ -16,7 +16,7 @@
   projectile_speed="160.0" 
   barrel_offset="1" 
   projectiles_per_shot="1"
-  sight_range_modifier="1.1"
+  sight_range_modifier="1.1" ai_sight_range_modifier="0.99"
   burst_shots="1"
   spread_range="0.05"/>
 

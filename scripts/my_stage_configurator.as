@@ -1,5 +1,10 @@
 #include "stage_configurator_campaign.as"
 
+// max_soldiers 2.4x skalieren: vanilla-Werte sind zu niedrig fuer 3-Fraktions-Kampagne mit
+// soldier_capacity-Gewichtung. Faktor 2.4 bringt z.B. map1 (160) auf ~384.
+// Wert 0 = Map hat keinen Wert gesetzt → nicht skalieren (Engine-Default).
+const float MAX_SOLDIERS_SCALE = 2.4f;
+
 // ------------------------------------------------------------------------------------------------
 class MyStageConfigurator : StageConfiguratorCampaign {
 	// ------------------------------------------------------------------------------------------------
@@ -7,9 +12,9 @@ class MyStageConfigurator : StageConfiguratorCampaign {
 		super(metagame, mapRotator);
 	}
 
-	// ------------------------------------------------------------------------------------------------
-	// Capacity-Aenderungen nur vom ReinforcementPoolTracker (60/40-Cap); Campaign/Vanilla ueberschreibt nicht.
 	protected void addStage(Stage@ stage) {
+		if (stage.m_maxSoldiers > 0)
+			stage.m_maxSoldiers = int(float(stage.m_maxSoldiers) * MAX_SOLDIERS_SCALE);
 		stage.m_allowChangeCapacityOnTheFly = false;
 		StageConfiguratorCampaign::addStage(stage);
 	}

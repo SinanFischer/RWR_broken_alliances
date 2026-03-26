@@ -1,4 +1,4 @@
-<vehicle file="vehicle_base.vehicle" name="TroX-80 Tank" key="tank_2.vehicle" respawn_time="90" map_view_atlas_index="5" minimum_fill_requirement="0.75">
+<vehicle file="vehicle_base.vehicle" name="TroX-80 Tank" key="tank_2.vehicle" respawn_time="90" map_view_atlas_index="5" minimum_fill_requirement="1.0">
 	<tag name="metal_heavy" />
 	<tag name="tank" />
 	<tag name="vehicle" />

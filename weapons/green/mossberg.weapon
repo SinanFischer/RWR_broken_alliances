@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary.weapon" key="mossberg.weapon" time_to_live_out_in_the_open="20.0">
     <tag name="cqb" />
     <specification 
@@ -12,7 +12,7 @@
   name="Mossberg 500" 
   class="1" 
   reload_one_at_a_time="1" 
-  sight_range_modifier="1.0" 
+  sight_range_modifier="1.0" ai_sight_range_modifier="0.9" 
   projectile_speed="145.0" 
   projectiles_per_shot="8" />
 
@@ -27,11 +27,11 @@
 
     <hud_icon filename="hud_mossberg.png" />
     <commonness value="0.029" />
-    <inventory encumbrance="5.0" price="9" />
+    <inventory encumbrance="5.0" price="14" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.75" kill_decay_start_time="0.10" kill_decay_end_time="0.20" />
+        <result class="hit" kill_probability="0.90" kill_decay_start_time="0.10" kill_decay_end_time="0.20" />
     </projectile>
 
     <stance state_key="running" accuracy="0.32" />

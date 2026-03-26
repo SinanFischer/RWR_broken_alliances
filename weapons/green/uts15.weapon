@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon drop_count_factor_on_death="0.50" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="uts15.weapon">
     <tag name="cqb" />
     <!-- retrigger_time: Mindestabstand zwischen Schüssen (Pump-Aktion); verhindert Doppelschuss bei Kurzklick, Magazin-Leer bei minimal längerem Halten -->
@@ -12,7 +12,7 @@
     name="UTS-15" 
     class="0" 
     reload_one_at_a_time="1" 
-    sight_range_modifier="1.0" 
+    sight_range_modifier="1.0" ai_sight_range_modifier="0.9" 
     projectile_speed="150.0" 
     projectiles_per_shot="6" />
 
@@ -27,16 +27,14 @@
 
     <hud_icon filename="hud_uts15.png" />
     <commonness value="0.004" can_respawn_with="0" in_stock="1" />
-    <inventory encumbrance="10.0" price="45" />
+    <inventory encumbrance="10.0" price="15" />
     
   	<capacity value="0" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.5" />    
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.61" 
-        kill_decay_start_time="0.1" 
-        kill_decay_end_time="0.235" />
+        <result class="hit" kill_probability="0.85" kill_decay_start_time="0.09" kill_decay_end_time="0.19" />
     </projectile>
    
     <modifier class="speed" value="-0.03" />    

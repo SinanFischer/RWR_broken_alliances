@@ -1,355 +1,534 @@
-// Respawn-Slot-Delay: Nach Tod bleibt der Capacity-Slot X Sekunden „besetzt" → weniger Spawns.
-// Kein natives API-Respawn-Delay; Umsetzung nur über dynamischen capacity_multiplier.
-// Konflikt: change_game_settings mit capacity_multiplier – Tracker NACH anderen einbinden, die das senden.
+// Respawn-Slot-Delay: Nach Tod bleibt ein Spawn-Slot X Sekunden „besetzt" → capacity_multiplier sinkt.
+// Zweiter Hebel: spawn_interval = 60s wenn liveCount >= effectiveCap (Fraktion ist voll/drüber).
+// Mechanismus: mult = (nativeCap - reserved) / nativeCap
+//   nativeCap  = (xmlCap / sumXmlCap) × totalLive  - stabiler Proxy für max_soldiers-Anteil
+//   reserved   = Anzahl noch aktiver Slot-Ablaufzeitstempel nach Toden
 //
-// Blocked Slots (B in /stats): Anzahl der aktuell blockierten Slots (Summe).
-//   Ein Tod blockiert je nach Capacity 1–6 Slots (+2 wenn Führer); B = Summe dieser Slots, nicht Tote.
-// C (Capacity) = Basis-Capacity (einmal gecacht) minus B.
+// Warum totalLive statt liveCount als Nenner:
+//   capacity_multiplier skaliert die Engine-interne Kapazität (xmlCap-proportionaler Anteil an max_soldiers).
+//   liveCount sinkt durch Drosselung → würde den Nenner verkleinern → Feedback-Loop → Block hebt sich auf.
+//   totalLive wird in refreshAliveBasedData() immer frisch aus allen Fraktionen summiert.
 //
-// Schwächste Fraktion (wenigste Basen UND ≤2 Basen): Slotblock komplett AUS → mult = 1.0,
-//   keine Timestamps gespeichert, volle Capacity.
+// Fraktion mit ≤1 Basis: Slotblock immer AUS → mult = 1.0, spawn_interval = SPAWN_INTERVAL_NORMAL.
 //
 // Timestamps: Gespeichert wird der Ablaufzeitpunkt (expireTime = now + delay), nicht der Todeszeitpunkt.
-//   Damit verfallen Slots exakt nach dem Delay, das zum Todeszeitpunkt galt – auch wenn sich das Delay
-//   später ändert (z.B. durch Basenverlust/-gewinn).
 //
-// --- Konfiguration (eine Stelle, Einheiten in Kommentaren) ---
-const float RESPAWN_SLOT_DELAY = 15.0f;           // s, 3+ Basen
-const float RESPAWN_SLOT_DELAY_2_BASES = 5.0f;    // s, nur 2 Basen
-const float RESPAWN_SLOT_DELAY_1_BASE = 2.0f;     // s, nur 1 Basis
-const float ALIVE_CHECK_INTERVAL = 15.0f;         // s, Intervall für Alive/Basen-Update
-const int   TROOPS_PER_EXTRA_BLOCK = 25;          // pro 25 Truppen Vorsprung …
-const float EXTRA_SECONDS_PER_BLOCK = 4.0f;       // … +4 s Slot-Delay
-const float APPLY_INTERVAL = 1.0f;                // s, wie oft capacity_multiplier an Engine gesendet wird
-const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f;  // Min-Mult, damit Engine Fraktion nicht ignoriert
-const float LAST_BASE_CAPACITY_FACTOR = 2.0f;          // Faktor für soldier_capacity bei genau 1 Basis (2.0 = +100%)
-// Slots pro Tod: Capacity <70→1, 70–120→2, 121–200→3, 201–250→4, 251–299→5, ≥300→6; Führer +2.
+// --- Konfiguration ---
+const float RESPAWN_SLOT_DELAY          = 10.0f;   // s, 3+ Basen
+const float RESPAWN_SLOT_DELAY_2_BASES  =  5.0f;   // s, 2 Basen
+const float RESPAWN_SLOT_DELAY_1_BASE   =  2.0f;   // s, 1 Basis
+const float ALIVE_CHECK_INTERVAL        = 15.0f;   // s, Intervall für Alive/Basen-Update
+const int   TROOPS_PER_EXTRA_BLOCK      = 25;      // pro 25 Truppen Vorsprung …
+const float EXTRA_SECONDS_PER_BLOCK     =  4.0f;   // … +4 s Slot-Delay
+const float APPLY_INTERVAL             =  1.0f;   // s, wie oft capacity_multiplier gesendet wird
+const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f; // Engine-Minimum (Fraktion nicht ignorieren)
+const float SPAWN_INTERVAL_NORMAL      =  0.5f;   // s, normaler Respawn-Takt (Engine-Default ~0.05-0.2)
+const float SPAWN_INTERVAL_BLOCKED     = 60.0f;   // s, Respawn-Takt wenn Slots geblockt sind
+// Slots pro Tod: XML-soldier_capacity <70→1, 70-120→2, 121-200→3, 201-250→4, 251-299→5, ≥300→6; Führer +2.
+//
+// --- BalanceCompensator-Konfiguration ---
+// Gleicht extreme Alive-Verhältnisse automatisch aus (z.B. 11 vs 80 = 1:7).
+// Greift erst ab BALANCE_RATIO_THRESHOLD. Ziel-Mult wird sanft per Lerp aufgebaut.
+// Einmal-Aktivierung: Wurde der Kompensator für eine Fraktion aktiv und fällt das Verhältnis
+// wieder unter den Threshold, ist er für diese Fraktion dauerhaft deaktiviert (balanceBurned).
+// Funktioniert für 1v1 und 1v1v1: jede Fraktion wird relativ zur stärksten bewertet.
+const float BALANCE_RATIO_THRESHOLD = 3.0f;  // ab diesem Verhältnis (stärkste/schwächste) greift der Kompensator
+const float BALANCE_MAX_MULT        = 4.0f;  // maximaler capacity_multiplier (Engine-Max ist 4.0)
+const float BALANCE_LERP_SPEED      = 0.03f; // pro Sekunde Aufbaugeschwindigkeit (sanft, kein Sprung)
+//
+// --- Commander-Funk-Konfiguration ---
+// Nachrichten werden zweimal gesendet: sofort + BALANCE_MSG_DELAY_SECONDS später.
+// Frühe Phase = erste BALANCE_MSG_EARLY_PHASE_SECONDS der Spielzeit.
+const float BALANCE_MSG_EARLY_PHASE_SECONDS = 600.0f; // 10 Minuten: vor/nach diesem Wert unterscheiden sich die Texte
+const float BALANCE_MSG_DELAY_SECONDS       =  10.0f; // Verzögerung für die zweite Nachricht
 
 #include "tracker.as"
 #include "log.as"
 #include "query_helpers.as"
 
+// ---------------------------------------------------------------------------
+// PendingMessage: zeitverzögerter Commander-Funk-Eintrag.
+// sendAt = absoluter m_timeAccum-Wert, ab dem die Nachricht gesendet wird.
+// ---------------------------------------------------------------------------
+class PendingMessage {
+    float  sendAt    = 0.0f;
+    int    factionId = -1;   // Ziel-Fraktion (-1 = alle)
+    string message   = "";
+}
+
+// ---------------------------------------------------------------------------
+// FactionState: gesamter per-Fraktion-Zustand an einem Ort.
+// Kein dictionary-Cast-Roulette mehr - alle Typen sind statisch deklariert.
+// Neue Felder hinzufügen: hier eintragen, fertig.
+// ---------------------------------------------------------------------------
+class FactionState {
+    int          factionId            = -1;
+
+    // --- Snapshot aus refreshAliveBasedData() ---
+    int          liveCount            = 0;
+    int          xmlCapacity          = 0;    // soldier_capacity aus XML (Größenindikator)
+    float        nativeCap            = 0.0f; // proportionaler Anteil an totalLive
+    int          bases                = 0;
+    float        extraDelaySeconds    = 0.0f; // Bonus-Delay wegen Truppenvorteil
+    bool         isLeader             = false; // führende Fraktion → +2 slotsPerDeath
+
+    // --- Pending Deaths (werden in flushPendingDeaths() verarbeitet) ---
+    int          pendingDeaths        = 0;
+
+    // --- Aktive Slot-Ablaufzeitstempel ---
+    // Jeder Eintrag = Zeitpunkt, ab dem der Slot wieder frei ist.
+    // array<float> statt Comma-String: kein manuelles Parsen mehr nötig.
+    array<float> slotExpireTimes;
+
+    // --- Statistik ---
+    float        totalSlotSecondsBlocked = 0.0f;
+
+    // --- BalanceCompensator ---
+    float        balanceMult              = 1.0f;
+    bool         balanceBurned            = false; // true = einmalig verbraucht, nie wieder aktiv
+    bool         balanceMsgSent           = false; // true = Commander-Funk für diese Aktivierung bereits gesendet
+}
+
+// ---------------------------------------------------------------------------
+// RespawnSlotDelayTracker
+// ---------------------------------------------------------------------------
 class RespawnSlotDelayTracker : Tracker {
-	protected Metagame@ m_metagame;
-	protected float m_timeAccum = 0.0f;
-	protected float m_applyAccum = 0.0f;
-	protected float m_aliveCheckAccum = 0.0f;
-	// Timestamps: key = factionId, value = "expire1,expire2,..." (Ablaufzeitpunkte, nicht Todeszeitpunkte)
-	protected dictionary m_slotExpireTimes;
-	protected dictionary m_pendingDeaths;
-	protected dictionary m_extraDelaySeconds;
-	protected int m_leaderFactionId = -1;
-	protected dictionary m_totalSlotSecondsBlocked;
-	protected dictionary m_basesPerFaction;
-	// Basis-Capacity (einmal gecacht); Engine kann nach unserem Multiplier reduzierte Werte liefern.
-	protected dictionary m_baseCapacity;
-	// Zustand: Hat Fraktion gerade den Last-Base-Bonus aktiv? (1 = ja, 0 = nein)
-	protected dictionary m_lastBaseBonusActive;
+    protected Metagame@ m_metagame;
+    protected float m_timeAccum       = 0.0f;
+    protected float m_applyAccum      = 0.0f;
+    protected float m_aliveCheckAccum = 0.0f;
 
-	RespawnSlotDelayTracker(Metagame@ metagame) {
-		@m_metagame = @metagame;
-		m_metagame.getComms().send("<command class='set_metagame_event' name='character_die' enabled='1' />");
-	}
+    // Einziger Container für alle Fraktionsdaten.
+    // Index entspricht factionId (array wird in getState() bei Bedarf erweitert).
+    protected array<FactionState@> m_factions;
 
-	bool hasEnded() const { return false; }
-	bool hasStarted() const { return true; }
+    // Warteschlange für zeitverzögerte Commander-Funk-Nachrichten.
+    protected array<PendingMessage@> m_pendingMessages;
 
-	void start() {
-		refreshAliveBasedExtraDelay();
-		applyCapacityWithReservedSlots();
-	}
+    RespawnSlotDelayTracker(Metagame@ metagame) {
+        @m_metagame = @metagame;
+        m_metagame.getComms().send("<command class='set_metagame_event' name='character_die' enabled='1' />");
+    }
 
-	void update(float time) {
-		m_timeAccum += time;
-		flushPendingDeaths();
+    bool hasEnded()   const { return false; }
+    bool hasStarted() const { return true; }
 
-		m_aliveCheckAccum += time;
-		if (m_aliveCheckAccum >= ALIVE_CHECK_INTERVAL) {
-			m_aliveCheckAccum = 0.0f;
-			refreshAliveBasedExtraDelay();
-		}
+    void start() {
+        refreshAliveBasedData();
+        applyCapacityWithReservedSlots();
+    }
 
-		m_applyAccum += time;
-		if (m_applyAccum < APPLY_INTERVAL) return;
-		m_applyAccum = 0.0f;
-		applyCapacityWithReservedSlots();
-	}
+    void update(float time) {
+        m_timeAccum += time;
+        flushPendingDeaths();
+        flushPendingMessages();
 
-	// --- Alive/Basen-Cache (alle ALIVE_CHECK_INTERVAL s) ---
-	void refreshAliveBasedExtraDelay() {
-		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		if (factions is null || factions.size() == 0) return;
-		array<int> aliveCounts;
-		aliveCounts.resize(factions.size());
-		int first = 0, second = 0;
-		for (uint i = 0; i < factions.size(); ++i) {
-			array<const XmlElement@>@ chars = getCharacters(m_metagame, int(i));
-			int n = (chars is null) ? 0 : int(chars.size());
-			aliveCounts[i] = n;
-			if (n >= first) { second = first; first = n; }
-			else if (n > second) second = n;
-		}
-		if (factions.size() == 1) second = first;
-		m_leaderFactionId = -1;
-		for (uint i = 0; i < factions.size(); ++i) {
-			string key = factionKey(int(i));
-			int alive = aliveCounts[i];
-			float extra = (alive > second) ? float((alive - second) / TROOPS_PER_EXTRA_BLOCK) * EXTRA_SECONDS_PER_BLOCK : 0.0f;
-			m_extraDelaySeconds[key] = extra;
-			if (alive == first && m_leaderFactionId < 0) m_leaderFactionId = int(i);
-			m_basesPerFaction[key] = getBasesForFaction(m_metagame, int(i));
-			// Basis-Capacity robust cachen:
-			// - spaete Map-/Stage-Anhebungen uebernehmen
-			// - reduzierte Laufzeitwerte (durch capacity_multiplier) ignorieren
-			updateBaseCapacityCacheForFaction(int(i), factions[i].getIntAttribute("soldier_capacity"));
-		}
-	}
+        m_aliveCheckAccum += time;
+        if (m_aliveCheckAccum >= ALIVE_CHECK_INTERVAL) {
+            m_aliveCheckAccum = 0.0f;
+            refreshAliveBasedData();
+        }
 
-	int getBaseCapacity(int factionId) {
-		string key = factionKey(factionId);
-		if (m_baseCapacity.exists(key)) return int(m_baseCapacity[key]);
-		// Fallback: falls vor erstem Alive-Refresh abgefragt wird.
-		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		if (factions !is null && factionId >= 0 && uint(factionId) < factions.size()) {
-			int observed = clampCapacity(factions[factionId].getIntAttribute("soldier_capacity"));
-			m_baseCapacity[key] = observed;
-			return observed;
-		}
-		return 0;
-	}
+        m_applyAccum += time;
+        if (m_applyAccum < APPLY_INTERVAL) return;
+        m_applyAccum = 0.0f;
+        applyCapacityWithReservedSlots();
+    }
 
-	// Effektives Delay = Basis (nach Basenanzahl) + Extra (Truppenüberlegenheit).
-	float getEffectiveDelaySeconds(int factionId) {
-		int bases = getBasesForFactionCached(factionId);
-		float baseDelay = (bases <= 1) ? RESPAWN_SLOT_DELAY_1_BASE : (bases == 2) ? RESPAWN_SLOT_DELAY_2_BASES : RESPAWN_SLOT_DELAY;
-		float extra = 0.0f;
-		if (m_extraDelaySeconds.exists(factionKey(factionId))) extra = float(m_extraDelaySeconds[factionKey(factionId)]);
-		return baseDelay + extra;
-	}
+    // =========================================================================
+    // STATE ACCESS
+    // =========================================================================
 
-	int getBasesForFactionCached(int factionId) {
-		string key = factionKey(factionId);
-		return m_basesPerFaction.exists(key) ? int(m_basesPerFaction[key]) : getBasesForFaction(m_metagame, factionId);
-	}
+    // Gibt den FactionState für factionId zurück, legt ihn bei Bedarf an.
+    FactionState@ getState(int factionId) {
+        while (int(m_factions.size()) <= factionId) {
+            FactionState@ s = FactionState();
+            s.factionId = int(m_factions.size());
+            m_factions.insertLast(s);
+        }
+        return m_factions[factionId];
+    }
 
-	void addPendingDeath(int factionId) {
-		string key = factionKey(factionId);
-		int v = m_pendingDeaths.exists(key) ? int(m_pendingDeaths[key]) : 0;
-		m_pendingDeaths[key] = v + 1;
-	}
+    // =========================================================================
+    // REFRESH - liest Engine-Daten und befüllt alle FactionStates
+    // =========================================================================
 
-	int getSlotsPerDeathForCapacity(int factionCap) {
-		if (factionCap >= 300) return 6;
-		if (factionCap >= 251) return 5;
-		if (factionCap >= 201) return 4;
-		if (factionCap >= 121) return 3;
-		if (factionCap >= 70) return 2;
-		return 1;
-	}
+    void refreshAliveBasedData() {
+        array<const XmlElement@>@ factions = getFactions(m_metagame);
+        if (factions is null || factions.size() == 0) return;
 
-	void flushPendingDeaths() {
-		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		if (factions is null) return;
-		int minBases = getMinBasesOverFactions();
-		for (uint i = 0; i < factions.size(); ++i) {
-			int fid = int(i);
-			string key = factionKey(fid);
-			if (!m_pendingDeaths.exists(key)) continue;
-			int n = int(m_pendingDeaths[key]);
-			m_pendingDeaths.delete(key);
-			// Schwächste Fraktion (≤2 Basen): keine Timestamps → kein Slotblock
-			if (isWeakestFactionSlotBlockDisabled(fid, minBases)) continue;
-			updateBaseCapacityCacheForFaction(fid, factions[fid].getIntAttribute("soldier_capacity"));
-			int rawCap = getBaseCapacity(fid);
-			int slotsPerDeath = getSlotsPerDeathForCapacity(rawCap) + (fid == m_leaderFactionId ? 2 : 0);
-			float delay = getEffectiveDelaySeconds(fid);
-			// Statistik: kumulierte Slot-Sekunden
-			float addBlocked = float(n) * float(slotsPerDeath) * delay;
-			float prev = m_totalSlotSecondsBlocked.exists(key) ? float(m_totalSlotSecondsBlocked[key]) : 0.0f;
-			m_totalSlotSecondsBlocked[key] = prev + addBlocked;
-			// Ablaufzeitpunkte speichern (now + delay), nicht Todeszeitpunkt
-			float expireTime = m_timeAccum + delay;
-			string ts = m_slotExpireTimes.exists(key) ? string(m_slotExpireTimes[key]) : "";
-			for (int j = 0; j < n; ++j)
-				for (int k = 0; k < slotsPerDeath; ++k) { if (ts.length() > 0) ts += ","; ts += "" + expireTime; }
-			m_slotExpireTimes[key] = ts;
-		}
-	}
+        // Pass 1: Alive-Counts lesen + Top-2 für Extra-Delay-Berechnung bestimmen.
+        // Top-2-Algorithmus: highestAliveCount = Anführer, secondAliveCount = stärkster Verfolger.
+        array<int> aliveCountPerFaction;
+        aliveCountPerFaction.resize(factions.size());
+        int highestAliveCount = 0;
+        int secondAliveCount  = 0;
+        for (uint factionIndex = 0; factionIndex < factions.size(); ++factionIndex) {
+            array<const XmlElement@>@ characters = getCharacters(m_metagame, int(factionIndex));
+            int aliveCount = (characters is null) ? 0 : int(characters.size());
+            aliveCountPerFaction[factionIndex] = aliveCount;
+            if (aliveCount >= highestAliveCount) { secondAliveCount = highestAliveCount; highestAliveCount = aliveCount; }
+            else if (aliveCount > secondAliveCount) secondAliveCount = aliveCount;
+        }
+        // Edge-Case: Nur eine Fraktion → kein sinnvoller zweiter Platz möglich
+        if (factions.size() == 1) secondAliveCount = highestAliveCount;
 
-	// Zählt aktive Slots (expireTime > now) und liefert den behaltenen String.
-	// dictionary: "count" = int, "kept" = string
-	dictionary parseSlotExpireTimes(int factionId) {
-		dictionary result;
-		result["count"] = 0;
-		result["kept"] = string("");
-		string key = factionKey(factionId);
-		if (!m_slotExpireTimes.exists(key)) return result;
-		string s = string(m_slotExpireTimes[key]);
-		if (s.length() == 0) return result;
-		float now = m_timeAccum;
-		int count = 0;
-		string kept = "";
-		uint start = 0;
-		for (uint i = 0; i <= s.length(); ++i) {
-			if (i < s.length() && s.substr(i, 1) != ",") continue;
-			string part = s.substr(start, i - start);
-			start = i + 1;
-			if (part.length() == 0) continue;
-			float expire = parseFloat(part);
-			// Slot ist aktiv solange expireTime > now
-			if (expire > now) {
-				count++;
-				if (kept.length() > 0) kept += ",";
-				kept += part;
-			}
-		}
-		result["count"] = count;
-		result["kept"] = kept;
-		return result;
-	}
+        // Pass 2: Gesamtsummen für nativeCap-Schätzung (proportionaler Kapazitätsanteil)
+        int totalLiveAcrossAllFactions = 0;
+        int sumXmlCapacityAcrossAllFactions = 0;
+        for (uint factionIndex = 0; factionIndex < factions.size(); ++factionIndex) {
+            totalLiveAcrossAllFactions      += aliveCountPerFaction[factionIndex];
+            sumXmlCapacityAcrossAllFactions += factions[factionIndex].getIntAttribute("soldier_capacity");
+        }
 
-	int getReservedSlots(int factionId) {
-		dictionary d = parseSlotExpireTimes(factionId);
-		int c = 0;
-		d.get("count", c);
-		return c;
-	}
+        // Pass 3: FactionStates mit aktuellen Werten befüllen
+        for (uint factionIndex = 0; factionIndex < factions.size(); ++factionIndex) {
+            int factionId  = int(factionIndex);
+            int aliveCount = aliveCountPerFaction[factionIndex];
+            int xmlCap     = factions[factionIndex].getIntAttribute("soldier_capacity");
 
-	void pruneSlotExpireTimes(int factionId) {
-		dictionary d = parseSlotExpireTimes(factionId);
-		string kept;
-		d.get("kept", kept);
-		string key = factionKey(factionId);
-		if (kept.length() > 0) m_slotExpireTimes[key] = kept;
-		else m_slotExpireTimes.delete(key);
-	}
+            FactionState@ s = getState(factionId);
+            s.liveCount   = aliveCount;
+            s.xmlCapacity = xmlCap;
+            s.bases       = getBasesForFaction(m_metagame, factionId);
+            s.isLeader    = (aliveCount == highestAliveCount);
+            s.nativeCap   = (sumXmlCapacityAcrossAllFactions > 0 && totalLiveAcrossAllFactions > 0)
+                ? float(xmlCap) / float(sumXmlCapacityAcrossAllFactions) * float(totalLiveAcrossAllFactions)
+                : float(aliveCount);
+            s.extraDelaySeconds = (aliveCount > secondAliveCount)
+                ? float((aliveCount - secondAliveCount) / TROOPS_PER_EXTRA_BLOCK) * EXTRA_SECONDS_PER_BLOCK
+                : 0.0f;
 
-	float getTotalSlotSecondsBlocked(int factionId) {
-		string key = factionKey(factionId);
-		return m_totalSlotSecondsBlocked.exists(key) ? float(m_totalSlotSecondsBlocked[key]) : 0.0f;
-	}
+            updateBalanceMult(s, highestAliveCount);
+        }
+    }
 
-	int getMinBasesOverFactions() {
-		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		if (factions is null) return 0;
-		int minBases = 999;
-		for (uint i = 0; i < factions.size(); ++i) {
-			int b = getBasesForFactionCached(int(i));
-			if (b < minBases) minBases = b;
-		}
-		return (minBases == 999) ? 0 : minBases;
-	}
+    // =========================================================================
+    // BALANCE COMPENSATOR
+    // =========================================================================
 
-	// true = Slotblock deaktiviert: Fraktion hat die wenigsten Basen UND ≤2 Basen → volle Capacity.
-	bool isWeakestFactionSlotBlockDisabled(int factionId, int minBases) {
-		int bases = getBasesForFactionCached(factionId);
-		return bases <= 2 && bases == minBases;
-	}
+    // Berechnet den Ziel-Multiplikator basierend auf dem Alive-Verhältnis.
+    // Pure Funktion: kein Seiteneffekt, leicht testbar.
+    float calcBalanceTarget(int alive, int maxAlive) {
+        if (maxAlive <= 0 || alive <= 0) return 1.0f;
+        float ratio = float(maxAlive) / float(alive);
+        if (ratio < BALANCE_RATIO_THRESHOLD) return 1.0f;
+        return (ratio > BALANCE_MAX_MULT) ? BALANCE_MAX_MULT : ratio;
+    }
 
-	void applyCapacityWithReservedSlots() {
-		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		if (factions is null || factions.size() == 0) return;
-		int minBases = getMinBasesOverFactions();
+    // Aktualisiert balanceMult per Lerp; setzt Burned-Flag beim Deaktivieren.
+    // Erkennt außerdem die erste Aktivierung und löst den Commander-Funk aus.
+    void updateBalanceMult(FactionState@ s, int maxAlive) {
+        if (s.balanceBurned) {
+            s.balanceMult = 1.0f; // einmalig verbraucht: nie wieder aktiv
+            return;
+        }
+        float target = calcBalanceTarget(s.liveCount, maxAlive);
+        if (target <= 1.0f) {
+            if (s.balanceMult > 1.01f) {
+                // War aktiv, wird jetzt inaktiv → einmaligen Slot verbrauchen
+                s.balanceBurned = true;
+                _log("BalanceComp: fid=" + s.factionId + " BURNED - einmalige Aktivierung verbraucht", 1);
+            }
+            s.balanceMult = 1.0f;
+        } else {
+            // Erste Aktivierung: Commander-Funk auslösen (genau einmal pro Fraktion)
+            if (!s.balanceMsgSent) {
+                s.balanceMsgSent = true;
+                sendCompensatorMessages(s);
+            }
+            s.balanceMult += (target - s.balanceMult) * BALANCE_LERP_SPEED * ALIVE_CHECK_INTERVAL;
+            _log("BalanceComp: fid=" + s.factionId + " alive=" + s.liveCount
+                + " maxAlive=" + maxAlive + " target=" + target + " mult=" + s.balanceMult, 1);
+        }
+    }
 
-		XmlElement command("command");
-		command.setStringAttribute("class", "change_game_settings");
-		for (uint i = 0; i < factions.size(); ++i) {
-			int fid = int(i);
-			updateBaseCapacityCacheForFaction(fid, factions[i].getIntAttribute("soldier_capacity"));
-			int rawCap = getBaseCapacity(fid);
-			float mult;
-			if (isWeakestFactionSlotBlockDisabled(fid, minBases)) {
-				mult = 1.0f;
-			} else {
-				int reserved = getReservedSlots(fid);
-				float effective = float(rawCap - reserved);
-				if (effective < 0.0f) effective = 0.0f;
-				mult = (rawCap > 0) ? (effective / float(rawCap)) : CAPACITY_MULTIPLIER_NEAR_ZERO;
-				if (mult < CAPACITY_MULTIPLIER_NEAR_ZERO) mult = CAPACITY_MULTIPLIER_NEAR_ZERO;
-				if (reserved > 0 && mult < 1.0f) _log("RespawnSlotDelay: fid=" + fid + " reserved=" + reserved + " mult=" + mult, 1);
-			}
-			XmlElement faction("faction");
-			faction.setFloatAttribute("capacity_multiplier", mult);
-			command.appendChild(faction);
-		}
-		m_metagame.getComms().send(command);
-		for (uint i = 0; i < factions.size(); ++i) pruneSlotExpireTimes(int(i));
+    // =========================================================================
+    // COMMANDER-FUNK - Nachrichten beim Aktivieren des Kompensators
+    // =========================================================================
 
-		// Last-Base-Bonus: soldier_capacity einmalig verdoppeln wenn Fraktion auf 1 Basis fällt,
-		// einmalig zurücksetzen wenn sie wieder mehr Basen hat.
-		// capacity_multiplier > 1.0 NICHT nutzbar – akkumuliert sich in der Engine pro Tick!
-		applyLastBaseCapacityBonus(factions);
-	}
+    // Sendet sofort + verzögert zwei Nachrichtenpakete:
+    // - An die Fraktion selbst (Ich-Perspektive): Truppennachschub / Mobilmachung
+    // - Global für alle anderen (Geheimdienstperspektive): Feind hat Nachschub / Mobilmachung
+    void sendCompensatorMessages(FactionState@ s) {
+        string name         = getFactionName(s.factionId);
+        bool   isEarlyGame  = (m_timeAccum < BALANCE_MSG_EARLY_PHASE_SECONDS);
 
-	void applyLastBaseCapacityBonus(array<const XmlElement@>@ factions) {
-		for (uint i = 0; i < factions.size(); ++i) {
-			int fid = int(i);
-			string key = factionKey(fid);
-			bool shouldHaveBonus = (getBasesForFactionCached(fid) == 1);
-			bool hasBonus = m_lastBaseBonusActive.exists(key) && int(m_lastBaseBonusActive[key]) == 1;
+        if (isEarlyGame) {
+            // --- Early phase (< 10 min): fresh reinforcements from command ---
 
-			if (shouldHaveBonus == hasBonus) continue; // kein Zustandswechsel → nichts tun
+            postFactionMessage(s.factionId,
+                "We have received massive troop reinforcements. Prepare for a major offensive!");
+            postGlobalExceptFaction(s.factionId,
+                "Intercepted transmission: " + name + " has received major reinforcements. Brace for a large-scale assault!");
 
-			int rawCap = getBaseCapacity(fid);
-			int newCap;
-			if (shouldHaveBonus) {
-				newCap = int(float(rawCap) * LAST_BASE_CAPACITY_FACTOR);
-				m_lastBaseBonusActive[key] = 1;
-				_log("RespawnSlotDelay: Last-Base-Bonus ON fid=" + fid + " " + rawCap + " -> " + newCap, 1);
-			} else {
-				newCap = rawCap; // rawCap ist der gecachte Originalwert vor dem Bonus
-				m_lastBaseBonusActive[key] = 0;
-				_log("RespawnSlotDelay: Last-Base-Bonus OFF fid=" + fid + " -> " + newCap, 1);
-			}
+            scheduleMessageToFaction(s.factionId, BALANCE_MSG_DELAY_SECONDS,
+                "All units - move out! Give everything you have!");
+            scheduleMessageGlobalExceptFaction(s.factionId, BALANCE_MSG_DELAY_SECONDS,
+                "Warning: " + name + " is launching a full assault. Hold all positions!");
 
-			// change_game_settings mit soldier_capacity braucht alle Fraktionen in Reihenfolge
-			XmlElement bonusCmd("command");
-			bonusCmd.setStringAttribute("class", "change_game_settings");
-			for (uint j = 0; j < factions.size(); ++j) {
-				XmlElement f("faction");
-				if (int(j) == fid) {
-					f.setIntAttribute("soldier_capacity", newCap);
-				}
-				bonusCmd.appendChild(f);
-			}
-			m_metagame.getComms().send(bonusCmd);
-		}
-	}
+        } else {
+            // --- Late phase (> 10 min): last reserves - all or nothing ---
 
-	// Für Debug-HUD und /stats: effektive Capacity (rawCap - reserved).
-	// Schwächste Fraktion: immer rawCap (Slotblock aus).
-	int getEffectiveCapacityForFaction(int factionId) {
-		array<const XmlElement@>@ factions = getFactions(m_metagame);
-		if (factions is null || factionId < 0 || uint(factionId) >= factions.size()) return 0;
-		int rawCap = getBaseCapacity(factionId);
-		if (isWeakestFactionSlotBlockDisabled(factionId, getMinBasesOverFactions())) return rawCap;
-		int effective = rawCap - getReservedSlots(factionId);
-		return (effective > 0) ? effective : 0;
-	}
+            postFactionMessage(s.factionId,
+                "Our last reserves have been mobilised. Prepare for a final counter-attack!");
+            postGlobalExceptFaction(s.factionId,
+                "Intelligence report: " + name + " has completed their final mobilisation. Expect an imminent counter-attack!");
 
-	protected void handleCharacterDieEvent(const XmlElement@ event) {
-		const XmlElement@ character = event.getFirstElementByTagName("character");
-		const XmlElement@ target = character is null ? event.getFirstElementByTagName("target") : character;
-		if (target is null) return;
-		int factionId = target.getIntAttribute("faction_id");
-		addPendingDeath(factionId);
-	}
+            scheduleMessageToFaction(s.factionId, BALANCE_MSG_DELAY_SECONDS,
+                name + ": Soldiers, this is our last major push - give it everything!");
+            scheduleMessageGlobalExceptFaction(s.factionId, BALANCE_MSG_DELAY_SECONDS,
+                "The enemy (" + name + ") is making their final push. All units - hold the line!");
+        }
+    }
 
-	private void updateBaseCapacityCacheForFaction(int factionId, int observedRawCapacity) {
-		string key = factionKey(factionId);
-		int observed = clampCapacity(observedRawCapacity);
-		if (!m_baseCapacity.exists(key)) {
-			m_baseCapacity[key] = observed;
-			return;
-		}
-		int cached = int(m_baseCapacity[key]);
-		// Nur nach oben korrigieren: behebt zu fruehes Caching (z.B. 30 -> 250),
-		// ohne dass reduzierte Engine-Livewerte den Basiswert nach unten ziehen.
-		// Last-Base-Bonus: wenn Bonus aktiv, ignorieren – sonst würde der verdoppelte Wert gecacht.
-		bool bonusActive = m_lastBaseBonusActive.exists(key) && int(m_lastBaseBonusActive[key]) == 1;
-		if (!bonusActive && observed > cached) m_baseCapacity[key] = observed;
-	}
+    // Sendet eine Nachricht nur an Spieler einer bestimmten Fraktion.
+    // Nutzt sendFactionMessage aus query_helpers.as - identisch zur reinforcement_pool_tracker-Logik.
+    void postFactionMessage(int factionId, string message) {
+        sendFactionMessage(m_metagame, factionId, message, 0.95);
+    }
 
-	private string factionKey(int factionId) { return "" + factionId; }
-	private int clampCapacity(int raw) { return (raw < 0) ? 0 : raw; }
+    // Sendet eine Nachricht an alle Fraktionen außer der angegebenen.
+    void postGlobalExceptFaction(int excludeFactionId, string message) {
+        array<const XmlElement@>@ factions = getFactions(m_metagame);
+        if (factions is null) return;
+        for (uint i = 0; i < factions.size(); ++i) {
+            if (int(i) == excludeFactionId) continue;
+            sendFactionMessage(m_metagame, int(i), message, 0.95);
+        }
+    }
+
+    // Stellt eine verzögerte Nachricht an eine Fraktion in die Warteschlange.
+    void scheduleMessageToFaction(int factionId, float delaySeconds, string message) {
+        PendingMessage@ pm = PendingMessage();
+        pm.sendAt    = m_timeAccum + delaySeconds;
+        pm.factionId = factionId;
+        pm.message   = message;
+        m_pendingMessages.insertLast(pm);
+    }
+
+    // Stellt verzögerte Nachrichten an alle Fraktionen außer einer in die Warteschlange.
+    void scheduleMessageGlobalExceptFaction(int excludeFactionId, float delaySeconds, string message) {
+        array<const XmlElement@>@ factions = getFactions(m_metagame);
+        if (factions is null) return;
+        for (uint i = 0; i < factions.size(); ++i) {
+            if (int(i) == excludeFactionId) continue;
+            scheduleMessageToFaction(int(i), delaySeconds, message);
+        }
+    }
+
+    // Verarbeitet die Warteschlange und sendet fällige Nachrichten.
+    void flushPendingMessages() {
+        if (m_pendingMessages.size() == 0) return;
+        array<PendingMessage@> remaining;
+        for (uint i = 0; i < m_pendingMessages.size(); ++i) {
+            PendingMessage@ pm = m_pendingMessages[i];
+            if (pm.sendAt <= m_timeAccum) {
+                sendFactionMessage(m_metagame, pm.factionId, pm.message, 0.95);
+            } else {
+                remaining.insertLast(pm);
+            }
+        }
+        m_pendingMessages = remaining;
+    }
+
+    // Liest den Fraktionsnamen aus dem XML (für Nachrichten-Texte).
+    string getFactionName(int factionId) {
+        array<const XmlElement@>@ factions = getFactions(m_metagame);
+        if (factions is null || factionId < 0 || uint(factionId) >= factions.size()) return "Unbekannt";
+        return factions[factionId].getStringAttribute("name");
+    }
+
+    // =========================================================================
+    // SLOT-DELAY
+    // =========================================================================
+
+    // Slotblock ist deaktiviert wenn die Fraktion nur 1 oder 0 Basen hat.
+    bool isSlotBlockEnabled(FactionState@ s) {
+        return s.bases > 1;
+    }
+
+    // Effektive Verzögerung = Basis-Delay (abhängig von Basenzahl) + Truppenvorteil-Bonus.
+    float getEffectiveDelay(FactionState@ s) {
+        float base = (s.bases <= 1) ? RESPAWN_SLOT_DELAY_1_BASE
+                   : (s.bases == 2) ? RESPAWN_SLOT_DELAY_2_BASES
+                   :                  RESPAWN_SLOT_DELAY;
+        return base + s.extraDelaySeconds;
+    }
+
+    // Slots pro Tod: skaliert mit der XML-Kapazität (Größenindikator der Fraktion).
+    int getSlotsPerDeath(int xmlCap) {
+        if (xmlCap >= 300) return 6;
+        if (xmlCap >= 251) return 5;
+        if (xmlCap >= 201) return 4;
+        if (xmlCap >= 121) return 3;
+        if (xmlCap >= 70)  return 2;
+        return 1;
+    }
+
+    void addPendingDeath(int factionId) {
+        getState(factionId).pendingDeaths++;
+    }
+
+    // Verarbeitet gesammelte Tode: schreibt Ablaufzeitstempel in slotExpireTimes.
+    void flushPendingDeaths() {
+        for (uint i = 0; i < m_factions.size(); ++i) {
+            FactionState@ s = m_factions[i];
+            if (s.pendingDeaths == 0) continue;
+            int n = s.pendingDeaths;
+            s.pendingDeaths = 0;
+
+            if (!isSlotBlockEnabled(s)) continue;
+
+            int   slotsPerDeath = getSlotsPerDeath(s.xmlCapacity) + (s.isLeader ? 2 : 0);
+            float delay         = getEffectiveDelay(s);
+            float expireTime    = m_timeAccum + delay;
+
+            s.totalSlotSecondsBlocked += float(n) * float(slotsPerDeath) * delay;
+
+            for (int j = 0; j < n * slotsPerDeath; ++j)
+                s.slotExpireTimes.insertLast(expireTime);
+        }
+    }
+
+    // Zählt noch aktive (nicht abgelaufene) Slot-Timestamps.
+    int countReservedSlots(FactionState@ s) {
+        int count = 0;
+        float now = m_timeAccum;
+        for (uint i = 0; i < s.slotExpireTimes.size(); ++i)
+            if (s.slotExpireTimes[i] > now) count++;
+        return count;
+    }
+
+    // Entfernt abgelaufene Timestamps aus dem Array (Speicher-Hygiene).
+    void pruneExpiredSlots(FactionState@ s) {
+        float now = m_timeAccum;
+        array<float> kept;
+        for (uint i = 0; i < s.slotExpireTimes.size(); ++i)
+            if (s.slotExpireTimes[i] > now) kept.insertLast(s.slotExpireTimes[i]);
+        s.slotExpireTimes = kept;
+    }
+
+    // =========================================================================
+    // MULTIPLIER-BERECHNUNG (zwei klar getrennte Stufen)
+    // =========================================================================
+
+    // Stufe 1 - Slot-Bremse: wie stark drosselt der Slot-Delay den Spawn?
+    float calcSlotMult(FactionState@ s) {
+        if (!isSlotBlockEnabled(s)) return 1.0f;
+        int reserved = countReservedSlots(s);
+        if (reserved <= 0 || s.nativeCap <= 0.0f) return 1.0f;
+        float targetCap = s.nativeCap - float(reserved);
+        if (targetCap < 0.0f) targetCap = 0.0f;
+        float mult = targetCap / s.nativeCap;
+        if (mult < CAPACITY_MULTIPLIER_NEAR_ZERO) mult = CAPACITY_MULTIPLIER_NEAR_ZERO;
+        _log("SlotMult: fid=" + s.factionId + " native=" + s.nativeCap
+            + " reserved=" + reserved + " mult=" + mult, 1);
+        return mult;
+    }
+
+    // Stufe 2 - Finaler Mult: Balance-Boost gewinnt wenn er höher ist als Slot-Bremse.
+    // Regel: der höhere Wert gewinnt (Slot bremst nach unten, Balance hebt nach oben).
+    float calcFinalMult(FactionState@ s) {
+        float slotMult    = calcSlotMult(s);
+        float balanceMult = s.balanceMult;
+        if (balanceMult > slotMult) {
+            _log("FinalMult: fid=" + s.factionId + " balanceMult=" + balanceMult
+                + " overrides slotMult=" + slotMult, 1);
+            return balanceMult;
+        }
+        return slotMult;
+    }
+
+    // Effektive Kapazität (für Throttle-Check und HUD/Stats).
+    int calcEffectiveCapacity(FactionState@ s) {
+        if (!isSlotBlockEnabled(s)) return int(s.nativeCap);
+        int effective = int(s.nativeCap) - countReservedSlots(s);
+        return (effective > 0) ? effective : 0;
+    }
+
+    // =========================================================================
+    // APPLY - sendet capacity_multiplier und spawn_interval an die Engine
+    // =========================================================================
+
+    void applyCapacityWithReservedSlots() {
+        array<const XmlElement@>@ factions = getFactions(m_metagame);
+        if (factions is null || factions.size() == 0) return;
+
+        XmlElement command("command");
+        command.setStringAttribute("class", "change_game_settings");
+        for (uint i = 0; i < factions.size(); ++i) {
+            FactionState@ s    = getState(int(i));
+            float mult         = calcFinalMult(s);
+            int   effectiveCap = calcEffectiveCapacity(s);
+            bool  throttle     = (effectiveCap > 0 && s.liveCount >= effectiveCap);
+
+            XmlElement faction("faction");
+            faction.setFloatAttribute("capacity_multiplier", mult);
+            faction.setFloatAttribute("spawn_interval", throttle ? SPAWN_INTERVAL_BLOCKED : SPAWN_INTERVAL_NORMAL);
+            if (throttle) _log("THROTTLE: fid=" + i + " live=" + s.liveCount + " >= cap=" + effectiveCap, 1);
+            command.appendChild(faction);
+
+            pruneExpiredSlots(s);
+        }
+        m_metagame.getComms().send(command);
+    }
+
+    // =========================================================================
+    // EVENTS
+    // =========================================================================
+
+    protected void handleCharacterDieEvent(const XmlElement@ event) {
+        const XmlElement@ character = event.getFirstElementByTagName("character");
+        const XmlElement@ target = character is null ? event.getFirstElementByTagName("target") : character;
+        if (target is null) return;
+        addPendingDeath(target.getIntAttribute("faction_id"));
+    }
+
+    // =========================================================================
+    // PUBLIC STATS API (für HUD / externe Abfragen)
+    // =========================================================================
+
+    int getEffectiveCapacityForFaction(int factionId) {
+        return calcEffectiveCapacity(getState(factionId));
+    }
+
+    float getTotalSlotSecondsBlocked(int factionId) {
+        return getState(factionId).totalSlotSecondsBlocked;
+    }
+
+    // =========================================================================
+    // LEGACY API - Wrapper für externe Tracker-Aufrufer.
+    // Nicht intern verwenden; stattdessen getState(fid).field direkt nutzen.
+    // =========================================================================
+
+    int getLiveCount(int factionId) {
+        return getState(factionId).liveCount;
+    }
+
+    int getXmlCapacity(int factionId) {
+        return getState(factionId).xmlCapacity;
+    }
+
+    int getBasesForFactionCached(int factionId) {
+        return getState(factionId).bases;
+    }
+
+    int getReservedSlots(int factionId) {
+        return countReservedSlots(getState(factionId));
+    }
+
+    int getMinBasesOverFactions() {
+        int minBases = 999;
+        for (uint i = 0; i < m_factions.size(); ++i) {
+            int b = m_factions[i].bases;
+            if (b < minBases) minBases = b;
+        }
+        return (minBases == 999) ? 0 : minBases;
+    }
+
+    // Signatur-kompatibel mit altem Aufruf (minBases-Parameter wird nicht benötigt).
+    bool isWeakestFactionSlotBlockDisabled(int factionId, int minBases) {
+        return !isSlotBlockEnabled(getState(factionId));
+    }
 }

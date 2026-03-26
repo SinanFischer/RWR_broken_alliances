@@ -3,7 +3,7 @@
     <tag name="assault" />
     <!-- 5.56mm US-Standard; Balance EU/RU -->
     <specification 
-  retrigger_time="0.108" 
+  retrigger_time="0.07" 
   accuracy_factor="0.80" 
   sustained_fire_grow_step="0.26" 
   sustained_fire_diminish_rate="1.22" 
@@ -12,8 +12,8 @@
   suppressed="0" 
   name="M16A4" 
   class="0" 
-  sight_range_modifier="1.1"
-  projectile_speed="157.0" 
+  sight_range_modifier="1.1" ai_sight_range_modifier="0.99"
+  projectile_speed="160.0" 
   barrel_offset="0.4" />
 
     <animation key="recoil" ref="12" />
@@ -32,11 +32,11 @@
 
     <hud_icon filename="hud_m16a4_scope.png" />
     <commonness value="0.22" />
-    <inventory encumbrance="4.0" price="8.0" />
+    <inventory encumbrance="4.0" price="16" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
+        <result class="hit" kill_probability="0.9" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
 
 

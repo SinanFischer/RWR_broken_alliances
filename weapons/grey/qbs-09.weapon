@@ -12,7 +12,7 @@
   name="QBS-09" 
   class="4" 
   reload_one_at_a_time="1" 
-  sight_range_modifier="1.0" 
+  sight_range_modifier="1.0" ai_sight_range_modifier="0.9" 
   projectile_speed="136.0" 
   projectiles_per_shot="5" 
   burst_shots="1" />
@@ -27,11 +27,11 @@
 
     <hud_icon filename="hud_qbs-09.png" />
     <commonness value="0.01" />
-    <inventory encumbrance="11.0" price="2.0" />
+    <inventory encumbrance="11.0" price="14" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.75" kill_decay_start_time="0.10" kill_decay_end_time="0.20" />
+        <result class="hit" kill_probability="0.90" kill_decay_start_time="0.10" kill_decay_end_time="0.21" />
     </projectile>
 
     <stance state_key="running" accuracy="0.35" />

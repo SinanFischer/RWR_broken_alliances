@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary_rare.weapon" key="beretta_93r.weapon">
     <tag name="assault" />       
 	
@@ -14,7 +14,7 @@
 	name="Beretta 93R"
 	class="4"
 	reload_one_at_a_time="0"
-	sight_range_modifier="1.0"
+	sight_range_modifier="1.0" ai_sight_range_modifier="0.9"
 	projectile_speed="150.0"
 	projectiles_per_shot="1"
 	burst_shots="3"
@@ -43,7 +43,7 @@
 
     <hud_icon filename="hud_beretta_93r.png" />
     <commonness value="0.0014" can_respawn_with="0" in_stock="0" />
-    <inventory encumbrance="2.0" price="30" />
+    <inventory encumbrance="2.0" price="23" />
 	
 	<capacity value="0" source="rank" source_value="0.0" />
 	<capacity value="1" source="rank" source_value="0.15" />
@@ -52,7 +52,7 @@
     <weak_hand_hold offset="0.1" />
     <projectile file="bullet.projectile">
         <result class="hit"
-		kill_probability="0.5"
+		kill_probability="0.85"
 		kill_decay_start_time="0.198"
 		kill_decay_end_time="0.324" />
     </projectile>

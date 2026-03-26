@@ -9,7 +9,7 @@
     class="5" 
     character_state="unwound" 
     consume="1" 
-    sight_range_modifier="1" 
+    sight_range_modifier="1" ai_sight_range_modifier="0.9" 
     slot="1" 
     affect_characters="0"
     affect_vehicles="1"

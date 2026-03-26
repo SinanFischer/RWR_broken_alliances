@@ -11,7 +11,7 @@
     spawn_instance_class="vehicle" 
     spawn_instance_key="sandbag_cover.vehicle" 
     consume="0" 
-    sight_range_modifier="1" 
+    sight_range_modifier="1" ai_sight_range_modifier="0.9" 
     slot="1"
     deployment="1" 
 	deploy_fail_cancel="1" 

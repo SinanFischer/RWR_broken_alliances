@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_secondary.weapon" key="m2_carlgustav.weapon" time_to_live_out_in_the_open="60.0">
     <tag name="bazooka" />
     <specification 
@@ -13,7 +13,7 @@
   name="M2 Carl Gustav" 
   class="3" 
   reload_one_at_a_time="1" 
-  sight_range_modifier="1.4" 
+  sight_range_modifier="1.4" ai_sight_range_modifier="1.26" 
   projectile_speed="109.0" 
   slot="1" 
   projectiles_per_shot="1" />
@@ -38,9 +38,9 @@
     <weak_hand_hold offset="0.3" />
 
     <capacity value="0" source="rank" source_value="0.0" />
-    <capacity value="4" source="rank" source_value="0.1" />
-    <capacity value="6" source="rank" source_value="0.2" />
-    <capacity value="8" source="rank" source_value="0.2" />
+    <capacity value="2" source="rank" source_value="0.1" />
+    <capacity value="3" source="rank" source_value="0.4" />
+    <capacity value="4" source="rank" source_value="0.7" />
 
     <hud_icon filename="hud_m2_carlgustav.png" />
     <commonness value="0.059" />

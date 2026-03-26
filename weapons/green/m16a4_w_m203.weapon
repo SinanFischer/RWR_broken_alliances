@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <weapon file="base_primary_rare.weapon" key="m16a4_w_m203.weapon">
     <tag name="assault" />
     <!-- Stats 1:1 wie Standard-M16A4; nur GL-Option (X) und 5× Preis -->
     <specification 
-  retrigger_time="0.108" 
+  retrigger_time="0.07" 
   accuracy_factor="0.80" 
   sustained_fire_grow_step="0.26" 
   sustained_fire_diminish_rate="1.22" 
@@ -12,8 +12,8 @@
   suppressed="0" 
   name="M16A4 w/ M203 GL" 
   class="0" 
-  sight_range_modifier="1.1"
-  projectile_speed="157.0" 
+  sight_range_modifier="1.1" ai_sight_range_modifier="0.99"
+  projectile_speed="160.0" 
   barrel_offset="0.4" />
 
     <next_in_chain key="m16a4_w_m203_g.weapon" share_ammo="0" />
@@ -39,11 +39,11 @@
 	
     <hud_icon filename="hud_m16a4_w_m203.png" />
     <commonness value="0.02" can_respawn_with="1" in_stock="1" />
-    <inventory encumbrance="4.0" price="24" />
+    <inventory encumbrance="5.0" price="19" />
 
     <weak_hand_hold offset="0.2" />
     <projectile file="bullet.projectile">
-        <result class="hit" kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
+        <result class="hit" kill_probability="0.9" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
 
     <modifier class="speed" value="-0.05" />

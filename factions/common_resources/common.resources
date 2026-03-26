@@ -71,6 +71,9 @@
 	<!-- note, we have faction specific bazookas, therefore not included here -->
 	<weapon key='minig_resource.weapon' /> 
 	<weapon key='mortar_resource.weapon' /> 
+	<weapon key='mortar_resource_extended.weapon' />
+	<!-- <weapon key='mortar_extended.weapon' /> -->
+	<vehicle key='mortar_extended.vehicle' />
 	<weapon key='tow_resource.weapon' enabled="0" />  
 	<weapon key='gl_resource.weapon' /> 
 	<weapon key='humvee_gl.weapon' />
@@ -252,11 +255,11 @@
 	<call key="heavy_mortar.call" />
 	<call key="heavy_artillery.call" />
 	<!-- <call key="railway_artillery.call" /> -->
-
+<!-- 
 	<call key="paratroopers1.call" />
 	<call key="paratroopers2.call" />
 	<call key="paratroopers3.call" />
-	<call key="paratroopers4.call" />
+	<call key="paratroopers4.call" /> -->
 
 	<!-- Leichte Landfahrzeuge -->
 	<call key="humvee.call" />
