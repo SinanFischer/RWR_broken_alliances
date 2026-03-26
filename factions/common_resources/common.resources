@@ -256,11 +256,11 @@
 	<call key="heavy_artillery.call" />
 	
 	<!-- <call key="railway_artillery.call" /> -->
-<!-- 
+
 	<call key="paratroopers1.call" />
 	<call key="paratroopers2.call" />
 	<call key="paratroopers3.call" />
-	<call key="paratroopers4.call" /> -->
+	<call key="paratroopers4.call" />
 
 	<!-- Leichte Landfahrzeuge -->
 	<call key="humvee.call" />
