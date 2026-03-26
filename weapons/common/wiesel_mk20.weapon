@@ -27,7 +27,12 @@
     <target_factors tag="tactical" distance="1.0" direction="0.0" squad_command="1.0" base_score="8.0" />
     <target_factors tag="bazooka" distance="1.0" direction="0.0" squad_command="1.0" base_score="10" />
 
-    <effect class="muzzle" ref="BigMuzzle" />
+    <!-- Mündung wie APC-Autokanone (HI); kinetisch — kein HE-Einschlag, nur Rohrblitz/Rauch wie apc_hmg -->
+    <effect class="muzzle" ref="xMuzzleCasingThrowBounce" />
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xLargeRifleFlash" />
+    <effect class="muzzle" ref="xBig3Muzzle" />
 
     <sound class="operation" key="fire" fileref="wiesel_mk20_shot.wav" />
 

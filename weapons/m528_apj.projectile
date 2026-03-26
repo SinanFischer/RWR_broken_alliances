@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- BA: Cluster-Freigabe (Zeit-Trigger) — EXPLOSION_EFFECT_TIERS Stufe 2 (mittlere AT-Rakete), nur key=other (Luft) -->
+<projectile class="grenade" name="M528 AP" slot="2" pulldown_in_air="13.0" key="m528_apj.projectile">
+    <tag name="rocket"/>
+    <result class="spawn" instance_class="projectile" instance_key="m528_apj_sub.projectile" min_amount="4" max_amount="5" offset="0 0.0 0" position_spread="0 0" direction_spread="0.15 -0.3" />
+    <trigger class="time" time_to_live="1.78"/>
+    <rotation class="motion" />
+    <model mesh_filename="javmissile_ap.xml" />
+
+    <commonness value="0.0" />
+
+    <effect class="result" key="other" ref="xMedExpFog" />
+    <effect class="result" key="other" ref="xMedExpRise" />
+    <effect class="result" key="other" ref="xMedExpSmoke" />
+    <effect class="result" key="other" ref="xMedExpSmoke2" />
+    <effect class="result" key="other" ref="xMedExpFlash" />
+    <effect class="result" key="other" ref="xMedExpFlash2" />
+    <effect class="result" key="other" ref="xMedShieldBurst2" />
+    <effect class="result" key="other" ref="xMedGrenade" lighting="0" />
+    <effect class="result" key="other" ref="xMedGrenade2" lighting="0" />
+
+    <effect class="activated" ref="Propulsion" />
+
+</projectile>

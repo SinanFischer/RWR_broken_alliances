@@ -28,11 +28,9 @@
     <target_factors tag="tactical" distance="1.0" direction="0.0" squad_command="1.0" base_score="8.0" />
     <target_factors tag="bazooka" distance="1.0" direction="0.0" squad_command="1.0" base_score="3.5" />
 
-    <effect class="muzzle" ref="xTowBackSmoke" />
+    <!-- Raketenstart: hinten Abgas (xTowBackSmoke), vorne nur kurzer Blitz — kein xExpSmoke/xExpSmoke2 (schwere Wolke) -->
     <effect class="muzzle" ref="xTowMuzzleFlash" />
-    <effect class="muzzle" ref="xExpSmoke" />
-    <effect class="muzzle" ref="xExpSmoke2" />
-    <effect class="muzzle" ref="xTowMuzzle" />     
+    <effect class="muzzle" ref="xTowBackSmoke" />
 
     <sound class="operation" key="fire" fileref="tow_shot.wav" />
 
