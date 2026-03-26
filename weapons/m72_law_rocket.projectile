@@ -34,30 +34,30 @@
 
     
     
-    <!-- heavy infantry Big Explosion effects -->
-    <effect class="result" key="terrain" ref="xExpFog" />
-    <effect class="result" key="terrain" ref="xExpRise" />
-    <effect class="result" key="terrain" ref="xDirtExp" use_surface_color="1" />
-    <effect class="result" key="terrain" ref="xExpSmoke" />
-    <effect class="result" key="terrain" ref="xExpSmoke2" />
-    <effect class="result" key="terrain" ref="xExpFlash" />
-    <effect class="result" key="terrain" ref="xExpFlash2" />
-    <effect class="result" key="terrain" ref="xShieldBurst2" />
-    <effect class="result" key="terrain" ref="xgrenade" lighting="0" />
-    <effect class="result" key="terrain" ref="xgrenade2" lighting="0" />
-    <effect class="result" type="splat_map" surface_tag="" size="5.0" atlas_index="0" layer="1" />
-    <effect class="result" type="splat_map" surface_tag="" size="6.5" atlas_index="4" layer="0" />
-    <effect class="result" type="splat_map" surface_tag="" size="7.5" atlas_index="0" layer="2" additive="0" /> <!-- remove top snow everywhere -->
+    <!-- HI explosion ~60% (medium AT rocket); full heavy bleibt Panzer/TOW/M120/javelin_elite -->
+    <effect class="result" key="terrain" ref="xMedExpFog" />
+    <effect class="result" key="terrain" ref="xMedExpRise" />
+    <effect class="result" key="terrain" ref="xMedDirtExp" use_surface_color="1" />
+    <effect class="result" key="terrain" ref="xMedExpSmoke" />
+    <effect class="result" key="terrain" ref="xMedExpSmoke2" />
+    <effect class="result" key="terrain" ref="xMedExpFlash" />
+    <effect class="result" key="terrain" ref="xMedExpFlash2" />
+    <effect class="result" key="terrain" ref="xMedShieldBurst2" />
+    <effect class="result" key="terrain" ref="xMedGrenade" lighting="0" />
+    <effect class="result" key="terrain" ref="xMedGrenade2" lighting="0" />
+    <effect class="result" type="splat_map" surface_tag="" size="3.0" atlas_index="0" layer="1" />
+    <effect class="result" type="splat_map" surface_tag="" size="3.9" atlas_index="4" layer="0" />
+    <effect class="result" type="splat_map" surface_tag="" size="4.5" atlas_index="0" layer="2" additive="0" /> <!-- remove top snow everywhere -->
 
-    <effect class="result" key="other" ref="xExpFog" />
-    <effect class="result" key="other" ref="xExpRise" />
-    <effect class="result" key="other" ref="xExpSmoke" />
-    <effect class="result" key="other" ref="xExpSmoke2" />
-    <effect class="result" key="other" ref="xExpFlash" />
-    <effect class="result" key="other" ref="xExpFlash2" />
-    <effect class="result" key="other" ref="xShieldBurst2" />
-    <effect class="result" key="other" ref="xgrenade" lighting="0" />
-    <effect class="result" key="other" ref="xgrenade2" lighting="0" />
+    <effect class="result" key="other" ref="xMedExpFog" />
+    <effect class="result" key="other" ref="xMedExpRise" />
+    <effect class="result" key="other" ref="xMedExpSmoke" />
+    <effect class="result" key="other" ref="xMedExpSmoke2" />
+    <effect class="result" key="other" ref="xMedExpFlash" />
+    <effect class="result" key="other" ref="xMedExpFlash2" />
+    <effect class="result" key="other" ref="xMedShieldBurst2" />
+    <effect class="result" key="other" ref="xMedGrenade" lighting="0" />
+    <effect class="result" key="other" ref="xMedGrenade2" lighting="0" />
 <!-- End test -->
 
 
