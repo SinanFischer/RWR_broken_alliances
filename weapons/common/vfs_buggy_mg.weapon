@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon key="vfs_buggy_mg.weapon">
-    <specification slot="2" retrigger_time="0.10" accuracy_factor="0.65" sustained_fire_grow_step="0.8" sustained_fire_diminish_rate="1.1" sight_range_modifier="1.0" ai_sight_range_modifier="0.9" magazine_size="-1" can_shoot_standing="0" can_shoot_crouching="0" suppressed="0" name="Buggy MG" class="0" projectile_speed="155.0" />
+    <specification slot="2" retrigger_time="0.10" accuracy_factor="0.65" sustained_fire_grow_step="0.8" sustained_fire_diminish_rate="1.1" sight_range_modifier="1.0" ai_sight_range_modifier="0.9" magazine_size="-1" can_shoot_standing="0" can_shoot_crouching="0" suppressed="0" name="Buggy MG" class="0" projectile_speed="155.0" barrel_offset="0.55" />
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />
     <animation key="recoil" ref="14" />
@@ -17,6 +17,13 @@
     <commonness value="0.05" />
     <inventory encumbrance="10.0" price="2.0" />
     <weak_hand_hold offset="0.4" />
+    <!-- .50 BMG Fahrzeug-MG: Mündungsnebel (Basis hatte keine muzzle-Effekte) -->
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="x50CalMuzzleFog" />
+    <effect class="muzzle" ref="x50CalMuzzleDust" />
+    <effect class="muzzle" ref="xLargeRifleFlash" />
+    <effect class="muzzle" ref="xLarge5Muzzle" />
     <projectile file="50cal_bullet.projectile">
         <result class="hit" kill_probability="2.5" kill_decay_start_time="0.38" kill_decay_end_time="0.68" />
     </projectile>

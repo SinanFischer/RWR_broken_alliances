@@ -52,6 +52,9 @@
         <effect class="result" key="terrain" ref="BigBurst" use_surface_color="1" />
         <effect class="result" key="terrain" ref="SmokeTop" post_processing="1" />
         <effect class="result" key="terrain" ref="LowDust" />
+        <effect class="result" key="terrain" ref="x50CalDustKick" />
+        <effect class="result" key="terrain" ref="x50CalSmokeLinger" />
+        <effect class="result" key="terrain" ref="x50CalImpactSmoke" />
     </projectile>
 
     <!-- Prone-Spezialist: Läuft wie Blei, liegt wie eine Festung -->
@@ -67,6 +70,8 @@
     <!-- Schwerer Muzzle: BigMuzzle + BiggerMuzzle + CannonSmoke für 12,7-mm-Visual -->
     <effect class="muzzle" ref="BigMuzzle" />
     <effect class="muzzle" ref="CannonSmokeBig" />
+    <effect class="muzzle" ref="x50CalMuzzleFog" />
+    <effect class="muzzle" ref="x50CalMuzzleDust" />
 
     <modifier class="speed" value="-0.55" />
 </weapon>

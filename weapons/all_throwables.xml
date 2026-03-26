@@ -40,7 +40,9 @@
   <projectile file="debri_stun_medium.projectile" />  
   <projectile file="debri_stun_big.projectile" />
   <projectile file="debri_destroy_big.projectile" />  
-  <projectile file="debri_destroy_small.projectile" />    
+  <projectile file="debri_destroy_small.projectile" />
+  <projectile file="fuel_barrel_stun.projectile" />
+  <projectile file="fuel_barrel_destroy.projectile" />
 
   <projectile file="tracer_missile.projectile" />
   <projectile file="vfs_flare.projectile" />

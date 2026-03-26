@@ -3175,12 +3175,13 @@ particle_system x50CalDustKick
 particle_system x50CalSmokeLinger
 {
 	material	xExpSmoke
-	particle_width	1.25
-	particle_height	1.25
-	quota	6000
+	particle_width	2.15
+	particle_height	2.15
+	quota	8000
 	cull_each	false
 	sorted	false
 	local_space	false
+	renderer	billboard
 	billboard_type	point
 	billboard_origin	center
 	billboard_rotation_type	vertex
@@ -3189,29 +3190,160 @@ particle_system x50CalSmokeLinger
 
 	emitter Box
 	{
-		colour	1 1 1 0.11
-		position	0.0 0.08 0.0
-		direction	0.0 1.0 0.2
-		angle	55
-		width	0.55
-		height	0.35
-		depth	0.55
-		emission_rate	16
-		velocity_min	0.22
-		velocity_max	0.55
-		time_to_live	1.35
-		duration_min	0.14
-		duration_max	0.14
+		colour	1 1 1 0.28
+		position	0.0 0.1 0.0
+		direction	0.0 1.0 0.25
+		angle	70
+		width	0.95
+		height	0.5
+		depth	0.95
+		emission_rate	38
+		velocity_min	0.28
+		velocity_max	0.65
+		time_to_live	1.85
+		duration_min	0.22
+		duration_max	0.22
 	}
 
 	affector Scaler
 	{
-		rate	0.32
+		rate	0.38
 	}
 
 	affector ColourFader
 	{
-		alpha	-0.055
+		alpha	-0.038
+	}
+}
+
+// Sofort sichtbarer Aufprall-Rauch (.50) — ergänzt x50CalSmokeLinger
+particle_system x50CalImpactSmoke
+{
+	material		xExpSmoke
+	particle_width		2.5
+	particle_height		2.5
+	quota			8000
+	cull_each		false
+	renderer		billboard
+	billboard_type          oriented_common
+      	common_up_vector        0 0 1
+	accurate_facing 		false
+
+	emitter Point
+	{
+		position 0 0.18 0
+		colour		1 1 1 0.5
+		angle	45
+		direction	0 1 0.2
+		emission_rate	32
+		velocity	1.35
+		time_to_live	1.05
+		duration	0.2
+		duration_min	0.2
+		duration_max	0.2
+	}
+
+	affector Scaler
+	{
+		rate	1.9
+	}
+
+	affector ColourFader
+	{
+		alpha -0.62
+	}
+}
+
+// Zusätzlicher Pulver-/Nebel an der Mündung für .50-Waffen (über xMuzzleFog/Dust)
+particle_system x50CalMuzzleFog
+{
+	material	xExpSmoke
+	particle_width	3.35
+	particle_height	3.35
+	quota	10000
+	cull_each	false
+	sorted	false
+	local_space	false
+	iteration_interval	0.0
+	nonvisible_update_timeout	0.0
+	billboard_type	point
+	billboard_origin	center
+	billboard_rotation_type	vertex
+	point_rendering	false
+	accurate_facing	false
+
+	emitter Box
+	{
+		colour	1 1 1 0.26
+		position	0.0 0.0 0.12
+		direction	1.0 1.0 1.0
+		angle	180
+		width	2.85
+		height	2.85
+		depth	2.85
+		emission_rate	0.72
+		velocity_min	0.55
+		velocity_max	0.55
+		time_to_live	10
+		duration_min	0.48
+		duration_max	0.48
+	}
+
+	affector Scaler
+	{
+		rate	0.52
+	}
+
+	affector ColourFader
+	{
+		alpha	-0.016
+	}
+}
+
+particle_system x50CalMuzzleDust
+{
+	quota	160
+	material	xDust5
+	particle_width	0.95
+	particle_height	0.95
+	cull_each	true
+	renderer	billboard
+	billboard_type	oriented_self
+
+	emitter Point
+	{
+		angle		95
+		colour		1 1 1 0.24
+		direction	0 0 1
+		emission_rate	16
+		position	0 0 0.1
+		velocity	5.5
+		velocity_min	0.35
+		velocity_max	6.2
+		time_to_live	0.55
+		time_to_live_min	0.3
+		time_to_live_max	0.55
+		duration	0.52
+		duration_min	0.28
+		duration_max	0.52
+	}
+
+	affector Scaler
+	{
+		rate	0.42
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-55
+		rotation_speed_range_end	55
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+	affector ColourFader
+	{
+		alpha	-0.09
 	}
 }
 

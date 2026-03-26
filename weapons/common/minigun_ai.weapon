@@ -44,6 +44,10 @@
     <commonness value="0.0001" can_respawn_with="0" in_stock="1" />
     <inventory encumbrance="36.0"  price="10000.0"/>
 
+    <!-- .50 BMG: zusätzlicher Pulver-/Nebel an der Mündung -->
+    <effect class="muzzle" ref="x50CalMuzzleFog" />
+    <effect class="muzzle" ref="x50CalMuzzleDust" />
+
     <weak_hand_hold offset="0.4" />
     <projectile file="50cal_bullet.projectile">
         <result class="hit" kill_probability="0.9" kill_decay_start_time="0.33" kill_decay_end_time="0.66" />

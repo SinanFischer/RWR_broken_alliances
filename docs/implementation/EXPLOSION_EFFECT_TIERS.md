@@ -22,7 +22,7 @@ Diese Datei beschreibt, **welche Partikel-**`ref`**-Namen** (*Verweise auf benan
 |-------|-----------------|-------------------|-----------------|----------------------------|
 | **Klein (Granate)** | Handgranate, Cluster, Impact, Claymore | `xSmallExpFog` | `xGrenadeExpSmoke2` (statt `xSmallExpSmoke2` bei reinen Granaten) | `3.5` / `4.5` / `5.5` |
 | **Autocannon HE (~60 % Granate, wuchtiger Blitz)** | APC **40 mm**, Flak-/Radar-HMG, Wiesel Mk20 (`apc_hmg*`, `radar_tank_hmg`, `wiesel_mk20`) | `xAcHeExpFog`, `xAcHeExpRise`, `xAcHeDirtExp`, `xAcHeExpSmoke2` + **dieselben** `xCannonFlash*` wie Granate | kein `xMed*`-Flammenpaar — Wucht über **kanonische** Blitz-/Ring-Refs | `2.2` / `2.85` / `3.35` (zweite **splat_map**-Triade nach Vanilla-`1.0`) |
-| **.50 BMG (kinetisch)** | `50cal_bullet.projectile` | Vanilla `Burst` + `LowDust` + `x50CalDustKick` + `x50CalSmokeLinger` | **kein** HE-/Cannon-Flash | keine zusätzliche **splat_map**-Triade (nur Vanilla-Einschlag) |
+| **.50 BMG (kinetisch)** | `50cal_bullet.projectile` | Vanilla `Burst` + `LowDust` + `x50CalDustKick` + `x50CalSmokeLinger` + **`x50CalImpactSmoke`** (sofortiger Aufprall-Rauch) | **kein** HE-/Cannon-Flash | keine zusätzliche **splat_map**-Triade (nur Vanilla-Einschlag) |
 | **Mittel (~60 % Heavy)** | LAW, RPG-7, generische `rocket`/`rocket2`, Carl Gustaf, Javelin (Standard + Type2), **AT-Granate** (`at_grenade.projectile`) | `xMedExpFog` … `xMedGrenade2` | inkl. `xMedExpFlash` … | `3.0` / `3.9` / `4.5` |
 | **Heavy (voller HI-Block)** | Panzerrohr, TOW, schwerer Mörser, Luftschlag, Javelin Elite, AT-Mine, Küsten/Legion-Kanone | `xExpFog` … `xgrenade2` | unverändert | `5.0` / `6.5` / `7.5` |
 
@@ -172,11 +172,21 @@ Siehe: `weapons/mounted_gl.projectile` ab Kommentar `GRENADE EFFECTS HEAVY INFAN
 
 ---
 
+## Sonderfall: Benzinfass (`fuel_barrel.static_object`)
+
+**Vanilla-Pfad:** `vanilla/static_objects/fuel_barrel.static_object` — beim **`destroy`** (*Zerstören des Objekts*) spielen **`event_key="destroy"`**-**`effect`**-Einträge (*Partikel an der Stelle des Fasses*) sowie per **`spawn`** gespawnte **`projectile`** mit **`instance_key`** (*welches unsichtbare Projektil sofort die Druckwelle auslöst*).
+
+**Broken Alliances:** Überschreibung unter `static_objects/fuel_barrel.static_object` + eigene Projektile **`fuel_barrel_stun.projectile`** (*größerer Stun-**`blast`****`radius`*) und **`fuel_barrel_destroy.projectile`** (*größerer Todes-**`radius`** + HI-Granaten-Partikel wie `hand_grenade`*). So bleiben **`debri_stun`** / **`debri_destroy_small`** für **`ww2_base/static_objects/bomb.static_object`** unangetastet.
+
+---
+
 ## Sonderfall: .50 BMG / schweres Vollgeschoss (kinetisch, kein HE)
 
 **Einsatz:** `weapons/50cal_bullet.projectile` — u. a. `vfs_buggy_mg`, `wiesel_mg3`, `minigun_ai`, `qjz89_volk`.
 
-**Kernidee:** Weiter **`Burst`** + **`LowDust`** (Vanilla), plus **`x50CalDustKick`** (*verstärkte Staub-/Splitterwolke auf **Dust4**-Basis, ähnlich `LowDust`*) und **`x50CalSmokeLinger`** (*kleiner, langsamer **Nebel** mit **`xExpSmoke`**, ohne Cannon-/HE-Flash*). **Kein** `xCannonFlash` / `xExpFog` — optisch **Aufschlag**, keine **Detonation**.
+**Kernidee:** Weiter **`Burst`** + **`LowDust`** (Vanilla), plus **`x50CalDustKick`** (*verstärkte Staub-/Splitterwolke auf **Dust4**-Basis, ähnlich `LowDust`*), **`x50CalSmokeLinger`** (*kleiner, langsamer **Nebel** mit **`xExpSmoke`**, ohne Cannon-/HE-Flash*) und **`x50CalImpactSmoke`** (*kurzer, gut sichtbarer Rauchstoß direkt am Einschlag*). **Kein** `xCannonFlash` / `xExpFog` — optisch **Aufschlag**, keine **Detonation**.
+
+**Mündung (.50-Waffen):** Zusätzlich zu bestehenden Blitzen/Rauch **`x50CalMuzzleFog`** und **`x50CalMuzzleDust`** in den jeweiligen `weapons/*.weapon`-Dateien (`class="muzzle"`), z. B. `minigun_ai`, `qjz89_volk`, `vfs_buggy_mg`, `wiesel_mg3`.
 
 ---
 
@@ -184,7 +194,7 @@ Siehe: `weapons/mounted_gl.projectile` ab Kommentar `GRENADE EFFECTS HEAVY INFAN
 
 1. **Ist es eine wurfbare Granate / kleine Ladung?** → Stufe 1 (`xSmallExpFog` + `xGrenadeExpSmoke2` + …).
 2. **Ist es eine Fahrzeug-40-mm-HE-Maschinenkanone (kleine HE-Ladung, harter Einschlag)?** → Stufe 1b (`xAcHe*` + Cannon-Flash-Set wie Granate; Fahrzeug `xAtBurstSmall`).
-3. **Ist es .50 BMG / schweres Vollgeschoss (kinetisch)?** → `Burst` + `LowDust` + `x50CalDustKick` + `x50CalSmokeLinger` (siehe `50cal_bullet.projectile`).
+3. **Ist es .50 BMG / schweres Vollgeschoss (kinetisch)?** → `Burst` + `LowDust` + `x50CalDustKick` + `x50CalSmokeLinger` + `x50CalImpactSmoke` (siehe `50cal_bullet.projectile`); Mündung optional `x50CalMuzzleFog` / `x50CalMuzzleDust`.
 4. **Ist es eine tragbare AT-Rakete ohne Artillerie-Charakter?** → Stufe 2 (`xMed*` + splat `3.0`/`3.9`/`4.5`).
 5. **Ist es Fahrzeug, schweres Rohr, großer Sprengkopf oder Elite-Top-AT?** → Stufe 3 (`xExp*` + splat `5.0`/`6.5`/`7.5`).
 6. **Brauchst du eine Zwischenstufe?** → Entweder bestehende Stufe wählen oder **neue** `particle_system`-Namen anlegen (Kopie + Parameter), statt globale `xExp*` zu verbiegen.
