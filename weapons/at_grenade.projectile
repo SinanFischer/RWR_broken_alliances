@@ -51,10 +51,10 @@
     <effect class="result" key="other" ref="ShadowSmoke" shadow="1" />
 
     <!-- GRENADE EFFECTS HEAVY INFANTRY -->
-       <effect class="result" key="terrain" ref="xExpFog" />
+       <effect class="result" key="terrain" ref="xSmallExpFog" />
     <effect class="result" key="terrain" ref="xSmallExpRise" />
     <effect class="result" key="terrain" ref="xSmallDirtExp" use_surface_color="1" />
-    <effect class="result" key="terrain" ref="xSmallExpSmoke2" />
+    <effect class="result" key="terrain" ref="xGrenadeExpSmoke2" />
     <effect class="result" key="terrain" ref="xCannonFlash" />		
     <effect class="result" key="terrain" ref="xCannonFlash2" />
     <effect class="result" key="terrain" ref="xShieldBurst2" />	
@@ -64,19 +64,19 @@
     <effect class="result" type="splat_map" surface_tag="" size="4.5" atlas_index="4" layer="0" />
     <effect class="result" type="splat_map" surface_tag="" size="5.5" atlas_index="0" layer="2" additive="0" /> <!-- remove top snow everywhere -->
 
-    <effect class="result" key="other" ref="xExpFog" />
+    <effect class="result" key="other" ref="xSmallExpFog" />
     <effect class="result" key="other" ref="xSmallExpRise" />
-    <effect class="result" key="other" ref="xSmallExpSmoke2" />
+    <effect class="result" key="other" ref="xGrenadeExpSmoke2" />
     <effect class="result" key="other" ref="xCannonFlash" />
     <effect class="result" key="other" ref="xCannonFlash2" />
     <effect class="result" key="other" ref="xShieldBurst2" />
     <effect class="result" key="other" ref="xcannon_round" lighting="0" />
     <effect class="result" key="other" ref="xcannon_round2" lighting="0" />
 
-    <effect class="result" key="vehicle" ref="xExpFog" />
+    <effect class="result" key="vehicle" ref="xSmallExpFog" />
     <effect class="result" key="vehicle" ref="xAtBurstSmall" />
     <effect class="result" key="vehicle" ref="xSmallExpRise" />
-    <effect class="result" key="vehicle" ref="xSmallExpSmoke2" />
+    <effect class="result" key="vehicle" ref="xGrenadeExpSmoke2" />
     <effect class="result" key="vehicle" ref="xCannonFlash" />
     <effect class="result" key="vehicle" ref="xCannonFlash2" />
     <effect class="result" key="vehicle" ref="xShieldBurst2" />
@@ -84,7 +84,7 @@
     <effect class="result" key="vehicle" ref="xcannon_round2" lighting="0" />
   <!-- GRENADE EFFECTS HEAVY INFANTRY end -->
 
-  
+
     <effect class="result" key="static_object" copy="terrain" />
     <effect class="result" key="character" copy="terrain" />
 
