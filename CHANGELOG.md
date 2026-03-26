@@ -4,11 +4,14 @@
 
 
 ### Großes Effekt-Update (Heavy Infantry)
-Mit freundlicher Erlaubnis des Heavy-Infantry-Authors sind dessen **Schuss- und Staub-Optik** in Broken Alliances eingezogen. Technisch war das in der Git-Historie **drei aufeinanderfolgende Schritte** (nicht ein einzelner Blob):
+Mit Erlaubnis des Heavy-Infantry-Mod-Autors nutzt Broken Alliances dessen **rauere, filmischere Kampfoptik**. **Was du im Spiel siehst:**
 
-- **Einschlags- / Projektil-Effekte:** Neues bzw. angepasstes **`particles/bullet_impact_fx.particle`** (zunächst nur ein **Subset** der HI-Systeme) plus erste HI-**Texturen**; **`weapons/bullet.projectile`** verweist auf die neuen **`class="result"`-Partikel** beim Aufprall.
-- **Mündungsfeuer & Umgebung an der Waffe:** Erweiterung derselben Partikel-Datei um **Mündungs-** und Nebel-/Staub-Systeme; **`base_primary*.weapon`**, **`base_secondary*.weapon`** und viele **LMG/MG-Einzelwaffen** bekamen die passenden **`effect class="muzzle"`-Ketten** (Gewehr vs. MG getrennt), inkl. **`textures/expflash2.png`** für den HI-Flash-Look.
-- **Voller HI-Partikelblock + Texturenpaket:** **`bullet_impact_fx.particle`** auf den **vollen HI-Umfang** gebracht (~7k Zeilen); dazu **viele weitere Texturen** (Flames, Dust, Hülsen, Rauch, …) und **`weapons/base_primary_core.weapon`**, damit Basen nur Stance/Core erben und **Mündungseffekte** sauber in den abgeleiteten Bases stehen.
+- **Kugel-Einschläge:** Treffer auf Boden, Metall und Deckung wirken deutlicher — mehr Staub, Funken und kurze Lichtblitze statt des früheren, flacheren Auftritts.
+- **Mündungsfeuer:** Beim Schießen gibt es stärkeren Blitz am Lauf und sichtbaren Rauch bzw. Staub direkt an der Waffe. **Maschinengewehre und Miniguns** wirken optisch schwerer und “dreckiger” als normale Gewehre.
+- **Explosionen und schweres Gerät:** Granaten, Mörser und viele Sprengladungen haben mehr Rauch und eine klarere Druckwelle; große Geschütze und sehr schwere MGs hinterlassen beim Aufschlag dickere Staub- und Rauchwolken.
+- **Nachjustierung:**  Effekte wurden angepasst an die neuen Waffen und Explosionen. 
+- **Einige Fahrzeug-MGs wieder “normal”:** Bestimmte leichte Fahrzeug-MGs schießen optisch wieder wie gewöhnliche MG-Kugeln — nicht mehr mit dem Look einer .50-BMG.
+- **Bluteffekt bei schweren Treffern:** Wenn ein **MG, LMG, Minigun, Fahrzeug-MG, Panzer-MG** oder **sehr großes Kaliber** (z. B. schwere Scharfschützen-/Panzerbüchsen) einen **Soldaten** trifft, siehst du am Einschlag einen **roten Blut-Spray** (kurzer Sprühnebel). **Sturmgewehre, Pistolen und SMGs** lassen diesen Effekt bewusst weg.
 
 ### Commands:
 
