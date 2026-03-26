@@ -12,11 +12,7 @@
 	<parameter class="team_member_sight_range" value="48.0" />
 	<parameter class="monitor_enemies_max_dot_range" value="2.2" />
 
-	<!-- Reaktionszeiten: schnell -->
-	<parameter class="day_reaction_time_to_fight_min" value="0.5" />
-	<parameter class="day_reaction_time_to_fight_max" value="0.7" />
-	<parameter class="night_reaction_time_to_fight_min" value="0.6" />
-	<parameter class="night_reaction_time_to_fight_max" value="0.9" />
+	<!-- Reaktion: geerbt von default_soldiers (vanilla default.ai) -->
 	<parameter class="choose_enemy_time" value="0.5" />
 	<parameter class="monitor_enemies_time" value="0.55" />
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Sniper-AI: nur Sicht-Parameter (erhöhte Reichweite). Rest = default.ai. -->
-<ai>
+<!-- Sniper-AI: Basis default_soldiers (Reaktion wie vanilla Infanterie), dann Sicht/Cover-Overrides. -->
+<ai filename="common_resources/default_soldiers.ai">
   <parameter class="max_sight_range_with_muzzle" value="75.0" />
    <parameter class="force_as_leader" value="1" />
   <parameter class="prefer_roofs_probability" value="0.95" />
