@@ -33,7 +33,7 @@
     <effect class="result" key="other" ref="ShadowSmoke" shadow="1" />
 
 
-    <!-- HI explosion ~60% (medium AT rocket); full heavy bleibt Panzer/TOW/M120/javelin_elite -->
+    <!-- HI explosion ~60% (medium AT rocket); full heavy: Panzerrohr/M120/javelin_elite (TOW nutzt dieselbe xMed*-Kette) -->
     <effect class="result" key="terrain" ref="xMedExpFog" />
     <effect class="result" key="terrain" ref="xMedExpRise" />
     <effect class="result" key="terrain" ref="xMedDirtExp" use_surface_color="1" />
