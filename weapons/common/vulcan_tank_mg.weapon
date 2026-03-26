@@ -28,7 +28,10 @@
         <result class="hit" kill_probability="1.4" kill_decay_start_time="0.35" kill_decay_end_time="0.75" />
     </projectile>
 
-    <effect class="muzzle" ref="BigMuzzle" />
+    <effect class="muzzle" ref="xVulcanTankMuzzleFog" />
+    <effect class="muzzle" ref="xVulcanTankMuzzleDust" />
+    <effect class="muzzle" ref="xVulcanTankCannonFlash" />
+    <effect class="muzzle" ref="xVulcanTankCannonMuzzle" />
 
     <sound class="operation" key="fire" fileref="minigun_shot.wav" pitch_variety="0.05" />
 

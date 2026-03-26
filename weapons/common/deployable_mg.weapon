@@ -31,7 +31,11 @@
         <result class="hit" kill_probability="1.4" kill_decay_start_time="0.41" kill_decay_end_time="0.71" />
     </projectile>
 
-    <effect class="muzzle" ref="BigMuzzle" />
+    <effect class="muzzle" ref="xMuzzleCasingThrow_3" />	
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xLargeRifleFlash2" />
+    <effect class="muzzle" ref="xBigMuzzle" />
 
     <sound class="operation" key="fire" fileref="mounted_mg_shot.wav" volume="0.8" />
     <sound key="cooldown" fileref="overheating_mg.wav" volume="0.4"/>

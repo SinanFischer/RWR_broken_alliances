@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<weapon drop_count_factor_on_death="0.35" drop_count_factor_on_player_death="1.0" file="base_primary_machinegun.weapon" key="microgun.weapon">
+<weapon drop_count_factor_on_death="0.35" drop_count_factor_on_player_death="1.0" file="base_primary_rare.weapon" key="microgun.weapon">
     <tag name="machine gun" />
     <specification 
   retrigger_time="0.032" 
@@ -46,6 +46,12 @@
     <projectile file="bullet_mg.projectile">
         <result class="hit" kill_probability="0.62" kill_decay_start_time="0.25" kill_decay_end_time="0.60" />
     </projectile>
+
+    <effect class="muzzle" ref="xMuzzleCasingThrow" />	
+	<effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xRifleFlash" />
+    <effect class="muzzle" ref="xSmall6Muzzle" />
 
     <modifier class="speed" value="-0.45" /> 
 </weapon>

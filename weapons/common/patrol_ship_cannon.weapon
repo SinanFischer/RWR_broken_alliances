@@ -20,7 +20,10 @@
     <commonness value="0.0" />
     <projectile file="apc_hmg.projectile" />
 
-    <effect class="muzzle" ref="BiggerMuzzle" />
+    <effect class="muzzle" ref="xExpRiseSmall" />
+    <effect class="muzzle" ref="xCannonFlash" />
+    <effect class="muzzle" ref="xCannonSmoke" />
+    <effect class="muzzle" ref="xCannon3Muzzle" />
 
     <sound class="operation" key="fire" fileref="ps_cannon_shot.wav" />
 

@@ -18,7 +18,11 @@
     <commonness value="0.0" />
     <projectile file="apc_hmg_1.projectile" />
 
-    <effect class="muzzle" ref="BigMuzzle" />
+    <effect class="muzzle" ref="xMuzzleCasingThrowBounce" />	
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />    
+    <effect class="muzzle" ref="xLargeRifleFlash" />
+    <effect class="muzzle" ref="xBig3Muzzle" />
 
     <sound class="operation" key="fire" fileref="apc_shot_1.wav" />
 

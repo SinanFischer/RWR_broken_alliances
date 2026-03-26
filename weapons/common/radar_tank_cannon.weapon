@@ -20,7 +20,10 @@
     <commonness value="0.0" />
     <projectile file="radar_tank_hmg.projectile" />
 
-    <effect class="muzzle" ref="BiggerMuzzle" />
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />    
+    <effect class="muzzle" ref="xLargeRifleFlash" />
+    <effect class="muzzle" ref="xBig3Muzzle" />
 
     <sound class="operation" key="fire" fileref="radar_tank_shot.wav" />
 

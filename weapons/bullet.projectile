@@ -71,7 +71,7 @@
     <effect class="result" key="shield" ref="xBulletFlash" />
 	
     <!-- <trail probability="1.0" key="laser" /> -->
-    <trail probability="1" />
+    <trail probability="0.25" />
 
 </projectile>
  

@@ -20,9 +20,11 @@
     <commonness value="0.0" />
     <projectile file="tank_cannon_2.projectile" />
 
-    <effect class="muzzle" ref="BiggerMuzzle" />
-    <effect class="muzzle" ref="CannonSmokeBig" /> 
-    <effect class="muzzle" ref="CannonSmokeBigSphere" />       
+    <effect class="muzzle" ref="xExpFog" />	
+    <effect class="muzzle" ref="xBiggerMuzzleSmoke" />
+    <effect class="muzzle" ref="xExpRise" />
+    <effect class="muzzle" ref="xBiggerMuzzle" />
+    <effect class="muzzle" ref="xBiggerMuzzleFlash" />
 
     <sound class="operation" key="fire" fileref="tank_shot_2.wav" />
 

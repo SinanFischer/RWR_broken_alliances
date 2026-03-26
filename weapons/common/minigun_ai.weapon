@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<weapon drop_count_factor_on_death="0.35" drop_count_factor_on_player_death="1.0" file="base_primary_rare_machinegun_heavy.weapon" key="minigun_ai.weapon" time_to_live_out_in_the_open="150.0" player_death_drop_owner_lock_time="45.0">
+<weapon drop_count_factor_on_death="0.35" drop_count_factor_on_player_death="1.0" file="base_primary_core.weapon" key="minigun_ai.weapon" time_to_live_out_in_the_open="150.0" player_death_drop_owner_lock_time="45.0">
     <tag name="machine gun" />
     <specification 
   retrigger_time="0.012" 
@@ -44,11 +44,16 @@
     <commonness value="0.0001" can_respawn_with="0" in_stock="1" />
     <inventory encumbrance="36.0"  price="10000.0"/>
 
-    <!-- GAU-17 / M134: 7,62 mm — Mündung kommt von base_primary_machinegun-Kette, kein .50 -->
     <weak_hand_hold offset="0.4" />
     <projectile file="bullet_mg.projectile">
         <result class="hit" kill_probability="0.88" kill_decay_start_time="0.33" kill_decay_end_time="0.66" />
     </projectile>
+
+    <effect class="muzzle" ref="xMuzzleCasingThrow_2" />	
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xLargeRifleFlash2" />
+    <effect class="muzzle" ref="xLargeMuzzle" />
 
     <capacity value="1" source="rank" source_value="0.0" />
     <capacity value="1" source="rank" source_value="0.5" />

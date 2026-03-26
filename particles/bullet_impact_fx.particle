@@ -5756,6 +5756,100 @@ particle_system xCannonSmokeBigSphere
 	}
 }
 
+// Vulcan-Panzer-MG: gleiche Optik wie xMuzzleFog/xMuzzleDust/xCannon*, ~70 % Größe (nur vulcan_tank_mg.weapon)
+particle_system xVulcanTankMuzzleDust
+{
+	quota	100
+	material	xDust5
+	particle_width	0.525
+	particle_height	0.525
+	cull_each	true
+	renderer	billboard
+	billboard_type	oriented_self
+
+	emitter Point
+	{
+		angle		90
+		colour		1 1 1 0.15
+		direction	0 0 0
+		emission_rate	7
+		position	0 0 0
+		velocity	3.5
+		velocity_min	0.175
+		velocity_max	3.5
+		time_to_live	0.5
+		time_to_live_min	0.25
+		time_to_live_max	0.5
+		duration	0.5
+		duration_min	0.25
+		duration_max	0.5
+	}
+ 
+	affector Scaler
+	{
+		rate	0.28
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+	affector ColourFader
+	{
+		alpha	-0.1
+	}
+}
+
+particle_system xVulcanTankMuzzleFog
+{
+	material	xExpSmoke
+	particle_width 2.1
+	particle_height 2.1
+	quota 10000
+	cull_each false
+	sorted false
+	local_space false
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type point
+	billboard_origin center
+	billboard_rotation_type vertex
+	point_rendering false
+	accurate_facing false
+
+	emitter Box
+	{
+		colour	1 1 1 0.20
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 180
+		width 1.75
+		height 1.75
+		depth 1.75
+		emission_rate 0.4
+		velocity_min 0.35
+		velocity_max 0.35
+		time_to_live 10
+		duration_min 0.5
+		duration_max 0.5
+	}
+
+	affector Scaler
+	{
+		rate 0.35
+	}
+	
+	affector ColourFader
+	{
+		alpha	-0.018
+	}
+	
+}
+
 particle_system xCannonFlash
 {
 	material			xExpFlash
@@ -5831,6 +5925,59 @@ particle_system 			xCannonMuzzle
 		emission_rate 150
 		velocity_min 1
 		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+}
+
+particle_system xVulcanTankCannonFlash
+{
+	material			xExpFlash
+	particle_width			2.8
+	particle_height			2.8
+	quota 				1000
+	cull_each			false
+	renderer			billboard
+	billboard_type			oriented_self
+	common_direction		0 0 0
+	accurate_facing false
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 105
+		velocity_min 0.7
+		velocity_max 0.7
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}	
+}
+
+particle_system xVulcanTankCannonMuzzle
+{
+	quota					1000
+	material				xFlame11
+	particle_width			5.6
+	particle_height			5.6
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 105
+		velocity_min 0.7
+		velocity_max 0.7
 		time_to_live 0.04
 		duration_min 0.025
 		duration_max 0.025

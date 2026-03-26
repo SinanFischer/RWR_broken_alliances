@@ -21,6 +21,13 @@
     <projectile file="bullet_mg.projectile">
         <result class="hit" kill_probability="1.4" kill_decay_start_time="0.38" kill_decay_end_time="0.68" />
     </projectile>
+
+    <effect class="muzzle" ref="xMuzzleCasingThrowBounce" />	
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />    
+    <effect class="muzzle" ref="xLargeRifleFlash" />
+    <effect class="muzzle" ref="xBig3Muzzle" />
+
     <shield offset="0.3 -0.6 0" extent="0.2 1.0 0.35" />
     <shield offset="-0.1 -0.3 0" extent="0.2 0.3 0.3" />
     <shield offset="0.1 0 0.25" extent="0.2 0.3 0.3" />
