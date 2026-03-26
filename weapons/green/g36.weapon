@@ -14,7 +14,7 @@
   class="0" 
   sight_range_modifier="1.1"
   projectile_speed="160.0" 
-  barrel_offset="0.2" />
+  barrel_offset="0.4" />
 
     <animation key="recoil" ref="12" />
     <animation key="recoil" ref="13" />
@@ -38,6 +38,9 @@
     <projectile file="bullet.projectile">
         <result class="hit" kill_probability="0.65" kill_decay_start_time="0.1" kill_decay_end_time="1.8" />
     </projectile>
+
+
+
 
     <modifier class="speed" value="-0.05" />
 </weapon>

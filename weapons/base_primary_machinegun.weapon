@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<weapon file="base_primary.weapon">
-    <effect class="muzzle" ref="xSmallExpSmoke2" />
+<weapon file="base_primary_core.weapon">
+        <effect class="muzzle" ref="xMuzzleCasingThrow" />	
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xLargeRifleFlash" />
+    <effect class="muzzle" ref="xLarge5Muzzle" />
+
+
 </weapon>

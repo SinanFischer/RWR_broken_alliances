@@ -1,6 +1,42 @@
-// Subset of Infantry Particle Systems (Heavy Infantry): bullet hit FX + shared muzzle FX.
-// Original by Josef Mueller {Anzac Joe}, CC BY-NC-ND 4.0 — see Heavy Infantry mod for full file.
-// Textures used: impact_damage.png, impact_glow.png, expsmoke.png, exprise.png, cartoonflame2.png (in textures/).
+//	Infantry Particle Systems	Version 1.57	23/03/2018
+
+//							**INFANTRY**  
+//				     by Josef Mueller {Anzac Joe} 
+//			    is licensed under a Creative Commons 
+//	Attribution-NonCommercial-NoDerivatives 4.0 International License.
+
+//		  https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+//	Bullet Impact - Object - Damage.
+particle_system 				xBulletImpactObjectDamage
+{
+	quota						1000
+	material					xBulletImpactDamage
+	particle_width				0.75
+	particle_height				0.75
+	cull_each					false
+	renderer					billboard
+	billboard_type				point
+	accurate_facing 			false
+
+	// Emitter Type.
+	emitter 					Point
+	{
+		colour					1 1 1 0.25
+		direction				0 1 0
+		velocity				0
+		emission_rate			18
+		position				0 0 0
+		time_to_live			10
+		duration				0.5
+	}
+
+	// Fade Rate.
+	affector					ColourFader
+	{
+		alpha					-0.025
+	}
+}
 
 material xBulletImpactDamage{
 	receive_shadows off
@@ -18,106 +54,7 @@ material xBulletImpactDamage{
 	}
 }
 
-material xExpRise {
-	receive_shadows off
-	technique {
-		pass {
-			lighting off
-			fog_override true
-
-			depth_write off
-			depth_check on
-			scene_blend alpha_blend
-
-			texture_unit {
-				texture exprise.png
-				tex_address_mode clamp
-			}
-		}
-	}
-}
-
-material xExpSmoke {
-	receive_shadows off
-	technique {
-		pass {
-			lighting off
-			fog_override true
-
-			depth_write off
-			depth_check on
-			scene_blend alpha_blend
-
-			texture_unit {
-				texture expsmoke.png
-				tex_address_mode clamp
-			}
-		}
-	}
-}
-
-material xFlame2 {
-        receive_shadows off
-	technique {
-		pass {
-			lighting off
-			depth_write off
-			scene_blend add
-			fog_override true
-
-			texture_unit {
-				texture cartoonflame2.png
-			}
-		}
-	}
-}
-
-material xDust5 {
-	receive_shadows off
-	technique {
-		pass {
-			lighting off
-			fog_override false
-
-			depth_write off
-			scene_blend alpha_blend 
-
-			texture_unit {
-				texture expsmoke.png
-				tex_address_mode clamp
-			}
-		}
-	}
-}
-
-particle_system 				xBulletImpactObjectDamage
-{
-	quota						1000
-	material					xBulletImpactDamage
-	particle_width				0.75
-	particle_height				0.75
-	cull_each					false
-	renderer					billboard
-	billboard_type				point
-	accurate_facing 			false
-
-	emitter 					Point
-	{
-		colour					1 1 1 0.25
-		direction				0 1 0
-		velocity				0
-		emission_rate			18
-		position				0 0 0
-		time_to_live			10
-		duration				0.5
-	}
-
-	affector					ColourFader
-	{
-		alpha					-0.025
-	}
-}
-
+//	Bullet Impact - Object - Glow.
 particle_system 				xBulletImpactObjectGlow
 {
 	quota						10000
@@ -129,6 +66,7 @@ particle_system 				xBulletImpactObjectGlow
 	billboard_type				point
 	accurate_facing 			false
 
+	// Emitter Type.
 	emitter 					Point
 	{
 		emission_rate			1
@@ -139,18 +77,351 @@ particle_system 				xBulletImpactObjectGlow
 		duration				0.5
 	}
 	
+	// Colour Changer - Life.
 	affector					ColourImage
 	{
 		image					impact_glow.png
 	}
 }
 
-particle_system xMuzzleFog
+//	Muzzle Casing Throw.
+particle_system					xMuzzleCasingThrow
+{
+	quota						100
+	material					xBulletCasing
+	particle_width				0.2
+	particle_height				0.2
+	cull_each					false
+	renderer					billboard
+	billboard_type				point
+
+	// Emitter Type.
+	emitter						Point
+	{
+		colour					1.0 0.75 0 1
+		angle					45
+		emission_rate			18
+		position				0 0 0
+		velocity				-7.5
+		time_to_live			0.5
+		duration				0.05
+	}
+
+	// Casing Rotation.
+	affector							Rotator
+	{
+		rotation_speed_range_start		0
+		rotation_speed_range_end		2160
+		rotation_range_start			0
+		rotation_range_end				360
+	}
+
+	// Gravity.
+    affector					LinearForce
+    {
+        force_vector			0 -25 0
+        force_application		add
+    }
+}
+
+//	Muzzle Casing Throw_2.
+particle_system					xMuzzleCasingThrow_2
+{
+	quota						100
+	material					xBulletCasing
+	particle_width				0.2
+	particle_height				0.2
+	cull_each					false
+	renderer					billboard
+	billboard_type				point
+
+	// Emitter Type.
+	emitter						Point
+	{
+		colour					1.0 0.75 0 1
+		angle					10
+		emission_rate			18
+		position				0 0.75 0
+		velocity				-4.5
+		time_to_live			0.5
+		duration				0.05
+	}
+
+	// Appearance Time
+	affector					ColourImage
+	{
+		image					casing_throw_2.png
+	}
+
+	// Casing Rotation.
+	affector							Rotator
+	{
+		rotation_speed_range_start		0
+		rotation_speed_range_end		2160
+		rotation_range_start			0
+		rotation_range_end				360
+	}
+
+	// Gravity.
+    affector					LinearForce
+    {
+        force_vector			0 -25 0
+        force_application		add
+    }
+}
+
+//	Muzzle Casing Throw_3.
+particle_system					xMuzzleCasingThrow_3
+{
+	quota						100
+	material					xBulletCasing
+	particle_width				0.2
+	particle_height				0.2
+	cull_each					false
+	renderer					billboard
+	billboard_type				point
+
+	// Emitter Type.
+	emitter						Point
+	{
+		colour					1.0 0.75 0 1
+		angle					5
+		emission_rate			18
+		position				0 1.5 0
+		velocity				-4.5
+		time_to_live			0.5
+		duration				0.05
+	}
+
+	// Appearance Time
+	affector					ColourImage
+	{
+		image					casing_throw_3.png
+	}
+
+	// Casing Rotation.
+	affector							Rotator
+	{
+		rotation_speed_range_start		0
+		rotation_speed_range_end		2160
+		rotation_range_start			0
+		rotation_range_end				360
+	}
+
+	// Gravity.
+    affector					LinearForce
+    {
+        force_vector			0 -25 0
+        force_application		add
+    }
+}
+
+//	Muzzle Casing Throw Bounce.
+particle_system					xMuzzleCasingThrowBounce
+{
+	quota						100
+	material					xBulletCasing
+	particle_width				0.2
+	particle_height				0.2
+	cull_each					false
+	renderer					billboard
+	billboard_type				point
+
+	// Emitter Type.
+	emitter						Point
+	{
+		colour					1.0 0.75 0 1
+		angle					10
+		emission_rate			18
+		position				0 0.0 0
+		velocity				-6.0
+		time_to_live			1.5
+		duration				0.05
+	}
+
+	// Appearance Time
+	affector					ColourImage
+	{
+		image					casing_throw_1.png
+	}
+
+	// Casing Rotation.
+	affector							Rotator
+	{
+		rotation_speed_range_start		0
+		rotation_speed_range_end		1620
+		rotation_range_start			0
+		rotation_range_end				360
+	}
+
+	// Gravity.
+    affector					LinearForce
+    {
+        force_vector			0 -3.0 0
+        force_application		add
+    }
+}
+
+//	Muzzle xShotCasing Throw.
+particle_system					xMuzzleShotCasingThrow
+{
+	quota						100
+	material					xShotCasing
+	particle_width				0.2
+	particle_height				0.2
+	cull_each					false
+	renderer					billboard
+	billboard_type				point
+
+	// Emitter Type.
+	emitter						Point
+	{
+		colour					1 0 0 1
+		angle					0
+		emission_rate			18
+		position				0 0 0
+		velocity				-5
+		time_to_live			0.5
+		duration				0.05
+	}
+
+	// Casing Rotation.
+	affector					Rotator
+	{
+		rotation_speed_range_start		1080
+		rotation_speed_range_end		1080
+		rotation_range_start			0
+		rotation_range_end				360
+	}
+
+	// Gravity.
+    affector					LinearForce
+    {
+        force_vector			0 -25 0
+        force_application		add
+    }
+}
+
+material xBulletCasing{
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture bullet_casing.png
+			}
+		}
+	}
+}
+
+material xShotCasing{
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend alpha_blend
+			fog_override true
+
+			texture_unit {
+				texture shot_casing.png
+			}
+		}
+	}
+}
+
+particle_system 			xLahtiMuzzle
+{
+	quota					1000
+	material				Flame
+	particle_width			4.0
+	particle_height			4.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 37.5
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xExpSmoke
 {
 	material	xExpSmoke
-	particle_width 1.15
-	particle_height 1.15
-	quota 4000
+	particle_width 6.0
+	particle_height 6.0
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	1 1 1
+	accurate_facing false
+
+	emitter Point
+	{
+		colour		1 1 1 0.5
+		angle	12
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	1
+		time_to_live	1
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.5
+	}
+}
+
+particle_system xExpFog
+{
+	material	xExpSmoke
+	particle_width 6.0
+	particle_height 6.0
+	quota 10000
 	cull_each false
 	sorted false
 	local_space false
@@ -168,10 +439,10 @@ particle_system xMuzzleFog
 		position 0.0 0.0 0.0
 		direction 1.0 1.0 1.0
 		angle 180
-		width 1.0
-		height 1.0
-		depth 1.0
-		emission_rate 0.35
+		width 2.5
+		height 2.5
+		depth 2.5
+		emission_rate 25
 		velocity_min 0.5
 		velocity_max 0.5
 		time_to_live 10
@@ -187,41 +458,496 @@ particle_system xMuzzleFog
 	affector ColourFader
 	{
 		alpha	-0.018
-	}
-	
+	}	
 }
 
-particle_system xShieldBurst
+particle_system xFireSmoke2
+{
+	material	xExpSmoke
+	particle_width 6.0
+	particle_height 6.0
+	quota 10000
+	cull_each false
+	sorted false
+	local_space false
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type point
+	billboard_origin center
+	billboard_rotation_type vertex
+	point_rendering false
+	accurate_facing 		false
+
+	emitter Box
+	{
+		colour	1 1 1 0.25
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 180
+		width 2.5
+		height 2.5
+		depth 2.5
+		emission_rate 5
+		velocity_min 0.5
+		velocity_max 0.5
+		time_to_live 10
+	}
+
+	affector Scaler
+	{
+		rate 0.5
+	}
+	
+	affector ColourFader
+	{
+		alpha	-0.05
+	}
+}
+
+particle_system xFireSmoke
+{
+	quota	500
+	material	xExpSmoke
+	particle_width	1.4
+	particle_height	1.4
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+	accurate_facing 		false
+
+	emitter Box
+	{
+		angle	2
+		colour	1 1 1 0.125
+		direction	0 1 0.2
+		emission_rate	25
+		position	0 0 0
+    		width 0.1
+    		height 0.0
+   		depth 0.1
+
+		velocity_min	1.0
+		velocity_max	2.4
+
+		time_to_live_min	6
+		time_to_live_max	10
+		duration	0.0
+	}
+
+	affector Scaler
+	{
+		rate	0.75
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+	affector ColourFader
+	{
+		red	0
+		green	0
+		blue	0
+		alpha	-0.025
+	}
+
+	affector LinearForce
+	{
+		force_vector 0.5 0.5 0
+		force_application add
+	}
+
+}
+
+material xwoosh
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_write off
+
+            texture_unit
+            {
+                texture woosh.png 
+                tex_address_mode clamp
+            }
+        }
+    }
+}
+
+particle_system xwoosh
+{
+
+        quota                                   500
+        material                                xwoosh
+        particle_width                          2.0
+        particle_height                         2.0
+        renderer                                billboard 
+        billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+
+        emitter                                 Point 
+        {
+
+		colour	0.9 0.9 0.9 0.3
+
+    position 0 0 0
+		direction	0 1 0
+		emission_rate	30
+		time_to_live	0.3
+		duration	0.05
+		duration_min	0.05
+		duration_max	0.05    
+
+
+        }
+        affector                                Scaler 
+        {
+            rate                                60.0
+        }
+
+	affector ColourFader
+	{
+		red	-1.0
+		green	-1.0
+		blue	-1.0
+		alpha	-1.0
+	}
+        
+   
+}
+
+particle_system xwoosh_big
+{
+
+        quota                                   500
+        material                                xwoosh
+        particle_width                          16.0
+        particle_height                         16.0
+        renderer                                billboard 
+        billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+
+        emitter                                 Point 
+        {
+
+		colour	0.9 0.9 0.9 0.3
+
+    position 0 0 0
+		direction	0 1 0
+		emission_rate	120
+		time_to_live	0.3
+		duration	0.01
+		duration_min	0.01
+		duration_max	0.01    
+
+
+        }
+        affector                                Scaler 
+        {
+            rate                                60.0
+        }
+
+	affector ColourFader
+	{
+		red	-1.0
+		green	-1.0
+		blue	-1.0
+		alpha	0
+	}
+        
+   
+}
+
+material xyellow_tracer {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture yellow_tracer.png
+			}
+		}
+	}
+}
+
+particle_system xLahtiSmoke
+{
+	material	xExpSmoke
+	particle_width 6.0
+	particle_height 6.0
+	quota 10000
+	cull_each false
+	sorted false
+	local_space false
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type point
+	billboard_origin center
+	billboard_rotation_type vertex
+	point_rendering false
+	accurate_facing 		true
+
+	emitter Box
+	{
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 180
+		width 2.5
+		height 2.5
+		depth 2.5
+		emission_rate 1
+		velocity_min 0.5
+		velocity_max 0.5
+		time_to_live 5
+		duration_min 0.5
+		duration_max 0.5
+	}
+
+	affector Scaler
+	{
+		rate 0.5
+	}
+	
+	affector ColourFader
+	{
+		red	-0.1
+		green	-0.1
+		blue	-0.075
+		alpha	0.0
+	}	
+}
+
+particle_system xLahtiSmoke2
+{
+	material	xExpSmoke
+	particle_width 6.0
+	particle_height 6.0
+	quota 50
+	cull_each	false
+	renderer	billboard
+	billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+	accurate_facing 		true
+
+	emitter Point
+	{
+		angle	0
+		direction	0 -1 0
+		emission_rate	10
+		position	0 0 0
+		velocity	1
+		time_to_live	5
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3.0
+	}
+
+	affector ColourFader
+	{
+		red	-0.27
+		green	-0.25
+		blue	-0.18
+	}
+}
+
+particle_system xLargeDirtExp
 {
     material        Piece
-    particle_width  0.2
-    particle_height 0.2
+    particle_width  0.3
+    particle_height 0.3
     cull_each       false
-    quota           1000
+    quota           10000
     billboard_type  point
 	accurate_facing 		true
     
     emitter Point
     {
-        angle           180
-	colour	1 1 1 1
-	colour_range_start	1 1 1 1
-	colour_range_end	1 1 1 1
-        emission_rate   250
-        time_to_live    0.25
-        velocity_min 8
-        velocity_max 8
-        
-        duration 0.025
+	position 		0.0 0.0 0.0
+	direction 		0.0 1.0 0.0
+        emission_rate                   2000
+        angle                          	45
+        time_to_live                    3.0
+        velocity                        20
+        duration                        0.15
     }
 
     affector LinearForce
     {
-        force_vector      0 -25 0
+       	force_vector      0 -15 0
         force_application add
     }
+}
 
-    affector ColourInterpolator
+particle_system xLargeExpFog
+{
+	material	xExpSmoke
+	particle_width 16.0
+	particle_height 16.0
+	quota 10000
+	cull_each false
+	sorted false
+	local_space false
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type point
+	billboard_origin center
+	billboard_rotation_type vertex
+	point_rendering false
+	accurate_facing false
+
+	emitter Box
+	{
+		colour	1 1 1 0.20
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 180
+		width 2.5
+		height 2.5
+		depth 2.5
+		emission_rate 25
+		velocity_min 0.5
+		velocity_max 0.5
+		time_to_live 10
+		duration_min 0.5
+		duration_max 0.5
+	}
+
+	affector Scaler
+	{
+		rate 0.5
+	}
+	
+	affector ColourFader
+	{
+		alpha	-0.018
+	}	
+}
+
+particle_system xLargeExpSmoke
+{
+	material	xExpSmoke
+	particle_width 16.0
+	particle_height 16.0
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	1 1 1
+	accurate_facing true
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour		1 1 1 0.5
+		angle	12
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	1
+		time_to_live	1
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.5
+	}
+}
+
+particle_system xLargeExpSmoke2
+{
+	material	xExpSmoke
+	particle_width 16.0
+	particle_height 16.0
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+	accurate_facing 		false
+
+	emitter Point
+	{
+		position			0 0.5 0
+		//colour		0.60 0.60 0.60
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		velocity	1
+		time_to_live	3
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.5
+	}
+}
+
+particle_system 			xLargeMuzzle
+{
+	quota					1000
+	material				xFlame6
+	particle_width			2.5
+	particle_height			2.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
 	{
 		colour0	1 1 1 1
 		time0	0.1
@@ -235,163 +961,613 @@ particle_system xShieldBurst
 		time4	1
 		colour5	0.5 0.5 0.5 0
 		time5	1
-    }
-
+	}
 }
 
-particle_system xUpDust2
+particle_system xLargeRifleFlash
+{
+	material	xExpFlash2
+	particle_width 3.0
+	particle_height 3.0
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xLargeRifleFlash2
+{
+	material	xExpFlash2c
+	particle_width 3.0
+	particle_height 3.0
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xLargeRifleFlash2d
+{
+	material	xExpFlash2d
+	particle_width 3.0
+	particle_height 3.0
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xLargeRifleFlash3
+{
+	material	xExpFlash
+	particle_width 1.5
+	particle_height 1.5
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xLarge2Muzzle
+{
+	quota					1000
+	material				Flame
+	particle_width	2.5
+	particle_height	2.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xLarge3Muzzle
+{
+	quota					1000
+	material				xFlame10
+	particle_width			2.5
+	particle_height			2.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xLarge4Muzzle
+{
+	quota					1000
+	material				xFlame8
+	particle_width			2.5
+	particle_height			2.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xLarge5Muzzle
+{
+	quota					1000
+	material				xFlame12
+	particle_width			3.0
+	particle_height			3.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xLawMuzzle
+{
+	quota	1000
+	material	xFlame3
+	particle_width	6.0
+	particle_height	6.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		position	0 0 0
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+		width	0.0
+		height	0.0
+		depth	0.0
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xM202Muzzle
+{
+	quota	1000
+	material	xFlame4
+	particle_width	4.0
+	particle_height	4.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	37.5
+		position	0 0 0
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+		width	0.0
+		height	0.0
+		depth	0.0
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xM202MuzzleFlash
+{
+	material	xLawMuzzleFlash
+	particle_width 8
+	particle_height 8
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	37.5
+		position	0 0 0
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+		width	0.0
+		height	0.0
+		depth	0.0
+	}
+
+	affector Scaler
+	{
+		rate 0.5
+	}
+	
+	//affector ColourFader
+	//{
+		//red		-0.1
+		//green	-0.1
+		//blue	-0.1
+		//alpha	-0.1
+	//}
+	
+}
+
+particle_system xSmallFireRepeat
 {
 	quota	100
-	material	xExpSmoke
-	particle_width	0.75
-	particle_height	0.75
-	cull_each	true
+	material	xFire
+	particle_width	4.0
+	particle_height	4.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 -1 0
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	10
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 1 0
+		emission_rate	60
+		position	0 0 0
+		velocity_min	0.2
+		velocity_max	4
+		time_to_live	0.15
+		time_to_live_min	0.1
+		time_to_live_max	0.5
+		duration	0.0
+		width	1
+		height	1
+		depth	1
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	.5 .5 .5 1
+		time0	0.1
+		colour1	.3 .3 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xMusketMuzzle
+{
+	quota	500
+	material	xDust4
+	particle_width	0.5
+	particle_height	0.5
+	cull_each	false
 	renderer	billboard
 	billboard_type	point
 	accurate_facing 		true
 
 	emitter Point
 	{
-		colour	1 1 1 0.35
-		angle	0
+		angle	40
+		colour	1 1 1 0.4
+		colour_range_start	1 1 1 0.4
+		colour_range_end	1 1 1 1
 		direction	0 1 0
-		emission_rate	10
+		emission_rate	200
 		position	0 0 0
-		velocity	0.0
-		velocity_min	0.0
-		velocity_max	0.0
-		time_to_live	1.0
-		time_to_live_min	1.0
-		time_to_live_max	1.0
-		duration	0.25
-		duration_min	0.25
-		duration_max	0.25
-	}
- 
-	affector Scaler
-	{
-		rate	0.3
-	}
-
-affector LinearForce
-{
-    force_vector 0 0.8 0
-    force_application add
-}
-
-	affector ColourFader
-	{
-		alpha -0.9
-	}
-}
-
-particle_system 			xBulletFlash
-{
-	quota					1000
-	material				xFlame2
-	particle_width			0.5
-	particle_height			0.5
-	cull_each				false
-	renderer				billboard
-	billboard_type			point
-	accurate_facing 		true
-
-	emitter 				Point
-	{
-		angle				0
-		colour				0.25 0.25 0.25
-		direction			0 1 0
-		emission_rate		150
-		position			0 0 0
-		velocity			0
-		velocity_min		0
-		velocity_max		0
-		time_to_live		0.04
-		time_to_live_min	0.04
-		time_to_live_max	0.04
-		duration			0.025
-		duration_min		0.025
-		duration_max		0.025
-		width				0
-		height				0
-		depth				0
-	}
-}
-
-particle_system xDirtBurst
-{
-     material        Piece
-    particle_width  0.2
-    particle_height 0.2
-    cull_each       false
-    quota           1000
-    billboard_type  point
-	accurate_facing 		true
-    
-    emitter Point
-    {
-            emission_rate                       500
-            angle                               45
-            time_to_live                        0.25
-            velocity                            8.0
-            duration                            0.025
-    }
-
-    affector LinearForce
-    {
-        force_vector      0 -50 0
-        force_application add
-    }
-
-}
-
-particle_system xKickDust
-{
-	material		xExpRise
-	particle_width 		1
-	particle_height 	1
-	quota 			500
-	cull_each		false
-	renderer		billboard
-	billboard_type		oriented_self
-	common_direction	1 1 1
-	accurate_facing 		true
-
-	emitter Point
-	{
-		colour	1 1 1 0.35
-		position 0.0 0.0 0.0
-		direction 1.0 1.0 1.0
-		angle 0
-		width 0.1
-		height 0.1
-		depth 0.1
-		emission_rate 37.5
-		velocity_min 2.0
-		velocity_max 2.0
-		time_to_live 0.5
-		duration_min 0.05
-		duration_max 0.05
+		velocity	1.5
+		velocity_min	3.0
+		velocity_max	0.2
+		time_to_live	1.5
+		time_to_live_min	0.8
+		time_to_live_max	1.5
+		duration	0.04
+		duration_min	0.04
+		duration_max	0.04
 	}
 
 	affector Scaler
 	{
-		rate 1.0
+		rate	0.55
 	}
-	
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
 	affector ColourFader
 	{
-		alpha -0.9
+		red	0
+		green	0
+		blue	0
+		alpha	-0.75
 	}
-	
+
+	affector LinearForce
+	{
+		force_vector 0 1 0
+		force_application add
+	}
 }
 
 particle_system xMusketSmoke
 {
 	material	xExpRise
-	particle_width 3.2
-	particle_height 3.2
-	quota 5000
+	particle_width 8
+	particle_height 8
+	quota 10000
 	cull_each	false
 	renderer	billboard
 	billboard_type	oriented_self
@@ -403,7 +1579,7 @@ particle_system xMusketSmoke
 		colour		1 1 1 0.25
 		angle	0
 		direction	0 -1 0
-		emission_rate	4.5
+		emission_rate	7
 		position	0 0 0
 		velocity	1.5
 		time_to_live	3
@@ -414,11 +1590,14 @@ particle_system xMusketSmoke
  
 	affector Scaler
 	{
-		rate	1.6
+		rate	3
 	}
 
 	affector ColourFader
 	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
 		alpha -0.5
 	}
 }
@@ -470,12 +1649,182 @@ particle_system xMuzzleDust
 	}
 }
 
-particle_system xRifleFlash
+particle_system xMuzzleFlash
 {
-	material	xFlame2
-	particle_width 0.55
-	particle_height 0.55
-	quota 2500
+	material	xExpFlash2
+	particle_width 3.0
+	particle_height 3.0
+	quota 10000
+	cull_each false
+	sorted false
+	local_space false
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type oriented_self
+	point_rendering false
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 0
+		width 0
+		height 0
+		depth 0
+		emission_rate 300
+		velocity_min 0.75
+		velocity_max 0.75
+		time_to_live 0.05
+		duration_min 0.01
+		duration_max 0.01
+	}
+
+	affector Scaler
+	{
+		rate 0.5
+	}
+	
+	//affector ColourFader
+	//{
+		//red		-0.1
+		//green	-0.1
+		//blue	-0.1
+		//alpha	-0.1
+	//}
+	
+}
+
+particle_system xMuzzleFog
+{
+	material	xExpSmoke
+	particle_width 3.0
+	particle_height 3.0
+	quota 10000
+	cull_each false
+	sorted false
+	local_space false
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type point
+	billboard_origin center
+	billboard_rotation_type vertex
+	point_rendering false
+	accurate_facing false
+
+	emitter Box
+	{
+		colour	1 1 1 0.20
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 180
+		width 2.5
+		height 2.5
+		depth 2.5
+		emission_rate 0.4
+		velocity_min 0.5
+		velocity_max 0.5
+		time_to_live 10
+		duration_min 0.5
+		duration_max 0.5
+	}
+
+	affector Scaler
+	{
+		rate 0.5
+	}
+	
+	affector ColourFader
+	{
+		alpha	-0.018
+	}
+	
+}
+
+particle_system xMuzzleSmoke
+{
+	material	xExpRise
+	particle_width 0
+	particle_height 0
+	quota 500
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	1 1 1
+
+	emitter Point
+	{
+		colour	1 1 1 0.35
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 0
+		width 0.1
+		height 0.1
+		depth 0.1
+		emission_rate 37.5
+		velocity_min 2.0
+		velocity_max 2.0
+		time_to_live 0.5
+		duration_min 0.05
+		duration_max 0.05
+	}
+
+	affector Scaler
+	{
+		rate 1.0
+	}
+	
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.9
+	}
+	
+}
+
+material xorange_cannon {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture orange_cannon.png
+			}
+		}
+	}
+}
+
+material xorange_tracer {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture orange_tracer.png
+			}
+		}
+	}
+}
+
+particle_system xPistolFlash
+{
+	material	xExpFlash
+	particle_width 0.75
+	particle_height 0.75
+	quota 10000
 	cull_each				false
 	renderer				billboard
 	billboard_type			oriented_self
@@ -487,7 +1836,7 @@ particle_system xRifleFlash
 		width 0
 		height 0
 		depth 0
-		emission_rate 48
+		emission_rate 150
 		velocity_min 1
 		velocity_max 1
 		time_to_live 0.04
@@ -512,12 +1861,997 @@ particle_system xRifleFlash
 	}
 }
 
+particle_system xPistolFlash2
+{
+	material	xExpFlash2
+	particle_width 1.5
+	particle_height 1.5
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xPropulsion
+{
+	quota	500
+	material	xExpSmoke
+	particle_width	1.0
+	particle_height	1.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	0
+		width	2.0
+		depth	2.0
+		height	2.0
+		colour	0.5 0.5 0.5 0.2
+		direction	0 1 0
+		emission_rate	400
+		position	0 0 0
+		velocity	0.5
+		velocity_min	0.5
+		velocity_max	1.0
+		time_to_live	1.0
+		duration	0.0
+	}
+
+	affector Scaler
+	{
+		rate	0.55
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+	affector ColourFader
+	{
+		red	0
+		green	0
+		blue	0
+		alpha	-0.75
+	}
+
+	affector LinearForce
+	{
+		force_vector 0 1 0
+		force_application add
+	}
+}
+
+particle_system xPropulsion_gl
+{
+	material        Piece
+    	particle_width  0.1
+    	particle_height 0.1
+   	cull_each       false
+    	quota           800
+    	billboard_type  point
+	accurate_facing 		true
+
+	// Area emitter
+	emitter Box
+	{
+		angle	90
+		direction	1 1 1
+		emission_rate	100
+		position	0 0 0
+    		width 1
+    		height 1
+   		depth 1
+
+		velocity_min	2.5
+		velocity_max	5
+
+		time_to_live_min	1
+		time_to_live_max	2
+		duration	0.5
+	}
+
+
+    	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+    	}
+}
+
+material xred_tracer {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture red_tracer.png
+			}
+		}
+	}
+}
+
+material xgreen_tracer {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture green_tracer.png
+			}
+		}
+	}
+}
+
+material xBurstShine
+{
+	receive_shadows off
+	technique 
+	{
+		pass 
+		{
+			lighting off
+			depth_write off
+
+			scene_blend add
+			fog_override true
+
+			texture_unit 
+			{
+				texture burst_shine.png
+			}
+		}
+	}
+}
+
+particle_system xRifleFlash
+{
+	material	xExpFlash2
+	particle_width 2.0
+	particle_height 2.0
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xRifleFlash2
+{
+	material	xExpFlash
+	particle_width 1.0
+	particle_height 1.0
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xRifleFlash3
+{
+	material	xExpFlash2b
+	particle_width 2.0
+	particle_height 2.0
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xRifleFlash3b
+{
+	material	xExpFlash3
+	particle_width 6.0
+	particle_height 6.0
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xRpgMuzzle
+{
+	quota	1000
+	material	xFlame4
+	particle_width	4.0
+	particle_height	4.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		position	0 0 0
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+		width	0.0
+		height	0.0
+		depth	0.0
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+material xshell {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture cartoonflame2.png
+			}
+		}
+	}
+}
+
+particle_system xshell
+{
+	quota	1000
+	material	xFlame2
+	particle_width	8.0
+	particle_height	8.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+	accurate_facing 		true
+
+	emitter Point
+	{
+		position			0 0.5 0
+		angle	0
+		colour	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+	}
+}
+
+particle_system xshell2
+{
+	quota	1000
+	material	xFlame2
+	particle_width	8.0
+	particle_height	8.0
+	cull_each	false
+	renderer                                billboard 
+        billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+	accurate_facing 		false
+
+	emitter Point
+	{
+		position			0 0.5 0
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+/*
+		repeat_delay	2
+		repeat_delay_min	2
+		repeat_delay_max	2
+*/
+	}
+
+	affector ColourFader
+	{
+		red	-1.3
+		green	-1.3
+		blue	-1.3
+		alpha	-1.3
+	}
+
+	affector Scaler
+	{
+		rate	0.2
+	}
+}
+
+particle_system xShieldBurst
+{
+    material        Piece
+    particle_width  0.2
+    particle_height 0.2
+    cull_each       false
+    quota           1000
+    billboard_type  point
+	accurate_facing 		true
+    
+    // Area emitter
+    emitter Point
+    {
+        angle           180
+	colour	1 1 1 1
+	colour_range_start	1 1 1 1
+	colour_range_end	1 1 1 1
+        emission_rate   250
+        time_to_live    0.25
+        //direction       0 1 0
+        velocity_min 8
+        velocity_max 8
+        
+        duration 0.025
+    }
+
+    affector LinearForce
+    {
+        force_vector      0 -25 0
+        force_application add
+    }
+
+    
+    affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+    }
+
+}
+
+particle_system xShieldBurst2
+{
+    material        Piece
+    particle_width  0.2
+    particle_height 0.2
+    cull_each       false
+    quota           800
+    billboard_type  point
+	accurate_facing 		true
+    
+    // Area emitter
+    emitter Box
+    {
+        angle           180
+	colour	1 1 1 1
+	colour_range_start	1 1 1 1
+	colour_range_end	1 1 1 1
+        emission_rate   150
+        time_to_live    0.7
+        direction       0 1 0
+        velocity_min 5
+        velocity_max 10
+        
+        duration 0.05
+	width	5
+	height	5
+	depth	5
+    }
+
+    affector LinearForce
+    {
+        force_vector      0 -25 0
+        force_application add
+    }
+
+    
+    affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+    }
+
+}
+
+particle_system xShotFlash
+{
+	material	xExpFlash2
+	particle_width 2.0
+	particle_height 2.0
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 37.5
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xShotMuzzle
+{
+	quota					1000
+	material				Flame
+	particle_width			2.0
+	particle_height			2.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 37.5
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xShot2Flash
+{
+	material	xExpFlash2b
+	particle_width 2.0
+	particle_height 2.0
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 37.5
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 		xShot2Muzzle
+{
+	quota				1000
+	material			xFlame12
+	particle_width		2.5
+	particle_height		2.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 37.5
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xShot3Flash
+{
+	material	xExpFlash
+	particle_width 1.0
+	particle_height 1.0
+	quota 10000
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 37.5
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xShot3Muzzle
+{
+	quota					1000
+	material				xFlame9
+	particle_width			2.5
+	particle_height			2.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xSmallDirtExp
+{
+    material        Piece
+    particle_width  0.2
+    particle_height 0.2
+    cull_each       false
+    quota           10000
+    billboard_type  point
+    accurate_facing 		true
+    
+    // Area emitter
+    emitter Point
+    {
+    	    position 0.0 0.0 0.0
+	    direction 0.0 1.0 0.0
+            emission_rate                       250
+            angle                               45
+            time_to_live                        5
+            velocity                            10
+            duration                            0.15
+    }
+
+    affector LinearForce
+    {
+        force_vector      0 -25 0
+        force_application add
+    }
+
+}
+
+particle_system xSmallExpRise
+{
+	material		xExpRise
+	particle_width 		8
+	particle_height 	8
+	quota 			10000
+	cull_each		false
+	renderer		billboard
+	billboard_type		oriented_self
+	common_direction	1 1 1
+	accurate_facing true
+
+	emitter Point
+	{
+		colour		1 1 1 0.5
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	1.5
+		time_to_live	1
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.65
+	}
+}
+
+particle_system xSmallExpSmoke
+{
+	material		xExpSmoke
+	particle_width 		4
+	particle_height 	4
+	quota 			10000
+	cull_each		false
+	renderer		billboard
+	billboard_type		oriented_self
+	common_direction	1 1 1
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour		1 1 1 0.5
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	1.5
+		time_to_live	1
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.65
+	}
+}
+
 particle_system xSmallExpSmoke2
 {
 	material		xExpSmoke
-	particle_width 		1.45
-	particle_height 	1.45
-	quota 			4000
+	particle_width 		4.0
+	particle_height 	4.0
+	quota 			10000
 	cull_each		false
 	renderer		billboard
 	billboard_type          oriented_common
@@ -530,7 +2864,7 @@ particle_system xSmallExpSmoke2
 		colour		1 1 1 0.5
 		angle	0
 		direction	0 -1 0
-		emission_rate	3.8
+		emission_rate	7.5
 		position	0 0 0
 		velocity	1.5
 		time_to_live	1
@@ -541,21 +2875,24 @@ particle_system xSmallExpSmoke2
  
 	affector Scaler
 	{
-		rate	1.05
+		rate	3
 	}
 
 	affector ColourFader
 	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
 		alpha -0.65
 	}
 }
 
 particle_system 			xSmallMuzzle
 {
-	quota					800
+	quota					1000
 	material			Flame
-	particle_width			0.5
-	particle_height			0.5
+	particle_width			2.0
+	particle_height			2.0
 	cull_each				false
 	renderer				billboard
 	billboard_type			oriented_self
@@ -567,7 +2904,7 @@ particle_system 			xSmallMuzzle
 		width 0
 		height 0
 		depth 0
-		emission_rate 42
+		emission_rate 150
 		velocity_min 1
 		velocity_max 1
 		time_to_live 0.04
@@ -590,4 +2927,4121 @@ particle_system 			xSmallMuzzle
 		colour5	0.5 0.5 0.5 0
 		time5	1
 	}
+}
+
+particle_system xSmallSmokeVehicle
+{
+	quota	500
+	material	xDust4
+	particle_width	0.7
+	particle_height	0.7
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	30
+		colour_range_start	0.4 0.4 0.4 0.2
+		colour_range_end	0.4 0.4 0.4 1
+		direction	0 1 0
+		emission_rate	50
+		position	0 0 0
+    		width 0.6
+    		height 0.0
+    		depth 0.6
+		velocity	1.0
+		velocity_min	1.0
+		velocity_max	1.8
+		time_to_live	1.5
+		time_to_live_min	0.8
+		time_to_live_max	1.5
+		duration	0.0
+	}
+
+	affector Scaler
+	{
+		rate	0.55
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+	affector ColourFader
+	{
+		red	-0.1
+		green	-0.1
+		blue	-0.075
+		alpha	0.0
+	}
+
+	affector LinearForce
+	{
+		force_vector 1 1 0
+		force_application add
+	}
+}
+
+particle_system 			xSmall2Muzzle
+{
+	quota					1000
+	material				xFlame7
+	particle_width			2.0
+	particle_height			2.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xSmall3Muzzle
+{
+	quota					1000
+	material				xFlame8
+	particle_width			2.0
+	particle_height			2.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 		xSmall4Muzzle
+{
+	quota					1000
+	material				xFlame9
+	particle_width			2.5
+	particle_height			2.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 		xSmall5Muzzle
+{
+	quota				1000
+	material			xFlame11
+	particle_width		2.0
+	particle_height		2.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 		xSmall6Muzzle
+{
+	quota				1000
+	material			xFlame12
+	particle_width		2.5
+	particle_height		2.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xSmall7Muzzle
+{
+	quota					1000
+	material				xFlame6b
+	particle_width			2.5
+	particle_height			2.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+material xtank_round {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture cartoonflame2.png
+			}
+		}
+	}
+}
+
+particle_system 		xtank_round
+{
+	quota				1000
+	material			xtank_round
+	particle_width		6
+	particle_height		6
+	cull_each			false
+	renderer			billboard
+	billboard_type		point
+	accurate_facing 		true
+
+	emitter 			Ellipsoid
+	{
+		angle				0
+		colour				1 1 1 1
+		colour_range_start	0.97 1 1 1
+		colour_range_end	1 1 1 1
+		direction			0 1 0
+		emission_rate		300
+		position			0 0 0
+		velocity			0
+		velocity_min		0
+		velocity_max		0
+		time_to_live		0.01
+		time_to_live_min	0.01
+		time_to_live_max	0.01
+		duration			0.01
+		duration_min		0.01
+		duration_max		0.01
+/*
+		repeat_delay		2
+		repeat_delay_min	2
+		repeat_delay_max	2
+*/
+		width	1
+		height	1
+		depth	1
+	}
+
+	affector ColourFader
+	{
+		red		-1.3
+		green	-1.3
+		blue	-1.3
+		alpha	-1.3
+	}
+
+	affector Scaler
+	{
+		rate	0.2
+	}
+}
+
+particle_system xTinyMuzzle
+{
+	quota	1000
+	material	Flame
+	particle_width	1.5
+	particle_height	1.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xTiny2Muzzle
+{
+	quota	1000
+	material	xFlame7
+	particle_width	1.5
+	particle_height	1.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xTowBackSmoke
+{
+	quota	1000
+	material	xExpRise2
+	particle_width	16
+	particle_height	16
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Point
+	{
+		//colour		0.60 0.60 0.60
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	-1.5
+		time_to_live	3
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.5
+	}
+}
+
+particle_system xTowMuzzle
+{
+	quota	1000
+	material	xFlame5
+	particle_width	12
+	particle_height	12
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		position	0 0 0
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+		width	0.0
+		height	0.0
+		depth	0.0
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+material xTowMuzzleFlash {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture expflash4.png
+			}
+		}
+	}
+}
+
+particle_system xTowMuzzleFlash
+{
+	material	xTowMuzzleFlash
+	particle_width 16
+	particle_height 16
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		position	0 0 0
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+		width	0.0
+		height	0.0
+		depth	0.0
+	}
+
+	affector Scaler
+	{
+		rate 0.5
+	}
+	
+	//affector ColourFader
+	//{
+		//red		-0.1
+		//green	-0.1
+		//blue	-0.1
+		//alpha	-0.1
+	//}
+	
+}
+
+particle_system xUpDust
+{
+	quota	100
+	material	xExpSmoke
+	particle_width	0.75
+	particle_height	0.75
+	cull_each	true
+	renderer	billboard
+	billboard_type	point
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 0.35
+		angle	0
+		direction	0 1 0
+		emission_rate	10
+		position	0 0 0
+		velocity	0.0
+		velocity_min	0.0
+		velocity_max	0.0
+		time_to_live	1.0
+		time_to_live_min	1.0
+		time_to_live_max	1.0
+		duration	0.25
+		duration_min	0.25
+		duration_max	0.25
+	}
+ 
+	affector Scaler
+	{
+		rate	0.3
+	}
+
+	affector LinearForce
+	{
+		force_vector 0 0.8 0
+		force_application add
+	}
+
+	affector ColourFader
+	{
+		alpha -0.9
+	}
+}
+
+particle_system xUpDust2
+{
+	quota	100
+	material	xExpSmoke
+	particle_width	0.75
+	particle_height	0.75
+	cull_each	true
+	renderer	billboard
+	billboard_type	point
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 0.35
+		angle	0
+		//colour_range_start	0.75 0.75 0.75 1
+		//colour_range_end	0.75 0.75 0.75 1
+		direction	0 1 0
+		emission_rate	10
+		position	0 0 0
+		velocity	0.0
+		velocity_min	0.0
+		velocity_max	0.0
+		time_to_live	1.0
+		time_to_live_min	1.0
+		time_to_live_max	1.0
+		duration	0.25
+		duration_min	0.25
+		duration_max	0.25
+	}
+ 
+	affector Scaler
+	{
+		rate	0.3
+	}
+
+affector LinearForce
+{
+    force_vector 0 0.8 0
+    force_application add
+}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.9
+	}
+}
+
+particle_system xUpDust3
+{
+	quota	1000
+	material	xExpFlash
+	particle_width	2.5
+	particle_height	2.5
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Point
+	{
+		angle	12
+		colour_range_start	0.5 0.5 0.5 0.2
+		colour_range_end	0.5 0.5 0.5 0.2
+		direction	0 -1 0
+		emission_rate	2.5
+		position	0 0 0
+		velocity_min 0.5
+		velocity_max 0.5
+		time_to_live 0.3
+		duration_min 0.3
+		duration_max 0.3
+	}
+ 
+	affector Scaler
+	{
+		rate	0.25
+	}
+
+	//affector LinearForce
+	//{
+    		force_vector 0 0 0
+    		force_application add
+	//}
+
+	//affector ColourFader
+	//{
+		//red	0
+		//green	0
+		//blue	0
+		//alpha	-1.0
+	//}
+}
+
+particle_system xUpDust4
+{
+	quota	100
+	material	xDust5
+	particle_width	6.0
+	particle_height	6.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+	accurate_facing 		true
+
+	emitter Point
+	{
+		angle	45
+		colour_range_start	1 1 1 0.2
+		colour_range_end	1 1 1 1.0
+		direction	0 1 0
+		emission_rate	100
+		position	0 0 0
+		velocity	10
+		velocity_min	5.0
+		velocity_max	10.0
+		time_to_live	1.0
+		time_to_live_min	0.5
+		time_to_live_max	1.0
+		duration	1.0
+		duration_min	0.5
+		duration_max	1.0
+	}
+ 
+	affector Scaler
+	{
+		rate	1.0
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+affector LinearForce
+{
+    force_vector 0 1.6 0
+    force_application add
+}
+
+	affector ColourFader
+	{
+		red	0
+		green	0
+		blue	0
+		alpha	-1.0
+	}
+}
+
+particle_system xUpDust5
+{
+	quota	100
+	material	xDust5b
+	particle_width	4.0
+	particle_height	4.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+	accurate_facing 		true
+
+	emitter Point
+	{
+		angle	25
+		direction	0 -1 0
+		emission_rate	50
+		position	0 0 0
+		velocity	-5
+		velocity_min	-2.5
+		velocity_max	-5.0
+		time_to_live	1.0
+		time_to_live_min	0.5
+		time_to_live_max	1.0
+		duration	0.25
+		duration_min	0.25
+		duration_max	0.25
+	}
+ 
+	affector Scaler
+	{
+		rate	1.0
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+affector LinearForce
+{
+    force_vector 0 -1.6 0
+    force_application add
+}
+
+	affector ColourFader
+	{
+		red	-0.1
+		green	-0.1
+		blue	-0.075
+		alpha	0.0
+	}
+}
+
+particle_system xUpDust5b
+{
+	quota	100
+	material	xDust5b
+	particle_width	10.0
+	particle_height	10.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Point
+	{
+		//colour		0.60 0.60 0.60
+		angle	12
+		direction	0 -1 0
+		emission_rate	10
+		position	0 0 0
+		velocity	1
+		time_to_live	10
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3.0
+	}
+
+	affector ColourFader
+	{
+		red	-0.135
+		green	-0.125
+		blue	-0.09
+	}
+}
+
+particle_system xUpDust5c
+{
+	quota	1000
+	material	xDust5c
+	particle_width	10.0
+	particle_height	10.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+
+	emitter Point
+	{
+		angle	12
+		colour_range_start	1 1 1 0.2
+		colour_range_end	1 1 1 0.75
+		direction	0 -1 0
+		emission_rate	50
+		position	0 0 0
+		velocity	-2.5
+		time_to_live	0.5
+		time_to_live_min	0.25
+		time_to_live_max	0.5
+		duration	0.25
+		duration_min	0.25
+		duration_max	0.25
+	}
+ 
+	affector Scaler
+	{
+		rate	1.0
+	}
+
+	//affector LinearForce
+	//{
+    		force_vector 0 0 0
+    		force_application add
+	//}
+
+	//affector ColourFader
+	//{
+		//red	0
+		//green	0
+		//blue	0
+		//alpha	-1.0
+	//}
+}
+
+particle_system xVulcanCannonSmoke
+{
+	material	xExpSmoke
+	particle_width 4
+	particle_height 4
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type                          oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour		1 1 1 0.25
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	1
+		time_to_live	0.75
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.75
+	}
+}
+
+particle_system xVulcanExpRiseSmall
+{
+	material	xCannonRise
+	particle_width 8
+	particle_height 8
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	1 1 1
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour		1 1 1 0.25
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	1
+		time_to_live	3
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.2
+	}
+}
+
+// TODO: clean this up
+
+import ShadowPlantIntegrated from "shadow_plant.material"
+import ShadowPlantIntegrated2 from "shadow_plant.material"
+import ShadowPlantSimple from "shadow_plant.material"
+
+material ShadowF16AirstrikeIntegrated : ShadowPlantIntegrated {
+	technique Basic {
+		shadow_caster_material ShadowF16AirstrikeIntegrated2
+	}
+}
+
+material ShadowF16AirstrikeIntegrated2 : ShadowPlantIntegrated2 {
+	technique ShadersShadows {
+		pass Basic {	
+			texture_unit Basic {
+				texture shadow_f16_airstrike.png
+			}
+		}
+	}
+}
+
+material ShadowF16AirstrikeSimple : ShadowPlantSimple {
+	technique NoShaders {
+		pass Basic {
+			texture_unit Basic {
+				texture shadow_f16_airstrike.png
+        		}
+		} 
+	}
+}
+
+particle_system ShadowF16AirstrikeFlyby
+{
+	quota	50
+	// RWR will internally extend shadow material names with Simple/Integrated
+	material	ShadowF16Airstrike
+	particle_width	10
+	particle_height	10
+	cull_each	false
+	renderer	billboard
+	billboard_type	perpendicular_common
+	common_direction 0 1 0
+	common_up_vector 1 0 0
+
+	emitter Point
+	{
+		angle	0
+
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+
+		// set by RWR
+		direction	0 0 0
+
+		position	-40 20 0
+
+		emission_rate	1
+		velocity	100.0
+		time_to_live	3.0
+		duration	0.99
+
+		//repeat_delay    1.0
+	}
+
+}
+
+
+particle_system F16AirstrikeFlyby
+{
+	quota	100
+	material	HudWeapon
+	particle_width	10
+	particle_height	10
+	cull_each	false
+	renderer	billboard
+	billboard_type	perpendicular_common
+	common_direction 0 1 0
+	common_up_vector 1 0 0
+
+	emitter Point
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 1 0
+		emission_rate	1
+
+		position	-40 20 0
+
+		emission_rate	1
+		velocity	100.0
+		time_to_live	3.0
+		duration	0.99
+
+		//repeat_delay    1.0
+	}
+
+}
+
+// TODO: clean this up
+
+import ShadowPlantIntegrated from "shadow_plant.material"
+import ShadowPlantIntegrated2 from "shadow_plant.material"
+import ShadowPlantSimple from "shadow_plant.material"
+
+material ShadowSu34AirstrikeIntegrated : ShadowPlantIntegrated {
+	technique Basic {
+		shadow_caster_material ShadowSu34AirstrikeIntegrated2
+	}
+}
+
+material ShadowSu34AirstrikeIntegrated2 : ShadowPlantIntegrated2 {
+	technique ShadersShadows {
+		pass Basic {	
+			texture_unit Basic {
+				texture shadow_su34_airstrike.png
+			}
+		}
+	}
+}
+
+material ShadowSu34AirstrikeSimple : ShadowPlantSimple {
+	technique NoShaders {
+		pass Basic {
+			texture_unit Basic {
+				texture shadow_su34_airstrike.png
+        		}
+		} 
+	}
+}
+
+// TODO: clean this up
+
+import ShadowPlantIntegrated from "shadow_plant.material"
+import ShadowPlantIntegrated2 from "shadow_plant.material"
+import ShadowPlantSimple from "shadow_plant.material"
+
+material ShadowTornadoAirstrikeIntegrated : ShadowPlantIntegrated {
+	technique Basic {
+		shadow_caster_material ShadowTornadoAirstrikeIntegrated2
+	}
+}
+
+material ShadowTornadoAirstrikeIntegrated2 : ShadowPlantIntegrated2 {
+	technique ShadersShadows {
+		pass Basic {	
+			texture_unit Basic {
+				texture shadow_tornado_airstrike.png
+			}
+		}
+	}
+}
+
+material ShadowTornadoAirstrikeSimple : ShadowPlantSimple {
+	technique NoShaders {
+		pass Basic {
+			texture_unit Basic {
+				texture shadow_tornado_airstrike.png
+        		}
+		} 
+	}
+}
+
+particle_system ShadowTornadoAirstrikeFlyby
+{
+	quota	50
+	// RWR will internally extend shadow material names with Simple/Integrated
+	material	ShadowTornadoAirstrike
+	particle_width	10
+	particle_height	10
+	cull_each	false
+	renderer	billboard
+	billboard_type	perpendicular_common
+	common_direction 0 1 0
+	common_up_vector 1 0 0
+
+	emitter Point
+	{
+		angle	0
+
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+
+		// set by RWR
+		direction	0 0 0
+
+		position	-40 20 0
+
+		emission_rate	1
+		velocity	100.0
+		time_to_live	3.0
+		duration	0.99
+
+		//repeat_delay    1.0
+	}
+
+}
+
+
+particle_system TornadoAirstrikeFlyby
+{
+	quota	100
+	material	HudWeapon
+	particle_width	10
+	particle_height	10
+	cull_each	false
+	renderer	billboard
+	billboard_type	perpendicular_common
+	common_direction 0 1 0
+	common_up_vector 1 0 0
+
+	emitter Point
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 1 0
+		emission_rate	1
+
+		position	-40 20 0
+
+		emission_rate	1
+		velocity	100.0
+		time_to_live	3.0
+		duration	0.99
+
+		//repeat_delay    1.0
+	}
+
+}
+
+// TODO: clean this up
+
+import ShadowPlantIntegrated from "shadow_plant.material"
+import ShadowPlantIntegrated2 from "shadow_plant.material"
+import ShadowPlantSimple from "shadow_plant.material"
+
+material ShadowTyphoonAirstrikeIntegrated : ShadowPlantIntegrated {
+	technique Basic {
+		shadow_caster_material ShadowTyphoonAirstrikeIntegrated2
+	}
+}
+
+material ShadowTyphoonAirstrikeIntegrated2 : ShadowPlantIntegrated2 {
+	technique ShadersShadows {
+		pass Basic {	
+			texture_unit Basic {
+				texture shadow_typhoon_airstrike.png
+			}
+		}
+	}
+}
+
+material ShadowTyphoonAirstrikeSimple : ShadowPlantSimple {
+	technique NoShaders {
+		pass Basic {
+			texture_unit Basic {
+				texture shadow_typhoon_airstrike.png
+        		}
+		} 
+	}
+}
+
+particle_system ShadowTyphoonAirstrikeFlyby
+{
+	quota	50
+	// RWR will internally extend shadow material names with Simple/Integrated
+	material	ShadowTyphoonAirstrike
+	particle_width	10
+	particle_height	10
+	cull_each	false
+	renderer	billboard
+	billboard_type	perpendicular_common
+	common_direction 0 1 0
+	common_up_vector 1 0 0
+
+	emitter Point
+	{
+		angle	0
+
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+
+		// set by RWR
+		direction	0 0 0
+
+		position	-40 20 0
+
+		emission_rate	1
+		velocity	100.0
+		time_to_live	3.0
+		duration	0.99
+
+		//repeat_delay    1.0
+	}
+
+}
+
+
+particle_system TyphoonAirstrikeFlyby
+{
+	quota	100
+	material	HudWeapon
+	particle_width	10
+	particle_height	10
+	cull_each	false
+	renderer	billboard
+	billboard_type	perpendicular_common
+	common_direction 0 1 0
+	common_up_vector 1 0 0
+
+	emitter Point
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 1 0
+		emission_rate	1
+
+		position	-40 20 0
+
+		emission_rate	1
+		velocity	100.0
+		time_to_live	3.0
+		duration	0.99
+
+		//repeat_delay    1.0
+	}
+
+}
+
+particle_system ShadowSu34AirstrikeFlyby
+{
+	quota	50
+	// RWR will internally extend shadow material names with Simple/Integrated
+	material	ShadowSu34Airstrike
+	particle_width	10
+	particle_height	10
+	cull_each	false
+	renderer	billboard
+	billboard_type	perpendicular_common
+	common_direction 0 1 0
+	common_up_vector 1 0 0
+
+	emitter Point
+	{
+		angle	0
+
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+
+		// set by RWR
+		direction	0 0 0
+
+		position	-40 20 0
+
+		emission_rate	1
+		velocity	100.0
+		time_to_live	3.0
+		duration	0.99
+
+		//repeat_delay    1.0
+	}
+
+}
+
+
+particle_system Su34AirstrikeFlyby
+{
+	quota	100
+	material	HudWeapon
+	particle_width	10
+	particle_height	10
+	cull_each	false
+	renderer	billboard
+	billboard_type	perpendicular_common
+	common_direction 0 1 0
+	common_up_vector 1 0 0
+
+	emitter Point
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 1 0
+		emission_rate	1
+
+		position	-40 20 0
+
+		emission_rate	1
+		velocity	100.0
+		time_to_live	3.0
+		duration	0.99
+
+		//repeat_delay    1.0
+	}
+
+}
+
+// TODO: clean this up
+
+import ShadowPlantIntegrated from "shadow_plant.material"
+import ShadowPlantIntegrated2 from "shadow_plant.material"
+import ShadowPlantSimple from "shadow_plant.material"
+
+material ShadowSu34AirstrikeIntegrated : ShadowPlantIntegrated {
+	technique Basic {
+		shadow_caster_material ShadowSu34AirstrikeIntegrated2
+	}
+}
+
+material ShadowSu34AirstrikeIntegrated2 : ShadowPlantIntegrated2 {
+	technique ShadersShadows {
+		pass Basic {	
+			texture_unit Basic {
+				texture shadow_su34_airstrike.png
+			}
+		}
+	}
+}
+
+material ShadowSu34AirstrikeSimple : ShadowPlantSimple {
+	technique NoShaders {
+		pass Basic {
+			texture_unit Basic {
+				texture shadow_su34_airstrike.png
+        		}
+		} 
+	}
+}
+
+particle_system xAtBurstSmall
+{
+    material        Piece
+    particle_width  0.2
+    particle_height 0.2
+    cull_each       false
+    quota           1000
+    billboard_type  point
+	accurate_facing 		true
+    
+    // Area emitter
+    emitter Point
+    {
+            emission_rate                       500
+            angle                               135
+            time_to_live                        2.0
+            velocity                            15
+            duration                            0.025
+    }
+
+    affector LinearForce
+    {
+        force_vector      0 -50 0
+        force_application add
+    }
+
+    affector ColourInterpolator
+    {
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+    }
+
+}
+
+material xat_rocket {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture orange_cannon.png
+			}
+		}
+	}
+}
+
+particle_system xBackSmoke
+{
+	quota	1000
+	material	xExpRise
+	particle_width	10.0
+	particle_height	10.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Point
+	{
+		//colour		0.60 0.60 0.60
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	-1.5
+		time_to_live	3
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.5
+	}
+}
+
+particle_system 			xBigMuzzle
+{
+	quota					1000
+	material				xFlame6
+	particle_width			3.0
+	particle_height			3.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xBigMuzzleRepeat
+{
+	quota					1000
+	material				Flame
+	particle_width			0.9
+	particle_height			1.3
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	common_direction		0 -1 0
+	accurate_facing 		true
+
+	emitter 				Box
+	{
+		angle				0
+		colour				1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction			0 0 0
+		emission_rate		150
+		position			0 0 0
+		velocity			0
+		velocity_min		1
+		velocity_max		1
+		time_to_live		0.08
+		time_to_live_min	0.08
+		time_to_live_max	0.08
+		duration			0.05
+		duration_min		0.05
+		duration_max		0.05
+		width				0.0
+		height				0.0
+		depth				0.0
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xBig2Muzzle
+{
+	quota					1000
+	material				Flame
+	particle_width			3.0
+	particle_height			3.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xBig3Muzzle
+{
+	quota					1000
+	material				xFlame10
+	particle_width			3.0
+	particle_height			3.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	common_direction		0 0 0
+	accurate_facing 		true
+
+	emitter 				Box
+	{
+		angle				0
+		colour				1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction			0 0 0
+		emission_rate		150
+		position			0 0 0
+		velocity			0
+		velocity_min		1
+		velocity_max		1
+		time_to_live		0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration			0.025
+		duration_min		0.025
+		duration_max		0.025
+		width				0.0
+		height				0.0
+		depth				0.0
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system 			xBig4Muzzle
+{
+	quota					1000
+	material				xFlame11
+	particle_width			4.0
+	particle_height			4.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	common_direction		0 0 0
+	accurate_facing true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+}
+
+particle_system 			xBig5Muzzle
+{
+	quota					1000
+	material				xFlame11
+	particle_width			3.0
+	particle_height			3.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+particle_system 			xBiggerMuzzle
+{
+	quota					1000
+	material				xFlame2b
+	particle_width			15
+	particle_height			15
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	common_direction		0 0 0
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+}
+
+particle_system 			xBiggerMuzzleFlash
+{
+	quota				1000
+	material			xExpFlash
+	particle_width			10
+	particle_height			10
+	cull_each			false
+	renderer			billboard
+	billboard_type			oriented_self
+	common_direction		0 0 0
+	accurate_facing			true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+}
+
+particle_system xBiggerMuzzleSmoke
+{
+	material	xExpSmoke
+	particle_width 6.0
+	particle_height 6.0
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+	accurate_facing 		true
+
+	emitter Point
+	{
+		//colour		0.60 0.60 0.60
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	1
+		time_to_live	3
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.5
+	}
+}
+particle_system xBloodSpray
+{
+	material		xExpRise
+	particle_width 		5
+	particle_height 	5
+	quota 			500
+	cull_each		false
+	renderer		billboard
+	billboard_type		oriented_self
+	common_direction	1 1 1
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 0 0 0.35
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 0
+		width 0.1
+		height 0.1
+		depth 0.1
+		emission_rate 37.5
+		velocity	-4
+		time_to_live 0.5
+		duration_min 0.05
+		duration_max 0.05
+	}
+
+	affector Scaler
+	{
+		rate 1.0
+	}
+	
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.9
+	}
+	
+}
+
+particle_system 			xBulletFlash
+{
+	quota					1000
+	material				xFlame2
+	particle_width			0.5
+	particle_height			0.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			point
+	accurate_facing 		true
+
+	emitter 				Point
+	{
+		angle				0
+		colour				0.25 0.25 0.25
+		direction			0 1 0
+		emission_rate		150
+		position			0 0 0
+		velocity			0
+		velocity_min		0
+		velocity_max		0
+		time_to_live		0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration			0.025
+		duration_min		0.025
+		duration_max		0.025
+		width				0
+		height				0
+		depth				0
+	}
+}
+
+particle_system xBurstRepeat
+{
+    material        Piece
+    particle_width  0.2
+    particle_height 0.2
+    cull_each       false
+    quota           800
+    billboard_type  point
+    
+    // Area emitter
+    emitter Point
+    {
+        angle           15
+        emission_rate   40
+        time_to_live    0.7
+        direction       0 1 0
+        velocity_min 4
+        velocity_max 8
+        
+        colour 0.7 0.7 0.7
+        //colour 0.1 0.1 0.1
+        //colour 0.3 0.3 0.3
+        
+        duration 0.0
+    }
+
+    affector LinearForce
+    {
+        force_vector      0 -25 0
+        force_application add
+    }
+
+    // Fader
+    affector ColourFader
+    {
+//        red -0.25
+//        green -0.25
+//        blue -0.25
+	alpha -0.25
+    }
+
+}
+
+particle_system xBurstShine
+{
+	quota	9741
+	material	BurstShine
+	particle_width	2
+	particle_height	2
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Cylinder
+	{
+		angle	90
+		colour	1 0.9 0.9 1
+		//colour_range_start	1 0.9 0.9 1
+		//colour_range_end	1 1 0.9 1
+		colour_range_start	0.5 0.5 0.3 1
+		colour_range_end	0.5 0.5 0.4 1
+		direction	0 1 0
+		emission_rate	100
+		position	0 0 0
+		velocity	0
+		velocity_min	0
+		velocity_max	1
+		time_to_live	1
+		time_to_live_min	1
+		time_to_live_max	1
+		duration	0.05
+		duration_min	0.05
+		duration_max	0.05
+		width	1
+		height	1
+		depth	1
+	}
+
+	affector ColourFader
+	{
+		red	-0.7
+		green	-0.7
+		blue	-0.7
+		alpha	0
+	}
+
+	affector Scaler
+	{
+		rate	1
+	}
+}
+
+
+particle_system xSmokeBurst
+
+{
+	quota	9741
+	material	SmokeNormal
+	particle_width	1
+	particle_height	1
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Ring
+	{
+		angle	50
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 1 0
+		emission_rate	355.9
+		position	0 0 0
+		velocity	0.5
+		velocity_min	0.5
+		velocity_max	1
+		time_to_live_min	1.5
+		time_to_live_max	1.5
+		duration	0.05
+		duration_min	0.05
+		duration_max	0.05
+		width	2
+		height	2
+		depth	0
+		inner_width	0.8
+		inner_height	0.8
+	}
+
+	affector Scaler
+	{
+		rate	1.5
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+	affector ColourFader
+	{
+		red	0
+		green	0
+		blue	0
+		alpha	-1.2
+	}
+}
+
+particle_system xCannonSmokeMedium
+{
+	quota	500
+	material	xDust3
+	particle_width	0.1
+	particle_height	0.1
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		angle	10
+		colour_range_start	1 1 1 0.2
+		colour_range_end	1 1 1 1.0
+		direction	0 0 1
+		emission_rate	500
+		position	0 0 0
+		velocity	12
+		velocity_min	5.0
+		velocity_max	12.0
+		time_to_live	2
+		time_to_live_min	1.5
+		time_to_live_max	2
+		duration	0.1
+		duration_min	0.05
+		duration_max	0.1
+	}
+
+	affector Scaler
+	{
+		rate	3.0
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+
+	affector ColourFader
+	{
+		red	1
+		green	1
+		blue	1
+		alpha	-1
+	}
+}
+particle_system xCannonSmokeMediumSphere
+{
+	quota	500
+	material	Dust3
+	particle_width	0.1
+	particle_height	0.1
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		angle	30
+		colour_range_start	1 1 1 0.2
+		colour_range_end	1 1 1 1.0
+		direction	0 0 1
+		emission_rate	500
+		position	0 0 0
+		velocity	6
+		velocity_min	2.0
+		velocity_max	6.0
+		time_to_live	3
+		time_to_live_min	1.5
+		time_to_live_max	2
+		duration	0.1
+		duration_min	0.05
+		duration_max	0.1
+	}
+
+	affector Scaler
+	{
+		rate	4.0
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+
+	affector ColourFader
+	{
+		red	1
+		green	1
+		blue	1
+		alpha	-1
+	}
+}
+particle_system xCannonSmokeBig
+{
+	quota	500
+	material	Dust3
+	particle_width	0.1
+	particle_height	0.1
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		angle	10
+		colour_range_start	1 1 1 0.2
+		colour_range_end	1 1 1 1.0
+		direction	0 0 1
+		emission_rate	500
+		position	0 0 0
+		velocity	12
+		velocity_min	5.0
+		velocity_max	12.0
+		time_to_live	2
+		time_to_live_min	1.5
+		time_to_live_max	2
+		duration	0.2
+		duration_min	0.05
+		duration_max	0.2
+	}
+
+	affector Scaler
+	{
+		rate	3.0
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+
+	affector ColourFader
+	{
+		red	1
+		green	1
+		blue	1
+		alpha	-1
+	}
+}
+particle_system xCannonSmokeBigSphere
+{
+	quota	500
+	material	Dust3
+	particle_width	0.1
+	particle_height	0.1
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		angle	50
+		colour_range_start	1 1 1 0.2
+		colour_range_end	1 1 1 0.8
+		direction	0 1 0
+		emission_rate	500
+		position	0 0 0
+		velocity	6
+		velocity_min	2.0
+		velocity_max	6.0
+		time_to_live	2
+		time_to_live_min	1.5
+		time_to_live_max	2
+		duration	0.2
+		duration_min	0.15
+		duration_max	0.2
+	}
+
+	affector Scaler
+	{
+		rate	5.0
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+
+	affector ColourFader
+	{
+		red	1
+		green	1
+		blue	1
+		alpha	-1
+	}
+}
+
+particle_system xCannonFlash
+{
+	material			xExpFlash
+	particle_width			4
+	particle_height			4
+	quota 				1000
+	cull_each			false
+	renderer			billboard
+	billboard_type			oriented_self
+	common_direction		0 0 0
+	accurate_facing false
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}	
+}
+
+particle_system xCannonFlash2
+{
+	material			xExpFlash
+	particle_width			4
+	particle_height			4
+	quota 				1000
+	cull_each	false
+	renderer                                billboard 
+        billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+	accurate_facing 		false
+
+	emitter Point
+	{
+		position 0 0.5 0
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}	
+}
+
+particle_system 			xCannonMuzzle
+{
+	quota					1000
+	material				xFlame11
+	particle_width			8
+	particle_height			8
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+}
+
+material xCannonRise {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			depth_check on
+			scene_blend alpha_blend
+
+			texture_unit {
+				texture cannonrise.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+
+material xcannon_round {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture cartoonflame.png
+			}
+		}
+	}
+}
+
+particle_system 			xcannon_round
+{
+	quota					1000
+	material				xFlame2
+	particle_width			2
+	particle_height			2
+	cull_each				false
+	renderer				billboard
+	billboard_type			point
+	accurate_facing 		true
+
+	emitter 				Point
+	{
+		position			0 0.5 0
+		angle				0
+		colour				1 1 1 1
+		colour_range_start	0.97 1 1 1
+		colour_range_end	1 1 1 1
+		direction			0 1 0
+		emission_rate		300
+		velocity			0
+		velocity_min		0
+		velocity_max		0
+		time_to_live		0.01
+		time_to_live_min	0.01
+		time_to_live_max	0.01
+		duration			0.01
+		duration_min		0.01
+		duration_max		0.01
+/*
+		repeat_delay		2
+		repeat_delay_min	2
+		repeat_delay_max	2
+*/
+		width				1
+		height				1
+		depth				1
+	}
+
+	affector ColourFader
+	{
+		red		-1.3
+		green	-1.3
+		blue	-1.3
+		alpha	-1.3
+	}
+
+	affector Scaler
+	{
+		rate	0.2
+	}
+}
+
+particle_system xcannon_round2
+{
+	quota	1000
+	material	xFlame2
+	particle_width	2
+	particle_height	2
+	cull_each	false
+	renderer                                billboard 
+        billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+	accurate_facing 		false
+
+	emitter Point
+	{
+		position 0 0.5 0
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+/*
+		repeat_delay	2
+		repeat_delay_min	2
+		repeat_delay_max	2
+*/
+	}
+
+	affector ColourFader
+	{
+		red	-1.3
+		green	-1.3
+		blue	-1.3
+		alpha	-1.3
+	}
+
+	affector Scaler
+	{
+		rate	0.2
+	}
+}
+
+particle_system xCannonSmoke
+{
+	material	xExpSmoke
+	particle_width 4
+	particle_height 4
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type                          oriented_self
+	accurate_facing true
+
+	emitter Point
+	{
+		colour		1 1 1 0.5
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	1
+		time_to_live	0.75
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.75
+	}
+}
+
+particle_system 			xCannon2Muzzle
+{
+	quota					1000
+	material				xFlame8
+	particle_width			8
+	particle_height			8
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+}
+
+particle_system 			xCannon3Muzzle
+{
+	quota					1000
+	material				xFlame7
+	particle_width			8
+	particle_height			8
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 150
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+}
+
+particle_system 			xCannon4Muzzle
+{
+	quota					1000
+	material				Flame
+	particle_width			4.0
+	particle_height			4.0
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	common_direction		0 -1 0
+
+	emitter 				Box
+	{
+		angle				0
+		colour				1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction			0 0 0
+		emission_rate		150
+		position			0 0 0
+		velocity			0
+		velocity_min		1
+		velocity_max		1
+		time_to_live		0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration			0.025
+		duration_min		0.025
+		duration_max		0.025
+		width				0.0
+		height				0.0
+		depth				0.0
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xDirtBurst
+{
+     material        Piece
+    particle_width  0.2
+    particle_height 0.2
+    cull_each       false
+    quota           1000
+    billboard_type  point
+	accurate_facing 		true
+    
+    // Area emitter
+    emitter Point
+    {
+            emission_rate                       500
+            angle                               45
+            time_to_live                        0.25
+            velocity                            8.0
+            duration                            0.025
+    }
+
+    affector LinearForce
+    {
+        force_vector      0 -50 0
+        force_application add
+    }
+
+}
+
+particle_system xDirtExp
+{
+    material        Piece
+    particle_width  0.2
+    particle_height 0.2
+    cull_each       false
+    quota           10000
+    billboard_type  point
+	accurate_facing 		true
+    
+    // Area emitter
+    emitter Point
+    {
+    	    position 0.0 0.0 0.0
+	    direction 0.0 1.0 0.0
+            emission_rate                       500
+            angle                               45
+            time_to_live                        5
+            velocity                            15
+            duration                            0.15
+    }
+
+    affector LinearForce
+    {
+        force_vector      0 -25 0
+        force_application add
+    }
+
+}
+
+material xDust5 {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override false
+
+			depth_write off
+			scene_blend alpha_blend 
+
+			texture_unit {
+				texture expsmoke.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material xDust5b {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture dust5b.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material xDust5c {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add 
+
+			texture_unit {
+				texture dust5c.png
+			}
+		}
+	}
+}
+
+
+material xExpBlast {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture expblast.png
+			}
+		}
+	}
+}
+
+particle_system xExpBlast
+{
+	material	xExpBlast
+	particle_width 15
+	particle_height 15
+	quota 10000
+	cull_each false
+	sorted false
+	local_space false
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type point
+	billboard_origin center
+	billboard_rotation_type vertex
+	point_rendering false
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 180
+		width 0
+		height 0
+		depth 0
+		emission_rate 100
+		velocity_min 0.0
+		velocity_max 0.0
+		time_to_live 0.05
+		duration_min 0.01
+		duration_max 0.01
+	}
+
+	affector Scaler
+	{
+		rate 250
+	}
+	
+}
+
+material xExpFlash {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture expflash.png
+			}
+		}
+	}
+}
+
+particle_system xExpFlash
+{
+	material	xExpFlash
+	particle_width 8
+	particle_height 8
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+	accurate_facing true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 180
+		width 2.5
+		height 2.5
+		depth 2.5
+		emission_rate 300
+		velocity_min 0.75
+		velocity_max 0.75
+		time_to_live 0.05
+		duration_min 0.01
+		duration_max 0.01
+	}	
+}
+
+particle_system xExpFlashBig
+{
+	material	xExpFlash
+	particle_width 16
+	particle_height 16
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+	accurate_facing true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 180
+		width 2.5
+		height 2.5
+		depth 2.5
+		emission_rate 300
+		velocity_min 0.75
+		velocity_max 0.75
+		time_to_live 0.05
+		duration_min 0.01
+		duration_max 0.01
+	}	
+}
+particle_system xExpFlashBig2
+{
+	material	xExpFlash
+	particle_width 16
+	particle_height 16
+	quota 10000
+	cull_each	false
+	renderer                                billboard 
+        billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+	accurate_facing 		false
+
+	emitter Point
+	{
+		position			0 0.5 0
+		colour	1 1 1 1
+		direction 1.0 1.0 1.0
+		angle 180
+		width 2.5
+		height 2.5
+		depth 2.5
+		emission_rate 300
+		velocity_min 0.75
+		velocity_max 0.75
+		time_to_live 0.05
+		duration_min 0.01
+		duration_max 0.01
+	}	
+}
+
+material xExpFlash2 {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture expflash2.png
+			}
+		}
+	}
+}
+
+particle_system xExpFlash2
+{
+	material	xExpFlash
+	particle_width 8
+	particle_height 8
+	quota 10000
+	cull_each	false
+	renderer                                billboard 
+        billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+	accurate_facing 		false
+
+	emitter Point
+	{
+		position			0 0.5 0
+		colour	1 1 1 1
+		direction 1.0 1.0 1.0
+		angle 180
+		width 2.5
+		height 2.5
+		depth 2.5
+		emission_rate 300
+		velocity_min 0.75
+		velocity_max 0.75
+		time_to_live 0.05
+		duration_min 0.01
+		duration_max 0.01
+	}	
+}
+
+material xExpFlash2b {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture expflash2b.png
+			}
+		}
+	}
+}
+
+
+material xExpFlash2c {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture expflash2c.png
+			}
+		}
+	}
+}
+
+
+material xExpFlash2d {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture expflash2d.png
+			}
+		}
+	}
+}
+
+
+material xExpFlash3 {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture expflash4b.png
+			}
+		}
+	}
+}
+
+material xExpRise {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			depth_check on
+			scene_blend alpha_blend
+
+			texture_unit {
+				texture exprise.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+particle_system xExpRise
+{
+	material	xExpRise
+	particle_width 12
+	particle_height 12
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	1 1 1
+	accurate_facing true
+
+	emitter Point
+	{
+		//colour		0.60 0.60 0.60
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	1.5
+		time_to_live	3
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.5
+	}
+}
+
+particle_system xExpRiseSmall
+{
+	material	xExpRise
+	particle_width 8
+	particle_height 8
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	1 1 1
+	accurate_facing true
+
+	emitter Point
+	{
+		colour		1 1 1 0.5
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		position	0 0 0
+		velocity	1
+		time_to_live	0.75
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.75
+	}
+}
+
+material xExpRise2 {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			depth_check on
+			scene_blend alpha_blend
+
+			texture_unit {
+				texture exprise2.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material xExpSmoke {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			depth_check on
+			scene_blend alpha_blend
+
+			texture_unit {
+				texture expsmoke.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+particle_system xExpSmoke2
+{
+	material	xExpSmoke
+	particle_width 6.0
+	particle_height 6.0
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+	accurate_facing 		false
+
+	emitter Point
+	{
+		position			0 0.5 0
+		//colour		0.60 0.60 0.60
+		angle	0
+		direction	0 -1 0
+		emission_rate	7.5
+		velocity	1
+		time_to_live	3
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	3
+	}
+
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.5
+	}
+}
+
+material xFire {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture fire.png
+			}
+		}
+	}
+}
+material xFireSmoke {
+        receive_shadows off
+	technique 	{
+		pass {
+			lighting off
+			alpha_rejection greater 16
+			depth_write off
+			scene_blend alpha_blend      
+			texture_unit
+			{
+				texture smoke.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+particle_system xFireSpark
+{
+	material        Piece
+    	particle_width  0.15
+    	particle_height 0.15
+   	cull_each       false
+    	quota           800
+    	billboard_type  point
+	accurate_facing 		true
+
+	// Area emitter
+	emitter Box
+	{
+		angle	2
+		direction	0 1 0.2
+		emission_rate	25
+		position	0 0 0
+    		width 1.75
+    		height 0.0
+   		depth 1.75
+
+		velocity_min	1.0
+		velocity_max	2.4
+
+		time_to_live_min	3
+		time_to_live_max	5
+		duration	0.0
+	}
+
+
+    	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+    	}
+
+	affector LinearForce
+	{
+		force_vector 1 1 0
+		force_application add
+	}
+
+}
+material xFlame2 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame2.png
+			}
+		}
+	}
+}
+material xFlame2b {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame2b.png
+			}
+		}
+	}
+}
+material xFlame3 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame3.png
+			}
+		}
+	}
+}
+material xFlame3b {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame3b.png
+			}
+		}
+	}
+}
+material xFlame4 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame4.png
+			}
+		}
+	}
+}
+material xFlame4b {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame4b.png
+			}
+		}
+	}
+}
+material xFlame5 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame5.png
+			}
+		}
+	}
+}
+material xFlame6 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame6.png
+			}
+		}
+	}
+}
+material xFlame6b {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame6b.png
+			}
+		}
+	}
+}
+material xFlame7 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame7.png
+			}
+		}
+	}
+}
+material xFlame8 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame8.png
+			}
+		}
+	}
+}
+material xFlame9 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame9.png
+			}
+		}
+	}
+}
+material xFlame10 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame10.png
+			}
+		}
+	}
+}
+material xFlame11 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame11.png
+			}
+		}
+	}
+}
+material xFlame12 {
+        receive_shadows off
+	technique {
+		pass {
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit {
+				texture cartoonflame12.png
+			}
+		}
+	}
+}
+
+material xFlashShine {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture flash_shine.png
+			}
+		}
+	}
+}
+
+material xFlashBeam {
+    	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture flash_godray.png
+			}
+		}
+	}
+}
+particle_system xFlashBeam
+{
+	quota	1000
+	material	FlashBeam
+	particle_width	1
+	particle_height	30
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+
+	emitter Point
+	{
+		angle	90
+		colour	1 1 1 1
+		colour_range_start	0.97 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 1 0
+		emission_rate	120
+		position	0 0 0
+		velocity	0
+		velocity_min	0.05
+		velocity_max	0.2
+		time_to_live	0.05
+		time_to_live_min	0.05
+		time_to_live_max	0.05
+		duration	0.05
+		duration_min	0.05
+		duration_max	0.05
+/*
+		repeat_delay	2
+		repeat_delay_min	2
+		repeat_delay_max	2
+*/
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	45
+		rotation_speed_range_end	-45
+		rotation_range_start	0
+		rotation_range_end	0
+	}
+}
+
+particle_system xFlashShine
+{
+	quota	1000
+	material	FlashShine
+	particle_width	4
+	particle_height	4
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Ellipsoid
+	{
+		angle	180
+		colour	1 1 1 1
+		colour_range_start	0.97 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 1 0
+		emission_rate	150
+		position	0 0 0
+		velocity	0
+		velocity_min	0
+		velocity_max	0
+		time_to_live	0.05
+		time_to_live_min	0.05
+		time_to_live_max	0.05
+		duration	0.05
+		duration_min	0.05
+		duration_max	0.05
+/*
+		repeat_delay	2
+		repeat_delay_min	2
+		repeat_delay_max	2
+*/
+		width	2
+		height	2
+		depth	2
+	}
+
+	affector Scaler
+	{
+		rate	0.2
+	}
+}
+
+
+material xgrenade {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture cartoonflame.png
+			}
+		}
+	}
+}
+
+particle_system xgrenade
+{
+	quota	1000
+	material	xFlame2
+	particle_width	4
+	particle_height	4
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+	accurate_facing 		true
+
+	emitter Point
+	{
+		position			0 0.5 0
+		angle	0
+		colour	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+	}
+}
+
+particle_system xgrenade2
+{
+	quota	1000
+	material	xFlame2
+	particle_width	4
+	particle_height	4
+	cull_each	false
+	renderer                                billboard 
+        billboard_type                          oriented_common
+      	common_up_vector                  			0 0 1 
+	accurate_facing 		false
+
+	emitter Point
+	{
+		position			0 0.5 0
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+/*
+		repeat_delay	2
+		repeat_delay_min	2
+		repeat_delay_max	2
+*/
+	}
+
+	affector ColourFader
+	{
+		red	-1.3
+		green	-1.3
+		blue	-1.3
+		alpha	-1.3
+	}
+
+	affector Scaler
+	{
+		rate	0.2
+	}
+}
+
+particle_system xLawMuzzleFlash
+{
+	material	xLawMuzzleFlash
+	particle_width 12
+	particle_height 12
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		position	0 0 0
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+		width	0.0
+		height	0.0
+		depth	0.0
+	}
+
+	affector Scaler
+	{
+		rate 0.5
+	}
+	
+	//affector ColourFader
+	//{
+		//red		-0.1
+		//green	-0.1
+		//blue	-0.1
+		//alpha	-0.1
+	//}
+	
+}
+
+material xLawMuzzleFlash {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override true
+			depth_write off
+			scene_blend add
+
+			texture_unit {
+				texture expflash3.png
+			}
+		}
+	}
+}
+
+particle_system xGustavMuzzle
+{
+	quota	1000
+	material	xFlame4b
+	particle_width	6.5
+	particle_height	6.5
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		position	0 0 0
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+		width	0.0
+		height	0.0
+		depth	0.0
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xGustavMuzzleFlash
+{
+	material	xLawMuzzleFlash
+	particle_width 10
+	particle_height 10
+	quota 10000
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		position	0 0 0
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+		width	0.0
+		height	0.0
+		depth	0.0
+	}	
+}
+
+particle_system xKickDust
+{
+	material		xExpRise
+	particle_width 		1
+	particle_height 	1
+	quota 			500
+	cull_each		false
+	renderer		billboard
+	billboard_type		oriented_self
+	common_direction	1 1 1
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 0.35
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 0
+		width 0.1
+		height 0.1
+		depth 0.1
+		emission_rate 37.5
+		velocity_min 2.0
+		velocity_max 2.0
+		time_to_live 0.5
+		duration_min 0.05
+		duration_max 0.05
+	}
+
+	affector Scaler
+	{
+		rate 1.0
+	}
+	
+	affector ColourFader
+	{
+		//red	-0.135
+		//green	-0.125
+		//blue	-0.09
+		alpha -0.9
+	}
+	
+}
+
+particle_system xLaawMuzzle
+{
+	quota	1000
+	material	xFlame3
+	particle_width	4.0
+	particle_height	4.0
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	0 0 0
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 0
+		emission_rate	150
+		position	0 0 0
+		velocity	0
+		velocity_min	1
+		velocity_max	1
+		time_to_live	0.04
+		time_to_live_min	0.04
+		time_to_live_max	0.04
+		duration	0.025
+		duration_min	0.025
+		duration_max	0.025
+		width	0.0
+		height	0.0
+		depth	0.0
+	}
+
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+particle_system xLahtiFlash
+{
+	material	xExpFlash
+	particle_width 3.0
+	particle_height 3.0
+	quota 10000
+	cull_each false
+	sorted false
+	local_space false
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type point
+	billboard_origin center
+	billboard_rotation_type vertex
+	point_rendering false
+	accurate_facing 		true
+
+	emitter Box
+	{
+		colour	1 1 1 1
+		position 0.0 0.0 0.0
+		direction 1.0 1.0 1.0
+		angle 180
+		width 1.25
+		height 1.25
+		depth 1.25
+		emission_rate 75
+		velocity_min 0.75
+		velocity_max 0.75
+		time_to_live 0.05
+		duration_min 0.01
+		duration_max 0.01
+	}
+
+	affector Scaler
+	{
+		rate 0.5
+	}
+	
+	//affector ColourFader
+	//{
+		//red		-0.1
+		//green	-0.1
+		//blue	-0.1
+		//alpha	-0.1
+	//}
+	
 }
