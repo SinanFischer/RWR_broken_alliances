@@ -3142,9 +3142,9 @@ particle_system x50CalDustKick
 		velocity	0.45
 		velocity_min	0.45
 		velocity_max	3.4
-		time_to_live	1.15
-		time_to_live_min	1.15
-		time_to_live_max	1.15
+		time_to_live	2.35
+		time_to_live_min	2.35
+		time_to_live_max	2.35
 		duration	0.07
 		duration_min	0.07
 		duration_max	0.07
@@ -3152,7 +3152,7 @@ particle_system x50CalDustKick
 
 	affector Scaler
 	{
-		rate	0.78
+		rate	0.48
 	}
 
 	affector Rotator
@@ -3168,7 +3168,7 @@ particle_system x50CalDustKick
 		red	0
 		green	0
 		blue	0
-		alpha	-1.05
+		alpha	-0.42
 	}
 }
 
@@ -3197,22 +3197,22 @@ particle_system x50CalSmokeLinger
 		width	0.95
 		height	0.5
 		depth	0.95
-		emission_rate	38
-		velocity_min	0.28
-		velocity_max	0.65
-		time_to_live	1.85
-		duration_min	0.22
-		duration_max	0.22
+		emission_rate	32
+		velocity_min	0.22
+		velocity_max	0.52
+		time_to_live	4.75
+		duration_min	0.52
+		duration_max	0.52
 	}
 
 	affector Scaler
 	{
-		rate	0.38
+		rate	0.26
 	}
 
 	affector ColourFader
 	{
-		alpha	-0.038
+		alpha	-0.014
 	}
 }
 
@@ -3235,22 +3235,22 @@ particle_system x50CalImpactSmoke
 		colour		1 1 1 0.5
 		angle	45
 		direction	0 1 0.2
-		emission_rate	32
-		velocity	1.35
-		time_to_live	1.05
-		duration	0.2
-		duration_min	0.2
-		duration_max	0.2
+		emission_rate	28
+		velocity	0.95
+		time_to_live	4.35
+		duration	0.38
+		duration_min	0.38
+		duration_max	0.38
 	}
 
 	affector Scaler
 	{
-		rate	1.9
+		rate	0.72
 	}
 
 	affector ColourFader
 	{
-		alpha -0.62
+		alpha -0.11
 	}
 }
 
