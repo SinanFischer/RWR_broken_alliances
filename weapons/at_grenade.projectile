@@ -83,6 +83,8 @@
     <effect class="result" key="vehicle" ref="xcannon_round" lighting="0" />
     <effect class="result" key="vehicle" ref="xcannon_round2" lighting="0" />
   <!-- GRENADE EFFECTS HEAVY INFANTRY end -->
+
+  
     <effect class="result" key="static_object" copy="terrain" />
     <effect class="result" key="character" copy="terrain" />
 

@@ -250,10 +250,11 @@
 	<vehicle key="wiesel_tow.vehicle" />
 	<vehicle key="wiesel_spawn.vehicle" />
 	<vehicle key="wiesel_mk20.vehicle" />
-
+<call key="tactical_strike.call" />
 	<call key="artillery1.call" />
 	<call key="heavy_mortar.call" />
 	<call key="heavy_artillery.call" />
+	
 	<!-- <call key="railway_artillery.call" /> -->
 <!-- 
 	<call key="paratroopers1.call" />

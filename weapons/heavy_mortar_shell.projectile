@@ -33,8 +33,7 @@
     <effect class="result" key="other" ref="HeavyMortarShadowSmoke" shadow="1" />
 
     
-    <!-- heavy infantry effects -->
-
+    <!-- heavy infantry Big Explosion effects -->
 
     <effect class="result" key="terrain" ref="xExpFog" />
     <effect class="result" key="terrain" ref="xExpRise" />
