@@ -32,15 +32,9 @@
     <inventory encumbrance="10.0" price="2.0" />
 
     <weak_hand_hold offset="0.4" />
-    <!-- .50 BMG: Mündungsrauch über Standard-MG-Nebel -->
-    <effect class="muzzle" ref="xMuzzleFog" />
-    <effect class="muzzle" ref="xMuzzleDust" />
-    <effect class="muzzle" ref="x50CalMuzzleFog" />
-    <effect class="muzzle" ref="x50CalMuzzleDust" />
-    <effect class="muzzle" ref="xLargeRifleFlash" />
-    <effect class="muzzle" ref="xLarge5Muzzle" />
-    <projectile file="50cal_bullet.projectile">
-        <result class="hit" kill_probability="1.5" kill_decay_start_time="0.35" kill_decay_end_time="0.72" />
+    <!-- 7,62×51 MG3 — wie andere Koax-/Fahrzeug-MGs (bullet), kein .50 -->
+    <projectile file="bullet.projectile">
+        <result class="hit" kill_probability="1.25" kill_decay_start_time="0.35" kill_decay_end_time="0.72" />
     </projectile>
 
     <shield offset="0.3 -0.55 0" extent="0.2 0.8 0.3" />

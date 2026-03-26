@@ -182,11 +182,11 @@ Siehe: `weapons/mounted_gl.projectile` ab Kommentar `GRENADE EFFECTS HEAVY INFAN
 
 ## Sonderfall: .50 BMG / schweres Vollgeschoss (kinetisch, kein HE)
 
-**Einsatz:** `weapons/50cal_bullet.projectile` — u. a. `vfs_buggy_mg`, `wiesel_mg3`, `minigun_ai`, `qjz89_volk`.
+**Einsatz:** `weapons/50cal_bullet.projectile` — im Broken-Alliances-Paket aktuell v. a. **`qjz89_volk`** (12,7 mm); Fahrzeug-MGs (`wiesel_mg3`, `vfs_buggy_mg`, `minigun_ai`) nutzen **`bullet.projectile`** (*Standard-MG-Geschoss*).
 
 **Kernidee:** Weiter **`Burst`** + **`LowDust`** (Vanilla), plus **`x50CalDustKick`** (*verstärkte Staub-/Splitterwolke auf **Dust4**-Basis, ähnlich `LowDust`*), **`x50CalSmokeLinger`** (*kleiner, langsamer **Nebel** mit **`xExpSmoke`**, ohne Cannon-/HE-Flash*) und **`x50CalImpactSmoke`** (*kurzer, gut sichtbarer Rauchstoß direkt am Einschlag*). **Kein** `xCannonFlash` / `xExpFog` — optisch **Aufschlag**, keine **Detonation**.
 
-**Mündung (.50-Waffen):** Zusätzlich zu bestehenden Blitzen/Rauch **`x50CalMuzzleFog`** und **`x50CalMuzzleDust`** in den jeweiligen `weapons/*.weapon`-Dateien (`class="muzzle"`), z. B. `minigun_ai`, `qjz89_volk`, `vfs_buggy_mg`, `wiesel_mg3`.
+**Mündung (.50-Waffen):** Zusätzlich zu bestehenden Blitzen/Rauch **`x50CalMuzzleFog`** und **`x50CalMuzzleDust`** (`class="muzzle"`) — im Paket derzeit bei **`qjz89_volk`**.
 
 ---
 

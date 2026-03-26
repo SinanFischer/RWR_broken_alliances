@@ -70,13 +70,13 @@ Recherche und Anpassung analog zu `mg_alle_realistische_daten.md` und `rifles_al
 **Sonderfall Sniper (manuell getragen):**
 | gepard_m6_lynx | Sniper | .50 BMG (M6 Lynx) | 3.0 | 155 | kill 1.4→3.0, proj 150→155 |
 
-*Wiesel MG3: 7.62 NATO (MG3). kill 1.5 für Westen-Durchschlag.*  
-*vfs_buggy_mg nutzt 50cal_bullet.projectile → .50 BMG, kill 2.5.*
+*Wiesel MG3: 7.62 NATO (MG3), `bullet.projectile`, kill 1.25.*  
+*vfs_buggy_mg: wie Buggy-MG, `bullet.projectile`, kill 1.4 (kein .50).*
 
 **Deployable / Spezial-MGs:**
 | deployable_minig | Deployable | 7.62 NATO (Minigun) | 0.02 (3000) | 1.4 | 158 | retrigger 0.0387→0.02, kill 1.4, proj 158 |
 | microgun | Infanterie | 5.56 NATO (WB-II) | – | 1.4 | 170 | kill 0.85→1.4 |
-| minigun_ai | AI/Fahrzeug | 12.7 mm (GAU-17) | – | 2.5 | 155 | kill 2.5, proj 155 |
+| minigun_ai | AI/Fahrzeug | 7.62 NATO (M134/GAU-17) | – | 0.88 | 150 | `bullet.projectile`, kill 0.88, proj 150 |
 
 ---
 
