@@ -379,8 +379,8 @@ particle_system 			xLahtiMuzzle
 particle_system xExpSmoke
 {
 	material	xExpSmoke
-	particle_width 6.0
-	particle_height 6.0
+	particle_width 9.0
+	particle_height 9.0
 	quota 10000
 	cull_each	false
 	renderer	billboard
@@ -391,12 +391,12 @@ particle_system xExpSmoke
 	emitter Point
 	{
 		colour		1 1 1 0.5
-		angle	12
+		angle	24
 		direction	0 -1 0
-		emission_rate	7.5
+		emission_rate	12
 		position	0 0 0
-		velocity	1
-		time_to_live	1
+		velocity	1.35
+		time_to_live	1.5
 		duration	0.15
 		duration_min	0.15
 		duration_max	0.15
@@ -412,15 +412,15 @@ particle_system xExpSmoke
 		//red	-0.135
 		//green	-0.125
 		//blue	-0.09
-		alpha -0.5
+		alpha -0.33
 	}
 }
 
 particle_system xExpFog
 {
 	material	xExpSmoke
-	particle_width 6.0
-	particle_height 6.0
+	particle_width 9.0
+	particle_height 9.0
 	quota 10000
 	cull_each false
 	sorted false
@@ -439,13 +439,13 @@ particle_system xExpFog
 		position 0.0 0.0 0.0
 		direction 1.0 1.0 1.0
 		angle 180
-		width 2.5
-		height 2.5
-		depth 2.5
-		emission_rate 25
-		velocity_min 0.5
-		velocity_max 0.5
-		time_to_live 10
+		width 4.0
+		height 4.0
+		depth 4.0
+		emission_rate 38
+		velocity_min 0.7
+		velocity_max 0.7
+		time_to_live 15
 		duration_min 0.5
 		duration_max 0.5
 	}
@@ -457,7 +457,7 @@ particle_system xExpFog
 	
 	affector ColourFader
 	{
-		alpha	-0.018
+		alpha	-0.012
 	}	
 }
 
@@ -5703,10 +5703,10 @@ particle_system xDirtExp
     {
     	    position 0.0 0.0 0.0
 	    direction 0.0 1.0 0.0
-            emission_rate                       500
-            angle                               45
-            time_to_live                        5
-            velocity                            15
+            emission_rate                       750
+            angle                               58
+            time_to_live                        7.5
+            velocity                            17
             duration                            0.15
     }
 
@@ -6067,8 +6067,8 @@ material xExpRise {
 particle_system xExpRise
 {
 	material	xExpRise
-	particle_width 12
-	particle_height 12
+	particle_width 18
+	particle_height 18
 	quota 10000
 	cull_each	false
 	renderer	billboard
@@ -6081,10 +6081,10 @@ particle_system xExpRise
 		//colour		0.60 0.60 0.60
 		angle	0
 		direction	0 -1 0
-		emission_rate	7.5
+		emission_rate	12
 		position	0 0 0
-		velocity	1.5
-		time_to_live	3
+		velocity	2.2
+		time_to_live	4.5
 		duration	0.15
 		duration_min	0.15
 		duration_max	0.15
@@ -6100,7 +6100,7 @@ particle_system xExpRise
 		//red	-0.135
 		//green	-0.125
 		//blue	-0.09
-		alpha -0.5
+		alpha -0.33
 	}
 }
 
@@ -6185,8 +6185,8 @@ material xExpSmoke {
 particle_system xExpSmoke2
 {
 	material	xExpSmoke
-	particle_width 6.0
-	particle_height 6.0
+	particle_width 9.0
+	particle_height 9.0
 	quota 10000
 	cull_each	false
 	renderer	billboard
@@ -6200,9 +6200,9 @@ particle_system xExpSmoke2
 		//colour		0.60 0.60 0.60
 		angle	0
 		direction	0 -1 0
-		emission_rate	7.5
-		velocity	1
-		time_to_live	3
+		emission_rate	12
+		velocity	1.5
+		time_to_live	4.5
 		duration	0.15
 		duration_min	0.15
 		duration_max	0.15
@@ -6218,7 +6218,7 @@ particle_system xExpSmoke2
 		//red	-0.135
 		//green	-0.125
 		//blue	-0.09
-		alpha -0.5
+		alpha -0.33
 	}
 }
 
