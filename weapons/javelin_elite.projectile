@@ -44,9 +44,7 @@
     <effect class="result" key="other" ref="Godray" lighting="0" />
     <effect class="result" key="other" ref="ShadowSmoke" shadow="1" />
 
-    <!-- heavy infantry effects -->
-
-
+    <!-- heavy infantry Big Explosion effects -->
     <effect class="result" key="terrain" ref="xExpFog" />
     <effect class="result" key="terrain" ref="xExpRise" />
     <effect class="result" key="terrain" ref="xDirtExp" use_surface_color="1" />

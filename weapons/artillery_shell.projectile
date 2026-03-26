@@ -31,8 +31,7 @@
     <effect class="result" key="other" ref="ShadowSmoke" shadow="1" />
 
 
-    <!-- Test from heavy infantry -->
-
+    <!-- heavy infantry Big Explosion effects -->
 
     <effect class="result" key="terrain" ref="xExpFog" />
     <effect class="result" key="terrain" ref="xExpRise" />

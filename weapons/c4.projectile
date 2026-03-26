@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectile class="grenade" name="C4" key="c4.projectile" slot="0" on_ground_up="0 1 0" can_be_disarmed="1" time_to_live_out_in_the_open="120.0" drop_count_factor_on_death="1.0">
 
-    <result class="blast" radius="8.5" damage="5" decal="1" character_state="death" />
+    <result class="blast" radius="8.5" damage="13" decal="1" character_state="death" />
     <collision class="sticky" />
     <trigger class="remote_detonate" />
 
@@ -13,7 +13,7 @@
     <throwable curve_height="3.0" near_far_distance="2.0" speed_estimation_near="5.0" speed_estimation_far="5.0" max_speed="12.0" randomness="0.01" />
 
     <commonness value="0.0" can_respawn_with="1" />
-    <inventory encumbrance="0.7" price="6.0" />
+    <inventory encumbrance="0.7" price="12.0" />
 
     <capacity value="0" source="rank" source_value="0.0" />
 	<capacity value="1" source="rank" source_value="0.15" />
@@ -46,7 +46,7 @@
     <effect class="result" key="other" ref="ShadowSmoke" shadow="1" />
 
         
-    <!-- heavy infantry effects -->
+    <!-- heavy infantry Big Explosion effects -->
 
 
     <effect class="result" key="terrain" ref="xExpFog" />
