@@ -176,7 +176,7 @@ Siehe: `weapons/mounted_gl.projectile` ab Kommentar `GRENADE EFFECTS HEAVY INFAN
 
 **Vanilla-Pfad:** `vanilla/static_objects/fuel_barrel.static_object` — beim **`destroy`** (*Zerstören des Objekts*) spielen **`event_key="destroy"`**-**`effect`**-Einträge (*Partikel an der Stelle des Fasses*) sowie per **`spawn`** gespawnte **`projectile`** mit **`instance_key`** (*welches unsichtbare Projektil sofort die Druckwelle auslöst*).
 
-**Broken Alliances:** Überschreibung unter `static_objects/fuel_barrel.static_object` + eigene Projektile **`fuel_barrel_stun.projectile`** (*größerer Stun-**`blast`****`radius`*) und **`fuel_barrel_destroy.projectile`** (*größerer Todes-**`radius`** + HI-Granaten-Partikel wie `hand_grenade`*). So bleiben **`debri_stun`** / **`debri_destroy_small`** für **`ww2_base/static_objects/bomb.static_object`** unangetastet.
+**Broken Alliances:** Überschreibung unter `static_objects/fuel_barrel.static_object` (**`destroy`**: **`SmokeMinor`** / **`ShadowSmokeMinor`** + **`BigBurst`**, kurzer Rauch) + **`fuel_barrel_stun.projectile`** / **`fuel_barrel_destroy.projectile`** (größere **`blast`**-Radien; **`fuel_barrel_destroy`** ohne lange HI-Rauchwolken — nur **`LowDust`**, Blitz-Refs, **`splat_map`**). So bleiben **`debri_*`** für die WW2-Bombe unangetastet.
 
 ---
 
