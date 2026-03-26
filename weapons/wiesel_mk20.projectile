@@ -20,19 +20,48 @@
 
     <effect class="result" key="other" ref="Burst" use_surface_color="1" />
     <effect class="result" key="other" ref="LowDust"/>
+    <!-- 40mm HE: ~60% Granaten-Rauch, volle Cannon-Flashes (wuchtiger Eindruck) — gleiche Kette wie APC -->
+    <effect class="result" key="other" ref="xAcHeExpFog" />
+    <effect class="result" key="other" ref="xAcHeExpRise" />
+    <effect class="result" key="other" ref="xAcHeExpSmoke2" />
+    <effect class="result" key="other" ref="xCannonFlash" />
+    <effect class="result" key="other" ref="xCannonFlash2" />
+    <effect class="result" key="other" ref="xShieldBurst2" />
+    <effect class="result" key="other" ref="xcannon_round" lighting="0" />
+    <effect class="result" key="other" ref="xcannon_round2" lighting="0" />
 
     <effect class="result" key="terrain" ref="Burst" use_surface_color="1" />
     <effect class="result" key="terrain" ref="LowDust" />
     <effect class="result" type="splat_map" surface_tag="" size="1.0" atlas_index="0" layer="1" />
     <effect class="result" type="splat_map" surface_tag="" size="1.0" atlas_index="4" layer="0" />
-    <effect class="result" type="splat_map" surface_tag="" size="1.0" atlas_index="0" layer="2" additive="0" />
+    <effect class="result" type="splat_map" surface_tag="" size="1.0" atlas_index="0" layer="2" additive="0" /> <!-- remove top snow everywhere -->
+    <effect class="result" key="terrain" ref="xAcHeExpFog" />
+    <effect class="result" key="terrain" ref="xAcHeExpRise" />
+    <effect class="result" key="terrain" ref="xAcHeDirtExp" use_surface_color="1" />
+    <effect class="result" key="terrain" ref="xAcHeExpSmoke2" />
+    <effect class="result" key="terrain" ref="xCannonFlash" />
+    <effect class="result" key="terrain" ref="xCannonFlash2" />
+    <effect class="result" key="terrain" ref="xShieldBurst2" />
+    <effect class="result" key="terrain" ref="xcannon_round" lighting="0" />
+    <effect class="result" key="terrain" ref="xcannon_round2" lighting="0" />
+    <effect class="result" type="splat_map" surface_tag="" size="2.2" atlas_index="0" layer="1" />
+    <effect class="result" type="splat_map" surface_tag="" size="2.85" atlas_index="4" layer="0" />
+    <effect class="result" type="splat_map" surface_tag="" size="3.35" atlas_index="0" layer="2" additive="0" />
 
     <effect class="result" key="vehicle" ref="Burst" use_surface_color="1" />
     <effect class="result" key="vehicle" ref="LowDust" />
-    <effect class="result" key="static_object" ref="Burst" use_surface_color="1" />
-    <effect class="result" key="static_object" ref="LowDust" />
-    <effect class="result" key="character" ref="Burst" use_surface_color="1" />
-    <effect class="result" key="character" ref="LowDust" />
+    <effect class="result" key="vehicle" ref="xAcHeExpFog" />
+    <effect class="result" key="vehicle" ref="xAtBurstSmall" />
+    <effect class="result" key="vehicle" ref="xAcHeExpRise" />
+    <effect class="result" key="vehicle" ref="xAcHeExpSmoke2" />
+    <effect class="result" key="vehicle" ref="xCannonFlash" />
+    <effect class="result" key="vehicle" ref="xCannonFlash2" />
+    <effect class="result" key="vehicle" ref="xShieldBurst2" />
+    <effect class="result" key="vehicle" ref="xcannon_round" lighting="0" />
+    <effect class="result" key="vehicle" ref="xcannon_round2" lighting="0" />
+    <effect class="result" key="static_object" copy="terrain" />
+    <effect class="result" key="vehicle" copy="terrain" />
+    <effect class="result" key="character" copy="terrain" />
 
     <trail probability="1.0" />
 
