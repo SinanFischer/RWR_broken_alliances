@@ -38,6 +38,7 @@ Diese Datei beschreibt, **welche Partikel-**`ref`**-Namen** (*Verweise auf benan
 - `weapons/cluster_grenade.projectile`
 - `weapons/impact_grenade.projectile`
 - `weapons/claymore_blast.projectile`
+- `weapons/ap_mine.projectile`
 
 ### Typische Kette (`terrain` / `other`; `vehicle` bei AT analog + ggf. `xAtBurstSmall`)
 
