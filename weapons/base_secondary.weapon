@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon on_ground_up="0 0 1" drop_count_factor_on_death="0.5">
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xRifleFlash" />
+    <effect class="muzzle" ref="xMusketSmoke" />
+    <effect class="muzzle" ref="xSmallMuzzle" />
 </weapon>

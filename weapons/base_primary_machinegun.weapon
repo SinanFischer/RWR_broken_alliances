@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon file="base_primary.weapon">
+    <effect class="muzzle" ref="xSmallExpSmoke2" />
+</weapon>

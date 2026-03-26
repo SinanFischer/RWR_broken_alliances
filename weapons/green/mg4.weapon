@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<weapon file="base_primary.weapon" key="mg4.weapon">
+<?xml version="1.0" encoding="utf-8"?>
+<weapon file="base_primary_machinegun.weapon" key="mg4.weapon">
     <tag name="machine gun" />
     <!-- 5.56mm, ~800 rpm; Bundeswehr-SAW, Referenz M249 -->
     <specification 

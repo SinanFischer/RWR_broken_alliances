@@ -10,5 +10,10 @@
     <stance state_key="prone" accuracy="0.93" /> 
     <stance state_key="prone_moving" accuracy="0.3" />
     <stance state_key="over_wall" accuracy="0.85" />     
-    
+
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xRifleFlash" />
+    <effect class="muzzle" ref="xMusketSmoke" />
+    <effect class="muzzle" ref="xSmallMuzzle" />
 </weapon>

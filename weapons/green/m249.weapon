@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<weapon file="base_primary.weapon" key="m249.weapon">
+<?xml version="1.0" encoding="utf-8"?>
+<weapon file="base_primary_machinegun.weapon" key="m249.weapon">
     <tag name="machine gun" />
     <!-- 5.56mm: leichter, höhere Kadenz, weniger Wirkung pro Treffer -->
     <specification 

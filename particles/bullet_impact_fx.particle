@@ -1,4 +1,4 @@
-// Subset of Infantry Particle Systems (Heavy Infantry) for bullet hit FX only.
+// Subset of Infantry Particle Systems (Heavy Infantry): bullet hit FX + shared muzzle FX.
 // Original by Josef Mueller {Anzac Joe}, CC BY-NC-ND 4.0 — see Heavy Infantry mod for full file.
 // Textures used: impact_damage.png, impact_glow.png, expsmoke.png, exprise.png, cartoonflame2.png (in textures/).
 
@@ -72,6 +72,24 @@ material xFlame2 {
 	}
 }
 
+material xDust5 {
+	receive_shadows off
+	technique {
+		pass {
+			lighting off
+			fog_override false
+
+			depth_write off
+			scene_blend alpha_blend 
+
+			texture_unit {
+				texture expsmoke.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
 particle_system 				xBulletImpactObjectDamage
 {
 	quota						1000
@@ -130,9 +148,9 @@ particle_system 				xBulletImpactObjectGlow
 particle_system xMuzzleFog
 {
 	material	xExpSmoke
-	particle_width 3.0
-	particle_height 3.0
-	quota 10000
+	particle_width 1.15
+	particle_height 1.15
+	quota 4000
 	cull_each false
 	sorted false
 	local_space false
@@ -150,10 +168,10 @@ particle_system xMuzzleFog
 		position 0.0 0.0 0.0
 		direction 1.0 1.0 1.0
 		angle 180
-		width 2.5
-		height 2.5
-		depth 2.5
-		emission_rate 0.4
+		width 1.0
+		height 1.0
+		depth 1.0
+		emission_rate 0.35
 		velocity_min 0.5
 		velocity_max 0.5
 		time_to_live 10
@@ -366,4 +384,210 @@ particle_system xKickDust
 		alpha -0.9
 	}
 	
+}
+
+particle_system xMusketSmoke
+{
+	material	xExpRise
+	particle_width 3.2
+	particle_height 3.2
+	quota 5000
+	cull_each	false
+	renderer	billboard
+	billboard_type	oriented_self
+	common_direction	1 1 1
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour		1 1 1 0.25
+		angle	0
+		direction	0 -1 0
+		emission_rate	4.5
+		position	0 0 0
+		velocity	1.5
+		time_to_live	3
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	1.6
+	}
+
+	affector ColourFader
+	{
+		alpha -0.5
+	}
+}
+
+particle_system xMuzzleDust
+{
+	quota	100
+	material	xDust5
+	particle_width	0.75
+	particle_height	0.75
+	cull_each	true
+	renderer	billboard
+	billboard_type	oriented_self
+
+	emitter Point
+	{
+		angle		90
+		colour		1 1 1 0.15
+		direction	0 0 0
+		emission_rate	10
+		position	0 0 0
+		velocity	5
+		velocity_min	0.25
+		velocity_max	5
+		time_to_live	0.5
+		time_to_live_min	0.25
+		time_to_live_max	0.5
+		duration	0.5
+		duration_min	0.25
+		duration_max	0.5
+	}
+ 
+	affector Scaler
+	{
+		rate	0.4
+	}
+
+	affector Rotator
+	{
+		rotation_speed_range_start	-45
+		rotation_speed_range_end	45
+		rotation_range_start	0
+		rotation_range_end	360
+	}
+
+	affector ColourFader
+	{
+		alpha	-0.1
+	}
+}
+
+particle_system xRifleFlash
+{
+	material	xFlame2
+	particle_width 0.55
+	particle_height 0.55
+	quota 2500
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 48
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
+}
+
+particle_system xSmallExpSmoke2
+{
+	material		xExpSmoke
+	particle_width 		1.45
+	particle_height 	1.45
+	quota 			4000
+	cull_each		false
+	renderer		billboard
+	billboard_type          oriented_common
+      	common_up_vector        0 0 1 
+	accurate_facing 		false
+
+	emitter Point
+	{
+		position 0 0.5 0
+		colour		1 1 1 0.5
+		angle	0
+		direction	0 -1 0
+		emission_rate	3.8
+		position	0 0 0
+		velocity	1.5
+		time_to_live	1
+		duration	0.15
+		duration_min	0.15
+		duration_max	0.15
+	}
+ 
+	affector Scaler
+	{
+		rate	1.05
+	}
+
+	affector ColourFader
+	{
+		alpha -0.65
+	}
+}
+
+particle_system 			xSmallMuzzle
+{
+	quota					800
+	material			Flame
+	particle_width			0.5
+	particle_height			0.5
+	cull_each				false
+	renderer				billboard
+	billboard_type			oriented_self
+	accurate_facing 		true
+
+	emitter Point
+	{
+		colour	1 1 1 1
+		width 0
+		height 0
+		depth 0
+		emission_rate 42
+		velocity_min 1
+		velocity_max 1
+		time_to_live 0.04
+		duration_min 0.025
+		duration_max 0.025
+	}
+	
+	affector ColourInterpolator
+	{
+		colour0	1 1 1 1
+		time0	0.1
+		colour1	1 1 0 1
+		time1	0.3
+		colour2	1 0 0 0
+		time2	0.7
+		colour3	0 0 0 0
+		time3	0.8
+		colour4	0 0 0 0
+		time4	1
+		colour5	0.5 0.5 0.5 0
+		time5	1
+	}
 }

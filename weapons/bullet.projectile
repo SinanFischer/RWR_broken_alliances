@@ -44,7 +44,7 @@
 
     <sound class="result" key="static_object" copy="terrain" />
     
-    <!-- Impact FX: particles/bullet_impact_fx.particle + textures (5 HI-derived PNGs only, no global overrides) -->
+    <!-- Impact + muzzle FX: particles/bullet_impact_fx.particle + HI-derived textures (no global overrides) -->
     <effect class="result" key="terrain" ref="xMuzzleFog" />
     <effect class="result" key="terrain" ref="xKickDust" />
     <effect class="result" key="terrain" ref="xUpDust2" />
