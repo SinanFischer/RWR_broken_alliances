@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <weapon key="wiesel_mg3.weapon">
     <specification slot="2"
-    retrigger_time="0.05"
+    retrigger_time="0.055"
     accuracy_factor="0.8"
     spread_range="0.36"
     sustained_fire_grow_step="0.18"
