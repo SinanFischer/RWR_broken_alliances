@@ -48,8 +48,9 @@
     <commonness value="0.02" can_respawn_with="0" in_stock="1" />
     <inventory encumbrance="10.0" price="60" />
 
-    <effect class="muzzle" ref="LawMuzzle" />
-    <effect class="muzzle" ref="UpDust" />
+    <effect class="muzzle" ref="xBackSmoke" />
+    <effect class="muzzle" ref="xGustavMuzzleFlash" />
+    <effect class="muzzle" ref="xGustavMuzzle" />
     <stance state_key="running" accuracy="0.5" />
     <stance state_key="walking" accuracy="1.0" />
     <stance state_key="crouch_moving" accuracy="1.0" />

@@ -31,8 +31,11 @@
     <hud_icon filename="hud_patrol_ship_mortar.png" />
     <commonness value="0.0" />
 
-    <effect class="muzzle" ref="LawMuzzle" />
-    <effect class="muzzle" ref="UpDust" />
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xExpSmoke" />
+    <effect class="muzzle" ref="xLawMuzzle" />
+    <effect class="muzzle" ref="xUpDust" />
 
 
 </weapon>

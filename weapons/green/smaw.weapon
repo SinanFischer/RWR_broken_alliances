@@ -49,8 +49,9 @@
     <commonness value="1.0" />
     <inventory encumbrance="5.0" price="42" />
 
-    <effect class="muzzle" ref="LawMuzzle" />
-    <effect class="muzzle" ref="UpDust" />
+    <effect class="muzzle" ref="xBackSmoke" />
+    <effect class="muzzle" ref="xGustavMuzzleFlash" />
+    <effect class="muzzle" ref="xGustavMuzzle" />
     <modifier class="speed" value="-0.2" />
 
 </weapon>

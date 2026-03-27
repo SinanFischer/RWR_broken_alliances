@@ -27,7 +27,11 @@
     <projectile file="mounted_gl.projectile">
     </projectile>
 
-    <effect class="muzzle" ref="BigMuzzle" />
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xRifleFlash2" />
+    <effect class="muzzle" ref="xMusketSmoke" />
+    <effect class="muzzle" ref="xSmall5Muzzle" />
 
     <sound class="operation" key="fire" fileref="mounted_gl_shot.wav" volume="0.7" />
     

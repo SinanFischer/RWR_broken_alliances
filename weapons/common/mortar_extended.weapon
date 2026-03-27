@@ -45,8 +45,11 @@
     <commonness value="0.00008" />
     <inventory encumbrance="22.0" price="450.0" />
 
-    <effect class="muzzle" ref="LawMuzzle" />
-    <effect class="muzzle" ref="UpDust" />
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xExpSmoke2" />
+    <effect class="muzzle" ref="xBig4Muzzle" />
+    <effect class="muzzle" ref="xCannonFlash2" />
 
 
     <stance state_key="running" accuracy="0.1" />
