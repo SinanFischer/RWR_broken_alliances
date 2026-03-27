@@ -17,7 +17,7 @@
 	steer_smoothening="0.8" />
 
 	<physics 
-	max_health="12" 
+	max_health="100" 
 	blast_damage_threshold="0.0" 
 	TODO_blast_damage_threshold="1.02" 
 	mass="11.0" 

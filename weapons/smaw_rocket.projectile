@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectile class="grenade" name="rocket" slot="1" pulldown_in_air="0.5" key="smaw_rocket.projectile">
     <tag name="rocket"/>
-    <result class="blast" radius="5.5" damage="6.0" push="1.3" decal="1" />
+    <result class="blast" radius="7.0" damage="350" push="1.3" decal="1" />
     <trigger class="impact" />
     <rotation class="motion" />
     <model mesh_filename="smaw_rocket.xml" />

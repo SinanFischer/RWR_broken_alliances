@@ -7,7 +7,7 @@
 
 	<control max_speed="20.0" acceleration="6.0" max_reverse_speed="5.0" max_rotation="0.9" max_water_depth="1.5" steer_smoothening="0.7" />
 
-	<physics max_health="6.8" blast_damage_threshold="0.0" mass="7.0" extent="4.0 0.0 8.0" offset="0 0.0 0" top_offset="0 14 0" collision_model_pos="0 2.0 0.4" collision_model_extent="3.4 4.0 10.5" visual_offset="0 0.3 -0.3" friction_offset="0.06"  drag_offset="-0.05" /> 
+	<physics max_health="60" blast_damage_threshold="0.0" mass="7.0" extent="4.0 0.0 8.0" offset="0 0.0 0" top_offset="0 14 0" collision_model_pos="0 2.0 0.4" collision_model_extent="3.4 4.0 10.5" visual_offset="0 0.3 -0.3" friction_offset="0.06"  drag_offset="-0.05" /> 
 
 	<visual class="chassis" mesh_filename="transport_truck.mesh" texture_filename="transport_truck.png" />
 	<visual class="chassis" key="broken" mesh_filename="transport_truck_broken.mesh" texture_filename="transport_truck_broken.png" />

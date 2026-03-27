@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectile class="grenade" name="you're dead" slot="2" key="railway_artillery_shell.projectile" >
-    <result class="blast" radius="50.0" damage="30.0" push="3.0" decal="1" character_state="death"/>
+    <result class="blast" radius="50.0" damage="3000" push="3.0" decal="1" character_state="death"/>
     <trigger class="impact" />
     <rotation class="motion" />
     <model mesh_filename="mortar_shell.xml" />

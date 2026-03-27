@@ -22,7 +22,7 @@
 	<turret offset="1.5 3.3 -1.8" weapon_key="technical_mg.weapon" weapon_offset="0 0 0.8" weapon_recoil="0.1" max_rotation_step="0.0002" rotation="1.57" rotation_range="2.12" />
 	
 	<physics 
-	max_health="5" 
+	max_health="50" 
 	mass="7.5" 
 	broken_mass="5"
     remove_collision_threshold="0.2"	

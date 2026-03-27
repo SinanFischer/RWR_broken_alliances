@@ -3,8 +3,8 @@
 <projectile class="grenade" name="NOXE rocket" slot="1" pulldown_in_air="40.0" key="noxe.projectile">
     <tag name="rocket"/>
     <result class="blast" 
-    radius="6.0" 
-    damage="2.9" 
+    radius="8.0" 
+    damage="1300" 
     push="0.4" 
     decal="1"
     damage_origin_vehicle="0"

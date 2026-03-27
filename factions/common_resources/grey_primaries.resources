@@ -16,4 +16,6 @@
 	<weapon key='famasg1.weapon' />
 	<weapon key='mg08_heavy_custom22.weapon' />
 
+	<weapon key='m2_carlgustav.weapon' />
+
 </resources>

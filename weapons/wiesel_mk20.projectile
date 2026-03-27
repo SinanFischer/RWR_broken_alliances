@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectile class="bullet" name="Wiesel Mk20" slot="1" pulldown_in_air="4">
     <result class="blast"
-    radius="1.5"
-    damage="0.3"
+    radius="1.4"
+    damage="5.0"
     push="0.1"
     decal="0"
     damage_origin_vehicle="0"

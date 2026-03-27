@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weapon key="m113_tank_cannon.weapon"
+    ai_burst_time="5" 
+    ai_burst_time_variance="1" 
+    ai_burst_wait_time="0.6" 
+    ai_burst_wait_time_variance="0.2">
+    <specification retrigger_time="0.115" 
+    accuracy_factor="0.9" 
+    spread_range="0.35" 
+    sustained_fire_grow_step="0.029" 
+    sustained_fire_diminish_rate="0.2" 
+    sight_range_modifier="1.0"
+    ai_sight_range_modifier="1.15"
+    magazine_size="-1" 
+    can_shoot_standing="0" 
+    can_shoot_crouching="0" 
+    suppressed="0" 
+    name=".50 cal" 
+    class="0" 
+    projectile_speed="100.0" 
+    slot="2" 
+    barrel_offset="1" 
+    projectiles_per_shot="1" 
+    cooldown_start="0.4"
+    cooldown_end="0.0"/>
+
+    <model filename="" />
+    <hud_icon filename="hud_tank_mg.png" />
+    <commonness value="0.0" />
+ 
+    <sound key="fire" fileref="mounted_mg_shot.wav" pitch_variety="0.0" volume="0.65" />
+    <sound class="operation" key="fire" fileref="mounted_mg_shot.wav" volume="1" />
+		
+    <sound key="cooldown" fileref="overheating_mg.wav" volume="0.4"/>
+
+   <projectile file="bullet.projectile">
+        <result class="hit"
+		kill_probability="0.65"
+		kill_decay_start_time="0.42"
+		kill_decay_end_time="0.55" />
+    </projectile>
+
+    <effect class="muzzle" ref="xMuzzleCasingThrow_3" />
+    <effect class="muzzle" ref="xMuzzleFog" />
+    <effect class="muzzle" ref="xMuzzleDust" />
+    <effect class="muzzle" ref="xLargeRifleFlash2" />
+    <effect class="muzzle" ref="xBigMuzzle" />
+    
+<!-- front plate-mid -->    
+    <shield offset="-0.2 -0.6 0" extent="0.2 0.8 0.6" />   
+      
+    
+</weapon>

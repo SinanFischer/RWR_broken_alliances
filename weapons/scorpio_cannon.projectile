@@ -3,8 +3,8 @@
 <projectile class="grenade" name="Scorpio 76mm HESH" slot="1" pulldown_in_air="8.0" key="scorpio_cannon.projectile">
     <tag name="rocket"/>
     <result class="blast" 
-    radius="4.7" 
-    damage="3.01" 
+    radius="7.0" 
+    damage="1000" 
     push="1.0" 
     decal="1"
     damage_origin_vehicle="0"

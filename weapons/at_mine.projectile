@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectile class="grenade" name="AT mine" key="at_mine.projectile" slot="0" on_ground_up="0 1 0" can_be_disarmed="1" >
 
-    <result class="blast" radius="2.5" damage="5.0" decal="1" character_state="death" />
+    <result class="blast" radius="6.0" damage="400" decal="1" character_state="death" />
     <trigger class="impact"> 
      <collider class="terrain" enabled="0" /> 
      <collider class="static_object" enabled="1" /> 

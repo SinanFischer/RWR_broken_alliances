@@ -8,7 +8,7 @@
 
 	<control max_speed="62.0" acceleration="7.0" max_reverse_speed="5.0" max_rotation="1.628" max_water_depth="0.0" can_steer_in_water="1" can_steer_on_ground="0" gears="1" steer_smoothening="0.8" />
 
-	<physics max_health="16.0" mass="1000.0" extent="5.0 0.0 12.0" offset="0 1.0 0" collision_model_pos="0 0.5 -0.7" collision_model_extent="6.0 3.0 16.0" visual_offset="0 3.5 +0.0" /> 
+	<physics max_health="450" mass="1000.0" extent="5.0 0.0 12.0" offset="0 1.0 0" collision_model_pos="0 0.5 -0.7" collision_model_extent="6.0 3.0 16.0" visual_offset="0 3.5 +0.0" /> 
 
 	<!-- one weapon per turret so that only one soldier controls the turret orientation -->
 	<!-- similarly, a controllable turret can only exist if it has a weapon -->

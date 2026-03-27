@@ -5,7 +5,7 @@
 
 	<control max_speed="50.0" acceleration="10.0" max_reverse_speed="5.0" max_rotation="1.628" max_water_depth="0.3" can_steer_in_water="1" can_steer_on_ground="0" gears="1" />
 
-	<physics max_health="0.75" mass="1.0" extent="1.87 0.0 3.41" offset="0 0.2 0" collision_model_pos="0 0.5 0" collision_model_extent="3.2 1.0 4.3" visual_offset="0 0.7 -1.2" /> 
+	<physics max_health="30" mass="1.0" extent="1.87 0.0 3.41" offset="0 0.2 0" collision_model_pos="0 0.5 0" collision_model_extent="3.2 1.0 4.3" visual_offset="0 0.7 -1.2" /> 
 
 	<turret offset="0 1.5 1.8" weapon_key="deployable_mg.weapon" weapon_offset="0.0 -0.0 0.0" weapon_recoil="0.02" physics_recoil="0.0"  max_rotation_step="0.00015" rotation="0" rotation_range="1.37" />
 

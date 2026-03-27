@@ -8,7 +8,7 @@
 
 	<control max_speed="20.0" acceleration="6.7" max_reverse_speed="6.0" max_rotation="0.85" can_steer_in_water="1" max_water_depth="3" steer_smoothening="0.7" />
 
-	<physics max_health="15.2" mass="10.0" extent="3.0 0.0 5.0" offset="0 0.0 0" top_offset="0 7 0" collision_model_pos="0 0.8 0" collision_model_extent="3.2 2.4 7.6" visual_offset="0 0.25 0" friction_offset="0.1"  drag_offset="-0.05" /> 
+	<physics max_health="500" mass="10.0" extent="3.0 0.0 5.0" offset="0 0.0 0" top_offset="0 7 0" collision_model_pos="0 0.8 0" collision_model_extent="3.2 2.4 7.6" visual_offset="0 0.25 0" friction_offset="0.1"  drag_offset="-0.05" /> 
 
 	<weapon turret_index="0" turret_offset="0 2.4 0.67" offset="0 0.1 1.9" slot="2" index="0" max_rotation_step="0.00014" />
 

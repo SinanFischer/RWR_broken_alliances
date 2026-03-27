@@ -35,7 +35,7 @@
 	/>
 
 	<physics 
-	max_health="45.0" 
+	max_health="4000" 
 	blast_damage_threshold="0.5" 
 	TODO_blast_damage_threshold="1.02" 
 	mass="1200.0"

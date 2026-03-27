@@ -5,7 +5,7 @@
 
 	<control max_speed="28.0" acceleration="6.6" max_reverse_speed="10.0" max_rotation="0.75" max_water_depth="1.2" steer_smoothening="0.8" />
 
-	<physics max_health="7.2" mass="4.5" extent="2.6 0.0 5.0" offset="0 0.0 -0.25" top_offset="0 5.0 0" collision_model_pos="0 1.0 -0.3" collision_model_extent="3.2 2.5 6.8" visual_offset="0 0.15 0.25" friction_offset="0.08"  drag_offset="-0.05" /> 
+	<physics max_health="200" mass="4.5" extent="2.6 0.0 5.0" offset="0 0.0 -0.25" top_offset="0 5.0 0" collision_model_pos="0 1.0 -0.3" collision_model_extent="3.2 2.5 6.8" visual_offset="0 0.15 0.25" friction_offset="0.08"  drag_offset="-0.05" /> 
 
 	<turret offset="0 2.35 -0.45" weapon_key="humvee_gl.weapon" weapon_offset="0.0 0.4 1.4" weapon_recoil="0.0" max_rotation_step="0.0002" />
 

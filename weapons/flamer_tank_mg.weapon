@@ -7,7 +7,7 @@
     ai_burst_wait_time_variance="0.2">
     <specification
     slot="2"
-    retrigger_time="0.2"
+    retrigger_time="0.1"
     accuracy_factor="0.9"
     spread_range="0.35" 
     sustained_fire_grow_step="0.049"

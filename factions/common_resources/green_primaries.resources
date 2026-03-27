@@ -17,4 +17,6 @@
 	<weapon key='l85a2.weapon' />
 	<weapon key='m1917_savage_lewis.weapon' />
 
+	<weapon key='m72_law.weapon' />
+
 </resources>

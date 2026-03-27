@@ -4,7 +4,7 @@
     <tag name="rocket"/>
 	<result class="blast" 
     radius="13" 
-    damage="12" 
+    damage="2000" 
     push="1.0" 
     decal="1"
     damage_origin_vehicle="0"

@@ -32,7 +32,7 @@ reserves_spawn_point="1">
 	max_limiter_speed="6.0"/>
 
 	<physics 
-	max_health="14.8" 
+	max_health="450" 
 	blast_damage_threshold="0.5" 
 	TODO_blast_damage_threshold="1.02" 
 	mass="150.0" 

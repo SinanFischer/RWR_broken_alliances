@@ -3,8 +3,8 @@
 <projectile class="grenade" name="MGM-51" slot="1" pulldown_in_air="20.0" key="hornet.projectile">
     <tag name="rocket"/>
     <result class="blast" 
-    radius="5.2" 
-    damage="4.01" 
+    radius="8.0" 
+    damage="1300" 
     push="1.1" 
     decal="1"
     damage_origin_vehicle="0"
