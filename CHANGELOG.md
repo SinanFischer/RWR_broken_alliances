@@ -13,6 +13,15 @@ Mit Erlaubnis des Heavy-Infantry-Mod-Autors nutzt Broken Alliances dessen **raue
 - **Einige Fahrzeug-MGs wieder “normal”:** Bestimmte leichte Fahrzeug-MGs schießen optisch wieder wie gewöhnliche MG-Kugeln — nicht mehr mit dem Look einer .50-BMG.
 - **Bluteffekt bei schweren Treffern:** Wenn ein **MG, LMG, Minigun, Fahrzeug-MG, Panzer-MG** oder **sehr großes Kaliber** (z. B. schwere Scharfschützen-/Panzerbüchsen) einen **Soldaten** trifft, siehst du am Einschlag einen **roten Blut-Spray** (kurzer Sprühnebel). **Sturmgewehre, Pistolen und SMGs** lassen diesen Effekt bewusst weg.
 
+### Leuchtspuren (sichtbare Flugschweife)
+
+Damit du im Gefecht besser erkennst, **wer womit schießt**, sind die **Leuchtspuren** (*der helle Strich hinter schnellen Projektilen*) nach Waffentyp unterschiedlich:
+
+- **Normale Gewehre** (alles, was das übliche Gewehr-Geschoss nutzt): Die Spur ist **gelb**. Sie erscheint **nicht bei jedem Schuss** — ungefähr **jeder vierte** Schuss zeigt zufällig eine Spur, ähnlich wie bei echter Munition, bei der nur ein Teil der Patronen Leuchtspur ist.
+- **Maschinengewehre, leichte MGs und die meisten Fahrzeug-MGs:** Die Spur ist **rot** und **etwas kräftiger** sichtbar als beim Gewehr. Beim schnellen Feuern wirkt sie **durchgehend** gut sichtbar, damit du MG-Feuer im Durcheinander leichter vom gelben Gewehrfeuer unterscheiden kannst.
+
+**Hinweis:** Buggy- und Humvee-MG schießen dafür mit dem gleichen MG-Verhalten wie andere MGs (rote Spur), nicht mehr wie ein normales Gewehr.
+
 ### Commands:
 
 **HUD**
