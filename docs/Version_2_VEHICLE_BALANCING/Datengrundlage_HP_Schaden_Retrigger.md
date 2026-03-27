@@ -1,118 +1,69 @@
-# Datengrundlage: HP, Schaden, Retrigger (Broken Alliances)
+# Finale Datengrundlage: HP, Schaden, Retrigger (Rebalanced)
 
-Auszug aus den Paketdateien unter `RWR_broken_alliances` (Stand laut Workspace). Ergänzend Vanilla, wo die Waffendefinition **nicht** im BA-Ordner liegt, aber das Fahrzeug die Waffe referenziert.
-
-## Legende
-
-| Begriff | Quelle | Bedeutung für dieses Dokument |
-|--------|--------|--------------------------------|
-| **HP** (*Lebenspunkte des Fahrzeugs in der Engine*) | `vehicles/*.vehicle` → `max_health` in `<physics …/>` | Rohwert aus der XML; nicht identisch mit „Design-HP“ aus `Idee.md`, aber die messbare Basis im Paket. |
-| **Blast-Damage** (*Schaden einer Explosion/HE-Granate*) | `weapons/*.projectile` → `<result class="blast" … damage="…"/>` | Primärer Zahlenwert für Flächenschaden; bei **Submunition** (*mehrere kleine Einschläge*) ist der Gesamteffekt die Summe/Verteilung der Subprojektile. |
-| **Retrigger Time** (*Zeit in Sekunden zwischen zwei Schüssen/Salven*) | `weapons/*.weapon` → `retrigger_time` in `<specification …/>` | `-1.0` = Einzelschuss mit Nachlade-/Zykluslogik (kein reiner Feuertakt-Spam). |
-| **Kinetisch** (*Treffer ohne `blast`-Damage in der Projectile-Datei*) | z. B. `bullet.projectile`, `bullet_mg.projectile` | Kein `damage="…"` im Sinne von HE-Blast; Fahrzeugschaden läuft über die interne Ballistik/Rüstungslogik der Engine. |
-
-**Ausgeschlossen** (wie gewünscht): reine Spawn-/Dummy-Fahrzeuge (`*_spawn.vehicle`), Schießscheiben, Sonder-Props (Mülleimer, Lagerfeuer, Heli-Wracks, Spezialkisten), Sandbag-Cover, Karten-Duplikate unter `maps/`, sowie „Spaß“-Fahrzeuge (keine Eis-/Bananen-Varianten im Paket vorgefunden).
+Diese Tabelle enthält die **finalen** Balancing-Werte für Lebenspunkte (HP) und Waffenschaden. Die Werte ersetzen die alten Engine-Roheinträge und folgen streng dem neuen exponentiellen Tiersystem.
 
 ---
 
-## Tabelle 1 — Kampf- und typische Nutzfahrzeuge (Auswahl)
+## Tabelle 1 — Fahrzeuge & Emplacements (HP-Skalierung)
 
-Spalte **Primär**: die wichtigste antipanzer-/antifahrzeug-Waffe oder Hauptbewaffnung des Turms. **Koax** = koaxiales MG (*zweites Rohr parallel zur Hauptkanone*).
+Die Einheiten sind innerhalb ihrer Tier-Klasse nach Robustheit gestaffelt (z.B. Jeep am unteren, LKW am oberen Rand von Klasse 1).
 
-| Fahrzeug (Anzeigename) | Vehicle-Key | HP (`max_health`) | Primärwaffe(n) | Blast-Damage (Primär) | Retrigger (Primär) s |
-|------------------------|-------------|-------------------|----------------|-------------------------|----------------------|
-| SIK-AP APC | `apc.vehicle` | 15.2 | `apc_hmg.weapon` (Turm-Slot, kein `weapon_key` in Datei) | 0.45 (`apc_hmg.projectile`) | 0.45 |
-| GT-C APC | `apc_1.vehicle` | 15.7 | `apc_hmg_1.weapon` | 1.1 | 0.44 |
-| BTX APC | `apc_2.vehicle` | 15.6 | `apc_hmg_2.weapon` | 0.14 | 0.412 |
-| Humvee | `humvee.vehicle` | 7.2 | `humvee_mg.weapon` | kinetisch | 0.096 |
-| Humvee GL | `humvee_gl.vehicle` | 7.2 | `humvee_gl.weapon` | 0.60 (`mounted_gl.projectile`) | 1.0 |
-| Willys MB | `willys_mb.vehicle` | 2.4 | `technical_mg.weapon` (×2 gleiche Turm-Refs) | kinetisch | 0.1 |
-| Jeep / Jeep 1 / Jeep 2 | `jeep.vehicle` … | 2.4 | (kein `weapon_key`) | — | — |
-| Buggy | `buggy.vehicle` | 2.4 | `buggy_mg.weapon` | kinetisch | 0.1 |
-| Technical | `technical.vehicle` | 3.3 | `technical_mg.weapon` | kinetisch | 0.1 |
-| Gun Truck | `guntruck.vehicle` | 5.0 | `technical_mg.weapon` (mehrere Lafetten) | kinetisch | 0.1 |
-| Transport Truck (+_1/_2) | `transport_truck.vehicle` … | 6.8 | — | — | — |
-| Cargo Truck | `cargo_truck.vehicle` | 12.0 | — | — | — |
-| Armored Truck (Spawn) | `armored_truck.vehicle` | 6.2 | — | — | — |
-| Prison Bus | `prison_bus.vehicle` | 12.0 | — | — | — |
-| Truck / Truck 1 / Truck 2 | `truck.vehicle` … | (je Datei) | — | — | — |
-| Tractor | `tractor.vehicle` | 1.5 | — | — | — |
-| Rubber Boat | `rubber_boat.vehicle` | 0.75 | `deployable_mg.weapon` | kinetisch | siehe Waffe |
-| ATV Base / Armory | `atv_base.vehicle` / `atv_armory.vehicle` | 5.5 | — | — | — |
-| VFS Base / Sport / Para | `vfs_base.vehicle` … | 4.2 | `vfs_buggy_mg` + ggf. `technical_mg` / `vfs_shield` | kinetisch / — | 0.2 |
-| Tank | `tank.vehicle` | 32.35 | `tank_cannon.weapon` + Koax `tank_mg.weapon` | 10.0 | 4.3 / Koax 0.08 |
-| Tank 1 | `tank_1.vehicle` | 33.2 | `tank_cannon_1.weapon` + Koax `tank_mg_1.weapon` | 10.0 | 4.3 / 0.08 |
-| Tank 2 | `tank_2.vehicle` | 32.95 | `tank_cannon_2.weapon` + Koax `tank_mg_2.weapon` | 10.0 | 4.3 / 0.08 |
-| Doppelkanonen-Panzer | `doublecannon_tank.vehicle` | 3.0 | 2× `tank_cannon.weapon` | 10.0 | 4.3 |
-| Legion | `legion.vehicle` | 45.0 | `legion_cannon.weapon` + Koax `legion_mg.weapon` | 12 (`legion_cannon.projectile`) | 4.0 / Koax 0.15 |
-| Vulcan Tank | `vulcan_tank.vehicle` | 12.4 | `vulcan_tank_mg.weapon` | 0.03 (`vulcan.projectile`) | 0.02 |
-| Flamer Tank | `flamer_tank.vehicle` | 20.8 | `flamer_tank_cannon.weapon` + `flamer_tank_mg.weapon` | Flammen-Projektil (Vanilla `flamethrower_flame_tank.projectile`) | 0.07 (Flamme) |
-| FV101 Scorpio | `fv101.vehicle` | 20.0 | `scorpio_cannon.weapon` + `scorpio_mg1.weapon` | 3.01 | Kanone 3.5 s (**Vanilla**-Waffe) |
-| M551 Sheriff | `m551.vehicle` | 24.0 | `m551_cannon.weapon` + Koax `m551_mg.weapon` | 4.01 | Kanone 4.5 s (**Vanilla**) |
-| M528 | `m528.vehicle` | 23.2 | `m528_hmg.weapon` + 2× `m528_apj.weapon` | HMG: `apc_hmg_1.projectile` 1.1; APJ: Sub 0.16 × 4–5 | HMG 0.25; APJ 5.0 |
-| Radar Tank | `radar_tank.vehicle` | 8.4 | `radar_tank_cannon.weapon` | 0.01 (`radar_tank_hmg.projectile`, 2 Schuss/Salve) | 0.3 |
-| Noxe | `noxe.vehicle` | 14.8 | 2× `noxe.weapon` + `technical_mg.weapon` | 2.9 (`noxe.projectile`) | Raketen 4.5 s (**Vanilla** `noxe.weapon`); MG 0.1 |
-| SEV-90 | `sev90.vehicle` | 14.8 | `sev90_cannon.weapon` (**Vanilla**-Datei) | 0.45 (`sev90_cannon.projectile`, Vanilla) | 0.70 |
-| Hovercraft | `hovercraft.vehicle` | 12.0 | `hovercraft_minig.weapon` | kinetisch | 0.04 |
-| Wiesel Mk20 | `wiesel_mk20.vehicle` | 9.5 | `wiesel_mk20.weapon` | 0.3 | 0.35 |
-| Wiesel TOW | `wiesel_tow.vehicle` | 9.5 | `wiesel_tow.weapon` + `wiesel_mg3.weapon` | TOW 7.2 | 5.0 / MG 0.055 |
-| Mortar (Fahrzeug) | `mortar.vehicle` / `mortar_extended.vehicle` | 1.8 | `mortar.weapon` / `mortar_extended.weapon` | 1.01 (`mortar_shell.projectile`) | 4.5 |
-| M120 Heavy Mortar | `m120_heavy_mortar.vehicle` | 3.0 | `m120_heavy_mortar.weapon` | 8.00 | 20.0 |
-| TOW-Lafette | `tow.vehicle` | 2.7 | `tow.weapon` | 7.2 | 5.1 |
-| Deployable MG / Scoped | `deployable_mg.vehicle` … | 0.8 | `deployable_mg.weapon` … | kinetisch | 0.096 |
-| Deployable Minigun | `deployable_minig.vehicle` … | 0.8 | `deployable_minig.weapon` … | kinetisch | 0.04 |
-| Coastal Gun | `coastal_gun.vehicle` | 20.0 | `coastal_gun.weapon` | 15 (`coastal_gun.projectile`) | 8.0 |
-| Heavy Artillery Gun | `heavy_artillery_gun.vehicle` | 13.0 | `heavy_artillery_gun.weapon` | 7.0 (`heavy_artillery_shell.projectile`) | 15.0 |
-| Patrol Ship | `patrol_ship.vehicle` | 16.0 | `patrol_ship_cannon.weapon`, MG, Mörser | Kanone: wie `apc_hmg.projectile` (0.45); Mörser: `rocket2.projectile` 2.0 | Kanone 2.85; MG 0.096; Mörser 9.2 |
-| Radar-/Jammer-Türme, Trucks | `radar_tower.vehicle` … | div. | meist ohne Turmkanone | — | — |
+| Fahrzeug / Einheit | Tier-Klasse | Neue Ziel-HP | Anmerkung / Realismus-Begründung |
+|--------------------|-------------|--------------|----------------------------------|
+| **ATV / Quad** | T1 (Soft) | **30** | Absolut ungeschützt, Blech & Rahmen. |
+| **Rubber Boat** | T1 (Soft) | **30** | Schlauchboot, reißt sofort. |
+| **Tractor** | T1 (Soft) | **35** | Motorblock bietet minimalen Schutz. |
+| **Jeep / Buggy** | T1 (Soft) | **40** | Offene Karosserie. |
+| **Technical / Guntruck** | T1 (Soft) | **50** | Etwas Blechverstärkung an der Lafette. |
+| **Cargo / Transport Truck** | T1 (Soft) | **60** | Große Masse schluckt etwas Schrapnell. |
+| **VFS Familie** | T2 (Light) | **130** | Leichte Panzerwagen-Karosserie. |
+| **Hovercraft** | T2 (Light) | **140** | |
+| **Humvee / Humvee GL** | T2 (Light) | **160** | Gepanzerte Patrouillen-Türen & Glas. |
+| **M120 / Deployable MGs** | *Emplacement* | **100 - 200** | Lafetten ohne Panzerung. |
+| **Coastal / Heavy Art. Gun** | T3 (Medium)* | **450** | Robuste Eisen/Stahl-Konstruktion. Hält Granaten stand, stirbt an C4/AT. |
+| **Radar Tank** | T3 (Medium) | **650** | Leichtes Chassis, schwerer Aufbau. |
+| **Wiesel / TOW** | T3 (Medium) | **700** | Extrem kompakter Waffenträger. |
+| **Noxe / SEV-90** | T3 (Medium) | **750 - 800**| Schützenpanzer. |
+| **Patrol Ship** | T3 (Medium) | **800** | Massiver Rumpf, robuster als APCs. |
+| **APC (Alle Varianten)** | T3 (Medium) | **850** | Klassischer Truppentransport (M113 etc.). |
+| **Vulcan Tank** | T3 (Medium) | **850** | Flak-Panzerung. |
+| **FV101 Scorpio** | T4 (Heavy) | **1.600** | Leichter Spähpanzer, unteres T4-Niveau. |
+| **Flamer Tank** | T4 (Heavy) | **1.800** | |
+| **M528 / M551 Sheriff** | T4 (Heavy) | **2.000 - 2.100**| Schwere Sturmgeschütze. |
+| **Tank / Tank 1 / Tank 2** | T5 (Battle) | **5.000 - 5.200**| Main Battle Tanks. |
+| **Doublecannon Tank** | T5 (Battle) | **4.800** | Separat gebalanced. |
+| **Legion** | T6 (Superheavy)| **10.000** | Der Endboss. |
 
 ---
 
+## Tabelle 2 — Anti-Tank & Explosivwaffen (Projektil-Schaden)
 
-## Tabelle 2 — Anti-Tank & schwere Wurfwaffen (Granaten / Raketen / Lafetten)
-
-| Eintrag | Waffe / Projektil | Blast-Damage | Retrigger s | Anmerkung |
-|---------|-------------------|--------------|------------|-----------|
-| RPG-7 | `rpg-7.weapon` → `rpg-7_rocket.projectile` | 4.0 | -1.0 | |
-| Javelin | `javelin.weapon` → `javelin.projectile` | 8.7 | -1.0 | |
-| Javelin (Captain / Typ 2) | `javelin_captain.weapon` → `javelin_type2.projectile` | 12 | -1.0 | |
-| Javelin Elite | `javelin_elite.weapon` → `javelin_elite.projectile` | 13.05 | -1.0 | |
-| SMAW | `smaw.weapon` → `smaw_rocket.projectile` | 6.0 | -1.0 | |
-| M72 LAW | `m72_law.weapon` → `m72_law_rocket.projectile` | 3.6 | -1.0 | |
-| Carl Gustaf M2 | `m2_carlgustav.weapon` → `m2_carlgustav_rocket.projectile` | 5.2 | -1.0 | |
-| M202 FLASH | `m202_flash.weapon` → `m202.projectile` | 3.0 | 1.6 | |
-| FHJ-01 | `fhj01.weapon` → `fhj01_rocket.projectile` | Sub `fhj01_rocket_sub`: 0.1, 8–10× | -1.0 | FAE-Cluster |
-| TOW (Lafette / Wiesel) | `tow.weapon` / `wiesel_tow.weapon` → `tow.projectile` | 7.2 | 5.1 / 5.0 | |
-| M528 APJ | `m528_apj.weapon` → `m528_apj.projectile` | Sub `m528_apj_sub`: 0.16, 4–5× | siehe Waffe | |
-| Portable Mortar | `portable_mortar.weapon` → `rocket2.projectile` | 2.0 | 1.5 | |
-| M120 (geschützt) | `m120_heavy_mortar.weapon` | 8.00 | 20.0 | |
-| Lahti L-39 | `lahti_l39.weapon` → `lahti.projectile` | 0.76 | -1.0 | „AT-Gewehr“-Nische |
-| AT-Mine (Platzierbar) | `at_mine.projectile` | 5.0 | — | kein `retrigger` (Mine) |
-| Handgranate | `hand_grenade.projectile` | 1.01 | — | Wurfitem |
-| AT-Granate | `at_grenade.projectile` | 9.99 | — | Wurfitem |
-| Impact-Granate | `impact_grenade.projectile` | 2.4 | — | Wurfitem |
-| Cluster (Sub) | `cluster_grenade_sub.projectile` | 0.99 je Sub | — | Parent spawnt 4× |
-| Blendgranate | `stun_grenade.projectile` | 0.05 (Stun) | — | |
+| Waffe / Projektil | Typ-Klasse | Neuer Schaden | Radius | Zielwirkung / Realismus |
+|-------------------|------------|---------------|--------|-------------------------|
+| **Lahti L-39 (20mm AP)** | AT Extrem-Leicht | **20** | 0.5 | Zerstört T1 in 2-3 Treffern. Nutzlos gegen Panzer. |
+| **RPG-7 / M72 LAW** | AT Leicht | **400** | 6.0 | Instakill für T1/T2. Mückenstich für MBTs. |
+| **M202 FLASH** | AT Leicht | **100** (x4) | 4.0 | 4er-Salve macht kombiniert 400 Schaden. |
+| **SMAW / Carl Gustaf M2** | AT Mittel | **800** | 7.0 | Zerstört jeden APC (T3) mit 1-2 Treffern. |
+| **Javelin / TOW** | AT Schwer | **1.300** | 8.0 | Zerstört T4 in 2 Hits, MBT in 3-4 Hits. |
+| **Javelin Captain** | AT Schwer | **1.800** | 9.0 | Zerstört T4 sofort. |
+| **Javelin Elite** | AT Top | **2.600** | 10.0 | Killt MBTs in exakt 2 Hits. |
+| **Tank Cannon (Vanilla)** | Panzerkanone | **1.200 - 1.400**| 8.0 | Standardkampf Pz. vs Pz. |
+| **Legion Cannon** | Superheavy | **2.000** | 12.0 | Zerstört T4 in 1 Hit, halbiert MBT-Leben. |
+| **FHJ-01 (FAE Cluster)** | Submunition | Parent: **20** / Sub: **3** | Sub: 3.0 | Infantrie überlebt Sub-Treffer knapp (4 HP max). Tödlich gegen weiche Ziele, 0 Effekt auf Tanks. |
+| **M528 APJ (Cluster)** | Submunition | Parent: **50** / Sub: **5** | Sub: 4.0 | Etwas stärkere Cluster für Fahrzeug-Montage. |
+| **AT-Mine** | Sprengsatz | **1.000** | 6.0 | Zerstört T3 sofort, verkrüppelt T4 schwer. |
 
 ---
 
-## Tabelle 3 — Explosiv / HE (Schwere MGs, GL, genannte Beispiele)
+## Tabelle 3 — Infanterie-Explosiva & Autokanonen
 
-| Eintrag | Waffe → Projektil | Blast-Damage | Retrigger s |
-|---------|-------------------|--------------|------------|
-| APC HMG (40 mm HE) | `apc_hmg_1.weapon` → `apc_hmg_1.projectile` | 1.1 | 0.44 |
-| QJZ-89 „Volk“ | `qjz89_volk.weapon` → `qjz89_volk_bullet.projectile` | 1.0 | 0.11 |
-| Truvelo Amris | `truvelo_amris.weapon` → `truvelo_amris.projectile` | 1.5 | -1.0 |
-| M79 | `m79.weapon` → `m79.projectile` | 0.48 | -1.0 |
-| Humvee GL | `humvee_gl.weapon` → `mounted_gl.projectile` | 0.60 | 1.0 |
-| Deployable GL | `deployable_gl.weapon` → `mounted_gl.projectile` | 0.60 | 1.0 |
-| M528 HMG (Autokanone) | `m528_hmg.weapon` → `apc_hmg_1.projectile` | 1.1 | siehe Waffe |
-
----
-
-## Nächste sinnvolle Erweiterung
-
-- Alle verbleibenden `vehicles/*.vehicle` mit `max_health` maschinell in eine CSV spiegeln (lokal ohne Python z. B. per `findstr`), falls du 100 % Abdeckung willst.  
-- Für **Koax-MGs** separate Spalte „DPS-Balancing“, sobald du Fahrzeugpanzerung gegen Kugeln modellierst.
-
-Soll die Fahrzeugtabelle auf **alle** `.vehicle` mit `max_health` erweitert werden (inkl. Deployables/Radar), oder reicht diese Kampf-/Logistik-Kurzfassung für Phase 1?
+| Waffe / Projektil | Fraktion / Typ | Neuer Schaden | Radius | Wirkung |
+|-------------------|----------------|---------------|--------|---------|
+| **Handgranate / Impact** | Granate | **15** | 4.0 | Zerstört Jeeps in 3 Treffern. Killt Infanterie. |
+| **AT-Granate** | Granate | **500** | 3.5 | 1 Hit T1, 2 Hits T3. |
+| **C4 Sprengladung** | Sprengsatz | **1.700** | 5.0 | 1 C4 killt Emplacements (Coastal Gun), 3 killen MBT. |
+| **40mm HE (APC HMG/GL)**| Granatwerfer | **20** | 4.5 | Zerstört T1 in 2-3 Hits. Betäubt Panzerbesatzung. |
+| **Wiesel Mk20 (20mm)** | Kinetisch AP | **5.0** pro Hit | 1.0 | 15 DPS. Zerlegt Humvee in ~10s. |
+| **Vulcan Minigun** | Kinetisch AP | **0.5** pro Hit | 0.5 | 25 DPS (50 Schuss/s). Zerlegt Humvee in ~6s. |
+| **Portable Mortar** | Indirekt | **150** | 12.0 | Tödlich für Jeeps/Soft-Targets. |
+| **M120 Heavy Mortar** | Indirekt | **600** | 18.0 | 1 Hit pulverisiert T2, beschädigt T3 schwer. |
