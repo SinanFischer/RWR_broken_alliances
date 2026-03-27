@@ -9,12 +9,20 @@
 //   liveCount sinkt durch Drosselung → würde den Nenner verkleinern → Feedback-Loop → Block hebt sich auf.
 //   totalLive wird in refreshAliveBasedData() immer frisch aus allen Fraktionen summiert.
 //
+// liveCount-Frische: refreshAliveBasedData() läuft alle 15s (teuer: nativeCap, bases, extraDelay).
+//   applyCapacityWithReservedSlots() liest liveCount direkt frisch (1 Query/Fraktion, 1x/s) →
+//   Throttle-Entscheidung basiert immer auf aktuellem Stand, nicht auf 15s-altem Snapshot.
+//
+// Fail-Closed bei effectiveCap==0: Wenn reservierte Slots nativeCap übersteigen → effectiveCap=0 →
+//   früher: Throttle-Guard (effectiveCap>0) deaktivierte Bremse → Fraktion spawnte ungebremst.
+//   jetzt: effectiveCap==0 → capacity_multiplier=NEAR_ZERO + spawn_interval=BLOCKED (Fail-Closed).
+//
 // Fraktion mit ≤1 Basis: Slotblock immer AUS → mult = 1.0, spawn_interval = SPAWN_INTERVAL_NORMAL.
 //
 // Timestamps: Gespeichert wird der Ablaufzeitpunkt (expireTime = now + delay), nicht der Todeszeitpunkt.
 //
 // --- Konfiguration ---
-const float RESPAWN_SLOT_DELAY          = 10.0f;   // s, 3+ Basen
+const float RESPAWN_SLOT_DELAY          = 8.0f;   // s, 3+ Basen
 const float RESPAWN_SLOT_DELAY_2_BASES  =  5.0f;   // s, 2 Basen
 const float RESPAWN_SLOT_DELAY_1_BASE   =  2.0f;   // s, 1 Basis
 const float ALIVE_CHECK_INTERVAL        = 15.0f;   // s, Intervall für Alive/Basen-Update
@@ -458,15 +466,27 @@ class RespawnSlotDelayTracker : Tracker {
         XmlElement command("command");
         command.setStringAttribute("class", "change_game_settings");
         for (uint i = 0; i < factions.size(); ++i) {
-            FactionState@ s    = getState(int(i));
-            float mult         = calcFinalMult(s);
+            FactionState@ s = getState(int(i));
+
+            // liveCount frisch lesen (1x/s, nicht 15s-alter Snapshot aus refreshAliveBasedData).
+            // nativeCap/bases/extraDelay bleiben im 15s-Takt (teuer, für Throttle unkritisch).
+            array<const XmlElement@>@ chars = getCharacters(m_metagame, int(i));
+            int freshLive = (chars is null) ? 0 : int(chars.size());
+            s.liveCount = freshLive;
+
             int   effectiveCap = calcEffectiveCapacity(s);
-            bool  throttle     = (effectiveCap > 0 && s.liveCount >= effectiveCap);
+            float mult         = calcFinalMult(s);
+
+            // Fail-Closed: effectiveCap==0 → alle Slots reserviert → hart bremsen (nur wenn SlotBlock aktiv).
+            bool overCap  = (freshLive >= effectiveCap);
+            bool throttle = (effectiveCap == 0 && isSlotBlockEnabled(s)) || (effectiveCap > 0 && overCap);
+
+            float finalMult = throttle ? CAPACITY_MULTIPLIER_NEAR_ZERO : mult;
 
             XmlElement faction("faction");
-            faction.setFloatAttribute("capacity_multiplier", mult);
+            faction.setFloatAttribute("capacity_multiplier", finalMult);
             faction.setFloatAttribute("spawn_interval", throttle ? SPAWN_INTERVAL_BLOCKED : SPAWN_INTERVAL_NORMAL);
-            if (throttle) _log("THROTTLE: fid=" + i + " live=" + s.liveCount + " >= cap=" + effectiveCap, 1);
+            if (throttle) _log("THROTTLE: fid=" + i + " live=" + freshLive + " cap=" + effectiveCap + " mult=" + finalMult, 1);
             command.appendChild(faction);
 
             pruneExpiredSlots(s);

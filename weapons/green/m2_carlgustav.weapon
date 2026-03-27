@@ -43,7 +43,7 @@
     <capacity value="4" source="rank" source_value="0.7" />
 
     <hud_icon filename="hud_m2_carlgustav.png" />
-    <commonness value="0.059" />
+    <commonness value="0.039" />
     <inventory encumbrance="6.0" price="30" />
 
     <effect class="muzzle" ref="xBackSmoke" />

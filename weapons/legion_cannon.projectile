@@ -4,7 +4,7 @@
     <tag name="rocket"/>
 	<result class="blast" 
     radius="13" 
-    damage="2000" 
+    damage="1600" 
     push="1.0" 
     decal="1"
     damage_origin_vehicle="0"
@@ -35,6 +35,16 @@
     <effect class="result" key="terrain" tag="ice" ref="ShadowSmoke" shadow="1" />
     <effect class="result" key="terrain" tag="ice" ref="woosh" post_processing="0" shadow="0" />      
     <effect class="result" type="splat_map" surface_tag="ice" size="5.5" atlas_index="4" layer="0" />
+    <!-- Stufe 3: Heavy Infantry Big Explosion effects (ice) -->
+    <effect class="result" key="terrain" tag="ice" ref="xExpFog" />
+    <effect class="result" key="terrain" tag="ice" ref="xExpRise" />
+    <effect class="result" key="terrain" tag="ice" ref="xExpSmoke" />
+    <effect class="result" key="terrain" tag="ice" ref="xExpSmoke2" />
+    <effect class="result" key="terrain" tag="ice" ref="xExpFlash" />
+    <effect class="result" key="terrain" tag="ice" ref="xExpFlash2" />
+    <effect class="result" key="terrain" tag="ice" ref="xShieldBurst2" />
+    <effect class="result" key="terrain" tag="ice" ref="xgrenade" lighting="0" />
+    <effect class="result" key="terrain" tag="ice" ref="xgrenade2" lighting="0" />
     
     <effect class="result" key="terrain" ref="ArtiBurst" use_surface_color="1" />     
     <effect class="result" key="terrain" ref="SmokeTop" post_processing="1" />
@@ -54,7 +64,7 @@
     <effect class="result" key="other" ref="woosh" post_processing="0" shadow="0" />  
 
     
-    <!-- heavy infantry Big Explosion effects -->
+    <!-- Stufe 3: Heavy Infantry Big Explosion effects -->
     <effect class="result" key="terrain" ref="xExpFog" />
     <effect class="result" key="terrain" ref="xExpRise" />
     <effect class="result" key="terrain" ref="xDirtExp" use_surface_color="1" />
@@ -67,7 +77,7 @@
     <effect class="result" key="terrain" ref="xgrenade2" lighting="0" />
     <effect class="result" type="splat_map" surface_tag="" size="5.0" atlas_index="0" layer="1" />
     <effect class="result" type="splat_map" surface_tag="" size="6.5" atlas_index="4" layer="0" />
-    <effect class="result" type="splat_map" surface_tag="" size="7.5" atlas_index="0" layer="2" additive="0" /> <!-- remove top snow everywhere -->
+    <effect class="result" type="splat_map" surface_tag="" size="7.5" atlas_index="0" layer="2" additive="0" />
 
     <effect class="result" key="other" ref="xExpFog" />
     <effect class="result" key="other" ref="xExpRise" />
@@ -78,7 +88,6 @@
     <effect class="result" key="other" ref="xShieldBurst2" />
     <effect class="result" key="other" ref="xgrenade" lighting="0" />
     <effect class="result" key="other" ref="xgrenade2" lighting="0" />
-<!-- End test -->
 
 
 	

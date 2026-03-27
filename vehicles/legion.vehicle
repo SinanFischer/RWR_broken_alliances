@@ -91,6 +91,8 @@
 	<sound key="ignition" filename="jeep2_ignition.wav" />
 	<sound key="hit" filename="car_hit2.wav" />
 	<sound key="hit" filename="car_hit1.wav" />
+	<sound key="destroy" filename="vehicle_explosion_1.wav" />
+	<sound key="cleanup" filename="vehicle_explosion_1.wav" />
 
 	<sound key="turret_rotation" filename="turret_rotation1.wav" volume="0.8" />
 	<sound key="turret_rotation" filename="turret_rotation2.wav" volume="0.8"/>

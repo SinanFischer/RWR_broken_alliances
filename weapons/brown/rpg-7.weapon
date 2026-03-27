@@ -42,7 +42,7 @@
     <capacity value="8" source="rank" source_value="0.2" />
 
     <hud_icon filename="hud_rpg-7.png" />
-    <commonness value="0.067" />
+    <commonness value="0.057" />
     <inventory encumbrance="5.0" price="9" />
 
     <effect class="muzzle" ref="xLawMuzzleFlash" />
