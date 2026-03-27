@@ -74,6 +74,6 @@
     <effect class="result" key="character" ref="xBloodSpray" />
 	
     <!-- <trail probability="1.0" key="laser" /> -->
-    <trail probability="0.25" />
+    <trail probability="1.0" key="xred_tracer" />
 
 </projectile>
