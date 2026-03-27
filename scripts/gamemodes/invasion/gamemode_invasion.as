@@ -360,7 +360,8 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 			INVASION_CAPACITY_DEBUG_HUD,
 			true // Alive-HUD: zeigt "alive / cap (bases)" in Fraktionsfarbe
 		);
-		m_systemsRegistry.installCommanderAiAdaptiveSystem(INVASION_ENABLE_COMMANDER_AI_ADAPTIVE);
+		// Commander-AI-Adaptive + Legacy-Chat-Commands AUS (game_systems_registry.as)
+		// m_systemsRegistry.installCommanderAiAdaptiveSystem(INVASION_ENABLE_COMMANDER_AI_ADAPTIVE);
 		m_systemsRegistry.installFactionPointsSystem(
 			INVASION_ENABLE_FACTION_POINTS_SYSTEM,
 			true,   // HUD aktiv

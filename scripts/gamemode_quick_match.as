@@ -145,7 +145,8 @@ class GameModeQuickMatch : Metagame {
 			addTracker(FactionAliveHudTracker(this, null)); // cap = native soldier_capacity
 		}
 		// addTracker(CapacityToggleTestTracker(this)); // TEST: /testcap-Command (Klasse oben auskommentiert)
-		m_systemsRegistry.installCommanderAiAdaptiveSystem(ENABLE_COMMANDER_AI_ADAPTIVE);
+		// Commander-AI-Adaptive + Legacy-Chat-Commands AUS (game_systems_registry.as)
+		// m_systemsRegistry.installCommanderAiAdaptiveSystem(ENABLE_COMMANDER_AI_ADAPTIVE);
 		m_systemsRegistry.installFactionPointsSystem(
 			ENABLE_FACTION_POINTS_SYSTEM,
 			true,   // HUD aktiv

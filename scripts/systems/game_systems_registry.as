@@ -3,7 +3,8 @@
 // Ziel: Pro Modus nur eine Einbindung + klarer Installationspunkt.
 
 #include "systems/spawn_capacity/spawn_capacity_system.as"
-#include "systems/commander_ai_adaptive/commander_ai_adaptive_system.as"
+// AUS: Commander-AI-Adaptive (Ordner systems/commander_ai_adaptive/) — kein Compile/Einbau
+// #include "systems/commander_ai_adaptive/commander_ai_adaptive_system.as"
 #include "systems/platoon_spawn/platoon_spawn_system.as"
 #include "events/captain_spawn_command_tracker.as"
 #include "events/single_base_vip_tracker.as"
@@ -11,7 +12,8 @@
 #include "trackers/vehicle_interval_spawn.as"
 #include "commands/blackops3_vest_command_tracker.as"
 #include "commands/mrl_spawn_command.as"
-#include "commands/commander_ai_command_tracker.as"
+// AUS: Legacy /ai_fifty, /ai_normal (scripts/commands/commander_ai_command_tracker.as)
+// #include "commands/commander_ai_command_tracker.as"
 #include "commands/fov_command_tracker.as"
 #include "delivery_unlocks/item_delivery_configurator_quickmatch.as"
 #include "systeme/fraktionspunkte_system/faction_points_system.as"
@@ -19,7 +21,7 @@
 class GameSystemsRegistry {
 	protected Metagame@ m_metagame;
 	protected SpawnCapacityApi@ m_spawnCapacityApi;
-	protected CommanderAiAdaptiveApi@ m_commanderAiAdaptiveApi;
+	// protected CommanderAiAdaptiveApi@ m_commanderAiAdaptiveApi;
 	protected PlatoonSpawnApi@ m_platoonSpawnApi;
 	protected CaptainSpawnCommandTracker@ m_quickMatchCaptainTracker;
 	protected SingleBaseVipTracker@ m_quickMatchSingleBaseVipTracker;
@@ -28,7 +30,7 @@ class GameSystemsRegistry {
 	protected bool m_quickMatchEventSystemsInstalled = false;
 	protected BlackOps3VestCommandTracker@ m_blackOps3VestTracker;
 	protected MrlSpawnCommandTracker@ m_mrlSpawnTracker;
-	protected CommanderAiCommandTracker@ m_commanderAiTracker;
+	// protected CommanderAiCommandTracker@ m_commanderAiTracker;
 	protected FovCommandTracker@ m_fovCommandTracker;
 	protected ItemDeliveryConfiguratorQuickMatch@ m_sharedItemDeliveryConfigurator;
 	protected ItemDeliveryOrganizer@ m_sharedItemDeliveryOrganizer;
@@ -55,14 +57,14 @@ class GameSystemsRegistry {
 		}
 	}
 
-	// Adaptive Commander-AI: setzt commander_ai nach Capacity-Ratio, Radio bei Zustandswechsel.
-	// SpawnCapacity-System muss vorher installiert sein (liefert RespawnSlotDelayTracker).
-	void installCommanderAiAdaptiveSystem(bool enabled) {
-		if (!enabled) return;
-		if (m_spawnCapacityApi is null || !m_spawnCapacityApi.hasCoreInstalled()) return;
-		@m_commanderAiAdaptiveApi = CommanderAiAdaptiveApi(m_metagame);
-		m_commanderAiAdaptiveApi.installTracker(m_spawnCapacityApi.getRespawnTracker());
-	}
+	// Adaptive Commander-AI: deaktiviert (commander_ai_adaptive_* nicht eingebunden).
+	// void installCommanderAiAdaptiveSystem(bool enabled) {
+	// 	if (!enabled) return;
+	// 	if (m_spawnCapacityApi is null || !m_spawnCapacityApi.hasCoreInstalled()) return;
+	// 	@m_commanderAiAdaptiveApi = CommanderAiAdaptiveApi(m_metagame);
+	// 	m_commanderAiAdaptiveApi.installTracker(m_spawnCapacityApi.getRespawnTracker());
+	// }
+	void installCommanderAiAdaptiveSystem(bool enabled) {}
 
 	// Installiert QuickMatch-Events zentral ueber die Registry:
 	// - Captain-Command (/captain_spawn)
@@ -111,9 +113,9 @@ class GameSystemsRegistry {
 		@m_mrlSpawnTracker = MrlSpawnCommandTracker(m_metagame);
 		m_metagame.addTracker(m_mrlSpawnTracker);
 
-		// Commander-AI-Commands (/ai_status, /ai_defend, /ai_fifty, /ai_attack)
-		@m_commanderAiTracker = CommanderAiCommandTracker(m_metagame);
-		m_metagame.addTracker(m_commanderAiTracker);
+		// Commander-AI-Commands AUS (commander_ai_command_tracker + adaptive)
+		// @m_commanderAiTracker = CommanderAiCommandTracker(m_metagame);
+		// m_metagame.addTracker(m_commanderAiTracker);
 
 		// FOV-Command (/fov true|false) – FOV Visualization zur Laufzeit
 		@m_fovCommandTracker = FovCommandTracker(m_metagame);
@@ -158,7 +160,7 @@ class GameSystemsRegistry {
 	}
 
 	SpawnCapacityApi@ getSpawnCapacityApi() { return m_spawnCapacityApi; }
-	CommanderAiAdaptiveApi@ getCommanderAiAdaptiveApi() { return m_commanderAiAdaptiveApi; }
+	// CommanderAiAdaptiveApi@ getCommanderAiAdaptiveApi() { return m_commanderAiAdaptiveApi; }
 	PlatoonSpawnApi@ getPlatoonSpawnApi() { return m_platoonSpawnApi; }
 	CaptainSpawnCommandTracker@ getQuickMatchCaptainTracker() { return m_quickMatchCaptainTracker; }
 	FactionPointsApi@ getFactionPointsApi() { return m_factionPointsApi; }
