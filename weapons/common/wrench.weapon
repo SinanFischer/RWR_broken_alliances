@@ -13,7 +13,7 @@
     slot="1" 
     affect_characters="0"
     affect_vehicles="1"
-    damage="-3"
+    damage="-100"
     range="0.06"
     stab_enabled="1" />
     <animation state_key="recoil" 		animation_key="repairing, large wrench" />
