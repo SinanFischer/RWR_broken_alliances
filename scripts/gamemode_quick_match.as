@@ -140,11 +140,6 @@ class GameModeQuickMatch : Metagame {
 			CAPACITY_DEBUG_HUD,
 			CFG_FACTION_ALIVE_HUD
 		);
-		// Alive HUD fallback: spawn capacity off but HUD wanted → show native cap.
-		// RS-System hat Vorrang: kein Standalone-Alive-HUD wenn RS aktiv.
-		if (!CFG_SPAWN_CAPACITY_SYSTEM && CFG_FACTION_ALIVE_HUD && !CFG_REINFORCEMENT_SYSTEM) {
-			addTracker(FactionAliveHudTracker(this, null));
-		}
 		// addTracker(CapacityToggleTestTracker(this)); // TEST: /testcap-Command (Klasse oben auskommentiert)
 		// Commander-AI-Adaptive + Legacy-Chat-Commands AUS (game_systems_registry.as)
 		// m_systemsRegistry.installCommanderAiAdaptiveSystem(ENABLE_COMMANDER_AI_ADAPTIVE);
@@ -155,6 +150,17 @@ class GameModeQuickMatch : Metagame {
 			true
 		);
 		m_systemsRegistry.installReinforcementSystem(CFG_REINFORCEMENT_SYSTEM);
+		// Standalone Alive HUD nach RS-Install: Mutex kann jetzt korrekt verdrahtet werden.
+		if (!CFG_SPAWN_CAPACITY_SYSTEM && CFG_FACTION_ALIVE_HUD) {
+			FactionAliveHudTracker@ aliveHud = FactionAliveHudTracker(this, null);
+			addTracker(aliveHud);
+			ReinforcementApi@ rsApi = m_systemsRegistry.getReinforcementApi();
+			if (rsApi !is null && rsApi.getHudTracker() !is null) {
+				aliveHud.setMutexHud(rsApi.getHudTracker());
+				rsApi.getHudTracker().setMutexHud(aliveHud);
+				aliveHud.setEnabled(false);  // RS hat Startup-Vorrang
+			}
+		}
 		@m_spawnCapacityApi = m_systemsRegistry.getSpawnCapacityApi();
 		m_systemsRegistry.installQuickMatchEventSystems(
 			ENABLE_QUICKMATCH_EVENT_SYSTEMS,

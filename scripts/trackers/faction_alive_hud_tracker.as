@@ -33,6 +33,7 @@ class FactionAliveHudTracker : Tracker, IToggleableHud {
 	FactionAliveHudTracker(Metagame@ metagame, RespawnSlotDelayTracker@ respawnTracker = null) {
 		@m_metagame = @metagame;
 		@m_respawnTracker = respawnTracker;
+		m_metagame.getComms().send("<command class='set_metagame_event' name='chat_event' enabled='1' />");
 	}
 
 	// Wird nach Systeminitialisierung gesetzt (zirkulaere Abhaengigkeit vermieden).
