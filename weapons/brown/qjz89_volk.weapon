@@ -59,7 +59,7 @@
     <stance state_key="prone_moving" accuracy="0.30" />
     <stance state_key="over_wall"    accuracy="0.75" />
 
-    <!-- Mündung: Flash + kurzer Staub (kein x50CalMuzzleFog — sonst dichte Wolke beim Dauerfeuer) -->
+    <!-- Mündung: Flash + kurzer Staub (kein x50CalMuzzleFog - sonst dichte Wolke beim Dauerfeuer) -->
     <effect class="muzzle" ref="BigMuzzle" />
     <effect class="muzzle" ref="x50CalMuzzleDust" />
 

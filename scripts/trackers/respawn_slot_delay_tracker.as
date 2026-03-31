@@ -1,5 +1,5 @@
 // Mechanismus: mult = (nativeCap - reserved) / nativeCap
-// nativeCap = (xmlCap / sumXmlCap) × totalLive — totalLive statt liveCount, sonst Feedback-Loop.
+// nativeCap = (xmlCap / sumXmlCap) × totalLive - totalLive statt liveCount, sonst Feedback-Loop.
 // ≤1 Basis: Slotblock deaktiviert; beim Wechsel werden laufende Timestamps sofort gelöscht.
 
 // --- Slot-Delay (Hebel 1: Spawn-Bremse nach Tod) ---

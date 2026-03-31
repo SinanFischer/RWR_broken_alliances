@@ -2971,7 +2971,7 @@ particle_system xGrenadeExpSmoke2
 	}
 }
 
-// ~60 % der Granaten-Wolke (xSmall*), etwas straffer; für 40 mm HE / APC-Maschinenkanone — Blitz bleibt über xCannonFlash* in der .projectile
+// ~60 % der Granaten-Wolke (xSmall*), etwas straffer; für 40 mm HE / APC-Maschinenkanone - Blitz bleibt über xCannonFlash* in der .projectile
 particle_system xAcHeExpFog
 {
 	material	xExpSmoke
@@ -3216,7 +3216,7 @@ particle_system x50CalSmokeLinger
 	}
 }
 
-// Sofort sichtbarer Aufprall-Rauch (.50) — ergänzt x50CalSmokeLinger
+// Sofort sichtbarer Aufprall-Rauch (.50) - ergänzt x50CalSmokeLinger
 particle_system x50CalImpactSmoke
 {
 	material		xExpSmoke
@@ -6829,7 +6829,7 @@ particle_system xExpSmoke2
 	}
 }
 
-// ~60% Skalierung der Heavy-Explosion (LAW, RPG, Carl-Gustav, Standard-Javelin) — Panzer/TOW/M120/Elite bleiben auf xExp*
+// ~60% Skalierung der Heavy-Explosion (LAW, RPG, Carl-Gustav, Standard-Javelin) - Panzer/TOW/M120/Elite bleiben auf xExp*
 particle_system xMedExpFog
 {
 	material	xExpSmoke

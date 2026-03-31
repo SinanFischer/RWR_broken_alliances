@@ -3,7 +3,7 @@
 // Ziel: Pro Modus nur eine Einbindung + klarer Installationspunkt.
 
 #include "systems/spawn_capacity/spawn_capacity_system.as"
-// AUS: Commander-AI-Adaptive (Ordner systems/commander_ai_adaptive/) — kein Compile/Einbau
+// AUS: Commander-AI-Adaptive (Ordner systems/commander_ai_adaptive/) - kein Compile/Einbau
 // #include "systems/commander_ai_adaptive/commander_ai_adaptive_system.as"
 #include "systems/platoon_spawn/platoon_spawn_system.as"
 #include "events/captain_spawn_command_tracker.as"

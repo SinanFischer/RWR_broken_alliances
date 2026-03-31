@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- BA: Cluster-Freigabe (Zeit-Trigger) — EXPLOSION_EFFECT_TIERS Stufe 2 (mittlere AT-Rakete), nur key=other (Luft) -->
+<!-- BA: Cluster-Freigabe (Zeit-Trigger) - EXPLOSION_EFFECT_TIERS Stufe 2 (mittlere AT-Rakete), nur key=other (Luft) -->
 <projectile class="grenade" name="M528 AP" slot="2" pulldown_in_air="13.0" key="m528_apj.projectile">
     <tag name="rocket"/>
     <result class="spawn" instance_class="projectile" instance_key="m528_apj_sub.projectile" min_amount="4" max_amount="5" offset="0 0.0 0" position_spread="0 0" direction_spread="0.15 -0.3" />

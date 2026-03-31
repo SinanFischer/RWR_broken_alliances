@@ -24,21 +24,21 @@
 
 | Call | Default B/Gr/G | Sniper | Shotgun | Common-Kits | Special Forces | Miniboss | Lonewolf |
 |------|:--------------:|:------:|:-------:|:------------:|:---------------:|:--------:|:--------:|
-| tank_2 / tank_1 / tank.call | ✓ (je Fraktion) | — | — | — | — | — | — |
-| artillery1.call | — | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| heavy_mortar.call | — | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| heavy_artillery.call | — | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| paratroopers1–4.call | — | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| humvee.call | — | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| vulcan_tank.call | — | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| apc.call | — | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| mg_drop.call | — | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| mines.call | — | ✓ | ✓ | ✓ | ✓ | ✓ | — |
-| wiesel_drop.call | — | ✓ | ✓ | — | — | — | — |
-| sniper_drop.call | — | ✓ | — | — | — | — | (ggf.) |
-| test_miniboss_drop.call | — | — | — | — | — | ✓ | — |
-| mortar1.call | — | — | — | — | — | — | ✓ |
-| paratroopers_medic.call | — | — | — | — | — | — | ✓ |
+| tank_2 / tank_1 / tank.call | ✓ (je Fraktion) | - | - | - | - | - | - |
+| artillery1.call | - | ✓ | ✓ | ✓ | ✓ | ✓ | - |
+| heavy_mortar.call | - | ✓ | ✓ | ✓ | ✓ | ✓ | - |
+| heavy_artillery.call | - | ✓ | ✓ | ✓ | ✓ | ✓ | - |
+| paratroopers1–4.call | - | ✓ | ✓ | ✓ | ✓ | ✓ | - |
+| humvee.call | - | ✓ | ✓ | ✓ | ✓ | ✓ | - |
+| vulcan_tank.call | - | ✓ | ✓ | ✓ | ✓ | ✓ | - |
+| apc.call | - | ✓ | ✓ | ✓ | ✓ | ✓ | - |
+| mg_drop.call | - | ✓ | ✓ | ✓ | ✓ | ✓ | - |
+| mines.call | - | ✓ | ✓ | ✓ | ✓ | ✓ | - |
+| wiesel_drop.call | - | ✓ | ✓ | - | - | - | - |
+| sniper_drop.call | - | ✓ | - | - | - | - | (ggf.) |
+| test_miniboss_drop.call | - | - | - | - | - | ✓ | - |
+| mortar1.call | - | - | - | - | - | - | ✓ |
+| paratroopers_medic.call | - | - | - | - | - | - | ✓ |
 
 ---
 

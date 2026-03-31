@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 40 mm Granate: Granaten-HI-Kette wie hand_grenade — kein xExpFog (war schwerer Artillerie-Rauch) -->
+<!-- 40 mm Granate: Granaten-HI-Kette wie hand_grenade - kein xExpFog (war schwerer Artillerie-Rauch) -->
 <projectile class="grenade" name="M79" slot="1" pulldown_in_air="20.0" key="m79.projectile">
     <tag name="grenade"/>
     <result class="blast" radius="5.8" damage="0.48" decal="1" />

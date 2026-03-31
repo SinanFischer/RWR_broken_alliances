@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Nur für fuel_barrel.static_object — größerer Stun-Radius als debri_stun (6 m), ohne andere Spawner zu beeinflussen -->
+<!-- Nur für fuel_barrel.static_object - größerer Stun-Radius als debri_stun (6 m), ohne andere Spawner zu beeinflussen -->
 <projectile class="grenade" name="stun grenade" slot="2" radius="0.15" key="fuel_barrel_stun">
 
     <result class="blast" radius="8.5" damage="0.0" decal="0" character_state="stun" />

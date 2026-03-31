@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- BA: NOXE-Rakete — Einschlag wie Stufe 2 (mittlere AT) laut EXPLOSION_EFFECT_TIERS.md -->
+<!-- BA: NOXE-Rakete - Einschlag wie Stufe 2 (mittlere AT) laut EXPLOSION_EFFECT_TIERS.md -->
 <projectile class="grenade" name="NOXE rocket" slot="1" pulldown_in_air="40.0" key="noxe.projectile">
     <tag name="rocket"/>
     <result class="blast" 

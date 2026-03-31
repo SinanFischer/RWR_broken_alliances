@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mod-Override: wie common/tank_mg — bullet_mg + HI-Muzzle-Kette; projectile_speed wie Panzer-MG -->
+<!-- Mod-Override: wie common/tank_mg - bullet_mg + HI-Muzzle-Kette; projectile_speed wie Panzer-MG -->
 <weapon key="flamer_tank_mg.weapon"
     ai_burst_time="5" 
     ai_burst_time_variance="1" 

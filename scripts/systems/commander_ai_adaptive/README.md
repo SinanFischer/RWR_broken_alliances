@@ -38,8 +38,8 @@ Ereignisgesteuertes System, das die native Karten-KI unberührt lässt und nur b
 ratio = effectiveCapacity / baseCapacity
 ```
 
-- **`baseCapacity`** (*konfigurierte Maximalgröße der Fraktion*) — Ausgangswert
-- **`effectiveCapacity`** (*aktuell verfügbare Slots nach Slotblock durch Tode*) — sinkt bei Verlusten
+- **`baseCapacity`** (*konfigurierte Maximalgröße der Fraktion*) - Ausgangswert
+- **`effectiveCapacity`** (*aktuell verfügbare Slots nach Slotblock durch Tode*) - sinkt bei Verlusten
 - Bei hohen Verlusten sinkt die Ratio → Verteidigung wird ausgelöst
 - Bei dominanter Fraktion steigt die Ratio → Angriff möglich
 
@@ -63,7 +63,7 @@ ratio = effectiveCapacity / baseCapacity
 
 ### Revert (nach Event-Ablauf)
 - Setzt `base_defense` und `border_defense` auf die gecachten nativen Werte zurück
-- Startet 120s Cooldown — kein sofortiges Re-Triggern möglich
+- Startet 120s Cooldown - kein sofortiges Re-Triggern möglich
 - Nachricht an Fraktion: Rückkehr zur Standardhaltung
 
 ---
@@ -73,14 +73,14 @@ ratio = effectiveCapacity / baseCapacity
 Der Tracker speichert beim Start einmalig die "nativen" KI-Werte pro Fraktion, auf die nach einem Event zurückgekehrt wird.
 
 **Priorität beim Befüllen:**
-1. **Map-Lookup** — bekannte Vanilla-Maps haben hartcodierte Werte (aus `init_match.xml` extrahiert)
-2. **Formel-Fallback** — für unbekannte Maps, basierend auf Basenanteil der Fraktion:
+1. **Map-Lookup** - bekannte Vanilla-Maps haben hartcodierte Werte (aus `init_match.xml` extrahiert)
+2. **Formel-Fallback** - für unbekannte Maps, basierend auf Basenanteil der Fraktion:
    ```
    base_defense   = clamp(0.20 + factionShare * 0.50,  0.20, 0.70)
    border_defense = clamp(0.10 + factionShare * 0.25,  0.10, 0.35)
    ```
    wobei `factionShare = factionBases / totalBases`
-3. **Statischer Fallback** — `base=0.40`, `border=0.25` (wenn Basenzahl nicht verfügbar)
+3. **Statischer Fallback** - `base=0.40`, `border=0.25` (wenn Basenzahl nicht verfügbar)
 
 ---
 
@@ -88,11 +88,11 @@ Der Tracker speichert beim Start einmalig die "nativen" KI-Werte pro Fraktion, a
 
 ```
 scripts/systems/commander_ai_adaptive/
-├── commander_ai_adaptive_config.as     — Alle Konstanten (Thresholds, Dauer, Werte, Nachrichten)
-├── commander_ai_adaptive_logic.as      — Reine Trigger-Logik (keine Engine-Calls)
-├── commander_ai_adaptive_native_defaults.as — Native Vanilla-Werte + Formel-Fallback
-├── commander_ai_adaptive_tracker.as    — Kern: Timer, Evaluierung, Engine-Commands, Admin-Commands
-└── commander_ai_adaptive_system.as     — API-Wrapper, Einstiegspunkt für GameSystemsRegistry
+├── commander_ai_adaptive_config.as     - Alle Konstanten (Thresholds, Dauer, Werte, Nachrichten)
+├── commander_ai_adaptive_logic.as      - Reine Trigger-Logik (keine Engine-Calls)
+├── commander_ai_adaptive_native_defaults.as - Native Vanilla-Werte + Formel-Fallback
+├── commander_ai_adaptive_tracker.as    - Kern: Timer, Evaluierung, Engine-Commands, Admin-Commands
+└── commander_ai_adaptive_system.as     - API-Wrapper, Einstiegspunkt für GameSystemsRegistry
 ```
 
 | Datei | Was man dort anpasst |
@@ -113,7 +113,7 @@ Aktiviert in beiden Spielmodi über `GameSystemsRegistry`:
 m_systemsRegistry.installCommanderAiAdaptiveSystem(true);
 ```
 
-Voraussetzung: `installSpawnCapacitySystem()` muss vorher aufgerufen worden sein — der Tracker bezieht die Capacity-Daten vom `RespawnSlotDelayTracker`.
+Voraussetzung: `installSpawnCapacitySystem()` muss vorher aufgerufen worden sein - der Tracker bezieht die Capacity-Daten vom `RespawnSlotDelayTracker`.
 
 ---
 
@@ -128,4 +128,4 @@ RespawnSlotDelayTracker
             └─ sendet Faction-Radio-Nachrichten (nur eigene Fraktion)
 ```
 
-Der `StatsCommandTracker` (`/stats`-Befehl) und der `FactionAliveHudTracker` (HUD-Anzeige) nutzen denselben `RespawnSlotDelayTracker` — keine doppelten Engine-Queries.
+Der `StatsCommandTracker` (`/stats`-Befehl) und der `FactionAliveHudTracker` (HUD-Anzeige) nutzen denselben `RespawnSlotDelayTracker` - keine doppelten Engine-Queries.

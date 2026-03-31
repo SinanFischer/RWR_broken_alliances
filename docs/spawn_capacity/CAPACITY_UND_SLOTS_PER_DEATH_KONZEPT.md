@@ -4,7 +4,7 @@
 
 ## Ziel
 
-Kills sollen im Spiel **spürbare Auswirkungen** haben. In Vanilla spawnen getötete Soldaten sofort nach, wenn Capacity frei ist — ein Kill bringt fast keinen taktischen Vorteil. Dieses System macht jeden Kill wertvoll:
+Kills sollen im Spiel **spürbare Auswirkungen** haben. In Vanilla spawnen getötete Soldaten sofort nach, wenn Capacity frei ist - ein Kill bringt fast keinen taktischen Vorteil. Dieses System macht jeden Kill wertvoll:
 
 - Getötete Einheiten **blockieren** ihre Spawn-Slots für eine begrenzte Zeit.
 - Stärkere Fraktionen verlieren pro Tod **mehr Slots** und werden **länger** blockiert.
@@ -30,7 +30,7 @@ Kills sollen im Spiel **spürbare Auswirkungen** haben. In Vanilla spawnen getö
 ### Schwächste Fraktion (Underdog-Schutz)
 
 Wenn eine Fraktion die **wenigsten Basen** hat **UND ≤2 Basen** besitzt:
-- **Kein Slotblock** — volle Capacity, Vanilla-Spawn.
+- **Kein Slotblock** - volle Capacity, Vanilla-Spawn.
 - Keine Timestamps werden gespeichert (auch keine versteckten).
 - Sobald sie eine 3. Base erobert, greift das Slot-System wieder.
 

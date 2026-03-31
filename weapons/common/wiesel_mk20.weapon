@@ -27,7 +27,7 @@
     <target_factors tag="tactical" distance="1.0" direction="0.0" squad_command="1.0" base_score="8.0" />
     <target_factors tag="bazooka" distance="1.0" direction="0.0" squad_command="1.0" base_score="10" />
 
-    <!-- Mündung wie APC-Autokanone (HI); kinetisch — kein HE-Einschlag, nur Rohrblitz/Rauch wie apc_hmg -->
+    <!-- Mündung wie APC-Autokanone (HI); kinetisch - kein HE-Einschlag, nur Rohrblitz/Rauch wie apc_hmg -->
     <effect class="muzzle" ref="xMuzzleCasingThrowBounce" />
     <effect class="muzzle" ref="xMuzzleFog" />
     <effect class="muzzle" ref="xMuzzleDust" />

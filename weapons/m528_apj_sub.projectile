@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- BA: Submunition — EXPLOSION_EFFECT_TIERS Stufe 1 (Granate/Cluster), vgl. hand_grenade.projectile -->
+<!-- BA: Submunition - EXPLOSION_EFFECT_TIERS Stufe 1 (Granate/Cluster), vgl. hand_grenade.projectile -->
 <projectile class="grenade" name="M528 AP" slot="2" pulldown_in_air="50.0" key="m528_apj_sub.projectile" >
     <result class="blast" radius="3.5" damage="2.5" push="0.1" decal="0" />
     <trigger class="impact" />

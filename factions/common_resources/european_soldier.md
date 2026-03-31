@@ -1,4 +1,4 @@
-# european_soldier — Combat Bark Design
+# european_soldier - Combat Bark Design
 
 **Fraktion:** Grey (Europäische Union)  
 **Datei:** `factions/european_soldier.character`  
@@ -30,7 +30,7 @@ Die EU-Soldaten sind die einzige Fraktion, die rein defensiv denkt. Sie kämpfen
 
 ---
 
-## 3. Combat Barks — Design-Tabelle
+## 3. Combat Barks - Design-Tabelle
 
 | Situation | Bark |
 | :--- | :--- |
@@ -79,7 +79,7 @@ Key: We surrender!    → ~4 Zeilen
 
 ## 5. Voice-Design-Regeln
 
-- **Deutsch als Würze:** NEIN, Scheiße, Verdammt, Sani, Sanitäter, Kamerad, Jawohl — nicht als Hauptsprache, sondern als kultureller Einschlag.
+- **Deutsch als Würze:** NEIN, Scheiße, Verdammt, Sani, Sanitäter, Kamerad, Jawohl - nicht als Hauptsprache, sondern als kultureller Einschlag.
 - **Keine Hollywood-Klischees:** Kein "For freedom!", kein "Yippee ki-yay". Militärische Kürze.
 - **Epstein organisch einbauen:** Nie erklärend, immer Subtext ("the list", "the files", "the guys").
 - **Ersatzschreibweise im XML:** ä → ae, ö → oe, ü → ue, ß → ss (Engine-Limitierung).

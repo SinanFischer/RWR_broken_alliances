@@ -20,7 +20,7 @@
 
     <effect class="result" key="other" ref="Burst" use_surface_color="1" />
     <effect class="result" key="other" ref="LowDust"/>
-    <!-- 40mm HE: ~60% Granaten-Rauch, volle Cannon-Flashes (wuchtiger Eindruck) — gleiche Kette wie APC -->
+    <!-- 40mm HE: ~60% Granaten-Rauch, volle Cannon-Flashes (wuchtiger Eindruck) - gleiche Kette wie APC -->
     <effect class="result" key="other" ref="xAcHeExpFog" />
     <effect class="result" key="other" ref="xAcHeExpRise" />
     <effect class="result" key="other" ref="xAcHeExpSmoke2" />

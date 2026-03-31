@@ -227,8 +227,8 @@ class FactionPointsAiPlanner {
 	// ── Status / Introspection ────────────────────────────────────────────────────
 
 	// Gibt eine kompakte Statuszeile pro Fraktion zurueck (fuer /fp_ai).
-	// Format: "EU: Planning for event2 (250 FP)" oder "EU: Saving"
-	string getPlannerStatus() const {
+	// Format: "EU: Planning for Company Attack at base Alpha (1200 FP)" oder "EU: Saving"
+	string getPlannerStatus() {
 		int count = int(m_saveTarget.size());
 		if (count == 0) return "No factions tracked yet.";
 
@@ -244,7 +244,10 @@ class FactionPointsAiPlanner {
 				result += label + ": Saving";
 			} else {
 				int cost = (m_eventRegistry !is null) ? m_eventRegistry.getCostByToken(target) : -1;
-				result += label + ": Planning for " + target;
+				string detail = (m_eventRegistry !is null)
+					? m_eventRegistry.getPlannerTargetDescriptionForFaction(target, fid)
+					: target;
+				result += label + ": Planning for " + detail;
 				if (cost >= 0) result += " (" + cost + " FP)";
 			}
 		}

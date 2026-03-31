@@ -7,7 +7,7 @@
 
     <effect event_key="destroy" key="other" ref="woosh" post_processing="0" shadow="0" />
     <effect event_key="destroy" key="other" ref="BigBurst" use_surface_color="1" />
-    <!-- Kurzer Rauch wie Vanilla-Fass (keine xExp*/xGrenade*-Wolken — die hielten viel länger als die Bruch-Meshes) -->
+    <!-- Kurzer Rauch wie Vanilla-Fass (keine xExp*/xGrenade*-Wolken - die hielten viel länger als die Bruch-Meshes) -->
     <effect event_key="destroy" key="other" ref="SmokeMinor" post_processing="1" />
     <effect event_key="destroy" key="other" ref="ShadowSmokeMinor" shadow="1" />
 

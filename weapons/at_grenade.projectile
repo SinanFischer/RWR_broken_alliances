@@ -50,7 +50,7 @@
     <effect class="result" key="other" ref="Godray" lighting="0" />
     <effect class="result" key="other" ref="ShadowSmoke" shadow="1" />
 
-    <!-- HI medium AT rocket tier (wie m72_law) — AT-Granate visuell schwerer als Handgranate -->
+    <!-- HI medium AT rocket tier (wie m72_law) - AT-Granate visuell schwerer als Handgranate -->
     <effect class="result" key="terrain" ref="xMedExpFog" />
     <effect class="result" key="terrain" ref="xMedExpRise" />
     <effect class="result" key="terrain" ref="xMedDirtExp" use_surface_color="1" />

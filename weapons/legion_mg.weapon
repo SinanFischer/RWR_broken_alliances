@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mod-Override: wie common/tank_mg — bullet_mg + HI-Muzzle-Kette (Koax) -->
+<!-- Mod-Override: wie common/tank_mg - bullet_mg + HI-Muzzle-Kette (Koax) -->
 <weapon key="legion_mg.weapon"
     ai_burst_time="5" 
     ai_burst_time_variance="1" 

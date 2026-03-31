@@ -63,7 +63,7 @@ class FactionPointsAiTracker : Tracker {
 	}
 
 	// Gibt den aktuellen Spar-Status aller Fraktionen zurueck (delegiert an Planner).
-	string getPlannerStatus() const {
+	string getPlannerStatus() {
 		if (m_planner is null) return "AI planner missing.";
 		return m_planner.getPlannerStatus();
 	}

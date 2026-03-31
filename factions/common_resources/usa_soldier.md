@@ -1,4 +1,4 @@
-# usa_soldier — Combat Bark Design
+# usa_soldier - Combat Bark Design
 
 **Fraktion:** Green (USA)  
 **Datei:** `factions/usa_soldier.character`  
@@ -13,7 +13,7 @@
 
 Die US-Soldaten sind die hochtechnisierteste Truppe auf dem Schlachtfeld, aber moralisch vollständig am Boden. Zwei Schocks haben sie geprägt:
 1. **Epstein-Files:** Die Enthüllungen haben ihr Vertrauen in die gesamte politische und militärische Führung ("The Suits") zerstört. Sie kämpfen, aber sie wissen nicht mehr wofür.
-2. **Blue on Blue:** Sie kämpfen gegen die EU — NATO-Verbündete, Partner von gestern. Das ergibt schlicht keinen Sinn. Das ist ihre zentrale kognitive Dissonanz.
+2. **Blue on Blue:** Sie kämpfen gegen die EU - NATO-Verbündete, Partner von gestern. Das ergibt schlicht keinen Sinn. Das ist ihre zentrale kognitive Dissonanz.
 
 **Schlüsselspannung:** "Weren't we supposed to be on the same side?"
 
@@ -25,9 +25,9 @@ Die US-Soldaten sind die hochtechnisierteste Truppe auf dem Schlachtfeld, aber m
 | :--- | :--- | :--- |
 | Russland | "Ivans" / "Reds" | Klassische Bezeichnungen aus dem Kalten Krieg |
 | EU | "Euros" / "Krauts" | Abfällig für Europäer generell |
-| EU | "Turncoats" | "Verräter" — ironisch, denn USA hat als erstes die Allianz verlassen |
+| EU | "Turncoats" | "Verräter" - ironisch, denn USA hat als erstes die Allianz verlassen |
 | Eigene Führung | "The Suits" | Generäle, Politiker, alle die nie an der Front sind |
-| Epstein | "The Island" / "The List" | Code für Epstein — nie beim Namen genannt |
+| Epstein | "The Island" / "The List" | Code für Epstein - nie beim Namen genannt |
 | FUBAR | Fucked Up Beyond All Recognition | Militär-Akronym für totales Chaos |
 | SNAFU | Situation Normal: All Fucked Up | Ironie: das Chaos ist der Normalzustand |
 | Paycheck | "Paycheck" | Einziger Grund zu kämpfen, wenn der Rest keinen Sinn ergibt |
@@ -36,13 +36,13 @@ Die US-Soldaten sind die hochtechnisierteste Truppe auf dem Schlachtfeld, aber m
 
 ---
 
-## 3. Combat Barks — Design-Tabelle
+## 3. Combat Barks - Design-Tabelle
 
 | Situation | Bark |
 | :--- | :--- |
 | **Feindkontakt (vs Russland)** | "Ivans! Contact front!" |
 | **Feindkontakt (vs EU)** | "Euros spotted! Shit..." |
-| **Feindkontakt (vs EU — Verwirrung)** | "Were we supposed to be on the same side?!" |
+| **Feindkontakt (vs EU - Verwirrung)** | "Were we supposed to be on the same side?!" |
 | **Feindkontakt (allgemein)** | "Contact front!" / "Tangos! 12 o'clock!" |
 | **Unter Beschuss / Artillerie** | "Incoming! Get some cover!" |
 | **Unter Beschuss (Verzweiflung)** | "Where's our air support?! Classic." |
@@ -76,7 +76,7 @@ Key: Reloading        → ~4 Zeilen (Mag change, Frag out)
 Key: enemy seen       → ~6 Zeilen (Reds vs Euros, beide mit unterschiedlichem Tonfall)
 Key: grenade alert    → ~6 Zeilen (grenade / flashbang / rocket)
 Key: Yes sir          → ~5 Zeilen (Roger, Solid copy, Moving)
-Key: celebrating      → ~6 Zeilen (gedämpft, kein Jubel — "whatever that means")
+Key: celebrating      → ~6 Zeilen (gedämpft, kein Jubel - "whatever that means")
 Key: Good job, soldiers → ~3 Zeilen
 Key: We surrender!    → ~4 Zeilen
 ```
@@ -85,9 +85,9 @@ Key: We surrender!    → ~4 Zeilen
 
 ## 5. Voice-Design-Regeln
 
-- **NATO-Phonetik als Authentizität:** "Contact front", "Solid copy", "Frag out", "Corpsman up" — echtes US-Militär-Vokabular.
+- **NATO-Phonetik als Authentizität:** "Contact front", "Solid copy", "Frag out", "Corpsman up" - echtes US-Militär-Vokabular.
 - **Blue-on-Blue als Kerntrauma:** Der Kampf gegen die EU ist für US-Soldaten das psychologisch unverständlichste Szenario. Jeder EU-Feindkontakt-Bark sollte einen Hauch Verwirrung transportieren.
 - **Epstein als "The Island" / "The List":** Nie beim Namen nennen. Die Soldaten wissen es, sprechen es aber nicht direkt aus.
 - **The Suits als Feindbild nach oben:** Nicht der Feind vorne, sondern die Führung hinten ist das eigentliche Problem.
-- **FUBAR/SNAFU-Logik:** Galgenhumor als Überlebensstrategie. Sie wissen, dass alles kaputt ist — und machen trotzdem weiter.
+- **FUBAR/SNAFU-Logik:** Galgenhumor als Überlebensstrategie. Sie wissen, dass alles kaputt ist - und machen trotzdem weiter.
 - **Kein übertriebenes Pathos:** US-Militär ist professionell und nüchtern. Weniger "For America!", mehr "Let's just get this done."

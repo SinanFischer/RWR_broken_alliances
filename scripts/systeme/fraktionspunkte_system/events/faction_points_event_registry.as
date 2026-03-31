@@ -140,6 +140,16 @@ class FactionPointsEventRegistry {
 		return ev.getCost();
 	}
 
+	// Anzeigetext fuer FP-AI-Planner: Display-Name statt Token; Basis wie bei Marker/Announcements.
+	string getPlannerTargetDescriptionForFaction(const string &in token, int factionId) {
+		FactionPointsEvent@ ev = getEventByToken(token);
+		if (ev is null) return token;
+		string loc = resolveLocationForEvent(ev, factionId);
+		string name = ev.getDisplayName();
+		if (loc.length() > 0) return name + " at base " + loc;
+		return name;
+	}
+
 	bool tryExecute(const string &in token, int playerId, string &out response) {
 		if (m_store is null) {
 			response = "FP store not available.";

@@ -33,7 +33,7 @@
     <effect class="result" key="other" ref="ShadowSmoke" shadow="1" />
 
 
-    <!-- HI: mittlere AT-Raketen-Kette (wie rocket2) — kein xExp*-Artillerie-Block -->
+    <!-- HI: mittlere AT-Raketen-Kette (wie rocket2) - kein xExp*-Artillerie-Block -->
     <effect class="result" key="terrain" ref="xMedExpFog" />
     <effect class="result" key="terrain" ref="xMedExpRise" />
     <effect class="result" key="terrain" ref="xMedDirtExp" use_surface_color="1" />

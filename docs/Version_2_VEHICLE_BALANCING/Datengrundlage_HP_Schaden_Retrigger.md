@@ -4,7 +4,7 @@ Diese Tabelle enthält die **finalen** Balancing-Werte für Lebenspunkte (HP) un
 
 ---
 
-## Tabelle 1 — Fahrzeuge & Emplacements (HP-Skalierung)
+## Tabelle 1 - Fahrzeuge & Emplacements (HP-Skalierung)
 
 Die Einheiten sind innerhalb ihrer Tier-Klasse nach Robustheit gestaffelt (z.B. Jeep am unteren, LKW am oberen Rand von Klasse 1).
 
@@ -36,7 +36,7 @@ Die Einheiten sind innerhalb ihrer Tier-Klasse nach Robustheit gestaffelt (z.B. 
 
 ---
 
-## Tabelle 2 — Anti-Tank & Explosivwaffen (Projektil-Schaden)
+## Tabelle 2 - Anti-Tank & Explosivwaffen (Projektil-Schaden)
 
 | Waffe / Projektil | Typ-Klasse | Neuer Schaden | Radius | Zielwirkung / Realismus |
 |-------------------|------------|---------------|--------|-------------------------|
@@ -55,7 +55,7 @@ Die Einheiten sind innerhalb ihrer Tier-Klasse nach Robustheit gestaffelt (z.B. 
 
 ---
 
-## Tabelle 3 — Infanterie-Explosiva & Autokanonen
+## Tabelle 3 - Infanterie-Explosiva & Autokanonen
 
 | Waffe / Projektil | Fraktion / Typ | Neuer Schaden | Radius | Wirkung |
 |-------------------|----------------|---------------|--------|---------|

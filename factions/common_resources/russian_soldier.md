@@ -1,4 +1,4 @@
-# russian_soldier — Combat Bark Design
+# russian_soldier - Combat Bark Design
 
 **Fraktion:** Brown (Russische Föderation)  
 **Datei:** `factions/russian_soldier.character`  
@@ -11,7 +11,7 @@
 **Archetyp:** Der zynische Überlebende  
 **Kernmotivation:** "Wir hatten recht. Und das wussten wir schon immer."
 
-Die russischen Soldaten sind Bakhmut-Veteranen — abgehärtet durch einen der blutigsten Stellungskriege seit dem Zweiten Weltkrieg. Sie sehen die westliche Allianz zerbrechen und fühlen sich in ihrer Weltanschauung bestätigt: Der Westen ist moralisch bankrott (Epstein), frisst sich selbst auf, und hat sie jahrelang als Böse dargestellt. Ihr Zynismus ist keine Schwäche, sondern Überlebensmechanismus.
+Die russischen Soldaten sind Bakhmut-Veteranen - abgehärtet durch einen der blutigsten Stellungskriege seit dem Zweiten Weltkrieg. Sie sehen die westliche Allianz zerbrechen und fühlen sich in ihrer Weltanschauung bestätigt: Der Westen ist moralisch bankrott (Epstein), frisst sich selbst auf, und hat sie jahrelang als Böse dargestellt. Ihr Zynismus ist keine Schwäche, sondern Überlebensmechanismus.
 
 **Schlüsselspannung:** "Wir sind die Bösen? Schaut euch ihre Eliten an."
 
@@ -33,7 +33,7 @@ Die russischen Soldaten sind Bakhmut-Veteranen — abgehärtet durch einen der b
 
 ---
 
-## 3. Combat Barks — Design-Tabelle
+## 3. Combat Barks - Design-Tabelle
 
 | Situation | Bark |
 | :--- | :--- |
@@ -81,8 +81,8 @@ Key: We surrender!    → ~5 Zeilen (mit Epstein-Insider)
 
 ## 5. Voice-Design-Regeln
 
-- **Russisch als Würze:** Blyat, Cyka, Tovarishch, Bratan, Sanitar, Spasibo — nie ganze Sätze, nur einzelne Wörter als kulturelle Authentizität.
+- **Russisch als Würze:** Blyat, Cyka, Tovarishch, Bratan, Sanitar, Spasibo - nie ganze Sätze, nur einzelne Wörter als kulturelle Authentizität.
 - **Bakhmut als Trauma-Anker:** Der Bakhmut-Stellungskrieg (2022–2023) ist das Prägeerlebnis der russischen Soldaten. Referenzen dazu sind authentisch.
-- **Epstein als Bestätigung, nicht als Anklage:** Russische Soldaten nutzen die Files als Beweis, dass sie immer recht hatten — kein Mitleid, nur Überlegenheitsgefühl.
-- **Propagandasprache mit Bruch:** "Special Military Operation", "denazification", "liberation" — immer mit einem Hauch Ironie oder Desillusion.
+- **Epstein als Bestätigung, nicht als Anklage:** Russische Soldaten nutzen die Files als Beweis, dass sie immer recht hatten - kein Mitleid, nur Überlegenheitsgefühl.
+- **Propagandasprache mit Bruch:** "Special Military Operation", "denazification", "liberation" - immer mit einem Hauch Ironie oder Desillusion.
 - **Keine Sentimentalität:** Kurze, harte Barks. Trauer ist erlaubt, aber komprimiert.
