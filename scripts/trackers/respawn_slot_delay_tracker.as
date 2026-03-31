@@ -18,6 +18,7 @@
 //   jetzt: effectiveCap==0 → capacity_multiplier=NEAR_ZERO + spawn_interval=BLOCKED (Fail-Closed).
 //
 // Fraktion mit ≤1 Basis: Slotblock immer AUS → mult = 1.0, spawn_interval = SPAWN_INTERVAL_NORMAL.
+//   Beim Wechsel auf ≤1 Basis werden alle laufenden slotExpireTimes sofort gelöscht (kein 15s-Lag).
 //
 // Timestamps: Gespeichert wird der Ablaufzeitpunkt (expireTime = now + delay), nicht der Todeszeitpunkt.
 //
@@ -423,7 +424,12 @@ class RespawnSlotDelayTracker : Tracker {
 
     // Stufe 1 - Slot-Bremse: wie stark drosselt der Slot-Delay den Spawn?
     float calcSlotMult(FactionState@ s) {
-        if (!isSlotBlockEnabled(s)) return 1.0f;
+        if (!isSlotBlockEnabled(s)) {
+            // Fraktion hat ≤1 Basis: alle noch laufenden Timestamps sofort löschen,
+            // damit kein Lag aus der Zeit mit mehr Basen übrig bleibt.
+            if (s.slotExpireTimes.size() > 0) s.slotExpireTimes.resize(0);
+            return 1.0f;
+        }
         int reserved = countReservedSlots(s);
         if (reserved <= 0 || s.nativeCap <= 0.0f) return 1.0f;
         float targetCap = s.nativeCap - float(reserved);
