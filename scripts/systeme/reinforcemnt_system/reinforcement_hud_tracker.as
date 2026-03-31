@@ -101,12 +101,17 @@ class ReinforcementHudTracker : Tracker, IToggleableHud {
 	}
 
 	protected string buildHudText(int factionId) const {
-		int reserves = m_store.getReserves(factionId);
 		float countdown = m_store.getEmptyCountdown(factionId);
 		if (countdown > 0.0f) {
-			return "RS: " + reserves + " (" + int(countdown) + "s)";
+			// Penalty-Modus: zeige eigene Alive-Soldaten dieser Fraktion statt Reservisten.
+			return "A: " + countFactionAlive(factionId) + " (" + int(countdown) + "s)";
 		}
-		return "RS: " + reserves;
+		return "R: " + m_store.getReserves(factionId);
+	}
+
+	protected int countFactionAlive(int factionId) const {
+		array<const XmlElement@>@ chars = getCharacters(m_metagame, factionId);
+		return (chars is null) ? 0 : int(chars.size());
 	}
 
 	protected void clearDisplay() {
