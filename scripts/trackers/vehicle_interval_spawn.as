@@ -39,6 +39,10 @@ const float VEHICLE_INTEL_MIN_FACTION_TIME_SEC = 180.0f;
 // Spawns nur wenn mindestens ein Spieler auf dem Server ist (getPlayers = verbundene Spieler)
 const bool VEHICLE_SPAWN_REQUIRE_PLAYER_ONLINE = true;
 
+// true = führende Fraktion (meiste Basen) erhält keine Heavy-Spawns (Balancing-Handicap)
+// false = alle Fraktionen erhalten Heavy-Spawns unabhängig vom Führungsstand
+const bool HEAVY_SPAWN_BLOCK_LEADING_FACTION = false;
+
 class VehicleIntervalSpawn : Tracker {
 	protected Metagame@ m_metagame;
 	protected CaptainSpawnCommandTracker@ m_captainTracker;
@@ -218,8 +222,8 @@ class VehicleIntervalSpawn : Tracker {
 
 			m_heavyTimer[i] -= time;
 			if (m_heavyTimer[i] <= 0.0f) {
-				// Leading faction (most bases) gets no Heavy spawn - timer reset only
-				if (factionId == leadingFactionId) {
+				// Leading faction (most bases) gets no Heavy spawn if HEAVY_SPAWN_BLOCK_LEADING_FACTION = true
+				if (HEAVY_SPAWN_BLOCK_LEADING_FACTION && factionId == leadingFactionId) {
 					m_heavyTimer[i] = float(rand(HEAVY_INTERVAL_MIN, HEAVY_INTERVAL_MAX));
 					resetNextSpawnPlan(factionId, 2);
 				} else {
@@ -862,7 +866,7 @@ class VehicleIntervalSpawn : Tracker {
 		string lightStr = "light:  " + formatTimerSeconds(m_simpleTimer[factionId]) + "  at " + getPlannedBaseNameForFaction(factionId, 0) + " - " + getVehicleDisplayName(getPlannedVehicleKey(factionId, 0));
 		string mediumStr = "medium: " + formatTimerSeconds(m_mediumTimer[factionId]) + "  at " + getPlannedBaseNameForFaction(factionId, 1) + " - " + getVehicleDisplayName(getPlannedVehicleKey(factionId, 1));
 		string heavyStr;
-		if (factionId == getLeadingFactionId())
+		if (HEAVY_SPAWN_BLOCK_LEADING_FACTION && factionId == getLeadingFactionId())
 			heavyStr = "heavy:  blocked (leading faction)";
 		else
 			heavyStr = "heavy:  " + formatTimerSeconds(m_heavyTimer[factionId]) + "  at " + getPlannedBaseNameForFaction(factionId, 2) + " - " + getVehicleDisplayName(getPlannedVehicleKey(factionId, 2));
