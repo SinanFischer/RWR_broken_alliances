@@ -17,6 +17,7 @@
 #include "commands/fov_command_tracker.as"
 #include "delivery_unlocks/item_delivery_configurator_quickmatch.as"
 #include "systeme/fraktionspunkte_system/faction_points_system.as"
+#include "systeme/reinforcemnt_system/reinforcement_system.as"
 
 class GameSystemsRegistry {
 	protected Metagame@ m_metagame;
@@ -37,6 +38,8 @@ class GameSystemsRegistry {
 	protected bool m_sharedCommandDeliverySystemsInstalled = false;
 	protected FactionPointsApi@ m_factionPointsApi;
 	protected bool m_factionPointsSystemInstalled = false;
+	protected ReinforcementApi@ m_reinforcementApi;
+	protected bool m_reinforcementSystemInstalled = false;
 
 	GameSystemsRegistry(Metagame@ metagame) {
 		@m_metagame = @metagame;
@@ -159,9 +162,21 @@ class GameSystemsRegistry {
 		m_factionPointsSystemInstalled = true;
 	}
 
+	// Installiert das Reinforcement-System (Reservisten + Recapture + Empty-Penalty).
+	void installReinforcementSystem(bool enabled) {
+		if (!enabled) return;
+		if (m_reinforcementSystemInstalled) return;
+
+		@m_reinforcementApi = ReinforcementApi(m_metagame);
+		m_reinforcementApi.installCore();
+		m_reinforcementApi.installHud();
+		m_reinforcementSystemInstalled = true;
+	}
+
 	SpawnCapacityApi@ getSpawnCapacityApi() { return m_spawnCapacityApi; }
 	// CommanderAiAdaptiveApi@ getCommanderAiAdaptiveApi() { return m_commanderAiAdaptiveApi; }
 	PlatoonSpawnApi@ getPlatoonSpawnApi() { return m_platoonSpawnApi; }
 	CaptainSpawnCommandTracker@ getQuickMatchCaptainTracker() { return m_quickMatchCaptainTracker; }
 	FactionPointsApi@ getFactionPointsApi() { return m_factionPointsApi; }
+	ReinforcementApi@ getReinforcementApi() { return m_reinforcementApi; }
 }

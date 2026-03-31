@@ -372,6 +372,7 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 			true,
 			true
 		);
+		m_systemsRegistry.installReinforcementSystem(CFG_REINFORCEMENT_SYSTEM);
 		m_systemsRegistry.installQuickMatchEventSystems(
 			INVASION_ENABLE_EVENT_SYSTEMS,
 			100.0f,

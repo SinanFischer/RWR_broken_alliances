@@ -153,6 +153,7 @@ class GameModeQuickMatch : Metagame {
 			true,
 			true
 		);
+		m_systemsRegistry.installReinforcementSystem(CFG_REINFORCEMENT_SYSTEM);
 		@m_spawnCapacityApi = m_systemsRegistry.getSpawnCapacityApi();
 		m_systemsRegistry.installQuickMatchEventSystems(
 			ENABLE_QUICKMATCH_EVENT_SYSTEMS,

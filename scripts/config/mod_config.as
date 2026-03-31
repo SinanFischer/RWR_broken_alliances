@@ -16,8 +16,28 @@
 //
 // When disabled: no slot blocking, no balance compensator.
 // The Alive HUD will then show the native soldier_capacity from the engine.
+
+// NEVER ENABLE TOGETHER WITH "REINFORCEMENT SYSTEM"!!!!!!
 // -----------------------------------------------------------------------------
-const bool CFG_SPAWN_CAPACITY_SYSTEM = true;
+const bool CFG_SPAWN_CAPACITY_SYSTEM = false;
+
+// -----------------------------------------------------------------------------
+// REINFORCEMENT SYSTEM 
+// -----------------------------------------------------------------------------
+// New reserves system:
+// - reserves per faction with passive income and death cost
+// - capture bonus with recapture scaling over time
+// - empty-reserve penalty countdown with high spawn delay
+// Commands:
+//   /rs                -> help/status hint
+//   /rs hud            -> HUD status
+//   /rs hud on         -> enable reinforcement HUD (admin only)
+//   /rs hud off        -> disable reinforcement HUD (admin only)
+
+// NEVER ENABLE TOGETHER WITH "SPAWN CAPACITY SYSTEM"!!!!!!
+// -----------------------------------------------------------------------------
+const bool CFG_REINFORCEMENT_SYSTEM = true;
+
 
 // -----------------------------------------------------------------------------
 // FACTION ALIVE HUD
@@ -39,3 +59,4 @@ const bool CFG_FACTION_ALIVE_HUD = true;
 // HUD mutex: if Alive HUD is on, FP HUD is automatically disabled.
 // -----------------------------------------------------------------------------
 const bool CFG_FACTION_POINTS_SYSTEM = true;
+
