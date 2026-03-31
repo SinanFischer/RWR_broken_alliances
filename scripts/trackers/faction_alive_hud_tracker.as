@@ -17,13 +17,15 @@
 #include "helpers.as"
 #include "admin_manager.as"
 #include "systeme/fraktionspunkte_system/faction_points_hud_tracker.as"
+#include "systeme/reinforcemnt_system/hud_mutex_interface.as"
 
 const float HUD_UPDATE_THROTTLE = 1.0f;  // 1x/s reicht für HUD-Anzeige, spart Engine-Queries
 
-class FactionAliveHudTracker : Tracker {
+class FactionAliveHudTracker : Tracker, IToggleableHud {
 	protected Metagame@ m_metagame;
 	protected RespawnSlotDelayTracker@ m_respawnTracker;  // optional; liefert effectiveCap + bases
-	protected FactionPointsHudTracker@ m_fpHudTracker;   // optional; HUD-Mutex: wird ausgeschaltet wenn AliveHud an
+	protected FactionPointsHudTracker@ m_fpHudTracker;   // optional; Mutex mit FP-HUD
+	protected IToggleableHud@ m_mutexHud;               // Mutex mit RS-HUD; von Registry gesetzt
 	protected float m_accum = 0.0f;
 	protected bool m_enabled      = true;   // Default AN; per /hud off deaktivieren
 	protected bool m_showBases    = false;  // Default ohne Basen-Anzeige; /hud bases togglet
@@ -33,10 +35,9 @@ class FactionAliveHudTracker : Tracker {
 		@m_respawnTracker = respawnTracker;
 	}
 
-	// Wird nach Systeminitialisierung gesetzt (zirkuläre Abhängigkeit vermieden).
-	void setFpHudTracker(FactionPointsHudTracker@ fpHud) {
-		@m_fpHudTracker = @fpHud;
-	}
+	// Wird nach Systeminitialisierung gesetzt (zirkulaere Abhaengigkeit vermieden).
+	void setFpHudTracker(FactionPointsHudTracker@ fpHud) { @m_fpHudTracker = @fpHud; }
+	void setMutexHud(IToggleableHud@ other)              { @m_mutexHud = @other; }
 
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
@@ -114,9 +115,19 @@ class FactionAliveHudTracker : Tracker {
 
 		if (sub == "on") {
 			setEnabled(true);
+			array<string> disabled;
 			if (m_fpHudTracker !is null && m_fpHudTracker.isEnabled()) {
 				m_fpHudTracker.setEnabled(false);
-				sendPrivateMessage(m_metagame, playerId, "[HUD] Alive-HUD ON. FP-HUD automatically disabled.");
+				disabled.insertLast("FP-HUD");
+			}
+			if (m_mutexHud !is null && m_mutexHud.isEnabled()) {
+				m_mutexHud.setEnabled(false);
+				disabled.insertLast("RS-HUD");
+			}
+			if (disabled.size() > 0) {
+				string list = disabled[0];
+				for (uint d = 1; d < disabled.size(); ++d) list += ", " + disabled[d];
+				sendPrivateMessage(m_metagame, playerId, "[HUD] Alive-HUD ON. Disabled: " + list + ".");
 			} else {
 				sendPrivateMessage(m_metagame, playerId, "[HUD] Alive-HUD ON.");
 			}

@@ -163,6 +163,8 @@ class GameSystemsRegistry {
 	}
 
 	// Installiert das Reinforcement-System (Reservisten + Recapture + Empty-Penalty).
+	// Nach Install: HUD-Mutex mit FactionAliveHudTracker verdrahten.
+	// Startup-Prioritaet: RS-HUD gewinnt → Alive-HUD wird automatisch deaktiviert.
 	void installReinforcementSystem(bool enabled) {
 		if (!enabled) return;
 		if (m_reinforcementSystemInstalled) return;
@@ -171,6 +173,17 @@ class GameSystemsRegistry {
 		m_reinforcementApi.installCore();
 		m_reinforcementApi.installHud();
 		m_reinforcementSystemInstalled = true;
+
+		// HUD-Mutex ueber IToggleableHud: kein zirkulaerer Include noetig.
+		FactionAliveHudTracker@ aliveHud = (m_spawnCapacityApi !is null)
+			? m_spawnCapacityApi.getAliveHudTracker()
+			: null;
+		ReinforcementHudTracker@ rsHud = m_reinforcementApi.getHudTracker();
+		if (aliveHud !is null && rsHud !is null) {
+			rsHud.setMutexHud(aliveHud);
+			aliveHud.setMutexHud(rsHud);
+			aliveHud.setEnabled(false);  // RS-HUD hat Startup-Vorrang
+		}
 	}
 
 	SpawnCapacityApi@ getSpawnCapacityApi() { return m_spawnCapacityApi; }

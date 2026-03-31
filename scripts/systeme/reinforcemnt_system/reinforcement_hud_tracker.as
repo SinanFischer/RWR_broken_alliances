@@ -5,12 +5,15 @@
 #include "admin_manager.as"
 #include "systeme/reinforcemnt_system/reinforcement_config.as"
 #include "systeme/reinforcemnt_system/reinforcement_store.as"
+#include "systeme/reinforcemnt_system/hud_mutex_interface.as"
 
 // ReinforcementHudTracker:
 // Zeigt pro Fraktion Reservisten und optional den Penalty-Countdown.
-class ReinforcementHudTracker : Tracker {
+// Implementiert IToggleableHud fuer zirkulaerfreien Mutex mit FactionAliveHudTracker.
+class ReinforcementHudTracker : Tracker, IToggleableHud {
 	protected Metagame@ m_metagame;
 	protected ReinforcementStore@ m_store;
+	protected IToggleableHud@ m_mutexHud;  // Alive-HUD; wird von Registry nach Init gesetzt
 	protected bool m_enabled = true;
 	protected float m_updateAccum = 0.0f;
 
@@ -19,6 +22,9 @@ class ReinforcementHudTracker : Tracker {
 		@m_store = @store;
 		m_metagame.getComms().send("<command class='set_metagame_event' name='chat_event' enabled='1' />");
 	}
+
+	// Wird von Registry nach Installation beider Systeme gesetzt.
+	void setMutexHud(IToggleableHud@ other) { @m_mutexHud = @other; }
 
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
@@ -80,7 +86,12 @@ class ReinforcementHudTracker : Tracker {
 		string state = params[1].toLowerCase();
 		if (state == "on") {
 			setEnabled(true);
-			sendPrivateMessage(m_metagame, playerId, "[RS] HUD ON.");
+			if (m_mutexHud !is null && m_mutexHud.isEnabled()) {
+				m_mutexHud.setEnabled(false);
+				sendPrivateMessage(m_metagame, playerId, "[RS] HUD ON. Alive-HUD automatically disabled.");
+			} else {
+				sendPrivateMessage(m_metagame, playerId, "[RS] HUD ON.");
+			}
 		} else if (state == "off") {
 			setEnabled(false);
 			sendPrivateMessage(m_metagame, playerId, "[RS] HUD OFF.");

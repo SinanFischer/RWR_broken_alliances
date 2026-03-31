@@ -361,7 +361,8 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 			CFG_FACTION_ALIVE_HUD
 		);
 		// Alive HUD fallback: spawn capacity off but HUD wanted → show native cap.
-		if (!CFG_SPAWN_CAPACITY_SYSTEM && CFG_FACTION_ALIVE_HUD) {
+		// RS-System hat Vorrang: kein Standalone-Alive-HUD wenn RS aktiv.
+		if (!CFG_SPAWN_CAPACITY_SYSTEM && CFG_FACTION_ALIVE_HUD && !CFG_REINFORCEMENT_SYSTEM) {
 			addTracker(FactionAliveHudTracker(this, null));
 		}
 		// Commander-AI-Adaptive + Legacy-Chat-Commands AUS (game_systems_registry.as)
