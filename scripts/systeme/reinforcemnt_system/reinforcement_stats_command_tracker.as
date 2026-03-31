@@ -90,10 +90,10 @@ class ReinforcementStatsCommandTracker : Tracker {
 			if (name.findFirst("russian") >= 0 || key.findFirst("brown") >= 0 || name.findFirst("brown") >= 0)
 				return "RU";
 			string rawKey = faction.getStringAttribute("key");
-			if (rawKey.length() >= 3) return rawKey.substr(0, 3).toUpperCase();
-			if (rawKey.length() > 0) return rawKey.toUpperCase();
+			if (rawKey.length() >= 3) return asciiUpperString(rawKey.substr(0, 3));
+			if (rawKey.length() > 0) return asciiUpperString(rawKey);
 			string rawName = faction.getStringAttribute("name");
-			if (rawName.length() >= 3) return rawName.substr(0, 3).toUpperCase();
+			if (rawName.length() >= 3) return asciiUpperString(rawName.substr(0, 3));
 		}
 		if (factionId == 0) return "USA";
 		if (factionId == 1) return "EU";
@@ -125,5 +125,44 @@ class ReinforcementStatsCommandTracker : Tracker {
 	private int getFactionDictInt(const dictionary@ dict, int factionId) {
 		string k = factionKey(factionId);
 		return dict.exists(k) ? int(dict[k]) : 0;
+	}
+
+	// RWR-String hat kein toUpperCase(); nur ASCII a-z (Labels EU/RU/USA-Fallbacks).
+	private string asciiUpperString(string s) {
+		string r = "";
+		for (uint i = 0; i < s.length(); ++i) {
+			r += asciiUpperChar(s.substr(i, 1));
+		}
+		return r;
+	}
+
+	private string asciiUpperChar(string c) {
+		if (c == "a") return "A";
+		if (c == "b") return "B";
+		if (c == "c") return "C";
+		if (c == "d") return "D";
+		if (c == "e") return "E";
+		if (c == "f") return "F";
+		if (c == "g") return "G";
+		if (c == "h") return "H";
+		if (c == "i") return "I";
+		if (c == "j") return "J";
+		if (c == "k") return "K";
+		if (c == "l") return "L";
+		if (c == "m") return "M";
+		if (c == "n") return "N";
+		if (c == "o") return "O";
+		if (c == "p") return "P";
+		if (c == "q") return "Q";
+		if (c == "r") return "R";
+		if (c == "s") return "S";
+		if (c == "t") return "T";
+		if (c == "u") return "U";
+		if (c == "v") return "V";
+		if (c == "w") return "W";
+		if (c == "x") return "X";
+		if (c == "y") return "Y";
+		if (c == "z") return "Z";
+		return c;
 	}
 }

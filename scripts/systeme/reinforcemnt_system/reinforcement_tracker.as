@@ -4,6 +4,7 @@
 #include "query_helpers.as"
 #include "systeme/reinforcemnt_system/reinforcement_config.as"
 #include "systeme/reinforcemnt_system/reinforcement_store.as"
+#include "systeme/reinforcemnt_system/reinforcement_compensator.as"
 
 // ReinforcementTracker:
 // Verwaltet Reservisten-Werte, Capture/Recapture-Bonus, passives Einkommen
@@ -11,6 +12,7 @@
 class ReinforcementTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected ReinforcementStore@ m_store;
+	protected ReinforcementCompensator@ m_compensator;
 	protected float m_timeAccum = 0.0f;
 	protected float m_passiveAccum = 0.0f;
 	protected float m_applyAccum = 0.0f;
@@ -18,6 +20,7 @@ class ReinforcementTracker : Tracker {
 	ReinforcementTracker(Metagame@ metagame, ReinforcementStore@ store) {
 		@m_metagame = @metagame;
 		@m_store = @store;
+		@m_compensator = ReinforcementCompensator(m_metagame);
 		m_metagame.getComms().send("<command class='set_metagame_event' name='character_die' enabled='1' />");
 		m_metagame.getComms().send("<command class='set_metagame_event' name='base_owner_change_event' enabled='1' />");
 	}
@@ -32,6 +35,7 @@ class ReinforcementTracker : Tracker {
 
 	void update(float time) {
 		m_timeAccum += time;
+		m_compensator.update(time);
 		m_store.ensureFactionCount(getFactionCount());
 
 		if (!m_store.isInitialized()) initializeStartState();
@@ -163,6 +167,7 @@ class ReinforcementTracker : Tracker {
 				: RS_NORMAL_SPAWN_INTERVAL;
 
 			XmlElement faction("faction");
+			faction.setFloatAttribute("capacity_multiplier", m_compensator.getCapacityMultiplier(int(i)));
 			faction.setFloatAttribute("spawn_interval", spawnInterval);
 			command.appendChild(faction);
 		}
