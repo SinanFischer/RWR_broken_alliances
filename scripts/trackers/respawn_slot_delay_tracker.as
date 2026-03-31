@@ -335,11 +335,11 @@ class RespawnSlotDelayTracker : Tracker {
 
     // Slots pro Tod: skaliert mit der XML-Kapazität (Größenindikator der Fraktion).
     int getSlotsPerDeath(int xmlCap) {
-        if (xmlCap >= 300) return 6;
-        if (xmlCap >= 251) return 5;
-        if (xmlCap >= 201) return 4;
-        if (xmlCap >= 121) return 3;
-        if (xmlCap >= 70)  return 2;
+        if (xmlCap >= 300) return 3;
+        if (xmlCap >= 251) return 3;
+        if (xmlCap >= 201) return 2;
+        if (xmlCap >= 121) return 2;
+        if (xmlCap >= 70)  return 1;
         return 1;
     }
 
