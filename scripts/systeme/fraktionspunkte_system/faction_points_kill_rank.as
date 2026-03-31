@@ -1,9 +1,9 @@
 #include "query_helpers.as"
 
 // Kill-FP pro Platz (Platz = Rang nach Basisbesitz, 1 = meiste Basen).
-const int FP_KILL_RANK_PLACE_1 = 2;
-const int FP_KILL_RANK_PLACE_2 = 3;
-const int FP_KILL_RANK_PLACE_3 = 4;
+const int FP_KILL_RANK_PLACE_1 = 2; // 2 
+const int FP_KILL_RANK_PLACE_2 = 2; // 3 
+const int FP_KILL_RANK_PLACE_3 = 2; // 4 
 
 // Intervall fuer Neuberechnung der Kill-FP aus Basis-Ranking.
 const float FP_KILL_RANK_REFRESH_INTERVAL = 30.0f;

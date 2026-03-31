@@ -102,11 +102,11 @@ class CapacityToggleTestTracker : Tracker {
 
 // true = HUD zeigt Alive/Capacity (Respawn-Slot-Delay-Debug), false = HUD zeigt nur Alive 200m (normal)
 const bool CAPACITY_DEBUG_HUD = false;
-const bool ENABLE_SPAWN_CAPACITY_SYSTEM = true;
 const bool ENABLE_COMMANDER_AI_ADAPTIVE = true;
 const bool ENABLE_QUICKMATCH_EVENT_SYSTEMS = true;
 const bool ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
-const bool ENABLE_FACTION_POINTS_SYSTEM = true;
+// Schaltbare Systeme werden jetzt aus mod_config.xml gelesen (config/mod_config.as).
+#include "config/mod_config.as"
 
 // --------------------------------------------
 class GameModeQuickMatch : Metagame {
@@ -129,7 +129,6 @@ class GameModeQuickMatch : Metagame {
 		Metagame::postBeginMatch();
 
 		addTracker(BasicCommandHandler(this));
-		// Spawn-Capacity-System ueber globale Registry aufsetzen.
 		@m_systemsRegistry = GameSystemsRegistry(this);
 		m_systemsRegistry.installSharedCommandAndDeliverySystems(
 			ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS,
@@ -137,20 +136,21 @@ class GameModeQuickMatch : Metagame {
 			true
 		);
 		m_systemsRegistry.installSpawnCapacitySystem(
-			ENABLE_SPAWN_CAPACITY_SYSTEM,
+			CFG_SPAWN_CAPACITY_SYSTEM,
 			CAPACITY_DEBUG_HUD,
-			true // Alive-HUD: zeigt "alive / cap (bases)" in Fraktionsfarbe
+			CFG_FACTION_ALIVE_HUD
 		);
-		if (!ENABLE_SPAWN_CAPACITY_SYSTEM) {
-			addTracker(FactionAliveHudTracker(this, null)); // cap = native soldier_capacity
+		// Alive HUD fallback: spawn capacity off but HUD wanted → show native cap.
+		if (!CFG_SPAWN_CAPACITY_SYSTEM && CFG_FACTION_ALIVE_HUD) {
+			addTracker(FactionAliveHudTracker(this, null));
 		}
 		// addTracker(CapacityToggleTestTracker(this)); // TEST: /testcap-Command (Klasse oben auskommentiert)
 		// Commander-AI-Adaptive + Legacy-Chat-Commands AUS (game_systems_registry.as)
 		// m_systemsRegistry.installCommanderAiAdaptiveSystem(ENABLE_COMMANDER_AI_ADAPTIVE);
 		m_systemsRegistry.installFactionPointsSystem(
-			ENABLE_FACTION_POINTS_SYSTEM,
-			true,   // HUD aktiv
-			true,   // Debug-Commands aktiv
+			CFG_FACTION_POINTS_SYSTEM,
+			true,
+			true,
 			true
 		);
 		@m_spawnCapacityApi = m_systemsRegistry.getSpawnCapacityApi();

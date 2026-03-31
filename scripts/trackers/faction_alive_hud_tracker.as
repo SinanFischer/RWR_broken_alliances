@@ -142,7 +142,7 @@ class FactionAliveHudTracker : Tracker {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null || fid < 0 || uint(fid) >= factions.size()) return "" + alive;
 		int rawCap = factions[fid].getIntAttribute("soldier_capacity");
-		return "" + alive + " / " + rawCap;
+		return "" + alive + "/" + rawCap;
 	}
 
 	string getScoreDisplayColor(const XmlElement@ faction, int factionId) {

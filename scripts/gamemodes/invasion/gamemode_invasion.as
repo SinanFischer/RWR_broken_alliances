@@ -62,12 +62,12 @@
 // #include "trackers/reinforcement_pool_tracker.as"  // auskommentiert: Reinforcement-Pool-Tracker deaktiviert
 #include "systems/game_systems.as"
 
-const bool INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM = true;
 const bool INVASION_CAPACITY_DEBUG_HUD = false;
 const bool INVASION_ENABLE_COMMANDER_AI_ADAPTIVE = true;
 const bool INVASION_ENABLE_SHARED_COMMAND_DELIVERY_SYSTEMS = true;
 const bool INVASION_ENABLE_EVENT_SYSTEMS = true;
-const bool INVASION_ENABLE_FACTION_POINTS_SYSTEM = true;
+// Schaltbare Systeme werden jetzt aus mod_config.xml gelesen (config/mod_config.as).
+#include "config/mod_config.as"
 
 // --------------------------------------------
 class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
@@ -356,16 +356,20 @@ class GameModeInvasion : GameMode, UnlockRemoveListener, UnlockListener {
 			true
 		);
 		m_systemsRegistry.installSpawnCapacitySystem(
-			INVASION_ENABLE_SPAWN_CAPACITY_SYSTEM,
+			CFG_SPAWN_CAPACITY_SYSTEM,
 			INVASION_CAPACITY_DEBUG_HUD,
-			true // Alive-HUD: zeigt "alive / cap (bases)" in Fraktionsfarbe
+			CFG_FACTION_ALIVE_HUD
 		);
+		// Alive HUD fallback: spawn capacity off but HUD wanted → show native cap.
+		if (!CFG_SPAWN_CAPACITY_SYSTEM && CFG_FACTION_ALIVE_HUD) {
+			addTracker(FactionAliveHudTracker(this, null));
+		}
 		// Commander-AI-Adaptive + Legacy-Chat-Commands AUS (game_systems_registry.as)
 		// m_systemsRegistry.installCommanderAiAdaptiveSystem(INVASION_ENABLE_COMMANDER_AI_ADAPTIVE);
 		m_systemsRegistry.installFactionPointsSystem(
-			INVASION_ENABLE_FACTION_POINTS_SYSTEM,
-			true,   // HUD aktiv
-			true,   // Debug-Commands aktiv
+			CFG_FACTION_POINTS_SYSTEM,
+			true,
+			true,
 			true
 		);
 		m_systemsRegistry.installQuickMatchEventSystems(

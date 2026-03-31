@@ -3,7 +3,7 @@
 // ≤1 Basis: Slotblock deaktiviert; beim Wechsel werden laufende Timestamps sofort gelöscht.
 
 // --- Slot-Delay (Hebel 1: Spawn-Bremse nach Tod) ---
-const float RESPAWN_SLOT_DELAY         =  8.0f;  // s  Delay bei 3+ Basen
+const float RESPAWN_SLOT_DELAY         =  5.0f;  // s  Delay bei 3+ Basen
 const float RESPAWN_SLOT_DELAY_2_BASES =  3.0f;  // s  Delay bei 2 Basen
 const int   TROOPS_PER_EXTRA_BLOCK     = 25;     //    pro N Truppen Vorsprung → +EXTRA_SECONDS_PER_BLOCK
 const float EXTRA_SECONDS_PER_BLOCK    =  4.0f;  // s  Bonus-Delay pro Block Truppenvorteil
@@ -11,7 +11,7 @@ const float EXTRA_SECONDS_PER_BLOCK    =  4.0f;  // s  Bonus-Delay pro Block Tru
 
 // --- Balance-Kompensator (Hebel 2: Kapazitäts-Boost für unterlegene Fraktion) ---
 // Einmalige Aktivierung: greift ab Ratio-Threshold, danach dauerhaft verbraucht (balanceBurned).
-const float BALANCE_RATIO_THRESHOLD    =  3.0f;  //    stärkste/schwächste ab diesem Wert aktiv
+const float BALANCE_RATIO_THRESHOLD    =  4.0f;  //    stärkste/schwächste ab diesem Wert aktiv
 const float BALANCE_MAX_MULT           =  4.0f;  //    Engine-Maximum für capacity_multiplier
 const float BALANCE_LERP_SPEED         =  0.03f; //    Aufbaugeschwindigkeit pro Sekunde (sanfter Anstieg)
 
@@ -335,10 +335,10 @@ class RespawnSlotDelayTracker : Tracker {
 
     // Slots pro Tod: skaliert mit der XML-Kapazität (Größenindikator der Fraktion).
     int getSlotsPerDeath(int xmlCap) {
-        if (xmlCap >= 300) return 3;
-        if (xmlCap >= 251) return 3;
-        if (xmlCap >= 201) return 2;
-        if (xmlCap >= 121) return 2;
+        if (xmlCap >= 300) return 1;
+        if (xmlCap >= 251) return 1;
+        if (xmlCap >= 201) return 1;
+        if (xmlCap >= 121) return 1;
         if (xmlCap >= 70)  return 1;
         return 1;
     }
