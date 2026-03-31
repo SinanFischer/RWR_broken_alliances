@@ -1,55 +1,30 @@
-// Respawn-Slot-Delay: Nach Tod bleibt ein Spawn-Slot X Sekunden „besetzt" → capacity_multiplier sinkt.
-// Zweiter Hebel: spawn_interval = 60s wenn liveCount >= effectiveCap (Fraktion ist voll/drüber).
 // Mechanismus: mult = (nativeCap - reserved) / nativeCap
-//   nativeCap  = (xmlCap / sumXmlCap) × totalLive  - stabiler Proxy für max_soldiers-Anteil
-//   reserved   = Anzahl noch aktiver Slot-Ablaufzeitstempel nach Toden
-//
-// Warum totalLive statt liveCount als Nenner:
-//   capacity_multiplier skaliert die Engine-interne Kapazität (xmlCap-proportionaler Anteil an max_soldiers).
-//   liveCount sinkt durch Drosselung → würde den Nenner verkleinern → Feedback-Loop → Block hebt sich auf.
-//   totalLive wird in refreshAliveBasedData() immer frisch aus allen Fraktionen summiert.
-//
-// liveCount-Frische: refreshAliveBasedData() läuft alle 15s (teuer: nativeCap, bases, extraDelay).
-//   applyCapacityWithReservedSlots() liest liveCount direkt frisch (1 Query/Fraktion, 1x/s) →
-//   Throttle-Entscheidung basiert immer auf aktuellem Stand, nicht auf 15s-altem Snapshot.
-//
-// Fail-Closed bei effectiveCap==0: Wenn reservierte Slots nativeCap übersteigen → effectiveCap=0 →
-//   früher: Throttle-Guard (effectiveCap>0) deaktivierte Bremse → Fraktion spawnte ungebremst.
-//   jetzt: effectiveCap==0 → capacity_multiplier=NEAR_ZERO + spawn_interval=BLOCKED (Fail-Closed).
-//
-// Fraktion mit ≤1 Basis: Slotblock immer AUS → mult = 1.0, spawn_interval = SPAWN_INTERVAL_NORMAL.
-//   Beim Wechsel auf ≤1 Basis werden alle laufenden slotExpireTimes sofort gelöscht (kein 15s-Lag).
-//
-// Timestamps: Gespeichert wird der Ablaufzeitpunkt (expireTime = now + delay), nicht der Todeszeitpunkt.
-//
-// --- Konfiguration ---
-const float RESPAWN_SLOT_DELAY          = 8.0f;   // s, 3+ Basen
-const float RESPAWN_SLOT_DELAY_2_BASES  =  5.0f;   // s, 2 Basen
-const float RESPAWN_SLOT_DELAY_1_BASE   =  2.0f;   // s, 1 Basis
-const float ALIVE_CHECK_INTERVAL        = 15.0f;   // s, Intervall für Alive/Basen-Update
-const int   TROOPS_PER_EXTRA_BLOCK      = 25;      // pro 25 Truppen Vorsprung …
-const float EXTRA_SECONDS_PER_BLOCK     =  4.0f;   // … +4 s Slot-Delay
-const float APPLY_INTERVAL             =  1.0f;   // s, wie oft capacity_multiplier gesendet wird
-const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f; // Engine-Minimum (Fraktion nicht ignorieren)
-const float SPAWN_INTERVAL_NORMAL      =  0.5f;   // s, normaler Respawn-Takt (Engine-Default ~0.05-0.2)
-const float SPAWN_INTERVAL_BLOCKED     = 60.0f;   // s, Respawn-Takt wenn Slots geblockt sind
-// Slots pro Tod: XML-soldier_capacity <70→1, 70-120→2, 121-200→3, 201-250→4, 251-299→5, ≥300→6; Führer +2.
-//
-// --- BalanceCompensator-Konfiguration ---
-// Gleicht extreme Alive-Verhältnisse automatisch aus (z.B. 11 vs 80 = 1:7).
-// Greift erst ab BALANCE_RATIO_THRESHOLD. Ziel-Mult wird sanft per Lerp aufgebaut.
-// Einmal-Aktivierung: Wurde der Kompensator für eine Fraktion aktiv und fällt das Verhältnis
-// wieder unter den Threshold, ist er für diese Fraktion dauerhaft deaktiviert (balanceBurned).
-// Funktioniert für 1v1 und 1v1v1: jede Fraktion wird relativ zur stärksten bewertet.
-const float BALANCE_RATIO_THRESHOLD = 3.0f;  // ab diesem Verhältnis (stärkste/schwächste) greift der Kompensator
-const float BALANCE_MAX_MULT        = 4.0f;  // maximaler capacity_multiplier (Engine-Max ist 4.0)
-const float BALANCE_LERP_SPEED      = 0.03f; // pro Sekunde Aufbaugeschwindigkeit (sanft, kein Sprung)
-//
-// --- Commander-Funk-Konfiguration ---
-// Nachrichten werden zweimal gesendet: sofort + BALANCE_MSG_DELAY_SECONDS später.
-// Frühe Phase = erste BALANCE_MSG_EARLY_PHASE_SECONDS der Spielzeit.
-const float BALANCE_MSG_EARLY_PHASE_SECONDS = 600.0f; // 10 Minuten: vor/nach diesem Wert unterscheiden sich die Texte
-const float BALANCE_MSG_DELAY_SECONDS       =  10.0f; // Verzögerung für die zweite Nachricht
+// nativeCap = (xmlCap / sumXmlCap) × totalLive — totalLive statt liveCount, sonst Feedback-Loop.
+// ≤1 Basis: Slotblock deaktiviert; beim Wechsel werden laufende Timestamps sofort gelöscht.
+
+// --- Slot-Delay (Hebel 1: Spawn-Bremse nach Tod) ---
+const float RESPAWN_SLOT_DELAY         =  8.0f;  // s  Delay bei 3+ Basen
+const float RESPAWN_SLOT_DELAY_2_BASES =  3.0f;  // s  Delay bei 2 Basen
+const int   TROOPS_PER_EXTRA_BLOCK     = 25;     //    pro N Truppen Vorsprung → +EXTRA_SECONDS_PER_BLOCK
+const float EXTRA_SECONDS_PER_BLOCK    =  4.0f;  // s  Bonus-Delay pro Block Truppenvorteil
+// Slots pro Tod nach soldier_capacity: <70→1 | 70→2 | 121→3 | 201→4 | 251→5 | ≥300→6; Anführer +2
+
+// --- Balance-Kompensator (Hebel 2: Kapazitäts-Boost für unterlegene Fraktion) ---
+// Einmalige Aktivierung: greift ab Ratio-Threshold, danach dauerhaft verbraucht (balanceBurned).
+const float BALANCE_RATIO_THRESHOLD    =  3.0f;  //    stärkste/schwächste ab diesem Wert aktiv
+const float BALANCE_MAX_MULT           =  4.0f;  //    Engine-Maximum für capacity_multiplier
+const float BALANCE_LERP_SPEED         =  0.03f; //    Aufbaugeschwindigkeit pro Sekunde (sanfter Anstieg)
+
+// --- Commander-Funk ---
+const float BALANCE_MSG_EARLY_PHASE_SECONDS = 600.0f; // s  Grenze Early/Late-Game für Nachrichtentext
+const float BALANCE_MSG_DELAY_SECONDS       =  10.0f; // s  Verzögerung der zweiten Nachricht
+
+// --- Interne Takte (selten ändern) ---
+const float ALIVE_CHECK_INTERVAL       = 15.0f;  // s  Intervall für nativeCap/Basen-Refresh (teuer)
+const float APPLY_INTERVAL             =  1.0f;  // s  Intervall für capacity_multiplier-Übertragung
+const float SPAWN_INTERVAL_NORMAL      =  0.5f;  // s  normaler Respawn-Takt
+const float SPAWN_INTERVAL_BLOCKED     = 60.0f;  // s  Respawn-Takt wenn alle Slots belegt
+const float CAPACITY_MULTIPLIER_NEAR_ZERO = 0.00001f; // Engine-Minimum (Fraktion bleibt sichtbar)
 
 #include "tracker.as"
 #include "log.as"
@@ -73,7 +48,7 @@ class PendingMessage {
 class FactionState {
     int          factionId            = -1;
 
-    // --- Snapshot aus refreshAliveBasedData() ---
+    // Snapshot (refreshAliveBasedData, 15s-Takt)
     int          liveCount            = 0;
     int          xmlCapacity          = 0;    // soldier_capacity aus XML (Größenindikator)
     float        nativeCap            = 0.0f; // proportionaler Anteil an totalLive
@@ -88,19 +63,14 @@ class FactionState {
     // Jeder Eintrag = Zeitpunkt, ab dem der Slot wieder frei ist.
     // array<float> statt Comma-String: kein manuelles Parsen mehr nötig.
     array<float> slotExpireTimes;
-
-    // --- Statistik ---
     float        totalSlotSecondsBlocked = 0.0f;
 
-    // --- BalanceCompensator ---
-    float        balanceMult              = 1.0f;
-    bool         balanceBurned            = false; // true = einmalig verbraucht, nie wieder aktiv
-    bool         balanceMsgSent           = false; // true = Commander-Funk für diese Aktivierung bereits gesendet
+    // Balance-Kompensator
+    float        balanceMult          = 1.0f;
+    bool         balanceBurned        = false;
+    bool         balanceMsgSent       = false;
 }
 
-// ---------------------------------------------------------------------------
-// RespawnSlotDelayTracker
-// ---------------------------------------------------------------------------
 class RespawnSlotDelayTracker : Tracker {
     protected Metagame@ m_metagame;
     protected float m_timeAccum       = 0.0f;
@@ -359,9 +329,7 @@ class RespawnSlotDelayTracker : Tracker {
 
     // Effektive Verzögerung = Basis-Delay (abhängig von Basenzahl) + Truppenvorteil-Bonus.
     float getEffectiveDelay(FactionState@ s) {
-        float base = (s.bases <= 1) ? RESPAWN_SLOT_DELAY_1_BASE
-                   : (s.bases == 2) ? RESPAWN_SLOT_DELAY_2_BASES
-                   :                  RESPAWN_SLOT_DELAY;
+        float base = (s.bases == 2) ? RESPAWN_SLOT_DELAY_2_BASES : RESPAWN_SLOT_DELAY;
         return base + s.extraDelaySeconds;
     }
 
@@ -418,9 +386,7 @@ class RespawnSlotDelayTracker : Tracker {
         s.slotExpireTimes = kept;
     }
 
-    // =========================================================================
-    // MULTIPLIER-BERECHNUNG (zwei klar getrennte Stufen)
-    // =========================================================================
+    // --- Multiplier-Berechnung ---
 
     // Stufe 1 - Slot-Bremse: wie stark drosselt der Slot-Delay den Spawn?
     float calcSlotMult(FactionState@ s) {
@@ -441,8 +407,7 @@ class RespawnSlotDelayTracker : Tracker {
         return mult;
     }
 
-    // Stufe 2 - Finaler Mult: Balance-Boost gewinnt wenn er höher ist als Slot-Bremse.
-    // Regel: der höhere Wert gewinnt (Slot bremst nach unten, Balance hebt nach oben).
+    // Stufe 2: Balance-Boost gewinnt wenn er höher ist als Slot-Bremse (höherer Wert gewinnt immer).
     float calcFinalMult(FactionState@ s) {
         float slotMult    = calcSlotMult(s);
         float balanceMult = s.balanceMult;
