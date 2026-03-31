@@ -7,28 +7,24 @@
 #include "systeme/reinforcemnt_system/reinforcement_store.as"
 #include "systeme/reinforcemnt_system/hud_mutex_interface.as"
 
-// ReinforcementHudTracker:
-// Zeigt pro Fraktion Reservisten und optional den Penalty-Countdown.
-// Implementiert IToggleableHud fuer zirkulaerfreien Mutex mit FactionAliveHudTracker.
-class ReinforcementHudTracker : Tracker, IToggleableHud {
+// ReinforcementDebugHudTracker:
+// Kombiniertes Debug-HUD: "A/C R:X (Ys)" pro Fraktion.
+// Toggle via /rs debug (Admin). Startet standardmaessig DEAKTIVIERT.
+// Mutex mit ReinforcementHudTracker: nie beide gleichzeitig aktiv.
+class ReinforcementDebugHudTracker : Tracker, IToggleableHud {
 	protected Metagame@ m_metagame;
 	protected ReinforcementStore@ m_store;
-	protected IToggleableHud@ m_mutexHud;  // Alive-HUD; wird von Registry nach Init gesetzt
-	protected bool m_enabled = true;
+	protected IToggleableHud@ m_mutexHud;  // RS-HUD; von API nach Installation gesetzt
+	protected bool m_enabled = false;
 	protected float m_updateAccum = 0.0f;
 
-	ReinforcementHudTracker(Metagame@ metagame, ReinforcementStore@ store) {
+	ReinforcementDebugHudTracker(Metagame@ metagame, ReinforcementStore@ store) {
 		@m_metagame = @metagame;
 		@m_store = @store;
 		m_metagame.getComms().send("<command class='set_metagame_event' name='chat_event' enabled='1' />");
 	}
 
-	protected IToggleableHud@ m_debugHud;  // Debug-HUD; von API nach installDebugHud() gesetzt
-
-	// Wird von Registry nach Installation beider Systeme gesetzt (externer Mutex mit Alive-HUD).
 	void setMutexHud(IToggleableHud@ other) { @m_mutexHud = @other; }
-	// Wird von ReinforcementApi intern gesetzt (interner Mutex mit Debug-HUD).
-	void setDebugHud(IToggleableHud@ other) { @m_debugHud = @other; }
 
 	bool hasEnded() const { return false; }
 	bool hasStarted() const { return true; }
@@ -51,13 +47,13 @@ class ReinforcementHudTracker : Tracker, IToggleableHud {
 		if (factions is null || factions.size() == 0) return;
 
 		for (uint i = 0; i < factions.size(); ++i) {
-			int factionId = int(i);
-			string text = buildHudText(factionId);
-			string color = getScoreDisplayColor(factions[i], factionId);
+			int fid = int(i);
+			string text = buildDebugText(factions[fid], fid);
+			string color = getScoreDisplayColor(factions[fid], fid);
 
 			XmlElement cmd("command");
 			cmd.setStringAttribute("class", "update_score_display");
-			cmd.setIntAttribute("id", factionId);
+			cmd.setIntAttribute("id", fid);
 			cmd.setStringAttribute("text", text);
 			cmd.setStringAttribute("color", color);
 			m_metagame.getComms().send(cmd);
@@ -68,69 +64,46 @@ class ReinforcementHudTracker : Tracker, IToggleableHud {
 		string msg = event.getStringAttribute("message");
 		if (!checkCommand(msg, "rs")) return;
 
+		array<string> params = parseParameters(msg, "rs");
+		if (params.size() == 0 || params[0].toLowerCase() != "debug") return;
+
 		int playerId = event.getIntAttribute("player_id");
 		string playerName = event.getStringAttribute("player_name");
-		array<string> params = parseParameters(msg, "rs");
-
-		if (params.size() == 0 || params[0].toLowerCase() != "hud") {
-			// "rs debug" wird vom Debug-HUD-Tracker behandelt - hier stumm ignorieren.
-			if (params.size() > 0 && params[0].toLowerCase() == "debug") return;
-			sendPrivateMessage(m_metagame, playerId, "[RS] Commands: /rs hud on | /rs hud off | /rs debug");
-			return;
-		}
-
-		if (params.size() < 2) {
-			sendPrivateMessage(m_metagame, playerId, "[RS] HUD is " + (m_enabled ? "ON" : "OFF") + ". Use /rs hud on|off");
-			return;
-		}
 
 		if (!m_metagame.getAdminManager().isAdmin(playerName, playerId)) {
-			sendPrivateMessage(m_metagame, playerId, "[RS] Admin only - affects all players.");
+			sendPrivateMessage(m_metagame, playerId, "[RS] Admin only.");
 			return;
 		}
 
-		string state = params[1].toLowerCase();
-		if (state == "on") {
-			setEnabled(true);
-			array<string> disabled;
+		bool newState = !m_enabled;
+		setEnabled(newState);
+
+		if (newState) {
 			if (m_mutexHud !is null && m_mutexHud.isEnabled()) {
 				m_mutexHud.setEnabled(false);
-				disabled.insertLast("Alive-HUD");
-			}
-			if (m_debugHud !is null && m_debugHud.isEnabled()) {
-				m_debugHud.setEnabled(false);
-				disabled.insertLast("Debug-HUD");
-			}
-			if (disabled.size() > 0) {
-				string list = disabled[0];
-				for (uint d = 1; d < disabled.size(); ++d) list += ", " + disabled[d];
-				sendPrivateMessage(m_metagame, playerId, "[RS] HUD ON. Disabled: " + list + ".");
+				sendPrivateMessage(m_metagame, playerId, "[RS] Debug-HUD ON. RS-HUD disabled.");
 			} else {
-				sendPrivateMessage(m_metagame, playerId, "[RS] HUD ON.");
+				sendPrivateMessage(m_metagame, playerId, "[RS] Debug-HUD ON.");
 			}
-		} else if (state == "off") {
-			setEnabled(false);
-			sendPrivateMessage(m_metagame, playerId, "[RS] HUD OFF.");
 		} else {
-			sendPrivateMessage(m_metagame, playerId, "[RS] Use /rs hud on or /rs hud off");
+			sendPrivateMessage(m_metagame, playerId, "[RS] Debug-HUD OFF.");
 		}
 	}
 
-	protected string buildHudText(int factionId) const {
-		float countdown = m_store.getEmptyCountdown(factionId);
-		if (countdown > 0.0f) {
-			// Penalty-Modus: zeige eigene Alive-Soldaten dieser Fraktion statt Reservisten.
-			return "A: " + countFactionAlive(factionId) + " (" + int(countdown) + "s)";
-		}
-		return "R: " + m_store.getReserves(factionId);
+	// Format: "A/C R:X" oder "A/C R:X (Ys)" wenn Cooldown aktiv
+	private string buildDebugText(const XmlElement@ faction, int fid) const {
+		array<const XmlElement@>@ chars = getCharacters(m_metagame, fid);
+		int alive = (chars is null) ? 0 : int(chars.size());
+		int cap   = (faction !is null) ? faction.getIntAttribute("soldier_capacity") : 0;
+		int res   = m_store.getReserves(fid);
+		float cd  = m_store.getEmptyCountdown(fid);
+
+		string text = "" + alive + "/" + cap + " R:" + res;
+		if (cd > 0.0f) text += " (" + int(cd) + "s)";
+		return text;
 	}
 
-	protected int countFactionAlive(int factionId) const {
-		array<const XmlElement@>@ chars = getCharacters(m_metagame, factionId);
-		return (chars is null) ? 0 : int(chars.size());
-	}
-
-	protected void clearDisplay() {
+	private void clearDisplay() {
 		array<const XmlElement@>@ factions = getFactions(m_metagame);
 		if (factions is null) return;
 		for (uint i = 0; i < factions.size(); ++i) {
@@ -147,14 +120,12 @@ class ReinforcementHudTracker : Tracker, IToggleableHud {
 		if (faction !is null) {
 			string color = faction.getStringAttribute("color");
 			if (color.length() > 0) return color;
-
 			string name = faction.getStringAttribute("name").toLowerCase();
-			string key = faction.getStringAttribute("key").toLowerCase();
+			string key  = faction.getStringAttribute("key").toLowerCase();
 			if (name.findFirst("green") >= 0 || key.findFirst("green") >= 0 || name.findFirst("united states") >= 0) return "0.0 0.5 0.1";
 			if (name.findFirst("grey") >= 0 || name.findFirst("gray") >= 0 || key.findFirst("grey") >= 0 || key.findFirst("gray") >= 0 || name.findFirst("european") >= 0) return "0.3 0.3 0.3";
 			if (name.findFirst("brown") >= 0 || key.findFirst("brown") >= 0 || name.findFirst("russian") >= 0) return "0.5 0.35 0.1";
 		}
-
 		if (factionId == 0) return "0.0 0.5 0.1";
 		if (factionId == 1) return "0.3 0.3 0.3";
 		if (factionId == 2) return "0.5 0.35 0.1";

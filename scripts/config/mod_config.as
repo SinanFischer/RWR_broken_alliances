@@ -33,6 +33,7 @@ const bool CFG_SPAWN_CAPACITY_SYSTEM = false;
 //   /rs hud            -> HUD status
 //   /rs hud on         -> enable reinforcement HUD (admin only)
 //   /rs hud off        -> disable reinforcement HUD (admin only)
+//   /rs debug          -> toggle debug HUD: "A/C R:X (Ys)" (admin only; mutex mit rs hud)
 
 // NEVER ENABLE TOGETHER WITH "SPAWN CAPACITY SYSTEM"!!!!!!
 // -----------------------------------------------------------------------------

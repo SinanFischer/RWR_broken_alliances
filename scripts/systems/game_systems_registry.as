@@ -172,6 +172,7 @@ class GameSystemsRegistry {
 		@m_reinforcementApi = ReinforcementApi(m_metagame);
 		m_reinforcementApi.installCore();
 		m_reinforcementApi.installHud();
+		m_reinforcementApi.installDebugHud();  // Debug-HUD startet OFF; Toggle via /rs debug
 		m_reinforcementSystemInstalled = true;
 
 		// HUD-Mutex ueber IToggleableHud: kein zirkulaerer Include noetig.
