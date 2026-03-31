@@ -24,8 +24,8 @@ With permission from the Heavy Infantry mod author, Broken Alliances uses its **
 **HUD**
 | Command | Description |
 |---|---|
-| `/hud on` | Alive-HUD ON → FP-HUD automatically OFF |
-| `/hud off` | Alive-HUD OFF |
+| `/alive hud on` | Alive-HUD ON → FP-HUD automatically OFF |
+| `/alive hud off` | Alive-HUD OFF |
 | `/fov on` | FoV expansion ON |
 | `/fov off` | FoV expansion OFF |
 

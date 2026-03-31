@@ -47,7 +47,11 @@ const bool CFG_REINFORCEMENT_SYSTEM = true;
 // Runs independently of the Spawn Capacity System:
 //   - With system enabled:  shows effective capacity (after slot throttle)
 //   - With system disabled: shows native soldier_capacity from the engine
-// Can be toggled at runtime via /hud on|off|bases (admin only).
+// Commands:
+//   /alive                -> status
+//   /alive hud on         -> HUD einschalten (admin only)
+//   /alive hud off        -> HUD ausschalten (admin only)
+//   /alive hud bases      -> Basen-Anzeige togglen (admin only)
 // -----------------------------------------------------------------------------
 const bool CFG_FACTION_ALIVE_HUD = true;
 

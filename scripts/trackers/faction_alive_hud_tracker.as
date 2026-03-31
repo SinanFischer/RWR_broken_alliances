@@ -6,10 +6,10 @@
 //
 // Default: HUD AN, Basen-Anzeige AUS.
 // Commands (Admin):
-//   /hud         – Status + verfügbare Befehle (jeder Spieler)
-//   /hud on      – HUD einschalten
-//   /hud off     – HUD ausschalten
-//   /hud bases   – Basen-Anzeige "(x)" ein-/ausschalten (Toggle)
+//   /alive             – Status + verfuegbare Befehle (jeder Spieler)
+//   /alive hud on      – HUD einschalten
+//   /alive hud off     – HUD ausschalten
+//   /alive hud bases   – Basen-Anzeige "(x)" ein-/ausschalten (Toggle)
 
 #include "tracker.as"
 #include "log.as"
@@ -93,28 +93,38 @@ class FactionAliveHudTracker : Tracker, IToggleableHud {
 
 	protected void handleChatEvent(const XmlElement@ event) {
 		string msg = event.getStringAttribute("message");
-		if (!checkCommand(msg, "hud")) return;
+		if (!checkCommand(msg, "alive")) return;
 
 		string playerName = event.getStringAttribute("player_name");
 		int    playerId   = event.getIntAttribute("player_id");
-		array<string> params = parseParameters(msg, "hud");
-		string sub = (params.size() > 0) ? params[0].toLowerCase() : "";
+		array<string> params = parseParameters(msg, "alive");
+		string sub  = (params.size() > 0) ? params[0].toLowerCase() : "";
+		string sub2 = (params.size() > 1) ? params[1].toLowerCase() : "";
 
-		if (sub != "on" && sub != "off" && sub != "bases") {
+		if (sub != "hud") {
 			string status = m_enabled   ? "ON"  : "OFF";
 			string bases  = m_showBases ? "ON"  : "OFF";
 			sendPrivateMessage(m_metagame, playerId,
-				"[HUD] Status: " + status + " | Bases: " + bases +
-				" | Commands: /hud on  /hud off  /hud bases");
+				"[Alive] Status: " + status + " | Bases: " + bases +
+				" | Commands: /alive hud on  /alive hud off  /alive hud bases");
+			return;
+		}
+
+		if (sub2 != "on" && sub2 != "off" && sub2 != "bases") {
+			string status = m_enabled   ? "ON"  : "OFF";
+			string bases  = m_showBases ? "ON"  : "OFF";
+			sendPrivateMessage(m_metagame, playerId,
+				"[Alive] HUD: " + status + " | Bases: " + bases +
+				" | Use: /alive hud on  /alive hud off  /alive hud bases");
 			return;
 		}
 
 		if (!m_metagame.getAdminManager().isAdmin(playerName, playerId)) {
-			sendPrivateMessage(m_metagame, playerId, "[HUD] Admin only - affects all players.");
+			sendPrivateMessage(m_metagame, playerId, "[Alive] Admin only - affects all players.");
 			return;
 		}
 
-		if (sub == "on") {
+		if (sub2 == "on") {
 			setEnabled(true);
 			array<string> disabled;
 			if (m_fpHudTracker !is null && m_fpHudTracker.isEnabled()) {
@@ -128,17 +138,17 @@ class FactionAliveHudTracker : Tracker, IToggleableHud {
 			if (disabled.size() > 0) {
 				string list = disabled[0];
 				for (uint d = 1; d < disabled.size(); ++d) list += ", " + disabled[d];
-				sendPrivateMessage(m_metagame, playerId, "[HUD] Alive-HUD ON. Disabled: " + list + ".");
+				sendPrivateMessage(m_metagame, playerId, "[Alive] HUD ON. Disabled: " + list + ".");
 			} else {
-				sendPrivateMessage(m_metagame, playerId, "[HUD] Alive-HUD ON.");
+				sendPrivateMessage(m_metagame, playerId, "[Alive] HUD ON.");
 			}
-		} else if (sub == "off") {
+		} else if (sub2 == "off") {
 			setEnabled(false);
-			sendPrivateMessage(m_metagame, playerId, "[HUD] Alive-HUD OFF.");
+			sendPrivateMessage(m_metagame, playerId, "[Alive] HUD OFF.");
 		} else {
 			m_showBases = !m_showBases;
 			string state = m_showBases ? "ON" : "OFF";
-			sendPrivateMessage(m_metagame, playerId, "[HUD] Base display: " + state + ".");
+			sendPrivateMessage(m_metagame, playerId, "[Alive] Base display: " + state + ".");
 		}
 	}
 

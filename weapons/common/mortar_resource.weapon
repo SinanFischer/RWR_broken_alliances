@@ -33,7 +33,7 @@
     <capacity value="1" source="rank" source_value="0.75" />
 
     <hud_icon filename="hud_mortar.png" />
-    <commonness value="0.0021" can_respawn_with="0" in_stock="1" />
+    <commonness value="0.005" can_respawn_with="0" in_stock="1" />
     <inventory encumbrance="7.0" price="102.0" />
     
    <modifier class="speed" value="-0.17" />    
