@@ -46,7 +46,7 @@
 
     <weak_hand_hold offset="0.4" />
     <projectile file="bullet_mg.projectile">
-        <result class="hit" kill_probability="0.88" kill_decay_start_time="0.33" kill_decay_end_time="0.66" />
+        <result class="hit" kill_probability="1.45" kill_decay_start_time="0.33" kill_decay_end_time="0.66" />
     </projectile>
 
     <effect class="muzzle" ref="xMuzzleCasingThrow_2" />	
