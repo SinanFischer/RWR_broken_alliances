@@ -73,9 +73,12 @@ class ReinforcementHudTracker : Tracker, IToggleableHud {
 		array<string> params = parseParameters(msg, "rs");
 
 		if (params.size() == 0 || params[0].toLowerCase() != "hud") {
-			// "rs debug" wird vom Debug-HUD-Tracker behandelt - hier stumm ignorieren.
-			if (params.size() > 0 && params[0].toLowerCase() == "debug") return;
-			sendPrivateMessage(m_metagame, playerId, "[RS] Commands: /rs hud on | /rs hud off | /rs debug");
+			// "rs debug" / "rs stats" werden von anderen RS-Trackern behandelt.
+			if (params.size() > 0) {
+				string p0 = params[0].toLowerCase();
+				if (p0 == "debug" || p0 == "stats") return;
+			}
+			sendPrivateMessage(m_metagame, playerId, "[RS] Commands: /rs hud on | /rs hud off | /rs debug | /rs stats");
 			return;
 		}
 

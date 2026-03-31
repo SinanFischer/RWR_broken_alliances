@@ -7,11 +7,13 @@
 #include "systeme/reinforcemnt_system/reinforcement_tracker.as"
 #include "systeme/reinforcemnt_system/reinforcement_hud_tracker.as"
 #include "systeme/reinforcemnt_system/reinforcement_debug_hud_tracker.as"
+#include "systeme/reinforcemnt_system/reinforcement_stats_command_tracker.as"
 
 class ReinforcementApi {
 	protected Metagame@ m_metagame;
 	protected ReinforcementStore@ m_store;
 	protected ReinforcementTracker@ m_tracker;
+	protected ReinforcementStatsCommandTracker@ m_statsCommandTracker;
 	protected ReinforcementHudTracker@ m_hudTracker;
 	protected ReinforcementDebugHudTracker@ m_debugHudTracker;
 	protected bool m_coreInstalled = false;
@@ -27,6 +29,8 @@ class ReinforcementApi {
 		if (m_coreInstalled) return;
 		@m_tracker = ReinforcementTracker(m_metagame, m_store);
 		m_metagame.addTracker(m_tracker);
+		@m_statsCommandTracker = ReinforcementStatsCommandTracker(m_metagame, m_store);
+		m_metagame.addTracker(m_statsCommandTracker);
 		m_coreInstalled = true;
 	}
 

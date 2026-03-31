@@ -51,6 +51,14 @@ With permission from the Heavy Infantry mod author, Broken Alliances uses its **
 | `/ai_defend` | Trigger AI defence |
 | `/ai_status` | Show AI status |
 
+**Reinforcement System (RS)**
+| Command | Description |
+|---|---|
+| `/rs stats` | Per faction: **A/K/D** (alive / kills / deaths) and **LR** (lost reservists spent to deaths) |
+| `/rs hud on` | **Admin**: RS reserve HUD ON → Alive-HUD automatically OFF |
+| `/rs hud off` | **Admin**: RS reserve HUD OFF |
+| `/rs debug` | **Admin**: Toggle RS debug HUD (A/C R reserves + penalty info) |
+
 ### Calls
 Information list of all calls:
 

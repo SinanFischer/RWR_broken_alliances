@@ -4,6 +4,8 @@
 // Zentrale Laufzeitdaten fuer Reservisten, Penalty-Countdown und Recapture-Zeitstempel.
 class ReinforcementStore {
 	protected array<int> m_reserves;
+	// Kumulativ verbrauchte Reservisten durch Tode (pro Tod +RS_DEATH_COST im Tracker).
+	protected array<int> m_lostReservists;
 	protected array<float> m_emptyCountdowns;
 	protected array<dictionary@> m_baseLostTimestamps;
 	protected bool m_initialized = false;
@@ -16,6 +18,7 @@ class ReinforcementStore {
 		if (count < 0) count = 0;
 		while (int(m_reserves.size()) < count) {
 			m_reserves.insertLast(RS_BASE_POOL);
+			m_lostReservists.insertLast(0);
 			m_emptyCountdowns.insertLast(-1.0f);
 			dictionary@ perFactionLost = dictionary();
 			m_baseLostTimestamps.insertLast(perFactionLost);
@@ -37,6 +40,7 @@ class ReinforcementStore {
 			int deficit = leaderBases - baseCounts[i];
 			if (deficit < 0) deficit = 0;
 			m_reserves[i] = RS_BASE_POOL + deficit * RS_UNDERDOG_BONUS_PER_BASE;
+			m_lostReservists[i] = 0;
 			m_emptyCountdowns[i] = -1.0f;
 			m_baseLostTimestamps[i].deleteAll();
 		}
@@ -60,6 +64,17 @@ class ReinforcementStore {
 		if (next < 0) next = 0;
 		m_reserves[factionId] = next;
 		return next;
+	}
+
+	int getLostReservists(int factionId) const {
+		if (factionId < 0 || factionId >= int(m_lostReservists.size())) return 0;
+		return m_lostReservists[factionId];
+	}
+
+	void addLostReservists(int factionId, int delta) {
+		if (factionId < 0 || factionId >= int(m_lostReservists.size())) return;
+		if (delta <= 0) return;
+		m_lostReservists[factionId] += delta;
 	}
 
 	float getEmptyCountdown(int factionId) const {

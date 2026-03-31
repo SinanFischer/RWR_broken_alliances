@@ -70,6 +70,7 @@ class ReinforcementTracker : Tracker {
 		if (factionId >= m_store.getFactionCount()) return;
 
 		int reserves = m_store.addReserves(factionId, -RS_DEATH_COST);
+		m_store.addLostReservists(factionId, RS_DEATH_COST);
 		if (reserves <= 0) {
 			m_store.startEmptyCountdownIfNeeded(factionId);
 		}
