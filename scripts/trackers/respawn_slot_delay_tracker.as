@@ -20,7 +20,7 @@ const float BALANCE_MSG_EARLY_PHASE_SECONDS = 600.0f; // s  Grenze Early/Late-Ga
 const float BALANCE_MSG_DELAY_SECONDS       =  10.0f; // s  Verzögerung der zweiten Nachricht
 
 // --- Interne Takte (selten ändern) ---
-const float ALIVE_CHECK_INTERVAL       = 15.0f;  // s  Intervall für nativeCap/Basen-Refresh (teuer)
+const float ALIVE_CHECK_INTERVAL       = 10.0f;  // s  Intervall für nativeCap/Basen-Refresh (teuer)
 const float APPLY_INTERVAL             =  1.0f;  // s  Intervall für capacity_multiplier-Übertragung
 const float SPAWN_INTERVAL_NORMAL      =  0.5f;  // s  normaler Respawn-Takt
 const float SPAWN_INTERVAL_BLOCKED     = 60.0f;  // s  Respawn-Takt wenn alle Slots belegt

@@ -5,6 +5,7 @@
 	<projectile key="healnade.projectile" enabled="1" />
 	<projectile key="cluster_grenade.projectile" enabled="1" />
 	<projectile key="willys_mb_flare.projectile" enabled="1" />
+	<projectile key="atv_armory_flare.projectile" enabled="1" />
 	<projectile key="vfs_flare.projectile" enabled="1" />
 	<projectile key="wiesel_flare.projectile" enabled="1" />
 

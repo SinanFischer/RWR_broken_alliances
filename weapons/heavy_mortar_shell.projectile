@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectile class="grenade" name="heavy mortar shell" slot="2" key="heavy_mortar_shell.projectile" >
-    <result class="blast" radius="20.0" damage="600" push="1.0" decal="1" />
+    <result class="blast" radius="18.0" damage="600" push="1.0" decal="1" />
     <trigger class="impact" />
     <rotation class="motion" />
     <model mesh_filename="mortar_shell.xml" />

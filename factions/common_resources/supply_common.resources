@@ -24,6 +24,7 @@
 	<projectile key="vfs_flare.projectile" enabled="1" />
 	<projectile key="guntruck_flare.projectile" enabled="1" />
 	<projectile key="willys_mb_flare.projectile" enabled="1" />
+	<projectile key="atv_armory_flare.projectile" enabled="1" />
 	<projectile key="wiesel_flare.projectile" enabled="1" />
 	<projectile key="dogbone.projectile" enabled="1" />
 	<projectile key="at_mine.projectile" enabled="1" />  

@@ -58,6 +58,7 @@
   <projectile file="wiesel_flare.projectile" />
   <projectile file="hovercraft_flare.projectile" />
   <projectile file="legion_flare.projectile" />
+  <projectile file="atv_armory_flare.projectile" />
   <projectile file="vulcan_acav_flare.projectile" />
   <projectile file="30mm.projectile" />
   <projectile file="30mm_blast.projectile" />

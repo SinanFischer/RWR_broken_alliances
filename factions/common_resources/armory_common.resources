@@ -26,4 +26,6 @@
 	<carry_item key="vest_blackops.carry_item" enabled="1" />
 	<carry_item key="cigarettes.carry_item" enabled="1" />
 	<carry_item key="whiskey_bottle.carry_item" enabled="1" />
+	<!-- Supply-Quad-Flare: Kauf in Waffenkammer (Preis/in_stock in atv_armory_flare.projectile). -->
+	<projectile key="atv_armory_flare.projectile" enabled="1" />
 </resources>
