@@ -12,13 +12,13 @@ const string FP_CMD_SHOW       = "fp";
 const string FP_CMD_STATUS     = "fp_status";
 const string FP_CMD_ADD        = "fp_add";
 const string FP_CMD_SET        = "fp_set";
-const string FP_CMD_AI_STATUS  = "fp_ai";
+const string FP_CMD_AI_STATUS  = "fp_ai";  // intern; wird als /fp ai Sub-Command geparst
 const string FP_CMD_AI_TICK    = "fp_ai_tick";
 const string FP_CMD_FORCE_EVENT = "fp_event"; // /fp_event <token> - Force-Execute fuer eigene Fraktion
 
 // Debug-Command-Tracker:
-// - /fp, /fp_status, /fp hud         → fuer alle Spieler (Info / HUD)
-// - /event1..5, /event3_sim, /fp_event, /fp_add/set, /fp_ai* → nur Admins (Ausfuehrung & Cheats)
+// - /fp stats, /fp_status, /fp hud   → fuer alle Spieler (Info / HUD)
+// - /event1..5, /event3_sim, /fp_event, /fp_add/set, /fp ai* → nur Admins (Ausfuehrung & Cheats)
 class FactionPointsDebugCommandTracker : Tracker {
 	protected Metagame@ m_metagame;
 	protected FactionPointsStore@ m_store;
@@ -94,9 +94,29 @@ class FactionPointsDebugCommandTracker : Tracker {
 		}
 
 		if (commandToken == FP_CMD_SHOW) {
-			if (tokens.size() >= 2 && tokens[1].toLowerCase() == "hud") {
-				handleHudCommand(tokens, senderId);
-				return;
+			if (tokens.size() >= 2) {
+				string sub = tokens[1].toLowerCase();
+				if (sub == "hud") {
+					handleHudCommand(tokens, senderId);
+					return;
+				}
+				if (sub == "stats") {
+					handleStatsCommand(senderId);
+					return;
+				}
+				// /fp ai [tick] → Admin-only Sub-Command
+				if (sub == "ai") {
+					if (!isAdmin) {
+						sendPrivateMessage(m_metagame, senderId, "FP: this command is admin only.");
+						return;
+					}
+					if (tokens.size() >= 3 && tokens[2].toLowerCase() == "tick") {
+						handleAiTick(senderId);
+					} else {
+						handleAiStatus(senderId);
+					}
+					return;
+				}
 			}
 			sendUsage(senderId);
 			return;
@@ -196,6 +216,33 @@ class FactionPointsDebugCommandTracker : Tracker {
 		sendUsage(playerId);
 	}
 
+	// /fp stats: zeigt FP nur fuer Fraktionen mit mind. 1 lebendem Soldaten.
+	protected void handleStatsCommand(int playerId) {
+		if (m_store is null) return;
+
+		array<const XmlElement@>@ factions = getFactions(m_metagame);
+		int factionCount = (factions is null) ? 0 : int(factions.size());
+		if (factionCount > m_store.getFactionCount()) {
+			m_store.ensureFactionCount(factionCount);
+		}
+
+		string msg = "=== FP Stats ===\n";
+		bool anyAlive = false;
+		for (int i = 0; i < factionCount; ++i) {
+			// Fraktion gilt als "im Spiel" wenn mind. 1 Soldat lebt
+			array<const XmlElement@>@ chars = getCharacters(m_metagame, i);
+			int alive = (chars is null) ? 0 : int(chars.size());
+			if (alive == 0) continue;
+
+			anyAlive = true;
+			string shortName = getFactionShortName(factions[i], i);
+			msg += shortName + ": " + m_store.get(i) + " FP\n";
+		}
+		if (!anyAlive) msg += "(no active factions found)";
+
+		sendPrivateMessage(m_metagame, playerId, msg);
+	}
+
 	// Identical to StatsCommandTracker.getFactionShortName - first 2 chars of key or name.
 	protected string getFactionShortName(const XmlElement@ faction, int factionId) {
 		if (faction is null) return "F" + factionId;
@@ -207,13 +254,13 @@ class FactionPointsDebugCommandTracker : Tracker {
 	}
 
 	protected void sendUsage(int playerId) {
-		string usage = "/fp_status - show FP per faction\n"
-			+ "/fp hud on|off - toggle FP HUD\n"
-			+ "(admin) /fp_event <token> - force-execute event (no FP check)\n"
-			+ "(admin) /fp_add <fid> <n> - add FP\n"
-			+ "(admin) /fp_set <fid> <n> - set FP\n"
-			+ "(admin) /fp_ai - AI status\n"
-			+ "(admin) /fp_ai_tick - trigger AI tick now";
+		string usage = "/fp stats - FP der lebenden Fraktionen\n"
+			+ "/fp hud on|off - FP-HUD umschalten\n"
+			+ "(admin) /fp_event <token> - Event erzwingen (kein FP-Check)\n"
+			+ "(admin) /fp_add <fid> <n> - FP addieren\n"
+			+ "(admin) /fp_set <fid> <n> - FP setzen\n"
+			+ "(admin) /fp ai - AI-Status\n"
+			+ "(admin) /fp ai tick - AI-Tick jetzt ausloesen";
 		if (m_eventRegistry !is null) usage += "\n" + m_eventRegistry.getUsage();
 		sendPrivateMessage(m_metagame, playerId, usage);
 	}

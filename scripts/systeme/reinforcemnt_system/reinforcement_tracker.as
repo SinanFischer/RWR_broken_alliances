@@ -73,6 +73,9 @@ class ReinforcementTracker : Tracker {
 		m_store.ensureFactionCount(getFactionCount());
 		if (factionId >= m_store.getFactionCount()) return;
 
+		// No deduction while penalty countdown is active - faction is already at 0.
+		if (m_store.isPenaltyActive(factionId)) return;
+
 		int reserves = m_store.addReserves(factionId, -RS_DEATH_COST);
 		m_store.addLostReservists(factionId, RS_DEATH_COST);
 		if (reserves <= 0) {
