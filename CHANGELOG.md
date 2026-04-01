@@ -3,21 +3,14 @@
 ## [2.0.0] - 2026-03-30: The Tactical Evolution Update
 
 
-### Major visual effects update (Heavy Infantry)
-With permission from the Heavy Infantry mod author, Broken Alliances uses its **grittier, more cinematic combat look**. **What you see in game:**
-
-- **Bullet impacts:** Hits on ground, metal, and cover read more clearly - more dust, sparks, and brief flashes instead of the flatter look before.
-- **Muzzle flash:** When firing, there is a stronger flash at the muzzle and visible smoke or dust right at the weapon. **Machine guns and miniguns** look visually heavier and “dirtier” than standard rifles.
-- **Explosions and heavy ordnance:** Grenades, mortars, and many explosive charges have more smoke and a clearer shockwave; large guns and very heavy MGs leave thicker dust and smoke clouds on impact.
-- **Retuning:** Effects were adjusted to match the new weapons and explosions.
-- **Some vehicle MGs back to “normal”:** Certain light vehicle MGs visually fire like standard MG rounds again - no longer with the look of .50 BMG.
-- **Blood effect on heavy hits:** When an **MG, LMG, minigun, vehicle MG, tank MG**, or **very large calibre** (e.g. heavy anti-materiel rifles) hits a **soldier**, you see a **red blood spray** (short mist) at the impact. 
-
-
-### Tracers (visible flight trails)
-- **Standard rifles** (anything using the usual rifle round): The trace is **yellow**. It does **not appear on every shot** - roughly **every fourth** shot randomly shows a trace, similar to real ammunition where only some rounds are tracers.
-- **Heavy Ammunition like from MGs:** The trace is **red**. 
-
+[b] VISUAL EFFECT UPDATE (Heavy Infantry Mod)  [/b]
+Thanks to the Heavy Infantry Mod i was able to add these effects and modify some to Broken Alliances:
+- Bullet Impact Effects 
+- Bigger Muzzle Flashes for MG, Tanks, Rifles..
+- Explosives have massive smoke and explosions, from small to heavy...
+- Blood Spray effect on heavy hits (like mgs or heavy caliber)
+- Tracers, yellow from rifles, red from mg's and heavier
+- some more stuff. Just check out the Heavy Infantry Mod. He did the awesome work ;-)
 
 ### Commands:
 
@@ -59,62 +52,59 @@ With permission from the Heavy Infantry mod author, Broken Alliances uses its **
 | `/rs hud off` | **Admin**: RS reserve HUD OFF |
 | `/rs debug` | **Admin**: Toggle RS debug HUD (A/C R reserves + penalty info) |
 
-### Calls
-Information list of all calls:
 
 
+[b] NEW REINFORCEMENT SYSTEM [/b]
+The Slotblock system has been replaced by the this system. 
+...
+
+[b] THE NEW FACTION POINT SYSTEM [/b]
+Now every faction gains Faction Points (FP) which will be used from the AI to request support. 
+How it is gained: 
+ - base capture (+120 FP), 
+ - base hold every 20 s (+5 FP per owned base), 
+ - kills (2nd +2 FP, 3nd +3 FP, 4nd +5 FP)
+  
+Events:
+1. Support Squad, Cost: 250 FP, Trigger: (Player squad ≤ 2 men), Effect: Drops paratroopers1 call at player position (small squad reinforcement)
+2. Company Attack, Cost: 1200 FP, Trigger: (AI strategic), Effect: Drops 2× paratroopers2 platoons flanking nearest enemy base (large assault wave)
+3. Defense Response, Cost: 700 FP, Trigger: (AI on base loss, 25% chance), Effect: Drops 3× paratroopers1 squads around the just-lost base (counter-push)
+4. Base Reinforcement, Cost: 350 FP, Trigger: (AI strategic), Effect: Drops 1× paratroopers2 at friendly base (round-robin reinforcement)
+5. Vehicle Support, Cost: 500 FP, Trigger: (AI strategic), Effect: Spawns random medium vehicle at friendly base
+6. Heavy Armour, Cost: 1800 FP, Trigger: (AI strategic, >3 bases), Effect: Spawns random heavy vehicle at friendly base
+7. Armoured Wave, Cost: 1500 FP, Trigger: (AI strategic), Effect: Spawns 3× random medium vehicles at friendly bases (2s apart)
 
 
-### Faction Points System
+[b] ASSAULT BOOST [/b] 
+With the new logic, it's much harder to get a stand in assault maps.
+So, from now on, there will be a 5-minute boost to give the assault troops (starting with 1 base) a chance.
 
-**FP income** (tune in `faction_points_tracker.as` + `faction_points_kill_rank.as`):
- **base capture** (+120 FP), 
- **hold tick** every 20 s (+5 FP per owned base), 
- **kills** (every 30 s factions are ranked by owned base count; **1st** +2 FP; with **3+ factions**: **2nd** +3, **3rd+** +4; with **2 factions only**: the trailing faction gets +4; friendly fire excluded; tune `FP_KILL_RANK_*` + `FP_KILL_RANK_REFRESH_INTERVAL`; `FP_KILL_REWARD_AI` toggles AI vs player-only kills). The AI spends FP automatically; players can trigger eligible events manually via chat commands.
 
-**Events**
-
-| #   | Name               | Cost    | Trigger                       | Effect                                                                                |
-| --- | ------------------ | ------- | ----------------------------- | ------------------------------------------------------------------------------------- |
-| 1   | Support Squad      | 250 FP  | Player (squad ≤ 2 men)        | Drops `paratroopers1` call at player position - small squad reinforcement             |
-| 2   | Company Attack     | 1200 FP | AI (strategic)                | 2× `paratroopers2` platoon drops flanking the nearest enemy base - large assault wave |
-| 3   | Defense Response   | 700 FP  | AI (on base loss, 25% chance) | 3× `paratroopers1` squad drops around the just-lost base - immediate counter-push     |
-| 4   | Base Reinforcement | 350 FP  | AI (strategic)                | 1× `paratroopers2` drop at a friendly base (round-robin) - steady line reinforcement  |
-| 5   | Vehicle Support    | 500 FP  | AI (strategic)                | Spawns a random medium vehicle (APC, IFV, etc.) at a friendly base                    |
-| 6   | Heavy Armour       | 1800 FP | AI (strategic, >3 bases)      | Spawns a random heavy vehicle (tank, etc.) at a friendly base     |
-| 7   | Armoured Wave      | 1500 FP | AI (strategic)                | 3× random medium vehicles at friendly bases, 2 s apart |
-
-**AI Decision Logic**
-
-- **Every 60 s:** 5% chance to trigger Event 1 for each faction (if affordable).
-- **On base loss:** 25% chance to trigger Event 3 (if affordable).
-- **Strategic goal (weighted roll):** AI picks a saving target - Event 2 (weight 0.2), Event 4 (0.6), Event 5 (0.5), or a passive saving phase (0.3, only when holding > 2 bases). Once FP ≥ cost + random reserve (0–450), the event fires and a new goal is rolled.
-
-### Slotblock system 
-
-- The slotblock system had effectively stopped working. Some bugs was found and fixed. The system has new configured, adjusted and feels like what you would await. Consider checking on /hud on.
-
-### Assaults & Last Defenses
-
-- When the leading faction has a 3:1 troop advantage over the other faction, a compensator kicks in. The faction at a 1:3 disadvantage gets a 4× capacity boost and receives correspondingly more soldiers. This acts as a push for that faction. Each faction has exactly one such mobilisation ability.
-  On assault maps this is usually applied immediately to the attacking faction, representing a storm assault.
-
-### New deployables
-
+[b] NEW DEPLOYABLES [/b] 
 - mg scoped
 - minigun scoped
 - support mortar (higher range, normal projectiles)
 
-### Weapons
 
-- Weapons are tuned toward realism; retrigger rates and weapon characteristic settings are reality-based. (No guarantee of 100% match - inspiration only.)
+[b] WEAPONS [/b] 
+Weapons are tuned toward realism; retrigger rates and weapon characteristic settings are reality-based. (No guarantee of 100% match - inspiration only.)
 
-**Miscellaneous:**
+Kill probabilities of a bullet are now:
+~ SMG / PDW        0.65–1.0
+~ 5.56mm           0.85–0.95
+~ 5.45mm           0.90–1.0
+~ 7.62×39mm        1.0–1.1
+~ DMR              1.1–1.2
+~ LMG 5.56mm       1.3–1.4
+~ MG 7.62mm        1.4–1.5
+~ Sniper 7.62mm    1.8
+~ Sniper 12.7mm    3.0
+~ 12.7mm Blast     damage 1.0 (splash damage)
 
+
+[b] MISCELLANEOUS [/b] 
 - AI sight range has been slightly reduced, so getting shot without seeing the enemy is rarer.
-- **CAWS:** Scaled more strongly than the shotgun at range (higher `spread_range`, lower `accuracy_factor`, slightly slower `projectile_speed`, `kill_decay` earlier/shorter, stance accuracy like the SPAS-12 in the pack).
-- **Weapons:** Where `sight_range_modifier` (_multiplier for effective sight range with the weapon_) is set, `ai_sight_range_modifier` (_AI version of the same factor_) is **90%** of the player value (10% less). At **0** the AI stays at **0**. Weapons referenced only via `file="…"` with no own entry are unchanged (vanilla base). **Fix:** `patch_ai_sight_modifiers.ps1` uses `(?<!ai_)` so it does not match inside `ai_sight_range_modifier`; tank `tank_cannon*` / `tank_mg*` / `radar_tank_cannon` were missing `sight_range_modifier` (loader crash) - fixed.
-- **AI `fire_open_min_time` by role:** Line infantry `default_soldiers` / `default.ai` / `map12` **9s** (was 12); elite (Captain, Bodyguard, Miniboss, SF) **8s**; MG `support.ai` **20s** unchanged; EOD **8s**; shotgun **6s** unchanged.
+- AI was reworked to the new conditions (reaction, firetime, fire in open...)
 - Cover deploy carry capacity increased
 - Wiesel flare price set to 400 RP
 - Origin shotgun price raised to 120 RP
@@ -122,12 +112,14 @@ Information list of all calls:
 - VFS flare in armory reduced to 250
 - EOD vest is now respawnable
 - FAH-01 is now respawnable
+- The cluster grenade now actually clusters....
 
 
-**Further**
+[b] FLARES [/b] 
 - Hovercraft flare added
 - Legion flare added
 - Support Quad flare added
+
 
 ## [1.1.0] - 2026-03-01
 

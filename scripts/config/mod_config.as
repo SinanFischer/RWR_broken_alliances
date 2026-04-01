@@ -7,8 +7,35 @@
 // THIS is the only file you need to edit to enable/disable systems.
 // =============================================================================
 
+
+
 // -----------------------------------------------------------------------------
-// SPAWN CAPACITY SYSTEM (Respawn Slot Delay)
+// REINFORCEMENT SYSTEM 
+// -----------------------------------------------------------------------------
+// Commands:
+//   /rs                -> help/status hint
+//   /rs hud            -> HUD status
+//   /rs hud on         -> enable reinforcement HUD (admin only)
+//   /rs hud off        -> disable reinforcement HUD (admin only)
+//   /rs debug          -> toggle debug HUD: "A/C R:X (Ys)" (admin only; mutex mit rs hud)
+
+// NEVER ENABLE TOGETHER WITH THE "SPAWN CAPACITY SYSTEM"!!!!!!
+// -----------------------------------------------------------------------------
+const bool CFG_REINFORCEMENT_SYSTEM = true;
+
+// -----------------------------------------------------------------------------
+// FACTION POINTS SYSTEM
+// -----------------------------------------------------------------------------
+// Team points system: factions earn shared points through kills, base captures
+// etc. Points trigger events (support squads, vehicle waves, reinforcements).
+// Has its own HUD in the score display.
+// -----------------------------------------------------------------------------
+const bool CFG_FACTION_POINTS_SYSTEM = true;
+
+
+
+// -----------------------------------------------------------------------------
+// **OUTDATED - DONT USE** SPAWN CAPACITY SYSTEM (Respawn Slot Delay)
 // -----------------------------------------------------------------------------
 // Enables the spawn throttle mechanic: after each death, respawn slots are
 // blocked for a short time. Stronger factions are throttled harder.
@@ -22,26 +49,7 @@
 const bool CFG_SPAWN_CAPACITY_SYSTEM = false;
 
 // -----------------------------------------------------------------------------
-// REINFORCEMENT SYSTEM 
-// -----------------------------------------------------------------------------
-// New reserves system:
-// - reserves per faction with passive income and death cost
-// - capture bonus with recapture scaling over time
-// - empty-reserve penalty countdown with high spawn delay
-// Commands:
-//   /rs                -> help/status hint
-//   /rs hud            -> HUD status
-//   /rs hud on         -> enable reinforcement HUD (admin only)
-//   /rs hud off        -> disable reinforcement HUD (admin only)
-//   /rs debug          -> toggle debug HUD: "A/C R:X (Ys)" (admin only; mutex mit rs hud)
-
-// NEVER ENABLE TOGETHER WITH "SPAWN CAPACITY SYSTEM"!!!!!!
-// -----------------------------------------------------------------------------
-const bool CFG_REINFORCEMENT_SYSTEM = true;
-
-
-// -----------------------------------------------------------------------------
-// FACTION ALIVE HUD
+// **OUTDATED - DONT USE ** FACTION ALIVE HUD
 // -----------------------------------------------------------------------------
 // Shows "alive / cap" per faction in faction color in the score display.
 // Runs independently of the Spawn Capacity System:
@@ -54,14 +62,3 @@ const bool CFG_REINFORCEMENT_SYSTEM = true;
 //   /alive hud bases      -> Basen-Anzeige togglen (admin only)
 // -----------------------------------------------------------------------------
 const bool CFG_FACTION_ALIVE_HUD = true;
-
-// -----------------------------------------------------------------------------
-// FACTION POINTS SYSTEM
-// -----------------------------------------------------------------------------
-// Team points system: factions earn shared points through kills, base captures
-// etc. Points trigger events (support squads, vehicle waves, reinforcements).
-// Has its own HUD in the score display.
-// HUD mutex: if Alive HUD is on, FP HUD is automatically disabled.
-// -----------------------------------------------------------------------------
-const bool CFG_FACTION_POINTS_SYSTEM = true;
-

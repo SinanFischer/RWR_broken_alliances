@@ -16,7 +16,7 @@ const float RS_HUD_UPDATE_INTERVAL       = 1.0f;   // HUD-Update fuer Countdown-
 
 // Underdog-Kompensator (Sturmangriff): capacity_multiplier fuer eine Underdog-Fraktion
 const float RS_COMP_EVAL_DELAY_SECONDS   = 20.0f;  // einmalige Eval nach Map-Start
-const int   RS_COMP_DOMINANT_MIN_BASES   = 6;       // >5 Basen = mindestens diese Anzahl
+const int   RS_COMP_DOMINANT_MIN_BASES   = 5;       // >4 Basen = mindestens diese Anzahl
 const float RS_COMP_MULT_BASE            = 1.0f;   // neutral / Ende
 const float RS_COMP_MULT_PHASE1          = 3.0f;   // Ziel Sturmangriff
 const float RS_COMP_MULT_PHASE2          = 1.5f;   // Ziel Abklingen
