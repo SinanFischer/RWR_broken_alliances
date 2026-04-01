@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package  
   name="RWR: Broken Alliances"
-  description="Coming soon..."
+  description="A Total Conversion Mod"
   overlay="1"
   show_in_campaigns="1"
   show_in_quick_match_mods="1"
