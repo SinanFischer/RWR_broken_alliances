@@ -125,7 +125,7 @@ class ReinforcementHudTracker : Tracker, IToggleableHud {
 			// Penalty-Modus: zeige eigene Alive-Soldaten dieser Fraktion statt Reservisten.
 			return "A: " + countFactionAlive(factionId) + " (" + int(countdown) + "s)";
 		}
-		return "R: " + m_store.getReserves(factionId);
+		return "" + m_store.getReserves(factionId);
 	}
 
 	protected int countFactionAlive(int factionId) const {
